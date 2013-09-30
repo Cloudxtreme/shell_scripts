@@ -1,0 +1,425 @@
+<HTML>
+<HEAD>
+<TITLE>ATM Switch control and monitering by SNMP</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+<HR>
+
+<CENTER>
+<H1>
+SNMPによる<BR>
+ATMスイッチのコントロールとモニタリング
+</H1>
+<IMG SRC="keio-pen.gif"><BR>
+<FONT SIZE=5>
+慶応義塾大学 理工学部<BR>
+三輪 泰孝<BR>
+</FONT>
+<FONT SIZE=4>
+<I>miwa@mt.cs.keio.ac.jp</I>
+</FONT>
+</CENTER>
+
+<P>
+<HR>
+<P>
+
+<CENTER>
+<FONT SIZE=5>
+概要
+</FONT>
+</CENTER>
+
+<BLOCKQUOTE>
+<FONT SIZE=3>
+SNMPによるATMスイッチのコントロール及びモニタリングの実例として，
+ForeのATMスイッチのためのコントロールライブラリ<I>swctl</I>と，それを用いた
+モニタ<I>SWview</I>を紹介し，可能性と問題点を述べる．
+</FONT>
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<P>
+
+<FONT SIZE=5>
+目次<P>
+</FONT>
+<P>
+<UL>
+<LI>1. <A HREF="#1">ATM スイッチに対する要求</A><P>
+<LI>2. <A HREF="#2">Fore ATM Switch の制御インタフェース</A><P>
+<LI>3. <A HREF="#3">ATM スイッチコントロールライブラリ <I>swctl</I> について</A><P>
+<LI>4. <A HREF="#4">ATM スイッチモニタ <I>SWview</I> について</A><P>
+<LI>5. <A HREF="#5">今後の課題</A><P>
+</UL>
+
+<P>
+<HR>
+<A NAME="1">
+<P>
+<FONT SIZE=5>
+1. ATM スイッチに対する要求<P>
+</FONT>
+
+<UL>
+<LI><B>管理者の立場</B>
+<P>
+	<UL>
+	<LI>簡単かつスクリプト記述可能な VC の設立・解放<P>
+	<LI>VC のモニタリング及びそのトラフィックのモニタリング<P>
+	</UL>
+<P>
+<LI><B>資源予約デーモンの立場</B>
+<P>
+	<UL>
+	<LI>関数呼び出しによる ATM Switch の制御 ( VC の設立・解放・監視 )<P>
+	</UL>
+<P>
+</UL>
+
+<P>
+<HR>
+<A NAME="2">
+<P>
+<FONT SIZE=5>
+2. Fore ATM スイッチの制御インタフェース
+</FONT>
+
+<UL>
+<FONT SIZE=4>
+<LI>Fore Through
+</FONT>
+<P>
+	<UL>
+	<LI><B>対話型シェル</B><P>
+	<LI><B>telnet or serial 接続</B><P>
+	</UL>
+<P>
+  →インタフェースが固定されていて動作も遅く、
+	大量のPVC設立や解放には向かない。<P>
+  →キャラクタベースでモニタリングにも使いづらい。<P>
+
+<FONT SIZE=4>
+<LI>SNMP
+</FONT>
+<P>
+<B>MIB 構造 ( 一部抜粋 )</B>
+<P>
+<PRE>
+    ( )...Object ID
+    [ ]...rw = readable/writable, ro = read only
+
+    enterprise(.1.3.6.1.4.1)
+	|
+	+fore(326)
+		|
+		+systems(2)
+			|
+			+atmSwitch(2)
+				|
+				+software(2)
+					|
+					+asxd(1)
+					|	|
+					|	+switchGroup(1)
+					|	+portGroup(2)
+					|	+pathGroup(3)
+					|	+<A HREF="#vcc">channelGroup(4)*</A>
+					|	+topologyGroup(5)
+					|	+signalingGroup(6)
+					|	+swBoardGroup(7)
+					|	+swBoardTopologyGroup(8)
+					|	+nsapGroup(9)
+					|	+<A HREF="#upc">upcContractGroup(10)**</A>
+					|
+					+snmp(2)
+						|
+						+trapConfGroup(1)
+						+snmpConfGroup(2)
+						+snmpAgentAddressGroup(5)
+</PRE>
+<A NAME="vcc">
+<P>
+<B>VCCテーブル関連のMIBオブジェクト</B>
+<P>
+<PRE>
+    *channelGroup(.1.3.6.1.4.1.326.2.2.2.1.4)
+	|
+	+channelTable(1)[na]
+	|	|
+	|	+channelEntry(1)[na]
+	|		|
+	|		+chanPort(1)[ro]
+	|		+chanVPI(2)[ro]
+	|		+chanVCI(3)[ro]
+	|		+chanStatus(4)[rw]
+	|		+chanNumOutputs(5)[ro]
+	|		+chanAllocBandwidth(6)[rw]
+	|		+chanUsedBandwidth(7)[ro]
+	|		+chanCells(8)[ro]
+	|		+chanUptime(9)[ro]
+	|		+chanSigProtocol(10)[ro]
+	|		+chanRejectedCells(11)[ro]
+	|		+chanCDV(12)[rw]
+	|		+chanPolicingAction(13)[rw]
+	|		+chanUpcContract(14)[rw]
+	|
+	+channelRouteTable(2)[na]
+		|
+		+channelRouteEntry(1)[na]
+			|
+			+chanrInputPort(1)[ro]
+			+chanrInputVPI(2)[ro]
+			+chanrInputVCI(3)[ro]
+			+chanrOutputPort(4)[ro]
+			+chanrOutputVPI(5)[ro]
+			+chanrOutputVCI(6)[ro]
+			+chanrStatus(7)[rw]
+			+chanrSigProtocol(8)[rw]
+</PRE>
+<A NAME="upc">
+<P>
+<B>UPCテーブル関連のMIBオブジェクト</B>
+<P>
+<PRE>
+    **upcContractGroup(.1.3.6.1.4.1.326.2.2.2.1.10)
+	|
+	+upcContractTable(1)
+		|
+		+upcContractEntry(1)
+			|
+			+upcContractKey(1)[ro]
+			+upcContractEntryStatus(2)[rw]
+			+upcContractPCR01(3)[rw]
+			+upcContractSCR01(4)[rw]
+			+upcContractMBS01(5)[rw]
+			+upcContractPCR0(6)[rw]
+			+upcContractSCR0(7)[rw]
+			+upcContractMBS0(8)[rw]
+			+upcContractCDVT(9)[rw]
+			+upcContractTagReq(10)[rw]
+			+upcContractAal5Epd(11)[rw]
+			+upcContractName(12)[rw]
+</PRE>
+<P>
+<FONT SIZE=4>
+<LI>PVCの設立
+</FONT>
+<P>
+<OL>
+<LI><B>VCCテーブルへのエントリ</B>
+<P>
+<PRE>
+Object ID:chanrStatus
+.1.3.6.1.4.1.326.2.2.2.1.4.2.1.7.x.y.z.l.m.n
+
+x: in port
+y: in VPI
+z: in VCI
+
+l: out port
+m: out VPI
+n: out VCI
+
+Port: A1=0  A2=1  A3=2  A4=3 
+      B1=8  B2=9  B3=10 B4=11 
+      C1=16 C2=17 C3=18 C4=19 
+      D1=24 D2=25 D3=26 D4=27 
+      CTL=56 
+</PRE>
+<DL>
+	<DT>設立<DD>request(2)をsetした後でvalid(1)をsetする
+	<DT>解放<DD>invalid(4)をsetする
+</DL>
+<P>
+
+<LI><B>UPCパラメータの設定</B>
+<P>
+<PRE>
+Object ID:chanUpcContract
+.1.3.6.1.4.1.326.2.2.2.1.4.1.1.14.x.y.z
+
+x: in port
+y: in VPI
+z: in VCI
+</PRE>
+<DL>
+	<DT>設定<DD>対応するUPCインデックス番号をsetする
+</DL>
+</OL>
+
+<P>
+<FONT SIZE=4>
+<LI>UPCインデックスの設定
+</FONT>
+<P>
+<PRE>
+Object ID:upcContractEntryStatus
+.1.3.6.1.4.1.326.2.2.2.1.10.1.1.2.x
+x:upc index
+</PRE>
+<DL>
+	<DT>設定<DD>request(2)をsetした後でvalid(1)をsetする
+		<DD>あとは個々のUPCパラメータを対応するObject IDにsetしていく
+	<DT>削除:<DD>nvalid(4)をsetする
+</DL>
+<P>
+<FONT SIZE=4>
+→1つのPVCの設立に複数のObjectに対して値を設定する必要
+</FONT>
+</UL>
+
+<P>
+<HR>
+<A NAME="3">
+<P>
+<FONT SIZE=5>
+3. ATM スイッチコントロールライブラリ <I>swctl</I> について
+</FONT>
+<P>
+<UL>
+<FONT SIZE=4>
+<LI>概要
+</FONT>
+<P>
+	<UL>
+	<LI>Fore ATM Switch(ASX-200シリーズ)をSNMPで制御を行うための
+	ライブラリ<BR>
+	→PVCの設立・解放・変更・監視<P>
+	<LI>SNMPの処理に関してはucdavisのSNMPパッケージを用いている<BR>
+	<A HREF="ftp://ftp.ece.ucdavis.edu/pub/snmp/ucd-snmp-3.1.3.tar.gz">
+	ftp://ftp.ece.ucdavis.edu/pub/snmp/ucd-snmp-3.1.3.tar.gz</A><P>
+	<LI>ASX-200WG / FreeBSD, BSD/OS で動作確認<P>
+	</UL>
+<P>
+<FONT SIZE=4>
+<LI><I>swctl</I> の API
+</FONT>
+<P>
+	<DL>
+	<DT><CODE>swctl_open()</CODE><DD>新たにATM Switchの情報を登録する<P>
+	<DT><CODE>swctl_close()</CODE><DD>登録してあるATM Switchの削除<P>
+	<DT><CODE>swctl_add()<DD>新たにPVCを設立する<P>
+	<DT><CODE>swctl_delete()</CODE><DD>既存のPVCを解放する<P>
+	<DT><CODE>swctl_modify()</CODE><DD>既存のPVCのUPCを変更する<P>
+	<DT><CODE>swctl_redirect()</CODE><DD>既存のPVCのoutputを変更する(delete&amp;add)<P>
+	<DT><CODE>swctl_stat()</CODE><DD>現在ATM Switchに設立されているPVC及びUPCの情報を得る<P>
+	<DT><CODE>swctl_mon()</CODE><DD>あるPVCのトラフィック統計情報(今までに転送されたcell数)を得る<P>
+	</DL>
+</UL>
+
+<P>
+<HR>
+<A NAME="4">
+<P>
+<FONT SIZE=5>
+4. <I>SWview</I> について
+</FONT>
+<P>
+<UL>
+<LI>概要
+<P>
+	<UL>
+	<LI>Fore ATM Switchの制御を行うためのX-windowベースのアプリケーション<P>
+	<LI>ATM Switchの制御はswctlライブラリを用いる<P>
+	<LI>X-windowのインタフェースはxformsライブラリを用いている<BR>
+<A HREF="http://bragg.phys.uwm.edu/xforms">http://bragg.phys.uwm.edu/xforms</A><P>
+	<LI>FreeBSD, BSD/OS で動作確認<P>
+	</UL>
+<P>
+<LI>機能
+<P>
+	<UL>
+	<LI>起動画面<P>
+	<IMG SRC="start.gif"><P>
+
+	<LI>PVC設立状況のモニタリング及びPVCへの操作<BR>
+	<B>[PVC一覧ウィンドウ]</B>
+	<UL>
+	<LI>現在設立されているPVCのPort/VPI/VCIを表示
+	<LI>設定ファイルでPort名、表示順や表示色、コメント(Status欄に表示)を指定可能
+	</UL>
+	<P>
+	<IMG SRC="switch.gif"><P>
+
+	<B><ボタン></B>
+	<DL>
+	<DT><B>Close</B><DD>PVC一覧ウィンドウを閉じる
+	<DT><B>Refresh</B><DD>PVC一覧を最新の情報に更新
+	<DT><B>Add</B><DD>新たにPVCを設立
+	<DT><B>Delete</B><DD>選択したPVCを解放
+	<DT><B>Modify</B><DD>選択したPVCのUPCを変更
+	<DT><B>Redirect</B><DD>選択したPVCのoutputを変更
+	</DL>
+	<P>
+
+	<B>[PVC設定ウィンドウ]</B>
+	<P>
+	<IMG SRC="pvc.gif">
+	<P>
+
+	<LI>PVCトラフィックのモニタリング<BR>
+	<B>[PVCトラフィックモニタウィンドウ]</B>
+	<UL>
+	<LI>1秒間隔でトラフィックを計測し、そのスループット(cell/sec)を
+	グラフ表示
+	<LI>UPC設定時はUPC違反セル数も表示する
+	</UL>
+	<P>
+	<IMG SRC="monitor.gif"><P>
+	
+	<B><ボタン></B>
+	<DL>
+	<DT><B>Dismiss</B><DD>PVCトラフィックモニタウィンドウを閉じます。
+	</DL>
+	<P>
+
+	<LI>設定変更時のトラップ
+	<P>
+	<I>swctl</I> ライブラリで指定したトラップホスト上で動作させていれば、
+	他のプログラムから<I>swctl</I>ライブラリの関数を呼び出したときに、
+	<CODE>swctl_add(), swctl_delete(), swctl_modify(), swctl_redirect()
+	</CODE>などを呼び出したときに、自動的に情報更新が行われる
+	</UL>
+</UL>		
+<P>
+<HR>
+<A NAME="5">
+<P>
+<FONT SIZE=5>
+5. 今後の課題
+</FONT>
+<P>
+<UL>
+<LI><I>swctl</I>ライブラリのTO DOリスト
+<P>
+	<UL>SNMP set community get community の指定<P>
+	現在はライブラリmake時に埋め込み → <CODE>swctl_open()</CODE>で指定する<BR>
+	...どのレベルのセキュリティが求められるのか？
+	<P>
+	<LI>SNMP trapのサポート<P>
+	ライブラリ独自のtrap message(UDPパケット) → SNMPのtrap messageを拾う
+	<P>
+	<LI>高速化<P>
+	1回の関数呼び出しで1つのVC操作 → 1回の関数呼び出しで複数のVC操作<BR>
+ 	現在 UPC なしで設立が30ms/VC (UPCなし)，39ms/VC (UPCあり)，解放が
+        19ms/VC程度
+	<P>
+	<LI>汎用化<P>
+	<UL>
+	<LI>Fore ATMスイッチのみ → 他ベンダのATMスイッチもサポート<BR>
+	    ...スイッチとMIBが必要かも<P>
+	<LI>FreeBSD, BSD/OSのみ → 汎用プラットフォームへ<BR>
+	    ...すみません、なんとかします<P>
+	</UL>
+	</UL>
+	<P>
+<LI>ATM Switchへの要求
+	<UL>
+	<LI>SNMPは処理に時間がかかりすぎる
+	</UL>
+</UL>
+</BODY>
+</HTML>

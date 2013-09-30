@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+  <meta http-equiv='Content-type' content='text/html;charset=iso-8859-1' />
+  <title>PaP Hosting :: Technology</title>
+  <style type='text/css'> 
+    @import '../layout.css'; 
+    @import '../style.css'; 
+  </style>
+</head>
+<body>
+<div id='page'>
+
+<div id='header'>
+<h1>HA Proxy Setup</h1>
+</div>
+
+<div id='nav'>
+<ul>
+<li><a href='../index.html'>Home</a></li>
+<li><a href='../technology/index.html'>Technology</a></li>
+<li><a href='../users/index.html'>Users</a></li>
+</ul>
+</div>
+
+<div id='main'>
+<b>NOTE:</b> This documentation is obsolete. We have migrated all use of
+static webserving and backend loadbalancing to <tt>nginx</tt>, considering
+that it is a part of stock OpenBSD 5.3+ installations, and <tt>nginx</tt>
+supplies a strict superset of <tt>thttpd</tt> and <tt>haproxy</tt>.
+<p>
+<b>This document is for historical reference only.</b>
+<p>
+
+<h2>Creating a frontend</h2>
+Creating and running frontends can be done on pretty much any machine. The
+frontend can be seen as a passthrough server, which relays HTTP requests from
+clients to an available backend in one or more pool(s), based on a config file.
+It will health check the backends and remove them from the pool(s) if they
+are unreachable, or unhealthy.
+<p>
+Depending on how complicated and feature rich the frontend should be (it's always
+a trade off between complexity/features, speed, cost and reliability), one can
+choose for a complex <a href='ug_nginx.html'>NGINX</a> or a more simple
+HA Proxy (this document).
+<p>
+As with most howto's in the user guide, this one assumes that you have a
+host set up using one of the methods described in the <a href='ug_host.html'>
+Host Setup</a> guide.  Once the machine is up and has the necessary access,
+we install the required packages and introduce the machine into our
+provisioning system, which is represented on your admin machine by an RCS,
+of which you can read more <a href='ug_rcs.html'>here</a>.
+<p>
+We installed a few OpenBSD and Ubuntu LTS machines and put them at three
+different hosting providers in Europe: <a href='http://www.bit.nl/'>BIT bv</a>
+in Ede, the Netherlands; <a href='http://www.coloclue.net/'>Coloclue</a> in
+Amsterdam, the Netherlands; and <a href='http://www.saitis.net/'>Saitis</a>
+in Lausanne, Switzerland. You can use existing machines as long as (a) you
+have root access to this machine using ssh(1), and (b) you are able and allowed
+to bind port 80 and 443 on this machine.
+
+<h3>A1) Using OpenBSD</h3>
+<h4>1. Install needed ports (packages)</h4>
+<pre>
+export PKG_PATH=ftp://ftp.bit.nl/pub/OpenBSD/`uname -r`/packages/`uname -m`/
+sudo pkg_add -vr haproxy
+sudo pkg_add -vr rsync
+</pre>
+
+<h4>2. Put haproxy in rc{.conf,}.local</h4>
+<pre>
+sudo su -
+cat << EOF >>/etc/rc.local
+if [ X$"{haproxy}" = X"YES" -a -x /usr/local/sbin/haproxy ];
+then
+        /usr/local/sbin/haproxy -f /etc/haproxy/haproxy.cfg
+        echo -n ' haproxy'
+fi
+EOF
+echo haproxy=\"YES\" >> /etc/rc.conf.local
+
+mkdir -p /etc/haproxy
+ln -s /etc/haproxy/haproxy.cfg /etc/haproxy.cfg
+chown -R paphosting:paphosting /etc/haproxy/
+</pre>
+
+<h3>A2) Using Ubuntu</h3>
+<h4>1. Install needed packages</h4>
+<pre>
+sudo apt-get update
+sudo apt-get install haproxy rsync
+</pre>
+
+<h4>2. Enable haproxy</h4>
+<pre>
+sudo su -
+cd /etc/default
+sed -e 's,ENABLED=0,ENABLED=1,' haproxy > haproxy.new && \
+  mv -f haproxy.new haproxy
+mkdir -p /usr/local/sbin
+mkdir -p /var/haproxy
+ln -sf /usr/sbin/haproxy /usr/local/sbin/haproxy
+mkdir -p /etc/haproxy
+mv -f /etc/haproxy.cfg /etc/haproxy/haproxy.cfg
+ln -sf /etc/haproxy/haproxy.cfg /etc/haproxy.cfg
+chown -R paphosting:paphosting /etc/haproxy/
+</pre>
+
+<h3>B) Configuring PAPFE</h3>
+<h4>1. Add the machine to config/haproxy.hosts</h4>
+On your client, add the hostname (any hostname
+or IPv4 or IPv6 address to which you can connect
+on the ssh port:
+<pre>
+echo $HOSTNAME >> config/haproxy.hosts
+# If your machine is Ubuntu Jaunty, then:
+ln -s haproxy/jaunty haproxy/$HOSTNAME
+svn add haproxy/$HOSTNAME
+svn commit config/haproxy.hosts haproxy/$HOSTNAME
+</pre>
+
+<h4>2. Ensure you can SSH into the machine as paphosting</h4>
+From your client, try to SSH as paphosting into the machine.
+Your SSH keys should be in config/ssh-keyring.pub, and
+those should be in ~paphosting/.ssh/authorized_keys. <br />
+Now that you're here, you need to setup sudo access for
+the paphosting user, so that it can restart the haproxy:
+<pre>
+cat << EOF >> /etc/sudoers
+paphosting ALL = NOPASSWD: /usr/local/sbin/haproxy
+paphosting ALL = NOPASSWD: /usr/bin/pkill -x haproxy
+EOF
+</pre>
+
+<h4>3. Force a push of the haproxy configs</h4>
+On your client, try to do a haproxy push
+<pre>
+scripts/haproxy-push.sh -v -n
+# If this looks good, then:
+scripts/haproxy-push.sh -f
+</pre>
+
+<h4>4. Put the machine in DNS</h4>
+Add IPv4 and IPv6 addresses of the machine to the http0 label, which will
+put the haproxy into the rotation within $TTL seconds (probably 300). Note:
+your frontend will go live as soon as DNS propagates!
+<pre>
+$EDITOR dns/zones/paphosting/http0.inc
+scripts/dns-push.sh -v -n
+# If this looks good, then:
+scripts/dns-push.sh -f
+</pre>
+
+EOF :)
+
+</div>
+
+<div id='sidebar'>
+<ul>
+<li>Design Documents
+  <ul>
+  <li><a href="index.html">Overview</a></li>
+  <li><a href="dns.html">DNS</a></li>
+  <li><a href="frontend.html">Frontend</a></li>
+  <li><a href="backend.html">Backends</a></li>
+  <li><a href="rcs.html">Revision Control</a></li>
+  </ul>
+</li>
+<li>User Guides
+  <ul>
+  <li><a href="ug_host.html">host setup</a></li>
+  <li><a href="ug_haproxy.html">haproxy setup</a></li>
+  <li><a href="ug_nginx.html">nginx setup</a></li>
+  <li><a href="ug_dns.html">dns setup</a></li>
+  <li><a href="ug_thttpd.html">thttpd setup</a></li>
+  <li><a href="ug_apache.html">apache setup</a></li>
+  <li><a href="ug_sendmail.html">sendmail setup</a></li>
+  </ul>
+</li>
+</ul>
+</div>
+
+<div style='clear:both;'></div>
+
+<div id='footer'>
+<a href='http://jigsaw.w3.org/css-validator/check/referer'>Valid CSS</a>
+&nbsp;|&nbsp;
+<a href='http://validator.w3.org/check?uri=referer'>Valid XHTML 1.0 Strict</a>
+&nbsp;|&nbsp;
+<tt>$Id: ug_haproxy.html 1286 2011-02-27 22:19:27Z pim $</tt>
+</div>
+
+</div>
+</body>
+</html>

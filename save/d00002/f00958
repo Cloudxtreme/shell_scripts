@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  <head>
+    <title>
+      CentOS61 – BIND 10 Development
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="search" href="/search" />
+        <link rel="help" href="/wiki/TracGuide" />
+        <link rel="alternate" href="/wiki/CentOS61?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="/wiki" />
+        <link rel="stylesheet" href="/chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="/chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="/search/opensearch" title="Search BIND 10 Development" />
+    <script type="text/javascript" src="/chrome/common/js/jquery.js"></script><script type="text/javascript" src="/chrome/common/js/babel.js"></script><script type="text/javascript" src="/chrome/common/js/messages/en_US.js"></script><script type="text/javascript" src="/chrome/common/js/trac.js"></script><script type="text/javascript" src="/chrome/common/js/search.js"></script><script type="text/javascript" src="/chrome/common/js/folding.js"></script>
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="/chrome/common/js/ie_pre7_hacks.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://www.isc.org"><img src="/isc-logo-hack.png" alt="ISC Logo" /></a>
+      </div>
+      <form id="search" action="/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="/login">Login</a></li><li><a href="/prefs">Preferences</a></li><li><a href="/wiki/TracGuide">Help/Guide</a></li><li><a href="/about">About Trac</a></li><li><a href="/register">Register</a></li><li class="last"><a href="/reset_password">Forgot your password?</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="/wiki">Wiki</a></li><li><a href="/timeline">Timeline</a></li><li><a href="/roadmap">Roadmap</a></li><li><a href="/report">View Tickets</a></li><li class="last"><a href="/search">Search</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="/wiki">wiki:</a><a class="pathentry" href="/wiki/CentOS61" title="View CentOS61">CentOS61</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+          <ul>
+              <li class="first"><a href="/wiki/WikiStart">Start Page</a></li><li><a href="/wiki/TitleIndex">Index</a></li><li class="last"><a href="/wiki/CentOS61?action=history">History</a></li>
+          </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          
+          <div class="trac-modifiedby"><a href="/wiki/CentOS61?action=diff&amp;version=6" title="Version 6 by gaurav.kansal: While giving the path for the botan &#34;--with-botan-config={PATH-of-config-file}&#34;  should be used instead of &#34;--with-botan={PATH}&#34;.">Last modified</a> <a class="timeline" href="/timeline?from=2013-07-16T06%3A06%3A07Z&amp;precision=second" title="2013-07-16T06:06:07Z in Timeline">6 weeks</a> ago</div>
+          <div id="wikipage"><h1 id="CentOS6.1InstallNotes">CentOS 6.1 Install Notes</h1>
+<h2 id="IntroductionandSystemDescription">Introduction and System Description</h2>
+<p>
+This page describes a setup of BIND 10 on CentOS 6.1, using the Git repository on 2011-12-28.
+</p>
+<p>
+The hardware is a Linux KVM virtual machine, in i386 mode. The CentOS "minimal" install ISO was used:
+</p>
+<blockquote>
+<p>
+<a class="ext-link" href="http://mirror.nl.leaseweb.net/centos/6.1/isos/i386/CentOS-6.1-i386-minimal.iso"><span class="icon"> </span>http://mirror.nl.leaseweb.net/centos/6.1/isos/i386/CentOS-6.1-i386-minimal.iso</a>
+</p>
+</blockquote>
+<p>
+I logged in as root, and started the network by running dhclient manually:
+</p>
+<pre class="wiki">dhclient eth0
+</pre><p>
+I then updated the system, pulling in security and other bug fixes:
+</p>
+<pre class="wiki">yum update
+</pre><p>
+I added a user:
+</p>
+<pre class="wiki">adduser -m shane
+passwd shane
+</pre><p>
+The system is now ready to begin installing prerequisites. 
+</p>
+<h2 id="SetupofPackagedPrerequisites">Setup of Packaged Prerequisites</h2>
+<p>
+I installed Git, gcc, bc, make, autoconf/automake, libtool, Boost, and the SQLite libraries via yum:
+</p>
+<pre class="wiki">yum install git gcc-c++ bc make automake libtool boost boost-devel sqlite-devel
+</pre><h2 id="SetupofOtherPrerequisites">Setup of Other Prerequisites</h2>
+<p>
+CentOS 6.1 comes with Python 2.6.6 and does not seem to have any Python 3 available. Python 3 was downloaded and built:
+</p>
+<pre class="wiki">yum install wget
+yum install openssl-devel bzip2-devel expat-devel gdbm-devel readline-devel
+wget http://www.python.org/ftp/python/3.2/Python-3.2.tar.bz2
+tar xf Python-3.2.tar.bz2
+cd Python-3.2
+./configure --prefix=/opt/python3
+make
+make install
+</pre><p>
+Botan is also missing as a packaged library:
+</p>
+<pre class="wiki">wget http://botan.randombit.net/files/Botan-1.10.1.tgz
+tar xf Botan-1.10.1.tgz
+cd Botan-1.10.1
+./configure.py --prefix=/opt/botan
+make
+make check
+make install
+</pre><p>
+We have to create botan-config ourselves:
+</p>
+<pre class="wiki">ln -s /opt/botan/bin/botan-config-1.10 /opt/botan/bin/botan-config
+</pre><p>
+Finally, we have to install log4cplus ourselves:
+</p>
+<pre class="wiki">wget http://downloads.sourceforge.net/project/log4cplus/log4cplus-stable/1.0.4/log4cplus-1.0.4.tar.bz2
+tar xf log4cplus-1.0.4.tar.bz2
+cd log4cplus-1.0.4
+./configure --prefix=/opt/log4cplus
+make
+make install
+</pre><h2 id="BuildingandInstalling">Building and Installing</h2>
+<p>
+BIND 10 was checked out and built:
+</p>
+<pre class="wiki">git clone git://git.bind10.isc.org/bind10
+cd bind10
+autoreconf --install
+./configure --prefix=/opt/bind10 --with-pythonpath=/opt/python3/bin/python3 --with-botan-config=/opt/botan/bin/botan-config-1.10 --with-log4cplus=/opt/log4cplus
+make
+</pre></div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="/wiki/CentOS61?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="/chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="/about"><strong>Trac 0.12.2</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right">Visit the <a href="https://www.isc.org/bind10">BIND 10</a> pages.</p>
+    </div>
+  </body>
+</html>

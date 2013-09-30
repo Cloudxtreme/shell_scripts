@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html;
+charset=ISO-8859-1">
+<meta name="generator" content="/usr/bin/vi">
+<meta name="description" content="E-Mail to SIDN regarding their
+recommendation for the use of localhost records in DNS">
+<meta name="keywords" content="sidn, dns, localhost, record, security,
+rfc1921">
+<meta name="author" content="Paul 'WEiRD' de Weerd, 2008">
+<meta name="revised" content="Wed Mar 26 21:09:49 CET 2008 / PdW">
+<meta name="first published" content="Wed Mar 26 21:03:22 CET 2008">
+<title>SIDN raadt gebruik van localhost.domain.tld aan</title>
+<style type="text/css" media="screen">
+<!--
+  html, pre {
+    background-color: #DEDEDE;
+  }
+  .column {
+    text-align: justify;
+    background-color: white;
+    color: black;
+    width:600px;
+    border: 1px solid black;
+    margin: 1em;
+    padding: 1.5em;
+  }
+  h2, tt, pre {
+    color: blue;
+  }
+  pre {
+    border: 1px solid black;
+    padding: 1em;
+  }
+-->
+</style>
+</head>
+<body>
+<center>
+<div class="column">
+<table cellspacing=0 border=0 width="100%" summary="footer">
+<tr>
+<td align="left" valign="top">
+<h2>
+E-mail naar de SIDN
+</h2>
+</td>
+<td align="right">
+<img border="0" src="../images/logo_w.png" width="100" height="100">
+</td>
+</tr>
+</table>
+<p>Ik heb zojuist onderstaande e-mail gestuurd naar het SIDN support
+e-mail adres :
+<pre>
+<b>From:</b> Paul de Weerd &lt;_____@weirdnet.nl&gt;
+<b>To:</b> SIDN Support &lt;support@sidn.nl&gt;
+<b>Date:</b> Wed, 26 Mar 2008 21:08:03 +0100
+<b>Subject:</b> localhost resource records considered dangerous
+
+Geachte,
+
+Vandaag ontdekte ik dat de 'Nameserver check'[1] service van de SIDN
+website een waarschuwing geeft voor het ontbreken van het localhost
+resource record. Via deze weg wil ik u informeren over de security
+risico's die zijn verbonden aan zulke records en verzoeken deze
+waarschuwing op zijn minst te verwijderen maar mogelijk zelfs om te
+draaien (waarschuw domeinnaamhouders dit record *niet* op te nemen in
+hun zones).
+
+Zoals uit de whois gegevens voor de domeinnaam van mijn e-mail adres
+blijkt ben ik ook houder van een .nl domeinnaam. Recentelijk hoorde ik
+van de mogelijkheid de 'Nameserver check' online uit te kunnen voeren,
+waarop ik direct 'weirdnet.nl' heb getest. Tot mijn grote verbazing
+kreeg ik de volgende waarschuwing :
+
+	Warning: "localhost.weirdnet.nl." not defined.
+	    The external view of the domain does not list
+	    "localhost". That is not a problem, as long as
+	    the internal view on the domain has it defined.
+	    If you do not use DNS views, you may consider
+	    this to be an error.
+
+Mogelijk ten overvloede, voor de zone 'weirdnet.nl' wordt niet gebruik
+gemaakt van DNS views. Wat dit betreft zou dit domein dus zelfs
+afgewezen worden volgens de huidige controle.
+
+Het aanmaken van non-FQDN localhost entries in nameservers is een
+veelgemaakte fout. Waar RFC 1912 in sectie 4.1 specificeert dat
+nameservers ten alle tijden 'localhost.' moeten kunnen resolven naar
+127.0.0.1, wordt er in dezelfde sectie ook melding gemaakt van de
+mogelijke verwarring die een ongekwalificeerde localhost entry zou
+kunnen geven.
+
+Hier komt nu bij dat recentelijk Tavis Ormandy van het Google Security
+Team een document heeft gepubliceerd met de titel 'common dns
+misconfiguration can lead to "same site" scripting'[2], waarin hij
+uitlegt hoe localhost entries misbruikt kunnen worden om bijvoorbeeldj
+beveiligingsmaatregelen uit RFC2109 (HTTP State Management Mechanism)
+te omzeilen.
+
+Aangezien uit Tavis' onderzoek duidelijk blijkt dat localhost entries
+schadelijk kunnen zijn, lijkt het mij dat ook het verkapte advies dat
+in de waarschuwing van de 'Nameserver check' besloten ligt schadelijk
+voor domeinhouders is. Hierom wil ik u verzoeken deze waarschuwing te
+verwijderen en zelfs adviseren de 'Nameserver check' zo aan te passen
+dat deze domeinhouders juist waarschuwt wanneer zones een 'localhost'
+record definieren. Tot slot raad ik u aan om alle deelnemers te
+adviseren al hun zones en die van hun klanten te controleren op de
+aanwezigheid van localhost records en deze zo spoedig mogelijk te
+verwijderen.
+
+Graag hoor ik op korte termijn uw reactie. Deze mail is gepubliceerd
+op http://www.weirdnet.nl/misc/sidn-localhost.html 
+
+Met vriendelijke groet,
+
+Paul de Weerd [PDW-RIPE]
+
+[1]: <a href="http://www.sidn.nl/ace.php/c,727,778,,,,Nameserver_check.html">http://www.sidn.nl/ace.php/c,727,778,,,,Nameserver_check.html</a>
+[2]: <a href="http://seclists.org/bugtraq/2008/Jan/0270.html">http://seclists.org/bugtraq/2008/Jan/0270.html</a>
+
+-- 
+>++++++++[<++++++++++>-]<+++++++.>+++[<------>-]<.>+++[<+
++++++++++++>-]<.>++[<------------>-]<+.--------------.[-]
+                 <a href="http://www.weirdnet.nl/">http://www.weirdnet.nl/</a>                 
+</pre>
+<p>En nu maar afwachten. Updates als er meer te melden valt :-)
+<hr>
+<h4>Update 2 april 2008 :</h4>
+<p>Vandaag heb ik een reactie van SIDN ontvangen :
+<pre>
+In antwoord op uw email m.b.t. de ns-check van SIDN, bericht ik u het
+volgende.
+
+Bedankt voor uw melding.
+
+Wij zullen uw opmerking meenemen in het change-management voor de
+verdere ontwikkeling van DRS.
+</pre>
+<p>Helaas is er nog niets gewijzigd aan de controle zelf.
+<hr>
+<h4>Update 19 augustus 2008 :</h4>
+<p>Zojuist heb ik de controle voor mijn eigen domeinnaam nogmaals
+uitgevoerd. Ditmaal kreeg ik geen waarschuwing. Helaas geeft de
+controle van een domeinnaam waar 'localhost' wel is gedefinieerd geen
+waarschuwing.
+<table cellspacing=0 border=0 width="100%" summary="footer">
+<tr>
+<td align="left" valign="bottom">
+&copy; 2008 <a href="http://www.weirdnet.nl/CV/">Paul 'WEiRD' de
+Weerd</a>
+</td>
+<td align="right">
+<a href="http://www.openbsd.org/"><img border="0"
+src="../images/openbsd_pb.gif" alt="Powered by OpenBSD" width="150"
+height="40"></a>
+</td>
+</tr>
+</table>
+</div>
+</center>
+</body>
+</html>

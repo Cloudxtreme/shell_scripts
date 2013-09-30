@@ -1,0 +1,925 @@
+<!doctype html>
+
+
+<html>
+<head>
+<title>GIN Map</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="initial-scale=1, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<script type="text/javascript"
+	src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBjZYSvBHY2dOpkTa8PnGiulGbDZ1mDP10&sensor=false">
+</script>
+<script type="text/javascript" src="markerwithlabel.js"></script>
+<script type="text/javascript" src="/common/js/jquery-1.5.min.js"></script>
+<script type="text/javascript">
+ var map;
+ var orangelines;
+ var bluelines;
+ var greenlines;
+ var redlines;
+ var pinklines;
+ var greenlines;
+ var ginpoparray;
+ var partnerpoparray;
+ var dcarray;
+ var ppparray;
+ var pingMarker;
+ var sanjoseMagnifier;
+ 
+ function getBezierPath(start, finish, transPacific, arcHeight, skew, upDown, numSegments)
+ {
+	// assumes exisatence of a global VEMap object named 'map' instantiated via LoadMap()
+	// start & finish: required VELatLong
+	// transPacific: specifies if the curve is to go over the Pacific Ocean
+	// arcHeight: required double latitude degrees
+	// skew: required double left-right degrees
+	// color: optional VEColor for line; default = red
+	// width: optional integer line width; default = 2
+	// upDown: optional string 'up' or 'down'; default = 'up'
+	// numSegments: optional int number of segments to use for line; default = 10
+	// stroke: optional white outline
+	// layer: optional layer to add the curve to
+	// see http://mathforum.org/library/drmath/view/54434.html for the math
+		
+	if (typeof width == 'undefined') { var width = 2; }
+	if (typeof upDown == 'undefined') { var upDown = 'up'; }
+	if (typeof numPoints == 'undefined') { var numPoints = 10; }
+	if (typeof stroke == 'undefined') { var stroke = false; }
+	
+	//Use a different structure for finish to allow transpacific routes
+	var f = {lat: finish.lat(),lng: finish.lng()};
+	
+	//If the curve is to go across the pacific we have to translate the finish point location and then translate back each segment
+	if (transPacific)
+	{
+		f = {lat: finish.lat(),lng: 180+180-Math.abs(f["lng"])};
+	}
+	
+	/*
+	if (start.lng > f["lng"]) {   // adjust so start is to the left of finish
+		var temp = start;
+		start = new google.maps.LatLng(f["lat"],f["lng"]);
+		f = {lat: temp.lat(),lng: temp.lng()};
+	}*/
+	
+	if (numSegments < 2) numSegments = 2;  
+	
+	var midLon = (f["lng"] - start.lng()) / 2.0;
+	var midLat = (f["lat"] - start.lat()) / 2.0;
+	
+	if (Math.abs(start.lng() - f["lng"]) < 0.0001) { // nearly vertical
+	if (upDown == 'up')
+	 midLon -= arcHeight;
+	else
+	 midLon += arcHeight;
+	midLat += skew;
+	}
+	else { // 'normal' case, not vertical
+	if (upDown == 'up')
+	 midLat += arcHeight;
+	else
+	 midLat -= arcHeight;
+	midLon += skew;
+	}
+	
+	var tDelta = 1.0 / numSegments;
+	
+	var lons = new Array(); // 'x' values
+	for (t = 0.0; t <= 1.0; t += tDelta) {
+	var firstTerm = (1.0 - t * t) * start.lng();
+	var secondTerm = 2.0 * (1.0 - t) * t * midLon;
+	var thirdTerm = t * t * f["lng"];
+	var B = firstTerm + secondTerm + thirdTerm;
+	if(transPacific && B > 180)
+	   B = B - 180 - 180;
+	lons.push(B);
+	}
+	
+	var lats = new Array(); // 'y' values
+	for (t = 0.0; t <= 1.0; t += tDelta) {
+	var firstTerm = (1.0 - t * t) * start.lat();
+	var secondTerm = 2.0 * (1.0 - t) * t * midLat;
+	var thirdTerm = t * t * f["lat"];
+	var B = firstTerm + secondTerm + thirdTerm;
+	lats.push(B);
+	}
+	var debug = "";
+	var points = new Array();
+	for (i = 0; i < lats.length; ++i) {
+	debug = debug + "\n" + lats[i];
+	points.push(new google.maps.LatLng(lats[i], lons[i]));
+	}
+	
+	return points;
+ }
+ function initialize() {
+	 
+	var unlabeledStyles = 
+	[ { featureType: "administrative", stylers: [ { visibility: "off" } ] },{ featureType: "poi", stylers: [ { visibility: "off" } ] },{ featureType: "water", elementType: "labels", stylers: [ { visibility: "off" } ] },{ featureType: "water", stylers: [ {hue: "#4d7c96"}, { saturation: 100 }, { lightness: 0 }, { gamma: 0.2 } ] },{ featureType: "landscape", stylers: [ {hue: "#00003c"}, { saturation: 100 }, { lightness: 0 }, { gamma: 0.025 } ] },{ featureType: "landscape", elementType: "labels", stylers: [ { visibility: "off" } ] },{ featureType: "road", stylers: [ { visibility: "off" } ] },{ featureType: "transit", stylers: [ { visibility: "off" } ] } ];
+	var unlabeledMapType = new google.maps.StyledMapType(unlabeledStyles,{name: "Basic"});
+
+	var mapcenter = new google.maps.LatLng(39.8600, -98.0000);
+	
+	
+	var mapOptions = {
+	  center: mapcenter,
+	  zoom: 3,
+	  mapTypeId: google.maps.MapTypeId.SATELLITE,
+	  disableDoubleClickZoom: false,
+	  streetViewControl: false,
+	  zoomControl: true,
+	  mapTypeControlOptions: {
+		mapTypeIds: [google.maps.MapTypeId.SATELLITE, 'Basic']
+	  }
+	};
+	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+	map.mapTypes.set('Basic', unlabeledMapType);
+	map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+	
+	
+
+	
+	ginpoparray = new Array();
+	partnerpoparray = new Array();
+	pinklines = new Array();
+	redlines = new Array();
+	pinklines = new Array();
+	greenlines = new Array();
+	bluelines = new Array();
+	orangelines = new Array();
+	dcarray = new Array();
+	ppparray = new Array();
+	
+	var width = 2;
+	var numSegments = 12;
+	var pink = "#ffaaff";
+	var red = "#ff0000";
+	var green = "#33cc33";
+	var blue = "#2082ff";
+	var orange = "#ff6600";
+	
+	// Create the locations
+	var tokyo = new google.maps.LatLng(35.6709056,139.7577372);
+	var LA = new google.maps.LatLng(33.93, -118.40);
+	var seattle = new google.maps.LatLng(47.6062095, -122.3320708);
+	var sanjose = new google.maps.LatLng(37.3393857, -121.8949555);
+	var amsterdam = new google.maps.LatLng(52.3738007, 4.8909347);
+	var osaka = new google.maps.LatLng(34.7008621,135.5071616);
+	var sydney = new google.maps.LatLng(-33.867139, 151.207114);
+	var hongkong = new google.maps.LatLng(22.396428, 114.109497);
+	var taipei = new google.maps.LatLng(25.091075, 121.5598345);
+	var singapore = new google.maps.LatLng(1.352083, 103.819836);
+	var seoul = new google.maps.LatLng(37.566535, 126.9779692);
+	var london = new google.maps.LatLng(51.5001524, -0.1262362);
+	var dc = new google.maps.LatLng(38.8951118, -77.0363658);
+	var kualalumpur = new google.maps.LatLng(3.139003, 101.686855);
+	var newyork = new google.maps.LatLng(40.7142691, -74.0059729);
+	var frankfurt = new google.maps.LatLng(50.1115118, 8.6805059);
+	var paris = new google.maps.LatLng(48.8566667, 2.3509871);
+	var geneva = new google.maps.LatLng(46.2038099, 6.1399589);
+	var warsaw = new google.maps.LatLng(52.2296756, 21.0122287);
+	var bucharest = new google.maps.LatLng(44.437711, 26.097367);
+	var budapest = new google.maps.LatLng(47.4984056, 19.0407578);
+	var sofia = new google.maps.LatLng(42.6976262, 23.3222839);
+	var brussels = new google.maps.LatLng(50.8462807, 4.3547273);
+	var chicago = new google.maps.LatLng(41.8781136, -87.6297982);
+	var houston = new google.maps.LatLng(29.7628844, -95.3830615);
+	var dallas = new google.maps.LatLng(32.800325, -96.820064);
+	var atlanta = new google.maps.LatLng(33.7489954, -84.3879824);
+	var miami = new google.maps.LatLng(25.7742657, -80.1936589);
+	var manila = new google.maps.LatLng(14.5995124, 120.9842195);
+	var colombo = new google.maps.LatLng(6.8780756, 79.8968798);
+	var yangon = new google.maps.LatLng(16.8, 96.15);
+	var hanoi = new google.maps.LatLng(21.0558567, 105.8290298);
+	var madrid = new google.maps.LatLng(40.4166909, -3.7003454);
+	var milan = new google.maps.LatLng(45.4640,9.1916);
+	var dusseldorf = new google.maps.LatLng(51.2249429, 6.7756524);
+	var jakarta = new google.maps.LatLng(-6.211544, 106.845172);
+	var saopaulo = new google.maps.LatLng(-23.5489433, -46.6388182);
+	var mumbai = new google.maps.LatLng(19.0759837, 72.8776559);
+	var chennai = new google.maps.LatLng(13.060422, 80.249583);
+	var bangkok = new google.maps.LatLng(13.7234186, 100.4762319);
+	var hochiminh = new google.maps.LatLng(10.7694444, 106.6819444);
+	var brunei = new google.maps.LatLng(4.535277, 114.727669);
+	var shanghai = new google.maps.LatLng(31.230393, 121.473704);
+	var beijing = new google.maps.LatLng(39.904214, 116.407413);
+	var wellington = new google.maps.LatLng(-41.28648,174.776217);
+	var macau = new google.maps.LatLng(22.198745,113.543873);
+	var lagos = new google.maps.LatLng(6.4530556,3.3958333);
+	var riyadh = new google.maps.LatLng(24.6880015,46.7224333);
+	var dubai = new google.maps.LatLng(25.271139,55.307485);
+	var johannesburg = new google.maps.LatLng(-26.201452,28.045488);
+	var capetown = new google.maps.LatLng(-33.9248685,18.4240553);
+	var cairo = new google.maps.LatLng(30.064742,31.249509);
+	var stockholm = new google.maps.LatLng(59.3300,17.9500);
+	var munich = new google.maps.LatLng(48.1333,11.5667);
+	var vienna = new google.maps.LatLng(48.2088,16.3726);
+	var barcelona = new google.maps.LatLng(41.3833,2.1699);
+	var jpusloc = new google.maps.LatLng(56.367758524068385,-170.265625);
+	var useuloc = new google.maps.LatLng(54.9449741808516,-48.671875);
+	var asiaocloc = new google.maps.LatLng(10.36246686553575,160.2421875);
+	var japaneuloc = new google.maps.LatLng(56.17002298293205,118.921875);
+	
+	
+	
+	var routes = new Array();
+	routes.push({'start': tokyo, 'finish': LA, 'blue': 18, 'arcoffset': -20, 'transpacific': true});
+	routes.push({'start': tokyo, 'finish': seattle, 'blue': 6, 'arcoffset': 5, 'transpacific': true});
+	routes.push({'start': tokyo, 'finish': sanjose, 'blue': 12, 'arcoffset': -4, 'transpacific': true});
+	routes.push({'start': amsterdam, 'finish': tokyo, 'blue': 5, 'green': 2, 'arcoffset': 20});
+	routes.push({'start': osaka, 'finish': tokyo, 'blue': 18, 'arcoffset': -13, 'offsetfactor': .2});
+	routes.push({'start': tokyo, 'finish': sydney, 'blue': 1, 'green': 1, 'arcoffset': 1, 'skew': 1, 'offsetfactor': .5});
+	routes.push({'start': tokyo, 'finish': hongkong, 'blue': 12, 'green': 2, 'arcoffset': -25, 'offsetfactor': .5});
+	routes.push({'start': tokyo, 'finish': taipei, 'blue': 2, 'green': 1, 'arcoffset': 7});
+	routes.push({'start': tokyo, 'finish': singapore, 'blue': 4, 'green': 3, 'orange': 2, 'arcoffset': -30});		
+	routes.push({'start': tokyo, 'finish': seoul, 'green': 3, 'red': 0, 'arcoffset': 5});		
+	routes.push({'start': osaka, 'finish': seattle, 'blue': 6, 'arcoffset': 15, 'transpacific': true});		
+	routes.push({'start': osaka, 'finish': sanjose, 'blue': 12, 'arcoffset': -30, 'transpacific': true});		
+	routes.push({'start': osaka, 'finish': LA, 'blue': 12, 'arcoffset': -40, 'transpacific': true});		
+	routes.push({'start': osaka, 'finish': london, 'blue': 5, 'arcoffset': 35});		
+	routes.push({'start': osaka, 'finish': singapore, 'blue': 3, 'arcoffset': -15});
+	routes.push({'start': osaka, 'finish': hongkong, 'blue': 4, 'green': 0, 'arcoffset': 5});
+	routes.push({'start': osaka, 'finish': seoul, 'green': 1, 'arcoffset': -1});
+	routes.push({'start': osaka, 'finish': taipei, 'green': 3, 'arcoffset': 0});
+	routes.push({'start': osaka, 'finish': frankfurt, 'blue': 3, 'arcoffset': 0});
+	routes.push({'start': hongkong, 'finish': taipei, 'green': 2, 'arcoffset': 0});
+	routes.push({'start': hongkong, 'finish': singapore, 'green': 3, 'arcoffset': -10});
+	routes.push({'start': singapore, 'finish': london, 'blue': 1, 'arcoffset': -40, 'skew': -25});
+	routes.push({'start': singapore, 'finish': kualalumpur, 'blue': 1, 'green': 3, 'arcoffset': -2, 'offsetfactor': .5});
+	routes.push({'start': singapore, 'finish': sanjose, 'blue': 8, 'arcoffset': -50, 'transpacific': true});
+	routes.push({'start': sydney, 'finish': LA, 'green': 1, 'arcoffset': -15, 'skew': 1, 'transpacific': true});
+	routes.push({'start': london, 'finish': newyork, 'blue': 7, 'arcoffset': 5});
+	routes.push({'start': amsterdam, 'finish': dc, 'blue': 10, 'arcoffset': -15});
+	routes.push({'start': london, 'finish': amsterdam, 'blue': 10, 'arcoffset': 2, 'offsetfactor': .2});
+	routes.push({'start': amsterdam, 'finish': frankfurt, 'blue': 5, 'arcoffset': 3, 'offsetfactor': .3});
+	routes.push({'start': paris, 'finish': london, 'blue': 3, 'arcoffset': -6, 'offsetfactor': .3});
+	routes.push({'start': paris, 'finish': amsterdam, 'blue': 5, 'arcoffset': 3, 'offsetfactor': .3});
+	routes.push({'start': madrid, 'finish': london, 'blue': 2, 'arcoffset': 4});
+	routes.push({'start': madrid, 'finish': amsterdam, 'blue': 2, 'arcoffset': -20, 'offsetfactor': .2, 'skew': 20});
+	routes.push({'start': frankfurt, 'finish': london, 'blue': 5, 'arcoffset': -10, 'offsetfactor': .3});
+	routes.push({'start': frankfurt, 'finish': dusseldorf, 'blue': 1, 'arcoffset': -.4});
+	routes.push({'start': amsterdam, 'finish': dusseldorf, 'blue': 1, 'arcoffset': -1, 'offsetfactor': .2});
+	//routes.push({'start': paris, 'finish': geneva, 'blue': 2, 'arcoffset': -1});
+	//routes.push({'start': frankfurt, 'finish': geneva, 'blue': 2, 'arcoffset': -2});
+	routes.push({'start': frankfurt, 'finish': warsaw, 'blue': 2, 'arcoffset': -3, 'offsetfactor': .4});
+	routes.push({'start': frankfurt, 'finish': bucharest, 'blue': 4, 'arcoffset': -5, 'offsetfactor': .4});
+	routes.push({'start': frankfurt, 'finish': budapest, 'blue': 4, 'arcoffset': 3, 'offsetfactor': .3});
+	routes.push({'start': frankfurt, 'finish': sofia, 'blue': 1, 'arcoffset': -1.8, 'offsetfactor': .5});
+	routes.push({'start': frankfurt, 'finish': munich, 'blue': 2, 'arcoffset': -2, 'offsetfactor': .3});
+	routes.push({'start': frankfurt, 'finish': vienna, 'blue': 2, 'arcoffset': -2, 'offsetfactor': .3});
+	routes.push({'start': frankfurt, 'finish': stockholm, 'blue': 1, 'arcoffset': 0, 'offsetfactor': .7});
+	routes.push({'start': frankfurt, 'finish': newyork, 'blue': 5, 'arcoffset': -2, 'offsetfactor': .7});
+	routes.push({'start': frankfurt, 'finish': dc, 'blue': 4, 'arcoffset': -25, 'offsetfactor': .7});
+	routes.push({'start': frankfurt, 'finish': milan, 'blue': 1, 'arcoffset': -2});
+	routes.push({'start': london, 'finish': brussels, 'blue': 3, 'arcoffset': 1, 'offsetfactor': .2});
+	routes.push({'start': amsterdam, 'finish': brussels, 'blue': 2, 'skew': -.5, 'arcoffset': .5, 'offsetfactor': -.3});
+	routes.push({'start': amsterdam, 'finish': milan, 'blue': 1, 'skew': -.5, 'arcoffset': .5, 'offsetfactor': -.3});
+	routes.push({'start': amsterdam, 'finish': stockholm, 'blue': 1, 'arcoffset': 6, 'offsetfactor': .3});
+	routes.push({'start': budapest, 'finish': bucharest, 'blue': 1, 'arcoffset': -.5, 'offsetfactor': .3});
+	routes.push({'start': seattle, 'finish': sanjose, 'blue': 9, 'skew': 1, 'arcoffset': -3, 'offsetfactor': .15});
+	routes.push({'start': seattle, 'finish': chicago, 'blue': 4, 'arcoffset': 3});
+	routes.push({'start': seattle, 'finish': newyork, 'blue': 8, 'arcoffset': 6});
+	routes.push({'start': seattle, 'finish': dc, 'blue': 4, 'arcoffset': -3});
+	routes.push({'start': sanjose, 'finish': chicago, 'blue': 4, 'arcoffset': 2, 'offsetfactor': .8});
+	routes.push({'start': sanjose, 'finish': dc, 'blue': 11, 'arcoffset': -1, 'offsetfactor': .5});
+	routes.push({'start': sanjose, 'finish': LA, 'blue': 9, 'arcoffset': -2, 'offsetfactor': .2});
+	routes.push({'start': LA, 'finish': houston, 'blue': 1, 'arcoffset': -3});
+	routes.push({'start': LA, 'finish': dallas, 'blue': 10, 'arcoffset': -3, 'offsetfactor': .8});
+	routes.push({'start': dallas, 'finish': chicago, 'blue': 6, 'arcoffset': 0, 'offsetfactor': .9});
+	routes.push({'start': dallas, 'finish': houston, 'blue': 2, 'arcoffset': 0, 'offsetfactor': .6});
+	routes.push({'start': dallas, 'finish': sanjose, 'blue': 9, 'arcoffset': 0, 'offsetfactor': .5});
+	routes.push({'start': dallas, 'finish': atlanta, 'blue': 5, 'arcoffset': -3, 'offsetfactor': .8});
+	routes.push({'start': dallas, 'finish': dc, 'blue': 7, 'arcoffset': 0, 'offsetfactor': .6});
+	routes.push({'start': chicago, 'finish': newyork, 'blue': 6, 'arcoffset': 0, 'offsetfactor': .6});
+	routes.push({'start': miami, 'finish': dallas, 'blue': 8, 'arcoffset': -2, 'offsetfactor': .6});
+	routes.push({'start': dc, 'finish': miami, 'blue': 10, 'arcoffset': -2, 'skew': 1, 'offsetfactor': .17});
+	routes.push({'start': dc, 'finish': newyork, 'blue': 18, 'skew': -2, 'arcoffset': -9, 'offsetfactor': .2});
+	routes.push({'start': dc, 'finish': atlanta, 'blue': 6, 'arcoffset': -3, 'offsetfactor': .8});
+	routes.push({'start': dc, 'finish': LA, 'blue': 6, 'arcoffset': -3, 'offsetfactor': .5});
+	routes.push({'start': atlanta, 'finish': miami, 'blue': 3, 'arcoffset': 0, 'skew':1, 'offsetfactor': .2});
+	//routes.push({'start': tokyo, 'finish': manila, 'green': 1, 'arcoffset': -5});
+	//routes.push({'start': hongkong, 'finish': manila, 'green': 1, 'arcoffset': -5});
+	//routes.push({'start': singapore, 'finish': colombo, 'red': 2,'arcoffset': -5});
+	//routes.push({'start': singapore, 'finish': jakarta, 'red': 3, 'orange': 1, 'arcoffset': -5});
+	//routes.push({'start': tokyo, 'finish': hanoi, 'green': 1, 'arcoffset': 10});
+	routes.push({'start': osaka, 'finish': kualalumpur, 'blue': 1, 'arcoffset': -2, 'offsetfactor': .5});
+	routes.push({'start': saopaulo, 'finish': miami, 'blue': 1, 'arcoffset': 10});
+	routes.push({'start': saopaulo, 'finish': newyork, 'blue': 1, 'arcoffset': 10});
+	routes.push({'start': barcelona, 'finish': madrid, 'blue': 1, 'arcoffset': -3, 'offsetfactor': .5});
+	routes.push({'start': barcelona, 'finish': amsterdam, 'blue': 2, 'arcoffset': -30, 'skew': 10, 'offsetfactor': .1});
+	
+	ginpoparray["Tokyo"] = addGINPOP("Tokyo",tokyo, map, 10, 28);
+	ginpoparray["Osaka"] = addGINPOP("Osaka",osaka, map, 10, -12);
+	ginpoparray["Singapore"] = addGINPOP("Singapore",singapore, map, 10, -12);
+	ginpoparray["Kuala Lumpur"] = addGINPOP("Kuala Lumpur",kualalumpur, map, 60, 28);
+	ginpoparray["Hong Kong"] = addGINPOP("Hong Kong",hongkong, map, -10, -12);
+	ginpoparray["Seoul"] = addGINPOP("Seoul",seoul, map, 10, 28);
+	ginpoparray["Taipei"] = addGINPOP("Taipei",taipei, map, 10, 28);
+	ginpoparray["Sydney"] = addGINPOP("Sydney",sydney, map, 10, 28);
+	ginpoparray["London"] = addGINPOP("London",london, map, 55, 25);
+	ginpoparray["Amsterdam"] = addGINPOP("Amsterdam",amsterdam, map, 10, 28);
+	ginpoparray["Dusseldorf"] = addGINPOP("Dusseldorf",dusseldorf, map, -5, 20);
+	ginpoparray["Frankfurt"] = addGINPOP("Frankfurt",frankfurt, map, -12, 5);
+	ginpoparray["Munich"] = addGINPOP("Munich",munich, map, 10, -10);
+	ginpoparray["Paris"] = addGINPOP("Paris",paris, map, 45, 5);
+	ginpoparray["Madrid"] = addGINPOP("Madrid",madrid, map, 10, 28);
+	ginpoparray["Milan"] = addGINPOP("Milan",milan, map, 25, -12);
+	//ginpoparray["Geneva"] = addGINPOP("Geneva",geneva, map, 10, -12);
+	ginpoparray["Warsaw"] = addGINPOP("Warsaw",warsaw, map, 10, 28);
+	ginpoparray["Brussels"] = addGINPOP("Brussels",brussels, map, 60, 0);
+	ginpoparray["Bucharest"] = addGINPOP("Bucharest",bucharest, map, -12, 0);
+	ginpoparray["Budapest"] = addGINPOP("Budapest",budapest, map, -12, 5);
+	ginpoparray["Sofia"] = addGINPOP("Sofia",sofia, map, 10, -12);
+	ginpoparray["New York"] = addGINPOP("New York",newyork, map, 10, 28);
+	ginpoparray["Washington DC"] = addGINPOP("Washington DC",dc, map, -12, 0);
+	ginpoparray["Miami"] = addGINPOP("Miami",miami, map, 10, 28);
+	ginpoparray["Houston"] = addGINPOP("Houston",houston, map, 10, -12);
+	ginpoparray["Dallas"] = addGINPOP("Dallas",dallas, map, 10, 28);
+	ginpoparray["Chicago"] = addGINPOP("Chicago",chicago, map, 10, 28);
+	ginpoparray["Los Angeles"] = addGINPOP("Los Angeles",LA, map, 10, -12);
+	ginpoparray["San Jose"] = addGINPOP("San Jose",sanjose, map, 10, 28);
+	ginpoparray["Seattle"] = addGINPOP("Seattle",seattle, map, 10, 28);
+	ginpoparray["Atlanta"] = addGINPOP("Atlanta",atlanta, map, 10, 28);
+	ginpoparray["Sao Paulo"] = addGINPOP("São Paulo",saopaulo, map, 10, 28);
+	ginpoparray["Vienna"] = addGINPOP("Vienna",vienna, map, 10, 28);
+	ginpoparray["Stockholm"] = addGINPOP("Stockholm",stockholm, map, 10, 28);
+	ginpoparray["Barcelona"] = addGINPOP("Barcelona",barcelona, map, 10, 28);
+	
+	//Add Partner POPs and City labels
+	
+	
+	//dcarray.push(addDatacenter(mumbai,map,15,-15));
+	//dcarray.push(addDatacenter(chennai,map,15,-15));
+	dcarray.push(addDatacenter(tokyo,map,15,-15));
+	dcarray.push(addDatacenter(kualalumpur,map,-18,0));
+	dcarray.push(addDatacenter(singapore,map,15,15));
+	dcarray.push(addDatacenter(hongkong,map,15,15));
+	dcarray.push(addDatacenter(osaka,map,-15,15));
+	dcarray.push(addDatacenter(sydney,map,-15,15));
+	dcarray.push(addDatacenter(london,map,12,18));
+	dcarray.push(addDatacenter(frankfurt,map,15,-17));
+	dcarray.push(addDatacenter(paris,map,-15,-17));
+	dcarray.push(addDatacenter(madrid,map,15,-15));
+	//dcarray.push(addDatacenter(geneva,map,-15,-12));
+	//dcarray.push(addDatacenter(newyork,map,17,5));
+	dcarray.push(addDatacenter(dc,map,13,-18));
+	dcarray.push(addDatacenter(sanjose,map,-17,-5));
+	dcarray.push(addDatacenter(saopaulo,map,-17,-10));
+	
+	ppparray.push(addPPP(singapore,map,18,0));
+	ppparray.push(addPPP(hongkong,map,18,0));
+	ppparray.push(addPPP(tokyo,map,18,5));
+	ppparray.push(addPPP(osaka,map,0,18));
+	ppparray.push(addPPP(taipei,map,18,5));
+	ppparray.push(addPPP(sydney,map,15,-15));
+	ppparray.push(addPPP(london,map,0,18));
+	ppparray.push(addPPP(amsterdam,map,18,0));
+	ppparray.push(addPPP(frankfurt,map,30,-17));
+	ppparray.push(addPPP(paris,map,-30,-15));
+	ppparray.push(addPPP(madrid,map,0,-18));
+	//ppparray.push(addPPP(geneva,map,0,-20));
+	ppparray.push(addPPP(newyork,map,32,5));
+	ppparray.push(addPPP(dc,map,30,-19));
+	ppparray.push(addPPP(miami,map,18,0));
+	ppparray.push(addPPP(dallas,map,18,0));
+	ppparray.push(addPPP(chicago,map,18,0));
+	ppparray.push(addPPP(LA,map,15,15));
+	ppparray.push(addPPP(sanjose,map,-8,-15));
+	ppparray.push(addPPP(seattle,map,18,0));
+	ppparray.push(addPPP(atlanta,map,18,0));
+	
+	var sanjoseMagnifierImage = new google.maps.MarkerImage("/nimage/about/sanjose-magnifier.png",new google.maps.Size(280,274),new google.maps.Point(0,0),new google.maps.Point(280,274));
+	sanjoseMagnifier = new google.maps.Marker({
+		position: sanjose,
+		icon: sanjoseMagnifierImage,
+		map: map,
+		draggable: false,
+		visible: false
+	});
+	
+	google.maps.event.addListener(map, 'zoom_changed', function() {
+		document.getElementById('zoom-selector').selectedIndex = map.getZoom() - 3;
+    	if(map.getZoom() > 4  && map.getZoom() < 10)
+		{
+			sanjoseMagnifier.setVisible(true);	
+		}
+		else if(map.getZoom() < 3)
+		{
+			map.setZoom(3);	
+		}
+		else
+		{
+			sanjoseMagnifier.setVisible(false);	
+		}
+  	});
+	
+	
+	var arcoffset;
+	var skew;
+	var offsetfactor;
+	var transpacific;
+	
+	
+	for (var i = 0; i < routes.length; i++)
+	{
+		if (typeof routes[i]['arcoffset'] == 'undefined') { arcoffset = 0; } else { arcoffset = routes[i]['arcoffset']; }
+		if (typeof routes[i]['skew'] == 'undefined') { skew = 0; } else { skew = routes[i]['skew']; }
+		if (typeof routes[i]['offsetfactor'] == 'undefined') { offsetfactor = 1; } else { offsetfactor = routes[i]['offsetfactor']; }
+		if (typeof routes[i]['transpacific'] == 'undefined') { transpacific = false; } else { transpacific = routes[i]['transpacific']; }
+		
+		if (typeof routes[i]['pink'] != 'undefined')
+		{
+			for(var j=1; j<= routes[i]['pink']; j++)
+			{
+				pinklines.push(new google.maps.Polyline({"map":map,"path":getBezierPath(routes[i]['start'],routes[i]['finish'],transpacific,arcoffset * offsetfactor,skew * offsetfactor,'up',numSegments),"strokeColor":pink,"strokeOpacity":1,"strokeWeight":width,"zIndex": 400}));
+				arcoffset = arcoffset+1;
+				if(skew > 0) skew=skew+5;
+			}
+		}
+		if (typeof routes[i]['red'] != 'undefined')
+		{
+			for(var j=1; j<= routes[i]['red']; j++)
+			{
+				redlines.push(new google.maps.Polyline({"map":map,"path":getBezierPath(routes[i]['start'],routes[i]['finish'],transpacific,arcoffset * offsetfactor,skew * offsetfactor,'up',numSegments),"strokeColor":red,"strokeOpacity":1,"strokeWeight":width,"zIndex": 401}));
+				arcoffset = arcoffset+1;
+				if(skew > 0) skew=skew+5;
+			}
+		}
+		if (typeof routes[i]['green'] != 'undefined')
+		{
+			for(var j=1; j<= routes[i]['green']; j++)
+			{
+				greenlines.push(new google.maps.Polyline({"map":map,"path":getBezierPath(routes[i]['start'],routes[i]['finish'],transpacific,arcoffset * offsetfactor,skew * offsetfactor,'up',numSegments),"strokeColor":green,"strokeOpacity":1,"strokeWeight":width,"zIndex": 402}));
+				arcoffset = arcoffset+1;
+				if(skew > 0) skew=skew+5;
+			}
+		}
+		if (typeof routes[i]['blue'] != 'undefined')
+		{
+			for(var j=1; j<= routes[i]['blue']; j++)
+			{
+				bluelines.push(new google.maps.Polyline({"map":map,"path":getBezierPath(routes[i]['start'],routes[i]['finish'],transpacific,arcoffset * offsetfactor,skew * offsetfactor,'up',numSegments),"strokeColor":blue,"strokeOpacity":1,"strokeWeight":width,"zIndex": 403,"alt":"Blue Line"}));
+				arcoffset = arcoffset+1;
+				if(skew > 0) skew=skew+5;
+			}
+		}
+		if (typeof routes[i]['orange'] != 'undefined')
+		{
+			for(var j=1; j<= routes[i]['orange']; j++)
+			{
+				orangelines.push(new google.maps.Polyline({"map":map,"path":getBezierPath(routes[i]['start'],routes[i]['finish'],transpacific,arcoffset * offsetfactor,skew * offsetfactor,'up',numSegments),"strokeColor":orange,"strokeOpacity":1,"strokeWeight":width,"zIndex": 404}));
+				arcoffset = arcoffset+1;
+				if(skew > 0) skew=skew+5;
+			}
+		}
+	}
+}
+function addGINPOP(name,loc, map,x,y)
+{
+	var ginpopimage = new google.maps.MarkerImage("/nimage/about/ginpop.png",new google.maps.Size(20,20),new google.maps.Point(0,0),new google.maps.Point(10,10));
+	var marker = new MarkerWithLabel({
+	   position: loc,
+	   icon: ginpopimage,
+	   map: map,
+	   draggable: false,
+	   clickable: false,
+	   labelContent: name,
+	   labelAnchor: new google.maps.Point(x, y),
+	   labelClass: "citylabel", // the CSS class for the label
+	   labelInBackground: false
+	 });
+	return marker;
+ }
+ function addPartnerPOP(name,loc, map,x,y)
+ {
+	var partnerpopimage = new google.maps.MarkerImage("/nimage/about/partnerpop.png",new google.maps.Size(20,20),new google.maps.Point(0,0),new google.maps.Point(10,10));
+	var marker = new MarkerWithLabel({
+	   position: loc,
+	   icon: partnerpopimage,
+	   map: map,
+	   draggable: false,
+	   clickable: false,
+	   labelContent: name,
+	   labelAnchor: new google.maps.Point(x, y),
+	   labelClass: "citylabel", // the CSS class for the label
+	   labelInBackground: false
+	 });
+	return marker;
+ }
+ function addDatacenter(loc,map,x,y)
+ {
+	var dcimage = new google.maps.MarkerImage("/nimage/about/datacenter.png",new google.maps.Size(100,100),new google.maps.Point(0,0),new google.maps.Point(50-x,50+y));
+	var marker = new google.maps.Marker({
+		position: loc,
+		icon: dcimage,
+		clickable: false,
+		map: map,
+		draggable: false
+	});
+	return marker;
+ }
+ function addPPP(loc,map,x,y)
+ {
+	var pppimage = new google.maps.MarkerImage("/nimage/about/ppp.png",new google.maps.Size(100,100),new google.maps.Point(0,0),new google.maps.Point(50-x,50+y));
+	var marker = new google.maps.Marker({
+		position: loc,
+		icon: pppimage,
+		clickable: false,
+		map: map,
+		draggable: false
+	});
+	return marker;
+ }
+ function addBandwidthLabel(name,loc,map,x,y)
+ {
+	 var marker = new MarkerWithLabel({
+	   position: loc,
+	   icon: "/nimage/about/blank.gif",
+	   map: map,
+	   clickable: false,
+	   draggable: false,
+	   labelContent: name,
+	   labelAnchor: new google.maps.Point(x, y),
+	   labelClass: "bandwidthlabel", // the CSS class for the label
+	   labelInBackground: false
+	 });
+	return marker;
+ }
+ function preload(arrayOfImages) {
+    $(arrayOfImages).each(function(){
+        $('<img/>')[0].src = this;
+    });
+ }
+ function pingDC(loc){
+ 	if (pingMarker == null)
+	{
+		var pingimage = new google.maps.MarkerImage("/nimage/about/ping.png",new google.maps.Size(100,100),new google.maps.Point(0,0),new google.maps.Point(50,50));
+			pingMarker = new google.maps.Marker({
+			position: loc,
+			clickable: false,
+			icon: pingimage,
+			map: map,
+			draggable: false
+	 	});
+	}
+	else
+		pingMarker.setPosition(loc);
+	
+ }
+ function selectDC(obj)
+ {
+	 if(obj.options[obj.selectedIndex].value != '')
+	 {
+		 if($('.ginpop-symbol').hasClass("pop-off"))
+		 {
+			 $('.ginpop-symbol').click();
+		 }
+		 map.setZoom(5);
+		 try
+		 {
+		 	map.panTo(ginpoparray[obj.options[obj.selectedIndex].value].getPosition());
+		 	pingDC(ginpoparray[obj.options[obj.selectedIndex].value].getPosition());
+		 }
+		 catch (e)
+		 {
+			map.panTo(partnerpoparray[obj.options[obj.selectedIndex].value].getPosition());
+		 	pingDC(partnerpoparray[obj.options[obj.selectedIndex].value].getPosition());
+		 }
+	 }
+	 obj.selectedIndex = 0;
+ }
+ function selectZoom(obj)
+ {
+	 map.setZoom(parseInt(obj.options[obj.selectedIndex].value));
+ }
+ $(document).ready(function(){
+	initialize();
+	preload([
+		'/nimage/about/cb-off.gif',
+		'/nimage/about/pop-key-off.png',
+		'/nimage/about/datacenter-key-off.png',
+		'/nimage/about/ppp-key-off.png'
+	]);
+	
+	if(document.width < 600)
+	{
+		$('#logo-image').css('display','none');	
+	}
+	
+	var portrait = document.width < document.height;
+	var iphone=navigator.userAgent.toLowerCase().indexOf('iphone')!=-1;
+	
+	if(iphone && ((portrait && document.height < 400) || (!portrait && document.height < 250)))
+	{
+		alert('For the best view, please add this site to your homescreen by using the bookmark button');	
+	}
+		
+	document.getElementById('pop-selector').selectedIndex = 0;
+	document.getElementById('zoom-selector').selectedIndex = 0;
+
+	$('.line-select').click(function() {
+		$(this).toggleClass("ls-off");
+		var la = new Array();
+		var visible = !$(this).hasClass("ls-off");
+		if($(this).hasClass("ls-orange")) la = orangelines;
+		if($(this).hasClass("ls-blue")) la = bluelines;
+		if($(this).hasClass("ls-green")) la = greenlines;
+		if($(this).hasClass("ls-red")) la = redlines;
+		
+		for(var i = 0; i<la.length; i++)
+		{
+			la[i].setVisible(visible);
+		}
+	});
+	$('.ginpop-symbol').click(function() {
+		$(this).toggleClass("pop-off");
+		var visible = !$(this).hasClass("pop-off");
+				
+		for (i in ginpoparray){
+			ginpoparray[i].setVisible(visible);
+		};
+		
+	});
+	$('.partnerpop-symbol').click(function() {
+		$(this).toggleClass("pop-off");
+		var visible = !$(this).hasClass("pop-off");
+				
+		for (i in partnerpoparray){
+			partnerpoparray[i].setVisible(visible);
+		};
+		
+	});
+	$('.dc-symbol').click(function() {
+		$(this).toggleClass("dc-off");
+		var visible = !$(this).hasClass("dc-off");
+		for (var i=0; i<dcarray.length; i++){
+			dcarray[i].setVisible(visible);
+		};
+		
+	});
+	$('.ppp-symbol').click(function() {
+		$(this).toggleClass("ppp-off");
+		var visible = !$(this).hasClass("ppp-off");
+		for (var i=0; i<ppparray.length; i++){
+			ppparray[i].setVisible(visible);
+		};
+		
+	});
+ });
+</script>
+<style type="text/css">
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map_canvas { height: 100% }
+.gmnoprint
+{
+	bottom: 65px !important;	
+}
+#zoom-selector
+{
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+}
+#pop-select
+{
+	position: absolute;
+	left: 5px;
+	bottom: 70px;
+	z-index: 10000;
+}
+#pop-selector
+{
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	font-weight: bold;	
+}
+#logo
+{
+	position: absolute;
+	height: 65px;
+	left: 0;
+	bottom: 0;	
+	margin: 0px;
+	width: 100%;
+	background: url(/nimage/about/map-key-bg.gif) repeat-x;
+	z-index: 10000;
+	font-size: 10px;	
+	font-family: Verdana, Geneva, sans-serif;
+	font-weight: bold;
+	color: white;
+	text-shadow: 0px 1px 0px #000;
+	white-space: nowrap;
+	overflow: hidden;
+}
+#logo div
+{
+	margin: 5px;	
+}
+.bandwidthlabel div
+{
+	font-size: 22px !important;	
+}
+.citylabel
+{
+	font-size: 10px;	
+	font-family: Verdana, Geneva, sans-serif;
+	font-weight: bold;
+	color: white;
+	width: auto;
+	white-space: nowrap;
+	overflow: visible;
+	text-shadow: 0px 1px 0px #000;
+	/*background-color: #DEDEDE;*/
+	padding: 0px 2px;
+	border-radius: 3px;
+}
+.bandwidthlabel
+{
+	font-size: 18px;	
+	font-family: Verdana, Geneva, sans-serif;
+	font-weight: bold;
+	color: white;
+	width: auto;
+	white-space: nowrap;
+	overflow: visible;
+	text-shadow: 0px 1px 0px #000;
+}
+.key
+{
+	float: left;
+	padding-top: 8px;	
+	padding-left: 5px;
+}
+.line-select
+{
+	display: block;
+	padding-left: 16px;
+	width: 100px;
+	height: 13px;
+	cursor: pointer;
+}
+.ls-slim
+{
+	width: 50px;
+}
+.key-symbol
+{
+	display: block;
+	padding-left: 16px;
+	width: 80px;
+	white-space: nowrap;
+	height: 13px;
+	cursor: pointer;
+}
+.pop-off
+{
+	background: url(/nimage/about/pop-key-off.png) no-repeat !important;	
+}
+.dc-off
+{
+	background: url(/nimage/about/datacenter-key-off.png) no-repeat !important;	
+}
+.ppp-off
+{
+	background: url(/nimage/about/ppp-key-off.png) no-repeat !important;	
+}
+.ginpop-symbol
+{
+	background: url(/nimage/about/ginpop-key.png) no-repeat;
+}
+.partnerpop-symbol
+{
+	background: url(/nimage/about/partnerpop-key.png) no-repeat;
+}
+.dc-symbol
+{
+	background: url(/nimage/about/datacenter-key.png) no-repeat;
+}
+.ppp-symbol
+{
+	background: url(/nimage/about/ppp-key.png) no-repeat;
+}
+.ls-off
+{
+	background: url(/nimage/about/cb-off.gif) no-repeat !important;	
+}
+.ls-orange
+{
+	background: url(/nimage/about/cb-on-orange.gif) no-repeat;
+}
+.ls-blue
+{
+	background: url(/nimage/about/cb-on-blue.gif) no-repeat;
+}
+.ls-green
+{
+	background: url(/nimage/about/cb-on-green.gif) no-repeat;
+}
+.ls-red
+{
+	background: url(/nimage/about/cb-on-red.gif) no-repeat;
+}
+</style>
+</head>
+<body>
+	<div id="pop-select">
+    	<select name="zoom-selector" id="zoom-selector" onChange="selectZoom(this);">
+        	
+            <option value="3">Zoom Level 1</option>
+            
+            <option value="4">Zoom Level 2</option>
+            
+            <option value="5">Zoom Level 3</option>
+            
+            <option value="6">Zoom Level 4</option>
+            
+            <option value="7">Zoom Level 5</option>
+            
+            <option value="8">Zoom Level 6</option>
+            
+            <option value="9">Zoom Level 7</option>
+            
+            <option value="10">Zoom Level 8</option>
+            
+            <option value="11">Zoom Level 9</option>
+            
+            <option value="12">Zoom Level 10</option>
+            
+            <option value="13">Zoom Level 11</option>
+            
+            <option value="14">Zoom Level 12</option>
+            
+            <option value="15">Zoom Level 13</option>
+            
+            <option value="16">Zoom Level 14</option>
+            
+            <option value="17">Zoom Level 15</option>
+            
+            <option value="18">Zoom Level 16</option>
+            
+            <option value="19">Zoom Level 17</option>
+            
+            <option value="20">Zoom Level 18</option>
+            
+        </select>
+        <br />
+    	<select name="pop-selector" id="pop-selector" onChange="selectDC(this);">
+        	<option value="">Find a Datacenter</option>
+            <option value=""></option>
+            <option value="">== United States ==</option>
+            
+            <option value="San Jose">San Jose (Lundy), CA</option>
+            <option value="Washington DC">Washington DC</option>
+            <option value=""></option>
+            <option value="">== Asia/Australia ==</option>
+            <option value="Hong Kong">Hong Kong, China</option>
+            <option value="Kuala Lumpur">Kuala Lumpur, Malaysia</option>
+            <option value="Osaka">Osaka, Japan</option>
+            <option value="Singapore">Singapore</option>
+            <option value="Tokyo">Tokyo, Japan</option>
+            
+            <option value=""></option>
+            <option value="">== Europe ==</option>
+            <option value="Frankfurt">Frankfurt, Germany</option>
+            <option value="London">London, England</option>
+            <option value="Paris">Paris, France</option>
+            <option value="Madrid">Madrid, Spain</option>
+            <option value=""></option>
+            <option value="">== South America ==</option>
+            <option value="Sao Paulo">São Paulo, Brazil</option>
+            
+        </select>
+        <div id="debug"></div>
+    </div>
+	<div id="logo">
+    	<div id="logo-image" style="float: left">
+	    	<img src="/nimage/about/ntt-communications.png" alt="NTT Communications" />
+        </div>
+        <div class="key">
+        	<a class="line-select ls-slim ls-orange">GIG-E</a>
+            <br />
+            <a class="line-select ls-slim ls-blue">OC192</a>
+        </div>
+        <div class="key">
+        	<a class="line-select ls-slim ls-green">OC48</a>
+            <br />
+            <a class="line-select ls-slim ls-red">OC12</a>
+        </div>
+        <div class="key">
+        	<a class="key-symbol ginpop-symbol">GIN POP</a>
+            <br />
+            <a class="key-symbol dc-symbol">Datacenter</a>
+            
+        </div>
+        <div class="key">
+        	<a class="key-symbol ppp-symbol">Pvt Peering Point</a>
+            
+        </div>
+    </div>
+	<div id="map_canvas" style="width:100%; height:100%"></div>
+    
+</body>
+</html>

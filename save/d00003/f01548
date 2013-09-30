@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    
+    <!--[if IE]><![endif]-->
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <base href="http://fasterdata.es.net/"><!--[if lte IE 6]></base><![endif]-->
+    <title>UDP Tuning</title>
+<meta name="generator" content="SilverStripe - http://silverstripe.org" />
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+<!--[if lte IE 8]>
+<script src="/mysite/javascript/html5.js"></script>
+<script src="/mysite/javascript/innershiv.min.js"></script>
+<![endif]-->
+
+    
+    
+    
+    <meta name="categories" content="DocumentationPage" />
+    
+    <meta name="robots" content="index,follow" />
+    
+    
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3580376-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+    
+<link rel="stylesheet" type="text/css" href="http://fasterdata.es.net/mysite/javascript/dataTables-1.7/media/css/demo_table_jui.css?m=1333472785" />
+<link rel="stylesheet" type="text/css" media="all" href="http://fasterdata.es.net/themes/esnet-sass/css/screen.css?m=1333472781" />
+<link rel="stylesheet" type="text/css" media="print" href="http://fasterdata.es.net/themes/esnet-sass/css/print.css?m=1333472781" />
+<link rel="stylesheet" type="text/css" href="http://fasterdata.es.net/mysite/javascript/shadowbox-3.0.3/shadowbox.css?m=1333472784" />
+<link rel="stylesheet" type="text/css" href="http://fasterdata.es.net/mysite/javascript/jquery.bookmark.package-1.3.1/jquery.bookmark.css?m=1333472785" />
+<link rel="stylesheet" type="text/css" href="http://fasterdata.es.net/themes/esnet-sass/javascript/jquery-ui-1.8.7.custom/css/custom-theme/jquery-ui-1.8.7.custom.css?m=1333472780" />
+</head>
+
+<!--[if lt IE 7 ]> <body class="ie ie6 lte6 lte7 lte8 lte9 DocumentationPage"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie ie7 lte7 lte8 lte9 DocumentationPage"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie ie8 lte8 lte9 DocumentationPage"> <![endif]-->
+<!--[if IE 9 ]>    <body class="ie ie9 lte9 DocumentationPage"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <body class="DocumentationPage"> <!--<![endif]-->
+    
+    <!--googleoff: snippet--><!--googleoff: index-->
+    <div class="container">
+        <div class="header">
+            <div id="branding">
+                    <div class="SiteTitle"><a href="" title="Home" accesskey="1"><img src="themes/esnet-sass/images/logo-tnsp.png" alt="fasterdata.es.net" class="noprint" /><img src="themes/esnet-sass/images/logo-blue.png" alt="fasterdata.es.net" class="print" /></a><span class="SiteTagline">ESnet Network Performance Knowledge Base</span></div>
+                <div class="tools">
+                    
+                    <span class="bookmarks"></span>
+                    <div class="SearchForm">
+                        <!-- template /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Form.ss -->
+
+<form  id="Form_SearchForm" action="/search-results/SearchForm" method="get" enctype="application/x-www-form-urlencoded">
+
+	
+	<p id="Form_SearchForm_error" class="message " style="display: none"></p>
+	
+	
+	<fieldset>
+	    
+		
+			<div id="Search" class="field text  nolabel"><div class="middleColumn"><input type="text" class="text nolabel" id="Form_SearchForm_Search" name="Search" value="search…" /></div></div>
+		
+		<div class="clear"><!-- --></div>
+	</fieldset>
+
+	
+	<div class="Actions">
+		
+			<input class="action " id="Form_SearchForm_action_ProcessSearchForm" type="submit" name="action_ProcessSearchForm" value="Go" title="Go" />
+		
+	</div>
+	
+
+</form>
+
+
+<!-- end template /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Form.ss -->
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="nav">
+        <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Navigation.ss -->
+<ul class="top-nav" id="Navigation">
+
+    <li class="link first"><a href="/" class="topnav-link">Fasterdata Home</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/fasterdata-home/requirements-and-expectations/">Network Requirements and Expectations</a></li>
+                
+            
+                
+                <li class="link "><a href="/fasterdata-home/learn-more/">Talks, Tutorials and other interesting links</a></li>
+                
+            
+                
+                <li class="link last"><a href="/fasterdata-home/contribute-updates-to-fasterdata/">Contribute Updates to Fasterdata</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="link "><a href="/science-dmz/" class="topnav-link">Science DMZ</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/science-dmz/motivation/">Motivation</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/science-dmz-architecture/">Architecture</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/science-dmz-network-components/">Network Components</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/advanced-services/">Advanced Services</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/DTN/">Data Transfer Nodes</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/science-dmz-performance-monitoring/">Performance Monitoring</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/science-dmz-security/">Security</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/sensitive-data-environments/">Sensitive Data Environments</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/frequently-asked-questions/">FAQ</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/learn-more/">Learn More</a></li>
+                
+            
+                
+                <li class="link last"><a href="http://es.net/about/case-studies/science-dmz-case-studies/">Case Studies</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="section "><a href="/host-tuning/" class="topnav-link">Host Tuning</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/host-tuning/background/">Background Information</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/linux/">Linux</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/osx/">Mac OSX</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/freebsd/">FreeBSD</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/ms-windows/">MS Windows</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/other/">Other OS</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/nic-tuning/">NIC Tuning</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/interrupt-binding/">Interrupt Binding</a></li>
+                
+            
+                
+                <li class="current "><a href="/host-tuning/udp-tuning/">UDP Tuning</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/virtual-machines/">Virtual Machines</a></li>
+                
+            
+                
+                <li class="link last"><a href="/host-tuning/packet-pacing/">Packet Pacing</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="link "><a href="/network-tuning/" class="topnav-link">Network Tuning</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/network-tuning/tcp-issues-explained/">TCP Issues Explained</a></li>
+                
+            
+                
+                <li class="link "><a href="/network-tuning/router-switch-buffer-size-issues/">Buffer Issues</a></li>
+                
+            
+                
+                <li class="link "><a href="/network-tuning/router-tuning/">Router Tuning</a></li>
+                
+            
+                
+                <li class="link "><a href="/network-tuning/firewall-performance-issues/">Firewall Issues</a></li>
+                
+            
+                
+                <li class="link "><a href="/network-tuning/mtu-issues/">MTU Issues</a></li>
+                
+            
+                
+                <li class="link last"><a href="/network-tuning/buffer-bloat/">Buffer Bloat</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="link "><a href="/data-transfer-tools/" class="topnav-link">Data Transfer Tools</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/data-transfer-tools/background/">Background</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/standard-unix-tools/">Standard Unix Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/other/">Other Unix Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/globus-online/">Globus Online</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/gridftp/">GridFTP</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/scp-and-sftp/">scp and sftp</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/commercial-tools/">Commercial Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/web-browser-tools-plugins/">Browser Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/ms-windows-tools/">MS Windows Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/special-purpose-tools/">Special Purpose Tools</a></li>
+                
+            
+                
+                <li class="link last"><a href="/data-transfer-tools/DOE/">DOE Site Data Transfer Nodes</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="link "><a href="/performance-testing/" class="topnav-link">Performance Testing</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/performance-testing/network-performance-howto/">Network Performance HOWTO</a></li>
+                
+            
+                
+                <li class="link "><a href="/performance-testing/network-troubleshooting-tools/">Network Test Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/performance-testing/perfsonar/">perfSONAR</a></li>
+                
+            
+                
+                <li class="link last"><a href="/performance-testing/esnet-io-testers/">ESnet IO Testers</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="link "><a href="http://www.es.net" class="topnav-link">ESnet Home</a>
+        
+        
+        
+    </li>
+
+    <li class="link last"><a href="/forums/" class="topnav-link">Forums</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/forums/general-discussion/">General Science DMZ Discussion</a></li>
+                
+            
+                
+                <li class="link last"><a href="/forums/openflow-discussion/">OpenFlow Discussion</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+</ul>
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Navigation.ss -->
+    </div>
+    <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/BreadCrumbs.ss -->
+
+    
+	<div class="container">
+		<div id="Breadcrumbs"><a href="/">Home</a> &raquo; <a href="/host-tuning/">Host Tuning</a> &raquo; UDP Tuning</div>
+	</div>
+    
+
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/BreadCrumbs.ss -->
+    <!--googleon: snippet--><!--googleon: index-->
+    <div class="container">
+        <div class="Layout columns-111 has-subnav has-sidebar">
+            <!-- template /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Layout/DocumentationPage.ss -->
+<!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/SubNav.ss -->
+<!--googleoff: snippet--><!--googleoff: index-->
+
+<div class="subnav">
+    <div class="vertical-menu">
+        <div class="label"><a class="section" href="/host-tuning/">Host Tuning</a></div>
+        <ul class="section menu">
+        
+            <li class="link"><a class="menuitem link" href="/host-tuning/background/">Background Information</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/host-tuning/linux/">Linux</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/host-tuning/osx/">Mac OSX</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/host-tuning/freebsd/">FreeBSD</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/host-tuning/ms-windows/">MS Windows</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/host-tuning/other/">Other OS</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/host-tuning/nic-tuning/">NIC Tuning</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/host-tuning/interrupt-binding/">Interrupt Binding</a>
+
+            
+            </li>
+            
+            <li class="current"><a class="menuitem current" href="/host-tuning/udp-tuning/">UDP Tuning</a>
+
+            
+                
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/host-tuning/virtual-machines/">Virtual Machines</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/host-tuning/packet-pacing/">Packet Pacing</a>
+
+            
+            </li>
+            
+        </ul>
+    </div>
+    <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Promos.ss -->
+<!--googleoff: snippet--><!--googleoff: index-->
+
+<!--googleon: snippet--><!--googleon: index-->
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Promos.ss -->
+</div>
+
+<!--googleon: snippet--><!--googleon: index-->
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/SubNav.ss -->
+
+<div class="main">
+    <div class="main-wrapper">
+
+        <div class="pre_content">
+            
+            <h1 id="page-heading">UDP Tuning</h1>
+            <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/DateAuthorCategories.ss -->
+<div class="DateAuthors">
+    
+    
+<!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/CategoryLinks.ss -->
+
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/CategoryLinks.ss -->
+</div>
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/DateAuthorCategories.ss -->
+        </div>
+
+        
+
+
+            
+                <div class="Content">
+                
+                
+                <p>Since current network interface cards do not have hardware support for UDP acceleration the way they do for TCP, it is even more inportant to tune the host and application for UDP-based tools such as <a href="https://github.com/LabAdvComp/UDR" target="_blank">UDR</a> or <a href="http://www.asperasoft.com/" target="_blank">Aspera</a>.</p>
+<h4>Packet size</h4>
+<p>The optimal  data payload size is the MTU size minus IP and UDP header  size, or 1472  for a 1500 byte MTU and 8972 for a 9000 byte MTU. The use of Jumbo frames for UDP typically improves performance by about 5x. See <a href="https://kb.wisc.edu/ns/page.php?id=9777" target="_blank">https://kb.wisc.edu/ns/page.php?id=9777</a> for more information on packet size.</p>
+<h4>Interrupt Binding</h4>
+<p>For UDP-based tools it is even more important to make sure that the host interrupts and the packet processing is on the same core, as described <a href="/host-tuning/interrupt-binding/">here</a>.</p>
+<h4/>
+<h4>Window Size</h4>
+<p>The  window size actually effects UDP as well as TCP on Linux. Be sure to  use the setsockopt() call to increase SO_SNDBUF/SO_RCVBUF to around 4MB  if you want to do UDP streams that are faster than 3-4 Gbps.</p>
+<p> </p>
+                </div>
+                
+            
+            <div class="clear"></div>
+            
+            
+
+    </div>
+</div>
+
+
+    
+    <div class="sidebar">
+        <div class="sidebar-wrapper">
+            
+                <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/TOC.ss -->
+<!--googleoff: snippet--><!--googleoff: index-->
+
+    <div class="show-toc"></div>
+
+<!--googleon: snippet--><!--googleon: index-->
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/TOC.ss -->
+            
+
+            <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/SidebarRSSFeed.ss -->
+
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/SidebarRSSFeed.ss -->
+
+            
+        </div>
+    </div>
+
+
+<!-- end template /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Layout/DocumentationPage.ss -->
+        </div>
+        <!--googleoff: snippet--><!--googleoff: index-->
+        <div class="footer" id="site_info">
+            <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Footer.ss -->
+<!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/LastEdited.ss -->
+<div class="LastEdited">Last edited: 2013-08-12 14:52:51</div>
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/LastEdited.ss -->
+<div class="footer-wrapper">
+        <div class="badges">
+            <a href="http://www.es.net/"><img src="themes/esnet-sass/images/esnet-badge.png" class="badge-shadow" /></a>
+            <a href="http://www.lbl.gov/"><img src="themes/esnet-sass/images/berkeley-lab-badge.png" /></a>
+            <a href="http://science.energy.gov/"><img src="themes/esnet-sass/images/doe-badge.png" /></a>
+        </div>
+        
+        <ul class="footer-links">
+            
+                <li><a href="/fasterdata-home/contribute-updates-to-fasterdata/">Contribute Updates to Fasterdata</a></li>
+            
+                <li><a href="/contact-us/">Contact Us</a></li>
+            
+                <li><a href="http://www.lbl.gov">© 2003 – 2013 Lawrence Berkeley National Laboratory</a></li>
+            
+                <li><a href="http://www.lbl.gov/Disclaimers.html">Privacy &amp; Security</a></li>
+            
+            
+        </ul>
+        
+</div>
+
+
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Footer.ss -->
+        </div>
+    </div>
+
+<script type="text/javascript" src="http://fasterdata.es.net/sapphire/thirdparty/jquery/jquery.js?m=1268274554"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.beautyOfCode.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/dataTables-1.7/media/js/jquery.dataTables.min.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/shadowbox-3.0.3/shadowbox.js?m=1333472784"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.metadata.2.0/jquery.metadata.min.js?m=1333472784"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.media.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.oembed.min.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.cycle/jquery.cycle.all.min.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.bookmark.package-1.3.1/jquery.bookmark.min.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/themes/esnet-sass/javascript/jquery-ui-1.8.7.custom/js/jquery-ui-1.8.7.custom.min.js?m=1333472781"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/core.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/themes/esnet-sass/javascript/theme-core.js?m=1333472781"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/thirdparty/prototype/prototype.js?m=1268274567"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/thirdparty/behaviour/behaviour.js?m=1267739533"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/javascript/prototype_improvements.js?m=1281399261"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/javascript/i18n.js?m=1245280480"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/javascript/lang/en_US.js?m=1242680243"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/javascript/Validator.js?m=1286826382"></script><script type="text/javascript">//<![CDATA[
+Behaviour.register({
+	'#Form_SearchForm': {
+		validate : function(fromAnOnBlur) {
+			initialiseForm(this, fromAnOnBlur);
+			
+
+			var error = hasHadFormError();
+			if(!error && fromAnOnBlur) clearErrorMessage(fromAnOnBlur);
+			if(error && !fromAnOnBlur) focusOnFirstErroredField();
+			
+			return !error;
+		},
+		onsubmit : function() {
+			if(typeof this.bypassValidation == 'undefined' || !this.bypassValidation) return this.validate();
+		}
+	},
+	'#Form_SearchForm input' : {
+		initialise: function() {
+			if(!this.old_onblur) this.old_onblur = function() { return true; } 
+			if(!this.old_onfocus) this.old_onfocus = function() { return true; } 
+		},
+		onblur : function() {
+			if(this.old_onblur()) {
+				// Don't perform instant validation for CalendarDateField fields; it creates usability wierdness.
+				if(this.parentNode.className.indexOf('calendardate') == -1 || this.value) {
+					return $('Form_SearchForm').validate(this);
+				} else {
+					return true;
+				}
+			}
+		}
+	},
+	'#Form_SearchForm textarea' : {
+		initialise: function() {
+			if(!this.old_onblur) this.old_onblur = function() { return true; } 
+			if(!this.old_onfocus) this.old_onfocus = function() { return true; } 
+		},
+		onblur : function() {
+			if(this.old_onblur()) {
+				return $('Form_SearchForm').validate(this);
+			}
+		}
+	},
+	'#Form_SearchForm select' : {
+		initialise: function() {
+			if(!this.old_onblur) this.old_onblur = function() { return true; } 
+		},
+		onblur : function() {
+			if(this.old_onblur()) {
+				return $('Form_SearchForm').validate(this); 
+			}
+		}
+	}
+});
+
+//]]></script></body>
+</html><!-- end template /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Page.ss -->

@@ -1,0 +1,384 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Global Load Balancer | KnowledgeLayer</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/sites/all/themes/knowledgelayer/favicon.ico" type="image/x-icon" />
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/default/files/ctools/css/a77bee646dca0ee5ae20fa9faad5ef46.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/node/node.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/defaults.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/system.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/system-menus.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/user/user.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/cck/theme/content-module.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/ctools/css/ctools.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/filefield/filefield.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/panels/css/panels.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/cck/modules/fieldgroup/fieldgroup.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/views/css/views.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/panels/plugins/layouts/flexible/flexible.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/knowledgelayer/style.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/knowledgelayer/css/black.css?p" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/knowledgelayer/css/suckerfish_black.css?p" />
+  <script type="text/javascript" src="/sites/all/modules/jquery_update/replace/jquery.min.js?p"></script>
+<script type="text/javascript" src="/misc/drupal.js?p"></script>
+<script type="text/javascript" src="/sites/all/modules/google_analytics/googleanalytics.js?p"></script>
+<script type="text/javascript" src="/sites/all/modules/panels/js/panels.js?p"></script>
+<script type="text/javascript" src="/sites/all/themes/knowledgelayer/js/jquery.pngFix.js?p"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "googleanalytics": { "trackOutbound": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|arc|arj|asf|asx|avi|bin|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls|xml|z|zip" } });
+//--><!]]>
+</script>
+  <script type="text/javascript"> </script>
+      <style type="text/css">
+    #page {
+      width : 994px;
+    }
+    #header {
+      width : 994px;
+    }
+    </style>
+        <style type="text/css">
+    body.sidebar-left #main {
+      margin-left: -210px;
+    }
+    body.sidebars #main {
+      margin-left: -210px;
+    }
+    body.sidebar-left #squeeze {
+      margin-left: 210px;
+    }
+    body.sidebars #squeeze {
+      margin-left: 210px;
+    }
+    #sidebar-left {
+      width: 210px;
+    }
+    </style>
+        <style type="text/css">
+    body.sidebar-right #main {
+      margin-right: -260px;
+    }
+    body.sidebars #main {
+      margin-right: -260px;
+    }
+    body.sidebar-right #squeeze {
+      margin-right: 260px;
+    }
+    body.sidebars #squeeze {
+      margin-right: 260px;
+    }
+    #sidebar-right {
+      width: 260px;
+    }
+    </style>
+        <style type="text/css">
+    body {
+      font-family : Custom;
+    }
+    </style>
+              <style type="text/css">
+      body {
+        font-family : "BentonSans Regular",Helvetica;
+      }
+      </style>
+        <!--[if lte IE 6]>
+<script type="text/javascript"> 
+    $(document).ready(function(){ 
+        $(document).pngFix(); 
+    }); 
+</script> 
+<![endif]-->
+    <!--[if IE]>
+<style type="text/css" media="all">@import "/sites/all/themes/knowledgelayer/css/ie.css";</style>
+<![endif]-->
+      <!--[if lte IE 6]>
+<script type="text/javascript" src="http://knowledgelayer.softlayer.com/sites/all/themes/knowledgelayer/js/suckerfish.js"></script>
+<![endif]-->
+        <script type="text/javascript" src="http://knowledgelayer.softlayer.com/sites/all/themes/knowledgelayer/js/pickstyle.js"></script>
+</head>
+<body>
+
+<div id="top_bar">
+  <div id="top_links">
+    <div class="top-info-text">
+      <span class="bentonsansbold">SALES</span>
+      :
+      <span class="phone-number-sales">866.398.7638</span>
+    </div>
+    <div class="top-info-text">
+      <span class="bentonsansbold">SUPPORT</span>
+      :
+      <span class="phone-number-support">866.403.7638</span>
+    </div>
+    <div class="top-info-text">
+      <a href="/contact">CONTACT US</a>
+    </div>
+    <div class="top-info-text">
+      <a target="_blank" href="http://manage.softlayer.com">PORTAL</a>
+    </div>
+    <div class="top-info-text">
+      <a target="_blank" href="http://blog.softlayer.com/">BLOG</a>
+    </div>
+  </div>
+</div>
+
+<div id="header" class="clear-block">
+      <div id="logo-title">
+                              <a href="/" title="Home"> <img src="/sites/all/themes/knowledgelayer/logo.png" alt="Home" id="logo" /> </a>
+                        </div><!-- /logo-title -->
+      <div id="name-and-slogan">
+                      </div><!-- /name-and-slogan -->
+                          <div id="primarymenu">
+                                             
+                </div>
+                    <div style="clear:both"></div>
+        <div id="suckerfishmenu" class="clear-block"> <div class="block block-menu" id="block-menu-menu-main-menu">
+  <h2 class="title">Main Menu</h2>  <div class="content"><ul class="menu"><li class="leaf first"><a href="/" title="">Home</a></li>
+<li class="leaf"><a href="/topics" title="">Topics</a></li>
+<li class="leaf last"><a href="https://forums.softlayer.com/">Forums</a></li>
+</ul></div></div>
+<div class="block block-search" id="block-search-0">
+  <h2 class="title">Search</h2>  <div class="content"><form action="/topic/global-load-balancer"  accept-charset="UTF-8" method="post" id="search-block-form">
+<div><div class="container-inline">
+  <div class="form-item" id="edit-search-block-form-1-wrapper">
+ <label for="edit-search-block-form-1">Search this site: </label>
+ <input type="text" maxlength="128" name="search_block_form" id="edit-search-block-form-1" size="15" value="" title="Enter the terms you wish to search for." class="form-text" />
+</div>
+<input type="submit" name="op" id="edit-submit" value="Search"  class="form-submit" />
+<input type="hidden" name="form_build_id" id="form-c42a6452dec58b2e97e8649502015028" value="form-c42a6452dec58b2e97e8649502015028"  />
+<input type="hidden" name="form_id" id="edit-search-block-form" value="search_block_form"  />
+</div>
+
+</div></form>
+</div></div>
+ </div>
+          </div><!-- /header -->
+
+
+  <div id="page">
+
+       <div id="sub-banner">
+      <div class="homelink"><a href="/" class="homelink">KnowledgeLayer</a></div>
+    </div><!--/sub-banner -->
+    
+            <div id="middlecontainer">
+            <div id="main">
+        <div id="squeeze">
+                                    <div id="breadcrumb"> <div class="breadcrumb"><a href="/">Home</a> » Global Load Balancer</div> </div>
+                                          <div id="squeeze-content">
+            <div id="inner-content">
+                           <h1 class="term-title">Global Load Balancer</h1>
+              <div class="tabs"></div>
+                                          <div class="panel-flexible panels-flexible-2 clear-block" id="term-page">
+<div class="panel-flexible-inside panels-flexible-2-inside">
+<div class="panels-flexible-row panels-flexible-row-2-1 panels-flexible-row-first clear-block ">
+  <div class="inside panels-flexible-row-inside panels-flexible-row-2-1-inside panels-flexible-row-inside-first clear-block">
+<div class="panels-flexible-region panels-flexible-region-2-top panels-flexible-region-first panels-flexible-region-last ">
+  <div class="inside panels-flexible-region-inside panels-flexible-region-2-top-inside panels-flexible-region-inside-first panels-flexible-region-inside-last">
+<div class="panel-pane pane-views pane-topic-descriptions" >
+  
+  
+  
+  <div class="pane-content">
+    <div class="view view-topic-descriptions view-id-topic_descriptions view-display-id-default view-dom-id-3">
+    
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first views-row-last">
+      
+  <div class="views-field-service-links">
+          <label class="views-label-service-links">
+        Share this article:
+      </label>
+                <span class="field-content"><ul class="links"><li class="service-links-digg first"><a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fknowledgelayer.softlayer.com%2Farticles%2Fglobal-load-balancer-topic-description&amp;title=Global+Load+Balancer+Topic+Description" title="Digg this post on digg.com" class="service-links-digg" rel="nofollow"><img src="/sites/all/modules/service_links/images/digg.png" alt="Digg" title="" width="16" height="16" /></a></li>
+<li class="service-links-facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fknowledgelayer.softlayer.com%2Farticles%2Fglobal-load-balancer-topic-description&amp;t=Global+Load+Balancer+Topic+Description" title="Share on Facebook." class="service-links-facebook" rel="nofollow"><img src="/sites/all/modules/service_links/images/facebook.png" alt="Facebook" title="" width="16" height="16" /></a></li>
+<li class="service-links-linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Fknowledgelayer.softlayer.com%2Farticles%2Fglobal-load-balancer-topic-description&amp;title=Global+Load+Balancer+Topic+Description&amp;summary=&amp;source=KnowledgeLayer" title="Publish this post to LinkedIn" class="service-links-linkedin" rel="nofollow"><img src="/sites/all/modules/service_links/images/linkedin.png" alt="LinkedIn" title="" width="16" height="16" /></a></li>
+<li class="service-links-reddit"><a href="http://reddit.com/submit?url=http%3A%2F%2Fknowledgelayer.softlayer.com%2Farticles%2Fglobal-load-balancer-topic-description&amp;title=Global+Load+Balancer+Topic+Description" title="Submit this post on reddit.com." class="service-links-reddit" rel="nofollow"><img src="/sites/all/modules/service_links/images/reddit.png" alt="Reddit" title="" width="16" height="16" /></a></li>
+<li class="service-links-stumbleupon"><a href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Fknowledgelayer.softlayer.com%2Farticles%2Fglobal-load-balancer-topic-description&amp;title=Global+Load+Balancer+Topic+Description" title="Thumb this up at StumbleUpon" class="service-links-stumbleupon" rel="nofollow"><img src="/sites/all/modules/service_links/images/stumbleit.png" alt="StumbleUpon" title="" width="16" height="16" /></a></li>
+<li class="service-links-twitter last"><a href="http://twitter.com/share?url=http%3A%2F%2Fknowledgelayer.softlayer.com%2Farticles%2Fglobal-load-balancer-topic-description&amp;text=Global%20Load%20Balancer%20Topic%20Description" title="Share this on Twitter" class="service-links-twitter" rel="nofollow"><img src="/sites/all/modules/service_links/images/twitter.png" alt="Twitter" title="" width="16" height="16" /></a></li>
+</ul></span>
+  </div>
+  
+  <div class="views-field-body">
+                <div class="field-content"><p>SoftLayer Global Load Balancers offer load balancer solutions across all SoftLayer data centers.  With Global Load Balancers, users have the ability to utilize geographic, weighted and basic round robin and failover load balancing solution between servers in different data centers located on the SoftLayer network.  Global Load Balancers are instantly activated and available for use and configuration and servers may be added and removed as host records in the balancing pool with little-to-no downtime. </p></div>
+  </div>
+  
+  <div class="views-field-phpcode">
+                <span class="field-content"></span>
+  </div>
+  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div>   </div>
+
+  
+  </div>
+  </div>
+</div>
+  </div>
+</div>
+<div class="panels-flexible-row panels-flexible-row-2-2 panels-flexible-row-last clear-block ">
+  <div class="inside panels-flexible-row-inside panels-flexible-row-2-2-inside panels-flexible-row-inside-last clear-block">
+<div class="panels-flexible-region panels-flexible-region-2-bottom_left_left panels-flexible-region-first ">
+  <div class="inside panels-flexible-region-inside panels-flexible-region-2-bottom_left_left-inside panels-flexible-region-inside-first">
+<div class="panel-pane pane-views pane-procedure-views" >
+  
+      <h2 class="pane-title">How Do I?</h2>
+  
+  
+  <div class="pane-content">
+    <div class="view view-procedure-views view-id-procedure_views view-display-id-block_2 view-dom-id-2">
+    
+  
+  
+      <div class="view-content">
+      <div class="item-list">
+    <ul>
+          <li class="views-row views-row-1 views-row-odd views-row-first">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/procedure/delete-host-record-global-load-balancer">Delete a Host Record from a Global Load Balancer</a></span>
+  </div>
+</li>
+          <li class="views-row views-row-2 views-row-even">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/procedure/edit-global-load-balancer-or-host-record">Edit a Global Load Balancer or Host Record</a></span>
+  </div>
+</li>
+          <li class="views-row views-row-3 views-row-odd">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/procedure/access-global-load-balancer-screen">Access the Global Load Balancer Screen</a></span>
+  </div>
+</li>
+          <li class="views-row views-row-4 views-row-even">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/procedure/complete-initial-setup-global-load-balancer">Complete the Initial Setup for a Global Load Balancer</a></span>
+  </div>
+</li>
+          <li class="views-row views-row-5 views-row-odd views-row-last">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/procedure/add-host-record-global-load-balancer">Add a Host Record to a Global Load Balancer</a></span>
+  </div>
+</li>
+      </ul>
+</div>    </div>
+  
+  
+  
+  
+  
+  
+</div>   </div>
+
+  
+  </div>
+  </div>
+</div>
+<div class="panels-flexible-region panels-flexible-region-2-bottom_left panels-flexible-region-last ">
+  <div class="inside panels-flexible-region-inside panels-flexible-region-2-bottom_left-inside panels-flexible-region-inside-last">
+<div class="panel-pane pane-views pane-faq-views" >
+  
+      <h2 class="pane-title">Related FAQs</h2>
+  
+  
+  <div class="pane-content">
+    <div class="view view-faq-views view-id-faq_views view-display-id-block_1 view-dom-id-1">
+        <div class="view-header">
+      <p><a name="top"></a></p>
+    </div>
+  
+  
+  
+      <div class="view-content">
+      <div class="item-list">
+    <ul>
+          <li class="views-row views-row-1 views-row-odd views-row-first">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/faq/who-softlayer%E2%80%99s-partner-global-load-balancer-solution"><a href="/faqs/202#119">Who is SoftLayer’s partner for the Global Load Balancer solution?</a></a></span>
+  </div>
+</li>
+          <li class="views-row views-row-2 views-row-even">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/faq/can-i-use-any-ip-global-load-balancer"><a href="/faqs/202#120">Can I use any IP on the Global Load Balancer?</a></a></span>
+  </div>
+</li>
+          <li class="views-row views-row-3 views-row-odd">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/faq/can-i-use-global-load-balancer-if-i-only-have-servers-one-datacenter"><a href="/faqs/202#121">  Can I use the Global Load Balancer if I only have servers in one datacenter?</a></a></span>
+  </div>
+</li>
+          <li class="views-row views-row-4 views-row-even">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/faq/how-does-global-load-balancer-differ-local-load-balancer"><a href="/faqs/202#220">How does a Global Load Balancer differ from a Local Load Balancer?</a></a></span>
+  </div>
+</li>
+          <li class="views-row views-row-5 views-row-odd">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/faq/how-long-does-it-take-my-global-load-balancer-become-active-one-i%E2%80%99ve-placed-my-order"><a href="/faqs/202#221">How long does it take for my Global Load Balancer to become active one I’ve placed my order?</a></a></span>
+  </div>
+</li>
+          <li class="views-row views-row-6 views-row-even">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/faq/how-many-connections-second-may-i-have-global-load-balancer"><a href="/faqs/202#222">How many connections per second may I have with a Global Load Balancer?</a></a></span>
+  </div>
+</li>
+          <li class="views-row views-row-7 views-row-odd">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/faq/i-was-using-global-load-balancing-across-several-data-centers-have-scaled-back-my-servers-single"><a href="/faqs/202#223">I was using Global Load Balancing across several data centers, but have scaled back my servers to a single data center.  Is Global Load Balancing still a solution that’s available to me?</a></a></span>
+  </div>
+</li>
+          <li class="views-row views-row-8 views-row-even">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/faq/what-global-load-balancer-solution-provided-softlayer"><a href="/faqs/202#329">  What is the Global Load Balancer solution provided by SoftLayer?</a></a></span>
+  </div>
+</li>
+          <li class="views-row views-row-9 views-row-odd views-row-last">  
+  <div class="views-field-title">
+                <span class="field-content"><a href="/faq/what-balancing-methods-can-be-used-global-load-balancer"><a href="/faqs/202#718">What balancing methods can be used with Global Load Balancer?</a></a></span>
+  </div>
+</li>
+      </ul>
+</div>    </div>
+  
+  
+  
+  
+  
+  
+</div>   </div>
+
+  
+  </div>
+  </div>
+</div>
+  </div>
+</div>
+</div>
+</div>
+ 
+                                        </div><!-- /inner-content -->
+          </div><!-- /squeeze-content -->
+        </div><!-- /squeeze -->
+      </div><!-- /main -->
+          </div><!-- /middle-container -->
+    <div style="clear:both"></div>
+            <div id="footer">
+                  &copy; 2013 SoftLayer Technologies, Inc. All rights reserved.
+    </div><!-- /footer -->
+  <div style="clear:both"></div>
+  <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var _gaq = _gaq || [];_gaq.push(["_setAccount", "UA-22553883-15"]);_gaq.push(["_trackPageview"]);(function() {var ga = document.createElement("script");ga.type = "text/javascript";ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga, s);})();
+//--><!]]>
+</script>
+  </div> <!-- /page -->
+</body>
+</html>

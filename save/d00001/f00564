@@ -1,0 +1,780 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="must-revalidate" />
+<title>ports</title>
+
+<link rel="icon" href="../favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="../global.css" type="text/css" />
+<link rel="stylesheet" href="../style.css" type="text/css" />
+<link rel="stylesheet" href="../local.css" type="text/css" />
+
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=ports&amp;do=edit" />
+
+
+
+
+</head>
+<body><script src="../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../ikiwiki/toggle.js" type="text/javascript" charset="utf-8"></script><script src="../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../ikiwiki/relativedate.js" type="text/javascript" charset="utf-8"></script>
+    <div id="centralHeader">
+      <div id="logo">
+        <a href="http://www.NetBSD.org/"><img src="http://www.NetBSD.org/images/NetBSD-smaller.png" alt="[NetBSD Logo]"/></a>
+        <div id="name"><a href="http://www.NetBSD.org/">The NetBSD Project</a></div>
+        <div id="slogan"><a href="http://www.NetBSD.org/">&ldquo;Of course it runs NetBSD&rdquo;</a></div>
+      </div>
+      <div id="headerTools">
+	<div id="headerSearch">
+
+<form method="get" action="https://wiki.netbsd.org/cgi-bin/ikiwiki" id="searchform">
+<div>
+<input class="whiteOnBlack" type="text" id="searchbox" name="P" value="Search" size="12" maxlength="255" onfocus="if(this.value==this.defaultValue ) this.value='';" /> <input type="submit" value="Search" />
+</div>
+</form>
+
+
+	</div>
+      </div>
+    </div>
+
+    <div id="navBar" role="navigation">
+	<span class="doNotDisplay">
+          Navigation:
+        </span>
+	<ul>
+	<li><a href="http://www.NetBSD.org/">
+		  WWW Home</a></li>
+	<li>
+	<a href="http://www.NetBSD.org/">
+		  News &amp; Media</a><ul>
+	<li><a href="http://www.NetBSD.org//changes/">
+		    Recent changes</a></li>
+	<li><a href="http://blog.NetBSD.org/">
+		    NetBSD blog</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/events.html">
+		    Events</a></li>
+	<li><a href="http://www.NetBSD.org/changes/rss.html">
+		    Feeds</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/about/">
+		  About</a><ul>
+	<li><a href="http://www.NetBSD.org/about/">
+		    NetBSD</a></li>
+	<li><a href="http://www.NetBSD.org/foundation/">
+		    The NetBSD Foundation</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/">
+		    Advocacy</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/docs/">
+		  Documentation</a><ul>
+	<li><a href="http://www.NetBSD.org/docs/misc/index.html">
+		    FAQ &amp; HOWTOs</a></li>
+	<li><a href="http://www.NetBSD.org/docs/guide/en/">
+		    The Guide</a></li>
+	<li><a href="http://man.NetBSD.org/">
+		    Manual pages</a></li>
+	<li><a href="http://wiki.NetBSD.org/">
+		    Wiki</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/support/">
+		  Support</a><ul>
+	<li><a href="http://www.NetBSD.org/support/send-pr.html">
+		    Problem report guide</a></li>
+	<li><a href="http://www.NetBSD.org/cgi-bin/sendpr.cgi?gndb=netbsd">
+		    Report a bug</a></li>
+	<li><a href="http://www.NetBSD.org/support/query-pr.html">
+		    Query bug database</a></li>
+	<li><a href="http://www.NetBSD.org/support/security/">
+		    Security</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/community/">
+		  Community</a><ul>
+	<li><a href="http://onetbsd.org/">
+		    Blogs</a></li>
+	<li><a href="http://www.NetBSD.org/mailinglists/">
+		    Mailing lists</a></li>
+	<li><a href="http://mail-index.NetBSD.org/">
+		    List archives</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/developers/">
+		  Developers</a><ul>
+	<li><a href="http://cvsweb.NetBSD.org/">
+		    Browse source</a></li>
+	<li><a href="http://nxr.NetBSD.org/">
+		    Cross-reference</a></li>
+	<li><a href="http://releng.NetBSD.org/">
+		    Release engineering</a></li>
+	<li><a href="http://wiki.NetBSD.org/projects/">
+		    Projects list</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/ports/">
+		  Ports</a><ul>
+	<li><a href="http://www.NetBSD.org/ports/history.html">
+		    History</a></li>
+	<li><a href="http://www.NetBSD.org/ports/emulators.html">
+		    Emulators</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.pkgsrc.org/">
+		Packages</a><ul>
+	<li><a href="http://www.pkgsrc.se/">
+		    Browse packages</a></li>
+	<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+		    Release engineering</a></li>
+	</ul>
+	</li>
+	</ul>
+    </div>
+ 
+      	  
+		  <div class="actions">
+		    <ul>
+			<li><a href="../">Wiki Home</a></li>
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=ports&amp;do=edit" rel="nofollow">Edit</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=ports&amp;do=comment">Comment</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=ports&amp;do=getsource">Source</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/cvsweb/wikisrc/ports.mdwn">History</a></li>
+		      
+			<li><a href="../wiki/new_page" rel="nofollow">New</a></li>
+		      
+			<li><a href="../recentchanges/">RecentChanges</a></li>
+		      
+		    </ul>
+		  </div>
+    </div>
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+<a href="../">NetBSD Wiki</a>/
+</span>
+<span class="title">
+ports
+
+</span>
+</span><!--.header-->
+</div>
+</div>
+
+
+
+<div id="content">
+<h1>Platforms supported by NetBSD</h1>
+
+<p>NetBSD calls a supported architecture a 'port'. Most ports run on generic hardware and emulators, although some commercial hardware also exists. The NetBSD Ports History page details the inclusion date for each port.</p>
+
+<p>Ports are classified into three 'tiers' based on the current importance of the architecture and the level of community activity. Summarizing, the tiers can be viewed to represent ports that NetBSD will support, ports that NetBSD does its best to support, and ports which may be desupported soon. The tier for each port may change over time and is decided by <a href="mailto:core@NetBSD.org">&#x63;&#111;&#114;&#101;&#x40;&#x4e;&#101;&#116;&#x42;&#x53;&#x44;&#46;&#x6f;&#x72;&#x67;</a> based on input from users and developers.</p>
+
+<h2>Tier I: Focus -- support is part of NetBSD's strategy</h2>
+
+<p>Focus ports are the architectures that NetBSD targets as part of its strategy.<br />
+The platforms consist of modern server, embedded and desktop architectures.</p>
+
+<p>The guidelines are as follows:</p>
+
+<ul>
+<li>Machine independent (MI) changes should benefit these ports.</li>
+<li>MI changes must be tested on at least one of these ports.</li>
+<li>It is the developer's responsibility to implement machine dependent (MD) support necessary for changes, fix build problems and aid in debugging with any platform-specific problems.</li>
+<li>Even within a port, common sense should be used (cf. the i386 port which still supports 486).</li>
+<li>Regressions in the automated NetBSD test suite (/usr/tests) are not allowed.</li>
+</ul>
+
+
+<p>Currently there are 8 ports with Tier I status. They are:</p>
+
+<table border="0">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="left">Port</th>
+<th align="left">CPU</th>
+<th align="left">Machines</th>
+</tr></thead>
+<tbody>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="amd64/" target="_top">amd64</a></td>
+<td valign="top">x86_64</td>
+<td valign="top">64-bit x86-family machines with AMD and Intel CPUs</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="evbarm/" target="_top">evbarm</a></td>
+<td valign="top">arm</td>
+<td valign="top">ARM evaluation boards</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="evbmips/" target="_top">evbmips</a></td>
+<td valign="top">mips</td>
+<td valign="top">MIPS-based evaluation boards</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="evbppc/" target="_top">evbppc</a></td>
+<td valign="top">powerpc</td>
+<td valign="top">PowerPC-based evaluation boards</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="hpcarm/" target="_top">hpcarm</a></td>
+<td valign="top">arm</td>
+<td valign="top">StrongARM based Windows CE PDA machines</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="i386/" target="_top">i386</a></td>
+<td valign="top">i386</td>
+<td valign="top">32-bit x86-family generic machines ("PC clones")</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="sparc64/" target="_top">sparc64</a></td>
+<td valign="top">sparc</td>
+<td valign="top">Sun UltraSPARC (64-bit)</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="xen/" target="_top">xen</a></td>
+<td valign="top">i386, x86_64</td>
+<td valign="top">Xen Virtual Machine Monitor</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Tier II: Organic -- evolving at its own pace</h2>
+
+<p>Organic ports are highly valued by the NetBSD project, but their development is not as tightly mandated as that of the focus ports. Generally speaking, the hardware platforms of organic ports have lost their industrial relevance, or there is not enough community activity for the port to make it to the first tier. The guidelines are as follows:</p>
+
+<ul>
+<li>Generally speaking, the port boots and works, but keeping it working is the responsibility of the user community. This includes, but is not limited to, kernel changes and toolchain upgrades.</li>
+<li>Developers committing MI changes are still encouraged to keep ports up-to-date when it can be easily done.</li>
+<li>MI architecture decisions may penalize organic ports if there is a benefit for focus ports.</li>
+<li>If the port is not working at release time, a release is done without the port and the port is moved down to the life support tier.</li>
+</ul>
+
+
+<p>Currently there are 49 ports with Tier II status. They are:</p>
+
+<table border="0">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="left">Port</th>
+<th align="left">CPU</th>
+<th align="left">Machines</th>
+</tr></thead>
+<tbody>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="acorn26/" target="_top">acorn26</a></td>
+<td valign="top">arm</td>
+<td valign="top">Acorn Archimedes, A-series and R-series systems</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="acorn32/" target="_top">acorn32</a></td>
+<td valign="top">arm</td>
+<td valign="top">Acorn RiscPC/A7000/NC and compatibles</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="algor/" target="_top">algor</a></td>
+<td valign="top">mips</td>
+<td valign="top">Algorithmics MIPS evaluation boards</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="alpha/" target="_top">alpha</a></td>
+<td valign="top">alpha</td>
+<td valign="top">Digital Alpha (64-bit)</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="amiga/" target="_top">amiga</a></td>
+<td valign="top">m68k</td>
+<td valign="top">Commodore Amiga, MacroSystem DraCo</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="amigappc/" target="_top">amigappc</a></td>
+<td valign="top">powerpc</td>
+<td valign="top">PowerPC-based Amiga boards</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="arc/" target="_top">arc</a></td>
+<td valign="top">mips</td>
+<td valign="top">Machines following the Advanced RISC Computing spec</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="atari/" target="_top">atari</a></td>
+<td valign="top">m68k</td>
+<td valign="top">Atari TT030, Falcon, Hades</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="bebox/" target="_top">bebox</a></td>
+<td valign="top">powerpc</td>
+<td valign="top">Be Inc's BeBox</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="cats/" target="_top">cats</a></td>
+<td valign="top">arm</td>
+<td valign="top">Chalice Technology's Strong Arm evaluation board</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="cesfic/" target="_top">cesfic</a></td>
+<td valign="top">m68k</td>
+<td valign="top">CES's FIC8234 VME processor board</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="cobalt/" target="_top">cobalt</a></td>
+<td valign="top">mips</td>
+<td valign="top">Cobalt Networks' Microservers</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="dreamcast/" target="_top">dreamcast</a></td>
+<td valign="top"><a class="ulink" href="sh3/" target="_top">sh3</a></td>
+<td valign="top">Sega Dreamcast game console</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="emips/" target="_top">emips</a></td>
+<td valign="top">mips</td>
+<td valign="top">Machines based on "Extensible MIPS"</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="evbsh3/" target="_top">evbsh3</a></td>
+<td valign="top"><a class="ulink" href="sh3/" target="_top">sh3</a></td>
+<td valign="top">Evaluation boards with Renesas (Hitachi) Super-H SH3 and SH4 CPUs</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="ews4800mips/" target="_top">ews4800mips</a></td>
+<td valign="top">mips</td>
+<td valign="top">NEC's MIPS based EWS4800 workstations</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="hp300/" target="_top">hp300</a></td>
+<td valign="top">m68k</td>
+<td valign="top">Hewlett-Packard 9000/300 and 400 series</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="hp700/" target="_top">hp700</a></td>
+<td valign="top">hppa</td>
+<td valign="top">Hewlett-Packard 9000/700 series</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="hpcmips/" target="_top">hpcmips</a></td>
+<td valign="top">mips</td>
+<td valign="top">MIPS based Windows CE PDA machines</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="hpcsh/" target="_top">hpcsh</a></td>
+<td valign="top"><a class="ulink" href="sh3/" target="_top">sh3</a></td>
+<td valign="top">Renesas (Hitachi) SH3 and SH4 based Windows CE PDA machines</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="ia64/" target="_top">ia64</a></td>
+<td valign="top">itanium</td>
+<td valign="top">Itanium family of processors</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="ibmnws/" target="_top">ibmnws</a></td>
+<td valign="top">powerpc</td>
+<td valign="top">IBM Network Station Series 1000</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="iyonix/" target="_top">iyonix</a></td>
+<td valign="top">arm</td>
+<td valign="top">Iyonix ARM pc</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="landisk/" target="_top">landisk</a></td>
+<td valign="top"><a class="ulink" href="sh3/" target="_top">sh3</a></td>
+<td valign="top">SH4 based NAS appliances by I-O DATA</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="luna68k/" target="_top">luna68k</a></td>
+<td valign="top">m68k</td>
+<td valign="top">OMRON Tateisi Electronics' LUNA series</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="mac68k/" target="_top">mac68k</a></td>
+<td valign="top">m68k</td>
+<td valign="top">Apple Macintosh</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="macppc/" target="_top">macppc</a></td>
+<td valign="top">powerpc</td>
+<td valign="top">Apple Power Macintosh and clones</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="mipsco/" target="_top">mipsco</a></td>
+<td valign="top">mips</td>
+<td valign="top">Mips family of workstations and servers</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="mmeye/" target="_top">mmeye</a></td>
+<td valign="top"><a class="ulink" href="sh3/" target="_top">sh3</a></td>
+<td valign="top">Brains' mmEye Multi Media Server</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="mvme68k/" target="_top">mvme68k</a></td>
+<td valign="top">m68k</td>
+<td valign="top">Motorola MVME 68k SBCs</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="mvmeppc/" target="_top">mvmeppc</a></td>
+<td valign="top">powerpc</td>
+<td valign="top">Motorola MVME PowerPC SBCs</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="netwinder/" target="_top">netwinder</a></td>
+<td valign="top">arm</td>
+<td valign="top">StrongARM based NetWinder machines</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="news68k/" target="_top">news68k</a></td>
+<td valign="top">m68k</td>
+<td valign="top">Sony's m68k based "NET WORK STATION" series</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="newsmips/" target="_top">newsmips</a></td>
+<td valign="top">mips</td>
+<td valign="top">Sony's MIPS based "NET WORK STATION" series</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="next68k/" target="_top">next68k</a></td>
+<td valign="top">m68k</td>
+<td valign="top">NeXT 68k 'black' hardware</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="ofppc/" target="_top">ofppc</a></td>
+<td valign="top">powerpc</td>
+<td valign="top">Generic OpenFirmware compliant PowerPC machines</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="pmax/" target="_top">pmax</a></td>
+<td valign="top">mips</td>
+<td valign="top">Digital MIPS-based DECstations and DECsystems</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="prep/" target="_top">prep</a></td>
+<td valign="top">powerpc</td>
+<td valign="top">PReP (PowerPC Reference Platform) and CHRP machines</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="rs6000/" target="_top">rs6000</a></td>
+<td valign="top">powerpc</td>
+<td valign="top">MCA-based IBM RS/6000 workstations</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="sandpoint/" target="_top">sandpoint</a></td>
+<td valign="top">powerpc</td>
+<td valign="top">Motorola Sandpoint reference platform</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="sbmips/" target="_top">sbmips</a></td>
+<td valign="top">mips</td>
+<td valign="top">Broadcom SiByte evaluation boards</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="sgimips/" target="_top">sgimips</a></td>
+<td valign="top">mips</td>
+<td valign="top">Silicon Graphics' MIPS-based workstations</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="shark/" target="_top">shark</a></td>
+<td valign="top">arm</td>
+<td valign="top">Digital DNARD ("shark")</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="sparc/" target="_top">sparc</a></td>
+<td valign="top">sparc</td>
+<td valign="top">Sun SPARC (32-bit)</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="sun2/" target="_top">sun2</a></td>
+<td valign="top">m68k</td>
+<td valign="top">Sun 2</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="sun3/" target="_top">sun3</a></td>
+<td valign="top">m68k</td>
+<td valign="top">Sun 3 and 3x</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="vax/" target="_top">vax</a></td>
+<td valign="top">vax</td>
+<td valign="top">Digital VAX</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="x68k/" target="_top">x68k</a></td>
+<td valign="top">m68k</td>
+<td valign="top">Sharp X680x0 series</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="zaurus/" target="_top">zaurus</a></td>
+<td valign="top">arm</td>
+<td valign="top">Sharp C7x0/C860/C1000/C3x00 series PDA</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Tier III: Life Support -- severely incapacitated or broken</h2>
+
+<p>Ports are moved to life support if they no longer function. The reasons can range from lack of community interest to the hardware becoming so rare that it is simply not available any more. If ports in life support are not shown to be working within a reasonable timeframe, they will be moved to the Attic. The guidelines are as follows:</p>
+
+<ul>
+<li>Organic ports get moved here if they do not complete a build for 6 months or are otherwise suspected to be broken.</li>
+<li>It is the responsibility of the users of an organic port to show it is working, not the other way around.</li>
+<li>Movement to life support causes a mail to be sent out to the port mailing list and the portmaster.</li>
+<li>Port will be bumped up to organic when it is shown to be working.</li>
+<li>If the port is not reported fixed within the next 6-12 months, it will be moved to the Attic.</li>
+</ul>
+
+
+<p>Currently there are no ports with Tier III status.</p>
+
+<hr>
+
+
+<h2>Ports by CPU architectures</h2>
+
+<p>This table contains the same set of ports as in the above list, but ordered by MACHINE_ARCH CPU architecture value (returned by
+'uname -p') and showing a total of
+16 CPU types. Machines of the same MACHINE_ARCH share the same
+userland binaries (with a few device specific exceptions).
+Both big endian (eb) and little endian (el) MIPS and SH3
+ports are supported.</p>
+
+<table border="0">
+<colgroup>
+<col class="c1">
+<col class="c2">
+<col class="c3">
+</colgroup>
+<thead><tr>
+<th align="left">CPU</th>
+<th align="left">Tier(s)</th>
+<th align="left">Port(s)</th>
+</tr></thead>
+<tbody>
+<tr valign="top">
+<td valign="top">alpha</td>
+<td valign="top">II</td>
+<td valign="top"><a class="ulink" href="alpha/" target="_top">alpha</a></td>
+</tr>
+<tr valign="top">
+<td valign="top">arm</td>
+<td valign="top">I, II</td>
+<td valign="top">
+<a class="ulink" href="acorn26/" target="_top">acorn26</a>&nbsp;
+            <a class="ulink" href="acorn32/" target="_top">acorn32</a>&nbsp;
+            <a class="ulink" href="cats/" target="_top">cats</a>&nbsp;
+            <a class="ulink" href="evbarm/" target="_top">evbarm</a>&nbsp;
+            <a class="ulink" href="hpcarm/" target="_top">hpcarm</a>&nbsp;
+            <a class="ulink" href="iyonix/" target="_top">iyonix</a>&nbsp;
+            <a class="ulink" href="netwinder/" target="_top">netwinder</a>&nbsp;
+            <a class="ulink" href="shark/" target="_top">shark</a>&nbsp;
+            <a class="ulink" href="zaurus/" target="_top">zaurus</a>&nbsp;
+          </td>
+</tr>
+<tr valign="top">
+<td valign="top">hppa</td>
+<td valign="top">II</td>
+<td valign="top"><a class="ulink" href="hp700/" target="_top">hp700</a></td>
+</tr>
+<tr valign="top">
+<td valign="top">i386</td>
+<td valign="top">I</td>
+<td valign="top">
+<a class="ulink" href="i386/" target="_top">i386</a>&nbsp;
+            <a class="ulink" href="xen/" target="_top">xen</a>
+</td>
+</tr>
+<tr valign="top">
+<td valign="top">m68010</td>
+<td valign="top">II</td>
+<td valign="top">
+<a class="ulink" href="sun2/" target="_top">sun2</a>&nbsp;</td>
+</tr>
+<tr valign="top">
+<td valign="top">m68k</td>
+<td valign="top">II</td>
+<td valign="top">
+<a class="ulink" href="amiga/" target="_top">amiga</a>&nbsp;
+            <a class="ulink" href="atari/" target="_top">atari</a>&nbsp;
+            <a class="ulink" href="cesfic/" target="_top">cesfic</a>&nbsp;
+            <a class="ulink" href="hp300/" target="_top">hp300</a>&nbsp;
+            <a class="ulink" href="luna68k/" target="_top">luna68k</a>&nbsp;
+            <a class="ulink" href="mac68k/" target="_top">mac68k</a>&nbsp;
+            <a class="ulink" href="mvme68k/" target="_top">mvme68k</a>&nbsp;
+            <a class="ulink" href="news68k/" target="_top">news68k</a>&nbsp;
+            <a class="ulink" href="next68k/" target="_top">next68k</a>&nbsp;
+            <a class="ulink" href="sun3/" target="_top">sun3</a>&nbsp;
+            <a class="ulink" href="x68k/" target="_top">x68k</a>
+</td>
+</tr>
+<tr valign="top">
+<td valign="top">mipseb</td>
+<td valign="top">I, II</td>
+<td valign="top">
+            <a class="ulink" href="emips/" target="_top">emips</a>&nbsp;
+            <a class="ulink" href="evbmips/" target="_top">evbmips</a>
+            <a class="ulink" href="ews4800mips/" target="_top">ews4800mips</a>&nbsp;
+            <a class="ulink" href="mipsco/" target="_top">mipsco</a>&nbsp;
+            <a class="ulink" href="newsmips/" target="_top">newsmips</a>&nbsp;
+            <a class="ulink" href="sbmips/" target="_top">sbmips</a>
+            <a class="ulink" href="sgimips/" target="_top">sgimips</a>
+</td>
+</tr>
+<tr valign="top">
+<td valign="top">mipsel</td>
+<td valign="top">I, II</td>
+<td valign="top">
+<a class="ulink" href="algor/" target="_top">algor</a>&nbsp;
+            <a class="ulink" href="arc/" target="_top">arc</a>&nbsp;
+            <a class="ulink" href="cobalt/" target="_top">cobalt</a>&nbsp;
+            <a class="ulink" href="evbmips/" target="_top">evbmips</a>&nbsp;
+            <a class="ulink" href="hpcmips/" target="_top">hpcmips</a>&nbsp;
+            <a class="ulink" href="pmax/" target="_top">pmax</a>&nbsp;
+            <a class="ulink" href="sbmips/" target="_top">sbmips</a>&nbsp;</td>
+</tr>
+<tr valign="top">
+<td valign="top">powerpc</td>
+<td valign="top">I, II</td>
+<td valign="top">
+<a class="ulink" href="amigappc/" target="_top">amigappc</a>&nbsp;
+            <a class="ulink" href="bebox/" target="_top">bebox</a>&nbsp;
+            <a class="ulink" href="evbppc/" target="_top">evbppc</a>
+            <a class="ulink" href="ibmnws/" target="_top">ibmnws</a>
+            <a class="ulink" href="macppc/" target="_top">macppc</a>&nbsp;
+            <a class="ulink" href="mvmeppc/" target="_top">mvmeppc</a>&nbsp;
+            <a class="ulink" href="ofppc/" target="_top">ofppc</a>&nbsp;
+            <a class="ulink" href="prep/" target="_top">prep</a>&nbsp;
+            <a class="ulink" href="rs6000/" target="_top">rs6000</a>&nbsp;
+            <a class="ulink" href="sandpoint/" target="_top">sandpoint</a>&nbsp;</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="sh3/" target="_top">sh3eb</a></td>
+<td valign="top">II</td>
+<td valign="top">
+<a class="ulink" href="evbsh3/" target="_top">evbsh3</a>
+            <a class="ulink" href="mmeye/" target="_top">mmeye</a>
+</td>
+</tr>
+<tr valign="top">
+<td valign="top"><a class="ulink" href="sh3/" target="_top">sh3el</a></td>
+<td valign="top">II</td>
+<td valign="top">
+<a class="ulink" href="dreamcast/" target="_top">dreamcast</a>&nbsp;
+            <a class="ulink" href="evbsh3/" target="_top">evbsh3</a>&nbsp;
+            <a class="ulink" href="landisk/" target="_top">landisk</a>&nbsp;
+            <a class="ulink" href="hpcsh/" target="_top">hpcsh</a>&nbsp;</td>
+</tr>
+<tr valign="top">
+<td valign="top">sparc</td>
+<td valign="top">II</td>
+<td valign="top">
+<a class="ulink" href="sparc/" target="_top">sparc</a>&nbsp;</td>
+</tr>
+<tr valign="top">
+<td valign="top">sparc64</td>
+<td valign="top">I</td>
+<td valign="top">
+<a class="ulink" href="sparc64/" target="_top">sparc64</a> (Can also run sparc binaries)</td>
+</tr>
+<tr valign="top">
+<td valign="top">vax</td>
+<td valign="top">II</td>
+<td valign="top"><a class="ulink" href="vax/" target="_top">vax</a></td>
+</tr>
+<tr valign="top">
+<td valign="top">x86_64</td>
+<td valign="top">I</td>
+<td valign="top">
+<a class="ulink" href="amd64/" target="_top">amd64</a> (Can also run i386 binaries), xen</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=ports&amp;do=comment">Add a comment</a>
+</div>
+
+</div>
+
+
+
+		      
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../">index</a>
+
+
+</div><!-- #backlinks -->
+
+
+
+
+<div class="pagedate">
+Last edited <span class="relativedate" title="Sun, 09 Jun 2013 04:10:31 +0000">in the wee hours of Saturday night, June  9th, 2013</span>
+<!-- Created <span class="relativedate" title="Mon, 17 Dec 2012 22:57:33 +0000">Monday night, December 17th, 2012</span> -->
+</div>
+
+
+
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?do=prefs">Preferences | Logout</a>
+
+
+
+</div><!-- #pageinfo -->
+
+
+<!-- from NetBSD Wiki -->
+</div><!-- .pagefooter #footer -->
+
+
+
+</body>
+</html>

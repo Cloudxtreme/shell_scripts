@@ -1,0 +1,750 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="generator" content="Website XSL Stylesheet V2.6.0">
+<link rel="home" href="../." title="Welcome to The NetBSD Project: Of course it runs NetBSD.">
+<link rel="up" href="../ports/." title="Platforms Supported by NetBSD">
+<link rel="previous" href="../ports/." title="Platforms Supported by NetBSD">
+<link rel="next" href="../ports/history.html" title="NetBSD Ports History">
+<link rel="last" href="../ports/zaurus/." title="NetBSD/zaurus">
+<link rel="stylesheet" href="../global.css" type="text/css">
+<title>Running NetBSD on emulated hardware</title>
+</head>
+<body class="website"><div class="webpage">
+<a name="ports-emulators"></a><div id="top"><a href="#mainContent" class="doNotDisplay doNotPrint">Skip to main content.</a></div>
+<div id="centralHeader">
+<div id="logo">
+<a href="../"><img alt="[NetBSD Logo]" src="../images/NetBSD-smaller.png"></a><div id="name"><a href="../">
+	  The NetBSD Project
+	</a></div>
+<div id="slogan"><a href="../">
+	  &#8220;Of course it runs NetBSD&#8221;
+	</a></div>
+</div>
+<div id="headerTools">
+<div id="header-cse-search-form">Google custom search</div>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script><script type="text/javascript"> 
+		  google.load('search', '1', {language : 'en'});
+		  google.setOnLoadCallback(function() {
+		    var header_customSearchControl = new google.search.CustomSearchControl('006277936787196004968:mbdhrauy1wm');
+		    header_customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+		    var header_options = new google.search.DrawOptions();
+		    header_options.enableSearchboxOnly("http://google.com/cse?cx=006277936787196004968:mbdhrauy1wm");    
+		    header_customSearchControl.draw('header-cse-search-form', header_options);
+		  }, true);
+		</script>
+</div>
+</div>
+<div id="navBar" role="navigation">
+<span class="doNotDisplay">
+	  Navigation:
+	</span><ul>
+<li><a href="../">
+	  Home</a></li>
+<li>
+<a href="../">
+	  News &amp; Media</a><ul>
+<li><a href="../changes/">
+	    Recent changes</a></li>
+<li><a href="http://blog.NetBSD.org/">
+	    NetBSD blog</a></li>
+<li><a href="../gallery/events.html">
+	    Events</a></li>
+<li><a href="../changes/rss.html">
+	    Feeds</a></li>
+</ul>
+</li>
+<li>
+<a href="../about/">
+	  About</a><ul>
+<li><a href="../about/">
+	    NetBSD</a></li>
+<li><a href="../foundation/">
+	    The NetBSD Foundation</a></li>
+<li><a href="../gallery/">
+	    Advocacy</a></li>
+</ul>
+</li>
+<li>
+<a href="../docs/">
+	  Documentation</a><ul>
+<li><a href="../docs/misc/index.html">
+	    FAQ &amp; HOWTOs</a></li>
+<li><a href="../docs/guide/en/">
+	    The Guide</a></li>
+<li><a href="http://man.NetBSD.org/">
+	    Manual pages</a></li>
+<li><a href="http://wiki.NetBSD.org/">
+	    Wiki</a></li>
+</ul>
+</li>
+<li>
+<a href="../support/">
+	  Support</a><ul>
+<li><a href="../support/send-pr.html">
+	    Problem report guide</a></li>
+<li><a href="../cgi-bin/sendpr.cgi?gndb=netbsd">
+	    Report a bug</a></li>
+<li><a href="../support/query-pr.html">
+	    Query bug database</a></li>
+<li><a href="../support/security/">
+	    Security</a></li>
+</ul>
+</li>
+<li>
+<a href="../community/">
+	  Community</a><ul>
+<li><a href="http://onetbsd.org/">
+	    Blogs</a></li>
+<li><a href="../mailinglists/">
+	    Mailing lists</a></li>
+<li><a href="http://mail-index.NetBSD.org/">
+	    List archives</a></li>
+</ul>
+</li>
+<li>
+<a href="../developers/">
+	  Developers</a><ul>
+<li><a href="http://cvsweb.NetBSD.org/">
+	    Browse source</a></li>
+<li><a href="http://nxr.NetBSD.org/">
+	    Cross-reference</a></li>
+<li><a href="http://releng.NetBSD.org/">
+	    Release engineering</a></li>
+<li><a href="http://wiki.NetBSD.org/projects/">
+	    Projects list</a></li>
+</ul>
+</li>
+<li>
+<a href="../ports/">
+	  Ports</a><ul>
+<li><a href="../ports/history.html">
+	    History</a></li>
+<li><a href="../ports/emulators.html">
+	    Emulators</a></li>
+</ul>
+</li>
+<li>
+<a href="http://www.pkgsrc.org/">
+	  Packages</a><ul>
+<li><a href="http://www.pkgsrc.se/">
+	    Browse packages</a></li>
+<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+	    Release engineering</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="content"><div class="fullWidth"><div class="rowOfBoxes">
+<h1>Running NetBSD on emulated hardware</h1>
+<h3 class="title"><a name="about">About NetBSD on emulators</a></h3>
+<ul>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#setup">How to setup NetBSD on an emulator</a></li>
+<li><a href="#ports-emulators">NetBSD ports and emulators matrix</a></li>
+</ul>
+<h3 class="title"><a name="emulators">Software emulators</a></h3>
+<ul>
+<li><a href="#bochs">Bochs</a></li>
+<li><a href="#gxemul">GXemul</a></li>
+<li><a href="#qemu">QEMU</a></li>
+<li><a href="#pearpc">PearPC</a></li>
+<li><a href="#simh">SIMH</a></li>
+<li><a href="#ski">Ski</a></li>
+<li><a href="#tme">The Machine Emulator</a></li>
+<li><a href="#simics">Wind River Simics simulator</a></li>
+<li><a href="#giano">Microsoft Giano</a></li>
+<li><a href="#xm6i">XM6i</a></li>
+</ul>
+<hr>
+<h3 class="title">About NetBSD on emulators</h3>
+    <h4 class="title">
+<a name="intro"></a>Introduction (<a href="#about">top</a>)
+  </h4>
+
+    <p>If you are developer of embedded applications, or if you
+      need to demonstrate or test your software on hardware platform
+      that is not available for some reason, you definitively need
+      a software emulator. Sometimes emulator becomes even an
+      ultimate solutions allowing to run whole computer networks
+      on the single machine. At last, you may want to see (just for
+      fun) how have performed such dinosaurs as old good PDPs and
+      VAXes.</p>
+
+    <p>This document is intended to describe where to find
+      deserving equivalents of various hardware in order to set up
+      and running NetBSD Operating System.</p>
+  
+    <h4 class="title">
+<a name="setup"></a>How to setup NetBSD on an emulator (<a href="#about">top</a>)
+  </h4>
+
+    <p>An answer to this question mainly depends on which
+      emulator you use. Very often an emulator's home site contains
+      all information you may need to setup a guest operating system,
+      including NetBSD. Please refer to <a class="xref" href="#emulators" title="Software emulators">the section called &#8220;Software emulators&#8221;</a>
+      for details.</p>
+  
+    <h4 class="title">
+<a name="ports-emulators"></a>NetBSD ports and emulators matrix (<a href="#about">top</a>)
+  </h4>
+
+    <p>In the table below <code class="literal">Yes</code> means complete
+      support of latest NetBSD release available (or referred in
+      parentheses). <code class="literal">Untested</code> state means that
+      it should be possible to use NetBSD on this particular
+      platforms, but this was not confirmed yet. <code class="literal">Almost</code>
+      refers to cases, when some troubles were found during testing.
+      Please see also footnotes for details.</p>
+
+    <div class="informaltable">
+      <table border="1">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="center">Ports \ Emulators</th>
+<th align="center"><a class="xref" href="#bochs" title="Bochs">bochs</a></th>
+<th align="center"><a class="xref" href="#gxemul" title="GXemul">gxemul</a></th>
+<th align="center"><a class="xref" href="#pearpc" title="PearPC">pearpc</a></th>
+<th align="center"><a class="xref" href="#qemu" title="QEMU">qemu</a></th>
+<th align="center"><a class="xref" href="#simh" title="SIMH">simh</a></th>
+<th align="center"><a class="xref" href="#simics" title="Wind River Simics simulator">simics</a></th>
+<th align="center"><a class="xref" href="#ski" title="Ski">ski</a></th>
+<th align="center"><a class="xref" href="#tme" title="The Machine Emulator">tme</a></th>
+<th align="center"><a class="xref" href="#giano" title="Microsoft Giano">giano</a></th>
+<th align="center"><a class="xref" href="#xm6i" title="XM6i">xm6i</a></th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="theader" align="center"><a href="/ports/algor/">algor</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/amd64/">amd64</a></td>
+<td align="center">Untested</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/arc/">arc</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center">Almost<a href="#ftn.arc-qemu" class="footnote"><sup class="footnote"><a name="arc-qemu"></a>[a]</sup></a>
+</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/cats/">cats</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/cobalt/">cobalt</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/dreamcast/">dreamcast</a></td>
+<td align="center"> </td>
+<td align="center">Yes<a href="#ftn.dreamcast-gxemul" class="footnote"><sup class="footnote"><a name="dreamcast-gxemul"></a>[b]</sup></a>
+</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/emips/">emips</a></td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/evbarm/">evbarm</a></td>
+<td align="center"> </td>
+<td align="center">Yes<a href="#ftn.evbarm-gxemul" class="footnote"><sup class="footnote"><a name="evbarm-gxemul"></a>[c]</sup></a>
+</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/evbmips/">evbmips</a></td>
+<td align="center"> </td>
+<td align="center">Yes<a href="#ftn.evbmips-gxemul" class="footnote"><sup class="footnote"><a name="evbmips-gxemul"></a>[d]</sup></a>
+</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/hpcmips/">hpcmips</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/i386/">i386</a></td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/ia64/">ia64</a></td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Experimental<a href="#ftn.ia64-ski" class="footnote"><sup class="footnote"><a name="ia64-ski"></a>[e]</sup></a>
+</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/landisk/">landisk</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/macppc/">macppc</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center">Almost<a href="#ftn.macppc-pearpc" class="footnote"><sup class="footnote"><a name="macppc-pearpc"></a>[f]</sup></a>
+</td>
+<td align="center">Untested</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/netwinder/">netwinder</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/pmax/">pmax</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/pmppc/">pmppc</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/prep/">prep</a></td>
+<td align="center"> </td>
+<td align="center">Yes<a href="#ftn.prep-gxemul" class="footnote"><sup class="footnote"><a name="prep-gxemul"></a>[g]</sup></a>
+</td>
+<td align="center"> </td>
+<td align="center">Untested</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/sgimips/">sgimips</a></td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/sparc/">sparc</a></td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/sparc64/">sparc64</a></td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/sun2/">sun2</a></td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/sun3/">sun3</a></td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/vax/">vax</a></td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+<td align="center"> </td>
+</tr>
+<tr>
+<td class="theader" align="center"><a href="/ports/x68k/">x68k</a></td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center"> </td>
+<td align="center">Yes</td>
+</tr>
+</tbody>
+<tbody class="footnotes"><tr><td colspan="11">
+<div id="ftn.arc-qemu" class="footnote">
+	<p><a href="#arc-qemu" class="para"><sup class="para">[a] </sup></a>NetBSD/arc 5.0.2 on qemu gets panic on
+	heavy SCSI disk load.</p>
+	</div>
+<div id="ftn.dreamcast-gxemul" class="footnote">
+	<p><a href="#dreamcast-gxemul" class="para"><sup class="para">[b] </sup></a>Ramdisk kernel or a Live CD required. root-on-NFS is not
+	      possible yet.</p>
+	</div>
+<div id="ftn.evbarm-gxemul" class="footnote">
+	<p><a href="#evbarm-gxemul" class="para"><sup class="para">[c] </sup></a>Latest working version is NetBSD 2.1; problem is in
+	  GXemul's ARM emulation.</p>
+	</div>
+<div id="ftn.evbmips-gxemul" class="footnote">
+        <p><a href="#evbmips-gxemul" class="para"><sup class="para">[d] </sup></a>gxemul emulates Malta.</p>
+</div>
+<div id="ftn.ia64-ski" class="footnote">
+	<p><a href="#ia64-ski" class="para"><sup class="para">[e] </sup></a>Used as platform for <a class="ulink" href="ia64/" target="_top">NetBSD/ia64</a>
+	port development.</p>
+</div>
+<div id="ftn.macppc-pearpc" class="footnote">
+	<p><a href="#macppc-pearpc" class="para"><sup class="para">[f] </sup></a>Crashes while booting.</p>
+	</div>
+<div id="ftn.prep-gxemul" class="footnote">
+	<p><a href="#prep-gxemul" class="para"><sup class="para">[g] </sup></a>Latest working version is NetBSD 2.1; NetBSD 3.x failed
+	  with disk controller problems.</p>
+	</div>
+</td></tr></tbody>
+</table>
+    </div>
+  <hr>
+<h3 class="title">Software emulators</h3>
+    <h4 class="title">
+<a name="bochs"></a>Bochs (<a href="#emulators">top</a>)
+  </h4>
+    <p>The program
+      <a class="ulink" href="http://bochs.sourceforge.net/" target="_top">bochs</a>
+      is a highly portable open source x86
+      PC emulator written in C++, and runs on most popular platforms.
+      It includes emulation of the Intel x86 CPU, common IO devices,
+      and a custom BIOS.  Currently, bochs can be compiled to
+      emulate a 386, 486, Pentium, Pentium PRO or AMD64 CPU.</p>
+    <p>Packaged as <a href="http://ftp.NetBSD.org/pub/pkgsrc/current/pkgsrc/emulators/bochs/README.html" target="_top"><code class="filename">emulators/bochs</code></a>.</p>
+  
+    <h4 class="title">
+<a name="gxemul"></a>GXemul (<a href="#emulators">top</a>)
+  </h4>
+    <p><a class="ulink" href="http://gxemul.sourceforge.net/" target="_top">GXemul</a>
+      is a machine emulator. The initial goal was to
+      write a simple 64-bit MIPS emulator for running multiprocessor
+      experiments with a microkernel, but the emulator can be used
+      for many other things. While some simulators only simulate
+      a CPU, GXemul also simulates other hardware components, making
+      it possible to use the emulator to run unmodified operating
+      systems, such as NetBSD, OpenBSD, or Linux.</p>
+    <p>Packaged as <a href="http://ftp.NetBSD.org/pub/pkgsrc/current/pkgsrc/emulators/gxemul/README.html" target="_top"><code class="filename">emulators/gxemul</code></a>.</p>
+  
+    <h4 class="title">
+<a name="qemu"></a>QEMU (<a href="#emulators">top</a>)
+  </h4>
+    <p><a class="ulink" href="http://fabrice.bellard.free.fr/qemu/" target="_top">QEMU</a>
+      is a FAST! processor emulator using dynamic translation
+      to achieve good emulation speed, QEMU has two operating modes:
+      </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">Full system emulation. In this mode, QEMU emulates
+	  a full system (for example a PC), including a processor
+	  and various peripherals.  It can be used to launch different
+	  Operating Systems without rebooting the PC or to debug
+	  system code.</li>
+<li class="listitem">User mode emulation (Linux host only). In this
+	  mode, QEMU can launch Linux processes compiled for one
+	  CPU on another CPU. It can be used to launch the Wine
+	  Windows API emulator or to ease cross-compilation and
+	  cross-debugging.</li>
+</ul></div>
+<p>
+    </p>
+    <p>Packaged as <a href="http://ftp.NetBSD.org/pub/pkgsrc/current/pkgsrc/emulators/qemu/README.html" target="_top"><code class="filename">emulators/qemu</code></a>.</p>
+  
+    <h4 class="title">
+<a name="pearpc"></a>PearPC (<a href="#emulators">top</a>)
+  </h4>
+    <p><a class="ulink" href="http://pearpc.sourceforge.net/" target="_top">PearPC</a>
+      is an architecture-independent PowerPC platform
+      emulator capable of running most PowerPC operating systems.</p>
+    <p>Packaged as <a href="http://ftp.NetBSD.org/pub/pkgsrc/current/pkgsrc/emulators/pearpc/README.html" target="_top"><code class="filename">emulators/pearpc</code></a>.</p>
+  
+    <h4 class="title">
+<a name="simh"></a>SIMH (<a href="#emulators">top</a>)
+  </h4>
+    <p><a class="ulink" href="http://simh.trailing-edge.com/" target="_top">SIMH</a>
+      is Bob Supnik's historical computer simulator, including:
+      altair altairz80 eclipse gri h316 hp2100 i1401 i1620 ibm1130
+      id16 id32 nova pdp1 pdp10 pdp11 pdp15 pdp4 pdp7 pdp8 pdp9 s3
+      sds vax. See <a class="ulink" href="vax/emulator-howto.html" target="_top">NetBSD SIMH
+      HOW-TO</a> for instructions on how to install NetBSD/vax
+      on simh.</p>
+    <p>Packaged as <a href="http://ftp.NetBSD.org/pub/pkgsrc/current/pkgsrc/emulators/simh/README.html" target="_top"><code class="filename">emulators/simh</code></a>.</p>
+  
+    <h4 class="title">
+<a name="ski"></a>Ski (<a href="#emulators">top</a>)
+  </h4>
+    <p><a class="ulink" href="http://www.hpl.hp.com/research/linux/ski/" target="_top">Ski</a>
+      is an HP-proprietary instruction-set simulator for
+      the IA-64 (Itanium Processor Family, IPF) architecture and
+      is intended primarily for application- and kernel-level
+      software development.</p>
+    <p>Packaged as <a href="http://ftp.NetBSD.org/pub/pkgsrc/current/pkgsrc/emulators/ski/README.html" target="_top"><code class="filename">emulators/ski</code></a>.</p>
+  
+    <h4 class="title">
+<a name="tme"></a>The Machine Emulator (<a href="#emulators">top</a>)
+  </h4>
+
+    <p><a class="ulink" href="http://people.csail.mit.edu/fredette/tme/" target="_top">The
+      Machine Emulator</a>, or tme, is a program that provides
+      a general-purpose framework for computer emulation. The first
+      machine that tme could emulate was the
+      <a class="ulink" href="http://people.csail.mit.edu/fredette/tme/sun2-120-nbsd.html" target="_top">Sun 2/120</a>,
+      one of the first widely available Sun workstations.
+      Currently, it includes support for
+      <a class="ulink" href="http://people.csail.mit.edu/fredette/tme/sun3-150-nbsd.html" target="_top">Sun 3/150</a>,
+      <a class="ulink" href="http://people.csail.mit.edu/fredette/tme/sun4-75-nbsd.html" target="_top">SPARCstation 2</a>
+      and
+      <a class="ulink" href="http://people.csail.mit.edu/fredette/tme/sun-u1-nbsd.html" target="_top">Ultra 1</a>
+      as well. Note arthur's
+      <a class="ulink" href="http://www.ilvsun3.com/" target="_top">ILVSUN3</a>
+      page has various useful information about
+      <a class="ulink" href="http://people.csail.mit.edu/fredette/tme/" target="_top">TME</a>.</p>
+    <p>Packaged as <a href="http://ftp.NetBSD.org/pub/pkgsrc/current/pkgsrc/emulators/tme/README.html" target="_top"><code class="filename">emulators/tme</code></a>.</p>
+  
+    <h4 class="title">
+<a name="simics"></a>Wind River Simics simulator (<a href="#emulators">top</a>)
+  </h4>
+    <p>Software developers writing code for non-desktop systems
+      often face a problem: on what do they run their code to test
+      and debug it? <a class="ulink" href="http://www.windriver.com/products/simics/" target="_top">Simics
+      Developer</a> makes it possible to run any electronic
+      system on the developer's desktop machine. This is true for
+      small embedded systems, million dollar enterprise servers or
+      complex clustered multiprocessor systems.</p>
+    <p>Commercial product.</p>
+  
+    <h4 class="title">
+<a name="giano"></a>Microsoft Giano (<a href="#emulators">top</a>)
+  </h4>
+    <p><a class="ulink" href="http://research.microsoft.com/en-us/projects/giano/" target="_top">Giano</a>
+      is a full-system simulator capable of simulating an arbitrary
+      system.  The hardware configuration simulated by Giano is
+      specified using PlatformXML.  The default installation comes
+      with a number of demonstration configurations, including
+      systems based on eMIPS and VAX.
+      See <a class="ulink" href="http://wiki.NetBSD.org/users/ryoon/how_to_install_netbsd_emips_current_to_microsoft_giano/" target="_top">How
+      to install NetBSD/emips-current to Microsoft Giano wiki</a>
+      for instructions of NetBSD/emips on Giano.
+    </p>
+
+    <p>Source and binaries are available for non-commericial use.
+      Giano requires a Windows-based host.</p>
+  
+    <h4 class="title">
+<a name="xm6i"></a>XM6i (<a href="#emulators">top</a>)
+  </h4>
+    <p><a class="ulink" href="http://xm6i.org/" target="_top">XM6i</a> is a cross platform X68000/X68030
+    emulator. XM6i is based on X68000 emulator
+    <a class="ulink" href="http://yohkai.no-ip.info/x680x0/XM6.htm" target="_top">XM6</a>,
+    but XM6i also supports MC68030 MMU and it's developed to run NetBSD/x68k
+    on it.
+    See instructions in <a class="ulink" href="http://www.ceres.dti.ne.jp/tsutsui/netbsd/x68k/NetBSD-x68k-on-XM6i.html" target="_top">NetBSD/x68k on XM6i ver 0.41</a>
+    page (in Japanese) for more details.</p>
+    <p>Currently Microsoft Windows, <a class="ulink" href="http://www.youtube.com/watch?v=GKApBgywNFQ" target="_top">NetBSD/i386</a>
+    and NetBSD/amd64 6.1 (that also require pkgsrc wxGTK28),
+    <a class="ulink" href="http://www.youtube.com/watch?v=SR25wz4AgRU" target="_top">Mac OS X
+    10.6</a> and 10.7, and CentOS 6.3/x86_64 binaries are <a class="ulink" href="http://xm6i.org/download.html" target="_top">available</a>.
+    </p>
+  </div></div></div>
+<div class="navfoot"></div>
+<div id="footer"><div id="footerContent"><center>
+<span class="footfeed"><a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">
+	  Contact</a> |
+      </span><span class="footcopy"><a href="../about/disclaimer.html">
+      Disclaimer</a> |
+
+      <span class="copyright">Copyright © 1994-2013 The NetBSD Foundation, Inc. </span>ALL RIGHTS RESERVED.<br>NetBSD<sup>®</sup> is a registered trademark of The NetBSD
+	Foundation, Inc.</span>
+</center></div></div>
+</div></body>
+</html>

@@ -1,0 +1,320 @@
+
+	<html>
+<!-- ------------------------------------------------------------ -->
+<head>
+<title>Dual-Stack Path Analysis</title>
+</head>
+
+<!-- ------------------------------------------------------------ -->
+<body bgcolor="#ffffff" text="#000000" link="#330099" alink="#ff9933" vlink="#6666cc">
+
+<h2>Dual-Stack Path Analysis</h2>
+
+One of the major hurdles limiting IPv6 adoption is the existence of
+poorly managed experimental IPv6 sites that negatively affect the
+perceived quality of the IPv6 Internet. 
+To assist network operators in improving IPv6 networks,
+we are exploring methods to identify wide-area IPv6 network problems.
+Our approach makes use of parallel IPv4 and IPv6 connectivity to
+dual-stacked nodes.
+<p>
+
+We identify the existence of an IPv6 path problem by comparing IPv6
+delay measurements to IPv4 delay measurements.
+Our test results indicate that the majority of IPv6 paths have
+delay characteristics comparable to those of IPv4,
+although a small number of paths exhibit a much larger delay with IPv6.
+Thus, we hope to improve the quality of the IPv6 Internet by identifying
+the worst set of problems.
+<p>
+
+Our methodology is simple.
+We create a list of systems with IPv6 and IPv4 addresses in actual use
+by monitoring DNS messages.
+We then measure delay to each address in order to select a few systems
+per site based on their IPv6:IPv4 response-time ratios.
+Finally, we run traceroute with Path MTU discovery to the selected systems
+and then visualize the results for comparative path analysis.
+<p>
+
+<!-- ------------------------------------------------------------ -->
+<hr>
+
+<h3>Methodology</h3>
+
+Our methodology is simple.
+First, by monitoring DNS messages, we create a list of 
+systems with IPv6 and IPv4 addresses in actual use.
+Second, we measure delay with ping to each address in order to
+select a few nodes per site based on the IPv6:IPv4 round-trip time (RTT)
+ratios.
+Finally, we run traceroute with Path MTU (PMTU) discovery
+to the selected sites, and visualize the results for comparative path
+analysis.
+<p>
+
+<!-- ------------------------------------------------------------ -->
+<hr>
+
+<h3>Results</h3>
+
+Data was collected by measurement from three locations in June, 2004.
+The three locations are
+1) <a href="http://www.wide.ad.jp/">WIDE</a>, a research network in
+Tokyo, Japan;
+2) <a href="http://www.iij.ad.jp/">IIJ</a>, an ISP providing commercial
+IPv6 services in Tokyo, Japan; and
+3) <a href=http://www.consulintel.es/">Consulintel</a>, in Madrid, Spain,
+directly connected to MAD6IX that is part of
+<a href="http://www.euro6ix.net/">Euro6IX</a>.
+
+<!-- ------------------------------------------------------------ -->
+<hr>
+
+<h3>Dual-Stack Ping Results</h3>
+
+Our dual-stack ping is a script that obtains the IPv4 and IPv6 RTT delays
+for a set of target nodes by running ping and ping6.
+From the dual-stack ping results, we can identify the percentage of
+dual-stack nodes reachable only by IPv4 even though they
+have AAAA records.
+<p>
+
+The following figures show the scatter graphs of the observed RTTs.
+We plot a node's IPv4 RTT on the X-axis and its IPv6 RTT
+on the Y-axis.  Each graph plots about 2,700 nodes that were reachable
+by both IPv4 and IPv6.
+When the response time of IPv6 is equal to that of IPv4, we plot
+the node on the unity line, y = x.
+For nodes above this line, IPv4 outperforms IPv6,
+and for nodes below this line, IPv6 outperforms IPv4.
+We again categorize the nodes into four regions.
+<p>
+
+These results indicate that the majority of the nodes have similar RTT
+for both IPv4 and IPv6.
+A number of individual nodes far above the unity line 
+have IPv6 performance issues specific to the node or the site.
+The clusters above the unity line indicate the existence 
+of roundabout paths within the backbone network.
+<p>
+
+Compared to WIDE, IIJ has fewer nodes below the unity line, probably
+due to Acceptable Use Policies (AUPs) of academic IPv6 networks.
+The Consulintel site has a large cluster of RIPE nodes below the unity line,
+likely connected through Euro6IX.
+The majority of nodes are around the unity line;
+the percentage of nodes whose IPv6:IPv4 RTT ratio is less than 1.25
+is 80.1% for WIDE, 74.3% for IIJ, and 82.5% for Consulintel.
+<p>
+
+APNIC nodes have large variance in RTT ratios due 
+to its topological diversity;  many APNIC countries are
+connected to Japan through the US or Europe, and many 
+satellite links connect islands. Also, some 
+networks are funded to promote IPv6, such that there are 
+nodes with a direct IPv6 path but with an IPv4 path that
+must go through the US. 
+<p>
+
+from WIDE<br>
+<img src=as2500-ping-scatter-small.png alt="[ping scatter graph]">
+<p>
+
+from IIJ<br>
+<img src=as2497-ping-scatter-small.png alt="[ping scatter graph]">
+<p>
+
+from Consulintel<br>
+<img src=as1752-ping-scatter-small.png alt="[ping scatter graph]">
+<p>
+
+More results:<br>
+<ul>
+<li>from WIDE:
+<a href="results/as2500-20040611/ping-scatter.png">20040611</a>, 
+<a href="results/as2500-20040823/ping-scatter.png">20040823</a>,
+<a href="results/as2500-20050129/ping-scatter.png">20050129</a>
+<a href="results/as2500-20051208/ping-scatter.png">20051208</a>
+<li>from IIJ: 
+<a href="results/as2497-20040611/ping-scatter.png">20040611</a>, 
+<a href="results/as2497-20040823/ping-scatter.png">20040823</a>,
+<a href="results/as2497-20050128/ping-scatter.png">20050128</a>
+<a href="results/as2497-20051207/ping-scatter.png">20051207</a>
+<li>from Consulintel: 
+<a href="results/as1752-20040616/ping-scatter.png">20040616</a>, 
+<a href="results/as3352-20040810/ping-scatter.png">20040810</a>,
+<a href="results/as3352-20050203/ping-scatter.png">20050203</a>
+<a href="results/as31701-20051209/ping-scatter.png">20051209</a>
+<li>from NYSERNET: 
+<a href="results/as3756-20051209/ping-scatter.png">20051209</a>, 
+<li>from ISC: 
+<a href="results/as3557-20051213/ping-scatter.png">20051213</a>, 
+</ul>
+<p>
+
+
+<!-- ------------------------------------------------------------ -->
+<hr>
+
+<h3>Dual-Stack Traceroute Results</h3>
+
+We ran 
+<a href="http://www.caida.org/analysis/topology/macroscopic/">
+scamper</a> to the representative nodes with PMTU discovery
+from multiple locations.
+<p>
+
+<h3>Path MTU vizualization</h3>
+
+In the following links, we have created graphs to visualize
+a macro-level view of Path MTU  obtained from the scamper output.
+<p>
+
+<ul>
+<li>from WIDE:
+<a href="results/as2500-20051208/pmtuviz.html">20051208</a>
+<li>from IIJ: 
+<a href="results/as2497-20051207/pmtuviz.html">20051207</a>
+<li>from Consulintel: 
+<a href="results/as31701-20051209/pmtuviz.html">20051209</a>
+<li>from NYSERNET: 
+<a href="results/as3756-20051209/pmtuviz.html">20051209</a>
+<li>from ISC: 
+<a href="results/as3557-20051213/pmtuviz.html">20051213</a>
+</ul>
+<p>
+
+<h3>Dualstack Traceroute Visualization</h3>
+
+To visualize the results for comparative analysis, a set of scripts
+divide the scamper output into smaller target groups and create
+a graph for each group.
+Each graph contains 10 target nodes, yielding about 130 graphs 
+for each measurement; the script also creates a web page for each graph
+along with scrollable scamper text output.
+In the graph we map IP addresses into Autonomous System (AS) numbers
+to simplify the presentation.
+<p>
+
+The following links show the results of the dual-stack traceroute and
+its visualization.  Each measurement result contains about 130 graphs.
+For each target node in the graph, two lines are drawn from the source
+to the destination, the upper line for IPv4 and the lower line for IPv6.
+A missing line indicates the destination is unreachable.
+To the left of the line, the graph shows the total 
+hop number and destination RTT.
+<p>
+
+<ul>
+<li>from WIDE:
+<a href="results/as2500-20040608/">20040608</a>, 
+<a href="results/as2500-20040611/">20040611</a>, 
+<a href="results/as2500-20040823/">20040823</a>,
+<a href="results/as2500-20050129/">20050129</a>
+<a href="results/as2500-20051208/">20051208</a>
+<li>from IIJ: 
+<a href="results/as2497-20040611/">20040611</a>, 
+<a href="results/as2497-20040823/">20040823</a>,
+<a href="results/as2497-20050128/">20050128</a>
+<a href="results/as2497-20051207/">20051207</a>
+<li>from Consulintel: 
+<a href="results/as1752-20040614/">20040614</a>, 
+<a href="results/as1752-20040616/">20040616</a>, 
+<a href="results/as3352-20040810/">20040810</a>,
+<a href="results/as3352-20050203/">20050203</a>
+<a href="results/as31701-20051209/">20051209</a>
+<li>from NYSERNET: 
+<a href="results/as3756-20051209/">20051209</a>
+<li>from ISC: 
+<a href="results/as3557-20051213/">20051213</a>
+</ul>
+<p>
+
+The graphs plot intermediate hops at their RTTs from the source.
+We map IP address of a hop to its AS number by finding the
+best matching prefix and origin AS in the publicly available
+Routeviews BGP table.
+There were 165,289 prefixes for IPv4 and 520 prefixes for IPv6 in the
+BGP table at the time of measurement.
+<p>
+
+When a drop in MTU is detected, the graph marks the MTU on the right side
+of the hop; it suggests a likely tunnel between this hop and
+the previous hop.
+If traceroute terminated with an error, the graph marks the error code 
+at the hop using the traceroute notations (e.g., `!X' for communication
+administratively prohibited).
+<p>
+
+<!-- ------------------------------------------------------------ -->
+<hr>
+
+<h3>Summary</h3>
+
+It is essential to IPv6 deployment to improve the quality and performance
+of the IPv6 Internet.
+In order to illustrate IPv6 network problems for network operators,
+we are developing tools to compare IPv6
+measurements with corresponding IPv4 measurements.
+Our techniques include the dual-stack node discovery for finding
+dual-stack nodes, the dual-stack ping for selecting representative
+nodes, and scamper for detailed path analysis.
+Our test results indicate that we can improve IPv6 network quality
+by identifying and fixing a limited amount of erroneous settings.
+<p>
+
+Our tools are still under development and need improvements.
+We plan to fully automate the measurement procedure in
+order to perform regular measurements and archive results.
+This long-term measurement strategy will provide a way to evaluate the
+progress of IPv6 deployment.
+We would also like to increase the coverage of measurement points
+including developing countries.
+Another important step is to establish procedures to notify
+responsible parties of problems we find using our tools.
+<p>
+
+<!-- ------------------------------------------------------------ -->
+<hr>
+
+<h3>Papers</h3>
+<ol>
+<li>Kenjiro Cho, Matthew Luckie and Bradley Huffaker.<br>
+<i>Identifying IPv6 Network Problems in the Dual-Stack World.</i><br>
+to appear in SIGCOMM'04 Network Troubleshooting Workshop, Portland, Oregon, September 2004.
+(<a href="http://www.csl.sony.co.jp/~kjc/papers/nts40-cho.pdf">pdf</a>).<br>
+</ol>
+
+
+<!-- ------------------------------------------------------------ -->
+<hr>
+
+<h3>Tools</h3>
+
+<a href="http://mawi.wide.ad.jp/mawi/tools/dualstack-tools-20060213.tar.gz">
+dualstack-tools<a>: a set of scripts and data used in this project.
+(developed on FreeBSD-4.x and partially tested on linux.)
+<p>
+More information about scamper including the source code is available from
+<a href="http://www.wand.net.nz/scamper/">
+here</a>.
+<p>
+
+<!-- ------------------------------------------------------------ -->
+<hr>
+
+This work is part of <a href="http://v6fix.net/">the v6fix project.</a>
+This work is supported by the Ministry of Internal Affairs and Communications of Japan.
+
+<!-- ------------------------------------------------------------ -->
+<hr>
+
+<h3><a href="www.wide.ad.jp">WIDE Project</a></h3>
+<P>
+
+<!-- ------------------------------------------------------------ -->
+<hr>
+
+</body>
+</html>

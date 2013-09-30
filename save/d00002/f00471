@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MikroTik Routers and Wireless</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="Mikrotik develops high performance routers and wireless ISP systems, providing both hardware and software for most countries around the world."/>
+<meta name="keywords" content="mikrotik, routeros, RouterOS, mikrotikls, routerboard, mtcna, mtctce, mtcwe, mtcre, dude, winbox, wireless, router, mum, mikrotik user meeting, wifi, microtik, hotspot, server, proxy, network, firewall, dhcp, bandwidth, nat, radius, pppoe, mikrotic, software, queue, bridge, snmp, eoip, manual, interface, gateway, install, isp, software, hardware"/>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="shortcut icon" href="/img/favicon.ico" />
+<link rel="alternate" type="application/rss+xml" href="http://www.mikrotik.com/download.rss" title="RouterOS downloads feed"/>
+<style type="text/css">
+hr {
+color: #e0e6e8;
+height: 1px;
+border: 0;
+padding: 0px;
+background-color: #e0e6e8;
+margin-top: 0px;
+margin-left: 0px;
+margin-right: 0px;
+margin-bottom: 2px;
+}
+
+hr.bold{height:3px;}
+.key-cont,.key-cont-bigger,.key-cont-bigger-4ever,.simple-cont{display:block;margin-left:auto;margin-right:auto;font-family:verdana;}
+.key-cont{width:400px;}
+.key-cont-bigger{width:600px;}
+.key-cont-bigger-4ever{width:700px;}
+.simple-cont{width:400px;}
+
+.clear{margin-bottom:20px;}
+
+input,textarea,select{border:1px solid #E0E6E8;}
+input.radio{border:0px solid transparent;}
+select{font-style:Arial;font-size:11px;}
+input.submitButton{background:#fff;}
+input.submitButton:hover{border:1px solid #C2CCCF;cursor:pointer;}
+div.e-body{border:1px solid #d0d0d0;background-color:#fff;width:800px;}
+
+.e-body a,.e-body a:link, .e-body a:visited, .e-body a:active{color:#5F4D4D;text-decoration:none;}
+.e-body a:hover{color:#6F6F6F;text-decoration:underline;}
+.e-body ul{list-style-type:none;}
+.e-body ul a{font-weight:normal !important;}
+
+ul.extraList{list-style-type:square ! important;}
+p.key,ul.key,form.key{margin-left:70px;}
+
+h3.key{padding-left:70px;line-height:63px !important;margin-bottom:-10px;font-size:1.1em;color:#BEBEBF;}
+h3.normalCaption{font-size:1.3em;color:#BEBEBF;margin-top:25px;margin-bottom:35px;text-align:center;}
+
+table.keyFormClient{font-style:Arial;font-size:11px;border-collapse:collapse;text-align:left;}
+table.bord{border:1px solid #c1c1c1;}
+
+font.caption,span.caption{font-size:12px;text-align:center;}
+span.caption{width:100%;display:block;}
+
+table.table{width:400px;}
+table.keyTable{width:90%;}
+table.keyTable th,table.keyTable tr{cursor:pointer;}
+table.keyTable tr.trOver{background:#D9D9F3;}
+table.keyTable tr.trDisabl{background:#E5E5E5;}
+table.keyTable td{text-align:center;}
+table.keyTable a{margin-right:2px;text-decoration:underline;font-size:12px;}
+table.keyTable font{margin-right:2px;font-weight:bold;font-size:12px;}
+table.certificate{width:285px;}
+table.adddeposit{width:400px;}
+table.userinfo{width:500px;}
+table.userinfo td{height:30px;}
+
+table.userinfo 
+	input.inputFeald,
+	select.inputFeald,
+	textarea.inputFeald {
+width: 200px;
+}
+
+table.userinfo tr.noBorder td{border-left:hidden;border-right:hidden;}
+table.userinfo td.selected{width:60%;text-align:right;}
+
+td.none {
+/*   background-color: #F9F8F5; */
+}
+
+td.top{border-top:hidden;}
+td.bottom{border-bottom: hidden;}
+td.right{border-right:hidden;}
+td.left{border-left:hidden;}
+
+table.defaultTable{font-style:Arial;font-size:11px;border-collapse:collapse;margin-left:auto;margin-right:auto;border:1px solid #c1c1c1;}
+
+table.defaultTable tr { 
+    /*background: #f1f1f1; */
+}
+
+table.defaultTable td{text-align:center;}
+table.defaultTable th{background:#FFFFEF;font-weight:normal;}
+table.defaultTable td.selected{background:#EFEFE4;}
+table.defaultTable tr.noBorder{background-color:transparent;cursor:auto;}
+table.mainMenu{margin-left:20px;margin-right:20px;}
+table.mainMenu td.selected{background:#F4F4E7;color:#415FAF;font-weight:bold;}
+table.certificate tr.noBorder td{border-left:hidden;border-right:hidden;border-bottom:hidden;}
+table.adddeposit tr.noBorder td{border:hidden;}
+
+div.error{width:400px;background:#f9f8f5;margin-top:15px;margin-bottom:15px;border:1px solid #E0E6E8;margin-left:auto;margin-right:auto;text-align:center;}
+div.error h3{line-height:63px !important;margin-top:10px;margin-bottom:-20px;font-size:1.5em;color:#BEBEBF;}
+div.error font{font-family:Arial;font-size:15px;font-weight:bold;}
+
+h3.down1{background:url(/img/steps/step1.png) top left no-repeat !important;}
+h3.down2{background:url(/img/steps/step2.png) top left no-repeat !important;}
+h3.down3{background:url(/img/steps/step3.png) top left no-repeat !important;}
+h3.down4{background:url(/img/steps/step4.png) top left no-repeat !important;}
+h3.down5{background:url(/img/steps/step5.png) top left no-repeat !important;}
+h3.down6{background:url(/img/steps/step6.png) top left no-repeat !important;}
+h3.down1,h3.down2,h3.down3,h3.down4,h3.down5,h3.down6{height:64px;font-size:16px;position:relative;border-right:1px solid #E0E6E8;}
+
+.key-tb {
+margin-left: 34px;
+/* background-color: #f9f8f5; */
+margin-bottom: 15px;
+border-bottom: 1px solid #E0E6E8;
+border-left: 1px solid #E0E6E8;
+border-right: 1px solid #E0E6E8;
+padding: 10px 15px 1px 15px;
+}
+
+.balances-tb{background-color:#f9f8f5;margin-bottom:15px;margin-top:15px;margin-left:15px;margin-right:15px;border:1px solid #E0E6E8;}
+.key-tb form{position:relative;z-index:1;margin:-15px 0 10px 20px !important;clear:both;}
+.key-tb p{margin-left:20px !important;}
+img.image{cursor:pointer;border:none;}
+
+/* for titles */
+body div#toolTip {
+position:absolute;
+width:auto;
+background:#D1D1D1;
+border:1px solid #A1A1A1;
+padding:5px;
+z-index:1000;
+filter: alpha(opacity=70); /* opacity for ISE */
+opacity: .7;               /* opacity for normal browsers */
+text-align:left;
+min-height:1em;
+}
+body div#toolTip p{margin:0;padding:0;color:#000000;font:11px/12px verdana,arial,sans-serif;}
+body div#toolTip p em{display:block;color:#f60;margin-top:3px;font-style:normal;font-weight:bold;}
+body div#toolTip p em span{font-weight:bold;color:#fff;}
+
+body div#detbox{position:absolute;width:auto;background:#fafafa;border:1px solid #c0c0c0;padding:5px;z-index:1000;text-align:left;min-height:1em;}
+body div#detbox p{padding:0px;margin:0px;}
+input.butActive{background:#fffff0;border:1px solid #aaa;color:#004000;}
+input.butDanger{color:#800000;}
+.nav{width:120px;padding-left:5px;padding-right:5px;}
+.nav li{list-style-type:circle;}
+.ui-tabs {
+border-bottom:1px solid #66CC66;
+font-family: verdana,arial,sans-serif;
+font-size:11px;
+font-size-adjust: none;
+font-strech:normal;
+font-style:normal;
+font-variant:normal;
+line-height: normal;
+list-style-type:none;
+margin:3px 0;
+padding: 3px 10px;
+text-align:left;
+}
+.ui-tabs .ui-tabs-nav { list-style: none; /*position: relative; padding: .2em .2em 0;*/ }
+.ui-tabs .ui-tabs-nav li {
+border-bottom:1px solid #FFFFFF;
+display:inline;
+padding-left:2px;
+padding-right:2px;
+font-size:100%;
+font-size-adjust:none;
+font-style:normal;
+font-variant:normal;
+font-weight:bold;
+line-height:normal;
+list-style-type:none;
+text-align:left;
+}
+.ui-tabs .ui-tabs-nav li a {
+background-color:#CCFFCC;
+color:#666666;	
+margin-right:0;
+padding:3px 4px;
+text-decoration:none;
+font-weight: bold !important;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected{padding-bottom:1px;border-bottom-width:0;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a{border-bottom:1px solid #FFFFFF;background-color:#FFFFFF;color:#000000;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+.ui-tabs .ui-tabs-panel { padding: 1em 1.4em; display: block; border-width: 0; background: none; }
+.ui-tabs .ui-tabs-hide { display: none !important; }
+
+.ui-tabs .ui-tabs-nav li .nav-name,.ui-tabs .ui-tabs-nav li .nav-icon,.ui-tabs .ui-tabs-nav li .nav-new{border-color:#66CC66 #66CC66;border-width:1px 1px medium;padding-bottom:1px;}
+.ui-tabs .ui-tabs-nav li .nav-name{border-style:solid none none solid;}
+.ui-tabs .ui-tabs-nav li .nav-icon{border-style:solid solid none none;}
+.ui-tabs .ui-tabs-nav li .nav-new{border-style:solid solid;}
+.ui-tabs img{vertical-align:top;aborder: 0 none;}
+.ui-tabs ul{padding-bottom:0px;margin-bottom:0px;}
+</style><!-- jquery -->
+<script type="text/javascript" src="/js/m.js"></script>
+<!-- <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.md5.js"></script> -->
+<!-- <script language="JavaScript" src="/js/md5.js" type="text/javascript"></script> -->
+<!-- <script type="text/javascript" src="/js/include2.js"></script> -->
+<!-- jquery autocomplete -->
+<!-- <script type="text/javascript" src="/js/jquery.autocomplete.js"></script> -->
+<!-- easy tooltip -->
+<!-- <script type="text/javascript" src="/js/easyTooltip.js"></script> -->
+<!-- <script type="text/javascript">
+$(document).ready(function() {
+/* This is basic - uses default settings */
+	/*if ( document.getElementById( 'fancy1' ) ) {
+		$("a#fancy1").fancybox();
+	}*/
+	$(".easyFancy").fancybox();
+	if ( document.getElementById( 'jing' ) ) {
+		$("a#jing").fancybox({'hideOnContentClick':false,'frameWidth':738,'frameHeight':506});
+	}
+	/* Using custom settings */
+	if ( document.getElementById( 'fancy2' ) ) {
+		$("a#fancy2").fancybox({'hideOnContentClick':true});
+	}
+	if ( document.getElementById( 'fancy3' ) ) {
+		$("a#fancy3").fancybox({'zoomSpeedIn':300,'zoomSpeedOut':300,'overlayShow':false});
+	}
+	if ( document.getElementById( 'iframe' ) ) {
+		$("a#iframe").fancybox({
+			'hideOnContentClick': true,
+			'type' : 'iframe',
+			'autoScale' : true,
+			'height' : '57.5%'
+		});
+	}
+	if(navigator.platform == 'iPad' ||
+		navigator.platform == 'iPhone' ||
+		navigator.platform == 'iPod'
+	) {
+		$("#foot_nav").css("position", "static");
+	}
+
+if(document.getElementById('warning')){
+	$("#warning a").easyTooltip({useElement:"item"});
+}
+
+});
+
+function clickclear(thisfield, defaulttext) {
+	if (thisfield.value == defaulttext) {thisfield.value = "";}
+}
+
+function clickrecall(thisfield, defaulttext) {
+	if (thisfield.value == "") {thisfield.value = defaulttext;}
+}
+
+</script> -->
+<script type="text/javascript">
+//google analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-10927155-4']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</head>
+<body>
+<!-- Expires: Mon, 26 Aug 2013 01:00:00 +0300 --><!-- Last-Modified: Mon, 26 Aug 2013 11:00:00 +0300 --><div id="bodyblock"><div id="menu"><span id="toplogo"></span> <div id="searchform"><form target="_blank" action="http://www.google.com/cse" id="cse-search-box"><input name="q" id="q" size="21" maxlength="20" value="Search..." style="width: 132px; font-size: 9px; visibility: visible;" onfocus="checkFill('Search...', this);" onblur="fillDefault('Search...', this);"/><input type="hidden" name="cx" value="014341547594717591594:ibqznhgxcku" /><input type="hidden" name="ie" value="UTF-8" /> <input class="goimage" type="image" name="img" src="/img/header/gogo.png" /></form></div><div id="header"><ul><li id="on"><a href="http://www.mikrotik.com/index.html">home</a></li><li ><a href="http://www.mikrotik.com/software.html">software</a></li><li ><a href="http://routerboard.com">hardware</a></li><li ><a href="http://www.mikrotik.com/support.html">support</a></li><li ><a href="http://www.mikrotik.com/download">downloads</a></li><li ><a href="/buy">purchase</a></li><li ><a href="http://www.mikrotik.com/training/">training</a></li><li ><a href="https://www.mikrotik.com/client/">account</a></li></ul></div><div class="submenu"><div id="submenu_corner"></div><ul><li class="current"><a href="http://www.mikrotik.com/index.html">Main</a></li><li ><a href="http://www.mikrotik.com/buy">Buy</a></li><li ><a href="http://www.mikrotik.com/aboutus">About us</a></li><li ><a href="http://www.mikrotik.com/mfm">Made for Mikrotik</a></li><li ><a href="http://www.mikrotik.com/ourcustomers.php">Our customers</a></li><li ><a href="http://www.mikrotik.com/joblist.php">Jobs</a></li></ul></div> <!-- pogas beidzas --> </div> <!-- menu beidzas --> <div style="clear: both; font-size: 1px;">&nbsp;</div><div style="clear: both; width: 740px; height:10px; display: block; text-align: left; margin-left: 100px"><strong class="everywhere">MikroTik everywhere:<a href="/wireless.php" title="click to see MikroTik as an AP">AP</a> |<a href="/wireless.php" title="click to see MikroTik as a CPE">CPE</a> |<a href="/thedude" title="click to see MikroTik's Network Manager tool for Windows">Network Monitor</a> |<a href="http://wiki.mikrotik.com/wiki/User_Manager" title="click to see MikroTik's User Management System">User Manager</a> |<a href="http://www.mikrotik.com/testdocs/ros/2.9/ip/hotspot.php" title="click to see MikroTik's HotSpot">HotSpot Gateway</a> |<a href="/software.html" title="click to see MikroTik's RouterOS and it's features">Core Router</a></strong></div> </div><div id="pageblock"><table width="840px"><tr><td><div style="width: 750px;">
+
+<div class="mfm-main">
+<h2>Made for Mikrotik</h2>
+<div>The Made for Mikrotik program consists of two parts: "Mikrotik certified
+Integrators" and "Mikrotik certified Accessories".</div>
+		
+<div><b>
+MikroTik Certified Accessories</b> are made by Mikrotik approved companies,
+who make accessories specifically for MikroTik products. This includes 
+RouterBOARD compatible cases, outdoor antennas and other products</div>
+	
+<a href="/logo#mfm">
+<img src="/img/mfm/button_sm.png" style="margin: 5px; float: right;" />
+</a>
+	
+<div><b>MikroTik Certified Integrators</b> are companies who make turnkey
+solutions based on Mikrotik RouterBOARD and RouterOS, their products include
+assembled CPE/AP devices, preinstalled Integrated antennas and Rackmount
+solutions assembled for and with RouterOS</div>
+	
+<div>Click here to
+<a id="iframe" href="http://mt.lv/mfm_popup.html?iframe">apply to the "MFM" program</a></div>
+<div>Below is a list of our 145 Certified Mikrotik Integrators
+and Accessory makers in Random order:</div>
+<br/>
+
+<p class="mfm_icons">
+<a href="" onclick="return loadMfm(1,'ic_accessories');" class="ic_accessories_clicked"></a><a href="" onclick="return loadMfm(2,'ic_integrators');" class="ic_integrators"></a><a href="" onclick="return loadMfm(3,'ic_software');" class="ic_software"></a><a href="" onclick="return loadMfm(4,'ic_cpe');" class="ic_cpe"></a><a href="" onclick="return loadMfm(5,'ic_books');" class="ic_books"></a>
+</p>
+		
+</div>
+
+<div style="clear: both;">&nbsp;</div>
+
+<div id="mfmContent">
+<div class="mfm-block"><div class="mfm-name">J&J Jirous<br /><a href="http://www.jirous.com/">www.jirous.com</a></div><div class="mfm-desc"><a class="easyFancy" title="J&J Jirous" href="client/img/mfm/jirous.png"><img src="client/img/mfm/jirous_thumb.png" /></a><p>J&J Jirous from Czech Republic make antennas and enclosures for mounting RouterBOARD products</p></div></div><div class="mfm-block"><div class="mfm-name">Linkit<br /><a href="http://www.made4mikrotik.eu">www.made4mikrotik.eu</a></div><div class="mfm-desc"><a class="easyFancy" title="Linkit" href="client/img/mfm/M4M_linkit.jpg"><img src="client/img/mfm/M4M_linkit_thumb.jpg" /></a><p>Linkit developes and manufactures outdoor enclosures for Routerboards, ready for RB411, RB433, RB435, RB711. The complete Made in Italy design and manufacturing of all components guarantees high reliability and superior performance. Our enclosures are designed around an exclusive plastic structure which provides a very affordable outdoor box. The construction is totally waterproof and guarantees protection in even the most extreme environmental conditions. Also carrier-class professional aluminum enclosures are available Paired with a MikroTik Routerboard, this enclosures allows you to build a complete base station which couples pleasant looks with ease of installation and use, at an extremely attractive price.</p></div></div><div class="mfm-block"><div class="mfm-name">Reflectors for RouterBoard SXT<br /><a href="http://reflectors.com.ua/ ">http://reflectors.com.ua/ </a></div><div class="mfm-desc"><a class="easyFancy" title="Reflectors for RouterBoard SXT" href="client/img/mfm/1.jpg"><img src="client/img/mfm/1_thumb.jpg" /></a><p>ReflectorSXT25 is designed to amplify the signal of standard 16 dBi antenna RouterBOARD SXT 5HPnD / G-5HPnD up to 7-10 dBi more.</p></div></div><div class="mfm-block"><div class="mfm-name">Panoptic<br /><a href="http://www.panoptictechnology.com/network-smart-adapters-mikrotik/">http://www.panoptictechnology.com/</a></div><div class="mfm-desc"><a class="easyFancy" title="Panoptic" href="client/img/mfm/IPA4524.jpg"><img src="client/img/mfm/IPA4524_thumb.jpg" /></a><p>Panoptic SmartAdapters down convert a 48V PoE non-standard OR 802.3af signal to 12, 18 or 24V.  This allows you to power ANY RouterBoard using ANY standard 802.3af POE switch, cleaning up your network room by avoiding multiple injectors, and giving you the advanced control offered by a managed switch.</p></div></div><div class="mfm-block"><div class="mfm-name">Airwin<br /><a href="http://triotronik.com/emag/deutsch/airwin/index.html">www.airwin-antennas.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Airwin" href="client/img/mfm/airwin.jpg"><img src="client/img/mfm/airwin_thumb.jpg" /></a><p>Airwin Antennas make Integrated antennas for RouterBOARD products</p></div></div><div class="mfm-block"><div class="mfm-name">EDC Wifi<br /><a href="http://edcwifi.com/">www.edcwifi.com</a></div><div class="mfm-desc"><a class="easyFancy" title="EDC Wifi" href="client/img/mfm/image001.png"><img src="client/img/mfm/image001_thumb.png" /></a><p>EDCwifi makes many accessories for RouterBOARD such as various Antenna Enclosure and Indoor Enclosure, 24V1A Power Supply Integrated with POE, various connector, converter and others. Visit our website for detail. </p></div></div><div class="mfm-block"><div class="mfm-name">Online Technology<br /><a href="http://www.onlinetechnology.cz">www.onlinetechnology.cz</a></div><div class="mfm-desc"><a class="easyFancy" title="Online Technology" href="client/img/mfm/DSC_2489-male.jpg"><img src="client/img/mfm/DSC_2489-male_thumb.jpg" /></a><p>Online Technology makes  monitoring / controll board made especially for monitoring MikroTik devices.</p></div></div><div class="mfm-block"><div class="mfm-name">MaxxWave<br /><a href="http://www.balticnetworks.com/components/enclosures-cases.html?limit=all%26manufacturer=22">http://www.maxxwave.com</a></div><div class="mfm-desc"><a class="easyFancy" title="MaxxWave" href="client/img/mfm/sm_2.jpg"><img src="client/img/mfm/sm_2_thumb.jpg" /></a><p>MaxxWave(tm) products, made for and distributed exclusively by Baltic Networks USA, include some of the largest selections of indoor, outdoor, wall mountable enclosures, rackmount adapters, and low-cost power supplies and cables.  Its flagship product UBTik(tm) is designed to mount a MikroTik Access Point on very popular Ubiquiti carrier-class antennas.  Outdoor NEMA-rated enclosures feature a unique water-proofing design and quick-release thumb-screws for easy access to the enclosure contents.  All MaxxWave(tm)enclosures can be custom branded for your OEM needs</p></div></div><div class="mfm-block"><div class="mfm-name">KPE spol<br /><a href="http://pojitko.cz/index.php/airtik">www.pojitko.cz</a></div><div class="mfm-desc"><a class="easyFancy" title="KPE spol" href="client/img/mfm/airtik.jpg"><img src="client/img/mfm/airtik_thumb.jpg" /></a><p>KPE spol. s r.o. is developer and producer of special microwave device.AirTik is MikroTik embeded OS a Routerboard platform, using regular RBminiPCI cards to transmit datas in Band from 9GHz higher with greatreliability. Compatible protocols are Nstreme and Nstreme Dual for PtMPand PtMP radio distribution. With this device you can avoid transmitiontrhu jammed and heavily used bands using MikroTik platforms. Microwaveunit are controled thru stay alone adapter which control complete ODUstatus including TX channels, TX power, temperature of ODU andLivestatus of operation of unit. Adapters as well power up units. </p></div></div><div class="mfm-block"><div class="mfm-name">Lindsay Broadband Inc.<br /><a href="http://www.lindsaybroadbandinc.com/site/product/enterprise-connectivity/wi-fi-solutions/wazu/">www.lindsaybroadbandinc.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Lindsay Broadband Inc." href="client/img/mfm/wazu.jpg"><img src="client/img/mfm/wazu_thumb.jpg" /></a><p>Lindsay Broadband has several product lines that support the Mikrotik RouterBoard. Offering outdoor hardened access points with integral Ethernet and antenna port surge protection. Backhaul integration includes cable and DSL modems and Fiber. All housings feature IP68 weather seal. Strand mount APs for the CATV industry is a specialty. Fully assembled and tested in Canada. </p></div></div><div class="mfm-block"><div class="mfm-name">KAM Fab<br /><a href="http://www.wirelessenclosures.com/">www.wirelessenclosures.com</a></div><div class="mfm-desc"><a class="easyFancy" title="KAM Fab" href="client/img/mfm/KAM.jpg"><img src="client/img/mfm/KAM_thumb.jpg" /></a><p>KAM Fab manufactures Enclosures for RouterBOARD products.</p></div></div><div class="mfm-block"><div class="mfm-name">Compex<br /><a href="http://www.compex.com.sg/fullDescription.aspx?pID=63#">www.compex.com.sg</a></div><div class="mfm-desc"><a class="easyFancy" title="Compex" href="client/img/mfm/for MK.jpg"><img src="client/img/mfm/for MK_thumb.jpg" /></a><p>Compex MIMO MJE Enclosure is an outdoor enclosure with 5GHz 17dBi built-in wide-band dual-polarization panel antenna with -40dB port isolation. The enclosure is made of UV resistant plastic and suites RB711 and RB411.<br /></p></div></div><div class="mfm-block"><div class="mfm-name">Cyberteam<br /><a href="http://www.cyberteam.pl/produkt/show/308.html">www.cyberteam.pl</a></div><div class="mfm-desc"><a class="easyFancy" title="Cyberteam" href="client/img/mfm/airbox18.jpg"><img src="client/img/mfm/airbox18_thumb.jpg" /></a><p>Cyberteam are manufacturing microwave (2.4 and 5Ghz) outdoor antennas andselling wide rfange of networking equipment including MikroTik productsboth on global, as well on local market. The picture shows Airbox, one of their RouterBOARD compatible antenna cases. </p></div></div><div class="mfm-block"><div class="mfm-name">ETHERON.PL<br /><a href="http://etheron.pl/index.php?p820,mini-bracket-sxt">http://etheron.pl/index.php?p820,mini-bracket-sxt</a></div><div class="mfm-desc"><a class="easyFancy" title="ETHERON.PL" href="client/img/mfm/bracketmikrotiksxt.jpg"><img src="client/img/mfm/bracketmikrotiksxt_thumb.jpg" /></a><p>Wi-fi networks equipment dedicated specially to Mikrotik’s devices. Wireless antennas, antenna mounts etc.<br /> </p></div></div><div class="mfm-block"><div class="mfm-name">Konsorcjum ATS<br /><a href="http://www.wirelesslan.pl/product_info.php/products_id/795/name/antenabox_5ghz-pa19_prepared_for_rb411-133c">www.wirelesslan.pl</a></div><div class="mfm-desc"><a class="easyFancy" title="Konsorcjum ATS" href="client/img/mfm/ats.png"><img src="client/img/mfm/ats_thumb.png" /></a><p>Konsorcjum ATS from Poland sells MikroTik products and also low cost outdoor cases for RouterBOARDs and integrated antennas. </p></div></div><div class="mfm-block"><div class="mfm-name">meconet e.K.<br /><a href="http://www.meconet.de">www.meconet.de</a></div><div class="mfm-desc"><a class="easyFancy" title="meconet e.K." href="client/img/mfm/meconet.png"><img src="client/img/mfm/meconet_thumb.png" /></a><p>Meconet from Germany offers a variety of products based on RouterOS and RouterBOARdD. </p><p>Meconet also makes a 360 degree Broadband Triple Sector Antenna provides a cost effective solution for large scale WLL, WLAN, H-LAN, ISM, UNII, and Point-to-Multi-Point applications. This device has a built-in RB800 or RB433.</p></div></div><div class="mfm-block"><div class="mfm-name">Stationbox<br /><a href="http://www.stationbox.info">www.stationbox.info</a></div><div class="mfm-desc"><a class="easyFancy" title="Stationbox" href="client/img/mfm/StationBox_big.jpg"><img src="client/img/mfm/StationBox_big_thumb.jpg" /></a><p>StationBox is an original universal outdoor enclosure designed especially for WISP's (Wireless Internet Service Providers) needs. The StationBox is designed to emphazise simple service and ease of installation. It is compatible with MikroTik RouterBOARD 411 family and Crossroads RouterBOARDs. </p></div></div><div class="mfm-block"><div class="mfm-name">Papouch s.r.o.<br /><a href=" http://www.papouch.com/en/shop/product/tm-routerboard-thermometer-mikrotik/"> http://www.papouch.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Papouch s.r.o." href="client/img/mfm/tm-mikrotik-thermometer.jpg"><img src="client/img/mfm/tm-mikrotik-thermometer_thumb.jpg" /></a><p>This version of thermometer TM is designed specifically for Mikrotik RouterBOARDs. Thermometer is connected to the RouterBOARD’s serial port and it is powered from the same port. With this thermometer you can measure temperature from 2 points or monitor a status of switch.</p></div></div><div class="mfm-block"><div class="mfm-name">Integra<br /><a href="http://www.mikrotikbox.com">www.mikrotikbox.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Integra" href="client/img/mfm/integra.jpg"><img src="client/img/mfm/integra_thumb.jpg" /></a><p>INTEGRA from Poland makes indoor and outdoor MikroTik boxes, designed for advanced wireless stations and for standard MikroTik RouterBoards</p></div></div><div class="mfm-block"><div class="mfm-name">Firepro<br /><a href="http://www.fireprowireless.com/">www.fireprowireless.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Firepro" href="client/img/mfm/firepro.png"><img src="client/img/mfm/firepro_thumb.png" /></a><p>Firepro from India makes indoor and outdoor MikroTik boxes, designed for advanced wireless stations and for standard MikroTik RouterBoards. They are also makers of surge protectors and other accessories.</p></div></div><div class="mfm-block"><div class="mfm-name">WifiBoxes<br /><a href="http://www.wifiboxes.com/">http://www.wifiboxes.com/</a></div><div class="mfm-desc"><a class="easyFancy" title="WifiBoxes" href="client/img/mfm/WiFiBoxesStacked.png"><img src="client/img/mfm/WiFiBoxesStacked_thumb.png" /></a><p>WiFi Boxes specializes in innovative indoor and outdoor cases for MikroTik products.  With more than 10 years of real world WISP experience, we actually use the products we manufacture so every case is designed and built with attention to the details end users need in the field.  We were one of the first manufacturers of custom cases for WISP devices and our outdoor enclosures are designed according to UL specifications with a lifetime warranty.  Our products are all manufactured in the U.S.A.</p></div></div><div class="mfm-block"><div class="mfm-name">Netus<br /><a href="http://netus.com.pl">www.netus.com.pl</a></div><div class="mfm-desc"><a class="easyFancy" title="Netus" href="client/img/mfm/netus.jpg"><img src="client/img/mfm/netus_thumb.jpg" /></a><p>NETUS Sp. z o.o. produces high-quality microwave antennas in Poland. Some of the antennas are integrated with RouterBOARD and other devices.With a very modern park of CNC machines can quickly perform non-standard contract. The company was founded in 1999 and sells its products in the global market. </p></div></div><div class="mfm-block"><div class="mfm-name">Sunparl<br /><a href="http://www.sunparl.com/">www.sunparl.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Sunparl" href="client/img/mfm/sunparl.png"><img src="client/img/mfm/sunparl_thumb.png" /></a><p>Sunparl is a antenna manufacturer who also makes antennas and enclosures for RouterBOARD devices</p></div></div><div class="mfm-block"><div class="mfm-name">Easy Network<br /><a href="http://easynetwork.co.th/index.php?option=com_content&view=article&id=90:ena-50&catid=46:easy-appliance&Itemid=53">www.easynetwork.co.th</a></div><div class="mfm-desc"><a class="easyFancy" title="Easy Network" href="client/img/mfm/ENA-50m.png"><img src="client/img/mfm/ENA-50m_thumb.png" /></a><p>Easy Network (Thailand) makes 1U rackmount cases for RB450 and RB450G</p></div></div><div class="mfm-block"><div class="mfm-name">BBMIMO<br /><a href="http://www.bbmimo.com">www.bbmimo.com</a></div><div class="mfm-desc"><a class="easyFancy" title="BBMIMO" href="client/img/mfm/BBM2.jpg"><img src="client/img/mfm/BBM2_thumb.jpg" /></a><p>BBMIMO is a company which is producer of enclosures and accessories for Mikrotik wireless routers (outdoor boxes, glands, pigtails  etc.). BBMIMO designs Mikrotik Core router rack mount for high bandwidth management too, which can be customized by users order</p></div></div><div class="mfm-block"><div class="mfm-name">ARC wireless<br /><a href="http://www.antennas.com/">www.antennas.com</a></div><div class="mfm-desc"><a class="easyFancy" title="ARC wireless" href="client/img/mfm/arc.png"><img src="client/img/mfm/arc_thumb.png" /></a><p>ARC wireless makes outdoor cases and antennas. Their products like the ARC IES are made to fit RouterBOARDs</p></div></div><div class="mfm-block"><div class="mfm-name">E-zy<br /><a href="http://www.e-zy.net/antennas/EZ-Go-Panel5">www.e-zy.net</a></div><div class="mfm-desc"><a class="easyFancy" title="E-zy" href="client/img/mfm/EZ-Go_Main_small.jpeg"><img src="client/img/mfm/EZ-Go_Main_small_thumb.jpeg" /></a><p>The EZ-Go-Panel5 is a cost efficient weatherproof enclosure with integrated high efficiency antenna and accommodations for customer mounting of electronics.</p></div></div><div class="mfm-block"><div class="mfm-name">ITELITE<br /><a href="http://www.itelite.net">www.itelite.net</a></div><div class="mfm-desc"><a class="easyFancy" title="ITELITE" href="client/img/mfm/itelite.jpg"><img src="client/img/mfm/itelite_thumb.jpg" /></a><p>Four different sizes of outdoor enclosures with integrated antennas working in different frequencies from 700MHz through 900Mhz, 1.9GHz, 2.3Ghz, 3.5GHz up to 6GHz, specially dedicated for Mikrotik routerboards: 411, 711, 433, 600, 800 series. 5 years warranty.</p></div></div><div class="mfm-block"><div class="mfm-name">Technologic<br /><a href="http://www.technologic.pl/index.php?page=shop.product_details&flypage=flypage.tpl&product_id=29&category_id=153&option=com_virtuemart&Itemid=29">www.technologic.pl</a></div><div class="mfm-desc"><a class="easyFancy" title="Technologic" href="client/img/mfm/telog.png"><img src="client/img/mfm/telog_thumb.png" /></a><p>Technologic from Poland sells MikroTik products and also low cost outdoor cases for RouterBOARDs and integrated antennas. </p></div></div><div class="mfm-block"><div class="mfm-name">Kenbotong<br /><a href="http://www.kenbotong.com/products/TDJ-2400BKT60-C-2-4GHz-Broadband-Low-Profile-Panel-Antenna.htm">www.kenbotong.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Kenbotong" href="client/img/mfm/kenbon.jpg"><img src="client/img/mfm/kenbon_thumb.jpg" /></a><p>Kenbotong Communication Ltd. is one of the leading antenna manufacturers in China. We have been in this business for over 25 years. And our antennas range from 30MHz to 6GHz.  We also offer 2.4GHz antennas with enclosure for RouterBOARD products</p></div></div><div class="mfm-block"><div class="mfm-name">Netkrom solution<br /><a href="http://netkromsolution.com/?page_id=1008">http://netkromsolution.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Netkrom solution" href="client/img/mfm/493brosur-edit.jpg"><img src="client/img/mfm/493brosur-edit_thumb.jpg" /></a><p>NetMedic is one product design to the hospital. Powered by MikroTik RouterOS NetMedic bundle with Monitor temperature, date and uptime of MikroTik. New Design Casing spesific for Hospital.<br /><br />Choice NetMedic for improving performance Your Network Hospital</p></div></div><div class="mfm-block"><div class="mfm-name">Routerz<br /><a href="http://www.routerz.ru">www.routerz.ru</a></div><div class="mfm-desc"><a class="easyFancy" title="Routerz" href="client/img/mfm/rm750+450.jpg"><img src="client/img/mfm/rm750+450_thumb.jpg" /></a><p>We manufacture enclosures for mounting RouterBOARD products in rack. These are simple and inexpensive 1U rackmount cases. Available for models: RB250GS, RB750, RB750G, RB750GL, RB750UP, RB751U-2HnD, RB751G-2HnD, RB450, RB450G, RB493, RB493AH, RB493G. We can customize cases with your logo and also change the colors of enclosure.</p></div></div><div class="mfm-block"><div class="mfm-name">Kozumi<br /><a href="http://www.kozumi-usa.com/new/products/WISP/MKUH16DP.html">www.kozumi-usa.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Kozumi" href="client/img/mfm/kozumi.jpg"><img src="client/img/mfm/kozumi_thumb.jpg" /></a><p>Kozumi manufactures outdoor wireless housing for Mikrotik most popular boards RB-711, RB411 and RB433 series among others. The housing is made of high quality ABS material and our antennas uses metal reflector with copper made antenna elements guarantying the best cost/performance for WISP. The housing is made for easy installation and can be easily adjustable to fit different boards</p></div></div><div class="mfm-block"><div class="mfm-name">Lanbowan<br /><a href="http://www.lanbowan.com/products/en_vpro.asp?id=166">www.lanbowan.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Lanbowan" href="client/img/mfm/lanbowan_l.jpg"><img src="client/img/mfm/lanbowan_l_thumb.jpg" /></a><p>They are a professional communication antenna manufacturer in China. Their main products include 900MHz, 2.4GHz,3.5GHz and 5GHz WiFi, WiMax communication antennas and accessories. Most of their products are exported to North America, Europe, South East Asia, Australia, South Africaetc.The B-type series or E-type series integrated antenna are compatible with MikroTik RouterBOARD devices.</p></div></div><div class="mfm-block"><div class="mfm-name">Microwave Brazil<br /><a href="http://www.microwavetec.com.br/hotsite_mikrotik/index_ingles.php">www.microwavetec.com.br</a></div><div class="mfm-desc"><a class="easyFancy" title="Microwave Brazil" href="client/img/mfm/microwave.jpg"><img src="client/img/mfm/microwave_thumb.jpg" /></a><p>The Microwave Telecommunications of Brazil, produces equipment for high-performance  wireless networks and now has developed a series of rackmount enclosures for routerboards Mikrotik. We can customize with your own logo and also change the colors of encloure</p></div></div><div class="mfm-block"><div class="mfm-name">MTI<br /><a href="http://www.mtiwe.com">www.mtiwe.com</a></div><div class="mfm-desc"><a class="easyFancy" title="MTI" href="client/img/mfm/MTI.JPG"><img src="client/img/mfm/MTI_thumb.JPG" /></a><p>MTI Wireless Edge develops and manufactures Antennas and Enclosures for over 35 years. Our antenna solutions include Base Station (BTS), Subscriber (CPE) and Omni directional Antennas on all frequency bands, including 2.4, 3.5 and 5 Ghz. MTI offers outdoor enclosures in different sizes, optimized for MikroTik RouterBOARDs. MTI has already fielded thousands of wireless solutions with MTI enclosures and antennas powered by MikroTik.</p></div></div><div class="mfm-block"><div class="mfm-name">Netcons<br /><a href="http://www.antenabox.com">www.antenabox.com </a></div><div class="mfm-desc"><a class="easyFancy" title="Netcons" href="client/img/mfm/antennabox.jpg"><img src="client/img/mfm/antennabox_thumb.jpg" /></a><p>Antenabox products was developed in 2008 especially for RB4xx platform and have got extremely popular between WISPs particularly in Europe as a lowcost CPE solution to speed up Mikrotik sales</p><p>Also available - IQsocket products help to monitor and manage power of Mikrotik and other networking products by comfortable way. Power is monitored and  managed over various networking interfaces such as RS232, Ethernet or GSM. They are very popular with Mikrotik boards as a lowcost RS232 watchdog solution or as a GSM remote power controllers. </p></div></div><div class="mfm-block"><div class="mfm-name">Acconet<br /><a href="http://www.acconet.net">www.acconet.net</a></div><div class="mfm-desc"><a class="easyFancy" title="Acconet" href="client/img/mfm/acconet.jpg"><img src="client/img/mfm/acconet_thumb.jpg" /></a><p>These enclosures (available with integrated antennas) are specifically designed for the outdoor installation of sensitive wireless communication equipment. </p></div></div><div class="mfm-block"><div class="mfm-name">JJrouter <br /><a href="http://www.jjrouter.com">www.jjrouter.com</a></div><div class="mfm-desc"><a class="easyFancy" title="JJrouter " href="client/img/mfm/redes.jpg"><img src="client/img/mfm/redes_thumb.jpg" /></a><p>Rackmount cases for RB/150, RB/450 and RB450G </p></div></div><div class="mfm-block"><div class="mfm-name">Wispmax<br /><a href="http://www.wispmax.com/vm.html?page=shop.browse&category_id=18&vmcchk=1">www.wispmax.com</a></div><div class="mfm-desc"><a class="easyFancy" title="Wispmax" href="client/img/mfm/wispmax.jpg"><img src="client/img/mfm/wispmax_thumb.jpg" /></a><p>Wispmax manufactures and distributes Outdoor Enclosures with integrated antennas designed for fast assembly of Mikrotik RouterBOARDS.Wispmax also offers a wide range of professional products for Mikrotik users</p></div></div><div class="mfm-block"><div class="mfm-name">Cyberbajt<br /><a href="http://www.cyberbajt.pl/cyber.php?get=produkt,1376">www.cyberbajt.pl</a></div><div class="mfm-desc"><a class="easyFancy" title="Cyberbajt" href="client/img/mfm/cyber.png"><img src="client/img/mfm/cyber_thumb.png" /></a><p>Cyberbajt from Poland sells MikroTik products and also low cost outdoor cases for RouterBOARDs and integrated antennas. </p></div></div><div class="mfm-block"><div class="mfm-name">Interprojekt<br /><a href="http://www.interprojekt.com.pl/gold-wireless-goldbox56020-5ghz-20dbi-with-ip66-case-p-327.html">www.interprojekt.com.pl</a></div><div class="mfm-desc"><a class="easyFancy" title="Interprojekt" href="client/img/mfm/iprojekt.png"><img src="client/img/mfm/iprojekt_thumb.png" /></a><p>Interprojekt from Poland sells MikroTik products and also low cost outdoor cases for RouterBOARDs and integrated antennas. </p></div></div><div class="mfm-block"><div class="mfm-name">c3 antennas<br /><a href="http://www.c3antenas.com.br">www.c3antenas.com.br</a></div><div class="mfm-desc"><a class="easyFancy" title="c3 antennas" href="client/img/mfm/c3.png"><img src="client/img/mfm/c3_thumb.png" /></a><p>C3 Antennas are an universal outdoor Antenna enclosures designed forAPs and CPEs Wireless ISP's. With five minutes easy and simpleinstalation concept. It is completly full compatible with ALL MikroTikRouterBOARDs (Rb411,Rb433,Rb600) family and Crossroads. Our antennaenclosure still has eight integration points around wich can be used forLan and Wireless externals (AP, CPE or even in a Mesh network). It canbe bought with directional or sectorial antenna in 2,4Ghz or 5Ghzfrequencies according by your needs. Good instalations. </p></div></div><div class="mfm-block"><div class="mfm-name">Poynting<br /><a href="http://www.poynting.co.za">www.poynting.co.za</a></div><div class="mfm-desc"><a class="easyFancy" title="Poynting" href="client/img/mfm/poynting.jpg"><img src="client/img/mfm/poynting_thumb.jpg" /></a><p>This antenna and enclosure is specifically designed to fit MikroTik RB411 router boards.The antenna comes with an U.FL connector to directly attach to the electronics (not provided). A window allows to inspect the control LEDs without opening the enclosure.The enclosure passes IP67 and is UV stable to ensure longevity of enclosure and electronics. It further features a IP67/NEMA 4P waterproof RJ45 connector, allowing a preassembled Ethernet cable to be installed without opening the enclosure.The antenna can be turned left or right or be turned around for window mount with suckers.</p></div></div><div class="mfm-block"><div class="mfm-name">Wireless Instruments<br /><a href="http://www.wireless-instruments.com/">http://www.wireless-instruments.com/</a></div><div class="mfm-desc"><a class="easyFancy" title="Wireless Instruments" href="client/img/mfm/wi-photo.jpg"><img src="client/img/mfm/wi-photo_thumb.jpg" /></a><p>Wireless Instruments company has created the WiBOX antenna series with housings to install MikroTik embedded solutions inside. The company underlined for the highest quality and ergonomics. The different sized boxes provide WISP with the solutions with enough space to install any MikroTik board (RB411, RB433, RB600, RB711 et al.) inside and the multitude of offered antennas allows for system integration in one box as well.</p></div></div>
+</div>
+<!-- 
+</td>
+  </tr>
+</table>
+ -->
+</div>
+</td>
+</tr>
+</table>
+</div> 
+
+<script type="text/javascript">
+//$("#foot_nav").html(navigator.platform);
+</script>
+<div id="foot_nav">
+<div class="foot_nav_inside">
+    <a style="float: left" href="http://www.mikrotik.com/trademark">&copy;</a>
+    <a href="http://www.mikrotik.com">Mikrotik</a> :
+    <a href="http://www.routerboard.com">RouterBOARD</a> :
+    <a href="http://forum.mikrotik.com">Forum</a> :
+    <a href="http://mum.mikrotik.com">MUM</a> :
+    <a href="http://training.mikrotik.com">Training</a> :
+    <a href="http://wiki.mikrotik.com/wiki/Main_Page">Wiki</a> :
+    <a href="http://www.tiktube.com">Tiktube</a> :
+    <a href="http://wiki.mikrotik.com/wiki/MikroTik_News">Newsletters</a> :
+    <a href="http://twitter.com/mikrotik_com">Twitter</a>
+    <a href="http://english-145815446642.spampoison.com" style="display: none">Click Here</a>
+</div>
+</div>
+
+</body>
+</html>

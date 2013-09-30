@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+  <head>
+    <meta http-equiv="Content-Language" content="en-gb" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tiktube</title>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <script type="text/javascript" src="/js/hospitalKernel.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/multirequests.js"></script>
+    <script type="text/javascript" src="/js/jquery-default.min.js"></script>
+    <script type="text/javascript" src="/js/md5.js?reload=true"></script>
+	<script type="text/javascript">
+		function getInfo(id) {
+		var obj_id = multireq.start();
+		multireq.addUrl("action=1&UPLOAD_IDENTIFIER="+id, obj_id, "progress.php");
+		multireq.commit(obj_id);
+		setTimeout("getInfo("+id+")", 1000);
+		}
+		function timedRefresh() {
+			t=setTimeout("refreshCount();",60000);
+		}
+		function refreshCount() {
+			reloadCount();
+			timedRefresh();
+		}
+		function reloadCount() {
+			$.get(
+				"connected.html",
+				function(data) {
+					$("#counter1").html(data);
+				}
+			);
+		}
+
+		$(document).ready(
+			function(){
+				$(window).scroll(
+					function (){
+						px = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
+						if (px == 0){
+							$(".morebut").click();
+						}
+					}
+				);
+			}
+		);
+	</script>
+
+  </head>
+
+  <!-- Begin Body -->
+  <body>
+	<div id="hideCoord" style="display:none;"></div>
+    <div id="border">
+      <div id="container">
+
+	<div id="cont_top">
+	  <h1><a href="http://www.tiktube.com/">Tiktube</a></h1> MikroTik related video service
+	</div>
+
+	<!-- Kreisā puse: video saraksts -->
+	<div class="sorting">Sort by:
+	
+	<a id="down" href="http://www.tiktube.com/?sortby=date&order=asc">Date</a>
+	 | 
+	<a  href="http://www.tiktube.com/?sortby=rating&order=desc">Rating</a>
+	 | 
+	<a  href="http://www.tiktube.com/?sortby=comments&order=desc">Comments</a>
+ &nbsp;&nbsp; 
+		<span style="float: right">
+		Other pages: 
+        <a href="/?help=help">Help</a> |
+        <a href="/?live=live">MUM Live</a> 
+    </span>
+	</div>
+	
+	<div id="cont_left">
+	  
+	  <div class="vid">
+    	    <a href="/video/Cngm3jmGhoLIqqJqmFEsmqCtJlKoHnlq="><img src="video/300d061532d48be8b94129e04d2084f1.jpg" alt="Video screenshot" border="0" /></a>
+	    <div class="desc">
+	      <h2><a href="/video/Cngm3jmGhoLIqqJqmFEsmqCtJlKoHnlq=">MUM ZA13: PCC Load Balancing connecting via PPPoE</a></h2>
+	      <span>PCC Load Balancing connecting via PPPoE with Port Forwarding by David Bisschoff (South Africa)<br /></span>
+	    </div>
+	    <div class="desc_notes">
+	      <ul>
+		<li>Ratio: 0 (0 votes)</li>
+		<li>Category: <a href="?category=3">MUM</a></li>
+		<li>Language: <a href="?language=1">english</a></li>
+		<li>Comments: 0</li>
+                <li>Uploader: <a href="?search=MikroTik">MikroTik</a></li>
+<li>HD: <a href="torrent/MUM_ZA13__PCC_Load_Balancing_connecting_via_PPPoE.torrent">download torrent</a></li>
+		<li>Slides: <a href="http://mum.mikrotik.com/presentations/ZA13/bisschoff.pdf">PDF</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="vid">
+    	    <a href="/video/olgD3jJlgLJlCmlKnpLtEqntllKomoIC="><img src="video/84a6563e6b199da51d84d446a6c9a2a6.jpg" alt="Video screenshot" border="0" /></a>
+	    <div class="desc">
+	      <h2><a href="/video/olgD3jJlgLJlCmlKnpLtEqntllKomoIC=">MUM ZA13: Best practices with power</a></h2>
+	      <span>Best practices with power by Chris Sutherland (Miro Distribution, South Africa)<br /></span>
+	    </div>
+	    <div class="desc_notes">
+	      <ul>
+		<li>Ratio: 0 (0 votes)</li>
+		<li>Category: <a href="?category=3">MUM</a></li>
+		<li>Language: <a href="?language=1">english</a></li>
+		<li>Comments: 0</li>
+                <li>Uploader: <a href="?search=MikroTik">MikroTik</a></li>
+<li>HD: <a href="torrent/MUM_ZA13__Best_practices_with_power.torrent">download torrent</a></li>
+		<li>Slides: <a href="http://mum.mikrotik.com/presentations/ZA13/chris.pdf">PDF</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="vid">
+    	    <a href="/video/LngK3jKpfIGKCKHppEpuDqotKlHoDJqI="><img src="video/f433403a09e109b324f6d9a8e699e8b7.jpg" alt="Video screenshot" border="0" /></a>
+	    <div class="desc">
+	      <h2><a href="/video/LngK3jKpfIGKCKHppEpuDqotKlHoDJqI=">MUM ZA13: Using RouterOS for remote automation</a></h2>
+	      <span>Using RouterOS for remote automation and locating a router on a map with no GPS receiver by Robin Gilham (Inventech, South Africa)</span>
+	    </div>
+	    <div class="desc_notes">
+	      <ul>
+		<li>Ratio: 0 (0 votes)</li>
+		<li>Category: <a href="?category=3">MUM</a></li>
+		<li>Language: <a href="?language=1">english</a></li>
+		<li>Comments: 1</li>
+                <li>Uploader: <a href="?search=MikroTik">MikroTik</a></li>
+<li>HD: <a href="torrent/MUM_ZA13__Using_RouterOS_for_remote_automation.torrent">download torrent</a></li>
+		
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="vid">
+    	    <a href="/video/LIgn3jFleEpJFKHqIpLvDqItplmoJDDl="><img src="video/8c9aa5d56e6afab85de4b455fb92a401.jpg" alt="Video screenshot" border="0" /></a>
+	    <div class="desc">
+	      <h2><a href="/video/LIgn3jFleEpJFKHqIpLvDqItplmoJDDl=">MUM ZA13: RF Homework and Fieldwork</a></h2>
+	      <span>RF Homework and Fieldwork, by Paul Nothnagel (Binary Helix Technologies)<br /></span>
+	    </div>
+	    <div class="desc_notes">
+	      <ul>
+		<li>Ratio: 0 (0 votes)</li>
+		<li>Category: <a href="?category=3">MUM</a></li>
+		<li>Language: <a href="?language=1">english</a></li>
+		<li>Comments: 0</li>
+                <li>Uploader: <a href="?search=MikroTik">MikroTik</a></li>
+<li>HD: <a href="torrent/MUM_ZA13__RF_Homework_and_Fieldwork.torrent">download torrent</a></li>
+		<li>Slides: <a href="http://mum.mikrotik.com/presentations/ZA13/paul.pdf">PDF</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="vid">
+    	    <a href="/video/Jpgq3jqFdKqCmoIqEnFwIqntllooICCn="><img src="video/b3d6c5b65ba5c3e2b7d8a0c6dff2aa32.jpg" alt="Video screenshot" border="0" /></a>
+	    <div class="desc">
+	      <h2><a href="/video/Jpgq3jqFdKqCmoIqEnFwIqntllooICCn=">MUM ZA13: High Speed Low Power</a></h2>
+	      <span>High Speed Low Power Wireless by David Savage (MikroTik Certified Trainer, South Africa)<br /></span>
+	    </div>
+	    <div class="desc_notes">
+	      <ul>
+		<li>Ratio: 0 (0 votes)</li>
+		<li>Category: <a href="?category=3">MUM</a></li>
+		<li>Language: <a href="?language=1">english</a></li>
+		<li>Comments: 0</li>
+                <li>Uploader: <a href="?search=Normunds">Normunds</a></li>
+<li>HD: <a href="torrent/MUM_ZA13__High_Speed_Low_Power.torrent">download torrent</a></li>
+		<li>Slides: <a href="http://mum.mikrotik.com/presentations/ZA13/savage.pdf">PDF</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="vid">
+    	    <a href="/video/CHgF3jFKclCHnFHCCnKxmqltLlpoILGD="><img src="video/1f95155d989a33c2c5d42a7194e80e63.jpg" alt="Video screenshot" border="0" /></a>
+	    <div class="desc">
+	      <h2><a href="/video/CHgF3jFKclCHnFHCCnKxmqltLlpoILGD=">MUM ZA13: Wireless Modulation</a></h2>
+	      <span>Modulation by Hannes Willemse (Miro Distribution, South Africa)<br /></span>
+	    </div>
+	    <div class="desc_notes">
+	      <ul>
+		<li>Ratio: 0 (0 votes)</li>
+		<li>Category: <a href="?category=3">MUM</a></li>
+		<li>Language: <a href="?language=1">english</a></li>
+		<li>Comments: 0</li>
+                <li>Uploader: <a href="?search=Normunds">Normunds</a></li>
+<li>HD: <a href="torrent/MUM_ZA13__Wireless_Modulation.torrent">download torrent</a></li>
+		<li>Slides: <a href="http://mum.mikrotik.com/presentations/ZA13/hannes.pdf">PDF</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="vid">
+    	    <a href="/video/qHgG3jEmbDDCnDHEqIKyCqGtFlmonlop="><img src="video/bffb793901da13fde9c2ed17c8bc7586.jpg" alt="Video screenshot" border="0" /></a>
+	    <div class="desc">
+	      <h2><a href="/video/qHgG3jEmbDDCnDHEqIKyCqGtFlmonlop=">MUM ZA13: Introduction and products</a></h2>
+	      <span>Sergejs Boginskis, MikroTik</span>
+	    </div>
+	    <div class="desc_notes">
+	      <ul>
+		<li>Ratio: 0 (0 votes)</li>
+		<li>Category: <a href="?category=3">MUM</a></li>
+		<li>Language: <a href="?language=1">english</a></li>
+		<li>Comments: 0</li>
+                <li>Uploader: <a href="?search=Normunds">Normunds</a></li>
+<li>HD: <a href="torrent/MUM_ZA13__Introduction_and_products.torrent">download torrent</a></li>
+		<li>Slides: <a href="http://mum.mikrotik.com/presentations/ZA13/sergejs.pdf">PDF</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="vid">
+    	    <a href="/video/mEgm3jnoaDmpDGJECJGzEqDtIlLoHEKD="><img src="video/895a598ff988f351e57959d390721d43.jpg" alt="Video screenshot" border="0" /></a>
+	    <div class="desc">
+	      <h2><a href="/video/mEgm3jnoaDmpDGJECJGzEqDtIlLoHEKD=">RU13: Интернет по билетам (альтернативное видео)</a></h2>
+	      <span>Интернет по билетам by Mikhail Moskalev (Routerz.ru, Russia)<br /><br />- Использование HotSpot + User Manager для<br />  Генерации одноразовых паролей доступа в Интернет.<br />- Подключение Technologic HotSpot Printer<br />  к Mikrotik для автоматизированного создания "билетов в Интернет"</span>
+	    </div>
+	    <div class="desc_notes">
+	      <ul>
+		<li>Ratio: +1 (1 votes)</li>
+		<li>Category: <a href="?category=3">MUM</a></li>
+		<li>Language: <a href="?language=6">russian</a></li>
+		<li>Comments: 0</li>
+                <li>Uploader: <a href="?search=Shepelev Vadim">Shepelev Vadim</a></li>
+<li>HD: <a href="torrent/RU13________________________________________________________________________________.torrent">download torrent</a></li>
+		
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="vid">
+    	    <a href="/video/GKgl3iKnjEmEpCJnJDmqlrDtDlKoLJpH="><img src="video/78222d5b9a7114a6f8252d630072163f.jpg" alt="Video screenshot" border="0" /></a>
+	    <div class="desc">
+	      <h2><a href="/video/GKgl3iKnjEmEpCJnJDmqlrDtDlKoLJpH=">RU13: Bозможности оборудования RouterBOARD</a></h2>
+	      <span>Bозможности оборудования RouterBOARD by Букреев Николай (LANMART, Russia)<br /></span>
+	    </div>
+	    <div class="desc_notes">
+	      <ul>
+		<li>Ratio: 0 (0 votes)</li>
+		<li>Category: <a href="?category=3">MUM</a></li>
+		<li>Language: <a href="?language=6">russian</a></li>
+		<li>Comments: 1</li>
+                <li>Uploader: <a href="?search=Normunds">Normunds</a></li>
+<li>HD: <a href="torrent/RU13__B______________________________________________RouterBOARD.torrent">download torrent</a></li>
+		
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="vid">
+    	    <a href="/video/oHgE3ioIiLKIpDoEIGErKrptFlDommHK="><img src="video/0f8b73c7b7418427cc910c15ec20e214.jpg" alt="Video screenshot" border="0" /></a>
+	    <div class="desc">
+	      <h2><a href="/video/oHgE3ioIiLKIpDoEIGErKrptFlDommHK=">RU13: Интернет по билетам</a></h2>
+	      <span>Интернет по билетам by Mikhail Moskalev (Routerz.ru, Russia)<br /></span>
+	    </div>
+	    <div class="desc_notes">
+	      <ul>
+		<li>Ratio: 0 (0 votes)</li>
+		<li>Category: <a href="?category=3">MUM</a></li>
+		<li>Language: <a href="?language=6">russian</a></li>
+		<li>Comments: 0</li>
+                <li>Uploader: <a href="?search=Normunds">Normunds</a></li>
+<li>HD: <a href="torrent/RU13______________________________________.torrent">download torrent</a></li>
+		
+	      </ul>
+	    </div>
+	  </div><br style="clear: both;" /><div id="more_9f7c0db974b7e86b88680da421ecb1ac">
+<div class="morebut" onclick="
+$( '#more_9f7c0db974b7e86b88680da421ecb1ac' ).animate({ opacity: '0.3' }, 100);
+$.post( 'rg.php', 'vstart=10&vlimit=10', function( data ) {
+	 	$( '#more_9f7c0db974b7e86b88680da421ecb1ac' ).html( data );
+$( '#more_9f7c0db974b7e86b88680da421ecb1ac' ).animate({ opacity: '1.0' }, 500);
+		}, 'html' );
+">MORE...</div></div>
+	  <br style="clear: both"/>
+	</div>
+	
+	<!-- Labā puse: linki, searchs, utt -->
+
+	<div id="cont_right">
+	  <dl>
+	  	<dt>Search</dt>
+	  	<dd><form action="/index.php" method="post" name="srchform"><input type="text" name="search" value="" size="16" /></form></dd>
+	  </dl>
+	  
+	  <dl>
+	  	<dt>Account</dt>
+	  	<dd><a href="http://www.tiktube.com/?a=upload">Login</a><br /><br /></dd>
+	    <dd></dd>
+	  </dl>
+	  
+	  <dl>
+	  	<dt>Categories</dt>
+	    <li><a href="/?category=1" title="Videos: 57">Interesting</a></li><li><a href="/?category=3" title="Videos: 429">MUM</a></li><li><a href="/?category=4" title="Videos: 10">Training</a></li><li><a href="/?category=5" title="Videos: 29">Tower Installation</a></li><li><a href="/?category=6" title="Videos: 13">Assembly Instructions</a></li><li><a href="/?category=7" title="Videos: 4">Tips and tricks</a></li><li><a href="/?category=8" title="Videos: 12">Screencast</a></li><li><a href="/?category=9" title="Videos: 9">Slideshow</a></li>
+	  </dl>
+	  
+	  <dl>
+	  	<dt>Languages</dt>
+	    <li ><a href="?language=1" title="Videos: 377">english</a></li><li ><a href="?language=2" title="Videos: 46">spanish</a></li><li ><a href="?language=3" title="Videos: 70">portuguese</a></li><li ><a href="?language=4" title="Videos: 33">indonesian</a></li><li ><a href="?language=5" title="Videos: 17">chinese</a></li><li ><a href="?language=6" title="Videos: 20">russian</a></li><li  style="font-weight:bold;" ><a href="/?language=ALL">All</a></li>
+	  </dl>
+ 	 	<dl>
+	  	<dt>Highest Rated</dt>
+	    <li><a href="/video/oofq3fmHfFmnmLqpqIJuDuLuJlooCqqI=" title="+37 of 37 votes">IN12: Webfig Web Skin</a></li><li><a href="/video/ECcl3aKqjlnLGElClooqIzIxElGoDmLp=" title="+9 of 9 votes">MUM CZ 09: Non line of sight</a></li><li><a href="/video/GKbq3jKEflHqmHJopJnuEqDyGlloJDKn=" title="+7 of 7 votes">RouterBOARD Choir - Come Again (John Dowland)</a></li><li><a href="/video/pJfm3cnKfpqKmClKqoFumxDuKlqoEqFq=" title="+5 of 5 votes">MUM AR11: Administracion remota de Terminales</a></li><li><a href="/video/LGbI3cmFgFHDpCqFLHHtpxIyGlooJKEo=" title="+5 of 5 votes">The Dude II</a></li><li><a href="/video/mCcI3eLKaLmIlDoKCoLzKvLxFlpoCFpm=" title="+5 of 5 votes">RouterBoard Imperial March</a></li><li><a href="/video/LEgC2eECqHDlqpIJDnCInvJtKlLnJnFm=" title="+5 of 5 votes">EoIP tunnel setup</a></li><li><a href="/video/HGeC3eIFdFnooqpLEKCwpvpvFlGopmpC=" title="+4 of 4 votes">MikroTik & IPv6 - basic training</a></li><li><a href="/video/qqfq3dlKiqImlHmGLKGrGwLuplmomJGJ=" title="+3 of 3 votes">PL12: New product announcement</a></li><li><a href="/video/lmbG3hHGgqJmlDELHLqtHsJyIlJoLEGo=" title="+3 of 3 votes">Orbitel Bulgaria</a></li>
+	  </dl>
+
+	  <dl>
+	  	<dt>Latest Comments</dt>
+	    <li><a href="/video/EqeK3fIHfKpLDIqLDpCuquIvnlHooGlJ=#comment-508">yujg</a>: i want to learn about ros</li><li><a href="/video/nEgL3jIFfGqnpEmmFnKuKqHtolIoDLKJ=#comment-507">mehdi</a>: dsfs</li><li><a href="/video/JGfF3dGGeoDDnqGmJmHvGwIunlEonLLJ=#comment-506">tamilmaran</a>: How did you done this,
+please explain i...</li><li><a href="/video/DGgL3gnldnHmKqLDCIpwLtDtLlDoEGDC=#comment-505">kraker</a>: Please share your soft file ...(presenta...</li><li><a href="/video/qmgH3inoeHmlIlDGqEHvlrJtJlKopJHL=#comment-504">Dan</a>: Great tutorial. I have always wanted to ...</li>
+	  </dl>
+	  
+	  <dl>
+	  	<dt>Other Resources</dt>
+	  	<dd><a href="http://www.mikrotik.com/">MikroTik Home</a></dd>
+	  	<dd><a href="http://forum.mikrotik.com/">Forums</a></dd>
+	  	<dd><a href="http://training.mikrotik.com/">Trainings</a></dd>
+	  	<dd><a href="http://mum.mikrotik.com/">MUM Events</a></dd>
+	  </dl>
+	  
+		<dl>
+	  	<dt>Options</dt>
+	  	<dd><a href="/?toggle=1">Enable</a> HTML5 player mode</dd>
+	  </dl>
+	  
+	</div>
+      </div> 
+      <br style="clear: both"/>
+    </div>
+    
+    <!-- google analytics stuff --> 
+  
+	    <script type="text/javascript">
+				var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+				document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+			</script>
+			
+			<script type="text/javascript">
+				try {
+				var pageTracker = _gat._getTracker("UA-10927155-1");
+				pageTracker._trackPageview();
+				} catch(err) {}
+			</script>
+
+		<!-- End of Google analytics stuff --> 
+		
+		
+  </body>
+</html>

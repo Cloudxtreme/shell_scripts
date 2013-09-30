@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html class="no-js" lang="ja">
+	<head>
+				<link rel="profile" href="http://gmpg.org/xfn/11" />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+		<title>てくろぐ: アンテナピクト問題・セルスタンバイ問題とは何か</title>
+		
+				<link rel="alternate" type="application/rss+xml" title="てくろぐ &raquo; フィード" href="http://techlog.iij.ad.jp/feed" />
+<link rel="alternate" type="application/rss+xml" title="てくろぐ &raquo; コメントフィード" href="http://techlog.iij.ad.jp/comments/feed" />
+<link rel='stylesheet' id='tw-bootstrap-css'  href='http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/css/bootstrap.min.css?ver=2.0.3' type='text/css' media='all' />
+<link rel='stylesheet' id='the-bootstrap-css'  href='http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/style.min.css?ver=2.0.1-t1' type='text/css' media='all' />
+<script type='text/javascript' src='http://techlog.iij.ad.jp/wp-includes/js/jquery/jquery.js?ver=1.10.2'></script>
+<script type='text/javascript' src='http://techlog.iij.ad.jp/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://techlog.iij.ad.jp/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://techlog.iij.ad.jp/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='2012 IIJインターンシップ募集開始&amp;神保町カレーマップ' href='http://techlog.iij.ad.jp/archives/447' />
+<link rel='next' title='俺たちの4tate～デブサミレポート' href='http://techlog.iij.ad.jp/archives/513' />
+<meta name="generator" content="WordPress 3.6" />
+<link rel='canonical' href='http://techlog.iij.ad.jp/archives/487' />
+<link rel='shortlink' href='http://techlog.iij.ad.jp/?p=487' />
+
+<!-- Using Simple Yearly Archive Plugin v1.4.3 | http://www.schloebe.de/wordpress/simple-yearly-archive-plugin/ // -->
+		<style type="text/css">
+						ol.footnotes li {list-style-type:decimal;}
+						ol.footnotes{font-size:0.8em; color:#666666;}		</style>
+			<style type="text/css">
+				#site-description {
+			color: #ffffff !important;
+		}
+			</style>
+	<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #EFEFEF; }
+</style>
+	<!--[if lt IE 9]>
+		<script src="http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/js/html5shiv.min.js" type="text/javascript"></script>
+		<script src="http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/js/respond.min.js" type="text/javascript"></script>
+	<![endif]-->
+	        <!-- techlog -->
+        <link rel="stylesheet" href="/wp-content/themes/techlog-bootstrap/techlog.css" type="text/css" media="all">
+        <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+          {lang: 'ja'}
+        </script>
+                        <meta name="keyword" content="てくろぐ IIJ IIJGIO IIJmio インターネット クラウド MVNO" />
+        <meta name="description" content="「アンテナピクト問題」「セルスタンバイ問題」と呼ばれる現象の解説と、その原因の調査。" />
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@IIJ_doumae">
+        <meta property="og:title" content="アンテナピクト問題・セルスタンバイ問題とは何か" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="http://techlog.iij.ad.jp/archives/487" />
+        <meta property="og:description" content="「アンテナピクト問題」「セルスタンバイ問題」と呼ばれる現象の解説と、その原因の調査。" />
+        <meta name="twitter:description" content="「アンテナピクト問題」「セルスタンバイ問題」と呼ばれる現象の解説と、その原因の調査。" />
+        <meta property="og:image" content="http://techlog.iij.ad.jp/wp-content/uploads/2012/08/pictgram.png" />
+                <meta property="og:site_name" content="てくろぐ" />
+        <meta property="fb:admins" content="100001724110528" />
+        <!-- /techlog -->
+	</head>
+	
+	<body class="single single-post postid-487 single-format-standard custom-background content-sidebar">
+		<div class="container">
+			<div id="page" class="hfeed row">
+								<header id="branding" role="banner" class="">
+					<nav class="subnav clearfix"><ul id="menu-header-menu" class="nav nav-pills pull-right"><li id="menu-item-639" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-639"><a href="http://techlog.iij.ad.jp/">ホーム</a></li>
+<li id="menu-item-637" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-637"><a href="http://techlog.iij.ad.jp/archives">過去の記事一覧</a></li>
+<li id="menu-item-638" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-638"><a href="http://techlog.iij.ad.jp/about">このblogについて</a></li>
+</ul></nav>					<hgroup>
+						<h1 id="site-title">
+							<a href="http://techlog.iij.ad.jp/" title="てくろぐ" rel="home">
+								<span>てくろぐ</span>
+							</a>
+						</h1>
+						<h2 id="site-description">てくろぐ = techlog。IIJエンジニアの堂前がお送りします。</h2>
+					</hgroup>
+					
+					
+					<nav id="access" role="navigation">
+						<h3 class="assistive-text">Main menu</h3>
+						<div class="skip-link"><a class="assistive-text" href="#content" title="Skip to primary content">Skip to primary content</a></div>
+						<div class="skip-link"><a class="assistive-text" href="#secondary" title="Skip to secondary content">Skip to secondary content</a></div>
+											</nav><!-- #access -->
+									</header><!-- #branding -->
+<section id="primary" class="span8">
+	
+		<div id="content" role="main">
+		<article id="post-487" class="post-487 post type-post status-publish format-standard hentry category-20">
+		
+	<header class="page-header">
+		<h1 class="entry-title">アンテナピクト問題・セルスタンバイ問題とは何か</h1>		<div class="entry-meta pull-right"><span class="sep">Posted on </span><a href="http://techlog.iij.ad.jp/archives/487" title="13:24" rel="bookmark"><time class="entry-date" datetime="2012-08-08T13:24:55+00:00" pubdate>2012年8月8日</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="http://techlog.iij.ad.jp/archives/author/doumae" title="View all posts by doumae" rel="author">doumae</a></span></span></div><!-- .entry-meta -->
+        <div class="clearfix"></div>
+                <div class="socialbox clearfix">
+        <span class="socialbox_hatena pull-right"><a href="http://b.hatena.ne.jp/entry/http://techlog.iij.ad.jp/archives/487" class="hatena-bookmark-button" data-hatena-bookmark-title="アンテナピクト問題・セルスタンバイ問題とは何か" data-hatena-bookmark-layout="standard" title="このエントリーを>はてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブック
+マークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></span>
+        <span class="socialbox_facebook pull-right"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftechlog.iij.ad.jp%2Farchives%2F487&amp;layout=button_count&amp;show_faces=true&amp;width=110&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span>
+        <span class="socialbox_twitter pull-right"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-related="IIJ_doumae" data-lang="ja" data-url="http://techlog.iij.ad.jp/archives/487" data-text="アンテナピクト問題・セルスタンバイ問題とは何か #IIJ">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></span>
+        <span class="socialbox_google pull-right"><g:plusone size="medium" href="http://techlog.iij.ad.jp/archives/487"></g:plusone></span>
+        </div>
+	</header><!-- .entry-header -->
+
+	<div class="entry-content clearfix">
+		<p>実はこの原稿、随分前から書き始めたのですが、色々あって塩漬けになっていました。正直に告白すると、調査が行き詰まったのです。状況証拠は押さえられたのですが、それが本当に原因なのか、最終的なとこまでは突き止められませんでした。ただ、今でもこの現象は発生していますし、不思議に思われている方もいらっしゃるようですので、わかっている話だけでもまとめておこうと思います。</p>
+<h2>MVNO通信サービスだとアンテナが立たない？</h2>
+<p>IIJの提供する<a href="https://www.iijmio.jp/guide/outline/hdd/?i=techlogiijweb">IIJmio高速モバイル/D</a>を初めとして、MVNOの無線データ通信サービスが普及しています。MVNO<sup><a href="#footnote_0_487" id="identifier_0_487" class="footnote-link footnote-identifier-link" title="Mobile Virtual Network Operator">1</a></sup>とは、MNO<sup><a href="#footnote_1_487" id="identifier_1_487" class="footnote-link footnote-identifier-link" title="Mobile Network Operator">2</a></sup>と呼ばれる無線通信事業者から無線通信設備を借り受けてサービスを提供する事業者のことです。たとえば、IIJmio高速モバイル/DはNTT docomoの3G(FOMA)網とLTE(Xi)網を借り受けてサービスを提供しています。この場合、IIJがMVNOで、docomoがMNOです。</p>
+<p>無線通信部分を借り受けているため、携帯端末と基地局の間の通信は、網を貸しだしているMNOと同じ条件になります。通信に使う周波数や変調方式は一緒なので端末はMNOと同じものが使えますし、電波のエリアや強さもMNOと全く同じです。<sup><a href="#footnote_2_487" id="identifier_2_487" class="footnote-link footnote-identifier-link" title="もちろんサービス内容には違いがあり、たとえば高速モバイル/Dでは、通信速度を敢えて制限する事で、月額料金を低価格に抑えるというアレンジを加えています。">3</a></sup></p>
+<figure id="attachment_488" class="wp-caption thumbnail alignright" style="width: 192px;">
+				<img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/08/pictgram.png" alt="ピクトグラム" title="ピクトグラム" width="192" height="197" class="size-full wp-image-488" />
+				<figcaption class="wp-caption-text">ピクトグラム</figcaption>
+			</figure>
+<p>ですので、本来は端末(スマートフォン)をMNOで使おうが、MVNOで使おうが、基本的な動作は変わらないはず……なのですが、実際には挙動が異なる場合があります。その中でも特に目立つのが「アンテナピクト問題」「セルスタンバイ問題」と呼ばれているものです。</p>
+<p>アンテナピクトというのは右の写真のアイコンです。説明するまでもありませんが、端末(スマートフォン)に届いている電波の強さを示しているものですね。実は、いくつかのスマートフォンでMVNOの通信サービスを使うと、<strong>電波が届いていて通信が可能なのに、アンテナピクトが表示されず、圏外のように見える</strong>という現象が発生します。これが「アンテナピクト問題」です。</p>
+<p>アンテナピクトは目で見てわかるためよく取り上げられますが、類似の問題が他にも確認されています。色々あるので表にまとめてみました。</p>
+<table>
+<tr>
+<th colspan="2">現象</th>
+<th>説明</th>
+</tr>
+<tr>
+<td>1.</td>
+<td>アンテナピクトが表示されない</td>
+<td>通信はできているのにアンテナピクトが表示されない(圏外となる)</td>
+</tr>
+<tr>
+<td>2.</td>
+<td>データ通信ピクト<sup><a href="#footnote_3_487" id="identifier_3_487" class="footnote-link footnote-identifier-link" title="これの正式名称なんて言うのでしょう？">4</a></sup>が表示されない</td>
+<td>通信はできているのにピクトグラムが表示されない。</td>
+</tr>
+<tr>
+<td>3.</td>
+<td>待ち受け状態でバッテリーの消費が速い</td>
+<td>端末本来の状態(MNOの契約で使っている場合)と比べて、異常に早くバッテリーが無くなってしまう</td>
+</tr>
+<tr>
+<td>4.</td>
+<td>「ネットワークに接続していません」ポップアップ表示が出る</td>
+<td>ブラウザなどを起動すると「ネットワークに接続していません」と一瞬表示されることがある。しかし、画面をタップすると何事もなかったかのように動作する。</td>
+</tr>
+</table>
+<figure id="attachment_489" class="wp-caption thumbnail alignright" style="width: 281px;">
+				<a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/08/cellstandby.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/08/cellstandby-281x300.png" alt="圏外時間100%" title="圏外時間100%" width="281" height="300" class="size-medium wp-image-489" /></a>
+				<figcaption class="wp-caption-text">圏外時間100%</figcaption>
+			</figure>
+<p>「3.待ち受け状態でバッテリーの消費が早い」について補足しておきます。Androidスマートフォンでこの現象が発生した場合、「セルスタンバイ」というプロセス(プログラム)の電力消費が多くなっているのが観測されます。<sup><a href="#footnote_4_487" id="identifier_4_487" class="footnote-link footnote-identifier-link" title="Androidは設定画面から各プロセスの消費電力を確認することができます。">5</a></sup>そのプロセス名から、この問題を「セルスタンバイ問題」と呼んでいます。また、バッテリー消耗が激しいことを指して「バッテリードレイン問題」と呼ぶ場合もあります。</p>
+<p>ちなみに、元々セルスタンバイはバッテリーの消費が多いプロセスなので、電力の消費状況だけで問題の有無を確認するのは困難です。Androidのバージョンによっては、セルスタンバイプロセスの詳細を表示したときに「圏外時間」項目が表示される場合があり、こちらで確認する方がわかりやすいでしょう。セルスタンバイ問題が発生している際には、明らかに電波が届いているところにいる(通信ができている)のに、圏外時間が100%と表示されます。</p>
+<p><br clear="all" /></p>
+<h2>問題が発生する端末・発生しない端末</h2>
+<p>これらの問題ですが、実は端末(スマートフォン)によって発生したり、発生しなかったりします。発生する場合でも、1～4のすべてが発生するわけではありません、端末によって状況がばらばらなのです。</p>
+<p>たとえば、私が個人的に使っている端末で言えば、SO-03D (Xperia acro HD)では、1,2の問題は発生していませんが、3,4の問題が発生しているように見うけられます。しかし、SC-04D(Galaxy NEXUS)では、1,2,3,4全部発生しているように見えます。</p>
+<p>どの端末でどんな問題が発生するかは、実際にその端末で実験してみないとわかりません。また、同じ端末でもOSのアップデートがあると挙動が変わることがあります。ですので、こういった問題が起こるときは、どの機種の、どのバージョンのOSかまで特定して議論を行う必要があります。</p>
+<h2>MVNOのサービスだと必ず発生するのか？</h2>
+<p>ここまで、「MVNOのサービスだと必ず問題が発生する」かのような書き方をしていましたが、実はMVNOのサービスであっても問題が発生しないケースがあります。それは、音声通話に対応したMVNOサービスを利用している場合、です。ほとんどのMVNO事業者はデータ通信専用サービスしか提供していませんので、「MVNOだと問題が起こる」と言われているのですが、そうではありません。</p>
+<p>では、問題は「データ通信専用」のサービスをスマートフォンで使うことなのでしょうか？ところが、MNOであるdocomoのデータ通信専用サービスをスマートフォンで使った場合、問題が起こらないのです。</p>
+<table>
+<tr>
+<td>&nbsp;</td>
+<th>MNO(docomo)</th>
+<th>MVNO</th>
+</tr>
+<tr>
+<th>データ+音声契約</th>
+<td>問題なし</td>
+<td>問題なし</td>
+</tr>
+<tr>
+<th>データ専用契約</th>
+<td>問題なし</td>
+<td><strong>問題あり</strong></td>
+</tr>
+</table>
+<h2>3G通信網の仕組み</h2>
+<p>問題の原因を考える前に、3G(W-CDMA)通信網の仕組みを説明します。</p>
+<figure id="attachment_490" class="wp-caption thumbnail alignright" style="width: 228px;">
+				<a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/08/corenw.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/08/corenw-228x300.png" alt="携帯電話網" title="携帯電話網" width="228" height="300" class="size-medium wp-image-490" /></a>
+				<figcaption class="wp-caption-text">携帯電話網</figcaption>
+			</figure>
+<p>W-CDMA上の通信には、CS domain(Circuit Switched/回線交換)とPS domain(Packet Switched/パケット交換)が規定されています。CSは音声通信のために使われています。<sup><a href="#footnote_5_487" id="identifier_5_487" class="footnote-link footnote-identifier-link" title="回線交換を用いたデータ通信も可能ですが最近はあまり利用されていません。">6</a></sup>一方、スマートフォンで使われるデータ通信はPSを使っています。</p>
+<p>W-CDMAでは、通信端末が「待ち受け」状態になるために、基地局を管理するシステムに対して、端末が通信可能であるという「登録(Registration)」を行います。このRegistrationは、CS domain・PS domainそれぞれ別個に管理されています。CS/PSは片側だけ利用する事も、両方同時に利用することも可能です。</p>
+<p>端末から要求されたCS/PSのRegistrationが受け付けられるかどうかは、端末から通知されるID<sup><a href="#footnote_6_487" id="identifier_6_487" class="footnote-link footnote-identifier-link" title="SIMカードに格納されたID">7</a></sup>によって、携帯電話網側が判定します。端末側がRegistrationを要求しても、契約条件などにより網側でRegistrationが拒否された場合、そのdomainは利用できません。</p>
+<p>音声+データのサービスはCSとPSの両方のRegistrationを許可しており、データ専用のサービスはPSだけを許可していると言うことになります。</p>
+<p>さて、AndroidやiPhoneなどのスマートフォンは、通話も、データ通信も利用します。当然通話の待ち受けのためにCSを、データ通信のためにPSもRegistrationしているはずです。ごく普通にdocomoでスマートフォン用の契約をしていれば、CSもPSも許可されているはずですが、データ専用契約はPSしか許可しないはずです。<strong>これは怪しい……</strong></p>
+<h2>契約と、CS/PSの許可状況</h2>
+<p>ところが、ここでやっかいな例外があります。「docomoのデータ通信専用契約だとアンテナピクト問題が発生しない」というやつです。もし、「CSが許可されないときに端末側で問題が発生する」のであれば、docomoであってもデータ通信専用契約で問題が発生しそうなものです。</p>
+<p>これは、実験してみるしかありません。</p>
+<p>実験のために、次の各契約のSIMカードを用意しました。</p>
+<table>
+<tr>
+<th>回線事業者</th>
+<th>契約タイプ</th>
+</tr>
+<tr>
+<th>IIJmio</th>
+<td>データ専用</td>
+</tr>
+<tr>
+<th>docomo</th>
+<td>音声+データ(スマホ用)</td>
+</tr>
+<tr>
+<th>docomo</th>
+<td>データ専用(モバイルルータ用)</td>
+</tr>
+<tr>
+<th>某MVNO</th>
+<td>音声+データ</td>
+</tr>
+<tr>
+<th>某MVNO</th>
+<td>データ専用</td>
+</tr>
+</table>
+<p>また、CS/PSのRegistrationが許可されるかの確認には、USB接続のデータ通信端末(法人向けIIJモバイルで提供している<a href="http://www.iijmobile.jp/service/type_d/card_120FU.html?i=techlogiijweb">120FU</a>)を使います。この端末はパソコンに接続すると仮想シリアルポートとしてアクセスできるタイプで、TeraTermなどのターミナルソフトからATコマンドを送ることで制御することができます。</p>
+<figure id="attachment_491" class="wp-caption thumbnail aligncenter" style="width: 300px;">
+				<a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/08/sim-csps-teraterm.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/08/sim-csps-teraterm-300x197.png" alt="ATコマンド送信の様子" title="ATコマンド送信の様子" width="300" height="197" class="size-medium wp-image-491" /></a>
+				<figcaption class="wp-caption-text">ATコマンド送信の様子</figcaption>
+			</figure>
+<p>ATコマンドの詳細は省きますが、興味がある方は、3GPPの規格書<sup><a href="#footnote_7_487" id="identifier_7_487" class="footnote-link footnote-identifier-link" title="3GPP TS 27.007">8</a></sup>に情報がありますので、参考にして下さい。ポイントは&#8221;+CREG?&#8221;と&#8221;+CGREG&#8221;コマンドの応答です。&#8221;+CREG?&#8221;はCSのRegistration状況、&#8221;+CGREG?&#8221;はPSのRegistrationの状況を表示します。二つ目の返値が「1: Registration成功」「3: Registration拒否」を示します。<sup><a href="#footnote_8_487" id="identifier_8_487" class="footnote-link footnote-identifier-link" title="返値は1～10まで定義されています。詳しくは規格書(ry">9</a></sup>IIJmio高速モバイル/DのSIMでは、CSは失敗、PSのみ成功しています。想定通りです。</p>
+<p>同じようにしてそれぞれのSIMについて確認してみたところ、次のような結果となりました。</p>
+<figure id="attachment_492" class="wp-caption thumbnail aligncenter" style="width: 600px;">
+				<a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/08/sim-csps.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/08/sim-csps_thumbnail.png" alt="各社SIMでのCS/PS Registrationテスト" title="各社SIMでのCS/PS Registrationテスト" width="600" height="152" class="size-full wp-image-492" /></a>
+				<figcaption class="wp-caption-text">各社SIMでのCS/PS Registrationテスト</figcaption>
+			</figure>
+<table>
+<tr>
+<th>回線事業者</th>
+<th>契約タイプ</th>
+<th>+CREG?(CS)</th>
+<th>+CGREG?(PS)</th>
+</tr>
+<tr>
+<th>IIJmio</th>
+<td>データ専用</td>
+<td>3:拒否</td>
+<td>1:成功</td>
+</tr>
+<tr>
+<th>docomo</th>
+<td>音声+データ</td>
+<td>1:成功</td>
+<td>1:成功</td>
+</tr>
+<tr>
+<th>docomo</th>
+<td>データ専用</td>
+<td><strong>1:成功</strong></td>
+<td>1:成功</td>
+</tr>
+<tr>
+<th>某MVNO</th>
+<td>音声+データ</td>
+<td>1:成功</td>
+<td>1:成功</td>
+</tr>
+<tr>
+<th>某MVNO</th>
+<td>データ専用</td>
+<td>3:拒否</td>
+<td>1:成功</td>
+</tr>
+</table>
+<p>なんと、docomoのデータ通信専用契約ではCSへのRegistrationに成功しています……。不思議な話ですが、実際のそういう結果が出ているので、そうなんでしょう。<sup><a href="#footnote_9_487" id="identifier_9_487" class="footnote-link footnote-identifier-link" title="回線交換モードのデータ通信サービスの名残でしょうか？">10</a></sup>とはいえ、これで状況証拠は集まりました。状況だけ見れば、アンテナピクト等の問題が起こるかどうかは、契約がMVNOかどうかには関係なく、CSのRegistrationが許可されているかどうかに依存している可能性が非常に高いと言えます。</p>
+<blockquote>
+<p>※追記</p>
+<p>Twitterなどでご指摘頂きましたが、docomoのデータ通信専用サービスではSMSが利用できるという件とも関係があります。SMS(Short Message Service)はCS domainを用いて提供されるサービスですので、SMSが使えるということは、CS domainへのRegistrationは許可されているということを示しています。</p>
+<p>SMSを利用可能にするためにCSを許可したのか、別の理由でCSを許可したからSMSが使えるのか……目的や経緯は判りませんが、目の前にあるものがそういう動作をしているのは事実です。</p>
+</blockquote>
+<h2>Androidのソースに突撃する……が、</h2>
+<p>状況証拠的にはこれでほとんど固まった感があります。ですが、この推測が正しいかどうかの裏付けはとれていません。そこで、公開されている<a href="https://github.com/android/">Androidのソースコード</a>に当たってみることにしました。</p>
+<p>Androidの中で3Gの通信状態を管理しているのは<a href="https://github.com/android/platform_frameworks_base/blob/gingerbread-release/telephony/java/com/android/internal/telephony/gsm/GsmServiceStateTracker.java">GsmServiceStateTracker</a>というクラスのようです。<sup><a href="#footnote_10_487" id="identifier_10_487" class="footnote-link footnote-identifier-link" title="リンク先はgingerbread(Android2.3)のbranchです。何しろ、調べていたのが半年以上前なので&hellip;&hellip;。後述しますが、3G以外の通信手段(WiMaxやLTE)に対応するために、最近のバージョンのAndroidではこのあたりの構造が大幅に変わっているようです。">11</a></sup>この中の<a href="https://github.com/android/platform_frameworks_base/blob/gingerbread-release/telephony/java/com/android/internal/telephony/gsm/GsmServiceStateTracker.java#L507">507行目</a>付近を見ていると、次のような記述があります。<sup><a href="#footnote_11_487" id="identifier_11_487" class="footnote-link footnote-identifier-link" title="これ以降で出てくるGSM(Global System for Mobile Communications)は、日本以外で使われている2G携帯通信規格のことです。Androidのクラス名こそGSMになっていますが、実際にはW-CDMA方式であってもこの部分で処理されています。また、GPRS(General Packet Radio Service)GSMにおけるデータ通信の規格のことです。ここではGPRSは3GのPS domainに対応すると思っておけばいいでしょう。">12</a></sup></p>
+<blockquote>
+<pre>
+case EVENT_CHECK_REPORT_GPRS:
+    if (ss != null &#038;&#038; !isGprsConsistent(gprsState, ss.getState())) {
+       // Can't register data service while voice service is ok
+       // i.e. CREG is ok while CGREG is not
+       // possible a network or baseband side error
+       GsmCellLocation loc = ( (GsmCellLocation)phone.getCellLocation() );
+       EventLog.writeEvent(EventLogTags.DATA_NETWORK_REGISTRATION_FAIL,
+               ss.getOperatorNumeric(), loc != null ? loc.getCid() : -1);
+       mReportedGprsNoReg = true;
+    }
+    mStartedGprsRegCheck = false;
+break;
+</pre>
+</blockquote>
+<p>コメントを読む限り「音声サービス(CS)がRegistrationできているのにデータサービス(PS)がRegistrationできていない場合は、ネットワーク(携帯網)もしくはベースバンド(端末内の無線処理部分)のエラーかもしれない」なんてことが書いてあります。</p>
+<p>一方、<a href="https://github.com/android/platform_frameworks_base/blob/gingerbread-release/telephony/java/com/android/internal/telephony/gsm/GsmServiceStateTracker.java#L1042">1042行目</a>あたりを見ると、</p>
+<blockquote>
+<pre>
+    if (! isGprsConsistent(gprsState, ss.getState())) {
+        if (!mStartedGprsRegCheck &#038;&#038; !mReportedGprsNoReg) {
+            mStartedGprsRegCheck = true;
+
+            int check_period = Settings.Secure.getInt(
+                    phone.getContext().getContentResolver(),
+                    Settings.Secure.GPRS_REGISTER_CHECK_PERIOD_MS,
+                    DEFAULT_GPRS_CHECK_PERIOD_MILLIS);
+            sendMessageDelayed(obtainMessage(EVENT_CHECK_REPORT_GPRS),
+                    check_period);
+        }
+    } else {
+        mReportedGprsNoReg = false;
+    }
+}
+
+/**
+ * Check if GPRS got registered while voice is registered.
+ *
+ * @param gprsState for GPRS registration state, i.e. CGREG in GSM
+ * @param serviceState for voice registration state, i.e. CREG in GSM
+ * @return false if device only register to voice but not gprs
+ */
+private boolean isGprsConsistent(int gprsState, int serviceState) {
+    return !((serviceState == ServiceState.STATE_IN_SERVICE) &#038;&#038;
+            (gprsState != ServiceState.STATE_IN_SERVICE));
+}
+</pre>
+</blockquote>
+<p>とか何とか書いてあり、CSのRegistrationができているのにPSのRegistrationができていない場合の処理は何かしら考慮されているようです。</p>
+<p>どうやら、Android2.xでは「CSが使えてPSが使えない場合は想定していても、<strong>PSが使えてCSが使えないときは異常だと判断する</strong>」ような気配が感じられます。</p>
+<p>このあたりの動作が、アンテナピクトを初め諸々の不思議な動作に影響しているのではないか。<strong>どうもそんな気配が感じられます</strong>。が、残念ながら私の調査はここまでです。仕事の合間にちくちくとコードを追いかけていたのですが、<strong>力尽きてしまいました</strong>。</p>
+<p>現在の到達点は、コメントとクラス名を斜め読みして「ふーん」と推測したところまでです。本当は、アンテナピクトの表示部分のコードも見て、原因を確定させなければならないのですが、私には調べきれませんでした。</p>
+<h4>余談</h4>
+<p>同じファイルの<a href="https://github.com/android/platform_frameworks_base/blob/gingerbread-release/telephony/java/com/android/internal/telephony/gsm/GsmServiceStateTracker.java#L1257">1257行目</a>あたりにこんな記述がありまして。</p>
+<blockquote>
+<pre>
+/** code is registration state 0-5 from TS 27.007 7.2 */
+private int regCodeToServiceState(int code) {
+    switch (code) {
+        case 0:
+        case 2: // 2 is "searching"
+        case 3: // 3 is "registration denied"
+        case 4: // 4 is "unknown" no vaild in current baseband
+        case 10:// same as 0, but indicates that emergency call is possible.
+        case 12:// same as 2, but indicates that emergency call is possible.
+        case 13:// same as 3, but indicates that emergency call is possible.
+        case 14:// same as 4, but indicates that emergency call is possible.
+            return ServiceState.STATE_OUT_OF_SERVICE;
+
+        case 1:
+            return ServiceState.STATE_IN_SERVICE;
+        case 5:
+            // in service, roam
+            return ServiceState.STATE_IN_SERVICE;
+        default:
+            Log.w(LOG_TAG, "unexpected service state " + code);
+            return ServiceState.STATE_OUT_OF_SERVICE;
+    }
+}
+</pre>
+</blockquote>
+<p>これ、先ほど紹介したATコマンドの返値を解釈している部分です。この辺を少々いじってやることで、CSにRegistration失敗しているのに、成功しているように見せかけることはできそうに思われます。ただ、このメソッドはCSとPSの解釈の両方に使われているので、これを書き換えてしまうとPSの圏外/圏内判定についてもおかしくなってしまうような気もします。</p>
+<h2>Registrationとバッテリー消費</h2>
+<p>ここで、少し横道にそれますが、携帯電話・スマートフォンの無線部分の消費電力について、少し紹介しておきます。</p>
+<p>携帯電話もスマートフォンも、一度の充電でできるだけ長時間持ち歩けるように、省電力化にはいろいろな工夫が凝らされています。無線部分で電気を食うのは電波を送受信するところですので、省電力化のために「待ち受け」状態の時は受信部分の動作を間欠的にしか行いません。通信相手の基地局と調整して、特定のタイミングだけ受信機を起動させているのです。</p>
+<p>しかし、無線網への位置登録(Registration)を行う場合はそうは行きません。位置登録を行う際には、基地局からの電波をとらえ直すことになるので、受信機を連続してONにしておく必要があります。もちろんこんな事をすると電力の消費が大きくなります。</p>
+<p>普通は、位置登録がそんなに頻繁に行われることはありません。端末の電源を入れた直後とか、一つの基地局の電波の届く範囲を離れ、別の基地局につなぎ直す(ハンドオーバー)のときぐらいです。</p>
+<p>しかし、先ほど紹介したとおり、Android端末は「PSにRegistrationしているのに、CSにRegistrationできない」ときは何かのエラーとして解釈します。エラーが起こったら……リトライしますよね。つまり、CSが使えない状態に置かれたAndroid端末は、通常時よりも高頻度で位置登録を繰り返しているのではないか、そんな様子が推測できるわけです。</p>
+<p>これも、本来であればソースコードを追いかけて裏を取るべきなのですが、そこまでには至っていません。ただ、現象から推測するに、これがセルスタンバイ(バッテリードレイン)問題の原因である可能性は高いと考えています。</p>
+<h2>再び、端末の話</h2>
+<p>さて、Androidのソースコードから「なにか怪しい」雰囲気までは感じられました。しかし、市販のAndroidスマートフォンでは前述の通り、問題が起こらない端末もあります。いったいどういうことでしょうか。</p>
+<p>これはもう、端末を開発したメーカーがAndroidのソースに手を加えているとしか考えられません。実際、市販の端末で国内のサービスに対応するためにメーカー毎にあちこち手が入っていますので、無線部分についても何らかの修正が行われているのでしょう。そして、その修正はメーカー間で共有されておらず、ばらばらに行われていると考えると、端末毎に問題の出方が全く異なるというのも納得できます。</p>
+<p>ちなみに、iPhoneでもアンテナピクト問題があります。(ピクトが表示されません)こちらはソースコードが一切開示されていないので調べようがありません。が、表面的な現象の類似性を考えると、もしかするとCS/PS問題なのかなという気がしてきます。</p>
+<h2>LTEに向けて</h2>
+<p>最後にLTEについての情報を補足しておきます。LTEではCS/PS問題が発生するのかどうか……実は、そもそもLTEにはCS/PSという区別がありません。PS(相当のパケット交換通信)しか存在しないのです。</p>
+<p>LTEで音声通話を行う場合は、VoLTE(Voice over LTE)という方式で、パケット交換網上で音声通話を行う仕組みを使う事が予定されています。予定されている、というのは、実は日本国内の事業者でVoLTEのサービスを提供している事業者はまだないのです。<sup><a href="#footnote_12_487" id="identifier_12_487" class="footnote-link footnote-identifier-link" title="世界的に見ても、韓国の2キャリアが2012/08/08に限定的にサービスを開始しただけ、です">13</a></sup>じゃあ今のLTEスマートフォンはどうやって通話しているのかというと、スマートフォンを3G\LTE両対応にしておいて、通話の時は3GのCSを使っているのです。<footenote>LTEは元々従来の通信方式である3Gからのスムーズな移行を想定して作られた規格なので、通話は3G・データはLTEと言うことが問題なく行えます。</footenote></p>
+<p>Andoridもそういうことを意識しているのか、最近のバージョンのソースコードを見ると、無線関係のところでなにやら色々書き換えられているようです。<footenote>詳細は調べていません今後VoLTEが開始されると、LTEのみのスマートフォンも出てくる可能性はありますが、その頃には無線周りががらっと変わっているかもしれないですね。その時は音声通話ができない契約でも問題なく動作できるようなコードになっているといいのですが。</footenote></p>
+<h2>おつきあいありがとうございました</h2>
+<p>ここまででアンテナピクト問題・セルスタンバイ問題についての紹介は終了です。冒頭でお断りしたとおり、肝心なところで調査が中断しており、少々情けない状態ですが、とりあえず正直にわかっていることを書いてみました。皆さんの参考になれば幸いです。</p>
+<h2>本日の関連コンテンツ</h2>
+<ul>
+<li><a href="https://www.iijmio.jp/guide/outline/hdd/?i=techlogiijweb">IIJmio高速モバイル/D</a></li>
+<li><a href="http://techlog.iij.ad.jp/archives/394">中の人が語るMVNO (スマ勉＠関東発表資料)</a>(てくろぐ)</li>
+<li><a href="http://techlog.iij.ad.jp/archives/411">IIJmio高速モバイル/DでのIPv6対応環境について</a>(てくろぐ)</li>
+<li><a href="http://www.iij.ad.jp/company/development/tech/activities/lte_mvno/index.html?i=techlogiijweb">MVNOによるLTE接続</a>(最新の技術動向)</li>
+<li><a href="http://www.iij.ad.jp/company/development/tech/activities/lte_ipv6/index.html?i=techlogiijweb">LTEによるIPv6接続</a>(最新の技術動向)</li>
+</ul>
+<p></p>
+<p>え、「IIJmioでもCSにRegisrationを許可して欲しい」ですか？それができるなら私も個人的に嬉しいのですが。ぶっちゃけ無視できないレベルのコスト上昇になるそうなんですよ……うーん……</p>
+<ol class="footnotes"><li id="footnote_0_487" class="footnote">Mobile Virtual Network Operator [<a href="#identifier_0_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_1_487" class="footnote">Mobile Network Operator [<a href="#identifier_1_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_2_487" class="footnote">もちろんサービス内容には違いがあり、たとえば高速モバイル/Dでは、通信速度を敢えて制限する事で、月額料金を低価格に抑えるというアレンジを加えています。 [<a href="#identifier_2_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_3_487" class="footnote">これの正式名称なんて言うのでしょう？ [<a href="#identifier_3_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_4_487" class="footnote">Androidは設定画面から各プロセスの消費電力を確認することができます。 [<a href="#identifier_4_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_5_487" class="footnote">回線交換を用いたデータ通信も可能ですが最近はあまり利用されていません。 [<a href="#identifier_5_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_6_487" class="footnote">SIMカードに格納されたID [<a href="#identifier_6_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_7_487" class="footnote"><a href="http://www.3gpp.org/ftp/Specs/archive/27_series/27.007/">3GPP TS 27.007</a> [<a href="#identifier_7_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_8_487" class="footnote">返値は1～10まで定義されています。詳しくは規格書(ry [<a href="#identifier_8_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_9_487" class="footnote">回線交換モードのデータ通信サービスの名残でしょうか？ [<a href="#identifier_9_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_10_487" class="footnote">リンク先はgingerbread(Android2.3)のbranchです。何しろ、調べていたのが半年以上前なので……。後述しますが、3G以外の通信手段(WiMaxやLTE)に対応するために、最近のバージョンのAndroidではこのあたりの構造が大幅に変わっているようです。 [<a href="#identifier_10_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_11_487" class="footnote">これ以降で出てくるGSM(Global System for Mobile Communications)は、日本以外で使われている2G携帯通信規格のことです。Androidのクラス名こそGSMになっていますが、実際にはW-CDMA方式であってもこの部分で処理されています。また、GPRS(General Packet Radio Service)GSMにおけるデータ通信の規格のことです。ここではGPRSは3GのPS domainに対応すると思っておけばいいでしょう。 [<a href="#identifier_11_487" class="footnote-link footnote-back-link">&#8617;</a>]</li><li id="footnote_12_487" class="footnote">世界的に見ても、韓国の2キャリアが2012/08/08に限定的にサービスを開始しただけ、です [<a href="#identifier_12_487" class="footnote-link footnote-back-link">&#8617;</a>]</li></ol>	</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<span class="cat-links block">Posted in <a href="http://techlog.iij.ad.jp/archives/category/%e3%83%a2%e3%83%90%e3%82%a4%e3%83%ab" title="モバイル の投稿をすべて表示" rel="category tag">モバイル</a>.</span>            <div class="socialbox clearfix">
+        <span class="socialbox_hatena pull-right"><a href="http://b.hatena.ne.jp/entry/http://techlog.iij.ad.jp/archives/487" class="hatena-bookmark-button" data-hatena-bookmark-title="アンテナピクト問題・セルスタンバイ問題とは何か" data-hatena-bookmark-layout="standard" title="このエントリーを>はてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブック
+マークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></span>
+        <span class="socialbox_facebook pull-right"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftechlog.iij.ad.jp%2Farchives%2F487&amp;layout=button_count&amp;show_faces=true&amp;width=110&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span>
+        <span class="socialbox_twitter pull-right"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-related="IIJ_doumae" data-lang="ja" data-url="http://techlog.iij.ad.jp/archives/487" data-text="アンテナピクト問題・セルスタンバイ問題とは何か #IIJ">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></span>
+        <span class="socialbox_google pull-right"><g:plusone size="medium" href="http://techlog.iij.ad.jp/archives/487"></g:plusone></span>
+        </div>
+	</footer><!-- .entry-footer -->
+	
+	</article><!-- #post-487 -->
+							<p class="nocomments">Comments are closed.</p>
+						
+		<nav id="nav-single" class="pager">
+			<h3 class="assistive-text">Post navigation</h3>
+			<span class="next"><a href="http://techlog.iij.ad.jp/archives/513" rel="next">Next Post <span class="meta-nav">&rarr;</span></a></span>
+			<span class="previous"><a href="http://techlog.iij.ad.jp/archives/447" rel="prev"><span class="meta-nav">&larr;</span> Previous Post</a></span>
+		</nav><!-- #nav-single -->
+		
+			</div><!-- #content -->
+	</section><!-- #primary -->
+
+<section id="secondary" class="widget-area span4" role="complementary">
+	<aside id="text-4" class="widget well widget_text">			<div class="textwidget"><div align="center"><a href="http://www.iij.ad.jp/" target="_blank"><img src="/images/iij_logo.gif" width="242" height="140"></a></div></div>
+		</aside><aside id="linkcat-4" class="widget well widget_links"><h2 class="widget-title">IIJ Websites</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://giolog.iij.ad.jp/" target="_blank">IIJ GIO公式blog</a></li>
+<li><a href="http://blog.ruby.iijgio.com/" target="_blank">もごろぐ (MOGOK)</a></li>
+<li><a href="https://www.seil.jp/community/" target="_blank">SEIL/SMFコミュニティ</a></li>
+<li><a href="https://sect.iij.ad.jp/" target="_blank">IIJセキュリティ情報統括室スタッフblog</a></li>
+<li><a href="http://www.iij.ad.jp/" target="_blank">IIJ Webサイト</a></li>
+<li><a href="http://www.iij.ad.jp/development/" target="_blank">IIJの研究・開発について</a></li>
+
+	</ul>
+</aside>
+		<aside id="recent-posts-3" class="widget well widget_recent_entries">		<h2 class="widget-title">最近の投稿</h2>		<ul>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/iijnews117" title="インターネット・トリビア　あなたのパスワード、大丈夫ですか？">インターネット・トリビア　あなたのパスワード、大丈夫ですか？</a>
+						</li>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/iijnews116" title="インターネット・トリビア インターネットと広告">インターネット・トリビア インターネットと広告</a>
+						</li>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/673" title="IIJバックボーン、ロンドン上陸">IIJバックボーン、ロンドン上陸</a>
+						</li>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/iijnews115" title="インターネット・トリビア 「遅延」ってなに？ (工夫編)">インターネット・トリビア 「遅延」ってなに？ (工夫編)</a>
+						</li>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/iijnews114" title="インターネット・トリビア 電話とインターネット">インターネット・トリビア 電話とインターネット</a>
+						</li>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/617" title="【速報】iOS 6.1 IIJmio高速モバイル/D対応状況・全機種実験">【速報】iOS 6.1 IIJmio高速モバイル/D対応状況・全機種実験</a>
+						</li>
+				</ul>
+		</aside><aside id="text-3" class="widget well widget_text"><h2 class="widget-title">執筆者</h2>			<div class="textwidget"><p><img name="doumaeicon" src="/images/doumae.png" width="100" height="100" align="right" onMouseOver="document.doumaeicon.src='/images/doumae-nohat.png';" onMouseOut="document.doumaeicon.src='/images/doumae.png';"><br />
+堂前 清隆 (どうまえ きよたか)<br />
+株式会社インターネットイニシアティブ(IIJ)<br />
+プロダクト本部 プロダクト推進部<br />
+コンテナDCの開発からソーシャルメディア活動まで、インターネットに関係する事をわりと何でもやっています。一応エンジニア。</p>
+<p>twitter: <a href="http://twitter.com/IIJ_doumae" target="_blank">http://twitter.com/IIJ_doumae</a><br />
+Facebook: <a href="http://www.facebook.com/kdoumae" target="_blank">http://www.facebook.com/kdoumae</a></p>
+<p><a href="https://twitter.com/IIJ_doumae" class="twitter-follow-button" data-show-count="false" data-lang="ja">@IIJ_doumaeをフォロー</a><br />
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></p>
+</div>
+		</aside><aside id="text-5" class="widget well widget_text">			<div class="textwidget"><a class="twitter-timeline" href="https://twitter.com/search?q=techlog.iij.ad.jp" data-widget-id="303459923260477440">techlog.iij.ad.jp に関するツイート</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+		</aside><aside id="rss-5" class="widget well widget_rss"><h2 class="widget-title"><a class='rsswidget' href='http://www.iij.ad.jp/rss-temp/devinfo/index.xml' title='このサイトを RSS で購読'><img style='border:0' width='14' height='14' src='http://techlog.iij.ad.jp/wp-includes/images/rss.png' alt='RSS' /></a> <a class='rsswidget' href='http://www.iij.ad.jp/index.html' title='株式会社インターネットイニシアティブ　Webサイト　（IIJホームページ）'>IIJ 技術情報</a></h2><ul><li><a class='rsswidget' href='http://www.iij.ad.jp/company/development/tech/activities/spdy/index.html' title='GoogleがWebの表示を高速化するために開発した新しいプロトコル「SPDY」がどういう目的で開発され、どのような仕組みで、どんな効果をもたらしているのか、そして次世代のHTTP/2.0ではどうなるのかを解説します。'>「最新の技術動向」に「Web表示の高速化を実現するSPDYとHTTP/2.0の標準化」を掲載しました。</a></li><li><a class='rsswidget' href='http://techlog.iij.ad.jp/archives/iijnews117' title=''>IIJエンジニアによるブログ「てくろぐ」に「インターネット・トリビア　あなたのパスワード、大丈夫ですか？」を掲載しました。</a></li><li><a class='rsswidget' href='http://www.iij.ad.jp/company/development/tech/activities/saw1-02/index.html' title='2013年1月に発表したSACMをベースとした機能課金モデルで無償提供するサービスアダプタ「SA-W1」の開発について、「SEIL(ザイル)シリーズ」での経験を交えてご紹介します。'>「最新の技術動向」に「クラウド環境でのルータ設定（後編）」を掲載しました。</a></li><li><a class='rsswidget' href='http://www.iij.ad.jp/company/development/tech/activities/saw1-01/index.html' title='2013年1月に発表したSACMをベースとした機能課金モデルで無償提供するサービスアダプタ「SA-W1」の開発について、「SEIL(ザイル)シリーズ」での経験を交えてご紹介します。'>「最新の技術動向」に「クラウド環境でのルータ設定（前編）」を掲載しました。</a></li><li><a class='rsswidget' href='https://sect.iij.ad.jp/d/2013/07/056557.html' title='以前の記事、BHEK2による大量改ざん、BHEK2を悪用した国内改ざん事件の続報 の続報です。現在も日本国内で繰り返し Web 改ざんが行われており、マルウェア感染の被害は継続、終息の兆しは見られません。'>「Security Diary」に「継続する Web 改ざんと Exploit Kit によるドライブバイダウンロード」を掲載しました。</a></li></ul></aside></section><!-- #secondary .widget-area -->
+				<footer id="colophon" role="contentinfo" class="span12">
+										<div id="page-footer" class="well clearfix">
+                                                <span class="pull-right"><a href="/feed">RSS feed</a></span>
+                        <span>&copy; 2010-2013 Internet Initiative Japan Inc.</span>
+					</div><!-- #page-footer .well .clearfix -->
+									</footer><!-- #colophon -->
+							</div><!-- #page -->
+		</div><!-- .container -->
+	<!-- 34 queries. 1.859 seconds. -->
+	<script type='text/javascript' src='http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/js/bootstrap.min.js?ver=2.0.3'></script>
+<script type='text/javascript' src='http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/js/the-bootstrap.min.js?ver=2.0.1-t1'></script>
+<!-- google analytics -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20986420-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google analytics -->
+	</body>
+</html>

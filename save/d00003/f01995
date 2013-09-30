@@ -1,0 +1,1173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Movable Type Pro 4.34-en" />
+    
+    <link rel="stylesheet" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/styles.css" type="text/css" />
+
+
+    <title>
+
+        
+    Living with IPv6: programming Archives
+        
+
+    </title>
+
+
+
+
+
+
+</head>
+<body class="mt-archive-listing mt-category-archive layout-wtt">
+    <div id="container">
+        <div id="container-inner">
+            <div id="header">
+                <div id="header-inner">
+                    <div id="header-content">
+
+                        <div id="header-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/" accesskey="1">Living with IPv6</a></div>
+                        <div id="header-description">Notes on life with IPv6 enabled.</div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="content">
+                <div id="content-inner">
+                    <div id="alpha">
+                        <div id="alpha-inner">
+
+
+<h1 class="archive-title">
+
+    
+Recently in <em>programming</em> Category
+    
+    
+
+</h1>
+
+
+    
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description
+    rdf:about="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-395463"
+    trackback:ping="https://blogs.psu.edu/mt4/mt-tb.cgi/261019"
+    dc:title="Improved IPv6 support in Perl"
+    dc:identifier="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-395463"
+    dc:subject="programming"
+    dc:description="I&apos;ve blogged before about the shoddy support for IPv6 in Perl. Last week, Perl 5.14 was released with improved IPv6 support in the core distribution: Improved IPv6 support The Socket module provides new affordances for IPv6, including implementations of the..."
+    dc:creator="Derek Morr"
+    dc:date="2011-05-15T10:33:55-05:00" />
+</rdf:RDF>
+-->
+
+<div id="entry-395463" class="entry-asset asset">
+    <div class="asset-header">
+        <h2 class="asset-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/improved-ipv6-support-in-perl.html">Improved IPv6 support in Perl</a></h2>
+        <div class="asset-meta">
+    <span class="byline">
+
+        By <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Derek Morr</a> on May 15, 2011 10:33 AM
+
+    </span>
+    <span class="separator">|</span> <a class="permalink" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/improved-ipv6-support-in-perl.html">Permalink</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/improved-ipv6-support-in-perl.html#comments">Comments (0)</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/improved-ipv6-support-in-perl.html#trackback">TrackBacks (0)</a>
+</div>
+
+    </div>
+    <div class="asset-content">
+
+        <div class="asset-body">
+            <p>I've <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/07/perl-considered-harmful.html">blogged before</a> about the <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-support-in-programming-li.html">shoddy support for IPv6</a> in Perl. Last week, <a href="http://news.perlfoundation.org/2011/05/perl-514.html">Perl 5.14 was released</a> with improved IPv6 support in the core distribution:</p>
+
+<blockquote>
+<strong>Improved IPv6 support</strong>
+The Socket module provides new affordances for IPv6,
+including implementations of the Socket::getaddrinfo() and
+Socket::getnameinfo() functions, along with related constants and a
+handful of new functions.  See Socket.
+</blockquote>
+
+<p>This change brings the standard getaddrinfo()/getnameinfo() socket calls into the core library. Prior to this, developers had to use <a href="http://search.cpan.org/dist/Socket6/Socket6.pm">a separate module, socket6</a>, to get IPv6-capable socket calls. This change is <em>long</em> overdue. The getaddrinfo() and getnameinfo() calls were <a href="http://tools.ietf.org/html/rfc2133">first defined in RFC 2113</a>, which published in 1997!</p>
+
+<p>In 2011, I can't imagine why anyone would want to write new code in Perl, but I'm glad that the core library finally has IPv6 support. There's still a lot of legacy Perl code out there, and much of it will have to get IPv6 support. This should make that process much easier.</p>
+        </div>
+
+
+
+    </div>
+    <div class="asset-footer"></div>
+</div>
+
+    
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description
+    rdf:about="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-013678"
+    trackback:ping="https://blogs.psu.edu/mt4/mt-tb.cgi/12423"
+    dc:title="Perl considered harmful."
+    dc:identifier="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-013678"
+    dc:subject="programming"
+    dc:description="I&apos;ve recently been handed an assignment that requires me to write some Perl code. I&apos;m not a fan of Perl anymore. I haven&apos;t used it routinely in almost seven years. It certainly filled a very useful niche in the &apos;80s..."
+    dc:creator="Derek Morr"
+    dc:date="2008-07-12T19:04:21-05:00" />
+</rdf:RDF>
+-->
+
+<div id="entry-13678" class="entry-asset asset">
+    <div class="asset-header">
+        <h2 class="asset-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/07/perl-considered-harmful.html">Perl considered harmful.</a></h2>
+        <div class="asset-meta">
+    <span class="byline">
+
+        By <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Derek Morr</a> on July 12, 2008  7:04 PM
+
+    </span>
+    <span class="separator">|</span> <a class="permalink" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/07/perl-considered-harmful.html">Permalink</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/07/perl-considered-harmful.html#comments">Comments (15)</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/07/perl-considered-harmful.html#trackback">TrackBacks (1)</a>
+</div>
+
+    </div>
+    <div class="asset-content">
+
+        <div class="asset-body">
+            <p>I've recently been handed an assignment that requires me to write some Perl code. I'm not a fan of Perl anymore. I haven't used it routinely in almost seven years. It certainly filled a very useful niche in the '80s and early '90s, but by 2008, I think it's been superceeded by Python or Ruby. Frankly, I think it's an anachronism. But this isn't a blog about programming.</p>
+
+<p>I've <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-support-in-programming-li.html">griped about the shoddy IPv6 support in Perl</a> before. This post is in the same vein.</p>
+
+<p>This code needs to use <a href="http://ldap.perl.org/">Perl-LDAP</a>. Natually, I checked if that library supports IPv6 (remember, kids, in Perl, you have to check if every single library supports it!). Fortunately, it got support a few months ago, <a href="http://svn.goingon.net/viewvc/perl-ldap/tags/perl-ldap-0.36/Changes?revision=545&view=markup">in version 0.35</a>. All's well, right? Not so fast, kiddo. The changelog says it "add option to support IPv6". What does "option" mean?</p>
+
+<p>Looking at the <a href="http://search.cpan.org/~gbarr/perl-ldap/lib/Net/LDAP.pod#CONSTRUCTOR">docs</a>, I found this gem:<br />
+<div style="border: 1px dashed #3c78b5; font-size: 11px; font-family: Courier; background-color: #f0f0f0; margin: 10px; padding: 3px">inet6 => N</p>
+
+<p>Try to connect to the server using IPv6 if HOST resolves to an IPv6 target address. If it resolves to an IPv4 address, the connection is tried using IPv4, the same way as if this option was not given.</p>
+
+<p>Please note that IPv6 support is considered experimental in IO::Socket::SSL, which is used of SSL/TLS support, and there are a few issues to take care of. See "IPv6" in <a href="http://search.cpan.org/perldoc?IO%3A%3ASocket%3A%3ASSL#IPv6">IO::Socket::SSL</a> for details.</div></p>
+
+<p>So let me get this straight<i>ish</i>. To get IPv6 support in my LDAP apps, I have to pass a special "no, really, use IPv6" flag to every LDAP object I create? What happens if the hostname resolves to both an IPv6 and an IPv4 address? And I better just hope that I'm not using SSL. This is just charming. But it gets better. If you follow the link to IO::Socket::SSL, you find this:<br />
+<div style="border: 1px dashed #3c78b5; font-size: 11px; font-family: Courier; background-color: #f0f0f0; margin: 10px; padding: 3px">Currently, there is no support for using IPv4 and IPv6 simultaneously in a single program, but it is planned for a future release.</div></p>
+
+<p>Gah! You can't possibly be serious. Java has supported <a href="http://java.sun.com/j2se/1.4.2/docs/guide/net/ipv6_guide/">SSL-over-IPv6 and mixed v6-v4 apps</> for <a href="http://java.sun.com/j2se/codenames.html">5 years</a>! Hell, it's supported it for so long that the first version to get support is <a href="http://java.sun.com/j2se/1.4.2/">now EOL</a>. Python has had support <a href="http://python.org/download/releases/2.3/">for the same amount of time</a>.</p>
+
+<p>Folks, this is not the way to design a maintainable, supportable, enterprise language. How people continue to use Perl in production totally escapes me. And this does not bode well for IPv6-enabling the large mountain of legacy Perl scripts that hold this University's IT systems together.</p>
+        </div>
+
+
+
+    </div>
+    <div class="asset-footer"></div>
+</div>
+
+    
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description
+    rdf:about="http://www.personal.psu.edu/dvm105/blogs/ipv6/bugs/index.html#entry-003622"
+    trackback:ping="https://blogs.psu.edu/mt4/mt-tb.cgi/3409"
+    dc:title="IPv6 Bug du Jour: GMime and IPv6 addresses"
+    dc:identifier="http://www.personal.psu.edu/dvm105/blogs/ipv6/bugs/index.html#entry-003622"
+    dc:subject="bugs"
+    dc:description="Severity: NormalToday&apos;s bug - GMime doesn&apos;t parse URLs with literal IPv6 addresses. This has been reported to them as bug 515088.GMime is a popular library for handling MIME. Penn State&apos;s WebMail system uses it. It has a very useful module..."
+    dc:creator="Derek Morr"
+    dc:date="2008-02-07T17:05:46-05:00" />
+</rdf:RDF>
+-->
+
+<div id="entry-3622" class="entry-asset asset">
+    <div class="asset-header">
+        <h2 class="asset-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-bug-du-jour-gmime-and-rfc.html">IPv6 Bug du Jour: GMime and IPv6 addresses</a></h2>
+        <div class="asset-meta">
+    <span class="byline">
+
+        By <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Derek Morr</a> on February  7, 2008  5:05 PM
+
+    </span>
+    <span class="separator">|</span> <a class="permalink" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-bug-du-jour-gmime-and-rfc.html">Permalink</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-bug-du-jour-gmime-and-rfc.html#comments">Comments (0)</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-bug-du-jour-gmime-and-rfc.html#trackback">TrackBacks (0)</a>
+</div>
+
+    </div>
+    <div class="asset-content">
+
+        <div class="asset-body">
+            Severity: Normal<br /><br />Today's bug - <a href="http://spruce.sourceforge.net/gmime/">GMime</a> doesn't parse URLs with literal IPv6 addresses. This has been reported to them as <a href="http://bugzilla.gnome.org/show_bug.cgi?id=515088">bug 515088</a>.<br /><br />GMime is a popular library for handling MIME. Penn State's <a href="https://webmail.psu.edu/">WebMail system</a> uses it. It has a very useful module that converts plaintext email containing URLs into HTML. WebMail uses this capability. Unfortunately, it doesn't support URLs with IPv6 addresses, such as http://[2610:8:6800:1::7]/. This is a valid URL, per <a href="http://www.ietf.org/rfc/rfc2732.txt">RFC 2732</a>.<br /><br />From what I hear, the GMime developers are very responsive to bug reports. I look forward to this being fixed. It'll be one small step to making WebMail IPv6-capable. :)<br />
+        </div>
+
+
+
+    </div>
+    <div class="asset-footer"></div>
+</div>
+
+    
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description
+    rdf:about="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-003430"
+    trackback:ping="https://blogs.psu.edu/mt4/mt-tb.cgi/3220"
+    dc:title="IPv6 support in programming libraries"
+    dc:identifier="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-003430"
+    dc:subject="programming"
+    dc:description="I&apos;ve been looking into what it would take to get several of our applications IPv6-enabled. In some cases, it&apos;s trivial. In others, it&apos;s going to be hell. This post is about how several programming languages have added IPv6 support to..."
+    dc:creator="Derek Morr"
+    dc:date="2008-02-05T16:43:27-05:00" />
+</rdf:RDF>
+-->
+
+<div id="entry-3430" class="entry-asset asset">
+    <div class="asset-header">
+        <h2 class="asset-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-support-in-programming-li.html">IPv6 support in programming libraries</a></h2>
+        <div class="asset-meta">
+    <span class="byline">
+
+        By <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Derek Morr</a> on February  5, 2008  4:43 PM
+
+    </span>
+    <span class="separator">|</span> <a class="permalink" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-support-in-programming-li.html">Permalink</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-support-in-programming-li.html#comments">Comments (6)</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-support-in-programming-li.html#trackback">TrackBacks (1)</a>
+</div>
+
+    </div>
+    <div class="asset-content">
+
+        <div class="asset-body">
+            <div>I've been looking into what it would take to get several of our applications IPv6-enabled. In some cases, it's trivial. In others, it's going to be hell. This post is about how several programming languages have added IPv6 support to their standard libraries. Well, it's not really a post. It's more of a rant. Because I'm angry. I'm angry that two of the most popular languages appear to have put no forethought into future-proofing their networking libraries.</div><div><br class="webkit-block-placeholder" /></div><div>PHP and Perl are excellent examples of how <span class="Apple-style-span" style="font-weight: bold;">not</span> to add IPv6 support to a library. The status of IPv6 in both systems is an utter mess that will take years to fix.<br /><br />We have many apps written in PHP and Perl, which we will eventually
+need to IPv6-enable. Given the abysmal state of IPv6 in these
+languages, I'm not optimistic about success. Critically, it not
+possible to write applications in PHP or Perl that use a <b>single API</b> and will work on IPv4-only, IPv6-only and IPv4/IPv6 dual-stacked hosts. The inability to do this is dooming.<br /></div><div><br />Non-programmers can skip to the last paragraph. What follows is techy.<br /><br class="webkit-block-placeholder" /></div><div>Let's look at PHP. It got IPv6 support in version 5, but its <a href="http://www.php.net/gethostbyname">gethostbyname</a>() function still doesn't support IPv6. Of course, the documentation doesn't mention this fact. Instead, users should use <a href="http://www.php.net/manual/en/function.dns-get-record.php">dns_get_record</a>(). (As an aside, why does dns_get_record() still support A6 records, which were deprecated years ago?). Alternatively, developers may use PEAR's <a href="http://pear.php.net/package/Net_DNS">Net_DNS</a>&nbsp;class to resolve names. It appears as if there are cases where Net_DNS_Resolver::query() can fail to use IPv6 to connect to a DNS server, however (if using UDP and the "enhanced sockets library").</div><div><br class="webkit-block-placeholder" /></div><div>Then there are the IP address utility libraries: <a href="http://pear.php.net/package/Net_IPv4">Net_IPv4</a> and <a href="http://pear.php.net/package/Net_IPv6">Net_IPv6</a>. First question: Why are there two of them? Why is there not a single network address library that can handle both formats? But it gets worse: The two libraries have different APIs. There is considerable functional overlap between them -- there are functions to apply a netmask to an address, parse CIDR-formatted addresses, etc -- but the function prototypes look nothing alike. For example, some of&nbsp;<a href="http://pear.php.net/manual/en/package.networking.net-ipv4.parseaddress.php">Net_IPv4::parseAddress</a>()'s abilities are duplicated in <a href="http://pear.php.net/manual/en/package.networking.net-ipv6.getnetmask.php">Net_IPv6::getNetmask</a>() and <a href="http://pear.php.net/manual/en/package.networking.net-ipv6.removenetmaskspec.php">Net_IPv6::removeNetmaskSpec</a>(). Both Net_IPv4 and Net_IPv6 have functions to verify if a string is a valid address, but they have different names: <a href="http://pear.php.net/manual/en/package.networking.net-ipv4.validateip.php">Net_IPv4::validateIP</a>() vs <a href="http://pear.php.net/manual/en/package.networking.net-ipv6.checkipv6.php">Net_IPv6::checkIPv6</a>(). There are other examples of this sort of mismatch.</div><div><br class="webkit-block-placeholder" /></div><div>I'll only mention briefly that there are two other modules for validating IP(v4) addresses: <a href="http://pear.php.net/package/Net_CheckIP">Net_CheckIP</a>&nbsp;and <a href="http://pear.php.net/package/Net_CheckIP2">Net_CheckIP2</a>. Both of them only handle IPv4 and have different function names than the equivalent functions in &nbsp;Net_IPv4 and Net_IPv6. This only serves to increase programmer confusion and encourage the development of non-IPv6-capable code.</div><div><br class="webkit-block-placeholder" /></div><div>And that's just the low-level code. There are still the higher-level libraries for dealing with IMAP, SMTP, HTTP, etc. I haven't begun an audit of PEAR's <a href="http://pear.php.net/packages.php?catpid=16&amp;catname=Networking">Networking librar</a>y to check for IPv4-only code. I'm too afraid.</div><div><br class="webkit-block-placeholder" /></div><div>Perl isn't any better. For reasons that escape me, Perl decided to fork its network libraries into IPv4-only and IPv6 halves. Specifically, there are <a href="http://search.cpan.org/dist/Socket/Socket.pm">Socket</a> (and it's object-oriented cousin, <a href="http://search.cpan.org/%7Egbarr/IO-1.2301/IO/Socket/INET.pm">IO::Socket::INET</a>) and <a href="http://search.cpan.org/dist/Socket6/Socket6.pm">Socket6</a> (and <a href="http://search.cpan.org/dist/IO-Socket-INET6/INET6.pm">IO::Socket::INET6</a>). Of course this means that developers have to change their code to get IPv6 support. Almost no OSes bundle Socket6 or IO::Socket::INET6, so developers are loathe to make such changes. (Kudos to Mac OS X 10.5 and Ubuntu 7.10 for supporting them).</div><div><br class="webkit-block-placeholder" /></div><div>Because the modules are&nbsp;separate, you have to write a bunch of ugly code. When your code starts, you check if you have one of the IPv6 socket modules installed. If so, set a flag. Then every single time you need to talk to the network, you check this flag and branch, either to Socket6 or Socket. This is a) ugly b)&nbsp;inefficient&nbsp;c) unlikely to be adopted by virtually all programmers d) all of the above. Check the source to the <a href="http://www.net-dns.org/">Net::DNS</a> module for an example. I am not looking forward to submitting patches that do this. But someone is going to have to.</div><div><br class="webkit-block-placeholder" /></div><div>I contrast this to Java, Python and C which have sane, clean, standardized APIs that support both IPv4 and IPv6. In Java, it's unlikely that developers will have to change code. In Python, the changes are usually two or three lines. In C, it's slightly more lines than that, but generally not much more. I'll elaborate more on these languages in a later post. Readers at Penn State may want to look at my <a href="https://wikispaces.psu.edu/display/ipv6/IPv6+programming">IPv6 programming notes</a> in the <a href="https://wikispaces.psu.edu/">ITS Wiki</a>&nbsp;(which is <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/11/its-wiki-is-now-ipv6accessible-1.html">IPv6-enabled</a>).</div>
+        </div>
+
+
+
+    </div>
+    <div class="asset-footer"></div>
+</div>
+
+    
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description
+    rdf:about="http://www.personal.psu.edu/dvm105/blogs/ipv6/bugs/index.html#entry-002754"
+    trackback:ping="https://blogs.psu.edu/mt4/mt-tb.cgi/2605"
+    dc:title="IPv6 bug du jour - MovableType "
+    dc:identifier="http://www.personal.psu.edu/dvm105/blogs/ipv6/bugs/index.html#entry-002754"
+    dc:subject="bugs"
+    dc:description="When a user posts a comment to a MovableType 4 blog, MT4 logs the user&apos;s IP address. However, the relevant column in MT&apos;s database is only big enough to store an IPv4 address. Here&apos;s the relevant code from lib/MT/Comment.pm: __PACKAGE__-&gt;install_properties({..."
+    dc:creator="Derek Morr"
+    dc:date="2008-01-28T18:06:10-05:00" />
+</rdf:RDF>
+-->
+
+<div id="entry-2754" class="entry-asset asset">
+    <div class="asset-header">
+        <h2 class="asset-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/01/ipv6-bug-du-jour-movabletype.html">IPv6 bug du jour - MovableType </a></h2>
+        <div class="asset-meta">
+    <span class="byline">
+
+        By <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Derek Morr</a> on January 28, 2008  6:06 PM
+
+    </span>
+    <span class="separator">|</span> <a class="permalink" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/01/ipv6-bug-du-jour-movabletype.html">Permalink</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/01/ipv6-bug-du-jour-movabletype.html#comments">Comments (1)</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/01/ipv6-bug-du-jour-movabletype.html#trackback">TrackBacks (0)</a>
+</div>
+
+    </div>
+    <div class="asset-content">
+
+        <div class="asset-body">
+            <p>When a user posts a comment to a MovableType 4 blog, MT4 logs the user's IP address. However, the relevant column in MT's database is only big enough to store an IPv4 address. Here's the relevant code from lib/MT/Comment.pm:<br />
+<div style="border: 1px dashed #3c78b5; font-size: 11px; font-family: Courier; background-color: #f0f0f0; margin: 10px; padding: 3px"><br />
+__PACKAGE__->install_properties({<br />
+    column_defs => {<br />
+...<br />
+        'ip' => 'string(16)',<br />
+...<br />
+    },<br />
+</div></p>
+
+<p>PSU is using MovableType 4 for its <a href="http://blogs.psu.edu/">blogging pilot</a>, so I suppose I should submit a patch to fix this.</p>
+
+<p>As an aside, it's disappointing that MovableType is storing the address as a string. I suppose this was done for portability reasons, but it means that MT can't take advantage of databases with intelligent IP address datatypes, like PostgreSQL. For almost a decade, PostgreSQL has had the <a href="http://www.postgresql.org/docs/8.2/static/datatype-net-types.html">inet and cidr datatypes</a>, which are specifically designed for storing IP addresses. These datatypes have supported IPv6 since <a href="http://www.postgresql.org/docs/7.4/static/release-7-4.html">release 7.4</a> in late 2003.<br />
+</p>
+        </div>
+
+
+
+    </div>
+    <div class="asset-footer"></div>
+</div>
+
+    
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description
+    rdf:about="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-000698"
+    trackback:ping="https://blogs.psu.edu/mt4/mt-tb.cgi/642"
+    dc:title="IPv6-clean programming in Python"
+    dc:identifier="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-000698"
+    dc:subject="programming"
+    dc:description="It looks like the next version of Python will include an IPv6-safe convenience function to open a connection to a server: socket.create_connection(). You can see the gory details in the svn commit message. This is A Good Thing. It wraps..."
+    dc:creator="Derek Morr"
+    dc:date="2007-12-18T18:14:40-05:00" />
+</rdf:RDF>
+-->
+
+<div id="entry-698" class="entry-asset asset">
+    <div class="asset-header">
+        <h2 class="asset-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/12/ipv6clean-programming-in-pytho.html">IPv6-clean programming in Python</a></h2>
+        <div class="asset-meta">
+    <span class="byline">
+
+        By <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Derek Morr</a> on December 18, 2007  6:14 PM
+
+    </span>
+    <span class="separator">|</span> <a class="permalink" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/12/ipv6clean-programming-in-pytho.html">Permalink</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/12/ipv6clean-programming-in-pytho.html#comments">Comments (0)</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/12/ipv6clean-programming-in-pytho.html#trackback">TrackBacks (0)</a>
+</div>
+
+    </div>
+    <div class="asset-content">
+
+        <div class="asset-body">
+            <p>It looks like the next version of Python will include an IPv6-safe convenience function to open a connection to a server: socket.create_connection(). You can see the gory details <a href="http://svn.python.org/view?rev=54546&view=rev">in the svn commit message</a>.</p>
+
+<p>This is A Good Thing. It wraps a rather verbose bit of code:<br />
+<div style="border: 1px dashed #3c78b5; font-size: 11px; font-family: Courier; background-color: #f0f0f0; margin: 10px; padding: 3px"><br />
+msg = "getaddrinfo returns an empty list"<br />
+for res in getaddrinfo(host, port, 0, SOCK_STREAM):<br />
+&nbsp;&nbsp;&nbsp;&nbsp;af, socktype, proto, canonname, sa = res<br />
+&nbsp;&nbsp;&nbsp;&nbsp;sock = None<br />
+&nbsp;&nbsp;&nbsp;&nbsp;try:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sock = socket(af, socktype, proto)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if timeout is not None:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sock.settimeout(timeout)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sock.connect(sa)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return sock</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;except error, msg:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if sock is not None:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sock.close()</p>
+
+<p>raise error, msg</div><br />
+This code requests a list of all the addresses (both IPv4 and IPv6) for host using the socket.getaddrinfo() function. It then loops over that list, trying each address until it finds one that works. If none work, it raises an exception.</p>
+
+<p>Python's <a href="http://docs.python.org/lib/module-socket.html">socket.getaddrinfo</a>() is quite handy. It's a Python wrapper around the C <a  href="http://en.wikipedia.org/wiki/Getaddrinfo">getaddrinfo(3)</a> function, which is defined in <a href="http://www.ietf.org/rfc/rfc3493.txt">RFC 3493: Basic Socket Interface Extensions for IPv6</a>. I'll talk more about it in a future blog entry on how to write IPv6-clean programs (and make sure they still work with IPv4).</p>
+        </div>
+
+
+
+    </div>
+    <div class="asset-footer"></div>
+</div>
+
+    
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description
+    rdf:about="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-000696"
+    trackback:ping="https://blogs.psu.edu/mt4/mt-tb.cgi/640"
+    dc:title="Checking for IPv6 in Python"
+    dc:identifier="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-000696"
+    dc:subject="programming"
+    dc:description="Here&apos;s a random little tip: To check if your platform&apos;s Python interpreter was built with IPv6 support, run this program: $ python Python 2.4.4 (#1, Jan 10 2007, 01:25:01) [C] on sunos5 Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more..."
+    dc:creator="Derek Morr"
+    dc:date="2007-12-18T09:40:46-05:00" />
+</rdf:RDF>
+-->
+
+<div id="entry-696" class="entry-asset asset">
+    <div class="asset-header">
+        <h2 class="asset-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/12/checking-for-ipv6-in-python.html">Checking for IPv6 in Python</a></h2>
+        <div class="asset-meta">
+    <span class="byline">
+
+        By <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Derek Morr</a> on December 18, 2007  9:40 AM
+
+    </span>
+    <span class="separator">|</span> <a class="permalink" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/12/checking-for-ipv6-in-python.html">Permalink</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/12/checking-for-ipv6-in-python.html#comments">Comments (1)</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/12/checking-for-ipv6-in-python.html#trackback">TrackBacks (0)</a>
+</div>
+
+    </div>
+    <div class="asset-content">
+
+        <div class="asset-body">
+            <p>Here's a random little tip: To check if your platform's <a href="http://www.python.org/">Python</a> interpreter was built with IPv6 support, run this program:</p>
+
+<p><code><br />
+$ python<br />
+Python 2.4.4 (#1, Jan 10 2007, 01:25:01) [C] on sunos5<br />
+Type "help", "copyright", "credits" or "license" for more information.<br />
+>>> <strong>import socket</strong><br />
+>>><strong> socket.has_ipv6</strong><br />
+True<br />
+>>> ^D<br />
+</code></p>
+        </div>
+
+
+
+    </div>
+    <div class="asset-footer"></div>
+</div>
+
+    
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description
+    rdf:about="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-000681"
+    trackback:ping="https://blogs.psu.edu/mt4/mt-tb.cgi/625"
+    dc:title="UMich code and IPv6"
+    dc:identifier="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/index.html#entry-000681"
+    dc:subject="programming"
+    dc:description="The University of Michigan has developed a lot of open-source software. For example, PSU makes heavy use of their CoSign and radmind products. Their graphical SFTP client, Fugu is also very popular. Sadly, none of these are IPv6-clean. As I..."
+    dc:creator="Derek Morr"
+    dc:date="2007-11-27T16:54:07-05:00" />
+</rdf:RDF>
+-->
+
+<div id="entry-681" class="entry-asset asset">
+    <div class="asset-header">
+        <h2 class="asset-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/11/umich-code-and-ipv6.html">UMich code and IPv6</a></h2>
+        <div class="asset-meta">
+    <span class="byline">
+
+        By <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Derek Morr</a> on November 27, 2007  4:54 PM
+
+    </span>
+    <span class="separator">|</span> <a class="permalink" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/11/umich-code-and-ipv6.html">Permalink</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/11/umich-code-and-ipv6.html#comments">Comments (0)</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/11/umich-code-and-ipv6.html#trackback">TrackBacks (0)</a>
+</div>
+
+    </div>
+    <div class="asset-content">
+
+        <div class="asset-body">
+            <p>The University of Michigan has developed a lot of open-source software. For example, PSU makes heavy use of their <a href="http://www.weblogin.org/">CoSign</a> and <a href="http://rsug.itd.umich.edu/software/radmind/">radmind</a> products. Their graphical  SFTP client, <a href="http://rsug.itd.umich.edu/software/fugu/">Fugu</a> is also very popular. Sadly, none of these are IPv6-clean.</p>
+
+<p>As I <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/11/webaccess_and_ipv6.html">mentioned previously</a>, I've got patches to make CoSign IPv6-clean. This afternoon I looked at the radmind and Fugu sources, and it looks like they share some low-level networking libraries with CoSign. I suspect I'll be able to easily adapt my CoSign patches for them.</p>
+
+<p>I setup the VMs for my CoSign testing this afternoon. I hope to actually get to testing things later this week.</p>
+
+<p>Perhaps I'll make a blog entry about converting legacy C code to use the new IPv6-capable APIs. It's generally a straightforward conversion.</p>
+        </div>
+
+
+
+    </div>
+    <div class="asset-footer"></div>
+</div>
+
+    
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description
+    rdf:about="http://www.personal.psu.edu/dvm105/blogs/ipv6/pennstate/index.html#entry-000678"
+    trackback:ping="https://blogs.psu.edu/mt4/mt-tb.cgi/622"
+    dc:title="WebAccess and IPv6"
+    dc:identifier="http://www.personal.psu.edu/dvm105/blogs/ipv6/pennstate/index.html#entry-000678"
+    dc:subject="Penn State"
+    dc:description="If you are IPv6-enabling a website protected by WebAccess, you might need to make a change to your web server&apos;s configuration. Specifically, you might need to set CosignCheckIP never in your Apache config. Otherwise, connections over IPv6 won&apos;t be authenticated...."
+    dc:creator="Derek Morr"
+    dc:date="2007-11-19T18:08:16-05:00" />
+</rdf:RDF>
+-->
+
+<div id="entry-678" class="entry-asset asset">
+    <div class="asset-header">
+        <h2 class="asset-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/11/webaccess-and-ipv6.html">WebAccess and IPv6</a></h2>
+        <div class="asset-meta">
+    <span class="byline">
+
+        By <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Derek Morr</a> on November 19, 2007  6:08 PM
+
+    </span>
+    <span class="separator">|</span> <a class="permalink" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/11/webaccess-and-ipv6.html">Permalink</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/11/webaccess-and-ipv6.html#comments">Comments (0)</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2007/11/webaccess-and-ipv6.html#trackback">TrackBacks (0)</a>
+</div>
+
+    </div>
+    <div class="asset-content">
+
+        <div class="asset-body">
+            <p>If you are IPv6-enabling a website protected by <a href="http://webaccess.psu.edu/">WebAccess</a>, you might need to make a change to your web server's configuration. Specifically, you might need to set <tt>CosignCheckIP never</tt> in your Apache config. Otherwise, connections over IPv6 won't be authenticated. You can read more about why this happens <a href="https://wikispaces.psu.edu/display/ipv6/General+IPv6+Notes#GeneralIPv6Notes-WebAccess">in the ITS wiki</a>.</p>
+
+<p>Penn State's WebAccess product is based on <a href="http://www.weblogin.org/">CoSign</a>, an open-source web single-sign-on system. The CoSign source code is not <a href="http://people.redhat.com/drepper/userapi-ipv6.html">IPv6-clean</a>, so even if ASET were to assign IPv6 addresses to the WebAccess servers, we'd still have problems. I'm working on a patch to CoSign to make it IPv6-clean. After the break, I'll do some more testing and submit it to the CoSign project for integration.</p>
+        </div>
+
+
+
+    </div>
+    <div class="asset-footer"></div>
+</div>
+
+    
+
+
+<div class="content-nav">
+    
+    <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/pennstate/">&laquo; Penn State</a> |
+    
+    <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Main Index</a> |
+    <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/archives.html">Archives</a>
+    
+</div>
+
+</div>
+                    </div>
+
+    
+            
+                    
+                    <div id="beta">
+<div id="beta-inner">
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-9266628-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+
+
+<script type="text/javascript" language="javascript" src="http://entne.jp/labs/blogparts/wolf3/en-us/wolf_c.js"></script><div class="widget-syndicate widget">
+   <div class="widget-content">
+
+
+<!--      <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/index.xml">Subscribe to this blog's feed</a><br />
+      [<a href="http://www.sixapart.com/about/feeds">What is this?</a>] -->
+   
+		<ul class="blog-feeds">
+          <li class="blog feed"><img src="https://blogs.psu.edu/mt4/mt-static/images/status_icons/feed.gif" alt="Subscribe to feed" width="9" height="9" /> <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/index.xml">Subscribe to this blog's feed</a></li>
+
+<li class="blog feed"><img src="https://blogs.psu.edu/mt4/mt-static/images/status_icons/feed.gif" alt="Subscribe to comments feed" width="9" height="9" /> <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/comments_rss.xml">Subscribe to this blog's comments feed</a></li>
+
+
+
+
+      </ul>
+
+
+
+</div>
+</div>
+<div class="widget-feed widget">
+
+<h3 class="widget-header">Derek's IPv6 pages on del.icio.us</h3>
+<div class="widget-content">
+<ul>
+<li><a href="http://blogs.cisco.com/security/so_long_v4_heres_to_v6_being_secure/">Cisco Blog » Blog Archive » So Long v4! Here’s to v6 Being Secure!</a></li>
+
+<li><a href="http://www.openwall.com/presentations/IPv6/">IPv6: What, Why, How presentation slides</a></li>
+
+<li><a href="http://www.litech.org/tayga/">TAYGA - NAT64 for Linux</a></li>
+
+<li><a href="http://mailman.nanog.org/pipermail/nanog/2011-January/030919.html">NAT-PT or NAT64 in real life</a></li>
+
+<li><a href="http://3g4g.blogspot.com/2010/03/ipv6-transition-in-cellular-networks.html">3G and 4G Wireless Blog: IPv6 transition in cellular networks gaining momentum</a></li>
+</ul>
+</div>
+
+</div>
+<div class="widget-cloud widget">
+    <h3 class="widget-header">Tag Cloud</h3>
+    <div class="widget-content">
+        <ul class="widget-list">
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=3rox&amp;limit=20">3rox</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=6to4&amp;limit=20">6to4</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=airportexpress&amp;limit=20">airportexpress</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=aix&amp;limit=20">aix</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=android&amp;limit=20">android</a>
+                </li>
+            
+                <li class="rank-7 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=apple&amp;limit=20">apple</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=arin&amp;limit=20">arin</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=bgp&amp;limit=20">bgp</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=blogging&amp;limit=20">blogging</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=bugs&amp;limit=20">bugs</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=c&amp;limit=20">c</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=caida&amp;limit=20">caida</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=cellular&amp;limit=20">cellular</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=cifs&amp;limit=20">cifs</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=cisco&amp;limit=20">cisco</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=class%20e&amp;limit=20">class e</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=content&amp;limit=20">content</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=cosign&amp;limit=20">cosign</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=cpe&amp;limit=20">cpe</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=dell&amp;limit=20">dell</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=dhcpv6&amp;limit=20">dhcpv6</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=dhcpv6%2C&amp;limit=20">dhcpv6,</a>
+                </li>
+            
+                <li class="rank-5 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=dns&amp;limit=20">dns</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=dnssec&amp;limit=20">dnssec</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=edu&amp;limit=20">edu</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=eu&amp;limit=20">eu</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=europe&amp;limit=20">europe</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=fios&amp;limit=20">fios</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=firewall&amp;limit=20">firewall</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=freebsd&amp;limit=20">freebsd</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=fugu&amp;limit=20">fugu</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=google&amp;limit=20">google</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=higher_ed&amp;limit=20">higher_ed</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ics&amp;limit=20">ics</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ids&amp;limit=20">ids</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ietf&amp;limit=20">ietf</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=internet2&amp;limit=20">internet2</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ios&amp;limit=20">ios</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=iphone&amp;limit=20">iphone</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv4&amp;limit=20">ipv4</a>
+                </li>
+            
+                <li class="rank-6 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv4_address_exhaustion&amp;limit=20">ipv4_address_exhaustion</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv4_depletion&amp;limit=20">ipv4_depletion</a>
+                </li>
+            
+                <li class="rank-1 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv6&amp;limit=20">ipv6</a>
+                </li>
+            
+                <li class="rank-7 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv6%2C&amp;limit=20">ipv6,</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=java&amp;limit=20">java</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=kanren&amp;limit=20">kanren</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=kerberos&amp;limit=20">kerberos</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ldap&amp;limit=20">ldap</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=leopard&amp;limit=20">leopard</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=lte&amp;limit=20">lte</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=mail&amp;limit=20">mail</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=mobile&amp;limit=20">mobile</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=movabletype&amp;limit=20">movabletype</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=nanp&amp;limit=20">nanp</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=nat&amp;limit=20">nat</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=netflix&amp;limit=20">netflix</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=nfs&amp;limit=20">nfs</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=nokia&amp;limit=20">nokia</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ntp&amp;limit=20">ntp</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ntt&amp;limit=20">ntt</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=openldap&amp;limit=20">openldap</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=opensolaris&amp;limit=20">opensolaris</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=os%20x&amp;limit=20">os x</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=osx&amp;limit=20">osx</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=pct&amp;limit=20">pct</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=pear&amp;limit=20">pear</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=penncollege&amp;limit=20">penncollege</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=pennstate&amp;limit=20">pennstate</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=perl&amp;limit=20">perl</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=php&amp;limit=20">php</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ping&amp;limit=20">ping</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=pocketpc&amp;limit=20">pocketpc</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=programming&amp;limit=20">programming</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=proxy&amp;limit=20">proxy</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=psu&amp;limit=20">psu</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=python&amp;limit=20">python</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=radmind&amp;limit=20">radmind</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=reserved%20addresses&amp;limit=20">reserved addresses</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ripe&amp;limit=20">ripe</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=samba&amp;limit=20">samba</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=security&amp;limit=20">security</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=smartphone&amp;limit=20">smartphone</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=smtp&amp;limit=20">smtp</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=snort&amp;limit=20">snort</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=social_commentary&amp;limit=20">social_commentary</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=solaris&amp;limit=20">solaris</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=squid&amp;limit=20">squid</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=subethaedit&amp;limit=20">subethaedit</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=t-mobile&amp;limit=20">t-mobile</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=tcpwrappers&amp;limit=20">tcpwrappers</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=telephones&amp;limit=20">telephones</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ucal&amp;limit=20">ucal</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=v6policy&amp;limit=20">v6policy</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=verizon&amp;limit=20">verizon</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=verizon%2C&amp;limit=20">verizon,</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=vista&amp;limit=20">vista</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=wah&amp;limit=20">wah</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=webaccess&amp;limit=20">webaccess</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=webmail&amp;limit=20">webmail</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=wimax&amp;limit=20">wimax</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=windows&amp;limit=20">windows</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=windowsmobile&amp;limit=20">windowsmobile</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=wireless&amp;limit=20">wireless</a>
+                </li>
+            
+        </ul>
+    </div>
+</div>
+<div class="widget-creative-commons widget">
+   <div class="widget-content">
+      <a href="http://creativecommons.org/licenses/by-sa/3.0/us/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/us/88x31.png" /></a><br />
+      This weblog is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">Creative Commons License</a>.
+   </div>
+</div>
+
+
+
+
+
+</div>
+</div>
+<div id="gamma">
+<div id="gamma-inner">
+
+
+
+
+
+
+
+<div class="widget-search widget">
+<h3 class="widget-header">Search</h3>
+<div class="widget-content">
+<form method="get" action="https://blogs.psu.edu/mt4/mt-search.cgi">
+<input id="search" name="search" size="20" value="" />
+
+<input type="hidden" name="IncludeBlogs" value="115" />
+
+<input type="submit" value="Search" />
+</form>
+</div>
+</div>
+
+
+
+
+
+<div class="widget-categories widget">
+<h3 class="widget-header">Categories</h3>
+<div class="widget-content">
+
+
+<ul class="widget-list">
+
+
+<li class="widget-list-item"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/6to4/">6to4 (1)</a>
+
+
+</li>
+
+
+
+
+<li class="widget-list-item"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/ipv4-exhaustion/">IPv4 Exhaustion (11)</a>
+
+
+</li>
+
+
+
+
+<li class="widget-list-item"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/internet2/">Internet2 (7)</a>
+
+
+</li>
+
+
+
+
+<li class="widget-list-item"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/pennstate/">Penn State (10)</a>
+
+
+</li>
+
+
+
+
+<li class="widget-list-item"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/bugs/">bugs (13)</a>
+
+
+</li>
+
+
+
+
+<li class="widget-list-item"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/dns/">dns (21)</a>
+
+
+</li>
+
+
+
+
+<li class="widget-list-item"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/">programming (9)</a>
+
+
+</li>
+
+</ul>
+
+
+</div>
+</div>
+
+
+
+</MTElse>
+
+
+
+</div>
+</div>
+
+
+                        
+                
+        
+
+                </div>
+            </div>
+            <div id="footer">
+                <div id="footer-inner">
+                    <div id="footer-content">
+                        <div class="widget-powered widget">
+                            <div class="widget-content">
+                                Powered by <a href="http://www.movabletype.com/">Movable Type Pro</a>
+                            </div>
+                        </div>
+
+                        <div class="widget-creative-commons widget">
+                            <div class="widget-content">
+                                This blog is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">Creative Commons License</a>.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

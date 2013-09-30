@@ -1,0 +1,637 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="must-revalidate" />
+<title>how to use pkgsrc on aix</title>
+
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="../../global.css" type="text/css" />
+<link rel="stylesheet" href="../../style.css" type="text/css" />
+<link rel="stylesheet" href="../../local.css" type="text/css" />
+
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_aix&amp;do=edit" />
+
+
+
+
+</head>
+<body><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/toggle.js" type="text/javascript" charset="utf-8"></script><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/relativedate.js" type="text/javascript" charset="utf-8"></script>
+    <div id="centralHeader">
+      <div id="logo">
+        <a href="http://www.NetBSD.org/"><img src="http://www.NetBSD.org/images/NetBSD-smaller.png" alt="[NetBSD Logo]"/></a>
+        <div id="name"><a href="http://www.NetBSD.org/">The NetBSD Project</a></div>
+        <div id="slogan"><a href="http://www.NetBSD.org/">&ldquo;Of course it runs NetBSD&rdquo;</a></div>
+      </div>
+      <div id="headerTools">
+	<div id="headerSearch">
+
+<form method="get" action="https://wiki.netbsd.org/cgi-bin/ikiwiki" id="searchform">
+<div>
+<input class="whiteOnBlack" type="text" id="searchbox" name="P" value="Search" size="12" maxlength="255" onfocus="if(this.value==this.defaultValue ) this.value='';" /> <input type="submit" value="Search" />
+</div>
+</form>
+
+
+	</div>
+      </div>
+    </div>
+
+    <div id="navBar" role="navigation">
+	<span class="doNotDisplay">
+          Navigation:
+        </span>
+	<ul>
+	<li><a href="http://www.NetBSD.org/">
+		  WWW Home</a></li>
+	<li>
+	<a href="http://www.NetBSD.org/">
+		  News &amp; Media</a><ul>
+	<li><a href="http://www.NetBSD.org//changes/">
+		    Recent changes</a></li>
+	<li><a href="http://blog.NetBSD.org/">
+		    NetBSD blog</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/events.html">
+		    Events</a></li>
+	<li><a href="http://www.NetBSD.org/changes/rss.html">
+		    Feeds</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/about/">
+		  About</a><ul>
+	<li><a href="http://www.NetBSD.org/about/">
+		    NetBSD</a></li>
+	<li><a href="http://www.NetBSD.org/foundation/">
+		    The NetBSD Foundation</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/">
+		    Advocacy</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/docs/">
+		  Documentation</a><ul>
+	<li><a href="http://www.NetBSD.org/docs/misc/index.html">
+		    FAQ &amp; HOWTOs</a></li>
+	<li><a href="http://www.NetBSD.org/docs/guide/en/">
+		    The Guide</a></li>
+	<li><a href="http://man.NetBSD.org/">
+		    Manual pages</a></li>
+	<li><a href="http://wiki.NetBSD.org/">
+		    Wiki</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/support/">
+		  Support</a><ul>
+	<li><a href="http://www.NetBSD.org/support/send-pr.html">
+		    Problem report guide</a></li>
+	<li><a href="http://www.NetBSD.org/cgi-bin/sendpr.cgi?gndb=netbsd">
+		    Report a bug</a></li>
+	<li><a href="http://www.NetBSD.org/support/query-pr.html">
+		    Query bug database</a></li>
+	<li><a href="http://www.NetBSD.org/support/security/">
+		    Security</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/community/">
+		  Community</a><ul>
+	<li><a href="http://onetbsd.org/">
+		    Blogs</a></li>
+	<li><a href="http://www.NetBSD.org/mailinglists/">
+		    Mailing lists</a></li>
+	<li><a href="http://mail-index.NetBSD.org/">
+		    List archives</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/developers/">
+		  Developers</a><ul>
+	<li><a href="http://cvsweb.NetBSD.org/">
+		    Browse source</a></li>
+	<li><a href="http://nxr.NetBSD.org/">
+		    Cross-reference</a></li>
+	<li><a href="http://releng.NetBSD.org/">
+		    Release engineering</a></li>
+	<li><a href="http://wiki.NetBSD.org/projects/">
+		    Projects list</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/ports/">
+		  Ports</a><ul>
+	<li><a href="http://www.NetBSD.org/ports/history.html">
+		    History</a></li>
+	<li><a href="http://www.NetBSD.org/ports/emulators.html">
+		    Emulators</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.pkgsrc.org/">
+		Packages</a><ul>
+	<li><a href="http://www.pkgsrc.se/">
+		    Browse packages</a></li>
+	<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+		    Release engineering</a></li>
+	</ul>
+	</li>
+	</ul>
+    </div>
+ 
+      	  
+		  <div class="actions">
+		    <ul>
+			<li><a href="../../">Wiki Home</a></li>
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_aix&amp;do=edit" rel="nofollow">Edit</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_aix&amp;do=comment">Comment</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_aix&amp;do=getsource">Source</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/cvsweb/wikisrc/pkgsrc/how_to_use_pkgsrc_on_aix.mdwn">History</a></li>
+		      
+			<li><a href="../../wiki/new_page" rel="nofollow">New</a></li>
+		      
+			<li><a href="../../recentchanges/">RecentChanges</a></li>
+		      
+		    </ul>
+		  </div>
+    </div>
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+<a href="../../">NetBSD Wiki</a>/<a href="../">pkgsrc</a>/
+</span>
+<span class="title">
+how to use pkgsrc on aix
+
+</span>
+</span><!--.header-->
+</div>
+</div>
+
+
+
+<div id="content">
+<p><strong>This page should use cross references to avoid duplicate content. Please help us by cleaning it up.</strong></p>
+
+<p><strong>Contents</strong></p>
+
+<div class="toc">
+<ol>
+	<li class="L1"><a href="#index1h1">Introduction</a>
+	</li>
+	<li class="L1"><a href="#index2h1">Setup the base system</a>
+	</li>
+	<li class="L1"><a href="#index3h1">Install a compiler</a>
+	<ol>
+		<li class="L2"><a href="#index1h2">Option 1: Using 'gcc' from the AIX toolkit</a>
+		</li>
+		<li class="L2"><a href="#index2h2">Option 2: Use a-n-other compiler</a>
+		</li>
+	</ol>
+	</li>
+	<li class="L1"><a href="#index4h1">Bootstrap away, bootstrap away, bootstrap away</a>
+	</li>
+	<li class="L1"><a href="#index5h1">Pack-up and wagons roll</a>
+	</li>
+	<li class="L1"><a href="#index6h1">Known issues</a>
+	<ol>
+		<li class="L2"><a href="#index3h2">Packages</a>
+		<ol>
+			<li class="L3"><a href="#index1h3">sysutils/fam</a>
+			</li>
+			<li class="L3"><a href="#index2h3">devel/gettext</a>
+			</li>
+			<li class="L3"><a href="#index3h3">devel/pcre</a>
+			</li>
+			<li class="L3"><a href="#index4h3">lang/perl5</a>
+			</li>
+			<li class="L3"><a href="#index5h3">security/openssh</a>
+			</li>
+			<li class="L3"><a href="#index6h3">security/openssl</a>
+			</li>
+			<li class="L3"><a href="#index7h3">security/gnupg2</a>
+			</li>
+			<li class="L3"><a href="#index8h3">lang/python25</a>
+			</li>
+			<li class="L3"><a href="#index9h3">lang/python24</a>
+			</li>
+			<li class="L3"><a href="#index10h3">mail/dovecot</a>
+			</li>
+		</ol>
+		</li>
+		<li class="L2"><a href="#index4h2">Operating system</a>
+		</li>
+		<li class="L2"><a href="#index5h2">AIX 5L</a>
+		</li>
+		<li class="L2"><a href="#index6h2">AIX 4.1</a>
+		</li>
+	</ol>
+	</li>
+	<li class="L1"><a href="#index7h1">See also</a>
+	</li>
+	<li class="L1"><a href="#index8h1">External links</a>
+	</li>
+</ol>
+</div>
+
+
+<h1><a name="index1h1"></a>Introduction</h1>
+
+<p>'pkgsrc' on AIX must be a fairly uncommon occurance considering the general state of the documentation around getting it working. This is probably partly due to the advent of the 'AIX toolkit' which allows RPMs to be installed with minimum hassle on an AIX box. On the plus side, this toolkit also makes what appears to have been a fernickity bootstrap procedure pretty simple.</p>
+
+<p>Due to limited resources I've only attempted this on AIX 5.2 and AIX 5.3 but both appear to work smoothly. Notes, from previous versions regarding AIX 4.1 have been left.</p>
+
+<h1><a name="index2h1"></a>Setup the base system</h1>
+
+<p>For the majority of systems the following will be a non-issue as, more often than not, the entire base system will have been installed on the box and thus the 'bos.adt' packages will be present. To verify your system has those tools run the following command</p>
+
+<pre><code>TODO: installp &lt;check for 'bos.adt'&gt;
+</code></pre>
+
+<p>you'll notice the ABC output. If it's not there then you need to add those packages by sticking in the relevant CD (first install disk, generally) and running your favourite admin tool or the following command.</p>
+
+<pre><code>TODO: installp &lt;install the package&gt;
+</code></pre>
+
+<p>Precisely which set of packages is the minimum required set of 'bos.adt' packages to bootstrap is left as an exercise for the reader.</p>
+
+<h1><a name="index3h1"></a>Install a compiler</h1>
+
+<p>As you'll probably realise, the one thing that 'pkgsrc' can't do without is a complier. The simplest option is to use the 'gcc' complier which (I think) is available on most versions of AIX (perhaps someone else could clarify these options). There's no particular reason that you can't or shouldn't use another complier but you might want to note that many of the packages within 'pkgsrc' will be dependent on GNU extensions and may cause you problems. Mixing compliers will probably wreak havoc unless you are extremely careful and have an excellent understanding of the dependancies and technologies involved.</p>
+
+<h2><a name="index1h2"></a>Option 1: Using 'gcc' from the AIX toolkit</h2>
+
+<p>I believe that 'gcc' is available in AIX but if you don't have it you should be able to download it from IBM like I did. However I'd send a word of warning about having the complete 'AIX linux toolkit' installed because you will inevitably get caught trying to avoid conflicts with the 'pkgsrc' versions of libraries. Consequently, I'd recommend you <em>only</em> get the complier you want and remove everything else via the IBM supplied 'rpm' command.</p>
+
+<p>The first step is to ensure that you have the 'rpm' manager</p>
+
+<pre><code>installp &lt;show rpm&gt;
+</code></pre>
+
+<p>and install it (in a similar manner to above) if you find it's missing or has been stripped out by an enthusiastic security officer.</p>
+
+<p>Thus, if you follow the above advice, running the command 'rpm -qa' should produce something similar to the following</p>
+
+<pre><code># rpm -qa
+libgcc
+gcc
+gcc-c++
+</code></pre>
+
+<p>if you don't, you'll have a much longer list but the above items should be included in it.</p>
+
+<p>P.S: i'm using 'gcc4' from the AIX toolkit, however, it would probably be more prudent to use 'gcc3' which is also available as 'pkgsrc' does not appear to be particularly 'gcc4' friendly.</p>
+
+<p>P.P.S: in achieving the above I removed the 'mkisofs' and 'cdrecord' packages from the system. This suited me fine, however, you may wish to verify whether that's going to impact some of the base system's backup option (i.e. backup to DVD) and/or whether re-instatement of those utilities via 'pkgsrc' will solve those issues.</p>
+
+<h2><a name="index2h2"></a>Option 2: Use a-n-other compiler</h2>
+
+<p>I cannot recommend or caution against this option; I'm simply not able to afford the IBM compiler (or other, if there is one). Should anyone wish to give me a license I'll be happy to try it. However, apart from the problems you'll no doubt have with the general adherence to GCC and it's extensions within the 'pkgsrc' packages, it <em>should</em> work.</p>
+
+<p>That's a heavily conditioned <em>should</em>, for those that didn't get it the first time.</p>
+
+<h1><a name="index4h1"></a>Bootstrap away, bootstrap away, bootstrap away</h1>
+
+<p>Generally, I like to mirror the native system layout (it's one of the primary reasons I like 'pkgsrc') and so generally I put 'pkgsrc' into '/opt' and use the following bootstrap options</p>
+
+<ul>
+<li>--prefix=/opt/pkg</li>
+<li>--pkgdbdir=/var/opt/pkg</li>
+</ul>
+
+
+<p>whilst leaving the others with their default 'pkgsrc' setting.</p>
+
+<p>Where you put it is, of course, entirely up to yourself but remember to set the 'CC' environment variable before bootstrap or you'll get into a bit of a mess when the build wrappers fail to find it later. This</p>
+
+<pre><code># CC=/opt/freeware/bin/gcc ; export CC
+</code></pre>
+
+<p>is probably what you want but, if you're using another complier, you'll need to change it correspondingly.</p>
+
+<p>Go bootstrap.</p>
+
+<pre><code># cd /opt/pkgsrc/bootstrap
+# ./bootstrap --prefix=/opt/pkg --pkgdbdir=/var/opt/pkg
+[ ... ]
+Complete success and happiness has been achieved
+[ ... ]
+Fulfillment of other life ambitions imminient
+[ ... ]
+Bootstrap successful
+#
+</code></pre>
+
+<p>Hopefully, that's the worst of it over.</p>
+
+<h1><a name="index5h1"></a>Pack-up and wagons roll</h1>
+
+<p>Now you need to complete your local configuration</p>
+
+<ul>
+<li>set library locations</li>
+<li>set path</li>
+<li>set build environment (i.e. mk.conf)</li>
+<li>set other variables</li>
+</ul>
+
+
+<p>And ensure that you double check 'README.AIX' for important changes.</p>
+
+<p>The last decision you have to make (for now at least) is whether to use one of the 'pkgsrc' compilers instead of the AIX linux toolkit you just used. Personally, I see little reason, particularly as the latest compiler in 'pkgsrc' is 'gcc3' and the AIX toolkit give me a shiny gcc4.2 version. N.B: as noted above building with 'gcc4' may not be as resilient as 'pkgsrc' seems to be more settled on 'gcc3' at present.</p>
+
+<p>The only thing left is for someone to re-generate the binary bootstrap package for the other AIX souls out there so that the above article is completely useless.</p>
+
+<h1><a name="index6h1"></a>Known issues</h1>
+
+<p>The following section outlines the various problems encountered whilst trying to get the system working, note (to self) these should only really appear here if they are specific to AIX. Find somewhere friendlier for more generic notes.</p>
+
+<h2><a name="index3h2"></a>Packages</h2>
+
+<p>This is a very limited selection of the packages problems that have been encountered if anyone does a complete build, power to them, perhaps they'll add some info here.</p>
+
+<h3><a name="index1h3"></a>sysutils/fam</h3>
+
+<p>It will just not compile - The situation is a bit like for OSF1 as described in PR <a href="http://www.netbsd.org/cgi-bin/query-pr-single.pl?number=31489">#31489</a> for AIX as well. After trying to fix the first errors I decided to add FAM_DEFAULT=gamin in my mk.conf. I've posted a PR for setting this permanently on AIX: <a href="http://www.netbsd.org/cgi-bin/query-pr-single.pl?number=41815">#41815</a></p>
+
+<h3><a name="index2h3"></a>devel/gettext</h3>
+
+<p>See bug (todo: look this up)</p>
+
+<h3><a name="index3h3"></a>devel/pcre</h3>
+
+<p>Just does not compile (the C++ part cannot be linked) - a <a href="http://bugs.exim.org/show_bug.cgi?id=874">bug report</a> in the PCRE project was opened.</p>
+
+<h3><a name="index4h3"></a>lang/perl5</h3>
+
+<p>The Configure and Makefile.SH scripts delivered by perl are not properly working when compiling with gcc. They hand over -b arguments to gcc without prefixing them -Wl, which needs to be done because they are meant for ld. I've raised PR <a href="http://www.netbsd.org/cgi-bin/query-pr-single.pl?number=41814">#41814</a> with a patch file included to fix this. The fix was tested on a Power2 System running AIX 5.1 with gcc 3.4 from pkgsrc. <a href="file:///index.php?title=User:OliverLehmann&amp;action=edit&amp;redlink=1">OliverLehmann</a></p>
+
+<h3><a name="index5h3"></a>security/openssh</h3>
+
+<p>Another package that thinks it needs 'perl'; OK it does but we don't want to build it so lets just hack out the tools again.</p>
+
+<h3><a name="index6h3"></a>security/openssl</h3>
+
+<p>One of those packages that depends on 'perl' simply hack the Makefile to remove 'perl' from the required build tools. This should allow it to build using the base system 'perl'.</p>
+
+<pre><code>Also had trouble with the linking of the shared libraries, not sure if this points to my use of 'gcc4' but manually hacked 'Makefile.shared' (think this is generated so you may need to hack this after the error) to include '--shared' with the linking command. You'll find this in the LINK_SO definition; look for the SHAREDLINK command. -- [ttw](file:///User:Ttw) 
+</code></pre>
+
+<p>P.S: remember to set the 'PERL5' variable above</p>
+
+<h3><a name="index7h3"></a>security/gnupg2</h3>
+
+<p>This isn't actually a problem with the build of 'gnupg2' but it is a problem with the fact that it depends on a bizillion packages. I had issues with 'curl' and 'pinentry'. I should really log bugs for these, and I'll try but I need to get this @$%# completed and get work done too. Anyway, can't remember 'what the problem with 'curl' was but it must have been on of the standard ones here, probably my base perl. 'pinentry' posed more of a problem. Apparently there is a dependancy on 'getopt' missing from the build. I didn't actually fix this correctly, once I finally tracked it down i simply did the following</p>
+
+<pre><code># ln -s /opt/pkg/include/getopt.h work/.buildlink/include/getopt.h
+# for f in /opt/pkg/lib/libgetopt* ; do ln -s $f work/.buildlink/lib/`basename $f` ; done
+</code></pre>
+
+<p>Next we hit a block with the definition of FD_SETSIZE on AIX which is 65534 but the GNU portable threads that this package uses fixes a maximum of 1024 (although the change log appears to contradict this). Either way I hacked the 'Makefile' such that the static inclusion of the 'pth' stuff (under 'pre-configure' action) includes the '--with-fdsetsize=1024' option.</p>
+
+<p>Current advice would be try 'security/gnupg' instead.</p>
+
+<p>PS: Odd that the build still shows the '-L/opt/pkg/include' but cannot find it. Makes tracking down issues difficult. Need to investigate the 'pkgsrc' mechanics further to understand how/why this works. --ttw 23:45, 17 May 2009 (UTC)</p>
+
+<h3><a name="index8h3"></a>lang/python25</h3>
+
+<p>This is a new one by me but the configure script for python explicitly overrides the 'CC' variable we defined when setting up pkgsrc. I've hacked this (once more, i know i should correct these things but i'm busy scratching other itches ... anyway) by adding a 'CONFIGURE_ARGS' to the 'Makefile' with the value '--with-gcc'. this conveniently avoids the evil configure code and allows the default 'CC' to be uses sanely.</p>
+
+<p>NB: The above is only one issue. This doesn't work for me as is.</p>
+
+<h3><a name="index9h3"></a>lang/python24</h3>
+
+<p>This is slightly less ugly than 'lang/python25' primarily because it doesn't appear dependent on GNU 'pth' but I didn't really track this down too hard either. Major grip is that IPv6 doesn't work due to a failure in the 'configure' script. That should be hackable but I've currently got it built with '--disable-ipv6', although unsatisfactory.</p>
+
+<p>Further down the line there is a problem with the 'bsddb' package which has some threading issues that I've not investigated. I wasn't interested in it anyway so I simply disabled it (by hacking it out of the Makefile) and we have a build.</p>
+
+<p>I'm not sure that counts as success but I'm ignoring it in favour of my own needs.</p>
+
+<h3><a name="index10h3"></a>mail/dovecot</h3>
+
+<p>this is pretty nice all in all but I couldn't get this to build due to issues with 'rquota' in the 'quotas' plugins. the solution was to hack 'quota-fs.c' and change the local 'rquota.h' to the system version (&lt;rpcsvc/rquota.h&gt;) and add the other necessaries (i.e. &lt;rpc/rpc.h&gt; and &lt;rpc/clnt.h&gt;).</p>
+
+<p>Unfortunately, there's a little more incompatability that needs hacking and that's more edits to 'quota-fs.c' where we hack the result.status' to the corresponding 'result.gqr_status' and the 'result.getquota_rslt_u.status' to 'result.gqr_rquota'.</p>
+
+<p>I'm sure all this is "wrong" but it appears to build. Only thing required after that is to ensure you add the 'dovecot' user before doing the install. Happy days.</p>
+
+<h2><a name="index4h2"></a>Operating system</h2>
+
+<p>As we all know, AIX isn't anymore singular than other systems and various problems arise on various versions, particularly as both systems are organic entities.</p>
+
+<p>Feel free to add to that knowledge quotient here.</p>
+
+<h2><a name="index5h2"></a>AIX 5L</h2>
+
+<p><strong>'undef'd stdio functions within c++ library</strong></p>
+
+<p>the c++ standard libraries appear have a small problem wherein the 'cstdio' 'undef's the macros for 'fgetpos', 'fsetpos', 'fopen', 'freopen'. unfortunately, this is incorrect when using _LARGE_FILE extensions as these macros alias the 64 versions of the functions. if you alter your '/opt/freeware/lib/gcc/powerpc-ibm-aix5.3.0.0/4.2.0/include/c++/cstdio' file to correct this everything should start to flow smoothly again. the following is what i did</p>
+
+<pre><code># cd /opt/freeware/lib/gcc/powerpc-ibm-aix5.3.0.0/4.2.0/include/c++
+# ln cstdio cstdio,v1.1.1.1
+# sed -e '/fgetpos/ d' -e '/fsetpos/ d' \
+  -e '/fopen/ d' -e '/freopen/ d' \
+  cstdio,v1.1.1.1 &gt;cstdio,v1.2
+</code></pre>
+
+<p>then we add the following to the new file</p>
+
+<pre><code>#ifndef _LARGE_FILES
+#undef fgetpos
+#undef fsetpos
+#undef fopen
+#undef freopen
+#endif /* _LARGE_FILES */
+</code></pre>
+
+<p>and replace the active one</p>
+
+<pre><code># ln -f cstdio,v1.2 cstdio
+</code></pre>
+
+<p>we can now compile away happily again</p>
+
+<p><strong>'bos.net.nfs.adt' required for various builds</strong></p>
+
+<p>i would imagine that this issue will be transparent to most users and can probably be resolved by a quick search on google, however, i put it here for posterity and completeness and for those whom hacking at any level is alien. basically, you need 'rpcgen' for various builds and that's only included as part of the 'bos.net.nfs.adt' package from the base system. you'll probably have it already.</p>
+
+<p>--ttw 15:18, 7 June 2009 (UTC): this may be incorrect, perhaps 'bos.net.nfs.server' package</p>
+
+<h2><a name="index6h2"></a>AIX 4.1</h2>
+
+<p>AIX 4.1 is a pretty old system at this stage, however, AIX systems are renowned for their longevity, although I'd guess there are very few being used as development platforms these days.</p>
+
+<p>Still if you can contribute to clarifying any of the following and/or find some issues of your own feel free to help shuffle the rest of the world round that blockade.</p>
+
+<p>For older AIX releases like this, mirrors of the AIX Public Domain Software Library (aixpdslib) may prove useful to get started.</p>
+
+<p><strong>Conflicting type declarations</strong></p>
+
+<p>Following the instructions to bootstrap pkgsrc-2006Q3 did not work on my older 4.1 system. After several minutes the bootstrap process aborted with the following error:</p>
+
+<pre><code>sh makelist -bc ./vi.c ./emacs.c ./common.c &gt; help.c
+sh makelist -bh ./vi.c ./emacs.c ./common.c &gt; help.h
+gcc -g -O2 -I. -I./.. -I. -I.. -I./../libedit  -I./../libnetbsd -c chared.c
+In file included from sys.h:142,
+                 from chared.c:37:
+/usr/include/regex.h:172: conflicting types for `regex'
+/usr/include/libgen.h:31: previous declaration of `regex'
+/usr/include/regex.h:173: conflicting types for `regcmp'
+/usr/include/libgen.h:30: previous declaration of `regcmp'
+*** Error code 1
+Stop.
+bmake: stopped in /usr/pkgsrc/bootstrap/work/tnftp/libedit
+*** Error code 1
+Stop.
+bmake: stopped in /usr/pkgsrc/bootstrap/work/tnftp
+===&gt; exited with status 1
+aborted.
+</code></pre>
+
+<p>I found an <a href="http://lists.ibiblio.org/pipermail/freetds/2004q4/017290.html">explanation of this error</a> with help from Google:</p>
+
+<ul>
+<li>Old Unix versions define these functions in libgen.h, newer in regex.h. It seems that AIX define in two places but with different prototypes.</li>
+</ul>
+
+
+<p>Not having any skills in C programming, I was unable to resolve the issue by correcting the conflicting definitions and had to resort to sledgehammer tactics; I removed libgen.h but the bootstrap process then failed as it was not able to locate the file. I then overwrote the libgen.h file with a copy of regex.h. This sorted out the conflicting type declaration problem, but I am not sure if this will have any adverse effect on my system! The plan was just to get the bootstrap process to complete then re-instate the original libgen.h file.</p>
+
+<blockquote><p>You should never change your operating system's files just to make any third-party software run. The proper solution is to tell the author of tnftp (see pkgsrc/net/tnftp/Makefile.common) to have a look at it. --Rillig 13:11, 17 December 2006 (CET)</p>
+
+<p>A workaround -- remove check for libgen.h from tnftp/configure. (Verified on AIX 4.3.2.0, pkgsrc-2007Q1.) Shattered 21:10, 9 July 2007 (CEST)</p></blockquote>
+
+<p><strong>Undeclared variable</strong></p>
+
+<p>After restarting the bootstrap process, it failed again with the following error:</p>
+
+<pre><code>gcc -g -O2 -I. -I./.. -I. -I.. -I./../libedit  -I./../libnetbsd -c inet_ntop.c
+gcc -g -O2 -I. -I./.. -I. -I.. -I./../libedit  -I./../libnetbsd -c inet_pton.c
+inet_pton.c: In function `inet_pton4':
+inet_pton.c:92: `uint32_t' undeclared (first use in this function)
+inet_pton.c:92: (Each undeclared identifier is reported only once
+inet_pton.c:92: for each function it appears in.)
+inet_pton.c:92: parse error before `val'
+inet_pton.c:108: `val' undeclared (first use in this function)
+*** Error code 1
+Stop.
+bmake: stopped in /usr/pkgsrc/bootstrap/work/tnftp/libnetbsd
+*** Error code 1
+Stop.
+bmake: stopped in /usr/pkgsrc/bootstrap/work/tnftp
+===&gt; exited with status 1
+aborted.
+</code></pre>
+
+<p>This is as far as I have managed to get at the moment. I will update this page as and when I have a solution to this problem.</p>
+
+<blockquote><p>I think adding #include &lt;inttypes.h&gt; at line 25 of pkgsrc/net/tnftp/files/tnftp.h helps. --Rillig 14:03, 17 December 2006 (CET)</p>
+
+<p>AIX 4.1.5 appears not to have inttypes.h. ? ChristTrekker 14:30, 22 April 2009 (UTC)</p>
+
+<p>Which makes sense, since 4.1.5 predates C99. ? ChristTrekker 04:12, 29 April 2009 (UTC)</p></blockquote>
+
+<p><strong>missing termcap library</strong></p>
+
+<p>Using AIX 4.1.5 and gcc 2.95.2, I get this far...</p>
+
+<pre><code>===&gt; running: (cd /usr/pkgsrc/net/tnftp &amp;&amp; /usr/pkgsrc/bootstrap/work/bin/bmake  -DPKG_PRESERVE MAKECONF=/usr/pkgsrc/bootstrap/work/mk.conf install)
+ERROR: This package has set PKG_FAIL_REASON:
+ERROR: No usable termcap library found on the system.
+*** Error code 1
+
+Stop.
+bmake: stopped in /usr/pkgsrc/net/tnftp
+===&gt; exited with status 1
+aborted.
+</code></pre>
+
+<blockquote><p>Updates will be posted here as progress is made. ? ChristTrekker 18:57, 17 March 2009 (UTC)</p>
+
+<p>It appears that AIX has a libtermcap.a but doesn't provide termcap.h. ? ChristTrekker 16:00, 18 March 2009 (UTC)</p></blockquote>
+
+<p><strong>working bootstrap</strong></p>
+
+<p>I don't remember what I did now, but I managed to get bootstrapped. The problem now is that very few packages build, because when trying to make libtool-base I get configure: error: C compiler cannot create executables, which is clearly a bogus problem since I've obviously created executables. I've submitted some patches with PRs, so I really need to wipe out my pkgsrc installation and try bootstrapping from scratch again to see if the process is smoother. ? ChristTrekker 21:24, 9 June 2009 (UTC)</p>
+
+<blockquote><p>I think fixing this is just a matter of specifying CC on the command line. ? ChristTrekker 18:09, 21 July 2009 (UTC)</p></blockquote>
+
+<h1><a name="index7h1"></a>See also</h1>
+
+<p><a href="ftp://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/bootstrap/README.AIX">README.AIX</a></p>
+
+<h1><a name="index8h1"></a>External links</h1>
+
+<p><a href="http://www.ibm.com/developerworks/wikis/display/WikiPtype/aixopen">Open Source with AIX</a></p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_aix&amp;do=comment">Add a comment</a>
+</div>
+
+</div>
+
+
+
+		      
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../how_to_use_pkgsrc/">how to use pkgsrc</a>
+
+
+</div><!-- #backlinks -->
+
+
+
+
+<div class="pagedate">
+Last edited <span class="relativedate" title="Sun, 05 Feb 2012 07:14:36 +0000">early Sunday morning, February  5th, 2012</span>
+<!-- Created <span class="relativedate" title="Sun, 05 Feb 2012 07:14:36 +0000">early Sunday morning, February  5th, 2012</span> -->
+</div>
+
+
+
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?do=prefs">Preferences | Logout</a>
+
+
+
+</div><!-- #pageinfo -->
+
+
+<!-- from NetBSD Wiki -->
+</div><!-- .pagefooter #footer -->
+
+
+
+</body>
+</html>

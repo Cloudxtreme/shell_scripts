@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>The STEED Self-Signing Nonthority -- Werner's own blurbs</title><meta name="Generator" content="An unholy concoction of parenthetical guile" /><link rel="stylesheet" type="text/css" media="screen" href="http://werner.eifzilla.de/wop.css" /><link rel="alternate" type="application/rss+xml" title="Werner's own blurbs" href="/feed/atom" /></head><body><div id="dummy"><div id="preamble"><div id="header"> </div><div id="leftColumn"><div id="navigation"><a href="http://werner.eifzilla.de/index.html">Home</a> | <a href="http://werner.eifzilla.de/projects.html">Projects</a> | <a href="http://werner.eifzilla.de/faq.html">FAQ</a> | <a href="http://werner.eifzilla.de/key.html">Key</a> | <a href="http://werner.eifzilla.de/various.html">Various</a></div></div></div><div id="content"><p id="kicker">Werner's own blurbs</p><div id="outline-container-1" class="outline-1"><h2 class="storytitle"><a href="/archives/2012/06/14/the-steed-self-signing-nonthority">The STEED Self-Signing Nonthority</a></h2><div class="post"><h3 class="meta">14 June 2012  6:26 PM (<a href="/tags/gnupg">gnupg</a> | <a href="/tags/steed">steed</a> | <a href="/tags/en">en</a>)</h3><div class="storycontent"><div><p>Recently GnuPG got its feet in to the CA business.  With 2.1beta3 the
+default installed certificates include this one:
+</p><pre class="example">      S/N: 01
+   Issuer: /CN=The STEED Self-Signing Nonthority
+  Subject: /CN=The STEED Self-Signing Nonthority
+ validity: 2011-11-11 00:00:00 through 2106-02-06 00:00:00
+ key type: 1024 bit RSA
+key usage: certSign crlSign
+</pre><p>
+Huh, what is that?  Only 1024 bit — isn’t that insecure?  Expires in
+2106 — why this?  Well, it even comes worse: We also distribute the
+corresponding private key in the source tarball at:
+<code>tests/68A638998DFABAC510EA645CE34F9686B2EDF7EA.key</code>.
+</p><p>
+Uh, that’s crazy.  Not really: It is just another arbitrary
+certificate and GnuPG does not trust it unless the user confirms
+that it is a trustworthy root certificate.  In fact any S/MIME mail
+may contain a self-signed certificates - they are actually quite
+common.  So, what is special with that certificate?
+</p><p>
+A closer look shows that it features an uncommon signed attribute:
+<i>1.3.6.1.4.1.11591.2.2.2</i> which is also known as <i>wellKnownPrivateKey</i>
+(this OID is below the GNU arc).  GPGSM (GnuPG’s S/MIME tool)
+recognizes this attribute, skips the check for trusted root
+certificates, and return an non-trusted error when operating in the
+standard validation models (<i>shell</i> and <i>chain</i>).  Only in the <i>steed</i>
+validation model it does not return an error, this is because that
+model does not care about the certificate chain, but solely bases its
+validation result on the fingerprint of the certificate.  In the
+<i>steed</i> model the whole certificate rummage is only used to convince
+existing software that it sees a real certificate.  This allows to use
+existing software to store and transport such certificates.  In GnuPG,
+this special root certificate makes it easier to handle certificates
+for the STEED system; without it GnuPG would need to make sure that
+all certificates used by the STEED system carry a special attribute,
+identifying them as STEED certificates.  The solution with a special
+root is a bit cleaner.  It also makes some fun of the existing public
+PKIs.
+</p><p>
+In case you wonder whether there is something special with the private
+key of this nonthority, check yourself: Build libgcrypt and run
+<code>tests/prime --42</code>.
+</p></div></div></div><div><h3 id="comments">No responses</h3><div><h3>Leave a Reply</h3><form action="/archives/2012/06/14/the-steed-self-signing-nonthority" method="POST"><p><input type="text" name="author" value="" size="22" tabindex="1" /> <label for="author"><small>Name</small></label></p><p><input type="text" name="email" value="" size="22" tabindex="2" /> <label for="email"><small>Mail (will not be published)</small></label></p><p><input type="text" name="url" value="" size="22" tabindex="3" /> <label for="url"><small>Website</small></label></p><p><input type="text" name="x" value="" size="22" tabindex="3" /> <label for="x"><small>What's your favorite number?</small></label></p><p><textarea name="comment" id="comment" cols="65" rows="10" tabindex="4"></textarea></p><p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" /></p></form></div></div></div></div><div id="postamble"><div id="rightColumn"><div id="menu" class="tekuti"><ul><li><a href="/feed/atom">subscribe <img src="http://werner.eifzilla.de/feed-icon-14x14.png" style="border: 0" alt="[feed]" /></a></li><li>related<ul><li style="margin-top: 5px"><a href="/archives/2013/07/16/gpg4win-and-the-feds">Gpg4win and the feds</a></li><li style="margin-top: 5px"><a href="/archives/2012/06/26/the-perils-of-contract-driven-free-software">The perils of contract driven free software</a></li><li style="margin-top: 5px"><a href="/archives/2012/06/26/yet-another-attempt-to-keep-a-blog">Yet another attempt to keep a blog</a></li></ul></li></ul></div><div id="cpyright"><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="CC-BY-SA 3.0" style="border: 0" src="http://werner.eifzilla.de/cc-by-sa-3.0_80x15.png" /></a><br />Copyright 2012 Werner Koch. This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a></div><div id="footer" class="tekuti">Powered by <a href="http://wingolog.org/software/tekuti/">tekuti</a></div></div></div></div></body></html>

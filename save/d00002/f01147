@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="maemo.partition.fr" lang="fr" xml:lang="fr">
+
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Author" content="Vincent Lefèvre" lang="fr" xml:lang="fr" />
+<title>Repartitionner la carte mémoire interne du Nokia N810</title>
+<link rev="made" href="mailto:webmaster@vinc17.org" />
+<link rel="icon" type="image/png" href="../graphics/favicon.png" />
+<link rel="stylesheet" type="text/css" href="../screen.css" media="screen,tv,projection" />
+<link rel="stylesheet" type="text/css" href="../print.css" media="print" />
+<link rel="top" type="text/html" href="../index.fr.html" title="Vincent Lefèvre - Page d'accueil" />
+<link rel="up" type="text/html" href="index.fr.html" title="Maemo / tablettes Internet Nokia (page écrite par Vincent Lefèvre)" />
+<link rel="alternate" type="text/html" href="partition.en.html" hreflang="en" title="Repartitioning the Internal Memory Card of the Nokia N810" />
+</head>
+
+<body id="www-vinc17-org">
+<p class="altlang" lang="en" xml:lang="en"><a href="partition.en.html" title="English version"><img src="../graphics/english.png" height="25" width="36" alt="English version" /></a></p>
+
+<!--[if IE]>
+<p class="msie">Vous utilisez Microsoft Internet Explorer? Son mauvais respect des standards peut poser des problèmes d'affichage. Il a aussi de <a href="http://secunia.com/advisories/product/11/">nombreux trous de sécurité</a> (<a href="http://secunia.com/advisories/product/12366/">MSIE 7.x</a>, <a href="http://secunia.com/advisories/product/21625/">MSIE 8.x</a>). Vous devriez essayer <a href="http://www.firefox.com/">Mozilla/Firefox</a> ou <a href="http://www.opera.com/">Opera</a>, par exemple.</p>
+<![endif]-->
+
+<div id="top">
+<h1>Repartitionner la carte mémoire interne du Nokia N810</h1>
+
+<div class="page-navbar">
+<map id="contents" title="Contenu">
+<p><a href="#partition" title="Repartitionnement de la carte mémoire">[Repartitionnement]</a> |
+<a href="#automount" title="Montage et démontage automatique">[Montage <abbr>auto</abbr>]</a> |
+<a href="#using-ext3" title="Utilisation de la partition ext3">[Utiliser ext3]</a> |
+<a href="#links" title="Références (liens)">[Liens]</a></p>
+</map>
+</div>
+
+<p><strong>Note: cette procédure n'est pas officielle et
+n'est pas garantie.</strong> Elle fonctionne avec mon N810, mais je n'ai
+pas pu tester tous les cas de figure. En particulier, je n'ai pas testé la
+connexion par <acronym title="Universal Serial Bus">USB</acronym> à un <acronym title="Personal Computer">PC</acronym>, ni
+la mémoire virtuelle. En cas de blocage, il y a toujours la solution
+d'effectuer un redémarrage complet en enlevant la batterie pendant
+plusieurs secondes.</p>
+
+<p>Toutes les commandes suivantes doivent être exécutées en tant
+que <em lang="en" xml:lang="en">root</em> (<abbr>cf</abbr>
+la <acronym title="Foire Aux Questions">FAQ</acronym> pour
+<a href="http://andrew.daviel.org/N810-FAQ.html#root">passer
+<em lang="en" xml:lang="en">root</em></a>). Vous devez aussi
+désactiver la mémoire virtuelle via le panneau de configuration (si vous
+l'aviez activée).</p>
+
+<div id="partition">
+<h2>Repartitionnement de la carte mémoire</h2>
+
+<p>Créons d'abord le point de montage pour la seconde partition:</p>
+<pre># <kbd>mkdir /media/mmc3</kbd></pre>
+<p>Avant de repartitionner la carte, assurez-vous que vous avez sauvegardé
+toutes vos données, car elles seront perdues. Pour pouvoir repartitionner,
+il faut démonter la partition de la carte, normalement montée sur
+<samp class="filename">/media/mmc2</samp> automatiquement:</p>
+<pre># <kbd>umount /media/mmc2</kbd></pre>
+<p>Puis on lance l'utilitaire de partitionnement sur le
+<em lang="en" xml:lang="en">device</em> associé à la carte mémoire:</p>
+<pre># <kbd>sfdisk /dev/mmcblk0</kbd></pre>
+<p>Il faut ensuite entrer le premier secteur de la partition, puis la taille
+(en cylindres). <samp>sfdisk</samp> indique le nombre total de
+cylindres: 61440. Je l'ai divisé par 2 (pour obtenir deux partitions de
+1 <abbr title="gigaoctet">Go</abbr>): 30720. Donc pour la première partition: 0 30720,
+et pour la seconde: 30720. Je ne sais pas pourquoi, mais la première
+partition a été remontée. Donc on la démonte de nouveau:</p>
+<pre># <kbd>umount /media/mmc2</kbd></pre>
+<p>Les partitions ont été déclarées; il faut maintenant les construire:</p>
+<pre># <kbd>mkfs.vfat -F 32 /dev/mmcblk0p1</kbd>
+# <kbd>mkfs.ext3 /dev/mmcblk0p2</kbd></pre>
+<p>(si vous ne les avez pas, ces deux commandes sont fournies respectivement par
+les paquets <samp>dosfstools</samp> et <samp>e2fsprogs</samp>,
+qu'il faut donc installer au préalable). Avant de passer au montage
+automatique, vous pouvez voir
+<a href="reformat-mmc2">ce que j'ai obtenu sur
+mon N810 en tapant toutes ces commandes</a>.</p>
+
+</div><!-- partition -->
+
+<div id="automount">
+<h2>Montage et démontage automatique</h2>
+
+<p>Maintenant, après un redémarrage, la première partition va toujours
+être montée automatiquement, mais pas la seconde. Cette dernière peut être
+montée à la main (sous <em lang="en" xml:lang="en">root</em>), mais
+on peut préférer la monter automatiquement.</p>
+
+<p>La manière standard pour définir les choix de montage sous Linux est de
+modifier le fichier <samp class="filename">/etc/fstab</samp>, mais le N810 ignore ce
+fichier (apparemment à cause d'un <em lang="en" xml:lang="en">bug</em>
+du noyau qui fait qu'une carte mémoire ne serait pas toujours associée
+au même <em lang="en" xml:lang="en">device</em>); d'ailleurs,
+le contenu par défaut de ce fichier sur le N810 est incorrect.</p>
+
+<p>Sur le N810, le montage automatique de la carte mémoire interne
+se fait par le script <samp class="filename">/usr/sbin/osso-mmc-mount.sh</samp>
+(qui utilise le script <samp class="filename">/usr/sbin/mmc-mount</samp>, que
+l'on peut modifier pour autoriser les exécutables sur la partition en
+<acronym title="Virtual File Allocation Table">VFAT</acronym>, par exemple), et il y a aussi un script pour
+le démontage: <samp class="filename">/usr/sbin/osso-mmc-umount.sh</samp>. Voici
+mes modifications:</p>
+
+<dl>
+<dt><samp class="filename">/usr/sbin/osso-mmc-mount.sh</samp></dt>
+<dd><p>Avant le <code lang="en" xml:lang="en">exit $RC</code> (dernière ligne),
+j'ai ajouté:</p>
+<pre>if [ $PDEV = /dev/mmcblk0p1 ] &amp;&amp; [ $MP = /media/mmc2 ]; then
+  # Try to mount the second partition too, but do not report any error.
+  KERNEL_VERSION=`uname -r`
+  if install_module $KERNEL_VERSION mbcache; then
+    if install_module $KERNEL_VERSION jbd; then
+      if install_module $KERNEL_VERSION ext3; then
+        mount -t ext3 -o noatime /dev/mmcblk0p2 /media/mmc3
+      fi
+    fi
+  fi
+fi</pre>
+<p>J'ai mis l'option <samp lang="en" xml:lang="en">noatime</samp>, classique pour
+les mémoires <em lang="en" xml:lang="en">flash</em>. On peut
+également ajouter l'option
+<a href="http://talk.maemo.org/showpost.php?p=161742&amp;postcount=8"><samp lang="en" xml:lang="en">data=writeback</samp></a>.
+Pour plus d'information, voir la
+<a href="http://www.penguin-soft.com/penguin/man?q=mount&amp;section=8&amp;action=man">page
+<samp lang="en" xml:lang="en">man</samp> de la commande
+<samp lang="en" xml:lang="en">mount</samp></a>
+(<a href="http://www.linuxcertif.com/man/8/mount/">page en
+français</a>).</p></dd>
+<dt><samp class="filename">/usr/sbin/osso-mmc-umount.sh</samp></dt>
+<dd><p>Juste avant le <code lang="en" xml:lang="en">else</code>, j'ai ajouté:</p>
+<pre>if [ $MP = /media/mmc2 ]; then
+  # Try to unmount the second partition too, but do not report any error.
+  umount /media/mmc3 2&gt; /dev/null
+fi</pre>
+<p>Mais attention! Le démontage échouera si le système de fichier est
+<em lang="en" xml:lang="en">busy</em> (<abbr>e.g.</abbr>, fichier ouvert
+ou processus qui a son répertoire de travail dessus).</p></dd>
+</dl>
+
+</div><!-- automount -->
+
+<div id="using-ext3">
+<h2>Utilisation de la partition ext3</h2>
+
+<p>Sur la partition ext3, on a évidemment les attributs standard Unix.
+En ce qui me concerne, j'ai créé un répertoire
+<samp class="filename">/media/mmc3/user</samp> (sous
+<em lang="en" xml:lang="en">root</em>), puis j'ai exécuté:
+<kbd lang="en" xml:lang="en">chown user.users /media/mmc3/user</kbd>.
+Ainsi, ça me fait un deuxième répertoire personnel. J'ai également créé
+un répertoire <samp class="filename">/media/mmc3/opt</samp> où
+j'installe les logiciels compilés par moi-même (avec un
+<kbd lang="en" xml:lang="en">make install</kbd> sous
+<em lang="en" xml:lang="en">root</em>, évidemment).</p>
+
+</div><!-- using-ext3 -->
+
+<div id="links">
+<h2>Références (liens)</h2>
+
+<ul>
+<li><p>Article: <a href="http://talk.maemo.org/showthread.php?t=15141"><cite lang="en" xml:lang="en">emacs on N810</cite></a> (dans les <a href="http://talk.maemo.org/">forums de Maemo</a>). C'était plus ou moins mon point de départ.</p></li>
+<li><p>Cet article est lui-même basé sur <a href="http://www.zimbio.com/Free+and+Open+Source+Software/articles/77/Extended+root+partition+N800+OS2008">les instructions suivantes</a>.</p></li>
+<li><p><em lang="en" xml:lang="en">Bug</em>: <a href="https://bugs.maemo.org/show_bug.cgi?id=2747"><cite lang="en" xml:lang="en">inconsistent mmc device naming at boot time when one card is missing</cite></a>.</p></li>
+<li><p>Discussion: <a href="http://talk.maemo.org/showthread.php?t=18056"><cite lang="en" xml:lang="en">mount point confusion</cite></a> (dans les <a href="http://talk.maemo.org/">forums de Maemo</a>).</p></li>
+<li><p>Discussion: <a href="http://talk.maemo.org/showthread.php?t=18130"><cite lang="en" xml:lang="en">Mount mmc2 in ext3 using fstab</cite></a> (dans les <a href="http://talk.maemo.org/">forums de Maemo</a>).</p></li>
+</ul>
+
+</div><!-- links -->
+
+</div><!-- top -->
+
+<hr class="clear" />
+
+<div class="navbar">
+<map id="navbar" title="Barre de navigation">
+<p>
+<a href="../index.fr.html"><img src="../graphics/buttons3d/home.png" height="40" width="40" alt=" [HOME] " title="Page d'accueil" /></a>
+<a href="index.fr.html"><img src="../graphics/buttons3d/back.png" height="40" width="40" alt=" [BACK] " title="Retour (page parente)" /></a>
+</p>
+</map>
+</div>
+
+<hr class="clear" />
+
+<div class="footer">
+<a href="http://uptime.netcraft.com/up/graph?host=www.vinc17.net"><img src="../graphics/poweredby.png" height="53" width="90" alt="Powered By...?" class="noborder" /></a>
+<a href="http://validator.w3.org/"><img src="../graphics/vxh10.png" height="31" width="88" alt="Valid XHTML 1.0!" class="noborder" /></a>
+<div>Dernière modification:
+<ul class="lastupdated">
+<li><span>Source <span lang="en" xml:lang="en">DocBook</span>: </span><span>2010-07-17, 17:35:06 (<span title="révision (Subversion)">38015</span>)</span></li>
+<li><span>Feuilles de styles <acronym>XSL</acronym>: </span><span>2013-08-05, 01:37:20 (<span title="révision (Subversion)">62397</span>)</span></li>
+<li><span>Fichier <samp class="filename">webtext.xml</samp>: </span><span>2010-07-17, 17:35:06 (<span title="révision (Subversion)">38015</span>)</span></li>
+<li><span>Fichier <samp class="filename">abbrev.xml</samp>: </span><span>2013-07-27, 01:33:51 (<span title="révision (Subversion)">62103</span>)</span></li>
+</ul>
+</div>
+<p>Page générée à partir du fichier <code>maemo/partition.fr.xml</code> le 2013-08-05 par <cite lang="en" xml:lang="en">xsltproc (using libxml 20901, libxslt 10128 and libexslt 817)</cite>.</p>
+<p>Note: cette conversion à partir de fichiers <span lang="en" xml:lang="en">DocBook</span> est toujours expérimentale; merci de me signaler tout problème.</p>
+</div><!-- footer -->
+
+<address>
+<a href="mailto:webmaster@vinc17.org">webmaster@vinc17.org</a>
+</address>
+
+</body>
+
+</html>

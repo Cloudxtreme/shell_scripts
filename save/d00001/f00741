@@ -1,0 +1,1703 @@
+<?xml version="1.0" encoding="shift_jis"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=shift_jis" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="description" content="最新の天気予報。全国の今日・明日の天気、気温などの気象予報を提供。" />
+<meta name="keywords" content="天気,天気予報,気温,今日の天気,明日の天気" />
+
+<link rel="stylesheet" href="/css/import.css" type="text/css" media="all" />
+<link rel="alternate stylesheet" href="/css/fontsize_medium.css" type="text/css" class="fontsize" id="fontsizeMedium" title="文字サイズ：中" media="all" />
+<link rel="alternate stylesheet" href="/css/fontsize_large.css" type="text/css" class="fontsize" id="fontsizeLarge" title="文字サイズ：小" media="all" />
+
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/cookie.js"></script>
+<script type="text/javascript" src="/js/weather.js"></script>
+<script type="text/javascript">
+<!--
+	var checkBrowserType=function(){
+		var A=navigator.userAgent;
+		this.iPhone=(A.indexOf("iPhone")!==-1);
+		this.iPod=(A.indexOf("iPod")!==-1);
+		this.Android=(A.indexOf("Android")!==-1)
+	}
+	var oldBrowser=function(){
+		var B=new checkBrowserType();
+		if(B.iPhone||B.iPod||B.Android){
+			if(location.search!="?pc"){ //←リダイレクトしないパラメータの付与
+				location.href="/smp/"
+			}
+		}
+	}
+oldBrowser();
+-->
+</script>
+
+<title>今日・明日の天気、気温｜@nifty天気予報</title>
+
+<!-- CRITEO JS START -->
+<script type='text/javascript'> var crtg_nid="1244";var crtg_cookiename="nifty_crta"; function crtg_getCookie(c_name){var i,x,y,ARRcookies=document.cookie.split(";");for(i=0;i<ARRcookies.length;i++){x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);x=x.replace(/^\s+|\s+$/g,"");if(x==c_name){return unescape(y);}}return'';}var crtg_content=crtg_getCookie(crtg_cookiename);var crtg_rnd=Math.floor(Math.random()*99999999999);var crtg_url='http://rtax.criteo.com/delivery/rta/rta.js?netid='+escape(crtg_nid);crtg_url+='&cookieName='+escape(crtg_cookiename);crtg_url+='&rnd='+crtg_rnd;crtg_url+='&varName=crtg_content';var crtg_script=document.createElement('script');crtg_script.type='text/javascript';crtg_script.src=crtg_url;crtg_script.async=true;if(document.getElementsByTagName("head").length>0)document.getElementsByTagName("head")[0].appendChild(crtg_script);else if(document.getElementsByTagName("body").length>0)document.getElementsByTagName("body")[0].appendChild(crtg_script); </script>
+<!-- CRITEO JS END -->
+</head>
+
+
+<body id="top" class="column2" onload='changeImg("/amedas_img/wxcto_264198.jpg","実況天気図","実況天気図","/amedas_zikkyo.htm");setAmedasLink("all","","");loadCookie("","","");'>
+
+<p class="skipNav"><a href="#mainContents">本文へジャンプします。</a></p>
+
+<div id="wrapper">
+<div id="tagline">
+	<h1><span>天気予報　今日・明日の天気、気温などの気象予報</span></h1>
+</div>
+<div id="container">
+	<div id="header">
+		<div class="inner">
+			<div class="headLogo">
+				<p class="siteLogo"><!--
+					--><a href="http://www.nifty.com/"><img width="88" height="31" alt="アット・ニフティ　ロゴ" src="/images/niftylogo.gif"></a><!--
+					--><a href="/"><img width="160" height="31" alt="天気予報" src="/images/logo.gif"></a><!--
+				--></p>
+				<p class="niftyTop"><a href="http://www.nifty.com/">@niftyトップ</a></p>
+			</div>
+			<!--/ .headLogo -->
+		</div>
+	</div>
+	<hr />
+	<!-- SMARTtag start-->
+<script language='JavaScript'>
+  var CM8Server='web-jp.ad-v.jp';
+  var CM8Cat='NFADV.WEATHER';
+  var CM8Profile='nifty_criteo=' + crtg_content;
+</script>
+<script language='JavaScript' src='http://cf.ad-v.jp/adam/cm8adam_1_call.js'></script>
+<!-- SMARTtag end-->
+<div id="headBanner">
+	<div>
+<!-- PLACEHOLDERtag start-->
+<script language='JavaScript'>CM8ShowAd('BNR')</script>
+<noscript>
+<a href='http://web-jp.ad-v.jp/adam/ep/click/NFADV.WEATHER/BNR?cat=NFADV.WEATHER' target='_blank'>
+<img src='http://web-jp.ad-v.jp/adam/noscript?cat=NFADV.WEATHER&format=BNR' border='0'></a>
+</noscript>
+<!-- PLACEHOLDERtag end-->
+	</div>
+
+<!--/ div#headBanner -->
+</div>
+<hr />
+	<!-- JavaScriptオフ時の注意文言 -->
+<noscript>
+<p style="color:red;font-weight:bold;" align="center">JavaScriptを有効にしてご利用ください</p>
+<p>&nbsp;</p>
+</noscript>
+<!-- /JavaScriptオフ時の注意文言 -->
+	<div id="headNav">
+	<table cellpadding="0" cellspacing="0" border="0" class="pinPoint">
+		<tr>
+			<th><img src="/images/head_pinpoint_ttl.gif" alt="ピンポイント天気" width="117" height="33" /></th>
+			<td>
+				<ul id="history_pinpoint"></ul>
+			</td>
+		</tr>
+	</table>
+
+	<div class="right">
+		<div class="inner">
+		<script type="text/javascript">displayChangeFontSize();</script>
+		<!--/ #changeFontSize -->
+
+		<ul class="links">
+			<li class="sitemap"><a href="/sitemap/">サイトマップ</a></li>
+			<li class="help"><a href="/help/">ヘルプ</a></li>
+		</ul>
+		<!--/ links -->	
+		</div>
+	</div>
+</div>
+<!--/ div#headNav -->	<div id="contents">
+		<div id="contentsInner">
+			<div id="mainContents">
+				<div>	<p class="link"><a href="http://clink.nifty.com/r/weather/snews/?http://s.news.nifty.com/app.htm
+">80社以上のニュース記事をまとめ読み！ @niftyニュース アプリ版</a></p></div>				<!--↓PR1-->
+ <div id="PR">
+<img src="/images/ico_pr.gif" alt="PR" width="21" height="15" />
+<!-- PLACEHOLDERtag start-->
+<script language='JavaScript'>CM8ShowAd('TXT')</script>
+<noscript>
+<a href='http://web-jp.ad-v.jp/adam/ep/click/NFADV.WEATHER/TXT?cat=NFADV.WEATHER' target='_blank'>
+<img src='http://web-jp.ad-v.jp/adam/noscript?cat=NFADV.WEATHER&format=TXT' border='0'></a>
+</noscript>
+<!-- PLACEHOLDERtag end-->
+ </div>
+ <!--↑PR1-->
+ <!--↓PR2-->
+ <div id="PR"><img src="/images/ico_pr.gif" alt="PR" width="21" height="15" /><a href="http://clink.nifty.com/r/weather/pr?http://www.fujitsu-general.com/jp/products/aircon/" target="_blank"> エアコンは省エネ！だって「家計にやさしい」ほうがいいでしょ？</a>
+ </div>
+ <!--↑PR2-->
+				<!-- div#nifty-advTop -->
+				<div class="nifty-advTop">
+					<script type="text/javascript" charset="utf-8" src="/pubc0m/js/ADV/latest/nifty_adv.js?update=201308&id=weather_flat1"></script>
+				</div>
+				<!--/ div#nifty-advTop -->
+
+				<hr />
+				<div class="unit">
+					<div class="unitInner">
+						<div id="mainTitle" class="module">
+														<h2>全国の天気（今日・明日の天気） <span>[ 2013年8月26日（月）16時発表 ]</span></h2>
+						</div>
+						<!--/ div#mainTitle -->
+						<div id="mainWeather" class="module">
+							<ul class="tab">
+																																								<li><img src="/images/main_tab_today_focus.gif" alt="今日（今夜）の天気" width="238" height="30" /></li>
+								<li><a href="/index1.htm"><img src="/images/main_tab_tomorrow.gif" alt="明日の天気" width="238" height="30" class="imgover" /></a></li>
+							</ul>
+							<div class="moduleInner">
+								<script type="text/javascript">
+	<!--
+		// 今日の天気マーカー初期化
+		function initMarkerToday(kind) {
+			
+			// html書き換え用 
+			var tag = "";
+			
+																					
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("100,100,101,212,202,202,202,201" != "") {
+						var weatherStr = "100,100,101,212,202,202,202,201";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "10" + "px;top:" + "264" + "px;\"><a href=\"/cs/master-area/area/10/1.htm\">鹿児島</a>";
+						tag += "<span><a href=\"/cs/master-area/area/10/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("10,0,10,50,60,50,50,30" != "") {
+						var rain = "10,0,10,50,60,50,50,30".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "10" + "px;top:" + "264" + "px;\"><a href=\"/cs/master-area/area/10/1.htm\">鹿児島</a>";
+						tag += "<span><a href=\"/cs/master-area/area/10/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,25,26,27,28,27,27,26" != "" && "999,36,35,34,34,33,33,34" != ""){
+						
+						var minTemp = "999,25,26,27,28,27,27,26".split(",")[0];
+						var maxTemp = "999,36,35,34,34,33,33,34".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "10" + "px;top:" + "264" + "px;\"><a href=\"/cs/master-area/area/10/1.htm\">鹿児島</a>";
+						tag += "<span><a href=\"/cs/master-area/area/10/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("100,100,101,212,202,202,200,201" != "") {
+						var weatherStr = "100,100,101,212,202,202,200,201";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "10" + "px;top:" + "183" + "px;\"><a href=\"/cs/master-area/area/10/1.htm\">福岡</a>";
+						tag += "<span><a href=\"/cs/master-area/area/10/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("10,0,10,50,60,50,40,30" != "") {
+						var rain = "10,0,10,50,60,50,40,30".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "10" + "px;top:" + "183" + "px;\"><a href=\"/cs/master-area/area/10/1.htm\">福岡</a>";
+						tag += "<span><a href=\"/cs/master-area/area/10/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,23,24,27,26,26,25,25" != "" && "999,32,34,35,34,32,33,32" != ""){
+						
+						var minTemp = "999,23,24,27,26,26,25,25".split(",")[0];
+						var maxTemp = "999,32,34,35,34,32,33,32".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "10" + "px;top:" + "183" + "px;\"><a href=\"/cs/master-area/area/10/1.htm\">福岡</a>";
+						tag += "<span><a href=\"/cs/master-area/area/10/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("100,201,101,201,202,201,201,202" != "") {
+						var weatherStr = "100,201,101,201,202,201,201,202";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "45" + "px;top:" + "39" + "px;\"><a href=\"/cs/master-area/area/11/1.htm\">那覇</a>";
+						tag += "<span><a href=\"/cs/master-area/area/11/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("10,30,20,20,60,30,30,50" != "") {
+						var rain = "10,30,20,20,60,30,30,50".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "45" + "px;top:" + "39" + "px;\"><a href=\"/cs/master-area/area/11/1.htm\">那覇</a>";
+						tag += "<span><a href=\"/cs/master-area/area/11/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,28,27,27,27,27,26,26" != "" && "999,32,33,33,31,32,32,31" != ""){
+						
+						var minTemp = "999,28,27,27,27,27,26,26".split(",")[0];
+						var maxTemp = "999,32,33,33,31,32,32,31".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "45" + "px;top:" + "39" + "px;\"><a href=\"/cs/master-area/area/11/1.htm\">那覇</a>";
+						tag += "<span><a href=\"/cs/master-area/area/11/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("201,100,101,112,202,202,202,201" != "") {
+						var weatherStr = "201,100,101,112,202,202,202,201";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "79" + "px;top:" + "230" + "px;\"><a href=\"/cs/master-area/area/9/1.htm\">高松</a>";
+						tag += "<span><a href=\"/cs/master-area/area/9/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("20,10,10,50,60,50,50,30" != "") {
+						var rain = "20,10,10,50,60,50,50,30".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "79" + "px;top:" + "230" + "px;\"><a href=\"/cs/master-area/area/9/1.htm\">高松</a>";
+						tag += "<span><a href=\"/cs/master-area/area/9/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,25,24,25,26,24,24,23" != "" && "999,33,32,35,34,32,32,32" != ""){
+						
+						var minTemp = "999,25,24,25,26,24,24,23".split(",")[0];
+						var maxTemp = "999,33,32,35,34,32,32,32".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "79" + "px;top:" + "230" + "px;\"><a href=\"/cs/master-area/area/9/1.htm\">高松</a>";
+						tag += "<span><a href=\"/cs/master-area/area/9/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("100,100,101,112,202,202,202,201" != "") {
+						var weatherStr = "100,100,101,112,202,202,202,201";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "79" + "px;top:" + "150" + "px;\"><a href=\"/cs/master-area/area/8/1.htm\">広島</a>";
+						tag += "<span><a href=\"/cs/master-area/area/8/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("10,0,10,50,60,50,50,30" != "") {
+						var rain = "10,0,10,50,60,50,50,30".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "79" + "px;top:" + "150" + "px;\"><a href=\"/cs/master-area/area/8/1.htm\">広島</a>";
+						tag += "<span><a href=\"/cs/master-area/area/8/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,23,24,25,26,25,25,24" != "" && "999,34,32,34,33,32,32,32" != ""){
+						
+						var minTemp = "999,23,24,25,26,25,25,24".split(",")[0];
+						var maxTemp = "999,34,32,34,33,32,32,32".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "79" + "px;top:" + "150" + "px;\"><a href=\"/cs/master-area/area/8/1.htm\">広島</a>";
+						tag += "<span><a href=\"/cs/master-area/area/8/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("203,100,101,111,202,202,202,201" != "") {
+						var weatherStr = "203,100,101,111,202,202,202,201";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "165" + "px;top:" + "258" + "px;\"><a href=\"/cs/master-area/area/5/1.htm\">名古屋</a>";
+						tag += "<span><a href=\"/cs/master-area/area/5/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("40,10,10,30,60,50,50,30" != "") {
+						var rain = "40,10,10,30,60,50,50,30".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "165" + "px;top:" + "258" + "px;\"><a href=\"/cs/master-area/area/5/1.htm\">名古屋</a>";
+						tag += "<span><a href=\"/cs/master-area/area/5/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,24,23,25,26,25,24,24" != "" && "999,34,33,33,34,33,32,32" != ""){
+						
+						var minTemp = "999,24,23,25,26,25,24,24".split(",")[0];
+						var maxTemp = "999,34,33,33,34,33,32,32".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "165" + "px;top:" + "258" + "px;\"><a href=\"/cs/master-area/area/5/1.htm\">名古屋</a>";
+						tag += "<span><a href=\"/cs/master-area/area/5/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("201,100,101,101,202,202,202,201" != "") {
+						var weatherStr = "201,100,101,101,202,202,202,201";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "165" + "px;top:" + "132" + "px;\"><a href=\"/cs/master-area/area/6/1.htm\">金沢</a>";
+						tag += "<span><a href=\"/cs/master-area/area/6/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("30,10,20,20,60,50,50,30" != "") {
+						var rain = "30,10,20,20,60,50,50,30".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "165" + "px;top:" + "132" + "px;\"><a href=\"/cs/master-area/area/6/1.htm\">金沢</a>";
+						tag += "<span><a href=\"/cs/master-area/area/6/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,23,23,25,25,25,24,24" != "" && "999,30,31,33,32,29,29,30" != ""){
+						
+						var minTemp = "999,23,23,25,25,25,24,24".split(",")[0];
+						var maxTemp = "999,30,31,33,32,29,29,30".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "165" + "px;top:" + "132" + "px;\"><a href=\"/cs/master-area/area/6/1.htm\">金沢</a>";
+						tag += "<span><a href=\"/cs/master-area/area/6/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("203,311,101,101,200,202,202,200" != "") {
+						var weatherStr = "203,311,101,101,200,202,202,200";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "237" + "px;top:" + "216" + "px;\"><a href=\"/cs/master-area/area/3/1.htm\">東京</a>";
+						tag += "<span><a href=\"/cs/master-area/area/3/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("40,60,20,20,40,50,50,40" != "") {
+						var rain = "40,60,20,20,40,50,50,40".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "237" + "px;top:" + "216" + "px;\"><a href=\"/cs/master-area/area/3/1.htm\">東京</a>";
+						tag += "<span><a href=\"/cs/master-area/area/3/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,23,24,25,26,25,24,24" != "" && "999,29,32,33,33,31,30,30" != ""){
+						
+						var minTemp = "999,23,24,25,26,25,24,24".split(",")[0];
+						var maxTemp = "999,29,32,33,33,31,30,30".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "237" + "px;top:" + "216" + "px;\"><a href=\"/cs/master-area/area/3/1.htm\">東京</a>";
+						tag += "<span><a href=\"/cs/master-area/area/3/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("202,202,101,101,202,201,202,200" != "") {
+						var weatherStr = "202,202,101,101,202,201,202,200";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "294" + "px;top:" + "168" + "px;\"><a href=\"/cs/master-area/area/2/1.htm\">仙台</a>";
+						tag += "<span><a href=\"/cs/master-area/area/2/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("40,40,10,20,60,30,50,40" != "") {
+						var rain = "40,40,10,20,60,30,50,40".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "294" + "px;top:" + "168" + "px;\"><a href=\"/cs/master-area/area/2/1.htm\">仙台</a>";
+						tag += "<span><a href=\"/cs/master-area/area/2/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,21,20,22,23,21,20,20" != "" && "999,27,30,30,30,27,26,25" != ""){
+						
+						var minTemp = "999,21,20,22,23,21,20,20".split(",")[0];
+						var maxTemp = "999,27,30,30,30,27,26,25".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "294" + "px;top:" + "168" + "px;\"><a href=\"/cs/master-area/area/2/1.htm\">仙台</a>";
+						tag += "<span><a href=\"/cs/master-area/area/2/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("100,113,102,112,203,201,101,101" != "") {
+						var weatherStr = "100,113,102,112,203,201,101,101";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "285" + "px;top:" + "27" + "px;\"><a href=\"/cs/master-area/area/1/1.htm\">札幌</a>";
+						tag += "<span><a href=\"/cs/master-area/area/1/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("10,60,70,50,70,30,20,20" != "") {
+						var rain = "10,60,70,50,70,30,20,20".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "285" + "px;top:" + "27" + "px;\"><a href=\"/cs/master-area/area/1/1.htm\">札幌</a>";
+						tag += "<span><a href=\"/cs/master-area/area/1/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,18,18,18,19,17,17,17" != "" && "999,27,25,26,25,24,23,24" != ""){
+						
+						var minTemp = "999,18,18,18,19,17,17,17".split(",")[0];
+						var maxTemp = "999,27,25,26,25,24,23,24".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "285" + "px;top:" + "27" + "px;\"><a href=\"/cs/master-area/area/1/1.htm\">札幌</a>";
+						tag += "<span><a href=\"/cs/master-area/area/1/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("200,100,101,111,202,202,202,201" != "") {
+						var weatherStr = "200,100,101,111,202,202,202,201";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "145" + "px;top:" + "191" + "px;\"><a href=\"/cs/master-area/area/7/1.htm\">大阪</a>";
+						tag += "<span><a href=\"/cs/master-area/area/7/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("20,10,10,30,60,50,50,30" != "") {
+						var rain = "20,10,10,30,60,50,50,30".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "145" + "px;top:" + "191" + "px;\"><a href=\"/cs/master-area/area/7/1.htm\">大阪</a>";
+						tag += "<span><a href=\"/cs/master-area/area/7/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,25,23,26,27,26,26,25" != "" && "999,34,34,34,34,32,32,32" != ""){
+						
+						var minTemp = "999,25,23,26,27,26,26,25".split(",")[0];
+						var maxTemp = "999,34,34,34,34,32,32,32".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "145" + "px;top:" + "191" + "px;\"><a href=\"/cs/master-area/area/7/1.htm\">大阪</a>";
+						tag += "<span><a href=\"/cs/master-area/area/7/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("100,112,102,111,202,101,200,201" != "") {
+						var weatherStr = "100,112,102,111,202,101,200,201";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "237" + "px;top:" + "93" + "px;\"><a href=\"/cs/master-area/area/2/1.htm\">秋田</a>";
+						tag += "<span><a href=\"/cs/master-area/area/2/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("10,40,70,30,60,20,40,30" != "") {
+						var rain = "10,40,70,30,60,20,40,30".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "237" + "px;top:" + "93" + "px;\"><a href=\"/cs/master-area/area/2/1.htm\">秋田</a>";
+						tag += "<span><a href=\"/cs/master-area/area/2/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,19,21,22,23,20,19,19" != "" && "999,29,29,29,28,27,26,26" != ""){
+						
+						var minTemp = "999,19,21,22,23,20,19,19".split(",")[0];
+						var maxTemp = "999,29,29,29,28,27,26,26".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "237" + "px;top:" + "93" + "px;\"><a href=\"/cs/master-area/area/2/1.htm\">秋田</a>";
+						tag += "<span><a href=\"/cs/master-area/area/2/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+			
+				// 座標を取得
+								
+				// 座標を取得
+								
+				// 天気の場合
+				if ("weather" == kind) {
+					
+					// 天気情報を取得
+										
+					if("201,212,101,201,302,101,101,101" != "") {
+						var weatherStr = "201,212,101,201,302,101,101,101";
+						var weather = weatherStr.split(",");
+						var weatherArray = getWeatherData[weather[0]];
+						
+						tag += "<li style=\"left:" + "345" + "px;top:" + "112" + "px;\"><a href=\"/cs/master-area/area/1/1.htm\">釧路</a>";
+						tag += "<span><a href=\"/cs/master-area/area/1/1.htm\"><img src=\"/images/weather/" + weatherArray[1] + "\" alt=\"" + weatherArray[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></a></span></li>";
+					}
+				// 降水確率の場合
+				} else if ("rain" == kind) {
+				
+					// 降水確率情報を取得
+										if ("20,40,30,30,70,20,20,20" != "") {
+						var rain = "20,40,30,30,70,20,20,20".split(",")[0];
+						var img = "";
+						img += "<img src=\"/images/rain/" + rain + ".png\" alt=\"" + rain + "\"  width=\"65\" height=\"30\" class=\"alpha\" />";
+						tag += "<li style=\"left:" + "345" + "px;top:" + "112" + "px;\"><a href=\"/cs/master-area/area/1/1.htm\">釧路</a>";
+						tag += "<span><a href=\"/cs/master-area/area/1/1.htm\">" + img + "</a></span></li>";
+					}
+				// 気温の場合
+				} else if ("temp" == kind) {
+				
+					// 予報最低気温情報を取得
+										
+					// 予報最高気温情報を取得
+										
+					if ("999,14,17,16,16,15,15,14" != "" && "999,21,24,22,22,21,21,21" != ""){
+						
+						var minTemp = "999,14,17,16,16,15,15,14".split(",")[0];
+						var maxTemp = "999,21,24,22,22,21,21,21".split(",")[0];
+						
+						if (minTemp == "999") { minTemp = "none";} 
+						if (maxTemp == "999") { maxTemp = "none";} 
+
+						var img  = "<img src=\"/images/temperature/h" + maxTemp + ".png\" alt=\"" + maxTemp + "\"  width=\"31\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/line.png\" alt=\"line\"  width=\"2\" height=\"30\" class=\"alpha\" />";
+						img  += "<img src=\"/images/temperature/l" + minTemp + ".png\" alt=\"" + minTemp + "\"  width=\"32\" height=\"30\" class=\"alpha\" />";
+
+						tag += "<li style=\"left:" + "345" + "px;top:" + "112" + "px;\"><a href=\"/cs/master-area/area/1/1.htm\">釧路</a>";
+						tag += "<span><a href=\"/cs/master-area/area/1/1.htm\">" + img + "</a></span></li>";
+					}
+				}
+						var obj = document.getElementById("areaWeather");
+			obj.innerHTML = tag;
+		}
+	// -->
+</script>
+<div class="weatherMap pkg">
+	<div class="switch">
+		<ul>
+			<li><a href="#mainTitle" onClick="initMarkerToday('weather');">天気</a></li>
+			<li><a href="#mainTitle" onClick="initMarkerToday('temp');">気温</a></li>
+			<li><a href="#mainTitle" onClick="initMarkerToday('rain');">降水確率</a></li>
+		</ul>
+	</div>
+	<!--/ switch -->
+	<div class="map"><img src="/images/map/area_japan.gif" alt="今日（今夜）の天気図" width="420" height="323" /></div>
+	<ul class="point">
+		<div id="areaWeather">
+			<script type="text/javascript">
+				<!-- 
+					initMarkerToday("weather");
+				// -->
+			</script>
+		</div>
+	</ul>
+	<!--/ point -->
+	<dl class="areaSelect">
+		<dt><img src="/images/main_areaselect_ttl.gif" alt="地域選択" width="95" height="24" /></dt>
+		<dd>
+			<ul>
+																							<li><a href="/cs/master-area/area/1/1.htm">北海道</a></li>
+																				<li><a href="/cs/master-area/area/2/1.htm">東北</a></li>
+																				<li><a href="/cs/master-area/area/3/1.htm">関東<br/>甲信越</a></li>
+																				<li><a href="/cs/master-area/area/5/1.htm">東海</a></li>
+																				<li><a href="/cs/master-area/area/6/1.htm">北陸</a></li>
+																				<li><a href="/cs/master-area/area/7/1.htm">近畿</a></li>
+																				<li><a href="/cs/master-area/area/8/1.htm">中国</a></li>
+																				<li><a href="/cs/master-area/area/9/1.htm">四国</a></li>
+																				<li><a href="/cs/master-area/area/10/1.htm">九州</a></li>
+																				<li><a href="/cs/master-area/area/11/1.htm">沖縄</a></li>
+												</ul>
+		</dd>
+	</dl>
+	<!--/ areaSelect -->
+</div>
+<!--/ weatherMap -->								<div class="desc">
+							    			    						<h3>全国の天気概況 <span>[ 2013年8月26日（月）15時発表 ]</span></h3>
+									<p>西日本や東日本の太平洋側の今夜は、前線の影響を受けるため雲が出やすく、雨の降る所があるでしょう。明日は西日本から東日本は高気圧に覆われ、概ね晴れる見込みです。気圧の谷の影響を受ける北日本ではにわか雨がありそうです。</p>
+								</div>
+							</div>
+						</div>
+						<div id="mainLifeIndex" class="module">
+							<h2>全国の生活指数</h2>
+							<div class="moduleInner">
+																								<ul>
+									<!-- ループ部分↓ -->
+																			<li><a href='/cs/index-information/all-01/1.htm'><img src="/cms_image/weather/master-index-information/01/ico_laundry.gif" height="90" width="65" alt="洗濯指数"  title="洗濯指数"   /></a></li>
+																			<li><a href='/cs/index-information/all-02/1.htm'><img src="/cms_image/weather/master-index-information/02/ico_uv.gif" height="90" width="65" alt="紫外線指数"  title="紫外線指数"   /></a></li>
+																			<li><a href='/cs/index-information/all-03/1.htm'><img src="/cms_image/weather/master-index-information/03/ico_umbrella.gif" height="90" width="65" alt="傘指数"  title="傘指数"   /></a></li>
+																			<li><a href='/cs/index-information/all-05/1.htm'><img src="/cms_image/weather/master-index-information/05/ico_picnic.gif" height="90" width="65" alt="お出かけ指数"  title="お出かけ指数"   /></a></li>
+																			<li><a href='/cs/index-information/all-06/1.htm'><img src="/cms_image/weather/master-index-information/06/ico_beer.gif" height="90" width="65" alt="ビール指数"  title="ビール指数"   /></a></li>
+																			<li><a href='/cs/index-information/all-07/1.htm'><img src="/cms_image/weather/master-index-information/07/ico_carwash.gif" height="90" width="65" alt="洗車指数"  title="洗車指数"   /></a></li>
+																	</ul>
+								<!--↓PR1-->
+ <div id="PR"><img src="/images/ico_pr.gif" alt="PR" width="21" height="15" /><a href="/cs/index-information/all-01/1.htm" >今日は洗濯物を干しても大丈夫？ 明日はどうかな？>>【洗濯指数】</a> </div>
+ <!--↑PR1-->
+ <!--↓PR2-->
+ 
+ <!--↑PR2-->								<div class="ads">
+									<script type="text/javascript" charset="utf-8" src="/pubc0m/js/ADV/latest/nifty_adv.js?update=201308&id=weather_all_mid_468x60"></script>
+								</div>
+							</div>
+						</div>
+						<!--/ div#mainLifeIndex -->
+												<div id="mainWorldWeather" class="module">
+							<h2>世界各地主要都市の天気 <span>[ 2013年8月26日（月）14時発表 ]</span></h2>
+							<div class="moduleInner">
+									<script type="text/javascript">
+										<!--
+											var tag = "<ul>";
+										
+																					
+											var pweather = "101";
+											var pminTemp = "10";
+											var pmaxTemp = "24,23,24,24,25,20,20,23".split(",")[0];
+											var parisWeather = getWeatherData[pweather];
+											
+											tag += "<li><div class=\"ico\"><img src=\"/images/weather/" + parisWeather[1] + "\" alt=\"" + parisWeather[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></div>";
+											tag += "<h3><a href='cs/master-world-code/3/1.htm'>パリ</a></h3>";
+											tag += "<p>最高 <span class=\"high\">" + pmaxTemp + "℃</span><br />最低 <span class=\"low\">" + pminTemp + "℃</span></p></li>";
+																					
+											var pweather = "201";
+											var pminTemp = "13";
+											var pmaxTemp = "24,23,23,24,23,21,19,20".split(",")[0];
+											var parisWeather = getWeatherData[pweather];
+											
+											tag += "<li><div class=\"ico\"><img src=\"/images/weather/" + parisWeather[1] + "\" alt=\"" + parisWeather[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></div>";
+											tag += "<h3><a href='cs/master-world-code/3/1.htm'>ロンドン</a></h3>";
+											tag += "<p>最高 <span class=\"high\">" + pmaxTemp + "℃</span><br />最低 <span class=\"low\">" + pminTemp + "℃</span></p></li>";
+																					
+											var pweather = "101";
+											var pminTemp = "22";
+											var pmaxTemp = "30,32,30,30,30,29,30,31".split(",")[0];
+											var parisWeather = getWeatherData[pweather];
+											
+											tag += "<li><div class=\"ico\"><img src=\"/images/weather/" + parisWeather[1] + "\" alt=\"" + parisWeather[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></div>";
+											tag += "<h3><a href='cs/master-world-code/1/1.htm'>ニューヨーク</a></h3>";
+											tag += "<p>最高 <span class=\"high\">" + pmaxTemp + "℃</span><br />最低 <span class=\"low\">" + pminTemp + "℃</span></p></li>";
+																					
+											var pweather = "101";
+											var pminTemp = "27";
+											var pmaxTemp = "32,33,33,33,32,31,30,31".split(",")[0];
+											var parisWeather = getWeatherData[pweather];
+											
+											tag += "<li><div class=\"ico\"><img src=\"/images/weather/" + parisWeather[1] + "\" alt=\"" + parisWeather[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></div>";
+											tag += "<h3><a href='cs/master-world-code/4/1.htm'>香港</a></h3>";
+											tag += "<p>最高 <span class=\"high\">" + pmaxTemp + "℃</span><br />最低 <span class=\"low\">" + pminTemp + "℃</span></p></li>";
+																					
+											var pweather = "208";
+											var pminTemp = "25";
+											var pmaxTemp = "32,32,31,32,33,34,33,34".split(",")[0];
+											var parisWeather = getWeatherData[pweather];
+											
+											tag += "<li><div class=\"ico\"><img src=\"/images/weather/" + parisWeather[1] + "\" alt=\"" + parisWeather[0] + "\" width=\"65\" height=\"30\" class=\"alpha\" /></div>";
+											tag += "<h3><a href='cs/master-world-code/6/1.htm'>シンガポール</a></h3>";
+											tag += "<p>最高 <span class=\"high\">" + pmaxTemp + "℃</span><br />最低 <span class=\"low\">" + pminTemp + "℃</span></p></li>";
+																					tag += "</ul>";
+											
+											document.write(tag);
+										// -->
+									</script>
+								<p class="more"><a href="/world_weather.htm">そのほかの地域を見る</a></p>							
+							</div>
+						</div>
+						<!--/ div#mainWorldWeather -->
+					</div>
+					<div class="unit-bottom"></div>
+				</div>
+				<!--/ unit -->
+				<hr />
+				<div id="mainTopics" class="unit">
+
+	<h2 class="dispNone">お天気関連トピックス</h2>
+
+	<div class="unitInner">
+		<div id="mainKakuchoTopics" class="module">
+		
+	<h2>インターネットの落雷対策は大丈夫？</h2>
+	<div class="moduleInner">
+	<!--extTopicsItems -->
+		<div id="kakuchoTopics">
+			<div class="extTopicsItems"><h3 class="wend">すぐできる落雷対策をチェック！ by <a href="http://support.nifty.com/support/">@nifty会員サポート</a></h3>
+				<div class="typTxtIMg pkg"><a href="http://clink.nifty.com/r/support/rakurai/?http://support.nifty.com/support/information/rakurai.htm"><img src="/images_osusume/rakurai_150_100.gif" alt="インターネットの落雷対策してますか？" class="topicsImg" width="150" height="100" /></a>簡単な解決方法をお教えします<br />
+・<a href="http://clink.nifty.com/r/support/rakurai/?http://support.nifty.com/support/information/rakurai.htm">落雷でネットがつながらない！まずこちらでチェック</a><br />
+・<a href="http://clink.nifty.com/r/support/rakurai/?http://support.nifty.com/support/information/rakurai.htm#kantan">雷が来そう…今すぐ対策できることはある？</a></div>
+				<p class="more"><img src="http://www.nifty.com/images/li.gif" alt="" width="9" height="9" /><a href="http://clink.nifty.com/r/support/rakurai/?http://support.nifty.com/support/information/rakurai.htm">続きはこちらから</a></p>
+			</div>
+		</div>
+		<!--/extTopicsItems -->
+				<p class="link"><a href="http://weather.nifty.com/amedas_eisei.htm">【衛星動画】日本全国の雲の動きを動画でチェック！</a></p>
+						<p class="link"><a href="http://weather.nifty.com/quake.htm">【地震情報】最新の震度、震源地、発生時刻などを提供</a></p>
+			</div>
+	</div>
+<!--/ div#mainKakuchoTopics -->
+		
+		<div id="mainKnowledge" class="module">
+			<h2>今日のお天気豆知識</h2>
+			<div class="moduleInner">
+				
+				
+															<div class="ph"><a href="/today_topics.htm"><img src="/cms_image/weather/knowledge/20130826-r1/cexp_r1_0_360.jpg" height="100" width="150" alt="豆知識画像"  title="豆知識画像"   /></a></div>
+
+																			<p>●天体望遠鏡には、「屈折式」や「反射式」などの種類がありますが、初めて購入する場合は、屈折式望遠鏡がお勧めです。これは、望遠鏡の両端に１枚ずつレンズが付いている最も一般的な天体望遠鏡で、手入れも比較的簡単なので初心者向きといえます。</p>
+							<p class="more"><a href="/today_topics.htm">続きはこちら</a></p>
+						
+												</div>
+		</div>
+		<!--/ div#mainKnowledge -->
+			<!--Amazon ad_2013-->
+			<div class="amazon-ad">
+				<script type="text/javascript"><!--
+				amazon_ad_tag = "weatheraffili-22"; amazon_ad_width = "468"; amazon_ad_height = "60";//--></script>
+				<script type="text/javascript" src="http://www.assoc-amazon.jp/s/ads.js"></script>
+			</div>
+			<!--Amazon ad_2013-->
+
+			<!-- div#nifty-advBtm -->
+			<div class="nifty-advBtm">
+				<script type="text/javascript" charset="utf-8" src="/pubc0m/js/ADV/latest/nifty_adv.js?update=201308&id=weather_flat4"></script>
+			</div>
+			<!--/ div#nifty-advBtm -->
+	</div>
+	<div class="unit-bottom"></div>
+</div>
+<!--/ unit -->
+<hr />							<!--/ div#mainContents -->
+			</div>
+			<hr />
+			<div id="subContents">
+				<div id="sideBanner">
+<!-- PLACEHOLDERtag start-->
+<script language='JavaScript'>CM8ShowAd('RECT')</script>
+<noscript>
+<a href='http://web-jp.ad-v.jp/adam/ep/click/NFADV.WEATHER/RECT?cat=NFADV.WEATHER' target='_blank'>
+<img src='http://web-jp.ad-v.jp/adam/noscript?cat=NFADV.WEATHER&format=RECT' border='0'></a>
+</noscript>
+<!-- PLACEHOLDERtag end-->
+</div>
+
+<hr />
+<div id="sideDisaster" class="module">
+	<h2>災害・防災情報</h2>
+	<div class="moduleInner">
+		<ul>
+			<li class="earthquake"><a href="/quake.htm">地震</a></li>
+			<li class="typhoon"><a href="/typhoon.htm">台風</a></li>
+			<li><a href="http://rescuenow.nifty.com/">災害・防災</a></li>
+		</ul>
+		<dl>
+			<div id="sDisaster">
+				<dt class="ph"><a href="http://rescuenow.nifty.com/"><img src="/images/rsq_n104_76.gif" alt="全国の災害情報、鉄道遅延情報をチェック" width="104" height="76" /></a></dt>
+				<dd><h3><a href="http://rescuenow.nifty.com/">全国の災害情報、鉄道遅延情報をチェック</a></h3></dd>
+			</div>
+		</dl>
+	</div>
+</div>
+<hr /><!--sideImgtxtAd_mdl -->
+<div class="" id="sideSpecial"><div class="unit-inner"><div class="module"><div class="module-inner">
+<!-- PLACEHOLDERtag start-->
+<script language='JavaScript'>CM8ShowAd('GTXT')</script>
+<noscript>
+<a href='http://web-jp.ad-v.jp/adam/ep/click/NFADV.WEATHER/GTXT?cat=NFADV.WEATHER' target='_blank'>
+<img src='http://web-jp.ad-v.jp/adam/noscript?cat=NFADV.WEATHER&format=GTXT' border='0'></a>
+</noscript>
+<!-- PLACEHOLDERtag end-->
+</div></div></div></div>
+<!--/sideImgtxtAd_mdl -->
+<!-- <div style="margin:0 0 3px;"><a href="http://clink.nifty.com/r/weather/migi/?http://health.nifty.com/kafun/"><img src="/images/kahun300x100.gif" width="300" height="100" alt="@nifty×BIGLOBE 花粉情報"/></a></div>-->
+<div id="sideWeatherMenu" class="unit">	
+<h2>お天気メニュー</h2>
+<div class="unitInner">
+	<div id="sideRadarAmedas" class="module">
+	<h3>アメダス・レーダー・衛星・天気図</h3>
+	<div class="moduleInner">
+		<script type="text/javascript">
+			<!--
+				function changeImg(img,alt,linkStr,zoomUrl) {
+					//サムネイル画像名を表示(レーダーアメダス系ページはリンクを張らない)
+					if(zoomUrl == ""){
+						var obj = document.getElementById("amedas_img_name");
+						var tag = "【" + linkStr + "】<span>拡大表示</span>";
+						obj.innerHTML = tag;
+					} else {
+						//サムネイル画像名を表示し、リンクを張る
+						var obj = document.getElementById("amedas_img_name");
+						var tag = "<a href=" + zoomUrl + ">【" + linkStr + "】<span>拡大表示</span></a>";
+						obj.innerHTML = tag;
+
+						//ズームアイコンにリンクを張る
+						var obj2 = document.getElementById("zoom_icon");
+						tag = "<a href=" + zoomUrl + "><img src=\"/images/ico_zoom.gif\" alt=\"拡大表示\" width=\"15\" height=\"15\" /></a>"
+						obj2.innerHTML = tag;
+
+						//サムネイル画像にリンクを張る
+						var obj3 = document.getElementById("amedas_img");
+						tag = "<a href=" + zoomUrl + "><img src=\"/images/space.gif\" alt=\"\" width=\"264\" height=\"198\" name=\"weatherImg\"/></a>"
+						obj3.innerHTML = tag;
+					}
+
+					if ( img == "" ) {
+						img = "/images/space.gif";
+					}
+					document.images["weatherImg"].src=img;
+					document.images["weatherImg"].alt=alt;
+				}
+				function setAmedasLink(level, id, imgKind) {
+					if ( level == "" || id == "" ) {
+						level = "all";
+					}
+					if ( level == "area" ) {
+						//レーダーアメダスページの場合、自ページへのリンクを外す
+						if(imgKind == "amedas_temp"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_temp", "/cs/radar-amedas/area-amedas-temp/" + id + "/1.htm");
+						}
+						if(imgKind == "amedas_rain"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_rain", "/cs/radar-amedas/area-amedas-rain/" + id + "/1.htm");
+						}
+						if(imgKind == "amedas_wind"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_wind", "/cs/radar-amedas/area-amedas-wind/" + id + "/1.htm");
+						}
+						if(imgKind == "amedas_sun"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_sun", "/cs/radar-amedas/area-amedas-sun/" + id + "/1.htm");
+						}
+						if(imgKind == "amedas_radar"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_radar", "/cs/radar-amedas/area-amedas-radar/" + id + "/1.htm");
+						}
+						if(imgKind == "amedas_eisei"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_eisei", "/amedas_eisei.htm");
+						}
+						if(imgKind == "amedas_zikkyo"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_zikkyo", "/amedas_zikkyo.htm");
+						}
+						if(imgKind == "amedas_gousei"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_gousei", "/amedas_gousei.htm");
+						}
+						if(imgKind == "amedas_yosou"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_yosou", "/amedas_yosou.htm");
+						}
+					} else {
+						if(imgKind == "amedas_temp"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_temp", "/amedas_temp.htm");
+						}
+						if(imgKind == "amedas_rain"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_rain", "/amedas_rain.htm");
+						}
+						if(imgKind == "amedas_wind"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_wind", "/amedas_wind.htm");
+						}
+						if(imgKind == "amedas_sun"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_sun", "/amedas_sun.htm");
+						}
+						if(imgKind == "amedas_eisei"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_eisei", "/amedas_eisei.htm");
+						}
+						if(imgKind == "amedas_zikkyo"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_zikkyo", "/amedas_zikkyo.htm");
+						}
+						if(imgKind == "amedas_gousei"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_gousei", "/amedas_gousei.htm");
+						}
+						if(imgKind == "amedas_yosou"){
+							setNoLink(imgKind);
+						} else {
+							setLink("amedas_yosou", "/amedas_yosou.htm");
+						}
+
+						setLink("amedas_radar", "/cs/radar-amedas/area-amedas-radar/3/1.htm");
+					}
+				}
+				function setLink(linkId, linkUrl){
+					var baseTag = document.getElementById(linkId);
+					var link1 = baseTag.firstChild.nodeValue;
+					var aTag = document.createElement("a");
+					aTag.href = linkUrl;
+					aTag.appendChild(document.createTextNode(link1));
+					baseTag.replaceChild(aTag, baseTag.firstChild);
+				}
+				function setNoLink(linkId){
+					var baseTag = document.getElementById(linkId);
+					baseTag.className = "select";
+				}
+
+			//-->
+		</script>
+		<h4><span id="zoom_icon"><img src="/images/ico_zoom.gif" alt="拡大表示" width="15" height="15" /></span> <span id="amedas_img_name"></span></h4>
+	</div>
+</div>
+<div id="sideChart" class="module">
+	<div class="moduleInner">
+		<div class="ph">
+			<div id="amedas_img"><img src="/images/space.gif" alt="" width="264" height="198" name="weatherImg" /></div>
+		</div>
+		<ul>
+			<li>
+				<dl>
+					<dt>アメダス</dt>
+					<dd>[ <span id="amedas_temp" class="active">気温</span> | <span id="amedas_rain" class="active">降水量</span> | <span id="amedas_wind" class="active">風向風速</span> | <span id="amedas_sun" class="active">日照</span> ]</dd>
+				</dl>
+			</li>
+			<li><span id="amedas_radar" class="active">レーダー</span></li>
+		</ul>
+		<ul class="column2">
+			<li><span id="amedas_eisei" class="active">衛星画像・動画</span></li>
+			<li><span id="amedas_zikkyo" class="active">実況天気図</span></li>
+			<li><span id="amedas_gousei" class="active">天気図合成</span></li>
+			<li><span id="amedas_yosou" class="active">予想天気図</span></li>
+		</ul>
+	</div>
+</div>	<div id="sideWorldWeather" class="module">
+	<h3>世界の天気</h3>
+	<div class="moduleInner">
+		<div class="ph"><a href="/world_weather.htm"><img src="/images/side_world_img.gif" alt="世界の天気" width="104" height="83" /></a></div>
+		<ul>
+			<li><a href="/cs/master-world-code/1/1.htm">北米</a>　<a href="/cs/master-world-code/2/1.htm">南米</a></li>
+			<li><a href="/cs/master-world-code/3/1.htm">ヨーロッパ</a></li>
+			<li><a href="/cs/master-world-code/4/1.htm">中央/東アジア</a></li>
+			<li><a href="/cs/master-world-code/5/1.htm">中近東・アフリカ</a></li>
+			<li><a href="/cs/master-world-code/6/1.htm">東南アジア・オセアニア</a></li>
+		</ul>
+	</div>
+</div>	<div id="sideLeisureWeather" class="module">
+	<h3>行楽地の天気</h3>
+	<div class="moduleInner">
+		<ul class="column2">
+			<li><a href="/leisure1.htm">スポーツ</a></li>
+			<li><a href="/leisure2.htm">レジャー</a></li>
+			<li><a href="/leisure3.htm">観光地</a></li>
+			<li><a href="/leisure4.htm">公共施設</a></li>
+		</ul>
+	</div>
+</div>
+<!--/ #sideLeisureWeather -->	<div id="sideAreaWeather" class="module">
+	<h3>各地の天気</h3>
+	<div class="moduleInner">
+		<div id="alertText">
+		</div>
+																			<dl>
+						<dt>
+															<a href="/cs/master-area/area/1/1.htm">北海道</a>
+													</dt>
+						<dd>
+																																			<a id="01" href="/cs/master-tdfk/pref/01/1.htm">北海道</a>
+																																	</dd>
+					</dl>
+																				<dl>
+						<dt>
+															<a href="/cs/master-area/area/2/1.htm">東北</a>
+													</dt>
+						<dd>
+																																			<a id="02" href="/cs/master-tdfk/pref/02/1.htm">青森</a>
+																																														 | <a id="03" href="/cs/master-tdfk/pref/03/1.htm">岩手</a>
+																																				 | <a id="04" href="/cs/master-tdfk/pref/04/1.htm">宮城</a>
+																																				 | <a id="05" href="/cs/master-tdfk/pref/05/1.htm">秋田</a>
+																																				 | <a id="06" href="/cs/master-tdfk/pref/06/1.htm">山形</a>
+																																				 | <a id="07" href="/cs/master-tdfk/pref/07/1.htm">福島</a>
+																							</dd>
+					</dl>
+																															<dl>
+						<dt>
+															<a href="/cs/master-area/area/3/1.htm">関東<br/>甲信越</a>
+													</dt>
+						<dd>
+																																			<a id="08" href="/cs/master-tdfk/pref/08/1.htm">茨城</a>
+																																														 | <a id="09" href="/cs/master-tdfk/pref/09/1.htm">栃木</a>
+																																				 | <a id="10" href="/cs/master-tdfk/pref/10/1.htm">群馬</a>
+																																				 | <a id="11" href="/cs/master-tdfk/pref/11/1.htm">埼玉</a>
+																																				 | <a id="12" href="/cs/master-tdfk/pref/12/1.htm">千葉</a>
+																																				 | <a id="13" href="/cs/master-tdfk/pref/13/1.htm">東京</a>
+																																				 | <a id="14" href="/cs/master-tdfk/pref/14/1.htm">神奈川</a>
+																																				 | <a id="15" href="/cs/master-tdfk/pref/15/1.htm">新潟</a>
+																																				 | <a id="19" href="/cs/master-tdfk/pref/19/1.htm">山梨</a>
+																																				 | <a id="20" href="/cs/master-tdfk/pref/20/1.htm">長野</a>
+																							</dd>
+					</dl>
+																				<dl>
+						<dt>
+															<a href="/cs/master-area/area/5/1.htm">東海</a>
+													</dt>
+						<dd>
+																																			<a id="21" href="/cs/master-tdfk/pref/21/1.htm">岐阜</a>
+																																														 | <a id="22" href="/cs/master-tdfk/pref/22/1.htm">静岡</a>
+																																				 | <a id="23" href="/cs/master-tdfk/pref/23/1.htm">愛知</a>
+																																				 | <a id="24" href="/cs/master-tdfk/pref/24/1.htm">三重</a>
+																							</dd>
+					</dl>
+																				<dl>
+						<dt>
+															<a href="/cs/master-area/area/6/1.htm">北陸</a>
+													</dt>
+						<dd>
+																																			<a id="16" href="/cs/master-tdfk/pref/16/1.htm">富山</a>
+																																														 | <a id="17" href="/cs/master-tdfk/pref/17/1.htm">石川</a>
+																																				 | <a id="18" href="/cs/master-tdfk/pref/18/1.htm">福井</a>
+																							</dd>
+					</dl>
+																				<dl>
+						<dt>
+															<a href="/cs/master-area/area/7/1.htm">近畿</a>
+													</dt>
+						<dd>
+																																			<a id="25" href="/cs/master-tdfk/pref/25/1.htm">滋賀</a>
+																																														 | <a id="26" href="/cs/master-tdfk/pref/26/1.htm">京都</a>
+																																				 | <a id="27" href="/cs/master-tdfk/pref/27/1.htm">大阪</a>
+																																				 | <a id="28" href="/cs/master-tdfk/pref/28/1.htm">兵庫</a>
+																																				 | <a id="29" href="/cs/master-tdfk/pref/29/1.htm">奈良</a>
+																																				 | <a id="30" href="/cs/master-tdfk/pref/30/1.htm">和歌山</a>
+																							</dd>
+					</dl>
+																				<dl>
+						<dt>
+															<a href="/cs/master-area/area/8/1.htm">中国</a>
+													</dt>
+						<dd>
+																																			<a id="31" href="/cs/master-tdfk/pref/31/1.htm">鳥取</a>
+																																														 | <a id="32" href="/cs/master-tdfk/pref/32/1.htm">島根</a>
+																																				 | <a id="33" href="/cs/master-tdfk/pref/33/1.htm">岡山</a>
+																																				 | <a id="34" href="/cs/master-tdfk/pref/34/1.htm">広島</a>
+																																				 | <a id="35" href="/cs/master-tdfk/pref/35/1.htm">山口</a>
+																							</dd>
+					</dl>
+																				<dl>
+						<dt>
+															<a href="/cs/master-area/area/9/1.htm">四国</a>
+													</dt>
+						<dd>
+																																			<a id="36" href="/cs/master-tdfk/pref/36/1.htm">徳島</a>
+																																														 | <a id="37" href="/cs/master-tdfk/pref/37/1.htm">香川</a>
+																																				 | <a id="38" href="/cs/master-tdfk/pref/38/1.htm">愛媛</a>
+																																				 | <a id="39" href="/cs/master-tdfk/pref/39/1.htm">高知</a>
+																							</dd>
+					</dl>
+																				<dl>
+						<dt>
+															<a href="/cs/master-area/area/10/1.htm">九州</a>
+													</dt>
+						<dd>
+																																			<a id="40" href="/cs/master-tdfk/pref/40/1.htm">福岡</a>
+																																														 | <a id="41" href="/cs/master-tdfk/pref/41/1.htm">佐賀</a>
+																																				 | <a id="42" href="/cs/master-tdfk/pref/42/1.htm">長崎</a>
+																																				 | <a id="43" href="/cs/master-tdfk/pref/43/1.htm">熊本</a>
+																																				 | <a id="44" href="/cs/master-tdfk/pref/44/1.htm">大分</a>
+																																				 | <a id="45" href="/cs/master-tdfk/pref/45/1.htm">宮崎</a>
+																																				 | <a id="46" href="/cs/master-tdfk/pref/46/1.htm">鹿児島</a>
+																							</dd>
+					</dl>
+																				<dl>
+						<dt>
+															<a href="/cs/master-area/area/11/1.htm">沖縄</a>
+													</dt>
+						<dd>
+																																			<a id="47" href="/cs/master-tdfk/pref/47/1.htm">沖縄</a>
+																																	</dd>
+					</dl>
+																			</div>
+</div></div>
+</div>
+<div style="margin:0 0 3px;"><a href="mailto:?subject=@niftyTenki&body=http://weather.nifty.com/smp/"><img src="/images/weather_smp.gif" width="300" height="130" alt="URLを送る"/></a></div>
+<div id="sideInformation" class="module">
+
+	<h2>お知らせ</h2>
+
+	<div class="moduleInner">
+
+		<ul>
+			<!-- loop -->
+			<li>
+				<div class="ph"><a href="http://clink.nifty.com/r/weather/snewsr/?http://s.news.nifty.com/app.htm "><img src="/images/80x60news.jpg" alt="ニュースまとめ読み！ " width="80" height="60" /></a></div>
+				<h3><a href="http://clink.nifty.com/r/weather/snewsr/?http://s.news.nifty.com/app.htm ">ニュースまとめ読み！ </a></h3>
+
+				<p><a href="http://clink.nifty.com/r/weather/snewsr/?http://s.news.nifty.com/app.htm ">スマホでもタブレットでも！<br> @niftyニュース アプリ版</a></p> <!-- <img src="/images/ico_new.gif" alt="NEW" width="21" height="11" /> -->
+			</li>
+			<!--/ loop -->
+		</ul>
+		
+	</div>
+</div><div id="sideRelativeLink" class="module">
+	<h2>関連サービス</h2>
+	<div class="moduleInner">
+		<ul class="column2">
+			<li><a href="http://clink.nifty.com/r/weather/relational_01?http://nifty.its-mo.com/">地図検索</a></li>
+			<li><a href="http://clink.nifty.com/r/weather/relational_02?http://transit.nifty.com/">路線検索</a></li>
+			<li><a href="http://clink.nifty.com/r/weather/relational_03?http://news.nifty.com/">ニュース</a></li>
+			<li><a href="http://clink.nifty.com/r/weather/relational_04?http://rescuenow.nifty.com/">災害・防災</a></li>
+			<li><a href="http://clink.nifty.com/r/weather/relational_05?http://rescuenow.nifty.com/cs/news/railwaylist/1.htm">運行情報</a></li>
+			<li><a href="http://clink.nifty.com/r/weather/relational_06?http://travel.nifty.com/cs/catalog/travel_event/1.htm">イベント</a></li>
+			<li><a href="http://clink.nifty.com/r/weather/relational_07?http://travel.nifty.com/">旅行</a></li>
+			<li><a href="http://clink.nifty.com/r/weather/relational_08?http://onsen.nifty.com/">温泉</a></li>
+		</ul>
+		<div id="sideFortunetelling" class="module">
+	<div class="moduleInner">
+
+	<script type="text/javascript">
+    <!--
+    function uranaiJump(){
+        var url = document.uForm.uSelect.options[document.uForm.uSelect.selectedIndex].value;
+        if(url != "" ){
+            location.href = url;
+        }
+    }
+    // -->
+    </script>
+
+
+		<form name="uForm">
+			<p>
+				<label for="sideUranai">あなたの今日の運勢は？</label><a href="http://uranai.nifty.com/" target="_blank"><img src="/images/uranai_logo.gif" width="110" height="24" alt="占い@nifty"></a>
+				<select id="sideUranai" name="uSelect" onChange="uranaiJump()">
+					<option value="">▼星座を選択</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/ohitsuji.htm">└おひつじ座（3/21～4/19）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/oushi.htm">└おうし座（4/20～5/20）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/hutago.htm">└ふたご座（5/21～6/21）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/kani.htm">└かに座（6/22～7/22）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/shishi.htm">└しし座（7/23～8/22）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/otome.htm">└おとめ座（8/23～9/22）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/tenbin.htm">└てんびん座（9/23～10/23）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/sasori.htm">└さそり座（10/24～11/21）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/ite.htm">└いて座（11/22～12/21）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/yagi.htm">└やぎ座（12/22～1/19）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/mizugame.htm">└みずがめ座（1/20～2/18）</option>
+					<option value="http://uranai.nifty.com/app/f12seiza/uo.htm">└うお座（2/19～3/20）</option>
+				</select>
+			</p>
+			<p>
+				<script language = "JavaScript" src="/parts/common/side/uranaiinfo1.txt"></script>
+<script language = "JavaScript">
+<!--//
+if(uranaiinfo1.title != "" && uranaiinfo1.link != ""){
+	document.write("<a href=\"" + uranaiinfo1.link + "\" target=\"_blank\">" + uranaiinfo1.title + "</a>");
+}
+-->
+</script>
+			</p>
+		</form>
+
+	</div>
+</div>	</div>
+</div>
+<hr />
+<div id="sideTravelYadoSearch" class="module">
+	<h2>お得な宿泊プランを比較・検索</h2>
+
+	<div class="moduleInner">
+		<!-- sideYado -->
+		<dl class="sideYado">
+			<dd>
+				<dl>
+					<dt><span>宿泊日</span></dt>
+					<dd><select name="searchHotelyymm" id="searchHotelyymm_r"></select></dd>
+				</dl>
+				<dl>
+					<dt><span>人数</span></dt>
+					<dd>
+						<select name="searchHotelPeople" id="searchHotelPeople_r">
+							<option value="1">1</option>
+							<option value="2" selected="selected">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+						</select>&nbsp;名&nbsp;×
+						<select name="searchHotelRoom" id="searchHotelRoom_r">
+							<option value="1" selected="selected">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+						</select>&nbsp;室
+					</dd>
+				</dl>
+				<dl>
+					<dt><span>エリア</span></dt>
+				</dl>
+				<dl>
+					<dd>
+						<p><select name="searchHotelArea1" id="searchHotelArea1_r"><option value="">都道府県</option></select></p>
+						<p>&gt; <select name="searchHotelArea2" class="searchHotelMenuFormAllarea" id="searchHotelArea2_r"><option value="">全てのエリア</option></select></p>
+					</dd>
+				</dl>
+
+				<div class="btn">
+					<p><input alt="宿・ホテルを検索する" src="/images/btn_side_yado_search.gif" value="宿・ホテルを検索する" class="imgover" name="searchHotelSubmit" id="searchHotelSubmit_r" type="image"></p>
+				</div>
+				<dl class="keywords">
+					<dt><span>キーワード</span></dt>
+					<dd><a href="http://clink.nifty.com/r/travel/api_kensakumado_k1/?http://travel.nifty.com/yado/business/">ビジネス出張の宿</a><span>|</span><a href="http://clink.nifty.com/r/travel/api_kensakumado_k2/?http://travel.nifty.com/yado/today/">本日の宿検索</a><span>|</span><a href="http://clink.nifty.com/r/travel/api_kensakumado_k3/?http://seven.travel.nifty.com/7tabi/yado_sp/s/?np=2&kd=h_7">大浴場がある宿</a><span>|</span><a href="http://clink.nifty.com/r/travel/api_kensakumado_k5/?http://seven.travel.nifty.com/7tabi/yado_sp/s/?np=2&kd=h_3,h_8">露天風呂あり</a><span>|</span><a href="http://clink.nifty.com/r/travel/api_kensakumado_k6/?http://seven.travel.nifty.com/7tabi/yado_sp/s/?np=2&kd=h_3&kw=%e6%b7%b7%e6%b5%b4">混浴あり</a></dd>
+				</dl>
+			</dd>
+		</dl>
+		<!--/ .sideYado -->
+	</div>
+</div>
+<hr /><script type="text/javascript">
+	if(!window.NIFTY){ NIFTY = {}; }
+	if(!NIFTY.yado){ NIFTY.yado = {}; }
+	if(!NIFTY.yado.parts){ NIFTY.yado.parts = {}; }
+	NIFTY.yado.parts.hotelSearchPrefID = "";
+	NIFTY.yado.parts.hotelSearchAreaID = "";
+</script>
+<script src="/js/hotel_util_data.js" type="text/javascript" charset="shift_jis"></script>
+<script src="/js/hotel_utl2.js" type="text/javascript" charset="shift_jis"></script>
+
+<script type="text/javascript" src="/parts/common/side/weather_mixed_event_js.jsp"></script>
+<div id="sideWeatherMovie" class="module">
+	<h2>ウェザーニューズ動画</h2>
+	<div class="moduleInner">
+		<div class="ph">
+			<a href="http://clink.nifty.com/r/weather/out_wn_01?http://weathernews.jp/map/japanvideo.html" target="_blank">
+				<img src="/amedas_img/weather_264198.jpg" alt="ウェザーニューズ動画" width="264" height="198" />
+			</a>
+		</div>
+		<p>
+			<a href="http://clink.nifty.com/r/weather/out_wn_01?http://weathernews.jp/map/japanvideo.html" target="_blank">
+				ウェザーニューズのお天気番組。（毎日7時、12時、21時頃に更新）災害時は、特別番組もオンエア。
+			</a>
+		</p>
+	</div>
+</div><hr />
+
+			<!--/ div#subContents -->
+			</div>
+		<!--/ div#contentsInner -->
+		</div>
+	<!--/ div#contents -->
+	</div>
+	<hr />
+<script type="text/javascript">
+<!--
+	getDisaster();
+// -->
+</script>
+	<div id="contentsBtm">
+		<p class="pgTopLink"><a href="#header"><span>ページの先頭へ</span></a></p>
+		<div class="powered">
+			<p>Copyright(c)株式会社ウェザーニューズ <img src="/images/logo_weathernews.gif" alt="ウェザーニューズ" width="91" height="31" /></p>
+		</div>
+		<!--/ powered -->
+		<div id="btmNav">
+			<p class="monitor">推奨画面サイズ1024×768 以上</p>
+			<ul>
+				<li class="contact"><a href="http://www.nifty.com/ad/?top21" target="_blank">広告募集</a></li>
+				<li class="sitemap"><a href="/sitemap/">サイトマップ</a></li>
+				<li class="help"><a href="/help/">ヘルプ</a></li>
+			</ul>
+		</div>
+		<!--/ #btmNav -->
+	<!--/ div#contentsBtm -->
+	</div>
+	<hr />
+	
+
+
+
+
+<div id="footer" class="pkg" style="clear:both;padding:15px 0 0;text-align:center;">
+	<div class="pkg" style="padding:0 15px;margin:0 auto;">
+		<!-- promotion -->
+		<script src="/pubc0m/js/pr/promotion.js" type="text/javascript" charset="shift_jis"></script>
+		<!-- /promotion -->
+		
+		<!-- Search -->
+		<div id="footerTextSearchArea" class="pkg" style="background:#EDEDED;border:1px solid #DDDDDD;">
+			<div class="pkg" style="text-align:center;">
+				<form name="footersearch" method="get" action="http://search.nifty.com/cgi-bin/gosearch.cgi" style="display:inline; padding:0; margin:0;">
+				<div style="padding:15px 0 13px;margin:0;text-align:center;">
+				<input id="inputtextFooterSearch" type="text" name="Text" style="width:330px;margin:0 5px 0 0;background:#FFF;color:#000;font-size:1.05em;vertical-align:middle;zoom:1;height:1.7em;padding:2px 2px 0 2px !important;line-height:normal;" /><!-- 
+				 --><input type="hidden" name="cflg" value="検索" /><!-- 
+				 --><input type="hidden" name="ss" value="fcommonweb" /><!-- 
+				 --><input type="hidden" name="select45" value="45" /><!-- 
+				 --><input type="submit" style="vertical-align:middle;padding:2px 2px 1px!important;" value="ウェブ検索" />
+				</div>
+				</form>
+			</div>
+		</div><!-- /Search -->
+		
+		<div id="footerGroupArea" style="clear:both;padding:15px 0 0;margin:0;" class="pkg">
+			<dl style="float:none;width:auto;padding:0;margin:0;text-align:center;border:none;">
+
+								<dt style="display:inline;float:none;width:auto;padding:0 3px;margin:0;font-weight:bold;">ニュース・速報</dt>
+								
+				<dd style="display:inline;float:none;width:auto;padding:0 0 3px;margin:0;">
+					<ul style="display:inline;padding:0;margin:0;">
+
+																				<li style="display:inline;white-space:nowrap;padding:0 5px;margin:0;border-right:solid 1px #7D7D7D;zoom:1;line-height:1.2;"><a href="http://news.nifty.com/" target="_blank">ニュース</a></li>
+														<li style="display:inline;white-space:nowrap;padding:0 5px;margin:0;border-right:solid 1px #7D7D7D;zoom:1;line-height:1.2;"><a href="http://news.nifty.com/entame/" target="_blank">芸能ニュース</a></li>
+														<li style="display:inline;white-space:nowrap;padding:0 5px;margin:0;border-right:solid 1px #7D7D7D;zoom:1;line-height:1.2;"><a href="http://weather.nifty.com/" target="_blank">天気予報</a></li>
+														<li style="display:inline;white-space:nowrap;padding:0 5px;margin:0;border-right:solid 1px #7D7D7D;zoom:1;line-height:1.2;"><a href="http://weather.nifty.com/typhoon.htm" target="_blank">台風</a></li>
+														<li style="display:inline;white-space:nowrap;padding:0 5px;margin:0;border-right:solid 1px #7D7D7D;zoom:1;line-height:1.2;"><a href="http://weather.nifty.com/quake.htm" target="_blank">地震</a></li>
+														<li style="display:inline;white-space:nowrap;padding:0 5px;margin:0;border-right:solid 1px #7D7D7D;zoom:1;line-height:1.2;"><a href="http://finance.nifty.com/" target="_blank">株価</a></li>
+														<li style="display:inline;white-space:nowrap;padding:0 5px;margin:0;border-right:solid 1px #7D7D7D;zoom:1;line-height:1.2;"><a href="http://rescuenow.nifty.com/" target="_blank">災害・防災・運行情報</a></li>
+																		</ul>
+				</dd>
+			</dl>
+		</div><hr style="display:none;" />
+		
+		
+				<div id="footerRelativeArea" style="clear:both;padding:5px 0 18px;margin:0;" class="pkg">
+			<dl style="float:none;width:auto;padding:0;margin:0;text-align:center;border:none;">
+				<dt style="display:inline;float:none;width:auto;padding:0 3px;margin:0;font-weight:bold;">関連サービス</dt>
+				
+				<dd style="display:inline;float:none;width:auto;padding:0;margin:0;">
+					<ul style="display:inline;padding:0;margin:0;">
+
+														<li style="display:inline;white-space:nowrap;margin:0;padding:0 5px;zoom:1;"><a href="http://www.cocolog-nifty.com/" target="_blank">ブログ</a></li>
+														<li style="display:inline;white-space:nowrap;margin:0;padding:0 5px;zoom:1;"><a href="http://business.nifty.com/" target="_blank">ビジネス</a></li>
+														<li style="display:inline;white-space:nowrap;margin:0;padding:0 5px;zoom:1;"><a href="http://business.nifty.com/businessdata/corporation/" target="_blank">企業情報</a></li>
+														<li style="display:inline;white-space:nowrap;margin:0;padding:0 5px;zoom:1;"><a href="http://shopping.nifty.com/" target="_blank">通販</a></li>
+														<li style="display:inline;white-space:nowrap;margin:0;padding:0 5px;zoom:1;"><a href="http://uranai.nifty.com/" target="_blank">占い</a></li>
+														<li style="display:inline;white-space:nowrap;margin:0;padding:0 5px;zoom:1;"><a href="http://shuf.jp/" target="_blank">チラシ</a></li>
+												</ul>
+				</dd>
+			</dl>
+		</div><hr style="display:none;" />
+			</div>
+	
+	
+	<dl id="anchrNifty" style="clear:both;float:none;width:auto;padding:10px 10px 0;margin:0;text-align:left;border:none;border-top:1px solid #CCC;">
+		<dt style="float:none;display:inline;margin:0;font-weight:bold; width:auto;"><a href="http://setsuzoku.nifty.com/">プロバイダーなら@nifty</a></dt>
+	
+		<dd style="float:none;display:inline;margin:0;">
+			<span style="padding:0 5px 0 0;margin:0 2px 0 0;border-right:solid 1px #7D7D7D;zoom:1;line-height:1.2;">（<a href="http://setsuzoku.nifty.com/hikari/">光ファイバー</a></span>
+			<span style="padding:0 5px 0 0;margin:0 2px;border-right:solid 1px #7D7D7D;zoom:1;line-height:1.2;"><a href="http://setsuzoku.nifty.com/adsl/">ADSL</a></span>
+			<span style="padding:0 5px 0 0;margin:0 2px;border-right:solid 1px #7D7D7D;zoom:1;line-height:1.2;"><a href="http://setsuzoku.nifty.com/wimax/">WiMAX</a></span>
+			<span style="padding:0;margin:0 2px 0 0;zoom:1;line-height:1.2;"><a href="http://setsuzoku.nifty.com/do_lte/">LTE</a>）</span>
+			<a href="http://www.nifty.com/category/" style="zoom:1;line-height:1.2;">全サービス一覧</a>
+		</dd>
+	</dl>	
+	<div class="pkg">
+		<p style="float:left;width:45%;text-align:left;margin:0;padding:8px 0 0 10px;">
+			<a href="http://www.nifty.com/"><img src="/pubc0m/img/footer/gotop.gif" width="88" height="17" alt="アット・ニフティトップページへ" id="gotop_img" border="0" style="vertical-align:middle;" /></a>
+			<a href="http://www.nifty.com/users/signup/indexf.htm"><img src="/pubc0m/img/footer/foot_toroku.gif" alt="アット・ニフティ会員に登録" width="100" height="17" border="0" style="vertical-align:middle;" /></a>
+		</p>
+		<address style="text-align:right;width:50%;float:right;padding:0 10px 10px;font-style:normal;">
+			<a href="http://www.nifty.com/policy/website.htm" rel="nofollow">ウェブサイトの利用について</a>　|　<a href="http://www.nifty.co.jp/privacy/" rel="nofollow">個人情報保護ポリシー</a><br />
+			&copy;2013 NIFTY Corporation
+		</address>
+	</div>
+	<p style="clear:both;padding:0;margin:0;"><script type="text/javascript" src="/pubc0m/js/tag/_nif_tag.js"></script><script type="text/javascript" src="/pubc0m/js/btm_footer.js"></script></p>
+<!-- CWBCN for nifty -->
+<script type="text/JavaScript">
+<!--
+if (location.protocol == "http:") {
+	document.write('<scr'+'ipt type="text/JavaScript" charset="UTF-8" src="http://ak.dr.cyberwing.co.jp/common/bcnload_NF.js?_' + (new Date()).getTime() + '"></scr' + 'ipt>');
+} else if (location.protocol == "https:") {
+	document.write('<scr'+'ipt type="text/JavaScript" charset="UTF-8" src="https://wwws.er.cyberwing.co.jp/common/bcnload_NF.js?_' + (new Date()).getTime() + '"></scr' + 'ipt>');
+}
+//-->
+</script>
+<!-- /CWBCN for nifty -->
+</div><!--/ div#footer -->
+<!--/ div#container -->
+</div>
+
+<!--/ div#wrapper -->
+</div>
+
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="must-revalidate" />
+<title>code-in 2012</title>
+
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="../../global.css" type="text/css" />
+<link rel="stylesheet" href="../../style.css" type="text/css" />
+<link rel="stylesheet" href="../../local.css" type="text/css" />
+
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=projects%2Fcode-in_2012&amp;do=edit" />
+
+
+
+
+</head>
+<body><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/toggle.js" type="text/javascript" charset="utf-8"></script><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/relativedate.js" type="text/javascript" charset="utf-8"></script>
+    <div id="centralHeader">
+      <div id="logo">
+        <a href="http://www.NetBSD.org/"><img src="http://www.NetBSD.org/images/NetBSD-smaller.png" alt="[NetBSD Logo]"/></a>
+        <div id="name"><a href="http://www.NetBSD.org/">The NetBSD Project</a></div>
+        <div id="slogan"><a href="http://www.NetBSD.org/">&ldquo;Of course it runs NetBSD&rdquo;</a></div>
+      </div>
+      <div id="headerTools">
+	<div id="headerSearch">
+
+<form method="get" action="https://wiki.netbsd.org/cgi-bin/ikiwiki" id="searchform">
+<div>
+<input class="whiteOnBlack" type="text" id="searchbox" name="P" value="Search" size="12" maxlength="255" onfocus="if(this.value==this.defaultValue ) this.value='';" /> <input type="submit" value="Search" />
+</div>
+</form>
+
+
+	</div>
+      </div>
+    </div>
+
+    <div id="navBar" role="navigation">
+	<span class="doNotDisplay">
+          Navigation:
+        </span>
+	<ul>
+	<li><a href="http://www.NetBSD.org/">
+		  WWW Home</a></li>
+	<li>
+	<a href="http://www.NetBSD.org/">
+		  News &amp; Media</a><ul>
+	<li><a href="http://www.NetBSD.org//changes/">
+		    Recent changes</a></li>
+	<li><a href="http://blog.NetBSD.org/">
+		    NetBSD blog</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/events.html">
+		    Events</a></li>
+	<li><a href="http://www.NetBSD.org/changes/rss.html">
+		    Feeds</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/about/">
+		  About</a><ul>
+	<li><a href="http://www.NetBSD.org/about/">
+		    NetBSD</a></li>
+	<li><a href="http://www.NetBSD.org/foundation/">
+		    The NetBSD Foundation</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/">
+		    Advocacy</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/docs/">
+		  Documentation</a><ul>
+	<li><a href="http://www.NetBSD.org/docs/misc/index.html">
+		    FAQ &amp; HOWTOs</a></li>
+	<li><a href="http://www.NetBSD.org/docs/guide/en/">
+		    The Guide</a></li>
+	<li><a href="http://man.NetBSD.org/">
+		    Manual pages</a></li>
+	<li><a href="http://wiki.NetBSD.org/">
+		    Wiki</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/support/">
+		  Support</a><ul>
+	<li><a href="http://www.NetBSD.org/support/send-pr.html">
+		    Problem report guide</a></li>
+	<li><a href="http://www.NetBSD.org/cgi-bin/sendpr.cgi?gndb=netbsd">
+		    Report a bug</a></li>
+	<li><a href="http://www.NetBSD.org/support/query-pr.html">
+		    Query bug database</a></li>
+	<li><a href="http://www.NetBSD.org/support/security/">
+		    Security</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/community/">
+		  Community</a><ul>
+	<li><a href="http://onetbsd.org/">
+		    Blogs</a></li>
+	<li><a href="http://www.NetBSD.org/mailinglists/">
+		    Mailing lists</a></li>
+	<li><a href="http://mail-index.NetBSD.org/">
+		    List archives</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/developers/">
+		  Developers</a><ul>
+	<li><a href="http://cvsweb.NetBSD.org/">
+		    Browse source</a></li>
+	<li><a href="http://nxr.NetBSD.org/">
+		    Cross-reference</a></li>
+	<li><a href="http://releng.NetBSD.org/">
+		    Release engineering</a></li>
+	<li><a href="http://wiki.NetBSD.org/projects/">
+		    Projects list</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/ports/">
+		  Ports</a><ul>
+	<li><a href="http://www.NetBSD.org/ports/history.html">
+		    History</a></li>
+	<li><a href="http://www.NetBSD.org/ports/emulators.html">
+		    Emulators</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.pkgsrc.org/">
+		Packages</a><ul>
+	<li><a href="http://www.pkgsrc.se/">
+		    Browse packages</a></li>
+	<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+		    Release engineering</a></li>
+	</ul>
+	</li>
+	</ul>
+    </div>
+ 
+      	  
+		  <div class="actions">
+		    <ul>
+			<li><a href="../../">Wiki Home</a></li>
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=projects%2Fcode-in_2012&amp;do=edit" rel="nofollow">Edit</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=projects%2Fcode-in_2012&amp;do=comment">Comment</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=projects%2Fcode-in_2012&amp;do=getsource">Source</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/cvsweb/wikisrc/projects/code-in_2012.mdwn">History</a></li>
+		      
+			<li><a href="../../wiki/new_page" rel="nofollow">New</a></li>
+		      
+			<li><a href="../../recentchanges/">RecentChanges</a></li>
+		      
+		    </ul>
+		  </div>
+    </div>
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+<a href="../../">NetBSD Wiki</a>/<a href="../">projects</a>/
+</span>
+<span class="title">
+code-in 2012
+
+</span>
+</span><!--.header-->
+</div>
+</div>
+
+
+
+<div id="content">
+<h1><a name="index1h1"></a>Google Code-In 2012 (GCI)</h1>
+
+<p><strong>Contents</strong></p>
+
+<div class="toc">
+<ol>
+	<li class="L1"><a href="#index1h1">Google Code-In 2012 (GCI)</a>
+	<ol>
+		<li class="L2"><a href="#index1h2">Introduction</a>
+		</li>
+		<li class="L2"><a href="#index2h2">Goals as stated by Google</a>
+		</li>
+		<li class="L2"><a href="#index3h2">Lessons learned</a>
+		<ol>
+			<li class="L3"><a href="#index1h3">Coding tasks are interesting</a>
+			</li>
+			<li class="L3"><a href="#index2h3">Add maintenance tasks</a>
+			</li>
+			<li class="L3"><a href="#index3h3">Have a clear outline of the task</a>
+			</li>
+			<li class="L3"><a href="#index4h3">No creative tasks, but design tasks</a>
+			</li>
+			<li class="L3"><a href="#index5h3">Watch out for plagiarism</a>
+			</li>
+			<li class="L3"><a href="#index6h3">Don't add extra requirements</a>
+			</li>
+			<li class="L3"><a href="#index7h3">Make tasks small projects</a>
+			</li>
+			<li class="L3"><a href="#index8h3">Make stand-alone projects</a>
+			</li>
+			<li class="L3"><a href="#index9h3">Combine tasks to a larger project</a>
+			</li>
+			<li class="L3"><a href="#index10h3">Be clear about your expected formats</a>
+			</li>
+			<li class="L3"><a href="#index11h3">Stay in touch with the students</a>
+			</li>
+			<li class="L3"><a href="#index12h3">Look into the tasks yourself before submitting them</a>
+			</li>
+			<li class="L3"><a href="#index13h3">Don't underestimate the required effort!</a>
+			</li>
+			<li class="L3"><a href="#index14h3">Be demanding</a>
+			</li>
+		</ol>
+		</li>
+		<li class="L2"><a href="#index4h2">Fulfilled tasks</a>
+		<ol>
+			<li class="L3"><a href="#index15h3">Edit, wiki integration</a>
+			</li>
+			<li class="L3"><a href="#index16h3">Advocational tasks</a>
+			</li>
+			<li class="L3"><a href="#index17h3">Informational and external tasks</a>
+			</li>
+			<li class="L3"><a href="#index18h3">Code tasks</a>
+			</li>
+		</ol>
+		</li>
+	</ol>
+	</li>
+</ol>
+</div>
+
+
+<h2><a name="index1h2"></a>Introduction</h2>
+
+<p>Code-In was running till January 14th. This page now contains the list of tasks which were actually done.
+You can see the results (open tasks as well as closed ones) <a href="http://www.google-melange.com/gci/org/google/gci2012/netbsd">on the Google Melange</a> page. There were 88 tasks done and 23 were left open.</p>
+
+<p>We provided a <a href="https://www.virtualbox.org/">Virtualbox</a> image for testing, such students didn't have to spend time on installing the system when they just wanted to complete a task where they needed NetBSD running.</p>
+
+<p>Previous events by Google: <a href="http://code.google.com/opensource/gci/2010-11/index.html">Code-In 2010</a>, <a href="http://code.google.com/opensource/ghop/2007-8/">Ghop 2007</a></p>
+
+<p>Previous organizations accepted for Code-In: <a href="http://www.google-melange.com/gci/accepted_orgs/google/gci2010">Code-In 2010</a> <a href="http://www.google-melange.com/gci/accepted_orgs/google/gci2011">Code-In 2011</a></p>
+
+<p>There is <a href="http://code.google.com/p/google-code-in/wiki/GCIMentorInformation2012">information from Google</a> about what is suitable as a task for Code-In.</p>
+
+<h2><a name="index2h2"></a>Goals as stated by Google</h2>
+
+<ol>
+<li><strong>Code</strong>: Tasks related to writing or refactoring code</li>
+<li><strong>Documentation/Training</strong>: Tasks related to creating/editing documents and helping others learn more</li>
+<li><strong>Outreach/Research</strong>: Tasks related to community management, outreach/marketing, or studying problems and recommending solutions</li>
+<li><strong>Quality Assurance</strong>: Tasks related to testing and ensuring code is of high quality</li>
+<li><strong>User Interface</strong>: Tasks related to user experience research or user interface design and interaction</li>
+</ol>
+
+
+<h2><a name="index3h2"></a>Lessons learned</h2>
+
+<p>The effort needed for Code-In struck us unexpected. There were several things to be learned about Code-In and about the kind of work that can be done in the scope of Code-In.</p>
+
+<h3><a name="index1h3"></a>Coding tasks are interesting</h3>
+
+<p>The students are mostly interested in coding tasks. They do <em>not</em> want to write documentation, and they don't want to research things.
+With coding tasks, students would even spend more time on a task than they would do with something else, and maybe even stick to that task when GCi has finished.</p>
+
+<h3><a name="index2h3"></a>Add maintenance tasks</h3>
+
+<p>Another kind of task which was often claimed were the ones about maintenance jobs, in this case conversion of articles from XML to Markdown. They're easy to do, but require a lot of effort - suitable for GCi.</p>
+
+<h3><a name="index3h3"></a>Have a clear outline of the task</h3>
+
+<p>Tasks with an unclear description often led to results which were not as expected. Students of this age are more used to have a task which has a clear result, and not something open.
+Though there were some good results, it's still difficult to understand the tasks and sometimes the tasks were only solved with the second or third approach.</p>
+
+<h3><a name="index4h3"></a>No creative tasks, but design tasks</h3>
+
+<p>Don't do creative tasks, i.e. creating images. On the other side, the design or layout tasks went very well - so if you want to know how a student would imagine the interface for a program or website or book format you need, then make that a task - but be clear about the results and <em>what</em> you expect.
+You should have thought yourself about how you would do this in advance, such that you can explicitly state what requirements the task has. You'll get nice results with new ideas.</p>
+
+<h3><a name="index5h3"></a>Watch out for plagiarism</h3>
+
+<p>Especially in the research or documentation tasks, you have to be careful about plagiarism. Several students just copied texts from other sources and tried to submit them.</p>
+
+<h3><a name="index6h3"></a>Don't add extra requirements</h3>
+
+<p>When the student has to download or configure extra requirements first, the task gets much harder. You should not add tasks which rely on src, pkgsrc or pkgsrc-wip or whatever large or difficult extra things to do before being able to work on the task.</p>
+
+<h3><a name="index7h3"></a>Make tasks small projects</h3>
+
+<p>The coding parts are more appealing when they are small autonomous projects. The tasks involving creating your own binary had a larger acceptance than the once which were about fixing bugs of existing programs.
+You can and should tasks for small programs even if you only want them for <em>research</em>, i.e. you want to look at the possibility of a larger project involving this. Even if the task is about another project, but which would or could add benefits for NetBSD, it is possible.</p>
+
+<h3><a name="index8h3"></a>Make stand-alone projects</h3>
+
+<p>This is not the same as <em>making small projects</em>. The described small projects should be in such a way that you can run them on any operating system and they don't require a speical setup to be written, i.e. many preinstalled packages.
+The students are most likely not running NetBSD, and forcing them to install NetBSD, install some pkgsrc packages and spend time configuring the system discourages doing a task.
+Even the Virtualbox images were no great help for some of these tasks.</p>
+
+<h3><a name="index9h3"></a>Combine tasks to a larger project</h3>
+
+<p>Maybe contrary to <em>making small projects</em>, tasks should have a connection. Students are more engaged if they did something, and when approving the work you already point them to other tasks which are similar to the one they just did, or work together with this one.</p>
+
+<h3><a name="index10h3"></a>Be clear about your expected formats</h3>
+
+<p>You should be very clear about the formats you expect for input! If there is an image, tell t hem to upload the "sources" (gimp xcf file or so); if there is a text, it should be plain-text; if it is a program, the final submission should be an archive with the code and not a link to github.</p>
+
+<h3><a name="index11h3"></a>Stay in touch with the students</h3>
+
+<p>The best way of communication with the students is via IRC. Everything else is too slow, and when a task is meant to be 48 hours, but half of the time is spent waiting for communication, the task is likely to fail or waste student's time.</p>
+
+<h3><a name="index12h3"></a>Look into the tasks yourself before submitting them</h3>
+
+<p>Though it might be charming - when you want students to fix a PR, you should look at the bug yourself and have a slight idea how to fix it before submitting it. There was a task which was not possible to fix (for the student) and was duplicate. And the students might have questions and then having to research things yourself before you can help is not good.</p>
+
+<p>Even with all the other tasks, you should have an idea what you want, and what effort it requires. There were some tasks which resulted in much work though they seemed easy in the beginning, while other tasks stated as difficult could be performed within a few minutes.</p>
+
+<h3><a name="index13h3"></a>Don't underestimate the required effort!</h3>
+
+<p>You should <em>not</em> underestimate the effort needed by Code-In.
+On the one hand, when you're young, you're not as patient as later. Waiting several hours to get a task confirmed is a lot of time in a student's mind.</p>
+
+<p>On the other hand, there was a great run in the first week of Code-In. You have to read several tens of mails every hour, especially in the beginning.</p>
+
+<p>When a student needs help, you have to care for him and help him with that, even with configuring the system.</p>
+
+<h3><a name="index14h3"></a>Be demanding</h3>
+
+<p>If you have an engaged student, you can be demanding. Don't hesitate to send back his work and be explicit about what you don't like. But be careful you don't frighten him. There were also students which just unclaimed a task because they didn't understand the review.</p>
+
+<h2><a name="index4h2"></a>Fulfilled tasks</h2>
+
+<p>The work done by GCi has not yet been integrated to NetBSD. Especially the documentation tasks have to be put into the wiki, but also need modifications in the NetBSD website infrastructure.</p>
+
+<p>These are the tasks which were completed:</p>
+
+<h3><a name="index15h3"></a>Edit, wiki integration</h3>
+
+<p>These tasks created or converted articles for the wiki. We have to edit and commit them to the wiki.</p>
+
+<ul>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7946208">Howto: Running a webserver with Apache</a> -- committed</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7947209">Convert articles from the website to wiki articles</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7986209">Convert the NetBSD Guide from DocBook to Markdown</a> -- committed</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7947237">Convert the encrypted iscsi article to markdown</a> -- committed</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7979220">Convert the PUFFS guide to markdown</a> -- committed</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8019214">Convert internals guide to markdown</a> -- cannot be committed in a sane way</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8007202">Compare init systems with each other</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7965203">Rewrite system configuration in the guide</a> -- committed</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7978214">Create an overview of the NetBSD kernel source layout</a> -- committed</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7980211">Create an overview of the NetBSD src layout</a> -- committed</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7971234">Convert the tracking current guide to markdown</a> -- committed</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7970245">Convert the security processes to markdown</a> -- committed</em></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7946209">Intro: Disk and partition management with NetBSD</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7947210">Using the framebuffer in NetBSD</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7952236">Try out RFB/VNC software on NetBSD</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7964205">Try out VoIP software</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7967207">Howto: Using LVM to manage your disks</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7973207">Describe what a NetBSD installation does</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7975213">Describe how to run NetBSD headless</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7976225">Setup single sign-on (SSO) service using LDAP</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7980212">Try out XMPP software</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7986208">Describe how to create a NetBSD live flash drive</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7985211">Howto: Getting in touch with NetBSD</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7983208">Create an overview of the NetBSD releases</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7983229">Convert the Xen Howto to markdown</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7992202">Howto: How to get a graphical environment on NetBSD</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7992203">Howto: Update the system from binaries</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7992205">Try out VoIP software</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7993202">Create an overview of the NetBSD server layout</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7993220">Convert the CD-ROM creation guide to markdown</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7994202">Howto: Dual-boot NetBSD</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7996202">Describe how to backup NetBSD</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7997202">Convert installation notes to markdown</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8001222">Create list of available VoIP client software</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8004203">Make NetBSD a music or video player</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8006218">Convert the Networking FAQ to markdown</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8019221">Convert the NetBSD X documentation to markdown</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7993220">Convert the CD-ROM creation guide to markdown, merge it with other articles</a></li>
+</ul>
+
+
+<h3><a name="index16h3"></a>Advocational tasks</h3>
+
+<p>These tasks created advocacy material and have to be integrated to the website or to a new wiki page.</p>
+
+<ul>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7975217">Compare NetBSD with other operating systems of its kind</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7966207">Create smaller NetBSD artworks</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7994203">Create smaller NetBSD artworks</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7969208">Create NetBSD wallpapers</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7992224">Create NetBSD wallpapers</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7995203">Create NetBSD wallpapers</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8019213">Create NetBSD wallpapers</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7970216">Create a NetBSD poster</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7974206">Create a NetBSD poster</a> -- not suitable for integration</em></li>
+<li><em><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7974205">Create an icon set for NetBSD - research</a> -- not suitable for integration</em></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7949208">Create NetBSD slide templates (OpenOffice)</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7954213">Create NetBSD slide templates (Latex)</a> -- needs some work to integrate the NetBSD logo</li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8000202">Create a NetBSD book layout</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8074208">Create and implement an ikiwiki design template</a></li>
+</ul>
+
+
+<h3><a name="index17h3"></a>Informational and external tasks</h3>
+
+<p>These tasks just provided information, we have to see how we handle them.
+They maybe also created code or information which should be used for something, but currently has nothing equivalent in NetBSD. They were done by developers who had project ideas, and wanted students to research or code them.</p>
+
+<ul>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7985209">Create an overview of NetBSD documentation</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7984214">Version the documentation</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7948205">Research POSIX compliance</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7985210">Research POSIX compliance</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7953209">Survey documentation structure of other projects</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7973211">Create lists of software needed for a desktop system</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7959246">Create a small markdown wiki CGI</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7975215">Research and write a Markdown style guide</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7981207">Write a Markdown - Latex converter</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7988204">Survey documentation structure of other projects</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7983211">Investigate necessary documentation markup</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7998202">Create a concept for a documentation browser</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8002203">Measure startup time</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8004202">Add an web interface to apropos</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8015211">Write a markdown - curses converter</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8081205">Create and implement a design and templates for a small wiki</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8123207">Create and implement a design for a web application</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8149202">Write a markdown - Docbook converter</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8202203">Survey documentation structure of other projects</a></li>
+</ul>
+
+
+<h3><a name="index18h3"></a>Code tasks</h3>
+
+<p>These tasks created code, i.e. fixed bugs or wrote a new program, or did something that should be integrated to src/ or pkgsrc/.</p>
+
+<ul>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7953208">Fix bug bin/41049: usermod -g =uid testuser does not create group as indicated by man page</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7958203">Describe the format of usermgmt.conf</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7971209">Write apropos branch to search through Markdown documentation</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7975214">Create ATF tests</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7985237">Make OpenDJ run on NetBSD</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7982213">Research terminfo(5) keycodes</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7983210">Fix bug install/17792: Install process order - network verses disk</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7984212">Write a mail wrapper</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/7995204">Document different time structures</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8002202">Repair vnconfig(8)'s return codes</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8036202">Create security/pam-pgsql package</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8001202">Fix bug bin/47065: /bin/sh returns success for Bad file descriptor</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8003202">Fix bug bin/46579: ifconfig prints unnecessary message when deleting interface</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8005202">Create ATF tests</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8006231">Multi-user graphical terminal server accessible by RFB/VNC</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8048204">Create ATF tests</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8067202">Create databases/nss-pgsql package</a></li>
+<li><a href="http://www.google-melange.com/gci/task/view/google/gci2012/8149210">Fix bug bin/47367: patch(1) mishandles Oops.rej</a></li>
+</ul>
+
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=projects%2Fcode-in_2012&amp;do=comment">Add a comment</a>
+</div>
+
+</div>
+
+
+
+		      
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../code-in/">code-in</a>
+
+
+</div><!-- #backlinks -->
+
+
+
+
+<div class="pagedate">
+Last edited <span class="relativedate" title="Sat, 25 May 2013 21:33:06 +0000">late Saturday evening, May 25th, 2013</span>
+<!-- Created <span class="relativedate" title="Sat, 25 May 2013 21:33:06 +0000">late Saturday evening, May 25th, 2013</span> -->
+</div>
+
+
+
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?do=prefs">Preferences | Logout</a>
+
+
+
+</div><!-- #pageinfo -->
+
+
+<!-- from NetBSD Wiki -->
+</div><!-- .pagefooter #footer -->
+
+
+
+</body>
+</html>

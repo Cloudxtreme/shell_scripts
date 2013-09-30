@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>INN</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="/~eagle/styles/indent.css" type="text/css" />
+  <link rel="previous" href="../control-archive/" title="control-archive" />
+  <link rel="next" href="../gateway/" title="News::Gateway" />
+  <link rel="up" href="../" title="Software" />
+  <link rel="top" href="../../" />
+</head>
+
+<!-- Spun from index.th by spin 1.80 on 2013-07-01 02:46:18 -0000 -->
+
+<body>
+<table class="navbar"><tr>
+  <td class="navleft">&lt;&nbsp;<a href="../control-archive/">control-archive</a></td>
+  <td>
+    <a href="../../">Russ Allbery</a>
+    &gt; <a href="../">Software</a>
+  </td>
+  <td class="navright"><a href="../gateway/">News::Gateway</a>&nbsp;&gt;</td>
+</tr></table>
+
+
+<h1>INN</h1>
+
+<blockquote class="quote"><p>
+    In the truest spirit of usenet I actually have zero idea what I'm
+    talking about and am making all this up, but it does seem reasonable
+    and has the added benefint of possibly even beng true.
+</p><p class="long-attrib">
+    &mdash; Richard Sexton
+</p></blockquote>
+
+<h2>Description</h2>
+
+<p>
+INN (InterNetNews) is a very full-featured and flexible news server
+package, originally written by Rich Salz in 1991 as a higher performance
+alternative to C News.  It was then maintained for some time by Dave Barr,
+then by James Brister, and then by Katsuhiro Kondou and I.  I've since had
+to cut back significantly on the work I do on INN due to lack of time, but
+other people (particularly Julien &Eacute;LIE) have picked up the
+slack I left.
+</p>
+
+<p>
+The main copyright for INN is held by <a href="https://www.isc.org/">Internet Systems
+Consortium, Inc.</a>, which gratiously hosts the mailing lists and FTP
+distribution site for INN.  This is not the <a href="https://www.isc.org/software/inn/">official
+home page for INN</a>, but instead is a collection of my personal notes on
+INN and HTML conversions of INN's documentation.
+</p>
+
+<p>
+INN doesn't try to be the fastest possible news server, or the simplest,
+and it's definitely not the easiest to configure.  It does try to be one
+of the most flexible, as well as acceptably fast for even large sites, and
+over the years it's been used by many people as a platform for
+experimentation with new news protocol ideas.
+</p>
+
+<h2>Requirements</h2>
+
+<p>
+INN is written in ANSI C, so it requires a C compiler and a modern
+operating system that supports ANSI C.  gcc will work fine.  It also
+requires Perl, at least version 5.004_03, since many supporting utilities
+and parts of the build system are written in Perl.  To build INN, you also
+need a reasonably decent make program that supports include; GNU make will
+do quite well.
+</p>
+
+<p>
+For support for authenticated control messages, you need either PGP
+or GnuPG, the latter being recommended.  For embedded filtering and
+authentication hook support, you need either Perl 5.005 or later
+(5.8 or later recommended) or Python 1.5.2 or later (2.5 or later
+recommended), depending on what language you want to write your filters
+and authentication hooks in.
+</p>
+
+<p>
+For the ovdb overview storage method, you'll need Berkeley DB 4.4 or later
+(4.7 or later recommended).  If you have zlib available, you can also
+compress overview before it's stored into ovdb.  For support for news
+reading over SSL, you'll need OpenSSL.  To support SASL authentication to
+nnrpd or to feed newsgroups to an IMAP server with SASL authentication,
+you'll need the Cyrus SASL libraries.  INN can also check passwords
+against a Kerberos v5 KDC; for this, you will need Kerberos libraries.
+</p>
+
+<h2>Download</h2>
+
+<p>
+The distribution:
+</p>
+
+<ul>
+<li class="packed">INN 2.5.3 (<a href="ftp://ftp.isc.org/isc/inn/inn-2.5.3.tar.gz">FTP</a>)</li>
+<li class="packed">Older versions (<a href="ftp://ftp.isc.org/isc/inn/OLD/">FTP</a>)</li>
+<li class="packed">Development snapshots (<a href="ftp://ftp.isc.org/isc/inn/snapshots/">FTP</a>)</li>
+<li class="packed">Testing releases (<a href="ftp://ftp.isc.org/isc/inn/testing/">FTP</a>)</li>
+</ul>
+
+<p>
+Documentation:
+</p>
+
+<ul>
+<li class="packed"><a href="docs/">INN 2.6-to-be documentation</a></li>
+<li class="packed"><a href="docs-2.5/">INN 2.5 documentation</a></li>
+<li class="packed"><a href="docs-2.4/">INN 2.4 documentation</a></li>
+<li class="packed"><a href="../../faqs/inn.html">INN 2.x FAQ</a></li>
+<li class="packed"><a href="http://www.ohloh.net/p/inn">Ohloh code analysis</a></li>
+<li class="packed"><a href="http://packages.qa.debian.org/i/inn2.html">Debian package tracker</a></li>
+</ul>
+
+<p>
+Development:
+</p>
+
+<ul>
+<li class="packed"><a href="http://inn.eyrie.org/trac/">INN development and bug tracking</a></li>
+<li class="packed"><a href="http://inn.eyrie.org/svn/">Public read-only Subversion repository</a></li>
+</ul>
+
+<p>
+Other links:
+</p>
+
+<ul>
+<li class="packed">User-contributed add-on software (<a href="ftp://ftp.isc.org/isc/inn/contrib/">FTP</a>)</li>
+</ul>
+
+<p>
+You can check out the public read-only Subversion repository with:
+</p>
+
+<pre>    svn co http://inn.eyrie.org/svn/trunk/</pre>
+
+<p>
+or use <code>branches/2.5</code> instead of <code>trunk</code> for the 2.5 stable
+branch.
+</p>
+
+<p>
+Debian packages are available from Debian as the
+<a href="http://packages.qa.debian.org/i/inn2.html">inn2 source package</a>.
+Thanks to Marco d'Itri for maintaining the Debian packages.
+</p>
+
+<h2>License</h2>
+
+<p>
+The majority of INN code is distributed under a simple, permissive free
+license (with no advertising clause).  However, some portions of INN are
+distributed under other licenses.  See the file <a href="docs/license.html">LICENSE</a> in the distribution for all of the details.
+</p>
+
+<table class="navbar"><tr>
+  <td class="navleft">&lt;&nbsp;<a href="../control-archive/">control-archive</a></td>
+  <td>
+    <a href="../../">Russ Allbery</a>
+    &gt; <a href="../">Software</a>
+  </td>
+  <td class="navright"><a href="../gateway/">News::Gateway</a>&nbsp;&gt;</td>
+</tr></table>
+
+<address>
+    Last <a href="http://www.eyrie.org/~eagle/software/web/">spun</a>
+    2013-07-01 from thread modified 2013-01-04
+</address>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MikroTik Routers and Wireless</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="Mikrotik develops high performance routers and wireless ISP systems, providing both hardware and software for most countries around the world."/>
+<meta name="keywords" content="mikrotik, routeros, RouterOS, mikrotikls, routerboard, mtcna, mtctce, mtcwe, mtcre, dude, winbox, wireless, router, mum, mikrotik user meeting, wifi, microtik, hotspot, server, proxy, network, firewall, dhcp, bandwidth, nat, radius, pppoe, mikrotic, software, queue, bridge, snmp, eoip, manual, interface, gateway, install, isp, software, hardware"/>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="shortcut icon" href="/img/favicon.ico" />
+<link rel="alternate" type="application/rss+xml" href="http://www.mikrotik.com/download.rss" title="RouterOS downloads feed"/>
+<style type="text/css">
+hr {
+color: #e0e6e8;
+height: 1px;
+border: 0;
+padding: 0px;
+background-color: #e0e6e8;
+margin-top: 0px;
+margin-left: 0px;
+margin-right: 0px;
+margin-bottom: 2px;
+}
+
+hr.bold{height:3px;}
+.key-cont,.key-cont-bigger,.key-cont-bigger-4ever,.simple-cont{display:block;margin-left:auto;margin-right:auto;font-family:verdana;}
+.key-cont{width:400px;}
+.key-cont-bigger{width:600px;}
+.key-cont-bigger-4ever{width:700px;}
+.simple-cont{width:400px;}
+
+.clear{margin-bottom:20px;}
+
+input,textarea,select{border:1px solid #E0E6E8;}
+input.radio{border:0px solid transparent;}
+select{font-style:Arial;font-size:11px;}
+input.submitButton{background:#fff;}
+input.submitButton:hover{border:1px solid #C2CCCF;cursor:pointer;}
+div.e-body{border:1px solid #d0d0d0;background-color:#fff;width:800px;}
+
+.e-body a,.e-body a:link, .e-body a:visited, .e-body a:active{color:#5F4D4D;text-decoration:none;}
+.e-body a:hover{color:#6F6F6F;text-decoration:underline;}
+.e-body ul{list-style-type:none;}
+.e-body ul a{font-weight:normal !important;}
+
+ul.extraList{list-style-type:square ! important;}
+p.key,ul.key,form.key{margin-left:70px;}
+
+h3.key{padding-left:70px;line-height:63px !important;margin-bottom:-10px;font-size:1.1em;color:#BEBEBF;}
+h3.normalCaption{font-size:1.3em;color:#BEBEBF;margin-top:25px;margin-bottom:35px;text-align:center;}
+
+table.keyFormClient{font-style:Arial;font-size:11px;border-collapse:collapse;text-align:left;}
+table.bord{border:1px solid #c1c1c1;}
+
+font.caption,span.caption{font-size:12px;text-align:center;}
+span.caption{width:100%;display:block;}
+
+table.table{width:400px;}
+table.keyTable{width:90%;}
+table.keyTable th,table.keyTable tr{cursor:pointer;}
+table.keyTable tr.trOver{background:#D9D9F3;}
+table.keyTable tr.trDisabl{background:#E5E5E5;}
+table.keyTable td{text-align:center;}
+table.keyTable a{margin-right:2px;text-decoration:underline;font-size:12px;}
+table.keyTable font{margin-right:2px;font-weight:bold;font-size:12px;}
+table.certificate{width:285px;}
+table.adddeposit{width:400px;}
+table.userinfo{width:500px;}
+table.userinfo td{height:30px;}
+
+table.userinfo 
+	input.inputFeald,
+	select.inputFeald,
+	textarea.inputFeald {
+width: 200px;
+}
+
+table.userinfo tr.noBorder td{border-left:hidden;border-right:hidden;}
+table.userinfo td.selected{width:60%;text-align:right;}
+
+td.none {
+/*   background-color: #F9F8F5; */
+}
+
+td.top{border-top:hidden;}
+td.bottom{border-bottom: hidden;}
+td.right{border-right:hidden;}
+td.left{border-left:hidden;}
+
+table.defaultTable{font-style:Arial;font-size:11px;border-collapse:collapse;margin-left:auto;margin-right:auto;border:1px solid #c1c1c1;}
+
+table.defaultTable tr { 
+    /*background: #f1f1f1; */
+}
+
+table.defaultTable td{text-align:center;}
+table.defaultTable th{background:#FFFFEF;font-weight:normal;}
+table.defaultTable td.selected{background:#EFEFE4;}
+table.defaultTable tr.noBorder{background-color:transparent;cursor:auto;}
+table.mainMenu{margin-left:20px;margin-right:20px;}
+table.mainMenu td.selected{background:#F4F4E7;color:#415FAF;font-weight:bold;}
+table.certificate tr.noBorder td{border-left:hidden;border-right:hidden;border-bottom:hidden;}
+table.adddeposit tr.noBorder td{border:hidden;}
+
+div.error{width:400px;background:#f9f8f5;margin-top:15px;margin-bottom:15px;border:1px solid #E0E6E8;margin-left:auto;margin-right:auto;text-align:center;}
+div.error h3{line-height:63px !important;margin-top:10px;margin-bottom:-20px;font-size:1.5em;color:#BEBEBF;}
+div.error font{font-family:Arial;font-size:15px;font-weight:bold;}
+
+h3.down1{background:url(/img/steps/step1.png) top left no-repeat !important;}
+h3.down2{background:url(/img/steps/step2.png) top left no-repeat !important;}
+h3.down3{background:url(/img/steps/step3.png) top left no-repeat !important;}
+h3.down4{background:url(/img/steps/step4.png) top left no-repeat !important;}
+h3.down5{background:url(/img/steps/step5.png) top left no-repeat !important;}
+h3.down6{background:url(/img/steps/step6.png) top left no-repeat !important;}
+h3.down1,h3.down2,h3.down3,h3.down4,h3.down5,h3.down6{height:64px;font-size:16px;position:relative;border-right:1px solid #E0E6E8;}
+
+.key-tb {
+margin-left: 34px;
+/* background-color: #f9f8f5; */
+margin-bottom: 15px;
+border-bottom: 1px solid #E0E6E8;
+border-left: 1px solid #E0E6E8;
+border-right: 1px solid #E0E6E8;
+padding: 10px 15px 1px 15px;
+}
+
+.balances-tb{background-color:#f9f8f5;margin-bottom:15px;margin-top:15px;margin-left:15px;margin-right:15px;border:1px solid #E0E6E8;}
+.key-tb form{position:relative;z-index:1;margin:-15px 0 10px 20px !important;clear:both;}
+.key-tb p{margin-left:20px !important;}
+img.image{cursor:pointer;border:none;}
+
+/* for titles */
+body div#toolTip {
+position:absolute;
+width:auto;
+background:#D1D1D1;
+border:1px solid #A1A1A1;
+padding:5px;
+z-index:1000;
+filter: alpha(opacity=70); /* opacity for ISE */
+opacity: .7;               /* opacity for normal browsers */
+text-align:left;
+min-height:1em;
+}
+body div#toolTip p{margin:0;padding:0;color:#000000;font:11px/12px verdana,arial,sans-serif;}
+body div#toolTip p em{display:block;color:#f60;margin-top:3px;font-style:normal;font-weight:bold;}
+body div#toolTip p em span{font-weight:bold;color:#fff;}
+
+body div#detbox{position:absolute;width:auto;background:#fafafa;border:1px solid #c0c0c0;padding:5px;z-index:1000;text-align:left;min-height:1em;}
+body div#detbox p{padding:0px;margin:0px;}
+input.butActive{background:#fffff0;border:1px solid #aaa;color:#004000;}
+input.butDanger{color:#800000;}
+.nav{width:120px;padding-left:5px;padding-right:5px;}
+.nav li{list-style-type:circle;}
+.ui-tabs {
+border-bottom:1px solid #66CC66;
+font-family: verdana,arial,sans-serif;
+font-size:11px;
+font-size-adjust: none;
+font-strech:normal;
+font-style:normal;
+font-variant:normal;
+line-height: normal;
+list-style-type:none;
+margin:3px 0;
+padding: 3px 10px;
+text-align:left;
+}
+.ui-tabs .ui-tabs-nav { list-style: none; /*position: relative; padding: .2em .2em 0;*/ }
+.ui-tabs .ui-tabs-nav li {
+border-bottom:1px solid #FFFFFF;
+display:inline;
+padding-left:2px;
+padding-right:2px;
+font-size:100%;
+font-size-adjust:none;
+font-style:normal;
+font-variant:normal;
+font-weight:bold;
+line-height:normal;
+list-style-type:none;
+text-align:left;
+}
+.ui-tabs .ui-tabs-nav li a {
+background-color:#CCFFCC;
+color:#666666;	
+margin-right:0;
+padding:3px 4px;
+text-decoration:none;
+font-weight: bold !important;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected{padding-bottom:1px;border-bottom-width:0;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a{border-bottom:1px solid #FFFFFF;background-color:#FFFFFF;color:#000000;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+.ui-tabs .ui-tabs-panel { padding: 1em 1.4em; display: block; border-width: 0; background: none; }
+.ui-tabs .ui-tabs-hide { display: none !important; }
+
+.ui-tabs .ui-tabs-nav li .nav-name,.ui-tabs .ui-tabs-nav li .nav-icon,.ui-tabs .ui-tabs-nav li .nav-new{border-color:#66CC66 #66CC66;border-width:1px 1px medium;padding-bottom:1px;}
+.ui-tabs .ui-tabs-nav li .nav-name{border-style:solid none none solid;}
+.ui-tabs .ui-tabs-nav li .nav-icon{border-style:solid solid none none;}
+.ui-tabs .ui-tabs-nav li .nav-new{border-style:solid solid;}
+.ui-tabs img{vertical-align:top;aborder: 0 none;}
+.ui-tabs ul{padding-bottom:0px;margin-bottom:0px;}
+</style><!-- jquery -->
+<script type="text/javascript" src="/js/m.js"></script>
+<!-- <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.md5.js"></script> -->
+<!-- <script language="JavaScript" src="/js/md5.js" type="text/javascript"></script> -->
+<!-- <script type="text/javascript" src="/js/include2.js"></script> -->
+<!-- jquery autocomplete -->
+<!-- <script type="text/javascript" src="/js/jquery.autocomplete.js"></script> -->
+<!-- easy tooltip -->
+<!-- <script type="text/javascript" src="/js/easyTooltip.js"></script> -->
+<!-- <script type="text/javascript">
+$(document).ready(function() {
+/* This is basic - uses default settings */
+	/*if ( document.getElementById( 'fancy1' ) ) {
+		$("a#fancy1").fancybox();
+	}*/
+	$(".easyFancy").fancybox();
+	if ( document.getElementById( 'jing' ) ) {
+		$("a#jing").fancybox({'hideOnContentClick':false,'frameWidth':738,'frameHeight':506});
+	}
+	/* Using custom settings */
+	if ( document.getElementById( 'fancy2' ) ) {
+		$("a#fancy2").fancybox({'hideOnContentClick':true});
+	}
+	if ( document.getElementById( 'fancy3' ) ) {
+		$("a#fancy3").fancybox({'zoomSpeedIn':300,'zoomSpeedOut':300,'overlayShow':false});
+	}
+	if ( document.getElementById( 'iframe' ) ) {
+		$("a#iframe").fancybox({
+			'hideOnContentClick': true,
+			'type' : 'iframe',
+			'autoScale' : true,
+			'height' : '57.5%'
+		});
+	}
+	if(navigator.platform == 'iPad' ||
+		navigator.platform == 'iPhone' ||
+		navigator.platform == 'iPod'
+	) {
+		$("#foot_nav").css("position", "static");
+	}
+
+if(document.getElementById('warning')){
+	$("#warning a").easyTooltip({useElement:"item"});
+}
+
+});
+
+function clickclear(thisfield, defaulttext) {
+	if (thisfield.value == defaulttext) {thisfield.value = "";}
+}
+
+function clickrecall(thisfield, defaulttext) {
+	if (thisfield.value == "") {thisfield.value = defaulttext;}
+}
+
+</script> -->
+<script type="text/javascript">
+//google analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-10927155-4']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</head>
+<body>
+<!-- Expires: Mon, 26 Aug 2013 01:00:00 +0300 --><!-- Last-Modified: Mon, 26 Aug 2013 11:00:00 +0300 --><div id="bodyblock"><div id="menu"><span id="toplogo"></span> <div id="searchform"><form target="_blank" action="http://www.google.com/cse" id="cse-search-box"><input name="q" id="q" size="21" maxlength="20" value="Search..." style="width: 132px; font-size: 9px; visibility: visible;" onfocus="checkFill('Search...', this);" onblur="fillDefault('Search...', this);"/><input type="hidden" name="cx" value="014341547594717591594:ibqznhgxcku" /><input type="hidden" name="ie" value="UTF-8" /> <input class="goimage" type="image" name="img" src="/img/header/gogo.png" /></form></div><div id="header"><ul><li ><a href="http://www.mikrotik.com/index.html">home</a></li><li ><a href="http://www.mikrotik.com/software.html">software</a></li><li ><a href="http://routerboard.com">hardware</a></li><li id="on"><a href="http://www.mikrotik.com/support.html">support</a></li><li ><a href="http://www.mikrotik.com/download">downloads</a></li><li ><a href="/buy">purchase</a></li><li ><a href="http://www.mikrotik.com/training/">training</a></li><li ><a href="https://www.mikrotik.com/client/">account</a></li></ul></div><div class="submenu"><div id="submenu_corner"></div><ul><li class="current"><a href="http://www.mikrotik.com/support.html">Support</a></li><li ><a href="http://www.mikrotik.com/documentation.html">Documentation</a></li><li ><a href="http://www.mikrotik.com/consultants">Consultants</a></li><li ><a href="http://www.mikrotik.com/archive.php">Archive</a></li><li ><a href="http://rma.mikrotik.com/">RMA</a></li><li ><a href="http://forum.mikrotik.com/">Forum</a></li></ul></div> <!-- pogas beidzas --> </div> <!-- menu beidzas --> <div style="clear: both; font-size: 1px;">&nbsp;</div><div style="clear: both; width: 740px; height:10px; display: block; text-align: left; margin-left: 100px"><strong class="everywhere">MikroTik everywhere:<a href="/wireless.php" title="click to see MikroTik as an AP">AP</a> |<a href="/wireless.php" title="click to see MikroTik as a CPE">CPE</a> |<a href="/thedude" title="click to see MikroTik's Network Manager tool for Windows">Network Monitor</a> |<a href="http://wiki.mikrotik.com/wiki/User_Manager" title="click to see MikroTik's User Management System">User Manager</a> |<a href="http://www.mikrotik.com/testdocs/ros/2.9/ip/hotspot.php" title="click to see MikroTik's HotSpot">HotSpot Gateway</a> |<a href="/software.html" title="click to see MikroTik's RouterOS and it's features">Core Router</a></strong></div> </div><div id="pageblock"><table width="840px"><tr><td>
+
+<br>
+    <table width="800" border="0" cellspacing="0" cellpadding="5" bordercolor="#E8E8E8">
+      <tr valign="top">
+	  <td width="28%" valign="top">
+	  	
+   	  	<ul>
+	  		<li><a href="http://wiki.mikrotik.com">User Manual</a></li>
+	  		<li><a href="/aboutus.php">Contact us</a></li>
+	  		<li><a href="/download.html#v2">Download</a></li>
+	  		<li><a target="_blank" href="http://training.mikrotik.com/">training</a></li>
+	  		<li><a href="/consultants.html">mikrotik consultants</a></li>
+	  	</ul>
+	</td>
+
+  <td height="6"> <a name="instructions"></a>
+
+		<div align="right"><font style"color: #808080">31-05-2005</font></div>
+		  <div align="center">
+	    <h3>MikroTik Product Support Service</h3>
+	    </div>
+
+		  Always remember, that the most questions are answered and easily explained in the <a href="http://wiki.mikrotik.com/wiki/Main_Page" target="_blank">Reference Manual</a>!
+		  <br><br/>
+		  <ol>
+			  <li>If you have bought at least a Level 4 license, you can get limited support service by e-mail for 30 days after the purchase: <a href="#" onclick="myTarget(this.name);" name="support[at]mikrotik.com">support[at]mikrotik.com</a>, if you obtained your mikrotik product from a reseller - please contact your reseller for support</li><br/>
+			  <li>If you have a problem with hardware that you have purchased from us, please make a clear description of what exactly happened. Write that to <a href="#" onclick="myTarget(this.name);" name="support[at]mikrotik.com">support[at]mikrotik.com</a> and include your invoice number</li><br/>
+			  <li>You can hire a <a href="http://www.mikrotik.com/consultants.html">certified consultant</a> for detailed configurations or network diagnostics</li>
+		  </ol>
+
+
+		  <p>Don't forget to log on to our <a href="http://forum.mikrotik.com">FORUM!</a></p>
+
+		  <br />
+	  
+
+		  <div align="center"><h3>Support Request Instructions</h3></a></div>
+
+		  When contacting us at <a href="#" onclick="myTarget(this.name);" name="support[at]mikrotik.com">support[at]mikrotik.com</a>:
+
+		  <ol>
+			  <li>Make sure that you have the <a href="http://www.mikrotik.com/download.html"
+			  target="_blank">latest version</a> of the RouterOS.
+			  If you don't have it, upgrade your router to the latest version
+			  and check if the problem still persists!<p></li>
+
+			  <li>Read the <a href="http://wiki.mikrotik.com/wiki/Most_basic_questions"
+			  target="_blank">FAQ</a> page, maybe the answer to your question is already there!<p></li>
+
+			  <li>If you have trouble making some setup, check the
+			  <a href="http://wiki.mikrotik.com/"
+			  target="_blank">WIKI</a> for answers, maybe you will find an example for your configuration there!<p></li>
+
+				<li>Give us your Invoice number, if you purchased MikroTik RouterOS online,
+			  or information about preinstalled system you purchased from us.
+				<font color="#ff0000">(Support is only for paying customers)</font><br>
+				Free Demo License users should pay for the license to receive support.<p></li>
+
+			  <li>Give brief problem description, including information about your network setup.<p></li>
+
+			  <li>When the problem appears execute the <b>/system sup-output</b> command to create support output file.
+	 		  Get the <b><a href="http://wiki.mikrotik.com/wiki/Supout" target="_blank">supout.rif</a></b> file from your router using ftp BINARY mode and attach
+	 		  it to your e-mail message with the support request.<p></li>
+
+	 		  <li>Make sure that you include the previous conversation in the body of the email message when replying and <i><b>do not delete the ticket number from the message subject</b></i></li>
+
+		  </ol>
+
+		  Please note, that support <font color="#ff0000">does not include training on TCP/IP</font>,
+		  You should have read the Manual and have at least basic knowledge about networking
+		  (what is IP address, what is network address, how to use subnets,
+		  how to use 'traceroute' for troubleshooting, etc.). <p>
+		  Picking up a resource from the list
+		  <a href="http://www.mikrotik.com/resources.html" target="_blank">
+		  http://www.mikrotik.com/resources.html</a> is a good start (local copy of a remote resource).<p>
+		  If you are in need of immediate assistance, now you can hire a certified consultation specialist. <a href="http://www.mikrotik.com/consultants.html">Click here to see a list of specialists near you</a>
+		  </td>
+		  </tr>
+
+    </table>
+
+</td>
+</tr>
+</table>
+</div> 
+
+<script type="text/javascript">
+//$("#foot_nav").html(navigator.platform);
+</script>
+<div id="foot_nav">
+<div class="foot_nav_inside">
+    <a style="float: left" href="http://www.mikrotik.com/trademark">&copy;</a>
+    <a href="http://www.mikrotik.com">Mikrotik</a> :
+    <a href="http://www.routerboard.com">RouterBOARD</a> :
+    <a href="http://forum.mikrotik.com">Forum</a> :
+    <a href="http://mum.mikrotik.com">MUM</a> :
+    <a href="http://training.mikrotik.com">Training</a> :
+    <a href="http://wiki.mikrotik.com/wiki/Main_Page">Wiki</a> :
+    <a href="http://www.tiktube.com">Tiktube</a> :
+    <a href="http://wiki.mikrotik.com/wiki/MikroTik_News">Newsletters</a> :
+    <a href="http://twitter.com/mikrotik_com">Twitter</a>
+    <a href="http://english-145815446642.spampoison.com" style="display: none">Click Here</a>
+</div>
+</div>
+
+</body>
+</html>
+

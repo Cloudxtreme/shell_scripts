@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+  <meta http-equiv='Content-type' content='text/html;charset=iso-8859-1' />
+  <title>PaP Hosting :: Home</title>
+  <style type='text/css'> 
+    @import 'layout.css'; 
+    @import 'style.css'; 
+  </style>
+</head>
+<body>
+<div id='page'>
+
+<div id='header'>
+<h1>PaP Hosting</h1>
+</div>
+
+<div id='nav'>
+<ul>
+<li><a href='index.html'>Home</a></li>
+<li><a href='technology/index.html'>Technology</a></li>
+<li><a href='users/index.html'>Users</a></li>
+</ul>
+</div>
+
+<div id='main'>
+<h2>TODO items</h2>
+This is a list of (sub)projects which we think might make paphosting a little
+bit more appealing/useful. They are listed in random order, in as much or as
+little details we thought necessary to relay the idea.
+<ul>
+<li><b>RRD Statistics</b> - take the <tt>config/papfe.hosts</tt> file and
+hit those haproxy machines at their <tt>/stats;csv</tt> output, figure out
+which backends and frontends there are defined, and create RRD archives from
+them. Ideally do this every 5 minutes (as is 'normal' for RRDs) and distribute
+the RRDs to the other (thttpd) machines, or better yet, run the collector on
+all the other (thttpd) machines. Then, we can create a CGI for thttpd which
+can display graphs of things like hits/sec or bits/sec, and even a ~real time
+view of which front- and backends are up.
+</li>
+<li><b>Geo DNS</b> - we can have multiple haproxy frontends on multiple
+continents, but then putting them all into one set of responses will make
+ clients jump around continents a lot. It'd be great if we could give out
+the american haproxy addresses to american IPs, and european ones to european
+IPs - <a href='http://www.powerdns.com'>powerdns</a> does this. We could use
+it. For now though, we should just stick to frontends at Coloclue, BIT and
+True (and possibly IP-Man) - this is where we have the IP space to build out
+SSL VIPs.
+</li>
+</ul>
+
+Items we've done:
+<ul>
+<li><b>NGINX</b> - Engine X, an HTTP and SSL (de)multiplexer. We now host
+SSL VIPs only at the frontends, and speak regular HTTP at the backends (for example, with SixXS). This will allow us to build out SSL capacity in a
+distributed fashion (ie. our frontends handle things like gzipping content
+and SSL encrypting it), as well as build out more capacity by allowing the
+frontends to serve static content themselves, and not bothering Apache
+with that type of work. Done per Jan 2010.
+</li>
+<li><b>Auto Copy</b> - we currently copy sites that are not within the RCS
+out to peers (note: don't call them slaves, they are supposed to be
+identical) automatically. For example, if people upload or edit their site on
+<tt>bfib</tt>, we have a script that rsync's the <tt>/www</tt> directory every
+hour (this would be sufficient for the <tt>be-apache</tt> and <tt>be-thttpd</tt>
+backends, as users primarily hit <tt>bfib</tt> until it goes away).
+Done per Dec 2009.
+</li>
+<li><b>Monitoring</b> - high availability yes, but monitoring? How's about
+YES! <tt>nagios</tt> looks after all of our physical machines, and their
+services (even nginx SSL VIPs), and alerts us when things are down or
+unavailable otherwise. We also have <tt>http-regtest.py</tt> which can read
+a suite of tests to do (IPv4, IPv6, SSL, normal HTTP) and validates that
+changes to our infrastructure do not compromise the user experience in an
+obvious or bad way.
+Done per Jan 2010.
+</li>
+<li><b>Apache Setup</b> - documented the file with <a href='technology/ug_apache.html'>apache setup</a> instructions for Ubuntu and OpenBSD. This was a pretty
+involved step because we'd like to make sure we have a relatively feature-rich
+set on those machines. Ideally, we would not have the entire httpd config in
+RCS, but create an Include that allows us to root our websites, and otherwise
+a well-known logs and siteroot location.
+Done for Ubuntu/Debian per Jan 2010, pending Apache2+PHP5 completeness for
+OpenBSD.
+</li>
+</ul>
+</div>
+
+<div id='sidebar'>
+<ul>
+<li>Technology Hilights
+  <ul>
+  <li><a href="technology/index.html">Overview</a></li>
+  <li><a href="technology/dns.html">DNS</a></li>
+  <li><a href="technology/frontend.html">Frontend</a></li>
+  <li><a href="technology/backend.html">Backend</a></li>
+  </ul>
+</li>
+<li>Users
+  <ul>
+  <li><a href="http://www.vanpelt.nl/">www.vanpelt.nl</a></li>
+  <li><a href="http://www.weirdnet.nl/">www.weirdnet.nl</a></li>
+  <li><a href="http://www.hombroeckx.be/">www.hombroeckx.be</a></li>
+  <li><a href="http://undeadly.org/">undeadly.org</a></li>
+  </ul>
+</li>
+<li>Other
+  <ul>
+  <li><a href='todo.html'>TODO</a></li>
+  </ul>
+</li>
+</ul>
+</div>
+
+<div style='clear:both;'></div>
+
+<div id='footer'>
+<a href='http://jigsaw.w3.org/css-validator/check/referer'>Valid CSS</a>
+&nbsp;|&nbsp;
+<a href='http://validator.w3.org/check?uri=referer'>Valid XHTML 1.0 Strict</a>
+&nbsp;|&nbsp;
+<tt>$Id: todo.html 1447 2011-08-23 08:24:43Z weerd $</tt>
+</div>
+
+</div>
+</body>
+</html>

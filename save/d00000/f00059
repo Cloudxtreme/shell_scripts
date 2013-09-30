@@ -1,0 +1,368 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #47408:
+sendto(2) issue with IPv6 UDP datagrams                                                                                         
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #47408</h1>
+
+<pre>
+From www@NetBSD.org  Sat Jan  5 20:54:33 2013
+Return-Path: &lt;www@NetBSD.org&gt;
+Received: from mail.netbsd.org (mail.netbsd.org [149.20.53.66])
+	by www.NetBSD.org (Postfix) with ESMTP id AD34F63E98E
+	for &lt;gnats-bugs@gnats.NetBSD.org&gt;; Sat,  5 Jan 2013 20:54:32 +0000 (UTC)
+Message-Id: &lt;20130105205431.4DA2363E98E@www.NetBSD.org&gt;
+Date: Sat,  5 Jan 2013 20:54:31 +0000 (UTC)
+From: anthony.mallet@laas.fr
+Reply-To: anthony.mallet@laas.fr
+To: gnats-bugs@NetBSD.org
+Subject: sendto(2) issue with IPv6 UDP datagrams
+X-Send-Pr-Version: www-1.0
+
+
+<b>&gt;Number:</b>         47408
+<b>&gt;Category:</b>       kern
+<b>&gt;Synopsis:</b>       sendto(2) issue with IPv6 UDP datagrams
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       serious
+<b>&gt;Priority:</b>       medium
+<b>&gt;Responsible:</b>    kern-bug-people
+<b>&gt;State:</b>          open
+<b>&gt;Class:</b>          sw-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Sat Jan 05 20:55:00 +0000 2013
+<b>&gt;Last-Modified:</b>  Sun Mar 31 20:25:22 +0000 2013
+<b>&gt;Originator:</b>     Anthony Mallet
+<b>&gt;Release:</b>        6.99.16, Thu Jan  3 14:14:16 CET 2013
+<b>&gt;Organization:</b>
+<b>&gt;Environment:</b>
+NetBSD cactus 6.99.16 NetBSD 6.99.16 (CACTUS) #21: Thu Jan  3 14:14:16 CET 2013
+<b>&gt;Description:</b>
+I'm fighting with pkgsrc/net/wide-dhcpv6. To make a long story short, I think I
+finally isolated the issue, that I can reproduce with the attached test program.
+
+
+It seems that, for any socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP), the second
+sendto(2) call will fail with EISCONN, even though the socket is never
+connected. Also, trying to explicitly connect the socket will fail. This does
+not happen for AF_INET.
+
+
+Here is the output of the attached test program. This is on a Jan 3 -current,
+and I get the same results on another -current machine from Oct 20. I can
+verify with tcpdump that the packets are correctly transmitted (or not). I could test on a Linux machine and it worked fine.
+
+
+ficus[~] &gt; gcc -Wall -o sendto sendto.c
+ficus[~] &gt; ./sendto -4
+sendto: 1st sendto: PASS
+sendto: 2nd sendto: PASS
+sendto: 1st connect: PASS
+sendto: 1st send: PASS
+sendto: 2nd connect: PASS
+sendto: 2nd send: PASS
+ficus[~] &gt; ./sendto -6
+sendto: 1st sendto: PASS
+sendto: 2nd sendto: FAIL: Socket is already connected
+sendto: 1st connect: FAIL: Socket is already connected
+sendto: 1s send: FAIL: Destination address required
+sendto: 2nd connect: FAIL: Socket is already connected
+sendto: 2nd send: FAIL: Destination address required
+ficus[~] &gt; 
+
+
+<b>&gt;How-To-Repeat:</b>
+/* this is the sendto(2) test program */
+#include &lt;sys/socket.h&gt;
+
+
+#include &lt;netinet/in.h&gt;
+
+
+#include &lt;err.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;string.h&gt;
+
+
+int
+main(int argc, const char *argv[])
+{
+  struct addrinfo hints;
+  struct addrinfo *res;
+  const char msg[] = &quot;sendto test&quot;;
+  int S, s;
+  int e;
+
+
+  /* lookup localhost addr, depending on argv[1] */
+  memset(&amp;hints, 0, sizeof(hints));
+  if (argc &gt; 1 &amp;&amp; !strcmp(&quot;-6&quot;, argv[1]))
+    hints.ai_family = AF_INET6;
+  else
+    hints.ai_family = AF_INET;
+  hints.ai_socktype = SOCK_DGRAM;
+  hints.ai_protocol = IPPROTO_UDP;
+  hints.ai_flags = 0;
+  e = getaddrinfo(&quot;localhost&quot;, &quot;9999&quot;, &amp;hints, &amp;res);
+  if (e) errx(2, &quot;getaddrinfo: %s&quot;, gai_strerror(e));
+
+
+  /* server socket */
+  S = socket(res-&gt;ai_family, res-&gt;ai_socktype, res-&gt;ai_protocol);
+  if (S &lt; 0) err(2, &quot;server socket&quot;);
+  if (bind(S, res-&gt;ai_addr, res-&gt;ai_addrlen) &lt; 0) err(2, &quot;bind&quot;);
+
+
+  /* client socket */
+  s = socket(res-&gt;ai_family, res-&gt;ai_socktype, res-&gt;ai_protocol);
+  if (s &lt; 0) err(2, &quot;client socket&quot;);
+
+
+  /* sendto */
+  e = sendto(s, msg, sizeof(msg), 0, res-&gt;ai_addr, res-&gt;ai_addrlen);
+  if (e != sizeof(msg))
+    warn(&quot;1s sendto: FAIL&quot;);
+  else
+    warnx(&quot;1st sendto: PASS&quot;);
+
+
+  e = sendto(s, msg, sizeof(msg), 0, res-&gt;ai_addr, res-&gt;ai_addrlen);
+  if (e != sizeof(msg))
+    warn(&quot;2nd sendto: FAIL&quot;);
+  else
+    warnx(&quot;2nd sendto: PASS&quot;);
+
+
+  /* connect + send */
+  e = connect(s, res-&gt;ai_addr, res-&gt;ai_addrlen);
+  if (e)
+    warn(&quot;1st connect: FAIL&quot;);
+  else
+    warnx(&quot;1st connect: PASS&quot;);
+  e = send(s, msg, sizeof(msg), 0);
+  if (e != sizeof(msg))
+    warn(&quot;1s send: FAIL&quot;);
+  else
+    warnx(&quot;1st send: PASS&quot;);
+
+
+  e = connect(s, res-&gt;ai_addr, res-&gt;ai_addrlen);
+  if (e)
+    warn(&quot;2nd connect: FAIL&quot;);
+  else
+    warnx(&quot;2nd connect: PASS&quot;);
+  e = send(s, msg, sizeof(msg), 0);
+  if (e != sizeof(msg))
+    warn(&quot;2nd send: FAIL&quot;);
+  else
+    warnx(&quot;2nd send: PASS&quot;);
+
+
+  return 0;
+}
+
+
+<b>&gt;Fix:</b>
+
+
+<b>&gt;Audit-Trail:</b>
+From: &quot;Christos Zoulas&quot; &lt;christos@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47408 CVS commit: src/sys/netinet6
+Date: Sat, 5 Jan 2013 19:17:15 -0500
+
+
+ Module Name:	src
+ Committed By:	christos
+ Date:		Sun Jan  6 00:17:14 UTC 2013
+
+ 
+ Modified Files:
+ 	src/sys/netinet6: udp6_output.c
+
+ 
+ Log Message:
+ PR/47408: Anthony Mallet: sendto(2) issue with IPv6 UDP datagrams
+ - don't connect when the local port is 0, just set the local port number.
+ - remove redundant assignment
+ XXX: pullup-6
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.43 -r1.44 src/sys/netinet6/udp6_output.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: Anthony Mallet &lt;anthony.mallet@laas.fr&gt;
+To: gnats-bugs@netbsd.org
+Cc: kern-bug-people@netbsd.org,
+    gnats-admin@netbsd.org,
+    netbsd-bugs@netbsd.org
+Subject: Re: PR/47408 CVS commit: src/sys/netinet6
+Date: Sun, 6 Jan 2013 02:16:31 +0100
+
+
+ On Sunday, at 00:20, Christos Zoulas wrote:
+ |  Log Message:
+ |  PR/47408: Anthony Mallet: sendto(2) issue with IPv6 UDP datagrams
+ |  - don't connect when the local port is 0, just set the local port number.
+ |  - remove redundant assignment
+ |  XXX: pullup-6
+
+ 
+ Nice &amp; quick, this makes dhcp6s work :). Thanks!
+
+ 
+From: christos@zoulas.com (Christos Zoulas)
+To: Anthony Mallet &lt;anthony.mallet@laas.fr&gt;, gnats-bugs@netbsd.org
+Cc: kern-bug-people@netbsd.org, gnats-admin@netbsd.org, 
+	netbsd-bugs@netbsd.org
+Subject: Re: PR/47408 CVS commit: src/sys/netinet6
+Date: Sat, 5 Jan 2013 20:21:02 -0500
+
+
+ On Jan 6,  2:16am, anthony.mallet@laas.fr (Anthony Mallet) wrote:
+ -- Subject: Re: PR/47408 CVS commit: src/sys/netinet6
+
+ 
+ | Nice &amp; quick, this makes dhcp6s work :). Thanks!
+
+ 
+ Your test made it simple :-)
+
+ 
+ christos
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47408 CVS commit: [netbsd-6] src/sys/netinet6
+Date: Sun, 31 Mar 2013 20:20:08 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Sun Mar 31 20:20:08 UTC 2013
+
+ 
+ Modified Files:
+ 	src/sys/netinet6 [netbsd-6]: udp6_output.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by christos in ticket #853):
+ 	sys/netinet6/udp6_output.c: revision 1.44
+ PR/47408: Anthony Mallet: sendto(2) issue with IPv6 UDP datagrams
+ - don't connect when the local port is 0, just set the local port number.
+ - remove redundant assignment
+ XXX: pullup-6
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.43 -r1.43.8.1 src/sys/netinet6/udp6_output.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47408 CVS commit: [netbsd-6-0] src/sys/netinet6
+Date: Sun, 31 Mar 2013 20:20:31 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Sun Mar 31 20:20:31 UTC 2013
+
+ 
+ Modified Files:
+ 	src/sys/netinet6 [netbsd-6-0]: udp6_output.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by christos in ticket #853):
+ 	sys/netinet6/udp6_output.c: revision 1.44
+ PR/47408: Anthony Mallet: sendto(2) issue with IPv6 UDP datagrams
+ - don't connect when the local port is 0, just set the local port number.
+ - remove redundant assignment
+ XXX: pullup-6
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.43 -r1.43.14.1 src/sys/netinet6/udp6_output.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

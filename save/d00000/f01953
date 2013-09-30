@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+      "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en" dir="ltr">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-jp">      
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta name="keywords" content="micchie,Michio,Honda,Michio Honda,MichioHonda,Hon
+da Michio,HondaMichio">
+<LINK REV="MADE" HREF="mailto:micchie_ht@hotmail.com">
+
+ <LINK rel="stylesheet" href="mystyle.css" type="text/css" media="screen">
+
+ <title>Call for Volunteers for Middlebox Measurement</title>
+
+ <script type = "text/javascript" src = "common.js">
+        </script>
+
+         
+                                  </head>
+
+<body>
+
+<div style="font-size: 16pt; color: #606060; margin: 36px; margin-bottom: 18px; font-weight: bold">
+Call for Volunteers for Middlebox Measurement
+</div>
+<div style="font-size: 16pt; color: #606060; margin: 36px; margin-bottom: 18px; font-weight: bold">
+<span style="font-size: 16pt; color: red">Nov 18 2011: We have just released new version of the tool, which includes new tests, and auto-updater; you don't need to re-download updated files manually anymore! Please download from <a href="http://web.sfc.wide.ad.jp/~micchie/middlebox/for_distrib.tar.gz">here</a></span>
+</div>
+
+<div class="cont_m">
+        Overview
+</div>
+
+<p class="main_txt" style="width: 700px;">
+TCP extensions address many issues in the Internet; for example, Multipath TCP achieves efficient utilization of resources of multiple paths, and TcpCrypt opportunistically encrypts all the TCP traffic.  
+</p>
+<p class="main_txt" style="width: 700px;">
+In today's Internet, networks look beyond the IP header for performance optimization and security enhancement.  Such elements in the network are called "middleboxes"; firewalls, traffic normalizers and performance-ehnahcing proxies are a few of examples.  
+</p>
+<p class="main_txt" style="width: 700px;">
+<img src="mbox-overview.gif" alt="mbox-overview">
+</p>
+<p class="main_txt" style="width: 700px;">
+Middleboxes, however, prevent TCP extensions from being deployed, thus we must design TCP extensions to conform what middleboxes actually do.  
+However, no one knows that.  
+
+To address this issue, we are measuring middlebox behaviors relating to TCP extensions.  
+To test as much paths as possible, we'd like you to contribute to this work by running self-contained 1 python script at your available networks.  
+Experiments will finish in approximately 10 -- 15 minutes.  
+This script generates test TCP traffic to a server node, and detects various middlebox behavior, for example, it detects how unknown TCP options are treated and if sequence number is rewritten.  
+</p>
+<p class="main_txt" style="width: 700px;">
+The initial results are available in our paper that appears in ACM Internet Measurement Conference 2011:  <span style="font-style: italic; font-weight: bold"><a href="http://conferences.sigcomm.org/imc/2011/docs/p181.pdf">Is it Still Possible to Extend TCP?"</a></span>
+
+<div class="cont_m">
+Our script
+</div>
+<p class="main_txt" style="width: 700px;">
+Out tool generates test TCP traffic by using a raw IP socket or Pcap library. 
+Destinations of the test traffic are port 80, 443 and 34343 on vinson2.sfc.wide.ad.jp located in Japan. 
+The total amount of test traffic is approximately 100 connections (maximum 4 parallel), and each of them uses approximately maximum 2048 bytes.    
+Our experiment doesn't collect traffic information other than those our script generated.  
+</p>
+
+<div class="cont_m">
+System requirement
+</div>
+<p class="main_txt" style="width: 700px;">
+Our script works on Mac OSX 10.5 or 10.6, Linux (kernel 2.6) and FreeBSD (7.0 or higher).  This also requires python 2.5 or higher, and libpcap
+<br>
+NOTE for Windows users: If you join the experiment in the guest OS on VirtualBOX, please connect the guest OS via not NAT but bridge.  If you join the experiment in the guest OS on VMWare, it does not matter.  
+</p>
+
+<div class="cont_m">
+How to run
+</div>
+<p class="main_txt" style="width: 700px;">
+1. Download script from <a href="http://web.sfc.wide.ad.jp/~micchie/middlebox/for_distrib.tar.gz" style="font-size: 14pt">http://web.sfc.wide.ad.jp/~micchie/middlebox/for_distrib.tar.gz</a>, and extract to anywhere you like:
+</p>
+<p class="main_txt" style="width: 700px">% tar xzf for_distrib.tar.gz</p>
+<p class="main_txt" style="width: 700px;">
+2. Execute script by root in the for_distrib directry:
+</p>
+<p class="main_txt" style="width: 700px">% sudo python run-all.py</p>
+<p class="main_txt" style="width: 700px">
+After the experiment, you will find a log file (logxxxxxxxxx.tar.gz) in the same directory you executed the script.  
+Please submit this log file, and answer some questions from the <a href="http://web.sfc.wide.ad.jp/~micchie/middlebox/submit.cgi" style="font-size: 14pt">submission form</a>.  
+You will see summary of test results in your network after submission (e.g., whether your network passes unknown TCP options).  
+</p>
+<p class="main_txt" style="width: 700px">
+Or please send the log file to us (micchie at sfc.wide.ad.jp) and tell me your network information as much as you know (e.g., product name of the broadband router, ISP name, product name of firewall appliance etc...) 
+We will tell you summary of the network you tested.  
+In addition, let us know if you have hesitation to open these information.  
+</p>
+
+</body>
+</html>

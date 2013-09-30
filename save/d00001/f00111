@@ -1,0 +1,430 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="generator" content="Website XSL Stylesheet V2.6.0">
+<link rel="home" href="../../." title="Welcome to The NetBSD Project: Of course it runs NetBSD.">
+<link rel="up" href="../../support/." title="NetBSD support">
+<link rel="previous" href="../../support/send-pr.html" title="NetBSD Problem Reports">
+<link rel="next" href="../../support/security/advisory.html" title="NetBSD Security Advisories by Date">
+<link rel="first" href="../../support/no-bugs.html" title="Features sometimes misconstrued as bugs">
+<link rel="last" href="../../support/hardware/." title="Hardware Devices Supported by NetBSD">
+<link rel="stylesheet" href="../../global.css" type="text/css">
+  <title>Security and NetBSD</title>
+</head>
+<body class="website"><div class="webpage">
+<a name="support-security-index"></a><div id="top"><a href="#mainContent" class="doNotDisplay doNotPrint">Skip to main content.</a></div>
+<div id="centralHeader">
+<div id="logo">
+<a href="../../"><img alt="[NetBSD Logo]" src="../../images/NetBSD-smaller.png"></a><div id="name"><a href="../../">
+	  The NetBSD Project
+	</a></div>
+<div id="slogan"><a href="../../">
+	  &#8220;Of course it runs NetBSD&#8221;
+	</a></div>
+</div>
+<div id="headerTools">
+<div id="header-cse-search-form">Google custom search</div>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script><script type="text/javascript"> 
+		  google.load('search', '1', {language : 'en'});
+		  google.setOnLoadCallback(function() {
+		    var header_customSearchControl = new google.search.CustomSearchControl('006277936787196004968:mbdhrauy1wm');
+		    header_customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+		    var header_options = new google.search.DrawOptions();
+		    header_options.enableSearchboxOnly("http://google.com/cse?cx=006277936787196004968:mbdhrauy1wm");    
+		    header_customSearchControl.draw('header-cse-search-form', header_options);
+		  }, true);
+		</script>
+</div>
+</div>
+<div id="navBar" role="navigation">
+<span class="doNotDisplay">
+	  Navigation:
+	</span><ul>
+<li><a href="../../">
+	  Home</a></li>
+<li>
+<a href="../../">
+	  News &amp; Media</a><ul>
+<li><a href="../../changes/">
+	    Recent changes</a></li>
+<li><a href="http://blog.NetBSD.org/">
+	    NetBSD blog</a></li>
+<li><a href="../../gallery/events.html">
+	    Events</a></li>
+<li><a href="../../changes/rss.html">
+	    Feeds</a></li>
+</ul>
+</li>
+<li>
+<a href="../../about/">
+	  About</a><ul>
+<li><a href="../../about/">
+	    NetBSD</a></li>
+<li><a href="../../foundation/">
+	    The NetBSD Foundation</a></li>
+<li><a href="../../gallery/">
+	    Advocacy</a></li>
+</ul>
+</li>
+<li>
+<a href="../../docs/">
+	  Documentation</a><ul>
+<li><a href="../../docs/misc/index.html">
+	    FAQ &amp; HOWTOs</a></li>
+<li><a href="../../docs/guide/en/">
+	    The Guide</a></li>
+<li><a href="http://man.NetBSD.org/">
+	    Manual pages</a></li>
+<li><a href="http://wiki.NetBSD.org/">
+	    Wiki</a></li>
+</ul>
+</li>
+<li>
+<a href="../../support/">
+	  Support</a><ul>
+<li><a href="../../support/send-pr.html">
+	    Problem report guide</a></li>
+<li><a href="../../cgi-bin/sendpr.cgi?gndb=netbsd">
+	    Report a bug</a></li>
+<li><a href="../../support/query-pr.html">
+	    Query bug database</a></li>
+<li><a href="../../support/security/">
+	    Security</a></li>
+</ul>
+</li>
+<li>
+<a href="../../community/">
+	  Community</a><ul>
+<li><a href="http://onetbsd.org/">
+	    Blogs</a></li>
+<li><a href="../../mailinglists/">
+	    Mailing lists</a></li>
+<li><a href="http://mail-index.NetBSD.org/">
+	    List archives</a></li>
+</ul>
+</li>
+<li>
+<a href="../../developers/">
+	  Developers</a><ul>
+<li><a href="http://cvsweb.NetBSD.org/">
+	    Browse source</a></li>
+<li><a href="http://nxr.NetBSD.org/">
+	    Cross-reference</a></li>
+<li><a href="http://releng.NetBSD.org/">
+	    Release engineering</a></li>
+<li><a href="http://wiki.NetBSD.org/projects/">
+	    Projects list</a></li>
+</ul>
+</li>
+<li>
+<a href="../../ports/">
+	  Ports</a><ul>
+<li><a href="../../ports/history.html">
+	    History</a></li>
+<li><a href="../../ports/emulators.html">
+	    Emulators</a></li>
+</ul>
+</li>
+<li>
+<a href="http://www.pkgsrc.org/">
+	  Packages</a><ul>
+<li><a href="http://www.pkgsrc.se/">
+	    Browse packages</a></li>
+<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+	    Release engineering</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="content"><div class="fullWidth"><div class="rowOfBoxes">
+<h1>Security and NetBSD</h1>
+<p>The NetBSD Project adopts the same approach to security as it does 
+  to the rest of the system: <span class="emphasis"><em>Solutions and not hacks.</em></span>
+  Security issues in NetBSD are handled by the <a class="ulink" href="mailto:security-officer@NetBSD.org" target="_top">NetBSD security officer</a>
+  and the <a class="ulink" href="mailto:security-alert@NetBSD.org" target="_top">NetBSD security alert team</a>.
+  As well as investigating, documenting and updating code in response to 
+  newly reported security issues, the team also performs periodic code 
+  audits to search for and remove potential security problems.</p>
+<p>NetBSD has integrated Kerberos 5 (Heimdal), SSH (OpenSSH) and
+  full support for IPsec for both IPv4 and IPv6.
+  In addition, all services default to their most secure settings,
+  and no services are enabled by default for new installations.
+</p>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="security_advisories"></a>Security Advisories</h2></div></div></div>
+  
+
+  <p>When serious security problems in NetBSD are discovered and 
+    corrected, we issue a security advisory, describing the problem 
+    and containing a pointer to the fix. These are announced to our <a class="ulink" href="../../mailinglists/#netbsd-announce" target="_top">netbsd-announce mailing list</a> 
+    and our <a class="ulink" href="../../mailinglists/#security-announce" target="_top">security-announce mailing list</a>
+    as well as to various other mailing lists and websites. 
+    In addition, they are archived on this site as well as provided as an
+    <a class="ulink" href="http://www.NetBSD.org/support/security/rss-advisories.xml" target="_top">RSS feed</a>.</p>
+  
+  <div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="patch-formal"></a>Recent Advisories by NetBSD <a class="ulink" href="../../releases/formal.html" target="_top">releases</a>:</h3></div></div></div>
+    
+
+    <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem"><a class="ulink" href="patches-6.1.html" target="_top">NetBSD 6.1</a></li>
+<li class="listitem"><a class="ulink" href="patches-6.0.2.html" target="_top">NetBSD 6.0.2</a></li>
+<li class="listitem"><a class="ulink" href="patches-6.0.1.html" target="_top">NetBSD 6.0.1</a></li>
+<li class="listitem"><a class="ulink" href="patches-6.0.html" target="_top">NetBSD 6.0</a></li>
+<li class="listitem"><a class="ulink" href="patches-5.2.html" target="_top">NetBSD 5.2</a></li>
+<li class="listitem"><a class="ulink" href="patches-5.1.2.html" target="_top">NetBSD 5.1.2</a></li>
+<li class="listitem"><a class="ulink" href="patches-5.1.html" target="_top">NetBSD 5.1</a></li>
+<li class="listitem"><a class="ulink" href="patches-5.0.2.html" target="_top">NetBSD 5.0.2</a></li>
+<li class="listitem"><a class="ulink" href="patches-5.0.1.html" target="_top">NetBSD 5.0.1</a></li>
+<li class="listitem"><a class="ulink" href="patches-5.0.html" target="_top">NetBSD 5.0</a></li>
+</ul></div>
+
+    <p>See the <a class="ulink" href="release.html" target="_top">release archive</a> 
+      for a complete list.</p>
+  </div>
+
+  <div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="recent_advisories"></a>Recent Advisories by Advisory Number:</h3></div></div></div>
+    
+    <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+<a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2013-008.txt.asc" target="_top">NetBSD-SA2013-008</a> Error in authorization check re tcpdrop sysctl</li>
+<li class="listitem">
+<a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2013-007.txt.asc" target="_top">NetBSD-SA2013-007</a> Protocol handling issues in X Window System client libraries</li>
+<li class="listitem">
+<a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2013-006.txt.asc" target="_top">NetBSD-SA2013-006</a> Arbitrary Kernel Read with netstat -P</li>
+<li class="listitem">
+<a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2013-005.txt.asc" target="_top">NetBSD-SA2013-005</a> bind Denial of Service (CVE-2013-4854)</li>
+<li class="listitem">
+<a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2013-003.txt.asc" target="_top">NetBSD-SA2013-003</a> RNG Bug May Result in Weak Crypt
+ographic Keys (REVISED)</li>
+<li class="listitem">
+<a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2013-004.txt.asc" target="_top">NetBSD-SA2013-004</a> Vulnerabilities in grep</li>
+<li class="listitem">
+<a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2013-003.txt.asc" target="_top">NetBSD-SA2013-003</a> RNG Bug May Result in Weak Cryptographic Keys</li>
+<li class="listitem">
+<a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2013-002.txt.asc" target="_top">NetBSD-SA2013-002</a> kqueue related kernel panic triggered from userland</li>
+<li class="listitem">
+<a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/security/advisories/NetBSD-SA2013-001.txt.asc" target="_top">NetBSD-SA2013-001</a> kernel panic triggered from userland</li>
+</ul></div>
+
+    <p>See the <a class="ulink" href="advisory.html" target="_top">advisory archive</a> 
+      for a complete list.</p>
+  </div>
+
+  <div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="patch-current"></a>Advisories for NetBSD-current</h3></div></div></div>
+    
+
+    <p>
+      In some cases a security issue will be discovered in <a class="ulink" href="../../releases/current.html" target="_top">NetBSD-current</a>
+      and then be resolved soon after.  These issues are often short lived
+      any do not impact any NetBSD <a class="ulink" href="../../releases/formal.html" target="_top">releases</a>.  In these cases we don't 
+      release patches or advisories specifically for <a class="ulink" href="../../releases/current.html" target="_top">NetBSD-current</a>, but instead
+      recommend that you update to a version containing the fixes. See 
+      the <a class="ulink" href="#security_advisories" target="_top">advisories</a> 
+      above for the fix dates.  If a security issue is identified
+      that just impacts <a class="ulink" href="../../releases/current.html" target="_top">NetBSD-current</a> the
+      <a class="ulink" href="mailto:security-officer@NetBSD.org" target="_top">NetBSD security officer</a> 
+      team will send an email to the <a class="ulink" href="../../mailinglists/#current-users" target="_top">current-users</a>
+      mailing list detailing the issue and what updates are necessary.  
+      We recommend that all users running <a class="ulink" href="../../releases/current.html" target="_top">NetBSD-current</a> 
+      subscribe to the <a class="ulink" href="../../mailinglists/#current-users" target="_top">current-users</a>
+      mailing list so that they are aware of these issues.  Users tracking 
+      <a class="ulink" href="../../releases/current.html" target="_top">NetBSD-current</a> should
+      be upgrading their systems often to gain new features as well as 
+      resolving known issues.
+     </p>
+  </div>
+
+</div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="contacts"></a>Security Contacts</h2></div></div></div>
+  
+
+  <p>The NetBSD Project has two security related contact points:</p>
+
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">The <a class="ulink" href="../../mailinglists/#tech-security" target="_top">tech-security</a> mailing 
+      list is an open forum for discussing issues related to NetBSD
+      security.</li>
+<li class="listitem">You can directly contact the NetBSD Project about security 
+      issues by sending email to 
+      <code class="email">&lt;<a class="email" href="mailto:security-alert@NetBSD.org">security-alert@NetBSD.org</a>&gt;</code>.</li>
+</ul></div>
+</div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="reporting"></a>Reporting a security problem</h2></div></div></div>
+  
+
+  <p>To report a security problem in NetBSD, either contact the NetBSD
+    <code class="email">&lt;<a class="email" href="mailto:security-alert@NetBSD.org">security-alert@NetBSD.org</a>&gt;</code> team or send a standard 
+    NetBSD problem report, using the <a class="ulink" href="../send-pr.html" target="_top">send-pr form</a> or the 
+    <span class="command"><strong>send-pr(1)</strong></span> program on your NetBSD system.</p>
+  
+  <p>Sensitive information should be encrypted using PGP, using the 
+    NetBSD security-officers' <a class="ulink" href="ftp://ftp.NetBSD.org/pub/NetBSD/security/PGP/security-officer@netbsd.org.asc" target="_top">PGP key</a>.</p>
+</div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="patches"></a>Security Patches</h2></div></div></div>
+  
+
+  <p>All published NetBSD security patches are available on the 
+    NetBSD Project's <a class="ulink" href="ftp://ftp.NetBSD.org/pub/NetBSD/" target="_top">FTP server</a> in the
+    <a class="ulink" href="ftp://ftp.NetBSD.org/pub/NetBSD/security/patches/" target="_top">security/patches/</a> directory.
+  </p>
+</div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="pkgsrc"></a>NetBSD Packages Collection (pkgsrc)</h2></div></div></div>
+  
+
+  <p>The <a class="ulink" href="../../docs/software/packages.html" target="_top">NetBSD Packages Collection</a> provides easy source or binary installation of a large
+    number of third-party applications. Users should remember that there can
+    often be bugs in third-party software, and some of these bugs can leave
+    a machine vulnerable to exploitation. To cope with this, NetBSD provides
+    an easy way to audit your installed packages for known 
+    vulnerabilities.</p>
+
+  <div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="check-pkgsrc"></a>Checking for vulnerabilities in installed packages</h3></div></div></div>
+    
+
+    <p>
+      The NetBSD <a class="ulink" href="mailto:pkgsrc-security@NetBSD.org" target="_top">pkgsrc Security Team</a>
+      and package maintainers keep a list of known security vulnerabilities 
+      in packages which are (or have been) included in pkgsrc. The list is 
+      available from the NetBSD FTP site at:
+    </p>
+
+    <div class="blockquote"><blockquote class="blockquote">
+      <a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/packages/vulns/pkg-vulnerabilities" target="_top">http://ftp.NetBSD.org/pub/NetBSD/packages/vulns/pkg-vulnerabilities</a>
+      </blockquote></div>
+
+    <p>Through <span class="command"><strong>audit-packages</strong></span>, this list can be downloaded
+      automatically, and a security audit of all packages installed on 
+      a system can take place.</p>
+
+    <p>There are two components to <span class="command"><strong>audit-packages</strong></span>.
+      The first component, <span class="command"><strong>download-vulnerability-list</strong></span>, 
+      is for downloading the list of vulnerabilities from the NetBSD FTP 
+      site.  The second component, <span class="command"><strong>audit-packages</strong></span>, 
+      checks to see if any of your installed packages are vulnerable. 
+      If a package is vulnerable, you will see output similar to the 
+      following:</p>
+
+    <div class="blockquote"><blockquote class="blockquote">Package samba-2.0.9 has a local-root-shell 
+      vulnerability, see 
+      http://www.samba.org/samba/whatsnew/macroexploit.html</blockquote></div>
+
+    <p>Users can set up <span class="command"><strong>audit-packages</strong></span>
+      to download the <span class="command"><strong><a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/packages/vulns/pkg-vulnerabilities" target="_top">pkg-vulnerabilities</a></strong></span>
+      file daily, and include a package audit in the daily security script.
+      Details on this are located in the
+      <a class="ulink" href="http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/pkgtools/pkg_install/MESSAGE?rev=HEAD&amp;content-type=text/x-cvsweb-markup" target="_top">MESSAGE</a>
+      file for <a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/packages/pkgsrc/pkgtools/pkg_install/README.html" target="_top">pkg_install</a>.
+   </p>
+  </div>
+  <div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="reporting-pkgsrc"></a>Reporting a pkgsrc security problem</h3></div></div></div>
+   
+   <p>
+    If you believe you have found a security issue for a software package 
+    in pkgsrc that is not detected by <span class="command"><strong>audit-packages</strong></span> 
+    then contact the <a class="ulink" href="mailto:pkgsrc-security@NetBSD.org" target="_top">pkgsrc Security Team</a>.
+   </p>
+  </div>
+  <div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="no-more-audit-packages"></a>Migrating from security/audit-packages to pkgtools/pkg_install</h3></div></div></div>
+   
+   <p>
+    In April 2007 the functionality provided by the security/audit-packages
+    package was re-written in C and merged into the <a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/packages/pkgsrc/pkgtools/pkg_install/README.html" target="_top">pkg_install</a>
+    package.  This brought a number of improvements in terms of both speed
+    and functionality when compared to the old security/audit-packages package.
+    In January of 2008 the security/audit-packages package was removed from the
+    pkgsrc CVS tree and the required version of the <a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/packages/pkgsrc/pkgtools/pkg_install/README.html" target="_top">pkg_install</a>
+    package was increased to pkg_install-20071224 so that the functionality
+    that was provided by security/audit-packages was adequately replaced.
+    The migration process should be easy for most users and simply involve
+    removing the old package (i.e. <span class="command"><strong>pkg_delete audit-packages</strong></span>)
+    and then updating <a class="ulink" href="http://ftp.NetBSD.org/pub/NetBSD/packages/pkgsrc/pkgtools/pkg_install/README.html" target="_top">
+    pkg_install</a>, you must follow this process as pkgtools/pkg_install
+    and security/audit-packages install conflicting files.  In addition to this
+    any scripts (e.g. crontab(5) files, security.local etc.) that point to the 
+    old binaries (i.e. <span class="command"><strong>audit-packages</strong></span> and <span class="command"><strong>
+    download-vulnerability-list</strong></span>) must also be updated.
+   </p>
+   <p>
+    If you cannot migrate to pkg_install-20071224 immediately and need to
+    continue using security/audit-packages to look for package vulnerabilities
+    the <a class="ulink" href="mailto:pkgsrc-security@NetBSD.org" target="_top">pkgsrc Security Team</a> will
+    continue to keep the pkg-vulnerabilities database up to date until at least
+    the pkgsrc-2008Q1 branch has been cut.  When support for 
+    security/audit-packages is fully removed we will update the
+    old pkg-vulnerabilities database to indicate that it will no longer be 
+    updated.  At this point you should upgrade to pkg_install&gt;=20071224 in 
+    order to receive further updates to the pkg-vulnerabilities database.
+   </p>
+   <p>
+    For any questions or problems with this process please contact either the
+    <a class="ulink" href="mailto:pkgsrc-security@NetBSD.org" target="_top">pkgsrc Security Team</a> or 
+    appropriate NetBSD <a class="ulink" href="../../mailinglists/" target="_top">mailing list</a> (e.g. <a class="ulink" href="../../mailinglists/#pkgsrc-users" target="_top">pkgsrc-users</a>
+    or <a class="ulink" href="../../mailinglists/#tech-pkg" target="_top">
+    tech-pkg</a>).
+   </p>
+  </div>
+</div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="resources"></a>Security Resources</h2></div></div></div>
+  
+
+  <p>A number of security advisories and other security resources are
+    available on-line at these sites:</p>
+
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+<a class="ulink" href="advisory.html" target="_top">The NetBSD Project's Advisory Archive</a>
+    </li>
+<li class="listitem">
+<a class="ulink" href="http://www.cert.org/" target="_top">Computer Emergency Response Team</a>
+    </li>
+<li class="listitem">
+<a class="ulink" href="http://www.auscert.org.au/" target="_top">Australian Computer Emergency Response Team</a>
+    </li>
+<li class="listitem">
+<a class="ulink" href="http://www.first.org/" target="_top">Forum of Incident Response and Security Teams</a>
+    </li>
+<li class="listitem">
+<a class="ulink" href="http://www.securityfocus.com/" target="_top">SecurityFocus</a>
+    </li>
+<li class="listitem">
+<a class="ulink" href="http://www.freebsd.org/security/security.html" target="_top">The FreeBSD Project Security Guide</a>
+    </li>
+</ul></div>
+</div>
+</div></div></div>
+<div class="navfoot"></div>
+<div id="footer"><div id="footerContent"><center>
+<span class="footfeed"><a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">
+	  Contact</a> |
+      </span><span class="footcopy"><a href="../../about/disclaimer.html">
+      Disclaimer</a> |
+
+      <span class="copyright">Copyright © 1994-2013 The NetBSD Foundation, Inc. </span>ALL RIGHTS RESERVED.<br>NetBSD<sup>®</sup> is a registered trademark of The NetBSD
+	Foundation, Inc.</span>
+</center></div></div>
+</div></body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ <head>
+  <title>Patch information for pygame (1.9.1release+dfsg-8) drop_v4l_support.patch
+</title>
+  <link rel="stylesheet" type="text/css" 
+        href="http://patch-tracker.debian.org/static/css/patches.css"/>
+  <base href="http://patch-tracker.debian.org/" />
+ </head>
+ <body>
+  <div class="pageheader">
+   <img alt="[patchlogo]" src="http://patch-tracker.debian.org/static/img/swirlpatch.png"/>
+   <p> <a href="http://patch-tracker.debian.org/">Debian patch tracking system </a> </p>
+  <div class="breadcrumb">
+    - <a href="http://patch-tracker.debian.org/package/pygame">pygame</a>
+    - <a href="http://patch-tracker.debian.org/package/pygame/1.9.1release+dfsg-8">pygame/1.9.1release+dfsg-8</a>
+    - <a href="http://patch-tracker.debian.org/patch/series/view/pygame/1.9.1release+dfsg-8/drop_v4l_support.patch">series patch drop_v4l_support.patch</a>
+  </div> <!-- breadcrumb -->
+  </div>
+   <h1>pygame (1.9.1release+dfsg-8) drop_v4l_support.patch</h1>
+ <h2>Summary</h2>
+ <div>
+  <code class="diffstat">
+    <pre>
+ Setup.in                    |    2 -
+ pygame.egg-info/SOURCES.txt |    3 -
+ src/_camera.c               |   18 +--------
+ src/camera.h                |    7 ---
+ src/camera_v4l.c            |   81 --------------------------------------------
+ 5 files changed, 6 insertions(+), 105 deletions(-)
+
+    </pre>
+  </code>
+ </div>
+ <div>
+  <a href="http://patch-tracker.debian.org/patch/series/dl/pygame/1.9.1release+dfsg-8/drop_v4l_support.patch">
+   download this patch
+  </a>
+ </div>
+ <h2>Patch contents</h2>
+ <div class="patch">
+   <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">From: Nirav Patel
+Subject: Patch from Martijn Schmidt. Remove V4L support.
+ With modifications by Nirav Patel.  V4L has effectively
+ been deprecated from the Linux kernel as of 2.6.38. Support
+ in pygame was just a placeholder, and removing it
+ will not change any functionality.
+Origin: Upstream, http://svn.seul.org/viewcvs/viewvc.cgi?view=rev&amp;root=PyGame&amp;revision=3077
+Bug-Ubuntu: http://bugs.launchpad.net/bugs/755980
+Last-Update: 2011-06-20
+
+Upstream-Commit-Date: 2011-04-23 14:39:19 -0400
+Comments-Ubuntu: 
+ Minor changes made by Scott Moser to apply upstream patch to 1.9.1release
+ This patch can be dropped when 1.9.2 is released and integrated.
+<span style="color: #A00000">--- a/Setup.in</span>
+<span style="color: #00A000">+++ b/Setup.in</span>
+<span style="color: #800080; font-weight: bold">@@ -34,7 +34,7 @@ _numericsurfarray src/_numericsurfarray.</span>
+ _numericsndarray src/_numericsndarray.c $(SDL) $(MIXER) $(DEBUG)
+ movie src/movie.c $(SDL) $(SMPEG) $(DEBUG)
+ scrap src/scrap.c $(SDL) $(SCRAP) $(DEBUG)
+<span style="color: #A00000">-_camera src/_camera.c src/camera_v4l2.c src/camera_v4l.c $(SDL) $(DEBUG)</span>
+<span style="color: #00A000">+_camera src/_camera.c src/camera_v4l2.c $(SDL) $(DEBUG)</span>
+ pypm src/pypm.c $(SDL) $(PORTMIDI) $(PORTTIME) $(DEBUG)
+ 
+ GFX = src/SDL_gfx/SDL_gfxPrimitives.c 
+<span style="color: #A00000">--- a/pygame.egg-info/SOURCES.txt</span>
+<span style="color: #00A000">+++ b/pygame.egg-info/SOURCES.txt</span>
+<span style="color: #800080; font-weight: bold">@@ -241,7 +241,6 @@ src/bitmask.h</span>
+ src/bufferproxy.c
+ src/camera.doc
+ src/camera.h
+<span style="color: #A00000">-src/camera_v4l.c</span>
+ src/camera_v4l2.c
+ src/cdrom.c
+ src/cdrom.doc
+<span style="color: #800080; font-weight: bold">@@ -465,4 +464,4 @@ test/util/build_page/results/.htaccess</span>
+ test/util/build_page/results/index.py
+ test/util/build_page/results/results.css
+ test/util/build_page/upload_results/.htaccess
+<span style="color: #A00000">-test/util/build_page/upload_results/index.py</span>
+\ No newline at end of file
+<span style="color: #00A000">+test/util/build_page/upload_results/index.py</span>
+<span style="color: #A00000">--- a/src/_camera.c</span>
+<span style="color: #00A000">+++ b/src/_camera.c</span>
+<span style="color: #800080; font-weight: bold">@@ -22,7 +22,7 @@</span>
+  * Author: Nirav Patel
+  *
+  * This module allows for use of v4l2 webcams in pygame.  The code is written
+<span style="color: #A00000">- * such that adding support for v4l or vfw cameras should be possible without</span>
+<span style="color: #00A000">+ * such that adding support for vfw cameras should be possible without</span>
+  * much modification of existing functions.  v4l2 functions are kept seperate
+  * from functions available to pygame users and generic functions like
+  * colorspace conversion.
+<span style="color: #800080; font-weight: bold">@@ -160,20 +160,8 @@ PyObject* camera_start (PyCameraObject*</span>
+ {
+ #if defined(__unix__)
+     if (v4l2_open_device(self) == 0) {
+<span style="color: #A00000">-        if (v4l_open_device(self) == 0) {</span>
+<span style="color: #A00000">-            v4l2_close_device(self);</span>
+<span style="color: #A00000">-            return NULL;</span>
+<span style="color: #A00000">-        } else {</span>
+<span style="color: #A00000">-            self-&gt;camera_type = CAM_V4L;</span>
+<span style="color: #A00000">-            if (v4l_init_device(self) == 0) {</span>
+<span style="color: #A00000">-                v4l2_close_device(self);</span>
+<span style="color: #A00000">-                return NULL;</span>
+<span style="color: #A00000">-            }</span>
+<span style="color: #A00000">-            if (v4l_start_capturing(self) == 0) {</span>
+<span style="color: #A00000">-                v4l2_close_device(self);</span>
+<span style="color: #A00000">-                return NULL;</span>
+<span style="color: #A00000">-            }</span>
+<span style="color: #A00000">-        }</span>
+<span style="color: #00A000">+        v4l2_close_device(self);</span>
+<span style="color: #00A000">+        return NULL;</span>
+     } else {
+         self-&gt;camera_type = CAM_V4L2;
+         if (v4l2_init_device(self) == 0) {
+<span style="color: #A00000">--- a/src/camera.h</span>
+<span style="color: #00A000">+++ b/src/camera.h</span>
+<span style="color: #800080; font-weight: bold">@@ -39,7 +39,6 @@</span>
+ 
+     #include &lt;asm/types.h&gt;          /* for videodev2.h */
+ 
+<span style="color: #A00000">-    #include &lt;linux/videodev.h&gt;</span>
+     #include &lt;linux/videodev2.h&gt;
+ #endif
+ 
+<span style="color: #800080; font-weight: bold">@@ -51,7 +50,7 @@</span>
+ #define RGB_OUT 1
+ #define YUV_OUT 2
+ #define HSV_OUT 4
+<span style="color: #A00000">-#define CAM_V4L 1</span>
+<span style="color: #00A000">+#define CAM_V4L 1 /* deprecated. the incomplete support in pygame was removed */</span>
+ #define CAM_V4L2 2
+ 
+ struct buffer 
+<span style="color: #800080; font-weight: bold">@@ -111,8 +110,4 @@ int v4l2_init_device (PyCameraObject* se</span>
+ int v4l2_close_device (PyCameraObject* self);
+ int v4l2_open_device (PyCameraObject* self);
+ 
+<span style="color: #A00000">-/* internal functions specific to v4l */</span>
+<span style="color: #A00000">-int v4l_open_device (PyCameraObject* self);</span>
+<span style="color: #A00000">-int v4l_init_device(PyCameraObject* self);</span>
+<span style="color: #A00000">-int v4l_start_capturing(PyCameraObject* self);</span>
+ #endif
+<span style="color: #A00000">--- a/src/camera_v4l.c</span>
+<span style="color: #00A000">+++ /dev/null</span>
+<span style="color: #800080; font-weight: bold">@@ -1,81 +0,0 @@</span>
+<span style="color: #A00000">-/*</span>
+<span style="color: #A00000">-  pygame - Python Game Library</span>
+<span style="color: #A00000">-</span>
+<span style="color: #A00000">-  This library is free software; you can redistribute it and/or</span>
+<span style="color: #A00000">-  modify it under the terms of the GNU Library General Public</span>
+<span style="color: #A00000">-  License as published by the Free Software Foundation; either</span>
+<span style="color: #A00000">-  version 2 of the License, or (at your option) any later version.</span>
+<span style="color: #A00000">-</span>
+<span style="color: #A00000">-  This library is distributed in the hope that it will be useful,</span>
+<span style="color: #A00000">-  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span style="color: #A00000">-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
+<span style="color: #A00000">-  Library General Public License for more details.</span>
+<span style="color: #A00000">-</span>
+<span style="color: #A00000">-  You should have received a copy of the GNU Library General Public</span>
+<span style="color: #A00000">-  License along with this library; if not, write to the Free</span>
+<span style="color: #A00000">-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
+<span style="color: #A00000">-  </span>
+<span style="color: #A00000">-*/</span>
+<span style="color: #A00000">-#if defined(__unix__)</span>
+<span style="color: #A00000">-#include &quot;camera.h&quot;</span>
+<span style="color: #A00000">-</span>
+<span style="color: #A00000">-/*</span>
+<span style="color: #A00000">- * V4L functions</span>
+<span style="color: #A00000">- */</span>
+<span style="color: #A00000">- </span>
+<span style="color: #A00000">-int v4l_open_device (PyCameraObject* self)</span>
+<span style="color: #A00000">-{</span>
+<span style="color: #A00000">-    struct stat st;</span>
+<span style="color: #A00000">-    struct video_capability cap;</span>
+<span style="color: #A00000">-    struct video_mbuf buf;</span>
+<span style="color: #A00000">-    </span>
+<span style="color: #A00000">-    if (-1 == stat (self-&gt;device_name, &amp;st)) {</span>
+<span style="color: #A00000">-        PyErr_Format(PyExc_SystemError, &quot;Cannot identify &#39;%s&#39;: %d, %s&quot;,</span>
+<span style="color: #A00000">-            self-&gt;device_name, errno, strerror (errno));</span>
+<span style="color: #A00000">-        return 0;</span>
+<span style="color: #A00000">-    }</span>
+<span style="color: #A00000">-</span>
+<span style="color: #A00000">-    if (!S_ISCHR (st.st_mode)) {</span>
+<span style="color: #A00000">-        PyErr_Format(PyExc_SystemError, &quot;%s is no device&quot;,self-&gt;device_name);</span>
+<span style="color: #A00000">-        return 0;</span>
+<span style="color: #A00000">-    }</span>
+<span style="color: #A00000">-</span>
+<span style="color: #A00000">-    self-&gt;fd = open (self-&gt;device_name, O_RDWR /* required | O_NONBLOCK */, 0);</span>
+<span style="color: #A00000">-</span>
+<span style="color: #A00000">-    if (-1 == self-&gt;fd) {</span>
+<span style="color: #A00000">-        PyErr_Format(PyExc_SystemError, &quot;Cannot open &#39;%s&#39;: %d, %s&quot;,</span>
+<span style="color: #A00000">-            self-&gt;device_name, errno, strerror (errno));</span>
+<span style="color: #A00000">-        return 0;</span>
+<span style="color: #A00000">-    }</span>
+<span style="color: #A00000">-    </span>
+<span style="color: #A00000">-    if(ioctl(self-&gt;fd, VIDIOCGCAP, cap) == -1) {</span>
+<span style="color: #A00000">-        PyErr_Format(PyExc_SystemError, &quot;%s is not a V4L device&quot;,</span>
+<span style="color: #A00000">-            self-&gt;device_name);        </span>
+<span style="color: #A00000">-	return 0;</span>
+<span style="color: #A00000">-    }</span>
+<span style="color: #A00000">-    </span>
+<span style="color: #A00000">-    if(!(cap.type &amp; VID_TYPE_CAPTURE)) {</span>
+<span style="color: #A00000">-        PyErr_Format(PyExc_SystemError, &quot;%s is not a video capture device&quot;,</span>
+<span style="color: #A00000">-            self-&gt;device_name);</span>
+<span style="color: #A00000">-        return 0;</span>
+<span style="color: #A00000">-    }</span>
+<span style="color: #A00000">-    </span>
+<span style="color: #A00000">-    if( ioctl(self-&gt;fd , VIDIOCGMBUF , buf ) == -1 ) {</span>
+<span style="color: #A00000">-        PyErr_Format(PyExc_SystemError, &quot;%s does not support streaming i/o&quot;,</span>
+<span style="color: #A00000">-            self-&gt;device_name);</span>
+<span style="color: #A00000">-	return 0;</span>
+<span style="color: #A00000">-    }</span>
+<span style="color: #A00000">-    </span>
+<span style="color: #A00000">-    return 1;</span>
+<span style="color: #A00000">-}</span>
+<span style="color: #A00000">-</span>
+<span style="color: #A00000">-int v4l_init_device(PyCameraObject* self)</span>
+<span style="color: #A00000">-{</span>
+<span style="color: #A00000">-    return 0;</span>
+<span style="color: #A00000">-}</span>
+<span style="color: #A00000">-</span>
+<span style="color: #A00000">-int v4l_start_capturing(PyCameraObject* self)</span>
+<span style="color: #A00000">-{</span>
+<span style="color: #A00000">-    return 0;</span>
+<span style="color: #A00000">-}</span>
+<span style="color: #A00000">-#endif</span>
+</pre></div>
+
+ </div>
+
+  <div class="pagefooter">
+   page code/design/content is copyright (c) 2008 sean finney 
+   &lt;seanius@debian.org&gt;.  <br/>
+   patches viewed/retrieved through this system are copyrighted by 
+   their respective authors. <br/>
+   <a href="http://git.debian.org/?p=users/seanius/patch-tracker.git">
+   browse git repo 
+   </a>
+   -
+   <a href="http://git.debian.org/git/users/seanius/patch-tracker.git">
+   clone git repo
+   </a>
+  </div> <!-- pagefooter -->
+ </body>
+</html>

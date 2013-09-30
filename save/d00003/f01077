@@ -1,0 +1,660 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html
+xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head
+profile="http://gmpg.org/xfn/11"><meta
+http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Amazon Cloudfront Dynamic Content Delivery With A WordPress Blog</title><meta
+name="robots" content="noodp, noydir" /><meta
+name="description" content="This tutorial explains how to setup and serve a WordPress based blog using AWS cloudfront CDN." /><meta
+name="keywords" content="Cloudfront, Debian Linux, Linux, Ubuntu, Wordpress" /><link
+rel="stylesheet" href="http://s13.cyberciti.org/cms/mini_layout_v02.css" type="text/css" media="screen, projection" /> <!--[if lte IE 8]><link
+rel="stylesheet" href="http://s13.cyberciti.org/cms/mini_ie_v01.css" type="text/css" media="screen, projection" /><![endif]--><link
+rel="canonical" href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/" /><link
+rel="alternate" type="application/rss+xml" title="nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format RSS Feed" href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" /><link
+rel="pingback" href="http://www.cyberciti.biz/cms/xmlrpc.php" /><link
+rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.cyberciti.biz/cms/xmlrpc.php?rsd" /><link
+rel="alternate" type="application/rss+xml" title="nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format &raquo; Amazon Cloudfront Dynamic Content Delivery With A WordPress Blog Comments Feed" href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/feed/" /> <script type='text/javascript' src='http://www.cyberciti.biz/cms/wp-includes/js/comment-reply.min.js?ver=3.6'></script> <script type="text/javascript"></script> <link
+rel="shortcut icon" href="http://s0.cyberciti.org/static/legacy/i/favicon.ico"><meta
+name="robots" content="noarchive" /> <script type='text/javascript'>var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+var gads = document.createElement('script');
+gads.async = true;
+gads.type = 'text/javascript';
+var useSSL = 'https:' == document.location.protocol;
+gads.src = (useSSL ? 'https:' : 'http:') +
+'//www.googletagservices.com/tag/js/gpt.js';
+var node = document.getElementsByTagName('script')[0];
+node.parentNode.insertBefore(gads, node);
+})();</script> <script type='text/javascript'>googletag.cmd.push(function() {
+googletag.defineSlot('/1010897/CBZ_ARTICLE_GAS_LAR_SKY_B', [300, 600], 'div-gpt-ad-1364634124258-0').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_GAS_MED_RECT_B', [300, 250], 'div-gpt-ad-1364634124258-1').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_LEADERBOARD_A', [728, 90], 'div-gpt-ad-1364634124258-2').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_MED_RECT_A', [300, 250], 'div-gpt-ad-1364634124258-3').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_MED_RECT_B', [300, 250], 'div-gpt-ad-1364634124258-4').addService(googletag.pubads());
+googletag.pubads().enableSingleRequest();
+googletag.pubads().collapseEmptyDivs();
+googletag.pubads().set("page_url", "http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/");
+googletag.enableServices();
+});</script> <!--
+	generated in 0.362 seconds
+	68485 bytes batcached for 1500 seconds
+-->
+</head><body
+class="custom"><div
+id="container"><div
+id="page"><div
+class="menu-home-container"><ul
+id="menu-home" class="menu"><li
+id="menu-item-32" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-32"><a
+href="http://www.cyberciti.biz/topics/">Main Menu</a><ul
+class="sub-menu"><li
+id="menu-item-34" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-34"><a
+href="http://www.cyberciti.biz/topics/datacenter/">Datacenter</a></li><li
+id="menu-item-35" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35"><a
+href="http://www.cyberciti.biz/topics/hardware/">Hardware</a></li><li
+id="menu-item-38" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-38"><a
+href="http://www.cyberciti.biz/topics/security/">IT / Linux Security</a></li><li
+id="menu-item-37" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-37"><a
+href="http://www.cyberciti.biz/topics/open-source/">Open source</a></li><li
+id="menu-item-31" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-31"><a
+href="http://www.cyberciti.biz/topics/reviews/">Reviews</a></li><li
+id="menu-item-39" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-39"><a
+href="http://www.cyberciti.biz/topics/storage/">Storage</a></li><li
+id="menu-item-40" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40"><a
+href="http://www.cyberciti.biz/topics/virtualization/">Virtualization</a></li><li
+id="menu-item-33" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-33"><a
+href="http://www.cyberciti.biz/topics/cloud-computing/">Cloud Computing</a><ul
+class="sub-menu"><li
+id="menu-item-85" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-85"><a
+title="CDN " href="http://www.cyberciti.biz/topics/cloud-computing/content-delivery-network/">Content delivery network</a></li></ul></li><li
+id="menu-item-41" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-41"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/">Mobile</a><ul
+class="sub-menu"><li
+id="menu-item-42" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-42"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/android/">Android</a></li><li
+id="menu-item-43" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-43"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/ios/">iOS</a></li></ul></li><li
+id="menu-item-36" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a
+href="http://www.cyberciti.biz/topics/networking/">Networking</a></li><li
+id="menu-item-28" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-28"><a
+href="http://www.cyberciti.biz/#">Programming</a><ul
+class="sub-menu"><li
+id="menu-item-29" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-29"><a
+title="Linux Shell Scripting Tutorial" href="http://bash.cyberciti.biz/guide/Main_Page">Linux Shell Scripting</a></li><li
+id="menu-item-30" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30"><a
+title="Python programming  tutorials" href="http://www.cyberciti.biz/topics/python-tutorials/">Python</a></li></ul></li><li
+id="menu-item-377" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-377"><a
+title="See all topics by Category or Month" href="http://www.cyberciti.biz/topics/">See all topics</a></li></ul></li><li
+id="menu-item-378" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-378"><a
+title="Linux How-To Articles, Tips, and Guides" href="http://www.cyberciti.biz/faq/">Linux How-To &#038; Tutorials</a></li><li
+id="menu-item-6" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6"><a
+title="Linux / Unix and Shell Scripting Forum" href="http://nixcraft.com/forum.php">Forums</a></li><li
+id="menu-item-62" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-62"><a
+title="About us" href="http://www.cyberciti.biz/tips/about-us">About</a></li><li
+id="menu-item-63" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-63"><a
+title="Email us " href="http://www.cyberciti.biz/tips/contact-us">Contact us</a></li><li
+id="menu-item-65" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-65"><a
+title="Various aspects of nixCraft can be monitored with RSS feeds." href="http://www.cyberciti.biz/nixcraft-rss-feed-syndication/">RSS/Feed</a></li></ul></div><div
+id="header"><div
+id="leaderboard"><div
+id="lbtop"><div
+id='div-gpt-ad-1364634124258-2'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-2'); });</script> </div></div></div><div
+id="crumbslogo"><a
+href="/" title="Home page">nixcraft - insight into linux admin work</a></div></div><div
+id="content_box"><div
+id="content" class="hfeed"><div
+class="post-331 post type-post status-publish format-standard hentry category-aws category-content-delivery-network tag-cloudfront tag-debian-linux tag-linux tag-ubuntu tag-wordpress post_box top" id="post-331"><div
+class="headline_area"><h1 class="entry-title">Amazon Cloudfront Dynamic Content Delivery With A WordPress Blog</h1><p
+class="headline_meta">by <span
+class="author vcard"><a
+href="http://www.cyberciti.biz/tips/about-us" rel="author" class="url fn">nixCraft</a></span> on <abbr
+class="published" title="2013-02-27">February 27, 2013</abbr> &middot; <span><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/#comments" rel="nofollow"><span
+class="dsq-postid" rel="331 http://www.cyberciti.biz/?p=331">0 comments</span></a></span>&middot; <span>Last updated <abbr
+class="updated" title="2013-03-07">March 7, 2013</abbr><span></p><p
+class="headline_meta">in <span><a
+href="http://www.cyberciti.biz/topics/cloud-computing/aws/" title="View all posts in Amazon Web Services" rel="category tag">Amazon Web Services</a>, <a
+href="http://www.cyberciti.biz/topics/cloud-computing/content-delivery-network/" title="View all posts in Content Delivery Network" rel="category tag">Content Delivery Network</a></span></p></div><div
+class="format_text entry-content"><p><span
+class="drop_cap">A</span> typical WordPress blog contains a mix of static stuff such as images, javascript, style sheets and dynamic content such as posts, pages and comments posted by users. You can speed up your blog by <a
+href="http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html" title="HowTo: Configure WordPress To Use A Content Delivery Network (CDN)">serving static content via content delivery network</a> such as Akamai, Edgecast and so on. The big boys of CDN business also offered the solution to accelerate dynamic content to improve the performance and reliability of the blog. However, solutions offered by big and traditional CDNs are expensive. Amazon cloudfront recently started to serving dynamic content at lowered price. In this blog post, I will explain:</p><ol><li>How to serve your entire blog using cloudfront.</li><li>DNS settings.</li><li>WordPress settings.</li><li>Documenting limitations of cloudfront.</li><li>Documenting performance improvements.</li></ol><p><span
+id="more-331"></span></p><h2>How does dynamic content delivery network works?</h2><p>A dynamic content delivery network or content distribution network (CDN) is a system of computers containing copies of data, placed at various points in a network so as to maximize bandwidth for access to the data from clients throughout the network. A client accesses a copy of the data near to the client, as opposed to all clients accessing the same central server, so as to avoid bottleneck near that server. A cdn will increase speed and efficiency for your blog. A typical setup looks as follows:<br
+/><div
+id="attachment_332" class="wp-caption aligncenter" style="width: 603px"><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/attachment/aws-cloudfron-dyn-cdn/" rel="attachment wp-att-332"><img
+src="http://s0.cyberciti.org/uploads/cms/2013/02/aws-cloudfron-dyn-cdn.png" alt="Fig.01: A typical setup for wordpress based blog for dynamic CDN" width="593" height="395" class="size-full wp-image-332" /></a><p
+class="wp-caption-text">Fig.01: A typical setup for wordpress based blog for dynamic CDN</p></div></p><h2>Amazon cloudfront limitations</h2><p>From the <a
+target="_blank" href="http://aws.amazon.com/cloudfront/faqs/#What_types_of_HTTP_requests_are_supported_by_Amazon_CloudFront">aws cloudfront faq</a>:</p><blockquote><p>What types of HTTP requests are supported by Amazon CloudFront?<br/><br
+/> <em><strong>HTTP GET and HEAD</strong> requests are currently supported by Amazon CloudFront. Over time, we will add support for POST requests. </em></p></blockquote><p>Translation: CloudFront will not accept any POST requests i.e. you will not able to post comments, post, or upload images using WordPress. Currently, cloudfront will not act as a proxy, passing all post requests via the custom origin. However, you can configure WordPress to accept POST requests on a subdomain. This will allow you to post comments, upload files and much more.</p><h2>Our sample setup</h2><p>You can convert your existing blog or setup a new blog from scratch to use cloudfront. For demonstration purpose, I'm going to setup a new blog called www.contentdeliverynetworklog.com and serve the whole blog via cloudfront as follows:</p><ol><li>Blog domain name: <kbd>www.contentdeliverynetworklog.com</kbd> (CNAME to cloudfront)</li><li>Blog origin domain name: <kbd>cp.contentdeliverynetworklog.com</kbd>. To fetch web content from this origin web server.</li><li>Static asset domain name: <kbd>s0.contentdeliverynetworklog.net</kbd> (CNAME to cloudfront).</li><li>Static asset origin domain name: <kbd>origin.contentdeliverynetworklog.net</kbd>.</li><li>Custom origin IP address for both static/dynamic assets: <kbd>75.126.153.203</kbd></li><li>Caching ruleset for your dynamic and static assets: I am going to use a combination of Batcache+Memcached. However, you can use other plugins such as "W3 Total Cache" (not tested).</li><li>DNS server: Route 53 (or use your existing BIND9 based dns servers).</li></ol><h2>Step #1: DNS setup for cp.contentdeliverynetworklog.com</h2><p>First, point your custom origin domain cp.contentdeliverynetworklog.com to 75.126.153.203. A typical BIND 9 entry will look as follows in your zone file:</p><pre>
+cp                     600      IN A     75.126.153.203
+</pre><h2>Step #2: Create a bucket</h2><p>You may want CloudFront to log all viewer requests for files in your distribution. This is useful for stats program such as <a
+href="http://www.cyberciti.biz/tips/lighttpd-install-and-configure-webalizer-statistics-software.html" title="Install And Configure Webalizer Software WebServer Log Analyzer">webalizer</a> and <a
+href="http://www.cyberciti.biz/tips/lighttpd-web-server-awstats-tutorial.html" title="Install And Configure AwStats Software WebServerLog Analyzer">awstats</a>. You need to create a bucket by selecting a bucket name and region. This is required to store web server logs. Login to aws console >  open the Amazon S3 console at https://console.aws.amazon.com/s3 > Click Create Bucket:<br
+/><div
+id="attachment_333" class="wp-caption aligncenter" style="width: 370px"><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/attachment/wordpress-s3-bucket/" rel="attachment wp-att-333"><img
+src="http://s0.cyberciti.org/uploads/cms/2013/02/wordpress-s3-bucket.png" alt="Fig.02: Create a bucket for access log" width="360" height="400" class="size-full wp-image-333" /></a><p
+class="wp-caption-text">Fig.02: Create a bucket for access log</p></div></p><p>Please note that access logging is an optional feature of CloudFront. There is no extra charge for enabling access logging. However, you accrue the usual Amazon S3 charges for storing and accessing the files on Amazon S3. Please <a
+href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html" target="_blank">see this guide</a> for more information on log file formats.</p><h2>Step #3: Configure AWS Cloudfront Dynamic CDN for www.contentdeliverynetworklog.com</h2><p>Now, let us see how to configure and use CloudFront to distribute dynamic and static content. I am going to create a CloudFront distribution and configure it to fetch web content from my origin web server called cp.contentdeliverynetworklog.com. First, open the Amazon Cloudfron console at https://console.aws.amazon.com/cloudfront > Click <strong>Create Distribution</strong> > Set a delivery method to <strong>Download</strong> > <strong>Continue</strong>.</p><h3>Origin settings</h3><ol><li>Set <em>Origin Domain Name</em> to <kbd>cp.contentdeliverynetworklog.com</kbd></li><li>Set <em>Origin ID</em> to <kbd>CustomWWW-cp.contentdeliverynetworklog.com</kbd></li><li>Set <em>Origin Protocol Policy</em> to <kbd>HTTP Only</kbd> (CloudFront will connect to my origin using only HTTP).</li></ol><div
+id="attachment_334" class="wp-caption aligncenter" style="width: 508px"><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/attachment/cloudfront-origin-settings/" rel="attachment wp-att-334"><img
+src="http://s0.cyberciti.org/uploads/cms/2013/02/cloudfront-origin-settings.png" alt="Fig.03: Origin settings" width="498" height="287" class="size-full wp-image-334" /></a><p
+class="wp-caption-text">Fig.03: Origin settings</p></div><h3>Default cache behavior settings</h3><ol><li>Set <em>Viewer Protocol Policy</em> to <kbd>HTTP and HTTPS</kbd>.</li><li>Set <em>Object Caching</em> to <kbd>Use Origin Cache Headers</kbd>. My origin server is adding a Cache-Control header to control how long your objects stay in the CloudFront cache. However, you can specify a minimum time that objects stay in the CloudFront cache regardless of Cache-Control headers by selecting <em>Customize</em> option and setting <em>Minimum TTL</em> in seconds (default is 24 hours).</li><li>Set <em>Forward Query Strings</em> to <kbd>Yes</kbd>.</li></ol><div
+id="attachment_335" class="wp-caption aligncenter" style="width: 505px"><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/attachment/default-cache-behavior-settings/" rel="attachment wp-att-335"><img
+src="http://s0.cyberciti.org/uploads/cms/2013/02/default-cache-behavior-settings.png" alt="Fig.04: Configure default cache behavior settings" width="495" height="486" class="size-full wp-image-335" /></a><p
+class="wp-caption-text">Fig.04: Configure default cache behavior settings</p></div><h3>Distribution settings</h3><p>The distribution settings affect both cdn performance and pricing. You need to select the price class associated with the maximum price that you want to pay for CloudFront service.</p><ol><li>Set <em>Price Class</em> to <kbd>Use All Edge Locations</kbd>.</li><li>Set <em>Alternate Domain Names(CNAMEs)</em> to <kbd>www.contentdeliverynetworklog.com</kbd>. I want to use my own domain name instead of the CloudFront domain name for the blog URLs. You need need to create a CNAME record with DNS server to route queries for www.contentdeliverynetworklog.com to *.cloudfront.net.</li><li>Set <em>Logging</em> to <kbd>On</kbd>.</li><li>Set <em>Bucket for Logs</em> to <kbd>webserverlog-contentdeliverynetworklog.s3.amazonaws.com</kbd> (see step #2 create a bucket for more info).</li><li>Set <em>Log Prefix</em> to <kbd>stats-logs/</kbd>.</li><li>Finally, set <em>Distribution State</em> to <kbd>Enabled</kbd>.</li></ol><p><div
+id="attachment_336" class="wp-caption aligncenter" style="width: 454px"><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/attachment/distribution-settings/" rel="attachment wp-att-336"><img
+src="http://s0.cyberciti.org/uploads/cms/2013/02/distribution-settings.png" alt="Fig.05: Distribution edge settings" width="444" height="551" class="size-full wp-image-336" /></a><p
+class="wp-caption-text">Fig.05: Distribution edge settings</p></div><br
+/> Finally, click on the <strong>Create Distribution</strong> button. You will see the status as follows:<br
+/><div
+id="attachment_337" class="wp-caption aligncenter" style="width: 310px"><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/attachment/cloudfront-distribution/" rel="attachment wp-att-337"><img
+src="http://s0.cyberciti.org/uploads/cms/2013/02/cloudfront-distribution-300x13.png" alt="Fig.06: Cloudfront distribution setup in progress" width="300" height="13" class="size-medium wp-image-337" /></a><p
+class="wp-caption-text">Fig.06: Cloudfront distribution setup in progress</p></div><br
+/> Please note down the domain name <strong>d3qrb8why8gyke.cloudfront.net</strong>.</p><h2>Step #4: DNS CNAME setup for www.contentdeliverynetworklog.com</h2><p>You need to create a CNAME record with DNS server to route queries for www.contentdeliverynetworklog.com to d3qrb8why8gyke.cloudfront.net. A typical BIND 9 CNAME entry will look as follows in your zone file:</p><pre>
+www                    600      IN CNAME d3qrb8why8gyke.cloudfront.net.
+</pre><h3>Verify DNS settings</h3><p>Use the following <a
+href="http://www.cyberciti.biz/faq/unix-linux-dns-lookup-command/">host command dns lookup utility</a> to verify dns settings:<br
+/> <code>$ host cp.contentdeliverynetworklog.com</code><br
+/> Sample outputs:</p><pre>cp.contentdeliverynetworklog.com has address 75.126.153.203</pre><p>Make sure your cloudfront CDN domain is resolving:<br
+/> <code>$ host d3qrb8why8gyke.cloudfront.net.</code><br
+/> Sample outputs:</p><pre>d3qrb8why8gyke.cloudfront.net has address 54.240.168.62
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.82
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.98
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.190
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.214
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.30
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.38
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.54</pre><p>Also, make sure d3qrb8why8gyke.cloudfront.net set as CNAME to www.contentdeliverynetworklog.com:<br
+/> <code>$ host www.contentdeliverynetworklog.com</code><br
+/> Sample outputs:</p><pre>www.contentdeliverynetworklog.com is an alias for d3qrb8why8gyke.cloudfront.net.
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.146
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.166
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.170
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.198
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.206
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.26
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.126
+d3qrb8why8gyke.cloudfront.net has address 54.240.168.134</pre><h2>Step #5: WordPress configuration</h2><p>You need to install WordPress at cp.contentdeliverynetworklog.com sub-domain. This domain will be used for the following purpose:</p><ul><li>Blog installation and/or upgradation</li><li>Post / edit comments.</li><li>Post and edit pages or blog entries.</li><li>Manage your blog by visiting the url http://cp.contentdeliverynetworklog.com/wp-admin/ or https://cp.contentdeliverynetworklog.com/wp-admin/</li></ul><h3>Create the Mysql database and a user</h3><p>Type the following command:<br
+/> <code>$ mysql -u root -p </code><br
+/> Type the following sql commands to create the database and a user account:<br
+/> <code>mysql> <strong>CREATE DATABASE cdnblog;</strong><br
+/> mysql> <strong>GRANT ALL ON cdnblog.* TO cdnblogadm@localhost IDENTIFIED BY 'aZ7pHqG$b3#';</strong><br
+/> </code>Where,</p><ol><li>DB Name: <kbd>cdnblog</kbd></li><li>DB User: <kbd>cdnblogadm</kbd></li><li>DB Password: <kbd>aZ7pHqG$b3#</kbd></li></ol><h3>WordPress installation</h3><p>Download <a
+href="http://www.cyberciti.biz/tips/linux-wget-your-ultimate-command-line-downloader.html">WordPress using the wget command</a>, enter:<br
+/> <code>$ cd /tmp/<br
+/> $ wget http://wordpress.org/latest.tar.gz<br
+/> $ tar xvf latest.tar.gz</code><br
+/> cd to your Apache/Lighttpd/Nginx DocumentRoot:<br
+/> <code>$ cd /home/httpdocs/contentdeliverynetworklog.com/home/http<br
+/> ## create a sud-dir to keep all wordpress files ##<br
+/> $ mkdir dyn<br
+/> $ cd dyn<br
+/> $ cp -avr /tmp/wordpress/* .<br
+/> ## temporary set permission ##<br
+/> $ chmod -R 0777 ../dyn </code><br
+/> To install WordPress visit the following url:<br
+/> <code>http://cp.contentdeliverynetworklog.com/dyn/wp-admin/install.php</code><br
+/> If you placed the WordPress files in the root directory, you should visit the following url:<br
+/> <code>http://cp.contentdeliverynetworklog.com/wp-admin/install.php</code><br
+/> Just follow on screen instructions or see <a
+target="_blank" href="http://codex.wordpress.org/Installing_WordPress" title="Installing wordpress">installing WordPress page</a> for more information. Make sure you set read-only permission on all files:<br
+/> <code># chown -R www-data:www-data /home/httpdocs/contentdeliverynetworklog.com/home/http<br
+/> # chmod -R 0444 /home/httpdocs/contentdeliverynetworklog.com/home/http<br
+/> ## make sure web-server and process can read and list the dirs ##<br
+/> # find /home/httpdocs/contentdeliverynetworklog.com/home/http -type d -print0 | xargs -0 -I {} chmod 0445 {}</code></p><h3>index.php</h3><p>Next, create a file called index.php<br
+/> <code>$ cat /home/httpdocs/contentdeliverynetworklog.com/home/http/index.php</code><br
+/> Sample outputs:</p><pre class="php">&nbsp;
+<span style="color: #000000; font-weight: bold;">&lt;?php</span>
+<span style="color: #808080; font-style: italic;">/* Short and sweet file for www.contentdeliverynetworklog.com */</span>
+<a href="http://www.php.net/define"><span style="color: #000066;">define</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'WP_USE_THEMES'</span>, <span style="color: #000000; font-weight: bold;">true</span><span style="color: #66cc66;">&#41;</span>;
+<a href="http://www.php.net/define"><span style="color: #000066;">define</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'WP_IN_ROOTDIR'</span>, <span style="color: #000000; font-weight: bold;">true</span><span style="color: #66cc66;">&#41;</span>;
+<span style="color: #b1b100;">require</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'./dyn/wp-blog-header.php'</span><span style="color: #66cc66;">&#41;</span>;
+<span style="color: #000000; font-weight: bold;">?&gt;</span>
+&nbsp;</pre><h3>wp-config.php configuration</h3><p>Edit the file /home/httpdocs/contentdeliverynetworklog.com/home/http/dyn/wp-config.php:<br
+/> Add the following at the top of the file</p><pre class="php">&nbsp;
+<span style="color: #808080; font-style: italic;">/**
+/* WP_SITEURL: the WordPress address (URL) where your WordPress core files reside.
+ */</span>
+<a href="http://www.php.net/define"><span style="color: #000066;">define</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'WP_SITEURL'</span>, <span style="color: #ff0000;">'http://cp.contentdeliverynetworklog.com/dyn'</span><span style="color: #66cc66;">&#41;</span>;
+<span style="color: #808080; font-style: italic;">/**
+/* WP_HOME: the WordPress Cloudfront CDN (URL). This is the address you want people
+ * to type in their browser to reach your WordPress blog.
+ */</span>
+<a href="http://www.php.net/define"><span style="color: #000066;">define</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'WP_HOME'</span>, <span style="color: #ff0000;">'http://www.contentdeliverynetworklog.com/'</span><span style="color: #66cc66;">&#41;</span>;
+&nbsp;</pre><p>Save and close the file.</p><h3>Install and configure WordPress memcached object caching engine</h3><p>You need install <a
+href="http://wordpress.org/extend/plugins/memcached/" target="_blank">memcached object cache plugin</a> to speed up dynamic database-driven wordpress blog by caching data and objects in RAM to reduce the number of times an external data source must be read. The WordPress memcached object cache plugin provides a persistent backend for the WordPress object cache. See <a
+href="http://www.cyberciti.biz/faq/rhel-fedora-linux-install-memcached-caching-system-rpm/">how to install memcached server</a> and <a
+href="http://www.cyberciti.biz/faq/linux-unix-bsd-wordpress-memcached-cache-plugin/">WordPress memcached object cache plugin</a> for more information.</p><h3>Install and configure Batcache</h3><p>The Batcache plugin uses Memcached to store and serve rendered pages. Grab Batcache using wget command, enter:<br
+/> <code>$ cd /tmp<br
+/> $ <a
+href="http://www.cyberciti.biz/tips/linux-wget-your-ultimate-command-line-downloader.html" title="wget command examples">wget</a> http://downloads.wordpress.org/plugin/batcache.1.2.zip<br
+/> $ unzip batcache.1.2.zip</code><br
+/> cd into plugins directory:<br
+/> <code>$ cd /home/httpdocs/contentdeliverynetworklog.com/home/http/dyn/wp-content/plugins/</code><br
+/> Copy batcache.php <a
+href="http://www.cyberciti.biz/faq/cp-copy-command-in-unix-examples/">using cp command</a>, run:<br
+/> <code>$ <a
+href="http://www.cyberciti.biz/faq/cp-copy-command-in-unix-examples/" title="cp Command Examples">cp</a> /tmp/batcache/batcache.php .</code><br
+/> Copy advanced-cache.php <a
+href="http://www.cyberciti.biz/faq/cp-copy-command-in-unix-examples/">using cp command</a>, run:<br
+/> <code>$ <a
+href="http://www.cyberciti.biz/faq/cp-copy-command-in-unix-examples/" title="cp Command Examples">cp</a> /tmp/batcache/advanced-cache.php ..<br
+/> $ cd ..<br
+/> ## configure advanced cache max-header ##<br
+/> $ vi advanced-cache.php</code><br
+/> Set values as per your requirements:</p><pre class="php">&nbsp;
+ <span style="color: #000000; font-weight: bold;">var</span> <span style="color: #0000ff;">$max_age</span> =  <span style="color: #cc66cc;">300</span>; <span style="color: #808080; font-style: italic;">// Expire batcache items aged this many seconds (zero to disable batcache)</span>
+ <span style="color: #000000; font-weight: bold;">var</span> <span style="color: #0000ff;">$group</span>   = <span style="color: #ff0000;">'cp_wp_cdn_log_r1'</span>; <span style="color: #808080; font-style: italic;">// Name of memcached group. You can simulate a cache flush by changing this.</span>
+&nbsp;</pre><p>Save and close the file. Edit the file <kbd>/home/httpdocs/contentdeliverynetworklog.com/home/http/dyn/wp-config.php</kbd>. Add the following line the top of wp-config.php to activate Batcache:</p><pre class="php">&nbsp;
+<a href="http://www.php.net/define"><span style="color: #000066;">define</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'WP_CACHE'</span>, <span style="color: #000000; font-weight: bold;">true</span><span style="color: #66cc66;">&#41;</span>;
+&nbsp;</pre><p>Save and close the file.</p><h3>Testing headers</h3><p>Type the following <a
+href="http://www.cyberciti.biz/faq/linux-unix-curl-gzip-compression-test/">curl command to test headers</a><br
+/> <code>$ curl -I -H 'Accept-Encoding: gzip,deflate' http://cp.contentdeliverynetworklog.com</code><br
+/> Sample outputs:</p><pre>
+ HTTP/1.1 200 OK
+    Server: nginx
+    <strong>Date: <span style='color: rgb(0, 153, 0);'>Wed, 27 Feb 2013 10:40:29 GMT</span></strong>
+    Content-Type: text/html; charset=UTF-8
+    Content-Length: 3488
+    Connection: keep-alive
+    Keep-Alive: timeout=60
+    X-Whom: l1-com-conte
+    <strong>Last-Modified: <span style='color: rgb(0, 153, 0);'>Wed, 27 Feb 2013 10:39:41 GMT</span></strong>
+    <strong>Cache-Control: <span style='color: rgb(0, 153, 0);'>max-age=252, must-revalidate</span></strong>
+    Vary: Cookie
+    Vary: Accept-Encoding
+    X-Pingback: http://cp.contentdeliverynetworklog.com/dyn/xmlrpc.php
+    Content-Encoding: gzip
+    X-Origin-Type: Dynamic
+</pre><h2>Step #6: Configure WordPress to use a CDN for static assets</h2><p>You need to configure s0.contentdeliverynetworklog.net to serve static assets such as css, js, and images using cloudfront. First, open the Amazon Cloudfron console at https://console.aws.amazon.com/cloudfront > Click <strong>Create Distribution</strong> > Set a delivery method to <strong>Download</strong> > <strong>Continue</strong>.</p><ol><li>Set <em>Origin Domain Name</em> to <kbd>origin.contentdeliverynetworklog.net</kbd></li><li>Set <em>Origin ID</em> to <kbd>CustomWWW-origin.contentdeliverynetworklog.net</kbd></li><li>Set <em>Origin Protocol Policy</em> to <kbd>HTTP Only</kbd> (CloudFront will connect to my origin using only HTTP).</li></ol><p>You need to set default cache behavior settings as follows:</p><ol><li>Set <em>Viewer Protocol Policy</em> to <kbd>HTTP and HTTPS</kbd>.</li><li>Set <em>Object Caching</em> to <kbd>Use Origin Cache Headers</kbd>.</li><li>Set <em>Forward Query Strings</em> to <kbd>No</kbd>.</li></ol><p>Next, set the distribution settings:</p><ol><li>Set <em>Price Class</em> to <kbd>Use All Edge Locations</kbd>.</li><li>Set <em>Alternate Domain Names(CNAMEs)</em> to <kbd>s0.contentdeliverynetworklog.net</kbd>.</li><li>Set <em>Logging</em> to <kbd>Off</kbd>.</li><li>Finally, set <em>Distribution State</em> to <kbd>Enabled</kbd>.</li></ol><p>You need to create a CNAME record with DNS server to route queries for s0.contentdeliverynetworklog.net to de10i7qbzuz6c.cloudfront.net. A typical BIND 9 CNAME entry will look as follows in<br
+/> your zone file:</p><pre>
+; zone: c/contentdeliverynetworklog.net
+s0                     600      IN CNAME de10i7qbzuz6c.cloudfront.net.
+origin                 600      IN A     75.126.153.203
+</pre><p>Verify dns settings with the dig or host command:<br
+/> <code>$ <strong>host s0.contentdeliverynetworklog.net</strong><br
+/> s0.contentdeliverynetworklog.net is an alias for de10i7qbzuz6c.cloudfront.net.<br
+/> de10i7qbzuz6c.cloudfront.net has address 54.240.168.210<br
+/> de10i7qbzuz6c.cloudfront.net has address 54.240.168.234<br
+/> de10i7qbzuz6c.cloudfront.net has address 54.240.168.250<br
+/> de10i7qbzuz6c.cloudfront.net has address 54.240.168.10<br
+/> de10i7qbzuz6c.cloudfront.net has address 54.240.168.58<br
+/> de10i7qbzuz6c.cloudfront.net has address 54.240.168.70<br
+/> de10i7qbzuz6c.cloudfront.net has address 54.240.168.150</p><p>$ <strong>host origin.contentdeliverynetworklog.net</strong><br
+/> origin.contentdeliverynetworklog.net has address 75.126.153.203<br
+/> </code></p><h3>Configure WordPress to upload files to CDN server</h3><p>Edit the file /home/httpdocs/contentdeliverynetworklog.com/home/http/dyn/wp-config.php and add the following line:</p><pre class="php">&nbsp;
+<a href="http://www.php.net/define"><span style="color: #000066;">define</span></a><span style="color: #66cc66;">&#40;</span> <span style="color: #ff0000;">'UPLOADS'</span>, <span style="color: #ff0000;">'/home/httpdocs/contentdeliverynetworklog.com/home/origin-cdn-http/uploads'</span> <span style="color: #66cc66;">&#41;</span>;
+&nbsp;</pre><p>Save and close the file. Create a directory:<br
+/> <code># mkdir -p /home/httpdocs/contentdeliverynetworklog.com/home/origin-cdn-http</code><br
+/> Finally, creeate a symbolic link using the ln command:<br
+/> <code># cd /home/httpdocs/contentdeliverynetworklog.com/home/origin-cdn-http<br
+/> # ln -s ../http/wp-content/uploads .</code><br
+/> Copy required images and css files in assets directory:<br
+/> <code># cd /home/httpdocs/contentdeliverynetworklog.com/home/origin-cdn-http<br
+/> # mkdir assets<br
+/> # mkdir assets/lib/<br
+/> # cp /path/to/your/ie.css assets/<br
+/> # cp /path/to/your/style.css assets/<br
+/> # cp /path/to/your/layout.css assets/<br
+/> ### copy all css images ###<br
+/> # cp -avr /path/to/your/lib/images assets/lib/</code><br
+/> Finally, set read only permissions:<br
+/> <code># chown -R www-data:www-data /home/httpdocs/contentdeliverynetworklog.com/home/origin-cdn-http<br
+/> # chmod -R 0444 /home/httpdocs/contentdeliverynetworklog.com/home/origin-cdn-http<br
+/> ## make sure web-server and process can read and list the dirs ##<br
+/> # find /home/httpdocs/contentdeliverynetworklog.com/home/origin-cdn-http -type d -print0 | xargs -0 -I {} chmod 0445 {}</code><br
+/> Finally, serve all WordPress media files via CDN url http://s0.contentdeliverynetworklog.net/uploads. Edit your themes functions.php and append the following code:</p><pre class="php"><span style="color: #808080; font-style: italic;">/**
+ * Origin server: origin.contentdeliverynetworklog.net
+ * CDN url: s0.contentdeliverynetworklog.net/uploads
+ * WordPress Media Upload path: /home/httpdocs/contentdeliverynetworklog.com/home/origin-cdn-http/uploads
+ */</span>
+<span style="color: #000000; font-weight: bold;">function</span> wp_cdn_log_upload_url<span style="color: #66cc66;">&#40;</span><span style="color: #66cc66;">&#41;</span>
+<span style="color: #66cc66;">&#123;</span>
+    <span style="color: #b1b100;">return</span> <span style="color: #ff0000;">'http://s0.contentdeliverynetworklog.net/uploads'</span>;
+<span style="color: #66cc66;">&#125;</span>
+add_filter<span style="color: #66cc66;">&#40;</span> <span style="color: #ff0000;">'pre_option_upload_url_path'</span>, <span style="color: #ff0000;">'wp_cdn_log_upload_url'</span> <span style="color: #66cc66;">&#41;</span>;
+&nbsp;</pre><h3>Lighttpd max-age settings for static assets</h3><p>You need to <a
+href="http://www.cyberciti.biz/faq/lighttpd-send-cache-control-maxage-headers-of-staticfiles/">use a combination of mod_expire and mod_setenv</a> to setup caching control headers:</p><pre class="ini">&nbsp;
+### Origin host config for CDN s0.contentdeliverynetworklog.net ###
+$HTTP<span style="">&#91;</span><span style="color: #933;">&quot;host&quot;</span><span style="">&#93;</span>  == <span style="color: #933;">&quot;origin.contentdeliverynetworklog.net&quot;</span><span style="">&#123;</span>
+  server.document-<span style="color: #000099;">root </span>= <span style="color: #933;">&quot;/home/httpdocs/contentdeliverynetworklog.com/home/origin-cdn-http&quot;</span>
+  accesslog.<span style="color: #000099;">filename   </span>= <span style="color: #933;">&quot;/var/log/lighttpd/origin.contentdeliverynetworklog.net/access.log&quot;</span>
+        $HTTP<span style="">&#91;</span><span style="color: #933;">&quot;url&quot;</span><span style="">&#93;</span> =~ <span style="color: #933;">&quot;^/&quot;</span> <span style="">&#123;</span>
+            expire.<span style="color: #000099;">url </span>=<span style="color: #660066;"> <span style="">&#40;</span> </span><span style="color: #933;">&quot;&quot;</span> =&gt; <span style="color: #933;">&quot;access 365 days&quot;</span> <span style="">&#41;</span>
+        <span style="">&#125;</span>
+  setenv.add-response-header += <span style="">&#40;</span>
+    <span style="color: #933;">&quot;Cache-Control&quot;</span> =&gt; <span style="color: #933;">&quot;public&quot;</span>
+  <span style="">&#41;</span>
+<span style="">&#125;</span>
+#### end CDN ##
+&nbsp;</pre><h3>Configure preview post button</h3><p>You need use <a
+href="http://www.cyberciti.biz/faq/php-wordpress-change-post-url-via-preview_post_link-filter/">the hook or filter called preview_post_link under wordpress to change the default "preview"</a> button when posting. Edit your themes functions.php and append the following code:</p><pre class="php">&nbsp;
+<span style="color: #000000; font-weight: bold;">function</span> wp_cdn_log_preview_link<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$link</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span>
+        <span style="color: #0000ff;">$link</span> = <a href="http://www.php.net/preg_replace"><span style="color: #000066;">preg_replace</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'/www/'</span>, <span style="color: #ff0000;">'cp'</span>, <span style="color: #0000ff;">$link</span><span style="color: #66cc66;">&#41;</span>;
+        <span style="color: #0000ff;">$link</span> = <a href="http://www.php.net/preg_replace"><span style="color: #000066;">preg_replace</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'/<span style="color: #000099; font-weight: bold;">\?</span>p=/'</span>, <span style="color: #ff0000;">'dyn/<span style="color: #000099; font-weight: bold;">\?</span>p='</span>, <span style="color: #0000ff;">$link</span><span style="color: #66cc66;">&#41;</span>;
+        <span style="color: #b1b100;">return</span> <span style="color: #0000ff;">$link</span>;
+<span style="color: #66cc66;">&#125;</span>
+add_filter<span style="color: #66cc66;">&#40;</span> <span style="color: #ff0000;">'preview_post_link'</span>, <span style="color: #ff0000;">'wp_cdn_log_preview_link'</span> <span style="color: #66cc66;">&#41;</span>;
+&nbsp;</pre><p>Save and close the file. Finally, edit your themes file (header.php) to use cdn stylesheet urls. For example:</p><pre class="html4strict">&nbsp;
+<span style="color: #009900;"><a href="http://december.com/html/4/element/link.html"><span style="color: #000000; font-weight: bold;">&lt;link</span></a> <span style="color: #000066;">rel</span>=<span style="color: #ff0000;">&quot;stylesheet&quot;</span> <span style="color: #000066;">href</span>=<span style="color: #ff0000;">&quot;http://s0.contentdeliverynetworklog.net/assets/layout.css&quot;</span> <span style="color: #000066;">type</span>=<span style="color: #ff0000;">&quot;text/css&quot;</span> <span style="color: #000066;">media</span>=<span style="color: #ff0000;">&quot;screen, projection&quot;</span> /<span style="color: #000000; font-weight: bold;">&gt;</span></span>
+&nbsp;</pre><h2>Putting it all together</h2><p>You can test working setup at the following urls:</p><ul><li>CDN URL: <a
+href="http://www.contentdeliverynetworklog.com/">http://www.contentdeliverynetworklog.com/</a></li><li>Origin URL: <a
+href="http://cp.contentdeliverynetworklog.com/">http://cp.contentdeliverynetworklog.com/</a></li></ul><p>I ran the following three basic tests:</p><h3>wget download test</h3><p>wgeting CDN url http://www.contentdeliverynetworklog.com/uncategorized/hello-world-13.html vs origin url http://cp.contentdeliverynetworklog.com/uncategorized/hello-world-13.html from my home:</p><ol><li>CDN URL download time: 0.07s</li><li>Origin url download time: 0.3s</li></ol><h3>ICMP ping test</h3><p>Ping test for cdn domain www.contentdeliverynetworklog.com vs origin domain cp.contentdeliverynetworklog.com (ave. rrt):</p><style type="text/css">table.tutdetails {
+	font-family: verdana,arial,sans-serif;
+	font-size:10px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #DDDDDD;
+	border-collapse: collapse;
+}
+table.tutdetails th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #DDDDDD;
+	background-color: #F0F8FF;
+}
+table.tutdetails td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #DDDDDD;
+	background-color: #EFEFEF;
+}</style><table
+class="tutdetails"><tr><td><strong>Location</strong></td><td><strong>AWS Cloudfront <sup>[<a
+href="#ref1">1</a>]</sup></strong></td><td><strong>Origin server at Dallas, TX <sup>[<a
+href="#ref2">2</a>]</sup></strong></td></tr><tr><td>Amsterdam2, Netherlands</td><td> 0.8</td><td> 114.5</td></tr><tr><td>Florida, U.S.A</td><td> 16.3</td><td>32.6</td></tr><tr><td>Sydney, Australia</td><td> 123.0</td><td>192.3</td></tr><tr><td>Vancouver, Canada</td><td> 4.6</td><td>45.5</td></tr><tr><td>London, United Kingdom</td><td> 2.1</td><td> 108.3</td></tr><tr><td>Singapore</td><td> 3.0</td><td>218.3</td></tr><tr><td>Hong Kong, China</td><td> 3.1</td><td>230.2</td></tr><tr><td>Mumbai, India</td><td> 75.3</td><td>278.9</td></tr><tr><td>Dublin, Ireland</td><td> 12.5</td><td>128.6</td></tr><tr><td>Cape Town, South Africa</td><td> 351.7</td><td>261.8</td></tr><tr><td>Tampere, Finland</td><td>11.0</td><td>156.4</td></tr></table><h3>Web page performance test</h3><p>I used webpagetest.org from  Singapore (IE8/DSL):</p><h4>First run: CDN <sup>[<a
+href="#ref3">3</a>]</sup> vs origin server <sup>[<a
+href="#ref4">4</a>]</sup></h4><p>The first time content is requested, it's pulled from the origin server to the CDN network and stays there for other users to access it as per TTL (max-age header):<br
+/><style type='text/css'>#gallery-1 {
+				margin: auto;
+			}
+			#gallery-1 .gallery-item {
+				float: left;
+				margin-top: 10px;
+				text-align: center;
+				width: 50%;
+			}
+			#gallery-1 img {
+				border: 2px solid #cfcfcf;
+			}
+			#gallery-1 .gallery-caption {
+				margin-left: 0;
+			}
+			/* see gallery_shortcode() in wp-includes/media.php */</style><div
+id='gallery-1' class='gallery galleryid-331 gallery-columns-2 gallery-size-thumbnail'><dl
+class='gallery-item'><dt
+class='gallery-icon landscape'> <a
+href='http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/attachment/cdn-1st-run/' title='CDN #1 test'><img
+width="150" height="79" src="http://s0.cyberciti.org/uploads/cms/2013/02/cdn-1st-run-150x79.png" class="attachment-thumbnail" alt="CDN #1 test" /></a></dt><dd
+class='wp-caption-text gallery-caption'> CDN #1 test</dd></dl><dl
+class='gallery-item'><dt
+class='gallery-icon landscape'> <a
+href='http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/attachment/origin-1st-run/' title='Origin #1 test'><img
+width="150" height="80" src="http://s0.cyberciti.org/uploads/cms/2013/02/origin-1st-run-150x80.png" class="attachment-thumbnail" alt="Origin #1 test" /></a></dt><dd
+class='wp-caption-text gallery-caption'> Origin #1 test</dd></dl><br
+style="clear: both" /> <br
+style='clear: both;' /></div></p><h4>Second run: CDN <sup>[<a
+href="#ref5">5</a>]</sup> vs origin server <sup>[<a
+href="#ref6">6</a>]</sup></h4><p>The second time content is requested, the CDN network will serve the content directly from geographically closer to my end-users. If max-age header is expired the CDN server will pull the fresh copy from the origin server again.<br
+/><style type='text/css'>#gallery-2 {
+				margin: auto;
+			}
+			#gallery-2 .gallery-item {
+				float: left;
+				margin-top: 10px;
+				text-align: center;
+				width: 50%;
+			}
+			#gallery-2 img {
+				border: 2px solid #cfcfcf;
+			}
+			#gallery-2 .gallery-caption {
+				margin-left: 0;
+			}
+			/* see gallery_shortcode() in wp-includes/media.php */</style><div
+id='gallery-2' class='gallery galleryid-331 gallery-columns-2 gallery-size-thumbnail'><dl
+class='gallery-item'><dt
+class='gallery-icon landscape'> <a
+href='http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/attachment/cdn-2nd-run/' title='CDN #2 test'><img
+width="150" height="78" src="http://s0.cyberciti.org/uploads/cms/2013/02/cdn-2nd-run-150x78.png" class="attachment-thumbnail" alt="CDN #2 test" /></a></dt><dd
+class='wp-caption-text gallery-caption'> CDN #2 test</dd></dl><dl
+class='gallery-item'><dt
+class='gallery-icon landscape'> <a
+href='http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/attachment/origin-2nd-run/' title='Origin #2 test'><img
+width="150" height="79" src="http://s0.cyberciti.org/uploads/cms/2013/02/origin-2nd-run-150x79.png" class="attachment-thumbnail" alt="Origin #2 test" /></a></dt><dd
+class='wp-caption-text gallery-caption'> Origin #2 test</dd></dl><br
+style="clear: both" /> <br
+style='clear: both;' /></div></p><h2>Conclusion</h2><p>With cloudfront, I can get my blog post and other static content to users faster and more efficiently. I set the max-age ttl to 300 seconds for all blog posts. It should be increased to 1800 seconds or more for better performance. However, higher ttl means comments will not get rendered immediately. A better solution is to use third party commenting systems. This is my first attempt running a WordPress based site using Amazon CloudFront to deliver a dynamic and static content. Amazon CloudFront is really easy to use. The cost of running such a site from AWS cloudfront for 4 weeks:</p><ul><li>United States - $68.91 (343 GB with 36,969,170 HTTP requests)</li><li>Europe - $81.79 (372 GB with 41,252,596 HTTP requests)</li><li>Total - $150.70</li></ul><h5>References:</h5><ol><li>Ping <a
+name="ref1"></a><a
+target="_blank" href="http://just-ping.com/index.php?vh=www.contentdeliverynetworklog.com&c=&s=ping">CDN test result</a>.</li><li>Ping <a
+name="ref2"></a><a
+target="_blank" href="http://just-ping.com/index.php?vh=cp.contentdeliverynetworklog.com&c=&s=ping">origin server result</a>.</li><li>CDN test # 1 (without edge cache) <a
+name="ref3"></a><a
+target="_blank" href="http://www.webpagetest.org/result/130227_27_VP5/">cdn server result</a>.</li><li>CDN test # 2 (with edge cache)<a
+name="ref4"></a><a
+target="_blank" href="http://www.webpagetest.org/result/130227_PR_VQZ/">cdn server result</a>.</li><li>Origin test # 1 <a
+name="ref5"></a><a
+target="_blank" href="http://www.webpagetest.org/result/130227_GJ_VPM/">origin server result</a>.</li><li>Origin test # 2 <a
+name="ref6"></a><a
+target="_blank" href="http://www.webpagetest.org/result/130227_HF_VQH/">origin server result</a>.</li><li>AWS <a
+href="http://aws.amazon.com/documentation/cloudfront/" target="_blank">cloudfront guide</a>.</li></ol><p><em>This post talked about a lot at once, but I may have probably forgotten one or two of the above considerations when setting a dynamic web site using AWS CDN. Test the actual urls. Got any tips or suggestions? Let's hear them in the comments.</em></p><p
+class="post_tags">Tagged as: <a
+href="http://www.cyberciti.biz/tutorials/cloudfront/" rel="tag">Cloudfront</a>, <a
+href="http://www.cyberciti.biz/tutorials/debian-linux/" rel="tag">Debian Linux</a>, <a
+href="http://www.cyberciti.biz/tutorials/linux/" rel="tag">Linux</a>, <a
+href="http://www.cyberciti.biz/tutorials/ubuntu/" rel="tag">Ubuntu</a>, <a
+href="http://www.cyberciti.biz/tutorials/wordpress/" rel="tag">Wordpress</a></p><ul
+class="share"><li
+class="tweeter"><a
+href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/" data-via="nixcraft">Tweet</a></li><li
+class="googleplus"><g:plusone size="medium" href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/"></g:plusone></script></li><li
+class="facebook"><iframe
+src="//www.facebook.com/plugins/like.php?href=http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe></li><li
+class="stubleupon"><su:badge layout="2" location="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/"></su:badge></li><li
+class="reddit"><a
+href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false"> <img
+src="http://s0.cyberciti.org/images/misc/spreddit7.gif" alt="submit to reddit" border="0" /> </a></li><li
+class="pdfdl"><a
+href="http://www.cyberciti.biz/view/pdf/cms/331.php"><img
+src="http://s0.cyberciti.org/images/misc/pdfdlv1.jpg" alt="Download this as pdf"></a></li></ul> <br/><br/><p
+class="my_social_follow"> If you would like to be kept up to date with our posts, you can follow us on <a
+href="https://twitter.com/nixcraft" title="Find us on twitter">Twitter</a>, <a
+href="https://facebook.com/nixcraft" title="Find us on Facebook">Facebook</a>, <a
+href="https://plus.google.com/104257421720370350735" rel="publisher" title="Find us on Google+">Google+</a>, or even by subscribing to our <a
+href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks">RSS Feed</a>.</p> <br/><div
+class='my_featured_articles_1'> Featured Articles:<ul><li><a
+href="http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html">30 Handy Bash Shell Aliases For Linux / Unix / Mac OS X</a></li><li><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/">Top 30 Nmap Command Examples For Sys/Network Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/php-security-best-practices-tutorial.html">25 PHP Security Best Practices For Sys Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/top-linux-monitoring-tools.html">20 Linux System Monitoring Tools Every SysAdmin Should Know</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-security.html">20 Linux Server Hardening Security Tips</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-iptables-examples.html">Linux: 20 Iptables Examples For New SysAdmins</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html">Top 20 OpenSSH Server Best Security Practices </a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html">Top 20 Nginx WebServer Best Security Practices</a><li><A
+href="http://www.cyberciti.biz/tips/check-unix-linux-configuration-file-for-syntax-errors.html">20 Examples: Make Sure Unix / Linux Configuration Files Are Free From Syntax Errors</a><li><a
+href="http://www.cyberciti.biz/open-source/best-terminal-applications-for-linux-unix-macosx/">15 Greatest Open Source Terminal Applications Of 2012</a> <img
+style="verticalp-align: text-top; padding-left: 1px;" src="http://s0.cyberciti.org/static/legacy/i/new_post.png" alt="" border="0"></li><li><a
+href="http://www.cyberciti.biz/tips/my-10-unix-command-line-mistakes.html">My 10 UNIX Command Line Mistakes</a></li><li><a
+href="http://www.cyberciti.biz/tips/open-source-project-management-software.html">Top 10 Open Source Web-Based Project Management Software</a></li><li><a
+href="http://www.cyberciti.biz/tips/download-email-client-for-linux-mac-osx-windows.html">Top 5 Email Client For Linux, Mac OS X, and Windows Users</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-laptop.html">The Novice Guide To Buying A Linux Laptop</a></li></ul></div></div></div><div
+id="disqus_thread"></div> <script type="text/javascript">/*<![CDATA[*//*  */
+    var disqus_url = 'http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/';
+    var disqus_identifier = '331 http://www.cyberciti.biz/?p=331';
+    var disqus_container_id = 'disqus_thread';
+    var disqus_domain = 'disqus.com';
+    var disqus_shortname = 'cyberciti';
+    var disqus_title = "Amazon Cloudfront Dynamic Content Delivery With A WordPress Blog";
+        var disqus_config = function () {
+        var config = this; // Access to the config object
+        config.language = '';
+        /*
+           All currently supported events:
+            * preData — fires just before we request for initial data
+            * preInit - fires after we get initial data but before we load any dependencies
+            * onInit  - fires when all dependencies are resolved but before dtpl template is rendered
+            * afterRender - fires when template is rendered but before we show it
+            * onReady - everything is done
+         */
+        config.callbacks.preData.push(function() {
+            // clear out the container (its filled for SEO/legacy purposes)
+            document.getElementById(disqus_container_id).innerHTML = '';
+        });
+                config.callbacks.onReady.push(function() {
+            // sync comments in the background so we don't block the page
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = '?cf_action=sync_comments&post_id=331';
+            var firstScript = document.getElementsByTagName( "script" )[0];
+            firstScript.parentNode.insertBefore(script, firstScript);
+        });
+                    };
+/*  *//*]]>*/</script> <script type="text/javascript">/*  */
+    var DsqLocal = {
+        'trackbacks': [
+        ],
+        'trackback_url': "http:\/\/www.cyberciti.biz\/cloud-computing\/content-delivery-network\/serve-entire-wordpress-blog-using-amazon-cloudfront\/trackback\/"    };
+/*  */</script> <script type="text/javascript">/*<![CDATA[*//*  */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.' + 'disqus.com' + '/embed.js?pname=wordpress&pver=2.74';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+/*  *//*]]>*/</script> <div
+class="prev_next post_nav"><p
+class="previous">Previous post: <a
+href="http://www.cyberciti.biz/linux-news/fedora-18-download-cd-dvd-iso/" rel="prev">Download Of The Day: Fedora Linux 18 (Spherical Cow) DVD</a></p><p>Next post: <a
+href="http://www.cyberciti.biz/reviews/book-review-of-gimp-a-complete-guide-to-everything/" rel="next">Book Review: The Book Of Gimp</a></p></div></div><div
+id="sidebars"><div
+id="multimedia_box" class="custom_box"><div
+id="custom_box"><div
+style='color: #555555; text-align:center; line-height: 200%;'> <span
+style='font-size: 22px; font-weight:bold;'>GET FREE TIPS &amp; NEWS</span> <br/> <span
+style='font-style:italic;'>Make the most of Linux Sysadmin work!</span> <br
+/></div><center><form
+action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=Nixcraft-LinuxFreebsdSolarisTipsTricks', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">&nbsp;&nbsp;&nbsp;&nbsp;<input
+type="text" class="text_input" name="email" value="Enter your email" id="name" onclick="if (this.value=='Enter your email') {this.value=''};" onblur="if (this.value=='') {this.value='Enter your email';}"/><input
+type="hidden" value="Nixcraft-LinuxFreebsdSolarisTipsTricks" name="uri"/> <input
+type="hidden" name="loc" value="en_US"/><input
+value="Join" class="form_submit" type="submit"></form> <br/> <span
+style="font-size: 12px;"> <a
+target="_blank" title="Connect with nixCraft on Youtube to see all our Linux video tutorials" href="https://www.youtube.com/user/nixcraftcom">Youtube </a> &nbsp; | &nbsp; <a
+target="_blank" href="https://twitter.com/nixcraft" title="Follow nixCraft on Twitter!">Twitter</a> &nbsp; | &nbsp; <a
+target="_blank" title="Connect with nixCraft on Google Plus!!" href="https://plus.google.com/104257421720370350735">Google +</a> </span></center></div></div><div
+id="sidebar_1" class="sidebar"><ul
+class="sidebar_list"><li
+class="widget widget_text" id="text-3"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-3' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-3'); });</script> </div></div></li><li
+class="widget widget_text" id="text-9"><div
+class="textwidget"><div
+id="cse-search-box" style="width: 100%;">Loading</div> <script src="http://www.google.com/jsapi" type="text/javascript"></script> <script type="text/javascript">google.load('search', '1', {language : 'en', style : google.loader.themes.V2_DEFAULT});
+  google.setOnLoadCallback(function() {
+    var customSearchOptions = {};
+    var imageSearchOptions = {};
+    imageSearchOptions['layout'] = google.search.ImageSearch.LAYOUT_POPUP;
+    customSearchOptions['enableImageSearch'] = true;
+    customSearchOptions['imageSearchOptions'] = imageSearchOptions;  var customSearchControl = new google.search.CustomSearchControl(
+      '002165917076592449621:riwi1tlrb1m', customSearchOptions);
+    customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+    var options = new google.search.DrawOptions();
+    options.setAutoComplete(true);
+    options.enableSearchboxOnly("http://www.cyberciti.biz/linux-search.php");
+    customSearchControl.draw('cse-search-box', options);
+  }, true);</script></div></li><li
+class="widget widget_text" id="text-5"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-4' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-4'); });</script> </div></div></li><li
+class="widget widget_text" id="text-7"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-1' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-1'); });</script> </div></div></li><li
+class="widget widget_text" id="text-10"><div
+class="textwidget"><div
+class="g-plus" data-href="//plus.google.com/104257421720370350735" data-rel="publisher"></div></div></li><li
+class="widget widget_wp_related_posts" id="wp_related_posts_widget"><div
+class="wp_rp_wrap  wp_rp_modern" id="wp_rp_first"><div
+class="wp_rp_content"><h3>Related Posts</h3><ul
+class="related_post wp_rp" style="visibility: visible"><li ><a
+href="http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/11.jpg" alt="Amazon AWS Route 53 GEO DNS Configurations" /></a><a
+href="http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/" class="wp_rp_title">Amazon AWS Route 53 GEO DNS Configurations</a></li><li ><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/21.jpg" alt="Top 30 Nmap Command Examples For Sys/Network Admins" /></a><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/" class="wp_rp_title">Top 30 Nmap Command Examples For Sys/Network Admins</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/linux-ls-commands-examples/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/1.jpg" alt="ls* Commands Are Even More Useful Than You May Have Thought" /></a><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/linux-ls-commands-examples/" class="wp_rp_title">ls* Commands Are Even More Useful Than You May Have Thought</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/linux-screenshot-program-tool/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/5.jpg" alt="Shutter: The Ultimate Linux Screenshot Program " /></a><a
+href="http://www.cyberciti.biz/open-source/linux-screenshot-program-tool/" class="wp_rp_title">Shutter: The Ultimate Linux Screenshot Program </a></li><li ><a
+href="http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/28.jpg" alt="Solaris / Linux: nicstat Command Show Network Interface Card Statistics " /></a><a
+href="http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/" class="wp_rp_title">Solaris / Linux: nicstat Command Show Network Interface Card Statistics </a></li><li ><a
+href="http://www.cyberciti.biz/hardware/howto-linux-hard-disk-encryption-with-luks-cryptsetup-command/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/uploads/cms/2013/02/warning-40px-150x150.jpg" alt="HowTo: Linux Hard Disk Encryption With LUKS [ cryptsetup Command ]" /></a><a
+href="http://www.cyberciti.biz/hardware/howto-linux-hard-disk-encryption-with-luks-cryptsetup-command/" class="wp_rp_title">HowTo: Linux Hard Disk Encryption With LUKS [ cryptsetup Command ]</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/pv-command-examples/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/20.jpg" alt="Linux / Unix pv Command: Monitor Progress of Data Sent Via a Pipe" /></a><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/pv-command-examples/" class="wp_rp_title">Linux / Unix pv Command: Monitor Progress of Data Sent Via a Pipe</a></li><li ><a
+href="http://www.cyberciti.biz/cloud-computing/aws/amazon-announces-ssd-storage-based-high-io-ec2-server-instance/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/1.jpg" alt="Amazon Announces SSD Storage Based High I/O EC2 Server / Instance " /></a><a
+href="http://www.cyberciti.biz/cloud-computing/aws/amazon-announces-ssd-storage-based-high-io-ec2-server-instance/" class="wp_rp_title">Amazon Announces SSD Storage Based High I/O EC2 Server / Instance </a></li><li ><a
+href="http://www.cyberciti.biz/linux-news/why-valve-wants-to-port-2500-games-on-linux/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/3.jpg" alt="Why Valve Wants to Port 2500 Games on Linux?" /></a><a
+href="http://www.cyberciti.biz/linux-news/why-valve-wants-to-port-2500-games-on-linux/" class="wp_rp_title">Why Valve Wants to Port 2500 Games on Linux?</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/linux-unix-osx-goldendict-dictionary-lookup-program/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/28.jpg" alt="Goldendict: A Feature-rich Dictionary Lookup Linux Program" /></a><a
+href="http://www.cyberciti.biz/open-source/linux-unix-osx-goldendict-dictionary-lookup-program/" class="wp_rp_title">Goldendict: A Feature-rich Dictionary Lookup Linux Program</a></li></ul></div></div></li><li
+class="widget widget_text" id="text-11"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-0' style='width:300px; height:600px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-0'); });</script> </div> <br/> <a
+href="https://plus.google.com/b/104257421720370350735/" rel="publisher">Find us on Google+</a></div></li></ul></div></div></div><div
+id="footer"><div
+class="idglogo"> <img
+src="http://s0.cyberciti.org/static/legacy/i/idg-logo-new.gif" alt="" border="0" /></div><div
+class="copynotice"> &copy;2004-2013 nixCraft. All rights reserved. Cannot be reproduced without written permission. <br
+/> <a
+href="/tips/privacy">Privacy Policy</a> | <a
+href="/tips/disclaimer">Terms of Service</a> | <a
+href="/tips/contact-us" title="Email us / Contact us">Questions or Comments</a> | <a
+href="/tips/copyright" title="nixCraft copyright information">Copyright Info</a> | <a
+href="/tips/sitemaps" title="nixCraft sitemap">Sitemap</a></div>	</div>
+</div>
+</div>
+<!--[if lte IE 8]>
+<div id="ie_clear"></div>
+<![endif]-->
+<script src="http://www.cyberciti.biz/mint/?js" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-108650-1']);
+  _gaq.push(['_setDomainName', 'www.cyberciti.biz']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = '//apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script type="text/javascript">
+  (function() {
+    var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+    li.src = '//platform.stumbleupon.com/1/widgets.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  <head>
+    <title>
+      SystemNotesFedora18 – BIND 10 Development
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="search" href="/search" />
+        <link rel="help" href="/wiki/TracGuide" />
+        <link rel="alternate" href="/wiki/SystemNotesFedora18?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="/wiki" />
+        <link rel="stylesheet" href="/chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="/chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="/search/opensearch" title="Search BIND 10 Development" />
+    <script type="text/javascript" src="/chrome/common/js/jquery.js"></script><script type="text/javascript" src="/chrome/common/js/babel.js"></script><script type="text/javascript" src="/chrome/common/js/messages/en_US.js"></script><script type="text/javascript" src="/chrome/common/js/trac.js"></script><script type="text/javascript" src="/chrome/common/js/search.js"></script><script type="text/javascript" src="/chrome/common/js/folding.js"></script>
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="/chrome/common/js/ie_pre7_hacks.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://www.isc.org"><img src="/isc-logo-hack.png" alt="ISC Logo" /></a>
+      </div>
+      <form id="search" action="/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="/login">Login</a></li><li><a href="/prefs">Preferences</a></li><li><a href="/wiki/TracGuide">Help/Guide</a></li><li><a href="/about">About Trac</a></li><li><a href="/register">Register</a></li><li class="last"><a href="/reset_password">Forgot your password?</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="/wiki">Wiki</a></li><li><a href="/timeline">Timeline</a></li><li><a href="/roadmap">Roadmap</a></li><li><a href="/report">View Tickets</a></li><li class="last"><a href="/search">Search</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="/wiki">wiki:</a><a class="pathentry" href="/wiki/SystemNotesFedora18" title="View SystemNotesFedora18">SystemNotesFedora18</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+          <ul>
+              <li class="first"><a href="/wiki/WikiStart">Start Page</a></li><li><a href="/wiki/TitleIndex">Index</a></li><li class="last"><a href="/wiki/SystemNotesFedora18?action=history">History</a></li>
+          </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          
+          <div class="trac-modifiedby"><a href="/wiki/SystemNotesFedora18?action=diff&amp;version=1" title="Version 1 by muks: Add SystemNotesFedora18 page">Last modified</a> <a class="timeline" href="/timeline?from=2013-01-21T07%3A02%3A42Z&amp;precision=second" title="2013-01-21T07:02:42Z in Timeline">7 months</a> ago</div>
+          <div id="wikipage"><h1 id="SystemnotesforFedora18">System notes for Fedora 18</h1>
+<p>
+Install your typical build dependencies, the C++ compiler, automake, libtool, git, etc.
+</p>
+<p>
+Install additional packages as <tt>root</tt>:
+</p>
+<pre class="wiki">yum install boost-devel botan-devel gtest-devel lcov python3-devel sqlite-devel log4cplus-devel
+</pre><p>
+We are now ready to get and compile BIND 10:
+</p>
+<pre class="wiki">git clone git://git.bind10.isc.org/bind10
+cd bind10
+autoreconf -i   # this tool is provided by automake package. it generates the configure script.
+./configure --prefix=$HOME/local/bind10 --with-log4cplus=/usr --with-gtest=/usr
+make
+make check      # run the unit tests
+make install    # this installs BIND 10 in $HOME/local/bind10
+</pre><p>
+At the end of these steps, BIND10 should be installed in <tt>$HOME/local/bind10/</tt>.
+</p>
+<p>
+You can also run the Lettuce system tests if you are interested. There is a <tt>python-lettuce</tt> package in Fedora 18, but that seems to have some issue with BIND 10. Instead of using this package, please download the Lettuce tarball and extract it under <tt>$HOME/local/lettuce/</tt>.
+</p>
+<p>
+Then, setup authentication if <tt>~/.bind10/default_user.csv</tt> file doesn't exist:
+</p>
+<pre class="wiki">echo "root,bind10" &gt; ~/.bind10/default_user.csv
+</pre><p>
+Now, run lettuce:
+</p>
+<pre class="wiki">export PYTHONPATH=$HOME/local/lettuce
+cd tests/lettuce
+./run_lettuce.sh
+</pre></div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="/wiki/SystemNotesFedora18?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="/chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="/about"><strong>Trac 0.12.2</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right">Visit the <a href="https://www.isc.org/bind10">BIND 10</a> pages.</p>
+    </div>
+  </body>
+</html>

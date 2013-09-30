@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>3. Changes in Fedora for Desktop Users</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="Fedora-Release_Notes-19-en-US-9-0" /><script type="text/javascript" src="../../../../../toc.js"></script><script type="text/javascript">
+              addID('Fedora');
+              
+	      addID('Fedora.19');
+              
+              addID('Fedora.19.books');
+	      addID('Fedora.19.Release_Notes');
+              </script><link rel="home" href="index.html" title="Release Notes" /><link rel="up" href="index.html" title="Release Notes" /><link rel="prev" href="sect-Release_Notes-Changes_for_Sysadmin.html" title="2. Changes in Fedora for System Administrators" /><link rel="next" href="sect-Release_Notes-Changes_for_Developers.html" title="4. Changes in Fedora for Developers" /></head><body class="toc_embeded "><div id="tocdiv" class="toc"><iframe id="tocframe" class="toc" src="../../../../toc.html">This is an iframe, to view it upgrade your browser or enable iframe display.</iframe></div><p id="title"><a class="left" href="http://www.fedoraproject.org"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://docs.fedoraproject.org"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Release_Notes-Changes_for_Sysadmin.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-Release_Notes-Changes_for_Developers.html"><strong>Next</strong></a></li></ul><div class="section" id="sect-Release_Notes-Changes_for_Desktop"><div class="titlepage"><div><div keep-together.within-column="always"><h2 class="title">3. Changes in Fedora for Desktop Users</h2></div></div></div><div xml:lang="en-US" class="section" id="sect-Desktop" lang="en-US"><div class="titlepage"><div><div keep-together.within-column="always"><h3 class="title">3.1. Desktop</h3></div></div></div><div class="para">
+	</div><div class="section" id="idm263808448720"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263808448720">3.1.1. Cinnamon</h4></div></div></div><div class="para">
+			The latest release of the popular desktop environment <span class="productname">Cinnamon</span> brings new features and polish to Fedora 19: 
+			<table border="0" summary="Simple list" class="simplelist"><tr><td> <span class="emphasis"><em>nemo</em></span>, the file manager, has been heavily modified to integrate its behavior with Cinnamon. </td></tr><tr><td> <span class="emphasis"><em>screensaver</em></span> has been improved, including a lock screen with customizable away message. </td></tr><tr><td> <span class="emphasis"><em>control center</em></span> is more comprehensive. </td></tr><tr><td> <span class="emphasis"><em>desklets</em></span> are desktop applets, and the Cinnamon community offers a variety of them. </td></tr><tr><td> <span class="emphasis"><em>spices</em></span> are Cinnamon customizations, such as desklets, applets, themes, and extensions. They can now be installed with a desktop utility. </td></tr></table>
+
+		</div><div class="para">
+			While originally based on <span class="productname">GNOME</span>, Cinnamon is maturing into an independent, fully featured fork. For news and details about the Cinnamon project, visit <a href="http://cinnamon.linuxmint.com">http://cinnamon.linuxmint.com</a>
+		</div></div><div class="section" id="idm263801166576"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263801166576">3.1.2. GNOME</h4></div></div></div><div class="para">
+			Fedora 19 includes the latest version of the <span class="application"><strong>GNOME</strong></span> desktop, 3.8. For more information about what is new in this GNOME release, visit the project's release notes at <a href="http://library.gnome.org/misc/release-notes/3.8">http://library.gnome.org/misc/release-notes/3.8</a>
+		</div><div class="section" id="idm263793994144"><div class="titlepage"><div><div keep-together.within-column="always"><h5 class="title" id="idm263793994144">3.1.2.1. Session logs moved into journal</h5></div></div></div><div class="para">
+				User session logs, previously stored in <code class="filename"><em class="replaceable"><code>$HOME</code></em>/.cache/gdm/session.log</code>, have moved into the journal.
+			</div><div class="para">
+				To view your user session log, identify your user ID and view the journal for that <code class="systemitem">UID</code> : 
+<pre class="screen">
+	  $ <code class="command">id</code>
+	  uid=1000(username) gid=1000(username) groups=1000(username) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+	  $ <code class="command">journalctl _UID=<em class="replaceable"><code>1000</code></em></code>
+</pre>
+
+			</div></div><div class="section" id="idm263808997728"><div class="titlepage"><div><div keep-together.within-column="always"><h5 class="title" id="idm263808997728">3.1.2.2. Support for extracting RAR files</h5></div></div></div><div class="para">
+				<span class="application"><strong>File Roller</strong></span>, the graphical archive manager for <span class="productname">GNOME</span>, can support extraction of files from RAR archives after installation of the <span class="package">unar</span> package. <span class="package">unar</span> is a free and open source command line multi-format extractor that is part of <span class="productname">The Unarchiver</span> project for extracting RAR files, including encrypted and multi-volume archives. In previous Fedora releases, users have had to install the non-free unrar tool from a third party repository for the same purpose. This is not necessary anymore.
+			</div><div class="para">
+				Fedora still does not have any default support for creating new RAR files since there is no free and open source tool that provides this functionality. Fedora however includes support for several free and open source compression formats that are generally considered to be more efficient than RAR, such as the popular <a href="https://en.wikipedia.org/wiki/Xz">XZ format</a> and it is recommended that you use it to distribute compressed files.
+			</div></div></div><div class="section" id="idm263814826112"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263814826112">3.1.3. KDE</h4></div></div></div><div class="para">
+			Fedora 19 features <span class="productname">KDE Plasma Workspaces</span> version 4.10 and the newest version of KDE Platform and Applications. To learn more about the release, consult <a href="http://www.kde.org/announcements/4.10/">http://www.kde.org/announcements/4.10/</a>
+		</div><div class="section" id="idm263814823776"><div class="titlepage"><div><div keep-together.within-column="always"><h5 class="title" id="idm263814823776">3.1.3.1. KScreen</h5></div></div></div><div class="para">
+				Configuration of multiple displays is improved with <span class="application"><strong>KScreen</strong></span>, a new screen management software for KDE. It has a new UI for monitors configuration and automatic saving and restoring of profiles for connected monitors.
+			</div><div class="para">
+				Read more about <span class="application"><strong>KScreen</strong></span> at <a href="http://community.kde.org/Solid/Projects/ScreenManagement">http://community.kde.org/Solid/Projects/ScreenManagement</a>
+			</div></div></div><div class="section" id="idm263807898096"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263807898096">3.1.4. MATE</h4></div></div></div><div class="para">
+			The latest version of a familiar favorite, <span class="application"><strong>MATE 1.6</strong></span> builds on modern functionality to provide a polished, stable desktop environment.
+		</div><div class="para">
+			Read more about changes in <span class="application"><strong>MATE</strong></span> from the project's release announcement at <a href="http://mate-desktop.org/2013/04/02/mate-1-6-released/">http://mate-desktop.org/2013/04/02/mate-1-6-released/</a>
+		</div></div></div><div xml:lang="en-US" class="section" id="idm263813278016" lang="en-US"><div class="titlepage"><div><div keep-together.within-column="always"><h3 class="title" id="idm263813278016">3.2. Productivity</h3></div></div></div><div class="section" id="idm263812100240"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263812100240">3.2.1. <span class="package">LibreOffice</span> 4.0</h4></div></div></div><div class="para">
+			<span class="package">LibreOffice</span> has been updated to version 4.0, with many notable features and fixes. For detailed information on these changes, read <a href="http://www.libreoffice.org/download/4-0-new-features-and-fixes/">http://www.libreoffice.org/download/4-0-new-features-and-fixes/</a>
+		</div></div><div class="section" id="idm263809073216"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263809073216">3.2.2. Command line tools</h4></div></div></div><div class="para">
+			<span class="emphasis"><em><span class="package">findutils</span></em></span> has been updated to version 4.5.11, bringing several functional changes. Users of <code class="command">find</code> should consult <code class="filename">/usr/share/doc/findutils-*/NEWS</code> for changes, including <code class="function">xargs</code>, <code class="function">printf</code> and <code class="function">regex</code> functions.
+		</div><div class="para">
+			<span class="emphasis"><em>sed</em></span> gains the new command <code class="command">F</code> to print the input file names, a new option <code class="command">-z</code> or <code class="command">--null-data</code> to separate lines by ASCII NULL characters, and other fixes described in <code class="filename">/usr/share/doc/sed-*/NEWS</code>
+		</div></div></div><div xml:lang="en-US" class="section" id="idm263813278160" lang="en-US"><div class="titlepage"><div><div keep-together.within-column="always"><h3 class="title" id="idm263813278160">3.3. Networking</h3></div></div></div><div class="section" id="idm263807050832"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263807050832">3.3.1. Federated VoIP</h4></div></div></div><div class="para">
+			Fedora 19 offers better support for truly federated VoIP, with the <span class="package">reSIProcate</span> (repro) SIP proxy and <span class="package">reTurnServer</span>, an ICE, STUN, and TURN server for both SIP and XMPP (Jabber) networks.
+		</div></div><div class="section" id="idm263816034704"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263816034704">3.3.2. Improved Mobile Broadband support</h4></div></div></div><div class="para">
+			Fedora 19 includes a new, more capable version of <span class="application"><strong>ModemManager</strong></span> for interacting with mobile broadband devices. This version provides better support for multi-mode devices like <span class="productname">Qualcomm Gobi</span> WWAN cards and other devices that support the <code class="literal">CDMA/EVDO/LTE</code> standards, the <code class="literal">GSM/UMTS/LTE</code> standards, or devices that can support either. To provide this support, the <span class="application"><strong>D-Bus</strong></span> API of <span class="application"><strong>ModemManager</strong></span> has changed, which may require updates in applications that interact with <span class="application"><strong>ModemManager</strong></span> to control WWAN devices.
+		</div><div class="para">
+			Many devices will connect and authenticate using the <span class="application"><strong>NetworkManager</strong></span> GUI. <code class="command">nm-cli</code> has added features to configure mobile connections. For more detailed usage information, consult <a href="http://fedoraproject.org/wiki/Features/MoreMobileBroadband">http://fedoraproject.org/wiki/Features/MoreMobileBroadband</a> .
+		</div></div><div class="section" id="idm263806926944"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263806926944">3.3.3. firewalld improvements</h4></div></div></div><div class="para">
+			The firewall daemon, <code class="systemitem">firewalld</code>, introduced as the default firewall solution in Fedora 18, adds new features to allow easy configuration of this powerful firewall.
+		</div><div class="section" id="idm263794184448"><div class="titlepage"><div><div keep-together.within-column="always"><h5 class="title" id="idm263794184448">3.3.3.1. Locking the firewall and whitelisting changes</h5></div></div></div><div class="para">
+				Dynamic firewall configuration by applications can now be locked down completely, or limited to a whitelist. The whitelist can contain commands, users, UIDs, and <code class="systemitem">SELinux</code> contexts.
+			</div><div class="para">
+				To lock down the firewall, set <code class="command">Lockdown=yes</code> in <code class="filename">/etc/firewalld/firewalld.conf</code> and reload the firewall. 
+<pre class="screen">
+          <code class="command">firewall-cmd --reload</code>
+</pre>
+				 The firewall should be reloaded for any changes to the whitelist to take effect.
+			</div><div class="para">
+				The whitelist configuration is located in <code class="filename">/etc/firewalld/lockdown-whitelist.xml</code> and is empty by default. The whitelist below will allow only <code class="command">firewall-cmd</code> to make changes to the firewall. The <span class="emphasis"><em>'*'</em></span> character allows the rule to match arguments passed to <code class="command">firewall-cmd</code> 
+<pre class="screen">
+        
+&lt;whitelist&gt;
+  &lt;command name="/usr/bin/python /bin/firewall-cmd*" /&gt;
+&lt;/whitelist&gt;
+
+</pre>
+
+			</div><div class="para">
+				For more information on <span class="application"><strong>firewalld</strong></span> lockdown, consult the feature page at <a href="http://fedoraproject.org/wiki/Features/FirewalldLockdown">http://fedoraproject.org/wiki/Features/FirewalldLockdown</a>
+			</div></div><div class="section" id="idm263804189424"><div class="titlepage"><div><div keep-together.within-column="always"><h5 class="title" id="idm263804189424">3.3.3.2. Rich Language for rule configuration</h5></div></div></div><div class="para">
+				Fedora 19 includes the latest firewalld version, which supports a rich language to be able to create more complex firewalls in a easy way. To take advantage of the new system, read <a href="http://fedoraproject.org/wiki/Features/FirewalldRichLanguage">http://fedoraproject.org/wiki/Features/FirewalldRichLanguage</a>
+			</div></div></div><div class="section" id="idm263806879312"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263806879312">3.3.4. <span class="package">OpenVPN</span> 2.3</h4></div></div></div><div class="para">
+			<span class="package">OpenVPN</span> has been updated to version 2.3, bringing numerous feature enhancements, bugfixes, and expanded documentation. For detailed information on these changes, consult <a href="https://community.openvpn.net/openvpn/wiki/ChangesInOpenvpn23">https://community.openvpn.net/openvpn/wiki/ChangesInOpenvpn23</a>
+		</div></div><div class="section" id="idm263808711072"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263808711072">3.3.5. <span class="package">OpenConnect</span></h4></div></div></div><div class="para">
+			<span class="package">OpenConnect</span> has been updated to version 4.99, adding XML POST support for solutions such as <span class="productname">AnyConnect</span>, the <code class="function">--os</code> switch to report a different OS type to the gateway, and <span class="productname">SecurID</span> token support using <span class="package">libstoken</span>.
+		</div></div><div class="section" id="idm263808707056"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263808707056">3.3.6. BIND10</h4></div></div></div><a id="idm263808706256" class="indexterm"></a><a id="idm263808705296" class="indexterm"></a><a id="idm263808491600" class="indexterm"></a><div class="para">
+			The <span class="application"><strong>BIND10</strong></span> suite is now shipped in the Fedora repositories. This includes the DNS server daemon <code class="systemitem">named</code>, the <code class="systemitem">dhcpd</code> server daemon, and related utilities. Documentation is available at <a href="http://bind10.isc.org/wiki">http://bind10.isc.org/wiki</a> and the <a href="http://bind10.isc.org/docs/bind10-guide.html">BIND10 Guide</a>.
+		</div><div class="para">
+			Starting with Fedora 19, the <code class="systemitem">named</code> PID file has been moved from <code class="filename">/var/run/named/named.pid</code> to <code class="filename">/run/named/named.pid</code>. Users with a custom <code class="filename">named.conf</code> migrating to Fedora 19 should add a <code class="literal">pid-file</code> statement to the <code class="literal">options</code> section:
+		</div><pre class="screen">
+
+options {
+        ...
+        pid-file      "/run/named/named.pid";
+        ...
+        };
+
+</pre></div><div class="section" id="idm263814272848"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263814272848">3.3.7. Stable network interface naming</h4></div></div></div><div class="para">
+			The <code class="function">udevd</code> service has a long history of providing predictable names for block devices and others. Fedora will now also use <code class="function">udev</code> naming for network interfaces by default, providing more reliable interface names on systems with multiple network devices. Alternative naming schemes, such as custom udev rules or <span class="package">biosdevname</span>, will override this default. Users upgrading from previous releases may need to update the device names referenced in <code class="filename">/etc/system/network-scripts/</code>, although in most cases <span class="package">biosdevname</span> will continue to manage naming.
+		</div><div class="para">
+			For more information, read <a href="http://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames">http://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames</a>.
+		</div></div></div><div xml:lang="en-US" class="section" id="idm263813522144" lang="en-US"><div class="titlepage"><div><div keep-together.within-column="always"><h3 class="title" id="idm263813522144">3.4. Internationalization</h3></div></div></div><div class="para">
+	</div><div class="section" id="idm263807290192"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263807290192">3.4.1. Input Methods</h4></div></div></div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+					<span class="emphasis"><em>ibus</em></span> <table border="0" summary="Simple list" class="simplelist"><tr><td>Default keybinding to turn Input Method on and off has been changed to <span class="keycap"><strong>Super</strong></span>+<span class="keycap"><strong>space</strong></span></td></tr><tr><td>IME switcher dialog is implemented on <span class="application"><strong>GNOME</strong></span> Desktop</td></tr><tr><td><code class="command">ibus-setup</code> provides two options for desktops other than GNOME: <code class="function">use system keyboard</code> and <code class="function">Embed preedit test in application window</code></td></tr></table>
+
+				</div></li><li class="listitem"><div class="para">
+					<span class="emphasis"><em>ibus-kkc</em></span>, or <code class="literal">Kana Kanji Conversion</code>, is the new default Japanese input method engine using the new <span class="package">libkkc</span> backend. It replaces <span class="package">ibus-anthy</span>.
+				</div></li><li class="listitem"><div class="para">
+					<span class="emphasis"><em>ibus-libpinyin</em></span>, an intelligent pinyin engine using <span class="package">libpinyin</span>, now supports configuring enabled directories and importing third party dictionaries from the setup dialog.
+				</div></li><li class="listitem"><div class="para">
+					<span class="emphasis"><em>ibus-bogo</em></span> is a new Vietnamese engine for <code class="function">ibus</code>.
+				</div></li><li class="listitem"><div class="para">
+					<span class="emphasis"><em>ibus-typing-booster</em></span> now makes better use of <span class="package">hunspell</span> when making suggestions, and supports <span class="keycap"><strong>Tab</strong></span> completion.
+				</div></li><li class="listitem"><div class="para">
+					<span class="emphasis"><em>imsettings</em></span> now checks the <code class="function">org.gnome.settings-daemon.plugins.plugins.keyboard.active</code> gsettings key to determine if <span class="application"><strong>imsettings</strong></span> should manage input methods on GNOME and Cinnamon desktops. If you do not want to use IBus integration for them, set the key to <code class="function">false</code>.
+				</div></li></ul></div></div><div class="section" id="idm263808573472"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263808573472">3.4.2. Fonts</h4></div></div></div><div class="para">
+			<span class="package">fonts-tweak-tool</span> now has support for embedded bitmaps, font substitution configuration, and OpenType Feature Tags.
+		</div><div class="para">
+			<span class="emphasis"><em>Lohit</em></span> fonts have a number of improvements: 
+			<table border="0" summary="Simple list" class="simplelist"><tr><td>Dropped reserved font name from OLF license.</td></tr><tr><td>lohit-devanagari-fonts has corrected "श्री" syllable with mr_IN locale.</td></tr><tr><td>lohit-gujarati-fonts has fixed shape of character "Dha" U+0AA7.</td></tr><tr><td>lohit-kannada-fonts has fix for vowel signs syllables and NGA and NYA glyphs attachment with vowel signs.</td></tr><tr><td>lohit-malayalam-fonts now supports Dot Reph (u0D4E), works well with harfbuzz-ng.</td></tr><tr><td>lohit-tamil-fonts has modified zero to five numerals, Rupee sign (u0BF9) and correct rendering of Tamil Letter RA,RI,RII as per GoTN standards.</td></tr><tr><td>lohit-telugu-fonts now connect NYU ఞ + ు and NYUU ఞ + ూ combination properly.</td></tr></table>
+
+		</div><div class="para">
+			<span class="package">paktype-naskh-basic-fonts</span>, <span class="package">paktype-naqsh-fonts</span>, <span class="package">paktype-tehreer-fonts</span> and <span class="package">paktype-ajrak-fonts</span> have gained the Turkish Lira symbol and bug fixes with <code class="literal">Hamza Below Ye</code>
+		</div><div class="para">
+			A new font family for Hebrew, <code class="function">shofar</code>, is available in the <span class="package">culmus-shofar-fonts</span> package.
+		</div><div class="para">
+			New hinted open type fonts for Latin, Armenian, Devanagari Ethiopic Georgian, Hebrew, Khmer, Lao, Tamil and Thai scripts are available in the package <span class="package">google-noto-fonts</span>
+		</div></div><div class="section" id="idm263809882272"><div class="titlepage"><div><div keep-together.within-column="always"><h4 class="title" id="idm263809882272">3.4.3. Translation tools</h4></div></div></div><div class="para">
+			Fedora has gained a translation tool, <span class="package">tw</span>. It translates words between languages using internal dictionaries, <span class="productname">Google Translation</span>, and <span class="productname">FreeTranslation</span>.
+		</div></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Release_Notes-Changes_for_Sysadmin.html"><strong>Prev</strong>2. Changes in Fedora for System Administrators</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Release_Notes-Changes_for_Developers.html"><strong>Next</strong>4. Changes in Fedora for Developers</a></li></ul></body></html>

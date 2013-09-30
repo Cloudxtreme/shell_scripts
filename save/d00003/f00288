@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="must-revalidate" />
+<title>NetBSD/evbarm on BeagleBone</title>
+
+<link rel="icon" href="../../../favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="../../../global.css" type="text/css" />
+<link rel="stylesheet" href="../../../style.css" type="text/css" />
+<link rel="stylesheet" href="../../../local.css" type="text/css" />
+
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=ports%2Fevbarm%2Fbeaglebone&amp;do=edit" />
+
+
+
+
+</head>
+<body><script src="../../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../ikiwiki/toggle.js" type="text/javascript" charset="utf-8"></script><script src="../../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../ikiwiki/relativedate.js" type="text/javascript" charset="utf-8"></script>
+    <div id="centralHeader">
+      <div id="logo">
+        <a href="http://www.NetBSD.org/"><img src="http://www.NetBSD.org/images/NetBSD-smaller.png" alt="[NetBSD Logo]"/></a>
+        <div id="name"><a href="http://www.NetBSD.org/">The NetBSD Project</a></div>
+        <div id="slogan"><a href="http://www.NetBSD.org/">&ldquo;Of course it runs NetBSD&rdquo;</a></div>
+      </div>
+      <div id="headerTools">
+	<div id="headerSearch">
+
+<form method="get" action="https://wiki.netbsd.org/cgi-bin/ikiwiki" id="searchform">
+<div>
+<input class="whiteOnBlack" type="text" id="searchbox" name="P" value="Search" size="12" maxlength="255" onfocus="if(this.value==this.defaultValue ) this.value='';" /> <input type="submit" value="Search" />
+</div>
+</form>
+
+
+	</div>
+      </div>
+    </div>
+
+    <div id="navBar" role="navigation">
+	<span class="doNotDisplay">
+          Navigation:
+        </span>
+	<ul>
+	<li><a href="http://www.NetBSD.org/">
+		  WWW Home</a></li>
+	<li>
+	<a href="http://www.NetBSD.org/">
+		  News &amp; Media</a><ul>
+	<li><a href="http://www.NetBSD.org//changes/">
+		    Recent changes</a></li>
+	<li><a href="http://blog.NetBSD.org/">
+		    NetBSD blog</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/events.html">
+		    Events</a></li>
+	<li><a href="http://www.NetBSD.org/changes/rss.html">
+		    Feeds</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/about/">
+		  About</a><ul>
+	<li><a href="http://www.NetBSD.org/about/">
+		    NetBSD</a></li>
+	<li><a href="http://www.NetBSD.org/foundation/">
+		    The NetBSD Foundation</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/">
+		    Advocacy</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/docs/">
+		  Documentation</a><ul>
+	<li><a href="http://www.NetBSD.org/docs/misc/index.html">
+		    FAQ &amp; HOWTOs</a></li>
+	<li><a href="http://www.NetBSD.org/docs/guide/en/">
+		    The Guide</a></li>
+	<li><a href="http://man.NetBSD.org/">
+		    Manual pages</a></li>
+	<li><a href="http://wiki.NetBSD.org/">
+		    Wiki</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/support/">
+		  Support</a><ul>
+	<li><a href="http://www.NetBSD.org/support/send-pr.html">
+		    Problem report guide</a></li>
+	<li><a href="http://www.NetBSD.org/cgi-bin/sendpr.cgi?gndb=netbsd">
+		    Report a bug</a></li>
+	<li><a href="http://www.NetBSD.org/support/query-pr.html">
+		    Query bug database</a></li>
+	<li><a href="http://www.NetBSD.org/support/security/">
+		    Security</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/community/">
+		  Community</a><ul>
+	<li><a href="http://onetbsd.org/">
+		    Blogs</a></li>
+	<li><a href="http://www.NetBSD.org/mailinglists/">
+		    Mailing lists</a></li>
+	<li><a href="http://mail-index.NetBSD.org/">
+		    List archives</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/developers/">
+		  Developers</a><ul>
+	<li><a href="http://cvsweb.NetBSD.org/">
+		    Browse source</a></li>
+	<li><a href="http://nxr.NetBSD.org/">
+		    Cross-reference</a></li>
+	<li><a href="http://releng.NetBSD.org/">
+		    Release engineering</a></li>
+	<li><a href="http://wiki.NetBSD.org/projects/">
+		    Projects list</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/ports/">
+		  Ports</a><ul>
+	<li><a href="http://www.NetBSD.org/ports/history.html">
+		    History</a></li>
+	<li><a href="http://www.NetBSD.org/ports/emulators.html">
+		    Emulators</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.pkgsrc.org/">
+		Packages</a><ul>
+	<li><a href="http://www.pkgsrc.se/">
+		    Browse packages</a></li>
+	<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+		    Release engineering</a></li>
+	</ul>
+	</li>
+	</ul>
+    </div>
+ 
+      	  
+		  <div class="actions">
+		    <ul>
+			<li><a href="../../../">Wiki Home</a></li>
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=ports%2Fevbarm%2Fbeaglebone&amp;do=edit" rel="nofollow">Edit</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=ports%2Fevbarm%2Fbeaglebone&amp;do=comment">Comment</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=ports%2Fevbarm%2Fbeaglebone&amp;do=getsource">Source</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/cvsweb/wikisrc/ports/evbarm/beaglebone.mdwn">History</a></li>
+		      
+			<li><a href="../../../wiki/new_page" rel="nofollow">New</a></li>
+		      
+			<li><a href="../../../recentchanges/">RecentChanges</a></li>
+		      
+		    </ul>
+		  </div>
+    </div>
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+<a href="../../../">NetBSD Wiki</a>/<a href="../../">ports</a>/<a href="../">evbarm</a>/
+</span>
+<span class="title">
+NetBSD/evbarm on BeagleBone
+
+</span>
+</span><!--.header-->
+</div>
+</div>
+
+
+
+<div id="content">
+<p><img src="../images/beaglebone.jpg" alt="beaglebone.jpg" /></p>
+
+<p>This page attempts to document and coordinate efforts towards NetBSD on <a href="http://beagleboard.org/bone">BeagleBone</a>.</p>
+
+<p>(BeagleBone <a href="http://www.flickr.com/photos/sparkfun/8267577194/">image</a> by SparkFun Electronics used under CC-By-2.0 license)</p>
+
+<h1>What works</h1>
+
+<ul>
+<li>Boots multi-user on <a href="http://netbsd.gw.com/cgi-bin/man-cgi?ld+4+NetBSD-current">ld(4)</a>
+@ <a href="http://netbsd.gw.com/cgi-bin/man-cgi?sdmmc+4+NetBSD-current">sdmmc(4)</a>
+root and <a href="http://netbsd.gw.com/cgi-bin/man-cgi?com+4+NetBSD-current">com(4)</a>
+console.</li>
+<li>Ethernet (<a href="http://netbsd.gw.com/cgi-bin/man-cgi?cpsw+4.evbarm+NetBSD-current">cpsw(4)</a>
+)</li>
+</ul>
+
+
+<h1>What needs work</h1>
+
+<ul>
+<li>EDMA3 (perhaps at first for <a href="http://netbsd.gw.com/cgi-bin/man-cgi?sdhc+4+NetBSD-current">sdhc(4)</a>
+)</li>
+<li>USB (host)</li>
+<li>SPI</li>
+<li>I²C</li>
+<li>GPIO</li>
+<li>Framebuffer/graphics with LCD or DVI/HDMI capes</li>
+<li>Touchscreens on LCD capes</li>
+<li>USB (device)</li>
+</ul>
+
+
+<h1>Sample dmesg</h1>
+
+<p><fieldset>
+<legend>dmesg</legend></p>
+
+<pre>
+NetBSD 6.99.16 (BEAGLEBONE)
+total memory = 256 MB
+avail memory = 247 MB
+timecounter: Timecounters tick every 10.000 msec
+cprng kernel: WARNING insufficient entropy at creation.
+mainbus0 (root)
+cpu0 at mainbus0 core 0: 720 MHz Cortex-A8 r3p2 (Cortex core)
+cpu0: DC enabled IC enabled WB disabled EABT branch prediction enabled
+cpu0: isar: [0]=0x101111 [1]=0x13112111 [2]=0x21232031 [3]=0x11112131, [4]=0x11142, [5]=0
+cpu0: mmfr: [0]=0x1100003 [1]=0x20000000 [2]=0x1202000 [3]=0x211
+cpu0: pfr: [0]=0x1131 [1]=0x11
+cpu0: 32KB/64B 4-way L1 Instruction cache
+cpu0: 32KB/64B 4-way write-back-locking-C L1 Data cache
+cpu0: 256KB/64B 8-way write-through L2 Unified cache
+vfp0 at cpu0: NEON MPE (VFP 3.0+)
+obio0 at mainbus0 base 0x44000000-0x4fffffff: On-Board IO
+omapicu0 at obio0 addr 0x48200000-0x48200fff intrbase 0
+prcm0 at obio0 addr 0x44e00000-0x44e01fff: Power, Reset and Clock Management
+gpmc0 at mainbus0 base 0x50000000-0x50ffffff: General Purpose Memory Controller, rev 6.0
+gpmc0: CS#0 valid, addr 0x08000000, size 256MB
+com0 at obio0 addr 0x44e09000-0x44e09fff intr 72: ns16550a, working fifo
+com0: console
+sdhc0 at obio0 addr 0x48060100-0x48060fff intr 64: SDHC controller
+sdhc0: SD Host Specification 2.0, rev.49
+sdmmc0 at sdhc0 slot 0
+omapdmtimer0 at obio0 addr 0x48040000-0x48040fff intr 68: DMTIMER2
+omapdmtimer1 at obio0 addr 0x44e31000-0x44e31fff intr 67: DMTIMER1ms
+omapdmtimer2 at obio0 addr 0x48044000-0x48044fff intr 92: DMTIMER4
+omapwdt32k0 at obio0 addr 0x44e35000-0x44e35fff: rev 0.1
+timecounter: Timecounter "clockinterrupt" frequency 100 Hz quality 0
+timecounter: Timecounter "dmtimer" frequency 24000000 Hz quality 100
+ld0 at sdmmc0: &lt;0x28:0x4245:31676:0x10::0x0a7&gt;
+ld0: 490 MB, 995 cyl, 16 head, 63 sec, 512 bytes/sect x 1003520 sectors
+ld0: 4-bit width, bus clock 50.000 MHz
+cprng sysctl: WARNING insufficient entropy at creation.
+boot device: 
+root on ld0f dumps on ld0b
+WARNING: no TOD clock present
+WARNING: using filesystem time
+WARNING: CHECK AND RESET THE DATE!
+init: copying out path `/sbin/init' 11
+</pre>
+
+
+<p></fieldset></p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=ports%2Fevbarm%2Fbeaglebone&amp;do=comment">Add a comment</a>
+</div>
+
+</div>
+
+
+
+		      
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../">evbarm</a>
+
+
+</div><!-- #backlinks -->
+
+
+
+
+<div class="pagedate">
+Last edited <span class="relativedate" title="Mon, 07 Jan 2013 17:45:10 +0000">late Monday afternoon, January  7th, 2013</span>
+<!-- Created <span class="relativedate" title="Mon, 07 Jan 2013 17:45:10 +0000">late Monday afternoon, January  7th, 2013</span> -->
+</div>
+
+
+
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?do=prefs">Preferences | Logout</a>
+
+
+
+</div><!-- #pageinfo -->
+
+
+<!-- from NetBSD Wiki -->
+</div><!-- .pagefooter #footer -->
+
+
+
+</body>
+</html>

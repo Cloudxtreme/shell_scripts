@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [ipv6hackers] Operational ICMPv6 Filtering
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:ipv6hackers%40lists.si6networks.com?Subject=Re%3A%20%5Bipv6hackers%5D%20Operational%20ICMPv6%20Filtering&In-Reply-To=%3C985CFAA08F7C7E42865C86D91E6E2E5741018AC7B7%40EMV62-UKRD.domain1.systemhost.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000568.html">
+   <LINK REL="Next"  HREF="000570.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[ipv6hackers] Operational ICMPv6 Filtering</H1>
+    <B>daniel.bartram at bt.com</B> 
+    <A HREF="mailto:ipv6hackers%40lists.si6networks.com?Subject=Re%3A%20%5Bipv6hackers%5D%20Operational%20ICMPv6%20Filtering&In-Reply-To=%3C985CFAA08F7C7E42865C86D91E6E2E5741018AC7B7%40EMV62-UKRD.domain1.systemhost.net%3E"
+       TITLE="[ipv6hackers] Operational ICMPv6 Filtering">daniel.bartram at bt.com
+       </A><BR>
+    <I>Thu May 31 15:12:47 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000568.html">[ipv6hackers] Operational ICMPv6 Filtering
+</A></li>
+        <LI>Next message: <A HREF="000570.html">[ipv6hackers] Operational ICMPv6 Filtering
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#569">[ date ]</a>
+              <a href="thread.html#569">[ thread ]</a>
+              <a href="subject.html#569">[ subject ]</a>
+              <a href="author.html#569">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;&gt;<i> Congratulations for dropping neighbor discovery, and killing all your v6 right away.
+</I>
+Following implicit rules exists at the end of each IPv6 ACL to allow ICMPv6 neighbour discovery.
+
+Permit icmp any any nd-na
+Permit icmp any any nd-ns
+Deny ipv6 any any
+
+At least on Cisco anyway... I'm not aware though that other vendors do this? So as far as I'm aware, my ACL wouldn't affect the operation of IPv6 at all... Of course, I could be wrong?
+
+Dan.
+
+-----Original Message-----
+From: <A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">ipv6hackers-bounces at lists.si6networks.com</A> [mailto:<A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">ipv6hackers-bounces at lists.si6networks.com</A>] On Behalf Of Gert Doering
+Sent: 31 May 2012 13:11
+To: IPv6 Hackers Mailing List
+Subject: Re: [ipv6hackers] Operational ICMPv6 Filtering
+
+Hi,
+
+On Thu, May 31, 2012 at 11:43:12AM +0100, <A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">daniel.bartram at bt.com</A> wrote:
+&gt;<i> I take the viewpoint of allowing the following:
+</I>&gt;<i> 
+</I>&gt;<i> Permit icmp any any packet-too-big
+</I>&gt;<i> Permit icmp any any time-exceeded
+</I>&gt;<i> Permit icmp any any echo-reply
+</I>&gt;<i> Permit icmp any any echo request
+</I>&gt;<i> Permit icmp any any destination-unreachable Permit icmp any any 
+</I>&gt;<i> time-exceeded
+</I>&gt;<i> 
+</I>&gt;<i> And blocking everything else.
+</I>
+Congratulations for dropping neighbor discovery, and killing all your v6 right away.
+
+I can only strongly recommend people to not invent something new on their own, but read this RFC first...
+
+4890 Recommendations for Filtering ICMPv6 Messages in Firewalls. E.  
+     Davies, J. Mohacsi. May 2007.
+
+Gert Doering
+        -- NetMaster
+--
+have you enabled IPv6 on something today...?
+
+SpaceNet AG                        Vorstand: Sebastian v. Bomhard
+Joseph-Dollinger-Bogen 14          Aufsichtsratsvors.: A. Grundner-Culemann
+D-80807 Muenchen                   HRB: 136055 (AG Muenchen)
+Tel: +49 (89) 32356-444            USt-IdNr.: DE813185279
+_______________________________________________
+Ipv6hackers mailing list
+<A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">Ipv6hackers at lists.si6networks.com</A>
+<A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">http://lists.si6networks.com/listinfo/ipv6hackers</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000568.html">[ipv6hackers] Operational ICMPv6 Filtering
+</A></li>
+	<LI>Next message: <A HREF="000570.html">[ipv6hackers] Operational ICMPv6 Filtering
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#569">[ date ]</a>
+              <a href="thread.html#569">[ thread ]</a>
+              <a href="subject.html#569">[ subject ]</a>
+              <a href="author.html#569">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="http://lists.si6networks.com/listinfo/ipv6hackers">More information about the Ipv6hackers
+mailing list</a><br>
+</body></html>

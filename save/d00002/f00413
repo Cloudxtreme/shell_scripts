@@ -1,0 +1,226 @@
+<html>
+<head><title>cryptlib</title></head>
+
+<body background="img/backgrou.gif" bgcolor="#C0C0C0" text="#000000" link="#0066BB" vlink="#000000">
+
+<center><h2>cryptlib FAQ</h2></center>
+
+<ol>
+
+<li><a href="#Q1">Why do I get an "Assertion failed" when I use cryptlib?<a>
+
+<li><a href="#Q2">Can I read keys from PFX/PKCS #12 files?</a>
+
+<li><a href="#Q3">Can I read keys from the Windows registry/CryptoAPI
+blobs/the Netscape cert database/OpenSSL PEM files/etc?</a>
+
+<li><a href="#Q4">How do I read a key from a crypto device such as a smart
+card or a keyset when I don't know the label for the key?</a>
+
+<li><a href="#Q5">When will cryptlib support OAEP? RSA-PSS?</a>
+
+<li><a href="#Q6">Does cryptlib support AADS, CDMF, CMC, CMMF, CPM, CRS, CSVP,
+DHPOP, DCS, DVCS, ICAP, OCDP, QC, RMP, SCVP, SDSI, SPKI, VMP, ... ?</a>
+
+<li><a href="#Q7">What about X9.42 key management in S/MIME?</a>
+
+<li><a href="#Q8">What about FIPS 140 certification?</a>
+
+<li><a href="#Q9">Does cryptlib handle base64/MIME encoding/RFC 822/SMTP/POP3/IMAP messaging?</a>
+
+<li><a href="#Q10">Does cryptlib run on the AS/400?</a>
+
+<li><a href="#Q11">Does cryptlib run under <i>other random OS</i>?</a>
+
+<li><a href="#Q12">Do you have any performance measurements for <i>algorithm x</i>?</a>
+
+<li><a href="#Q13">How much RAM/flash does cryptlib require?<a>
+
+</ol>
+
+<h3><a name="Q1">Why do I get an "Assertion failed" when I use cryptlib?</h3>
+
+You've built the debug version of cryptlib rather than the release version.
+The debug version is intended for people developing cryptlib, and provides
+extended diagnostic and debugging information that isn't present in a normal
+release.  See "Debug vs.Release Versions of cryptlib" in the manual for more
+information.<p>
+
+<h3><a name="Q2">Can I read keys from PFX/PKCS #12 files?</h3>
+
+This format has had some
+<a href="http://www.cs.auckland.ac.nz/~pgut001/pubs/breakms.txt"> serious
+security problems</a>, as well as being a very
+<a href="http://www.cs.auckland.ac.nz/~pgut001/pubs/pfx.html"> poorly-designed
+format for storing keys</a>. Because of these security concerns, cryptlib will
+not import or export its keys to files in this format since it in effect
+constitutes a security compromise of the private key.  Instead, it uses the
+PKCS #15 format, which is an enhanced key and certificate storage format
+without the problems of PKCS #12.<p>
+
+(Actually there is partial support for PKCS #12 present via the code module
+keyset/dbxpk12.c, if you really want PKCS #12 support you can add it by
+completing the code in the module.  Note that there are several incompatible
+versions of the PKCS #12/PFX standard, as well as many different
+interpretations of how to implement any particular version of PKCS #12, and
+finally since the standard leaves many things undefined, vendors have invented
+their own ways of doing things that are (needless to say) again incompatible.
+As a result, it's quite possible for half a dozen different vendors to create
+fully-compliant PKCS #12 files that can't be read by any other implementation.
+You'll need to handle this chaos yourself if you decide to go with PKCS
+#12).<p>
+
+<h3><a name="Q3">Can I read keys from the Windows registry/CryptoAPI
+blobs/the Netscape cert database/OpenSSL PEM files/etc?</h3>
+
+These are proprietary/undocumented formats that conform to no known standard.
+Because of their nature, they are tied to a particular vendor or platform, and
+can't be read by cryptlib (or anything else).<p>
+
+<h3><a name="Q4">How do I read a key from a crypto device such as a smart card
+or a keyset when I don't know the label for the key?</h3>
+
+The underlying key storage system, either a disk file, smart card, HSM, or
+crypto token, identifies keys using labels or some similar form of identifier.
+In order to fetch a key from a keyset or device, you need to provide a label
+to identify the key that you want to fetch (keys always have labels, no matter
+how they're generated or which application generated them).  If you can't
+identify which key you want, then neither can cryptlib.<p>
+
+<h3><a name="Q5">When will cryptlib support OAEP? RSA-PSS?</h3>
+
+New crypto algorithms and mechanisms will be supported in cryptlib when they
+become generally adopted in implementations of security standards like
+SSL/TLS, S/MIME, ssh, and PGP.  Without this general support, there's little
+use for them since absolutely nothing would be able to make use of them even
+if they were present in cryptlib (that is, any data produced using these
+algorithms would be unusable by any other implementation).  Note also that:<p>
+
+<ul>
+<li> Because these new mechanisms are barely supported by anything, it will be
+difficult to impossible to use them with crypto hardware such as HSMs or smart
+cards.
+
+<li> The security benefits of using some of these new techniques is
+questionable.  For example, standard PKCS #1 1.5 is secure when used properly
+(that is, there's no real security benefit to using OAEP).  Protocols like TLS
+and S/MIME simply include a note about using PKCS #1 1.5 securely, rather than
+requiring a move to OAEP or Simple-RSA.
+
+<li> If you use some new mechanism, there's a risk that you'll be stuck with
+an orphaned mechanism if something else comes into fashion.  SET is stuck with
+a version of OAEP that nothing else uses any more.  OAEP has itself been
+overtaken by things like Simple-RSA.
+</ul>
+<p>
+
+<h3><a name="Q6">Does cryptlib support AADS, CDMF, CMC, CMMF, CPM, CRS, CSVP,
+DHPOP, DCS, DVCS, ICAP, OCDP, QC, RMP, SCVP, SDSI, SPKI, VMP, ... ?</h3>
+
+Standards groups are constantly inventing new standards.  Many will disappear
+without trace, some will be implemented by a few vendors (often in an
+incompatible manner) and ignored by the rest, some will be so complex and
+difficult to interpret that they won't be viable for years (if ever), and a
+very small number will survive and prove useful.  The cryptlib developers keep
+a close eye on the standards situation and will support those that serve a
+useful purpose and have good industry support (note that being hyped in the
+trade press does not constitute good industry support).  The intention behind
+taking this cautious approach is to avoid having users locked into a collection
+of orphaned and legacy protocols that have very little support elsewhere.
+Since cryptlib is available in full source code form, you're welcome to
+implement any particular protocol you require yourself.<p>
+
+<h3><a name="Q7">What about X9.42 key management in S/MIME?</h3>
+
+This key management mechanism represented an attempt to avoid the RSA patent,
+however its adoption was severely hampered by the fact that US vendors already
+had RSA licenses, non-US vendors don't care (and in any case the patent has
+now expired, so they care even less), no CA's of note will issue X9.42
+certificates, and even if they did almost no S/MIME implementations support
+it.  Although X9.42 was at one point listed as mandatory to implement for
+S/MIME v3, the approach that was taken by most vendors (cryptlib included) was
+to vaguely pretend to support X9.42 while actually concentrating on RSA,
+knowing that noone else supported it either.  A few years after the expiry of
+the RSA patent, the matter was corrected by changing the standard so that
+vendors were no longer required to even pretend to support X9.42.<p>
+
+<h3><a name="Q8">What about FIPS 140 certification?</h3>
+
+cryptlib was designed from the outset to be certifiable at the highest FIPS
+140 level, level 4.  However, each certification is specific to a particular
+hardware and software platform and a particular FIPS 140 level, so there's no
+such thing as a generic "FIPS 140 certification" (although vendor marketing
+often confuses the issue).  If you need to use a FIPS 140 certified toolkit,
+we'd be happy to get the certification done for you at your required level and
+with the required hardware and software combination, please contact us to
+discuss the details and cost involved.<p>
+
+<h3><a name="Q9">Does cryptlib handle base64/MIME encoding/RFC 822/SMTP/POP3/IMAP messaging?</h3>
+
+Mailer functions such as base64/transfer-encoding and sending and receiving
+mail are an MUA/MTA issue, while cryptlib is a crypto toolkit and not a
+mailer.  The manual contains further information on interfacing it with
+various MUAs/MTA's.  In particular, MIME processing and base64 en- and
+decoding require an enormous amount of functionality to handle mailers that
+mangle or rewrite content, change line lengths and terminators, substitute
+characters in text, escape or otherwise alter values, and so on.  This is what
+MIME-processing agents like mailers do.  cryptlib is not a mailer or 
+MIME-processing engine, but will accept content coming from a MIME-processing
+engine and work with that.<p>
+
+<h3><a name="Q10">Does cryptlib run on the AS/400?</h3>
+
+Yes and no.  The AS/400 adaptation was performed by bringing it as close as
+possible to building on an AS/400, at which point the code snapshot was taken
+over by a company that generally doesn't talk to others about security issues
+and whose lawyers wouldn't allow the changes they made to go back into the
+code base - Open Source has yet to arrive there (in fact there have been
+multiple AS/400 ports performed, but none have been released).  This means
+that anyone wanting to run cryptlib on an AS/400 will need to duplicate some
+of this work: system information polling to gather randomness for key
+generation (random/as400.c), and miscellaneous code tweaks here and
+there.<p>
+
+<h3><a name="Q11">Does cryptlib run under <i>other random OS</i>?</h3>
+
+cryptlib runs on all common operating system platforms, however there are some
+lesser-used OSes that it hasn't yet been ported to, generally because they're
+non-mainstream enough that access to a development system is difficult.
+cryptlib has been designed for easy portability to any (vaguely normal) OS,
+targetting new systems hasn't proven much of a problem in the past.<p>
+
+Since cryptlib is open source software, you're welcome to take the code and
+port it to any specialised OS that you require it to run on.  The cryptlib
+developers can offer assistance where possible.  Anyone requiring a port is
+<b>strongly</b> encouraged to involve the cryptlib developers in the process,
+since past experience has shown that this leads to a significant reduction in
+effort in performing the port (a typical example was several months vs.2 days
+to get it running on a particular mainframe environment).<p>
+
+<h3><a name="Q12">Do you have any performance measurements for <i>algorithm x</i>?</h3>
+
+It's impossible to answer this question because it depends on the system it's
+being run on, the compiler being used, the algorithm, the key size (for
+public-key algorithms), the fact that cryptlib is in some cases performing a
+lot of other work in the background (e.g. data encapsulation or certificate
+processing), and a variety of other factors.  In general on a modern system
+the raw performance of most of the block ciphers and hash functions is tens to
+hundreds of megabytes per second, and the raw time for public-key operations
+is a few milliseconds.  With cryptlib hardware assist, the processing speed is
+limited mostly by the I/O bus speed.<p>
+
+These are representative times.  If you need a definitive figure for your exact
+hardware, OS, compiler, application, etc etc etc, run the code and see.<p>
+
+<h3><a name="Q13">How much RAM/flash does cryptlib require?</h3>
+
+As with the previous question, this depends on the build options that you use
+when you're compiling the code.  Since cryptlib can be extenstively
+customised, the memory usage can vary quite significantly based on which
+options you enable.  As a general rule of thumb, cryptlib requires an absolute
+minimum of 128kB RAM and 384-512kB flash.
+
+</body>
+
+</html>
+

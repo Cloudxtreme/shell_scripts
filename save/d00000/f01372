@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ <head>
+  <title>Patch information for pygame (1.9.1release+dfsg-8) read_origlibdirs_from_env.patch
+</title>
+  <link rel="stylesheet" type="text/css" 
+        href="http://patch-tracker.debian.org/static/css/patches.css"/>
+  <base href="http://patch-tracker.debian.org/" />
+ </head>
+ <body>
+  <div class="pageheader">
+   <img alt="[patchlogo]" src="http://patch-tracker.debian.org/static/img/swirlpatch.png"/>
+   <p> <a href="http://patch-tracker.debian.org/">Debian patch tracking system </a> </p>
+  <div class="breadcrumb">
+    - <a href="http://patch-tracker.debian.org/package/pygame">pygame</a>
+    - <a href="http://patch-tracker.debian.org/package/pygame/1.9.1release+dfsg-8">pygame/1.9.1release+dfsg-8</a>
+    - <a href="http://patch-tracker.debian.org/patch/series/view/pygame/1.9.1release+dfsg-8/read_origlibdirs_from_env.patch">series patch read_origlibdirs_from_env.patch</a>
+  </div> <!-- breadcrumb -->
+  </div>
+   <h1>pygame (1.9.1release+dfsg-8) read_origlibdirs_from_env.patch</h1>
+ <h2>Summary</h2>
+ <div>
+  <code class="diffstat">
+    <pre>
+ config_unix.py |    3 +++
+ 1 file changed, 3 insertions(+)
+
+    </pre>
+  </code>
+ </div>
+ <div>
+  <a href="http://patch-tracker.debian.org/patch/series/dl/pygame/1.9.1release+dfsg-8/read_origlibdirs_from_env.patch">
+   download this patch
+  </a>
+ </div>
+ <h2>Patch contents</h2>
+ <div class="patch">
+   <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">Description: Support specifying origlibdirs for dependencies searching
+ In order to improve the limited searching for dependencies in config_unix.py
+ This adds support to specify which directories should be searched
+ under localbase in the environment variable ORIGLIBDIRS.
+ .
+ The debian/rules will then ensure that the correct directories are
+ searched by doing something like:
+   ORIGLIBDIRS=/lib:/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)
+ .
+Bug-Ubuntu: http://bugs.launchpad.net/bugs/755980
+Author: Scott Moser &lt;smoser@ubuntu.com&gt;
+Last-Update: 2011-06-20
+<span style="color: #A00000">--- a/config_unix.py</span>
+<span style="color: #00A000">+++ b/config_unix.py</span>
+<span style="color: #800080; font-weight: bold">@@ -19,6 +19,9 @@ origincdirs = [&#39;/include&#39;, &#39;/include/SDL</span>
+                &#39;/include/smpeg&#39; ]
+ origlibdirs = [&#39;/lib&#39;,&#39;/lib64&#39;,&#39;/X11R6/lib&#39;]
+ 
+<span style="color: #00A000">+if &#39;ORIGLIBDIRS&#39; in os.environ and os.environ[&#39;ORIGLIBDIRS&#39;] != &quot;&quot;:</span>
+<span style="color: #00A000">+    origlibdirs = os.environ[&#39;ORIGLIBDIRS&#39;].split(&quot;:&quot;)</span>
+<span style="color: #00A000">+</span>
+ def confirm(message):
+     &quot;ask a yes/no question, return result&quot;
+     reply = raw_input(&#39;\n&#39; + message + &#39; [Y/n]:&#39;)
+</pre></div>
+
+ </div>
+
+  <div class="pagefooter">
+   page code/design/content is copyright (c) 2008 sean finney 
+   &lt;seanius@debian.org&gt;.  <br/>
+   patches viewed/retrieved through this system are copyrighted by 
+   their respective authors. <br/>
+   <a href="http://git.debian.org/?p=users/seanius/patch-tracker.git">
+   browse git repo 
+   </a>
+   -
+   <a href="http://git.debian.org/git/users/seanius/patch-tracker.git">
+   clone git repo
+   </a>
+  </div> <!-- pagefooter -->
+ </body>
+</html>

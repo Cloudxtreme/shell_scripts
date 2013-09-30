@@ -1,0 +1,1132 @@
+<HTML>
+<HEAD>
+<TITLE>Nmap 5.00 Release Notes</TITLE>
+<META name="description" content="Insecure.Org is pleased to announce
+the immediate, free availability of the Nmap Security Scanner version
+5.00 from http://nmap.org/">
+
+<link REL="SHORTCUT ICON" HREF="/shared/images/tiny-eyeicon.png" TYPE="image/png">
+<META NAME="ROBOTS" CONTENT="NOARCHIVE">
+<link rel="stylesheet" href="/shared/css/insecdb.css" type="text/css">
+<!--Google Analytics-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-11009417-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<!--Google Custom Site Search boilerplate Javascript-->
+<script>
+  (function() {
+    var cx = 'partner-pub-0078565546631069:bx60rb-fytx';
+    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<!--End Google Custom Site Search boilerplate Javascript-->
+
+</HEAD>
+<BODY BGCOLOR="#2A0D45" TEXT="#000000">
+
+<TABLE CELLPADDING="0" WIDTH="100%" CELLSPACING="0">
+<TR><TD ALIGN="left"><A HREF="/"><IMG BORDER=0 ALT="Home page logo"
+SRC="/images/sitelogo.png" HEIGHT=90 WIDTH=168></A></TD>
+<TD VALIGN="bottom" ALIGN="right">
+<!-- Begin TopBanner Code -->
+<!-- AdSpeed.com Serving Code 7.9.5 for [Zone] TopBanner [Any Dimension] -->
+<script type="text/javascript" src="http://g.adspeed.net/ad.php?do=js&amp;zid=14678&amp;wd=-1&amp;ht=-1&amp;target=_top"></script>
+<!-- AdSpeed.com End -->
+<!-- End Banner Code -->
+
+</TD></TR></TABLE>
+<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0"><TR>
+<TD ALIGN="left" WIDTH="130" VALIGN="top" class="sidebar">
+
+<!-- SECWIKI PORTAL INSERT -->
+
+<ul>
+<li><a href="http://nmap.org/">Nmap Security Scanner</a>
+<ul>
+<li><a href="http://nmap.org/">Intro</a></li>
+<li><a href="http://nmap.org/book/man.html">Ref Guide</a></li>
+<li><a href="http://nmap.org/book/install.html">Install Guide</a></li>
+<li><a href="http://nmap.org/download.html">Download</a></li>
+<li><a href="http://nmap.org/changelog.html">Changelog</a></li>
+<li><a href="http://nmap.org/book/">Book</a></li>
+<li><a href="http://nmap.org/docs.html">Docs</a></li>
+</ul>
+<li><a href="http://seclists.org/">Security Lists</a>
+<ul>
+<li><a href="http://seclists.org/nmap-hackers/">Nmap Hackers</a></li>
+<li><a href="http://seclists.org/nmap-dev/">Nmap Dev</a></li>
+<li><a href="http://seclists.org/bugtraq/">Bugtraq</a></li>
+<li><a href="http://seclists.org/fulldisclosure/">Full Disclosure</a></li>
+<li><a href="http://seclists.org/pen-test/">Pen Test</a></li>
+<li><a href="http://seclists.org/basics/">Basics</a></li>
+<li><a href="http://seclists.org/">More</a></li>
+</ul>
+<li><a href="http://sectools.org">Security Tools</a>
+<ul>
+<li><a href="http://sectools.org/tag/crackers/">Pass crackers</a></li>
+<li><a href="http://sectools.org/tag/sniffers/">Sniffers</a></li>
+<li><a href="http://sectools.org/tag/vuln-scanners/">Vuln Scanners</a></li>
+<li><a href="http://sectools.org/tag/web-scanners/">Web scanners</a></li>
+<li><a href="http://sectools.org/tag/wireless/">Wireless</a></li>
+<li><a href="http://sectools.org/tag/sploits/">Exploitation</a></li>
+<li><a href="http://sectools.org/tag/packet-crafters/">Packet crafters</a></li>
+<li><a href="http://sectools.org/">More</a></li>
+</ul>
+<li><a href="http://insecure.org/">Site News</a></li>
+<li><a href="http://insecure.org/advertising.html">Advertising</a></li>
+<li><a href="http://insecure.org/fyodor/">About/Contact</a></li>
+<li>
+<!-- SiteSearch Google -->
+<form action="http://insecure.org/search.html" id="cse-search-box-sidebar">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-0078565546631069:bx60rb-fytx">
+    <input type="hidden" name="cof" value="FORID:9">
+    <input type="hidden" name="ie" value="ISO-8859-1">
+    <input type="text" name="q" size="16">
+    <input type="submit" name="sa" value="Site Search">
+  </div>
+</form>
+<!-- End SiteSearch Google -->
+</li>
+<!-- These can come back if I ever update them ...
+<li><a href="http://insecure.org/links.html">Exceptional Links</a></li>
+<li><a href="http://insecure.org/reading.html">Good Reading</a></li>
+<li><a href="http://insecure.org/sploits.html">Exploit World</a></li>
+-->
+<li><a href="http://insecure.org/advertising.html">Sponsors:</a>
+
+<!-- Begin Sidebar 1 Banner Code -->
+<!-- Modified random image selection code. Original version at
+     http://www.bravenet.com/reviews/archives/tips.php?view=8 -->
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var imagenumber = 2;
+var randomnumber = Math.random() ;
+var rand1 = Math.round( (imagenumber-1) * randomnumber) + 1 ;
+images = new Array
+images[1] = "/shared/images/p/Acunetix/120x90_Scanner.gif"
+images[2] = "/shared/images/p/Acunetix/120x90freexss.gif"
+
+links = new Array
+links[1] = "http://www.acunetix.com/vulnerability-scanner/download.htm"
+links[2] = "http://www.acunetix.com/cross-site-scripting/scanner.htm"
+
+var myimage = images[rand1]
+var mylink = links[rand1]
+document.write('<A HREF="' + mylink + '"><IMG src="' + myimage + '" BORDER=0 ALT="Acunetix" WIDTH=120 HEIGHT=90></A>')
+//  -->
+</SCRIPT>
+<NOSCRIPT>
+<A HREF="http://www.acunetix.com/vulnerability-scanner/download.htm"><IMG SRC="/shared/images/p/Acunetix/120x90_Scanner.gif" BORDER=0 HEIGHT=90 WIDTH=120 ALT="Acunetix"></A>
+</NOSCRIPT>
+
+<!-- End Sidebar 1 Banner Code -->
+
+<BR><BR>
+
+</TD>
+<TD BGCOLOR="#FFFFFF" VALIGN="top" ALIGN="left"><IMG
+SRC="/shared/images/topleftcurve.gif" alt="/"><TABLE CELLPADDING="4" WIDTH="100%" style="table-layout: fixed;"><TR><TD BGCOLOR="#FFFFFF">
+
+
+<H1><center>Nmap 5.00 Released</center></H1>
+
+
+<P><B>July 16, 2009</B> -- Insecure.Org is pleased to announce the immediate,
+free availability of the Nmap Security Scanner version 5.00
+from <A HREF="http://nmap.org/">http://nmap.org/</A>. This is the
+first stable release since 4.76 (last September), and the first major
+release since the 4.50 release in 2007.  Dozens of development
+releases led up to this.
+
+<P>Considering all the <a href="#5changes">changes</a>, we consider
+this the most important Nmap release since 1997, and we recommend that
+all current users upgrade.
+
+<br><br>
+<A NAME="about"></A>
+<h2 class="purpleheader">About Nmap</h2>
+
+<P>Nmap ("Network Mapper") is a free and open source
+(<a href="http://nmap.org/data/COPYING">license</a>) utility for
+network exploration or security auditing.  Many systems and network
+administrators also find it useful for tasks such as network
+inventory, managing service upgrade schedules, and monitoring host or
+service uptime.  Nmap uses raw IP packets in novel ways to determine
+what hosts are available on the network, what services (application
+name and version) those hosts are offering, what operating systems
+(and OS versions) they are running, what type of packet
+filters/firewalls are in use, and dozens of other characteristics.  It
+was designed to rapidly scan large networks, but works fine against
+single hosts.  Nmap runs on all major computer operating systems, and
+official binary packages are available for Linux, Windows, and Mac OS
+X.  In addition to the classic command-line Nmap executable, the Nmap
+suite includes an advanced GUI and results viewer
+(<a href="http://nmap.org/zenmap/">Zenmap</a>), a flexible data
+transfer, redirection, and debugging tool
+(<a href="http://nmap.org/ncat/">Ncat</a>), and a utility for
+comparing scan results (<a href="http://nmap.org/ndiff/">Ndiff</a>).
+
+<P>Nmap was named &ldquo;Security Product of the Year&rdquo; by Linux
+Journal, Info World, LinuxQuestions.Org, and Codetalker Digest.  It
+was even featured in <a href="http://nmap.org/movies.html">eight
+movies</a>, including
+<a href="http://nmap.org/movies.html#matrix">The Matrix Reloaded</a>,
+<a href="http://nmap.org/movies.html#diehard4">Die Hard 4</a>, and
+<a href="http://nmap.org/movies.html#bourne">The Bourne Ultimatum</a>.
+
+<P>As free software, we don't have any sort of advertising budget.  So please spread the word that Nmap 5.00 is now available!
+
+<br><br>
+<A NAME="5changes"></A>
+<h2 class="purpleheader">Top 5 Improvements in Nmap 5</h2>
+
+<P>Before we go into the <a href="#changes">detailed changes</a>, here
+are the top 5 improvements in Nmap 5:
+
+<OL>
+
+<LI><P>The new <a href="http://nmap.org/ncat/">Ncat </a> tool aims to be
+your <a href="http://en.wikipedia.org/wiki/Swiss_Army_knife">Swiss
+Army Knife</a> for data transfer, redirection, and debugging.  We
+released a
+whole <a href="http://nmap.org/ncat/guide/index.html">users' guide</a>
+detailing security testing and network administration tasks made easy with Ncat.
+
+<LI><P>The addition of the <a href="http://nmap.org/ndiff/">Ndiff scan
+comparison tool</a> completes Nmap's growth into a whole suite of
+applications which work together to serve network administrators and
+security practitioners.  Ndiff makes it easy to automatically scan
+your network daily and report on any changes (systems coming up or
+going down or changes to the software services they are running).  The
+other two tools now packaged with Nmap itself are Ncat and
+the <a href="#changes-zenmap">much improved</a> Zenmap GUI and results
+viewer.
+
+<LI><P>Nmap performance has <a href="#changes-performance">improved
+dramatically</a>.  We spent last summer scanning much of the Internet
+and merging that data with internal enterprise scan logs to determine
+the most commonly open ports.  This allows Nmap to scan fewer ports by
+default while finding more open ports.  We also added a fixed-rate
+scan engine so you can bypass Nmap's congestion control algorithms and
+scan at exactly the rate (packets per second) you specify.
+
+<LI>We released <a href="http://nmap.org/book/">Nmap Network
+Scanning</a>, the official Nmap guide to network discovery and security
+scanning.  From explaining port scanning basics for novices to
+detailing low-level packet crafting methods used by advanced hackers,
+this book suits all levels of security and networking professionals. A
+42-page reference guide documents every Nmap feature and option, while
+the rest of the book demonstrates how to apply those features to
+quickly solve real-world tasks.  More than half the book
+is <a href="http://nmap.org/book/toc.html">available in the free
+online edition</a>.
+
+<LI><P>The <a href="http://nmap.org/book/nse.html">Nmap Scripting
+Engine (NSE)</a> is one of Nmap's most powerful and flexible
+features. It allows users to write (and share) simple scripts to
+automate a wide variety of networking tasks. Those scripts are then
+executed in parallel with the speed and efficiency you expect from
+Nmap.  All existing scripts have been improved, and 32 new ones added.
+New scripts include a whole bunch of MSRPC/NetBIOS attacks, queries,
+and vulnerability probes; open proxy detection; whois and AS number
+lookup queries; brute force attack scripts against the SNMP and POP3
+protocols; and <a href="#changes-nse">many more</a>.  All NSE scripts
+and modules are described in the
+new <a href="http://nmap.org/nsedoc/">NSE documentation portal</a>.
+</OL>
+
+<A NAME="articles"></A>
+<h2 class="purpleheader">News articles and reviews</h2>
+
+<p>Please <a href="mailto:fyodor@nmap.org">mail Fyodor</a> if you see (or write) reviews/articles on the Nmap 5.00 release.  Here are the ones seen so far:
+
+Reasonably detailed (or with many comments) English articles:
+<UL>
+<LI>ITWire: <a href="http://www.itwire.com/content/view/26343/53/">Nmap Turns Five</a>
+<LI>Slashdot: <a href="http://tech.slashdot.org/story/09/07/16/1924232">Nmap 5.00 Released, With Many Improvements</a>
+<LI>SecurityFocus: <a href="http://www.securityfocus.com/brief/988">Nmap gets a major upgrade</a>,
+<LI>LoveMyTool: <a href="http://www.lovemytool.com/blog/2009/07/nmap_5.html">Exclusive Review of Nmap 5.0 (by Tim O'Neill)</a>
+<LI>Reddit: <a href="http://www.reddit.com/r/programming/comments/91uzu/nmap_500_released_considered_by_maintainers_as/">Nmap 5.00 Released, considered by maintainers as most important release since 1997</a>
+<LI>Ed Skoudis: <a href="http://www.counterhack.net/Counter_Hack/Nmap5.00IniitialImpressions.html">Nmap 5.00 Initial Impressions - Niiiice!</a>
+<LI>Hacker News: <a href="http://news.ycombinator.com/item?id=708318">Nmap 5.00 Released</a>
+<LI>Risky Business: <a href="http://risky.biz/news_and_opinion/patrick-gray/2009-07-16/nmap-reloaded-biggest-release-1997">Nmap Reloaded: Biggest Release Since 1997</a>
+<LI>Linux Weekly News: <a href="http://lwn.net/Articles/341648/">Nmap 5.00 Released</a>
+<LI>InternetNews.com: <a href="http://blog.internetnews.com/skerner/2009/07/nmap-5-improves-open-source-ne.html">Nmap 5 improves open source network security auditing</a>
+<LI>Michael Rash (Cipherdyne): <a href="http://www.cipherdyne.org/blog/2009/07/nmap-5.00-zenmap-and-ndiff.html">Nmap-5.00, Zenmap, and ndiff</a>
+<LI>IronGeek.Com added a new video: <a href="http://www.irongeek.com/i.php?page=videos/ndiff-nmap-5">NDiff: Comparing two Nmap 5 scans to find changes in your network</a>
+<LI>Twitter has literally <a href="http://search.twitter.com/search?q=nmap">thousands of tweets about 5.00</a> (you may need to page back to July 16).
+<LI>AllVoices: <a href="http://www.allvoices.com/contributed-news/3694934-power-network-security-tool-nmap-reaches-version-500">Powerful network security tool Nmap reaches version 5.00</a>
+<LI>The H: <a href="http://www.h-online.com/security/Version-5-0-of-the-Nmap-network-scanner-released--/news/113783">Version 5.0 of the Nmap network scanner released</a>
+<LI>Sans Internet Storm Center: <a href="http://isc.sans.org/diary.html?storyid=6814">Nmap 5.0 Released</a>
+<LI>Linuxologist: <a href="http://linuxologist.com/apps/nmap-5-0-released-most-important-since-1997/">Nmap 5.0 Released: Most Important Since 1997!</a>
+</UL>
+
+<P>Brief mentions:
+<a href="http://www.wireshark.org/news/20090716.html">Wireshark.Org</a>,
+<a href="http://blogs.securiteam.com/index.php/archives/1306">Securiteam</a>,
+<a href="http://www.darkreading.com/security/NAC/showArticle.jhtml?articleID=218501011">Dark Reading</a>,
+<a href="http://www.linuxtoday.com/infrastructure/2009072203035SCSWRL">Linux Today</a>,
+<a href="http://www.cgisecurity.com/2009/07/nmap-500-released.html">CGISecurity.Com</a>,
+<a href="http://blog.security4all.be/2009/07/nmap-500-released-with-new-additions.html">Security4All</a>,
+<a href="http://www.net-security.org/secworld.php?id=7769">Help Net Security</a>,
+<a href="http://red-gecko.blogspot.com/2009/07/nmap-50-released.html">Red Gecko</a>,
+<a href="http://www.corelan.be:8800/index.php/2009/07/16/spread-the-word-nmap-5-released/">Peter Van Eeckhoutte</a>,
+<a href="http://www.security-database.com/toolswatch/Nmap-Zenmap-v5-released.html">Security Database</a>,
+<a href="http://www.openwall.com/lists/announce/2009/07/19/1">Owl Linux</a>,
+<a href="http://blog.priveonlabs.com/sec_blog.php?title=nmap_5_00_released_with_some_amazing_new&more=1&c=1&tb=1&pb=1">Priveon Labs</a>
+
+<P>Non-English articles: 
+<BR>Arabic: <a href="http://www.linuxac.org/forum/linuxac4/thread27964.html">Linux AC</a>,
+<a href="http://www.isecur1ty.org/news/programs-tools/95-nmap-50-released.html">iSecur1ty.org</a>
+
+
+<BR>Czech: <a href="http://www.abclinuxu.cz/zpravicky/nmap-5.00">ABC Linuxu</a>,
+<a href="http://www.root.cz/zpravicky/vysiel-novy-nmap-5-0/">Root.cz</a>
+
+<BR>Chinese: <a href="http://software.solidot.org/article.pl?sid=09/07/17/0811237">Solidot</a>,
+<a href="http://netsecurity.51cto.com/art/200907/137238.htm">Netsecurity.51cto.com</a>
+<BR>Dutch: <a href="http://tweakers.net/meuktracker/20931/nmap-500.html">Tweakers.net</a>,
+<a href="http://www.security.nl/artikel/30333/1/Zwitsers_zakmes_in_netwerkscanner_Nmap_5.00.html">Security.nl</a>
+<BR>French: <a href="http://www.silicon.fr/fr/news/2009/07/17/securite___sortie_de_nmap_5_00">Silicon.fr</a>,
+<a href="http://linuxfr.org/~haypo/28552.html">LinuxFR.org</a>
+<BR>German: <a href="http://www.golem.de/0907/68430.html">Golem.de</a>,
+<a href="http://www.heise.de/newsticker/Netzwerkscanner-nmap-mit-Skripting-Engine-und-Scan-Vergleich--/meldung/142138">Heise online</a>, 
+<a href="http://www.pro-linux.de/news/2009/14451.html">Pro-Linux.de</a>,
+<a href="http://www.pcwelt.de/start/sicherheit/firewall/news/2099984/riesen_update_fuer_portscanner_nmap/">PC Welt</a>,
+<a href="http://www.menzer.net/de/content/20090717-nmap-5-unter-debian-ubuntu">Menzer.net</a>,
+<a href="http://www.secorvo.de/security-news/secorvo-ssn0907.pdf">Secorvo Security News (PDF)</a>
+<BR>Russian: <a href="http://www.opennet.ru/opennews/art.shtml?num=22629">OpenNet.ru</a>,
+<a href="http://www.xakep.ru/post/48874/default.asp">Xakep.ru</a>,
+<a href="http://www.linux.org.ru/">Linux.org.ru</a>
+<BR>Spanish: <a href="http://www.vivalinux.com.ar/soft/nmap-5.0">Viva Linux</a>,
+<a href="http://softlibre.barrapunto.com/article.pl?sid=09/07/17/1641247">Barrapunto</a>,
+<a href="http://meneame.net/story/nmap-5.00-publicada">men&eacute;ame</a>,
+<a href="http://linuxmaya.com/content/nmap-500-ya-es-una-realidad">Linux Maya</a>,
+<a href="http://www.iniqua.com/2009/07/16/nmap-5-00/">Iniqua</a>,
+<a href="http://axlinux.blogspot.com/2009/07/como-escanear-nuestra-red-con-nmap.html">A por Linux</a>,
+<a href="http://www.insecure.cl/nmap5">Portal Chileno de Seguridad Informatica</a>
+<BR>Others: 
+<a href="http://www.version2.dk/artikel/11529-hollywoods-foretrukne-netvaerksscanner-ude-i-version-50">Version 2</a> (Danish),
+<a href="http://hup.hu/cikkek/20090716/nmap_5.00_a_legfontosabb_nmap_kiadas_1997_ota">hup.hu</a> (Hungarian),
+<a href="http://br-linux.org/2009/lancado-o-nmap-500/">BR-Linux.Org</a> (Portuguese),
+<a href="http://www.idg.se/2.1085/1.238742/spionverktyg-far-jatteuppdatering">IDG.se</a> (Swedish)
+
+
+<P>Journalists (anyone writing about the Nmap release) are welcome to
+use any of the text or screen shots on this page.
+
+<br><br>
+<A NAME="screenshots"></A>
+<h2 class="purpleheader">Example run and screen shots</h2>
+
+<P>Nmap 5.00 provides a wealth of information about remote systems, as shown in this sample scan:
+
+<pre>
+# nmap -A -T4 scanme.nmap.org 207.68.200.30
+
+Starting Nmap 5.00 ( http://nmap.org ) at 2009-07-13 16:22 PDT
+Interesting ports on scanme.nmap.org (64.13.134.52):
+Not shown: 994 filtered ports
+PORT      STATE  SERVICE VERSION
+22/tcp    open   ssh     OpenSSH 4.3 (protocol 2.0)
+|  ssh-hostkey: 1024 03:5f:d3:9d:95:74:8a:d0:8d:70:17:9a:bf:93:84:13 (DSA)
+|_ 2048 fa:af:76:4c:b0:f4:4b:83:a4:6e:70:9f:a1:ec:51:0c (RSA)
+53/tcp    open   domain  ISC BIND 9.3.4
+70/tcp    closed gopher
+80/tcp    open   http    Apache httpd 2.2.2 ((Fedora))
+|_ html-title: Go ahead and ScanMe!
+113/tcp   closed auth
+31337/tcp closed Elite
+Device type: general purpose
+Running: Linux 2.6.X
+OS details: Linux 2.6.20-1 (Fedora Core 5)
+
+Interesting ports on 207.68.200.30:
+Not shown: 991 filtered ports
+PORT      STATE SERVICE      VERSION
+53/tcp    open  domain       Microsoft DNS 6.0.6001
+88/tcp    open  kerberos-sec Microsoft Windows kerberos-sec
+135/tcp   open  msrpc        Microsoft Windows RPC
+139/tcp   open  netbios-ssn
+389/tcp   open  ldap
+445/tcp   open  microsoft-ds Microsoft Windows 2003 microsoft-ds
+464/tcp   open  kpasswd5?
+49158/tcp open  ncacn_http   Microsoft Windows RPC over HTTP 1.0
+49175/tcp open  msrpc        Microsoft Windows RPC
+Running: Microsoft Windows 2008|Vista
+
+Host script results:
+|  smb-os-discovery: Windows Server (R) 2008 Enterprise 6001 Service Pack 1
+|  LAN Manager: Windows Server (R) 2008 Enterprise 6.0
+|  Name: MSAPPLELAB\APPLELAB2K8
+|_ System time: 2009-07-13 16:17:07 UTC-7
+|  nbstat: NetBIOS name: APPLELAB2K8, NetBIOS user: <unknown>, NetBIOS MAC: 00:1a:a0:9a:a3:96
+|  Name: APPLELAB2K8<00>      Flags: <unique><active>
+|_ Name: MSAPPLELAB<00>       Flags: <group><active>
+
+TRACEROUTE (using port 135/tcp)
+HOP RTT    ADDRESS
+[Cut first 8 lines for brevity]
+9   36.88  ge-10-0.hsa1.Seattle1.Level3.net (4.68.105.6)
+10  36.61  unknown.Level3.net (209.245.176.2)
+11  41.21  207.68.200.30
+
+Nmap done: 2 IP addresses (2 hosts up) scanned in 120.26 seconds
+# (Note: some output was modified to fit results on screen)
+</pre>
+
+<P>Here are some Nmap and Zenmap 5.00 screen shots (click thumbnails for full resolution):
+
+<TABLE CELLSPACING=4>
+<TR VALIGN=top>
+<TD WIDTH=360><A HREF="screenshots/nmap5-samplescan-706x964.png"><IMG WIDTH=360 HEIGHT=323 SRC="screenshots/nmap5-samplescan-thumbnail-360x323.png"></a>
+<br>Classic command-line Nmap</TD>
+<TD WIDTH=360><A HREF="screenshots/zenmap-5-topology-885x793.png"><IMG WIDTH=360 HEIGHT=323 SRC="screenshots/zenmap-5-topology-thumbnail-360x323.png"></a>
+<br>Zenmap's new network topology graphing mode</TD>
+</TR>
+<TR VALIGN=top>
+<TD WIDTH=360><A HREF="screenshots/zenmap-5-services-http-885x541.png"><IMG WIDTH=360 HEIGHT=220 SRC="screenshots/zenmap-5-services-http-thumbnail-360x220.png"></a>
+<br>Zenmap showing all discovered HTTP services</TD>
+<TD WIDTH=360><A HREF="screenshots/zenmap-5-nmapout-885x793.png"><IMG WIDTH=360 HEIGHT=220 SRC="screenshots/zenmap-5-nmapout-thumbnail-360x220.png"></a>
+<br>Zenmap displaying Nmap output</TD>
+</TR>
+</TABLE>
+
+<br><br>
+<A NAME="changes"></A>
+<h2 class="purpleheader">Change details</h2>
+
+<P>The <A HREF="http://nmap.org/changelog.html">Nmap Changelog</A>
+describes nearly 600 significant improvements since our last major
+release
+(<A HREF="http://insecure.org/stf/Nmap-4.50-Release.html">4.50</A>).
+Here are the highlights:
+
+
+<A NAME="changes-nse"></A>
+<P><font size="+1"><B>Nmap Scripting Engine (NSE)</B></font>
+
+
+<P>The <a href="http://nmap.org/book/nse.html">Nmap Scripting
+Engine (NSE)</a> is one of Nmap's most powerful and flexible
+features. It allows users to write (and share) simple scripts to
+automate a wide variety of networking tasks. Those scripts are then
+executed in parallel with the speed and efficiency you expect from
+Nmap. It existed in Nmap 4.50, but has been dramatically improved:
+
+<UL>
+
+<LI><P>Every script has been improved, and the number of scripts has grown nearly 50% to 59.</LI>
+
+<LI><P>Ron Bowes embarked on a massive MSRPC/NETBIOS project to allow
+Nmap to interrogate Windows machines much more completely.  He added six NSE libraries (<a href="http://nmap.org/nsedoc/modules/msrpc.html">msrpc</a>, 
+<a href="http://nmap.org/nsedoc/modules/msrpcperformance.html">msrpcperformance</a>, 
+<a href="http://nmap.org/nsedoc/modules/msrpctypes.html">msrpctypes</a>, 
+<a href="http://nmap.org/nsedoc/modules/netbios.html">netbios</a>, 
+<a href="http://nmap.org/nsedoc/modules/smb.html">smb</a>, and
+<a href="http://nmap.org/nsedoc/modules/smbauth.html">smbauth</a>) and 14 scripts (<a href="http://nmap.org/nsedoc/scripts/p2p-conficker.html">p2p-conficker</a>, <a href="http://nmap.org/nsedoc/scripts/smb-brute.html">smb-brute</a>, <a href="http://nmap.org/nsedoc/scripts/smb-check-vulns.html">smb-check-vulns</a>, <a href="http://nmap.org/nsedoc/scripts/smb-enum-domains.html">smb-enum-domains</a>, <a href="http://nmap.org/nsedoc/scripts/smb-enum-processes.html">smb-enum-processes</a>, <a href="http://nmap.org/nsedoc/scripts/smb-enum-sessions.html">smb-enum-sessions</a>, <a href="http://nmap.org/nsedoc/scripts/smb-enum-shares.html">smb-enum-shares</a>, <a href="http://nmap.org/nsedoc/scripts/smb-enum-users.html">smb-enum-users</a>, <a href="http://nmap.org/nsedoc/scripts/smb-os-discovery.html">smb-os-discovery</a>, <a href="http://nmap.org/nsedoc/scripts/smb-pwdump.html">smb-pwdump</a>, <a href="http://nmap.org/nsedoc/scripts/smb-security-mode.html">smb-security-mode</a>, <a href="http://nmap.org/nsedoc/scripts/smb-server-stats.html">smb-server-stats</a>, and <a href="http://nmap.org/nsedoc/scripts/smb-system-info.html">smb-system-info</a>).  He also wrote a <a href="http://www.sans.org/reading_room/whitepapers/testing/rss/scanning_windows_deeper_with_the_nmap_scanning_engine_33138">detailed paper</a> on the new scripts.
+
+<LI><P>Nmap was one of the first scanners to <a href="http://insecure.org/#conficker">remotely detect the Conficker worm</a> thanks to <a href="http://nmap.org/nsedoc/scripts/smb-check-vulns.html">smb-check-vulns</a>, and <a href="http://nmap.org/nsedoc/scripts/p2p-conficker.html">p2p-conficker</a>.
+
+<LI><P>Other new scripts include:
+<BR><B><a href="http://nmap.org/nsedoc/scripts/asn-query.html">asn-query</a></b>&mdash;Maps IP addresses to autonomous system (AS) numbers.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/auth-spoof.html">auth-spoof</a></b>&mdash;Checks for an identd (auth) server which is spoofing its replies.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/banner.html">banner</a></b>&mdash;A simple banner grabber which connects to an open TCP port and prints out anything sent by the listening service within five seconds.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/dns-random-srcport.html">dns-random-srcport</a></b>&mdash;Checks a DNS server for the predictable-port recursion vulnerability. Predictable source ports can make a DNS server vulnerable to cache poisoning attacks (see CVE-2008-1447).
+<BR><B><a href="http://nmap.org/nsedoc/scripts/dns-random-txid.html">dns-random-txid</a></b>&mdash;Checks a DNS server for the predictable-TXID DNS recursion vulnerability. Predictable TXID values can make a DNS server vulnerable to cache poisoning attacks (see CVE-2008-1447).
+<BR><B><a href="http://nmap.org/nsedoc/scripts/ftp-bounce.html">ftp-bounce</a></b>&mdash;Checks to see if an FTP server allows port scanning using the FTP bounce method.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/http-iis-webdav-vuln.html">http-iis-webdav-vuln</a></b>&mdash;Checks for a vulnerability in IIS 5.1/6.0 that allows arbitrary users to access secured WebDAV folders by searching for a password-protected folder and attempting to access it. This vulnerability was patched in <a href="http://www.microsoft.com/technet/security/bulletin/ms09-020.mspx%3E">Microsoft Security Bulletin MS09-020</a>.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/http-passwd.html">http-passwd</a></b>&mdash;Checks if a web server is vulnerable to directory traversal by attempting to retrieve /etc/passwd using various traversal methods such as requesting ../../../../etc/passwd.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/imap-capabilities.html">imap-capabilities</a></b>&mdash;Retrieves IMAP email server capabilities.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/mysql-info.html">mysql-info</a></b>&mdash;Connects to a MySQL server and prints information such as the protocol and version numbers, thread ID, status, capabilities, and the password salt.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/pop3-brute.html">pop3-brute</a></b>&mdash;Tries to log into a POP3 account by guessing usernames and passwords.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/pop3-capabilities.html">pop3-capabilities</a></b>&mdash;Retrieves POP3 email server capabilities.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/rpcinfo.html">rpcinfo</a></b>&mdash;Connects to portmapper and fetches a list of all registered programs.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/snmp-brute.html">snmp-brute</a></b>&mdash;Attempts to find an SNMP community string by brute force guessing.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/socks-open-proxy.html">socks-open-proxy</a></b>&mdash;Checks if an open socks proxy is running on the target.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/upnp-info.html">upnp-info</a></b>&mdash;Attempts to extract system information from the UPnP service.
+<BR><B><a href="http://nmap.org/nsedoc/scripts/whois.html">whois</a></b>&mdash;Queries the WHOIS services of Regional Internet Registries (RIR) and attempts to retrieve information about the IP Address Assignment which contains the Target IP Address.
+
+<LI><P>The set of new libraries is equally impressive.  Modules are
+all <a href="http://nmap.org/nsedoc/">listed here</a> (scroll down to
+"Modules").
+
+<LI><P>Introduced the <a href="http://nmap.org/nsedoc/">NSE
+Documentation Portal</a> which documents every NSE script and library
+included with Nmap. It is generated
+from <a href="http://nmap.org/book/nsedoc.html">NSEDoc comments</a>
+embedded in scripts.  Scripts are available for download on this site
+as well.  We also dramatically improved
+the <a href="http://nmap.org/book/nse.html">NSE Guide</a>.
+
+<LI><P>NSE now supports run-time interaction so you know when it will
+complete, and the --host-timeout option so you can define when it
+completes.  Support for -S (source IP address) and --ip-options has
+been added to the NSE and version detection subsystems.
+
+<LI><P>Added Boolean Operators for --script. You may now use ("and",
+"or", or "not") combined with categories, filenames, and wildcarded
+filenames to match a set of files. A
+new <a href="http://nmap.org/nsedoc/categories/default.html">default
+category</a> includes the scripts which run by default when NSE is
+requested.
+
+<LI><P>NSE can now be used in combination with ping scan (e.g. "-sP
+--script") so that you can execute host scripts without needing to
+perform a port scan.
+
+</UL>
+
+
+<A NAME="changes-zenmap"></A>
+<P><font size="+1"><B>Zenmap graphical front-end and results viewer</B></font>
+
+<P><a href="http://nmap.org/zenmap/">Zenmap</a> is a
+cross-platform (Linux, Windows, Mac OS X, etc.) Nmap GUI and results
+viewer which supports all Nmap options.  It aims to make Nmap easy for
+beginners to use while providing advanced features for experienced
+Nmap users. Frequently used scans can be saved as profiles to make
+them easy to run repeatedly. A command creator allows interactive
+creation of Nmap command lines. Scan results can be saved and viewed
+later. Saved scan results can be compared with one another to see how
+they differ. The results of recent scans are stored in a searchable
+database.  While Zenmap already existed in Nmap 4.50, it has improved dramatically since then:
+
+<UL>
+
+<LI><P><a href="http://nmap.org/book/zenmap-topology.html"><img src="http://nmap.org/book/images/zenmap-fig-topology-fill-255x143.png" align=right width=255 height=143></a>
+
+<P>While Nmap stands for &ldquo;Network Mapper&rdquo;, it hasn't been
+able to actually draw you a map of the network&mdash;until now!  The
+new <a href="http://nmap.org/book/zenmap-topology.html">Zenmap Network
+Topology feature</a> provides an interactive, animated visualization
+of the hosts on a network and connections between them.  The scan
+source is (initially) in the center, with other hosts on a series of
+concentric circles which represent the number of hops away they are
+from the source.  Nodes are connected by lines representing discovered paths between them.  Read the full details (and oogle the pretty pictures)
+in our article
+on <a href="http://nmap.org/book/zenmap-topology.html">Surfing the
+Network Topology</a>.  Topology views can be saved as a PNG, postscript, PDF, or SVG image.
+</LI>
+
+<LI><P>The <a href="http://nmap.org/book/zenmap-scanning.html#aggregation">scan
+aggregation</a> feature allows you to combine the results of many Nmap
+scans into one view. When one scan is finished, you may start another
+in the same window.  Results of the new scan are seamlessly merged
+into one view.
+</LI>
+
+<LI><P>Zenmap has been internationalized and translated by volunteers
+into four languages (French, German, Brazilian Portuguese, and
+Croatian).  We have instructions
+on <a href="http://nmap.org/book/zenmap-lang.html">using an existing
+translation</a> and we're always looking for volunteers
+to <a href="http://nmap.org/book/zenmap-lang.html#zenmap-lang-new">translate
+Zenmap into your native language</a>.</LI>
+
+<LI><P>Overhauled the default list of scan profiles to provide a much
+  more diverse and useful set of default profile options. If users
+  don't like any of these canned scan commands, they can easily create
+  their own in the Profile Editor.</LI>
+
+<LI><P>Added a context-sensitive help system to the Profile
+  Editor.  Mouse-over options to learn more about what
+  they do and their argument syntax.</LI>
+
+
+<LI><P>Added <a href="http://nmap.org/book/zenmap-search.html">advanced
+  search functionality</a> to Zenmap so that you can locate previous
+  scans using criteria such as which ports were open, keywords in the
+  target names, OS detection results, etc.  Try it out with Ctrl-F or
+  "Tools->Search Scan Results".</LI>
+
+<LI><P>The &ldquo;Compare Results&rdquo; feature now uses our new <a href="http://nmap.org/ndiff/">Ndiff scan comparison tool</a>.</LI>
+
+<LI><P>And more: An animated throbber has been added to indicate that a scan is running, and a new cancel button lets you stop a scan in its track.  The Nmap output window now scrolls automatically, and ports are colored based on open/closed state.</LI>
+
+<LI><P>David wrote an exceptional <a href="http://nmap.org/book/zenmap.html">users' guide</a>, which also became a chapter of <a href="http://nmap.org/book/">Nmap Network Scanning</a>.</LI>
+
+</UL>
+
+<A NAME="changes-ncat"></A>
+<P><font size="+1"><B>Ncat data transfer, redirection, and debugging tool</B></font>
+
+<p>
+<center>
+<pre>
+  .       .       
+  \`-"'"-'/       
+   } 6 6 {        
+  ==. Y ,==       
+    /^^^\  .      
+   /     \  )     
+  (  )-(  )/     _
+  -""---""---   / 
+ /   Ncat    \_/  
+(     ____        
+ \_.=|____E       
+</pre>
+</center>
+
+<P>Nmap 5 introduces <a href="http://nmap.org/ncat/">Ncat</a>, a
+general-purpose command-line tool for reading, writing, redirecting,
+and encrypting data across a network. It aims to be your
+network <a href="http://en.wikipedia.org/wiki/Swiss_Army_knife">Swiss
+Army knife</a>, handling a wide variety of security testing and
+administration tasks. Ncat is suitable for interactive use or as a
+network-connected back end for other tools. Ncat can:
+
+<UL>
+<LI><P>Act as a simple TCP/UDP/SSL client for interacting with web
+servers, telnet servers, mail servers, and other TCP/IP network
+services. Often the best way to understand a service (for fixing
+problems, finding security flaws, or testing custom commands) is to
+interact with it using Ncat. This lets you you control every character
+sent and view the raw, unfiltered responses.
+
+<LI><P>Act as a simple TCP/UDP/SSL server for offering services to
+clients, or simply to understand what existing clients are up to by
+capturing every byte they send.
+
+<LI><P>Redirect or proxy TCP/UDP traffic to other ports or hosts. This
+can be done using simple redirection (everything sent to a port is
+automatically relayed somewhere else you specify in advance) or by
+acting as a SOCKS or HTTP proxy so clients specify their own
+destinations. In client mode, Ncat can connect to destinations through
+a chain of anonymous or authenticated proxies.
+
+<LI><P>Run on all major operating systems. We distribute Linux,
+Windows, and Mac OS X binaries, and Ncat compiles on most other
+systems. A trusted tool must be available whenever you need it, no
+matter what computer you're using.
+
+<LI><P>Encrypt communication with SSL, and transport it over IPv4 or
+IPv6.
+
+<LI><P>Act as a network gateway for execution of system commands, with
+I/O redirected to the network. It was designed to work like the Unix
+utility cat, but for the network.
+
+<LI><P>Act as a connection broker, allowing two (or far more) clients
+to connect to each other through a third (brokering) server. This
+enables multiple machines hidden behind NAT gateways to communicate
+with each other, and also enables the simple Ncat chat mode.
+</UL>
+
+<P>These capabilities become even more powerful and versatile when combined.
+
+<P>Ncat is our modern reinvention of the venerable Netcat (nc) tool
+released by Hobbit in 1996. While Ncat is similar to Netcat in spirit,
+they don't share any source code. Instead, Ncat makes use of Nmap's
+well optimized and tested networking libraries. Compatibility with the
+original Netcat and some well known variants is maintained where it
+doesn't conflict with Ncat's enhancements or cause usability
+problems. Ncat adds many capabilities not found in Hobbit's original
+nc, including SSL support, proxy connections, IPv6, and connection
+brokering. The original nc contained a simple port scanner, but we
+omitted that from Ncat because we have a preferred tool for that
+function.
+
+<P>Ncat is extensively documented in
+its <a href="http://nmap.org/ncat/guide/index.html">Users'
+Guide</a>, <a href="http://nmap.org/book/ncat-man.html">man page</a>,
+and <a href="http://nmap.org/ncat/">home page</a>.
+
+<A NAME="changes-discovery"></A>
+<A NAME="changes-performance"></A>
+<P><font size="+1"><B>Host discovery and port scanning performance and features</B></font>
+
+<P>Nmap has been doing host discovery and port scanning since its release in '97, but we continue to improve this core functionality.  We've added many new features and dramatically improved performance!  Here are the biggest enhancements since 4.50:
+
+<UL>
+
+<LI><P>Nmap now scans the most common 1,000 ports by default in either
+  protocol (UDP scan is still optional).  These were determined by
+  spending months scanning tens of millions of IPs on the
+  Internet. This makes Nmap faster (used to scan 1,715 TCP ports by
+  default) and yet more comprehensive since the smaller number of
+  ports are better chosen.
+
+<LI><P>Nmap fast scan (-F) now scans the top 100 ports by default in
+either protocol.  This is a decrease from 1,276 (TCP) and 1,017 (UDP)
+in Nmap 4.68. Port scanning time with -F is generally an order of
+magnitude faster than before, making -F worthy of its "fast scan"
+moniker.
+
+<LI><P>The --top-ports option lets you specify the number of ports you
+wish to scan in each protocol, and will pick the most popular ports
+for you based on the new frequency data.  For both TCP and UDP, the
+top 10 ports gets you roughly half of the open ports.  The top 1,000
+(out of 65,536 possible) finds roughly 93% of the open TCP ports and
+more than 95% of the open UDP ports.
+
+<LI><P>Added a new --min-rate option that allows specifying a minimum
+rate at which to send packets. This allows you to override Nmap's
+congestion control algorithms and request that Nmap try to keep at
+least the rate you specify.  A complementary --max-rate option was
+added as well. They
+are <a href="http://nmap.org/book/man-performance.html">documented
+here</a>.
+
+<LI><P>Added <a href="http://en.wikipedia.org/wiki/SCTP">SCTP</a> port
+  scanning support to Nmap. Stream control transmission protocol is a
+  layer 4 protocol used mostly for telephony related applications.
+  This brings the following new features:
+<UL>
+<LI>SCTP INIT chunk port scan (-sY): open ports return an INIT-ACK
+    chunk, closed ones an ABORT chunk.  This is the SCTP equivalent
+    of a TCP SYN stealth scan.
+<LI>SCTP COOKIE-ECHO chunk port scan (-sZ): open ports are silent,
+    closed ports return an ABORT chunk.
+<LI>SCTP-specific IP protocol scan (-sO -p sctp).
+<LI>SCTP-specific traceroute support (--traceroute).
+<LI>The server
+scanme.csnc.ch <a href="http://seclists.org/nmap-dev/2009/q2/0669.html">has
+been set up</a> for your SCTP scan testing pleasure. But note that
+SCTP doesn't pass through most NAT devices.
+</UL>
+
+<LI><P>David spent more than a month on algorithms to improve port
+  scan performance while retaining or improving accuracy.  The changes,
+  <a href="http://seclists.org/nmap-dev/2009/q1/0054.html">described here</a>,
+  reduce our "benchmark scan time" (which involves many
+  different scan types from many source networks to many targets) from
+  1879 seconds to 1321 without harming accuracy.  That is a 30% time
+  reduction!   Fyodor made a number of performance improvements as well.
+
+<LI><P>The host discovery (ping probe) defaults have been enhanced to
+  include twice as many probes.  The default is now "-PE -PS443 -PA80
+  -PP". In exhaustive testing of 90 different probes, this emerged as
+  the best four-probe combination, finding 14% more Internet hosts
+  than the previous default, "-PE -PA80". The default for non-root
+  users is -PS80,443, replacing the previous default of -PS80. In
+  addition, ping probes are now sent in order of effectiveness (-PE
+  first) so that less effective probes may not have to be sent. ARP
+  ping is still the default on local ethernet networks.
+
+<LI><P>Fixed an integer overflow which prevented a target
+  specification of "*.*.*.*" from working.  Support for the CIDR /0 is
+  now also available for those times you wish to scan the entire
+  Internet.
+
+<LI><P>When Nmap finds a probe during ping scan which elicits a
+response, it now saves that information for the port scan and later
+phases.  It can then "ping" the host with that probe as necessary to
+collect timing information even if the host is not responding to the
+normal port scan packets. Previously, Nmap's port scan timing pings
+could only use information gathered during that port scan itself.  A
+number of other "port scan ping" system improvements were made at the
+same time to improve performance against firewalled hosts
+(<a href="http://seclists.org/nmap-dev/2008/q3/0647.html">full
+details</a>).
+
+</UL>
+
+<A NAME="changes-book"></A>
+<P><font size="+1"><B>Fyodor's Nmap book</B></font>
+
+<P><a href="http://nmap.org/book/"><img width=326 height=200 src="http://nmap.org/book/cover/nns-whole-cover-326x200.jpg" align=right></a>
+
+<P>Fyodor released
+  <a href="http://nmap.org/book/">Nmap Network Scanning: The Official
+  Nmap Project Guide to Network Discovery and Security Scanning</a>.
+  From explaining port scanning basics for novices to detailing
+  low-level packet crafting methods used by advanced hackers, this
+  book suits all levels of security and networking professionals. A
+  42-page reference guide documents every Nmap feature and option,
+  while the rest of the book demonstrates how to apply those features
+  to quickly solve real-world tasks.  It was briefly the #1 selling
+  computer book on Amazon.  More than half of the book is already
+  <a href="http://nmap.org/book/toc.html">free online</a>.
+
+<P>A German
+  translation
+  <a href="https://www.opensourcepress.de/index.php?26&backPID=178&tt_products=270">is available</a>
+  from Open Source Press; Korean and Brazilian Portuguese
+  translations
+  are <a href="http://nmap.org/book/#translations">forthcoming</a>.
+
+
+<A NAME="changes-osdetect"></A>
+<P><font size="+1"><B>Operating system detection</B></font>
+
+<P>Thanks to fingerprint submissions from thousands of Nmap users
+around the world, the <a href="http://nmap.org/book/osdetect.html">2nd
+generation OS detection</a> database has nearly doubled in size since
+4.50 to 2,003 entries.  These include the latest versions of Windows,
+Linux, and Mac OS X as well as more specialized entries such as
+oscilloscopes, ATM machines, employee timeclocks, DVRs, game consoles,
+and much more.  Keep those submissions coming!
+
+<P>In addition to doubling the database size, we enhanced the OS
+detection engine and its tests to improve accuracy.  For example, we
+added a new SEQ.CI test (IP ID sequence generation from closed TCP
+port) and removed the U1.RUL, U1.TOS, IE.DLI, IE.SI, and IE.TOSI
+tests.
+
+<A NAME="changes-vscan"></A>
+<P><font size="+1"><B>Version detection</B></font>
+
+<P>Nmap's <a href="http://nmap.org/book/vscan.html">version detection
+system</a> interrogates open ports to determine what service
+(e.g. http, smtp) is running and often the exact application name and
+version number.  The version detection database grew by nearly a
+thousand signatures.  It grew from 4,558 signatures representing 449
+protocols in Nmap 4.50 to 5,512 signatures for 511 protocols in
+5.00. You can read about Doug's signature creation
+adventures <a href="http://hcsw.org/blog.pl/33">here</a>, <a href="http://hcsw.org/blog.pl/35">here</a>,
+and <a href="http://hcsw.org/blog.pl/37">here</a>.  The service
+protocols with the most signatures are http (1,868), telnet (584), ftp
+(506), smtp (363), pop3 (209), http-proxy (136), ssh (123), imap
+(122), and irc (48).  Among the protocols with just one signature
+are <a href="http://www.netrek.org/">netrek</a>,
+gopher-proxy, <a href="http://nmap.org/ncat/guide/ncat-chat.html">ncat-chat</a>,
+and <a href="http://metasploit.org/">metasploit</a>.
+
+<A NAME="changes-ndiff"></A>
+<P><font size="+1"><B>Ndiff scan comparison tool</B></font>
+
+<P>The new Ndiff utility compares the results of two Nmap scans and
+  describes the new/removed hosts, newly open/closed ports, changed
+  operating systems, or application versions, etc.  This makes it
+  trivial to scan your networks on a regular basis and create a report
+  (XML or text format) on all the changes.  See the
+  Ndiff <a href="http://nmap.org/boot/ndiff-man.html">man page</a>
+  and <a href="http://nmap.org/ndiff/">home page</a> for more
+  information.  Ndiff is included in our binary packages and built by
+  default, though you can prevent it from being built by specifying
+  the --without-ndiff configure flag.
+
+<P>Here are excerpts from an Ndiff comparison between two scans for the <a href="http://www.facebook.com">Facebook</a> network:
+
+<pre>
+&gt; ndiff -v facebook-vscan-1237136401.xml facebook-vscan-1237395601.xml
+-Nmap 4.85BETA3 at 2009-03-15 10:00
++Nmap 4.85BETA4 at 2009-03-18 10:00
+
++arborvip.tfbnw.net (69.63.179.23):
++Host is up.
++Not shown: 100 filtered ports
+
+ www2.02.07.facebook.com (69.63.180.12):
+ Host is up.
+ Not shown: 98 filtered ports
+ PORT    STATE SERVICE  VERSION
+-80/tcp  open  http     Apache httpd 1.3.41.fb2
++80/tcp  open  http     Apache httpd 1.3.41.fb1
+ 443/tcp open  ssl/http Apache httpd 1.3.41.fb2
+</pre>
+
+<p>And here is a trivial <a href="http://en.wikipedia.org/wiki/Cron">cron</a> script demonstrating how easy it is to scan a network daily and mail yourself the changes (and full results in this case):
+
+<pre>
+#!/bin/sh
+date=`date "+%s"`
+cd /hack/facebook/scripts/
+nmap -T4 -F -sV -O --osscan-limit --osscanguess -oA facebook-${date} [netblocks] > /dev/null
+ndiff facebook-old.xml facebook-${date}.xml > facebook-diff-${date}
+cp facebook-${date}.xml facebook-old.xml
+echo "\n********** NDIFF RESULTS **********\n"
+cat facebook-vscan-diff-${date}
+echo "\n********** SCAN RESULTS **********\n"
+cat facebook-vscan-${date}.nmap
+</pre>
+
+<p>You could do a similar thing using Windows' <a href="http://support.microsoft.com/kb/308569">scheduled tasks</a>.
+
+<p><a href="http://www.irongeek.com">IronGeek</a> has created an <a href="http://www.irongeek.com/i.php?page=videos/ndiff-nmap-5">Ndiff 5 introductory video</a> demonstrating command-line Ndiff plus its use within <a href="http://nmap.org/zenmap/">Zenmap</a>.
+<A NAME="changes-docs"></A>
+<P><font size="+1"><B>Documentation and web site improvements</B></font>
+
+<P>While <a href="http://nmap.org/book/">Nmap Network Scanning</a> may
+be the most exciting documentation news for this release, we did make
+many other important web site and documentation changes:
+
+<UL>
+
+<LI><P>Added German and Russian translations of
+the <a href="http://nmap.org/book/man.html">Nmap Reference Guide (Man
+Page)</a>.  You can choose from all 16 available languages from
+the <a href="http://nmap.org/docs.html">Nmap docs page</a>.
+
+<LI><P>Nmap has moved.  Everything at http://insecure.org/nmap/ can now be
+  found at http://nmap.org .  That should save your fingers from a
+  little bit of typing.
+
+<LI><P>A copy of the Nmap public svn repository (/nmap, plus its
+  zenmap, nsock, nbase, and ncat externals) is now available at
+  http://nmap.org/svn/.  We update this regularly, but it may be
+  slightly behind the SVN version.  It is particularly useful when you
+  need to link to files in the tree, since browsers generally don't
+  handle svn:// repository links.
+</UL>
+
+<A NAME="changes-portability"></A>
+<P><font size="+1"><B>Portability enhancements</B></font>
+
+
+<P>Nmap's dramatic improvements are of little value if it doesn't run
+on your system.  Fortunately, portability has always been a high
+priority. Nmap 5.00 runs on all major operating systems, plus the
+Amiga.  Portability improvements in this release include:
+
+<UL>
+
+<LI><P>A Mac OS X Nmap/Zenmap installer is now available from the Nmap
+download page.  It is rather straightforward,
+but <a href="http://nmap.org/book/inst-macosx.html">detailed
+instructions</a> are available anyway.  As a universal installer, it
+works on both Intel and PPC Macs. It is distributed as a disk image
+file (.dmg) containing an mpkg package.  The installed Nmap include
+OpenSSL support and also supports Authorization Services so that
+Zenmap can run as root when necessary.
+
+<LI><P>Nmap's special WinPcap installer now handles 64-bit Windows
+machines by installing the proper 64-bit npf.sys.
+
+<LI><P>The Nmap installer was updated to handle the Windows 7 release candidate.
+
+<LI><P>The Windows version of Nmap (both .zip and executable
+installer) now supports OpenSSL, as do the Linux RPM binaries we
+distribute.  The UNIX source tarball has supported OpenSSL for years.
+
+<LI><P>We now compile in IPv6 support on Windows.  In order to use
+this, you need to have IPv6 set up.  It is installed by default on
+Vista, but must
+be <a href="http://www.microsoft.com/technet/network/ipv6/ipv6faq.mspx">manually installed</a> for XP.
+
+</UL>
+
+<A NAME="changes-more"></A>
+<P><font size="+1"><B>Even more improvements</B></font>
+
+<UL>
+
+<LI><P>The compile-time Nmap ASCII dragon is now more ferocious thanks to
+  better teeth alignment:
+<pre>
+  (  )   /\   _                 (     
+    \ |  (  \ ( \.(               )                      _____
+  \  \ \  `  `   ) \             (  ___                 / _   \
+ (_`    \+   . x  ( .\            \/   \____-----------/ (o)   \_
+- .-               \+  ;          (  O                           \____
+                          )        \_____________  `              \  /
+(__                +- .( -'.- <. - _  VVVVVVV VV V\                \/
+(_____            ._._: <_ - <- _  (--_AAAAAAA__A_/                |
+  .    /./.+-  . .- /  +--  - .     \______________//_              \_______
+  (__ ' /x  / x _/ (                                  \___'          \     /
+ , x / ( '  . / .  /                                      |           \   /
+    /  /  _/ /    +                                      /              \/
+   '  (__/                                             /                  \
+             NMAP IS A POWERFUL TOOL -- USE CAREFULLY AND RESPONSIBLY
+</pre>
+
+<LI><P>The new --stats-every option takes a time interval that
+controls how often timing status updates are printed. It is useful
+when Nmap is run by another program as a subprocess, or if you just
+like frequent timing updates.
+
+<LI><P>Completion time estimates provided in verbose mode or when you hit a
+key during scanning are now more accurate.
+
+<LI><P>The nmap-dev and nmap-hackers mailing list RSS feeds at <a href="http://seclists.org">SecLists.Org</a>
+  now include message excerpts to make it easier to identify
+  interesting messages and speed the process of reading through the
+  list.  Feeds for all other mailing lists archived at SecLists.Org
+  have been similarly augmented (<a href="http://seclists.org/nmap-dev/2008/q2/0333.html">details</a>).
+
+<LI><P>Fixed an integer overflow in the scan progress meter.  As an
+Nmap user, few things are more discouraging than seeing your estimated
+completion time rise so high that it goes negative.
+
+<LI><P>Nmap's output options (-oA, -oX, etc.) now support
+strftime()-like conversions in the filename.  %H, %M, %S, %m, %d, %y,
+and %Y are all the same as in strftime().  %T is the same as %H%M%S,
+%R is the same as %H%M, and %D is the same as %m%d%y.  So means that
+"-oX 'scan-%T-%D.xml'" uses an XML file in the form of
+"scan-144840-121307.xml".
+
+<LI><P>Removed Brazilian poetry/lyrics from Zenmap source code
+  (NmapOutputViewer.py). We've seen enough of it in the debug logs. "E nao se entrega, nao".  We also removed a code comment which declared /*WANKER ALERT!*/ for no good reason.
+
+<LI><P>Nmap and Nmap-WinPcap silent installation now works on Windows.
+  Nmap can be silently installed with the /S option to the installer.
+  If you install Nmap from the zip file, you can install just WinPcap
+  silently with the /S option to that installer.
+
+<LI><P>--traceroute is now faster and more effective because it uses
+  the timing ping probe saved from host discovery and port
+  scanning. The timing ping probe is always the best probe Nmap knows
+  about for eliciting a response from a target.
+
+<LI><P>We now have a <a href="http://nmap.org/svn/todo/nmap.txt">public
+TODO list</a> describing our future plans and tasks which need work.
+
+<LI><P>Google sponsored 6 college/grad students for Summer of Code 2009.
+They and their ongoing projects
+are <a href="http://seclists.org/nmap-dev/2009/q2/0317.html">introduced
+here</a>.
+
+<LI><P>Nmap now builds with
+the <a href="http://gcc.gnu.org/ml/gcc-patches/2004-09/msg02055.html">_FORTIFY_SOURCE=2</a>
+define.  With modern versions of GCC, this adds extra buffer overflow
+protection and other security checks.
+
+<LI><P>Nmap was discovered in its eighth movie.  In the Russian film
+  Khottabych, teenage hacker Gena uses Nmap (and telnet) to hack
+  Microsoft.  In response, MS sends a pretty female hacker to flush
+  him out (<a href="http://nmap.org/movies.html">more details and screen shots</a>).
+
+<LI><P>To better support users with attention deficit disorder, we
+  created an <a href="http://twitter.com/nmap/">Nmap Twitter feed</a>.
+  We still recommend that all users subscribe to
+  the low-traffic <a href="http://nmap.org/mailman/listinfo/announce">nmap-hackers
+  announcement mailing list</a>.
+
+<LI><P>Nmap won LinuxQuestions.Org Network Security Application of the
+  Year for the <a href="http://seclists.org/nmap-dev/2009/q1/0395.html">sixth year in a row</a>.
+
+<LI><P>These release notes mostly discuss new features, but we also
+made many performance enhancements and fixed a large number of bugs
+which could lead to crashes, compilation failures, or other
+misbehavior.
+
+
+</UL>
+
+<P>These are just highlights from the full list of changes you can
+find in <a href="http://nmap.org/changelog.html">our CHANGELOG</a>.
+
+
+<A NAME="future"></A>
+<h2 class="purpleheader">Moving Forward</h2>
+
+<P>With this stable version out of the way, we are diving headfirst
+into the next development cycle.  Many exciting features are in the
+queue, including:
+<UL>
+<LI>Ncrack, a high speed network authentication cracker
+<LI>Nping, a raw packet network probing tool
+<LI>High speed port scanning through http or socks proxies (or chains of proxies)
+<LI>NSE scripts for web application fingerprinting, HTTP spidering, and whatever else developers think up.
+<LI>We're working a new survey to redo our top security tools list at <a href="http://sectools.org">SecTools.Org</a>.  We have other web projects in mind as well.
+</UL>
+
+<P>You can read more of our short-term and longer-term plans from
+our <a href="http://nmap.org/svn/todo/nmap.txt">public TODO list</a>.
+
+<p>For the latest Insecure.Org and Nmap announcements, join the
+68,000-member Nmap-hackers announcement list.  Traffic rarely
+exceeds one message per month.  <a
+href="http://nmap.org/mailman/listinfo/announce">subscribe here</a>
+or <A
+HREF="http://seclists.org">read the archives at SecLists.Org</A>.  To participate in Nmap
+development, join the (high traffic)
+<a href="http://nmap.org/mailman/listinfo/dev">nmap-dev list</a>.  You can also <a href="http://twitter.com/nmap">follow us on Twitter</a>.
+
+<A NAME="acknowledgments"></A>
+<h2 class="purpleheader">Acknowledgments</h2>
+
+<P>A free open source scanner as powerful as Nmap is only possible
+thanks to the help of hundreds of developers and other contributors.
+We would like to acknowledge and thank the many people who contributed
+ideas and/or code since Nmap 4.50.  Special thanks go out to:
+
+<p><b>4N9e&nbsp;Gutek</b>, <b>Aaron&nbsp;Leininger</b>, <b>Adriano&nbsp;Monteiro&nbsp;Marques</b>, <b>Allison&nbsp;Randal</b>, <b>Andrew&nbsp;J.&nbsp;Bennieston</b>, <b>Andy&nbsp;Lutomirski</b>, <b>Angico</b>, <b>Arturo&nbsp;Buanzo</b>, <b>Arturo&nbsp;Buanzo&nbsp;Busleiman</b>, <b>Benson&nbsp;Kalahar</b>, <b>Bill&nbsp;Pollock</b>, <b>Brandon&nbsp;Enright</b>, <b>Brian&nbsp;Hatch</b>, <b>Busleiman</b>, <b>Chad&nbsp;Loder</b>, <b>Chris&nbsp;Clements</b>, <b>Chris&nbsp;Gibson</b>, <b>Chris&nbsp;Leick,</b>, <b>Daniel&nbsp;Roethlisberger</b>, <b>David&nbsp;Fifield</b>, <b>David&nbsp;Moore</b>, <b>Diman&nbsp;Todorov</b>, <b>Diman&nbsp;Todorov,</b>, <b>Dinu&nbsp;Gherman</b>, <b>Doug&nbsp;Hoyte</b>, <b>Dragos&nbsp;Ruiu</b>, <b>Dudi&nbsp;Itzhakov</b>, <b>Eddie&nbsp;Bell</b>, <b>Emma&nbsp;Jane&nbsp;Hogbin</b>, <b>Fabio&nbsp;Pedretti</b>, <b>Felix&nbsp;Leder</b>, <b>Gisle&nbsp;Vanem</b>, <b>Gisle&nbsp;Vanem,</b>, <b>Guilherme&nbsp;Polo</b>, <b>Guz&nbsp;Alexander</b>, <b>HD&nbsp;Moore</b>, <b>Henri&nbsp;Doreau</b>, <b>Henri&nbsp;Doreau,</b>, <b>Henry&nbsp;Gebhardt</b>, <b>Ithilgore</b>, <b>Jabra</b>, <b>Jah</b>, <b>James&nbsp;Messer</b>, <b>Jason&nbsp;DePriest</b>, <b>Jeff&nbsp;Nathan</b>, <b>Jesse&nbsp;Burns</b>, <b>Joao&nbsp;Correa</b>, <b>Joao&nbsp;Medeiros</b>, <b>Josh&nbsp;Marlow</b>, <b>Jurand&nbsp;Nogiec</b>, <b>Kris&nbsp;Katterjohn</b>, <b>Lamont&nbsp;Jones</b>, <b>Lance&nbsp;Spitzner</b>, <b>Leslie&nbsp;Hawthorn</b>, <b>Lionel&nbsp;Cons</b>, <b>Marius&nbsp;Sturm</b>, <b>Martin&nbsp;Macok</b>, <b>Matt&nbsp;Selsky</b>, <b>Max&nbsp;Schubert</b>, <b>Michael&nbsp;Pattrick</b>, <b>Michal&nbsp;Januszewski</b>, <b>Mike&nbsp;Frysinger</b>, <b>Mixter</b>, <b>Nathan&nbsp;Bills</b>, <b>Patrick&nbsp;Donnelly</b>, <b>Philip&nbsp;Pickering</b>, <b>Pieter&nbsp;Bowman</b>, <b>Rainer&nbsp;Müller</b>, <b>Raven&nbsp;Alder</b>, <b>Robert&nbsp;Mead</b>, <b>Rob&nbsp;Nicholls</b>, <b>Ron&nbsp;Bowes</b>, <b>Sebastián&nbsp;García</b>, <b>Simple&nbsp;Nomad</b>, <b>Solar&nbsp;Designer</b>, <b>Stephan&nbsp;Fijneman</b>, <b>Steve&nbsp;Christensen</b>, <b>Sven&nbsp;Klemm</b>, <b>Tedi&nbsp;Heriyanto</b>, <b>Thomas&nbsp;Buchanan</b>, <b>Thorsten&nbsp;Holz</b>, <b>Tillmann&nbsp;Werner</b>, <b>Tim&nbsp;Adam</b>, <b>Tom&nbsp;Duffy</b>, <b>Tom&nbsp;Sellers</b>, <b>Trevor&nbsp;Bain</b>, <b>Tyler&nbsp;Reguly</b>, <b>Valerie&nbsp;Aurora</b>, <b>van&nbsp;Hauser</b>, <b>Venkat&nbsp;Sanaka</b>, <b>Vlad&nbsp;Alexa</b>, <b>Vladimir&nbsp;Mitrovic</b>, <b>Vlatko&nbsp;Kosturjak</b>, <b>Will&nbsp;Cladek</b>, <b>William&nbsp;McVey</b>, <b>Zhao&nbsp;Lei</b>
+
+<P>We would also like to thank the thousands of people who
+have submitted OS and service/version fingerprints, as well as
+everyone who has found and reported bugs or suggested features.
+
+<A NAME="download"></A>
+<h2 class="purpleheader">Download and Updates</h2>
+
+<P>Nmap is available for download from <A
+HREF="http://nmap.org/download.html">http://nmap.org/download.html</A>
+in source and binary form.  Nmap is free, open source software (<a href="http://nmap.org/data/COPYING">license</a>).
+
+<P>To learn about Nmap announcements as they happen, subscribe to nmap-hackers!
+It is a very low volume (7 messages in 2008),
+moderated list for announcements about Nmap, Insecure.org, and related
+projects.  You can join the 65,000 current subscribers by submitting
+your e-mail address here:
+
+<P>
+<FORM Method=POST ACTION="http://nmap.org/mailman/subscribe/announce">
+<INPUT type="Text" name="email" size="20" value="">
+<font color="#000000"><INPUT type="Submit" name="email-button" value="Subscribe to Nmap-hackers"></font><BR>
+(or subscribe with custom options from the <a href="http://nmap.org/mailman/listinfo/announce">Nmap-hackers list info page</a>.  
+</FORM>
+
+<P>Nmap-hackers is archived at <A HREF="http://seclists.org">Seclists.org</A> and has an <a href="http://seclists.org/rss/nmap-hackers.rss">RSS feed</a>.  You can also follow the <a href="http://twitter.com/nmap/">Nmap Twitter feed</a>.
+
+<p>Brandon Enright and <a href="http://ucsd.edu/">UCSD</a> have
+generously mirrored the Nmap binaries to handle the deluge of traffic
+expected as users download this release.
+
+<P>Direct questions or comments to Fyodor
+(<A HREF="mailto:fyodor@nmap.org">fyodor@nmap.org</A>) .
+Report any bugs
+as <a href="http://nmap.org/man/man-bugs.html">described here</a>.
+
+
+
+
+
+<BR><BR>
+</TD></TR>
+</TABLE>
+</TD></TR>
+<TR><TD></TD><TD ALIGN="center">
+<FONT COLOR="#FFFFFF">
+[ <A HREF="http://nmap.org"><FONT COLOR="#FFFFFF">Nmap</FONT></A> |
+  <A HREF="http://sectools.org"><FONT COLOR="#FFFFFF">Sec Tools</FONT></A> |
+  <A HREF="http://seclists.org/"><FONT COLOR="#FFFFFF">Mailing Lists</FONT></A> |
+  <A HREF="http://insecure.org/"><FONT COLOR="#FFFFFF">Site News</FONT></A> |
+  <A HREF="http://insecure.org/fyodor/"><FONT COLOR="#FFFFFF">About/Contact</FONT></A> |
+  <A HREF="http://insecure.org/advertising.html"><FONT COLOR="#FFFFFF">Advertising</FONT></A> |
+  <A HREF="http://insecure.org/privacy.html"><FONT COLOR="#FFFFFF">Privacy</FONT></A> ]<BR>
+</FONT>
+
+<!-- SiteSearch Google -->
+<gcse:searchbox-only></gcse:searchbox-only>
+<!-- End SiteSearch Google -->
+
+<!-- Bottom Banner -->
+<script type="text/javascript"><!--
+google_ad_client = "pub-0078565546631069";
+/* PageBottom728x90 */
+google_ad_slot = "2743510915";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"><!--
+if (document.location.protocol != "https:") {
+document.write("<script type='text/javascript' src='http://pagead2.googlesyndication.com/pagead/show_ads.js'><\/script>");
+}
+//-->
+</script>
+<!-- End Bottom Banner -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>
+
+

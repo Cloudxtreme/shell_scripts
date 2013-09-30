@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <title>PennNet-21: Central Authentication Strategy Document</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <!-- Copyright (C) 2003 Shumon Huque -->
+  <meta name="author" content="Shumon Huque">
+  <meta name="keywords"
+          content="PennNet-21, Central Authentication Infrastructure
+	  Strategy, University of Pennsylvania, PennKey, Kerberos,
+	  Huque, Shumon, Shumon Huque">
+  <meta name="description"
+          content="PennNet-21 Central Authentication Insfrastructure
+	  Strategy, University of Pennsylvania">
+  <link rel="stylesheet" type="text/css" href="/~shuque/style/document1.css">
+</head>
+
+<!-- Background white, links blue (unvisited), navy (visited), red (active) -->
+ <BODY
+  BGCOLOR="#FFFFFF"
+  TEXT="#000000"
+  LINK="#0000FF"
+  VLINK="#000080"
+  ALINK="#FF0000"
+ >
+<h2>Central Authentication Infrastructure</h2>
+<p>
+PennNet-21 Strategy Document<br>
+<i>Shumon Huque, University of Pennsylvania<br>
+Last revised: March 1st 2004</i>
+</p>
+
+<h3>HISTORIC ISSUE/PROBLEM STATEMENT</h3>
+
+   The old central PennNet Authentication System (PAS) was used by a
+   large and growing number of the network services available to the
+   Penn community. But PAS had many shortcomings. It authenticated
+   users by verifying reusable passwords that were transmitted over
+   the network in the clear, which made it vulnerable to various forms
+   of eavesdropping and password-guessing. It relied on custom network
+   protocols designed at Penn, so any service that used PAS required
+   non-standard software in order to authenticate users. It had no
+   provisions for high availability. And it lacked Single Sign-on 
+   functionality that would make authentication easier and more convenient 
+   for users.
+
+<h3>DIRECTION</h3>
+
+   The new Central Authentication System deployed at Penn is called
+   "PennKey" and is based on Kerberos.
+<p>
+   Kerberos is a standards-based central authentication system that 
+   employs symmetric key cryptrography. The authentication function
+   is mediated by a set of trusted servers on the network called Key 
+   Distribution Centers (KDCs). The system provides mutual authentication, 
+   in which both parties in the communication (clients and servers) 
+   are authenticated to each other. It also provides facilities for 
+   session encryption and integrity protection. Kerberos prevents the 
+   transmission of user passwords over the network (in the clear or 
+   even encrypted). Passwords are only used to encrypt and decrypt 
+   time-limited cryptographic credentials which are subsequently used 
+   in the authentication function. A special service called the "ticket 
+   granting service" provides a much desired Single Sign-on capability.
+<p>
+   The core Kerberos infrastructure consists of multiple (currently three)
+   redundant Key Distribution Centers (KDCs) that provide the Kerberos 
+   authentication, ticket-granting and administration services. Each
+   KDC is located in a distinct building on a distinct network (IP
+   subnet) with redundant connectivity to the campus routing core via 
+   distinct routing equipment. The Kerberos protocol supports multiple
+   servers and transparently fails over to alternate servers. This
+   design provides a high availability central authentication service 
+   that is resistant to a wide variety of server and network failures, 
+   and even environmental disasters. All KDC server platforms are 
+   maximally secured against intrusion, even at the cost of making 
+   routine systems administration more difficult (eg. by limiting 
+   physical access to the server hardware and disallowing all unnecessary 
+   network services, including remote logins.) Sensitive KDC data does 
+   not appear on backup tapes in an unencrypted form, and any encryption
+   keys required for backups are stored in physically secure facilities 
+   for disaster recovery purposes.
+<p>
+   Additional software infrastructure provides convenient and secure
+   facilities for online user account management and server principal
+   and key management. A test Kerberos infrastructure provides facilities
+   for Kerberos administrators to test new KDC software functionality.
+   A RADIUS authentication service is also available to allow Kerberos
+   password verification for applications that don't currently support
+   native Kerberos authentication. In this scheme the application 
+   transmits the users Kerberos password in a cryptographically secure 
+   manner to a RADIUS service which subsequently authenticates the user 
+   to the Kerberos service. It is meant as a transitional mechanism
+   only until the application can support the Kerberos protocol directly.
+
+<h3>PROGRESS SO FAR</h3>
+
+   The core Kerberos infrastructure has been operational since the
+   spring of 2000. The PAS service was retired in October 2002.
+   Old PAS-authenticated services have either been transitioned
+   to Kerberos authentication or re-architected to use the RADIUS
+   service for Kerberos password verification as an interim step
+   to direct use of Kerberos.
+
+<h3>FUTURE PLANS</h3>
+
+   Milestones remaining to be completed include:
+<p>
+<ul>
+<li>Investigate Two-factor authentication systems for increased
+       security (combining Kerberos passwords with hardware tokens
+       for pre-authentication.) Due to issues of cost, this functionality 
+       will most likely initially be considered for Kerberos system
+       administrators only.
+<li>Implement a multi-master Kerberos Administration service (KADM).
+<li>Allow use of strong encryption key types only
+    (3DES/RC4 128/AES 128/AES 256.) 
+<li>Find native Kerberos authenticated solutions for some popular
+       protocols: HTTP, 802.1X/EAP etc
+<li>Long-term migration of all clients from simple password verification
+       via RADIUS to single-sign-on via Kerberos.
+<li>Retire legacy RADIUS password verification service.
+<li>Design and deploy Kerberos authenticated services for
+       Central Authorization and Accounting.
+</ul>
+
+<h3>REFERENCES</h3>
+
+<ul>
+<li><a href="http://www.upenn.edu/computing/pennkey/">PennKey</a>
+<li><a href="http://web.mit.edu/kerberos/www/">MIT Kerberos web site</a>
+<li><a href="http://www.upenn.edu/">University of Pennsylvania</a>
+</ul>
+
+<hr>
+Shumon Huque, Lead Engineer<br>
+Information Systems &amp; Computing, University of Pennsylvania<br>
+
+</BODY>
+</HTML>

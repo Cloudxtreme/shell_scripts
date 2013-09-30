@@ -1,0 +1,626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+<link rel="stylesheet" href="/pub/TWiki/JQueryPlugin/jquery-all.css" type="text/css" media="all" />
+<script type="text/javascript" src="/pub/TWiki/JQueryPlugin/jquery-all.js"></script>
+<link rel="stylesheet" href="http://ntp.br/pub/TWiki/ImagePlugin/style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="http://ntp.br/pub/TWiki/ImageGalleryPlugin/style.css" type="text/css" media="all" />
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/pub/NTP/WebModeloNicTemplate/ntp.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/pub/NTP/WebModeloNicTemplate/home.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="/pub/NTP/WebModeloNicTemplate/print.css" />
+	<link rel="stylesheet" type="text/css" media="handheld" href="/pub/NTP/WebModeloNicTemplate/handheld.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="NTP.br, ntp, ntp" />
+	<meta name="description" content="NTP.br" />
+	<!-- <meta http-equiv="pragma" content="no-cache" /> -->
+	<script type="text/javascript" src="scripts.js"></script>
+	<script type="text/javascript" src="/pub/NTP/WebModeloNicTemplate/css3-mediaqueries.js"></script>
+	<title>NTP.br - Hora Certa via Internet - O NTP</title>
+</head>
+<body>
+	<div class="header-ceptro">
+		<h1><a href="http://www.ceptro.br/"><img src="/pub/NTP/WebModeloNicTemplate/logo-ceptro-top.gif" alt="ceptro.br" width="82" height="28" longdesc="Centro de Estudos e Pesquisas em Tecnologia de Redes e Operações" /></a></h1> 
+		<span><a href="http://www.ceptro.br/">Centro de Estudos e Pesquisas em Tecnologia de Redes e Operações</a></span>
+		<div class="header-cgi-nic">
+			<a href="http://www.on.br/" title="Observatório Nacional"><img src="/pub/NTP/WebModeloNicTemplate/logo-on-top.gif" alt="Observatório Nacional" width="121" height="26" /></a><span class="invisible">|</span>
+		    <a href="http://www.cgi.br/" title="Comitê Gestor da Internet no Brasil"><img src="/pub/NTP/WebModeloNicTemplate/logo-cgi-top.gif" alt="CGI.br" width="43" height="27" /></a><span class="invisible">|</span>
+		    <a href="http://www.nic.br/" title="Núcleo de Informação e Coordenação do Ponto BR"><img src="/pub/NTP/WebModeloNicTemplate/logo-nic-top.gif" alt="NIC.br" width="41" height="27" /></a>
+		</div>
+	</div><!--.header-ceptro-->
+	<div class="topo">
+	  <h2><a href="http://www.ntp.br/" accesskey="1"><img src="/pub/NTP/WebModeloNicTemplate/logo-ntp.gif" alt="NTP.br" class="logo-ntp" width="256" height="58" /></a></h2>
+		<span class="ir-conteudo"><a href="#content" accesskey="2">Ir para o conteúdo</a></span>
+		<ul>
+		    <li><a href="http://pcdsh01.on.br/">Divisão da Hora do Observatório Nacional</a></li>
+		    <li><a href="http://www.nic.br/imprensa">Imprensa</a></li>
+		    <li class="last"><a href="http://www.ceptro.br/CEPTRO/EnglishHome#NTP_br_Brazilian_Legal_Time_over">English</a></li>
+		</ul>
+	</div><!--.topo-->
+	<div class="container">
+		<div class="menu-esq">
+		<ul class="menu">
+<li><a href="/NTP/MenuNTPIntroducao" class="twikiLink">Introdução</a></li>
+<li><a href="/NTP/MenuNTPWindows" class="twikiLink">Guia Windows</a></li>
+<li><a href="/NTP/MenuNTPLinuxBSD" class="twikiLink">Guia Linux/BSD</a></li>
+<li><a href="/NTP/MenuNTPMac" class="twikiLink">Guia MAC</a></li>
+<li><a href="/NTP/MenuNTPRoteadores" class="twikiLink">Guia Roteadores</a></li>
+<li><a href="/NTP/MenuNTPTempo" class="twikiLink">O Tempo</a></li>
+<li><a href="/NTP/MenuNTPNtp" class="twikiCurrentTopicLink twikiLink">O NTP</a></li>
+<li><a href="/NTP/MenuNTPEstrutura" class="twikiLink">Estrutura</a></li>
+<li><a href="/NTP/MenuNTPGrafico" class="twikiLink">Gráficos</a></li>
+<li><a href="/NTP/MenuNTPAvancado" class="twikiLink">Conf. Avançada</a></li>
+<li><a href="/NTP/MenuNTPVocabulario" class="twikiLink">Vocabulário</a></li>
+<li><a href="/NTP/MenuNTPFaq" class="twikiLink">FAQ</a></li>
+<li><a href="/NTP/MenuNTPLinks" class="twikiLink">Links</a></li>
+<li><a href="/NTP/MenuNTPBanners" class="twikiLink">Banners</a></li>
+<li><a href="/NTP/MenuNTPContato" class="twikiLink">Contato</a></li>          
+</ul>
+				<form method="get" action="http://www.google.com/search" title="Busca no site">
+			<fieldset>
+				<label for="busca"><span class="busca-txt">Busca</span><br />
+				<input type="text" size="17" name="q" maxlength="255" value="Buscar por..." id="busca" onfocus="clearDefault(this)" class="busca-campo" /></label>
+				<input type="hidden" name="domains" value="cgi.br;nic.br;registro.br;ceptro.br;cetic.br;ceptro.br;w3c.br" /><input type="hidden" name="ie" value="iso-8859-1" /><input type="hidden" name="oe" value="iso-8859-1" /><input type="button" name="sa" value="ok" alt="ok" class="busca-btn" />
+				<label class="invisivel" for="busca-no-site">Selecione o site</label>
+				<select name="sitesearch" id="busca-no-site" title="Selecione o site" class="busca-select">
+					<option value="ntp.br" selected="selected">Buscar em NTP.br...</option>
+				    <option value="cgi.br">Buscar em CGI.br</option>
+					<option value="nic.br">Buscar em NIC.br</option>
+					<option value="registro.br">Buscar em Registro.br</option>
+					<option value="cetic.br">Buscar em CETIC.br</option>
+					<option value="ceptro.br">Buscar em CEPTRO.br</option>
+					<option value="w3c.br">Buscar em W3C.br</option>
+				</select>
+			</fieldset>
+			</form>  
+<p />
+			<span class="acessibilidade"><a href="http://validator.w3.org/check?uri=referer">V&aacute;lido XHTML</a> </span>
+			<span class="acessibilidade"><a href="http://jigsaw.w3.org/css-validator/check/referer">V&aacute;lido CSS</a> </span>
+			<span class="acessibilidade"><a href="http://www.ntp.br/NTP/AcessibilidadeSitio" accesskey="3">Acessibilidade do sítio</a></span>
+		</div><!--.menu-esq-->
+		<div class="conteudo">
+			<div class="breadcrumb">
+				Você está em: <strong>NTP.br -&gt; O NTP</strong>
+				<div class="seu-ip">Seu <acronym title="Internet Protocol">IP</acronym>: 2001:0:53aa:64c:18ca:5d94:2471:e895 </div>
+			</div><!--.breadcrumb-->
+<div class="subcontent">
+			<a name="content"></a>
+<p /><h3><a name="O_NTP"></a> O NTP </h3>
+<a name="VolTar"></a>
+<strong>NTP</strong> significa <em>Network Time Protocol</em> ou <strong>Protocolo de Tempo para Redes</strong>. É o protocolo que permite a sincronização dos relógios dos dispositivos de uma rede como servidores, estações de trabalho, roteadores e outros equipamentos à partir de referências de tempo confiáveis.
+<p />
+<span class="vermelho"> <strong>OBS</strong>:</span> ao longo desta página utiliza-se o comando <strong><em>ntpq</em></strong> da distribuição do NTP para exemplificar o acesso às variaveis do sistema ligadas a cada conceito. Para mais detalhes sobre essa ferramenta, deve-se acessar a seção <a href="/NTP/MenuNTPAvancado" class="twikiLink">Utilizando</a>.
+<div class="twikiToc"> <ul>
+<li> <a href="#O_NTP"> O NTP</a> <ul>
+<li> <a href="#Arquitetura_do_NTP"> Arquitetura do NTP</a>
+</li> <li> <a href="#O_Funcionamento_do_NTP"> O Funcionamento do NTP</a>
+</li> <li> <a href="#Troca_de_Mensagens_e_C_lculo_do"> Troca de Mensagens e Cálculo do Deslocamento</a>
+</li> <li> <a href="#O_Algor_tmo_de_Filtro_de_Rel_gio"> O Algorítmo de Filtro de Relógio</a>
+</li> <li> <a href="#O_Algor_timo_de_Sele_o_dos_Rel_g"> O Algorítimo de Seleção dos Relógios</a>
+</li> <li> <a href="#O_Algor_tmo_de_Agrupamento"> O Algorítmo de Agrupamento</a>
+</li> <li> <a href="#O_Algor_tmo_de_Combina_o_de_Rel"> O Algorítmo de Combinação de Relógios</a>
+</li> <li> <a href="#Disciplina_do_Rel_gio_Local"> Disciplina do Relógio Local</a>
+</li> <li> <a href="#Seguran_a"> Segurança</a>
+</li></ul> 
+</li></ul> 
+</div>
+<div class="voltar"><a href="/NTP/MenuNTPNtp#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Arquitetura_do_NTP"></a> Arquitetura do NTP </h4>
+<p />
+Os servidores NTP formam uma topologia hierárquica, dividida em camadas ou estratos (em inglês: <em>strata</em>) numerados de 0 (zero) a 16 (dezesseis). O estrato 0 (<em>stratum 0</em>) na verdade não faz parte da rede de servidores NTP, mas representa a referência primária de tempo, que é geralmente um receptor do Sistema de Posicionamento Global (GPS) ou um relógio atômico. O estrato 16 indica que um determinado servidor está inoperante.
+<div class="img-centro"><img src="http://ntp.br/pub/NTP/MenuNTPNtp/img_MenuNTPNtp_2.gif" alt=""/></div>
+<p class="legenda">Figura 1: Topologia em camadas (estratos)</p>
+<p />
+O estrato 0, ou relógio de referência, fornece o tempo correto para o estrato 1, que por sua vez fornece o tempo para o estrato 2 e assim por diante. O NTP é então, simultaneamente, servidor (fornece o tempo) e cliente (consulta o tempo). A topologia está ilustrada na <strong>Figura 1</strong>.
+<p />
+De forma geral, quanto mais perto da raiz, ou seja, do estrato 0, maior a exatidão do tempo. O estrato ao qual o servidor pertence é a principal métrica utilizada pelo NTP para escolher dentre vários, qual o melhor servidor para fornecer o tempo.
+<p />
+Por outro lado, normalmente as diferenças de exatidão entre os estratos não são expressivas e há, no momento de escolher-se um conjunto de servidores de tempo para configurar um determinado cliente, outros fatores a se considerar, como por exemplo a carga à qual os servidores estão submetidos, e o atraso de rede.
+<p />
+O estrato de um servidor não é uma característica estática. Se houver perda de conexão com as fontes de tempo, ou outros fatores que modifiquem a topologia da rede, o estrato pode variar.
+<p />
+Ao consultar-se a lista de servidores no <em>daemon</em> NTP, o estrato (<em>st</em>) é informado:
+<p />
+<pre>
+       <span class="verde">usuario@cliente.local:~$ <b>ntpq -c pe</b></span>
+         remote     refid    <b>st</b>   t when poll reach   delay   offset  jitter
+       ======================================================================
+       -servidor1   .IRIG.    <b>1</b>   u    8   32  377    0.407    0.248   0.016
+       -servidor2   .GPS.     <b>1</b>   u    -   32  377    0.474    0.213   0.019
+       +servidor3   .GPS.     <b>1</b>   u    9   64  377   15.680   -0.005   0.026
+       +servidor4   .IRIG.    <b>1</b>   u   30   64  377   15.582    0.004   0.100
+       *servidor5   .GPS.     <b>1</b>   u   10   32  377    0.400   -0.026   0.049
+       xservidor6   .IRIG.    <b>1</b>   u   26   64  377    7.824    9.923   0.367
+</pre>
+<p />
+As relações entre os diferentes dispositivos NTP são normalmente chamadas de <strong>Associações</strong>. Elas podem ser:
+<p /> <ul>
+<li> <strong>Permanentes</strong>: são criadas por uma configuração ou comando e mantidas sempre.
+</li></ul> 
+<p /> <ul>
+<li> <strong>Priorizáveis</strong> (<em>preemptables</em>): são específicas da versão 4 do NTP e criadas por uma configuração ou comando, podem ser desfeitas no caso de haver um servidor melhor, ou depois de um certo tempo.
+</li></ul> 
+<p /> <ul>
+<li> <strong>Efêmeras ou transitórias</strong>: são criadas por solicitação de outro dispositivo NTP e podem ser desfeitas em caso de erro ou depois de um certo tempo.
+</li></ul> 
+<p />
+<p />
+São possíveis as seguintes Associações:
+<p /> <ul>
+<li> <strong>Cliente - Servidor</strong>: (<em>client - server</em>) É uma assiciação permanente e a forma mais comum de configuração. Um dispositivo faz o papel de <strong>cliente</strong>, solicitando informações sobre o tempo a um servidor. O cliente tem conhecimento das associações com os servidores e do estado da troca de pacotes. Outro dispositivo faz o papel de <strong>servidor</strong>, respondendo à solicitação do cliente com informações sobre o tempo. O servidor não armazena informações sobre o diálogo com o cliente ou sobre sua associação com o mesmo. 
+</li></ul> 
+<p class="tabulacao">
+      No processo, então, o cliente envia um pacote ao servidor a aguarda a resposta, que vem em seguida. Isso pode ser descrito também como uma operação do tipo <em>pull</em>, dizendo que o cliente busca os dados necessários sobre o tempo no servidor.
+<br /> 
+      Para configurar o cliente dessa forma é usado o parâmetro <strong>server</strong> no arquivo de configuração, seguido do nome ou endereço do servidor. É recomendável também usar adicionalmente o parâmetro <code><b>iburst</b></code> no comando, que serve para acelerar a sincronização inicial.
+<br /> 
+      Um cliente pode criar associações com vários servidores simultaneamente (na verdade é recomendável que seja assim), e um servidor pode fornecer tempo a diversos clientes simultaneamente.
+<br /> 
+      Um dispositivo (<em>host</em>) NTP normalmente é cliente e servidor ao mesmo tempo.
+</p> <ul>
+<li> <strong>Modo simétrico</strong>: (<em>symmetric mode</em>) Dois ou mais dispositivos NTP podem ser configurados como pares (<em>peers</em>), de forma que possam tanto buscar o tempo, quanto fornecê-lo, garantindo redundância mútua. Essa configuração faz sentido para dispositivos no mesmo estrato, configurados também como clientes de um ou mais servidores. Caso um dos pares perca a referência de seus servidores, os demais pares podem funcionar como referência de tempo. O modo simétrico pode ser:
+</li></ul> 
+<p /> <ul>
+ <li>
+ <ul>
+<li> Ativo: O dispositivo A configura o dispositivo B como seu par (criando dessa forma uma associação permanente). Por sua vez, o dispositivo B também configura o dispositivo A como seu par (também cria uma associação permanente).
+</li></ul> 
+</li></ul> 
+<p /> <ul>
+ <li>
+ <ul>
+<li> Passivo: O dispositivo A configura o dispositivo B como seu par (modo simétrico ativo). Mas o dispositivo B <strong>não</strong> tem o dispositivo A na sua lista de servidores ou pares. Ainda assim, ao receber um pacote de A, o dispositivo B cria uma associação transitória, de forma a poder fornecer ou receber o tempo de A.
+</li></ul> 
+</li></ul> 
+<p class="tabulacao">
+            Esse modo é particularmente susceptível a ataques, onde um dispositivo intruso pode estar configurado no modo simétrico ativo e fornecer informações de tempo falsas para outro. Por isso deve sempre ser usado com criptografia.</p>
+<p />
+Para configurar um dispositivo no modo simétrico utiliza-se o parâmetro <code><b>peer</b></code>, seguido do nome ou IP do par. Com o modo simétrico não deve-se utilizar os parâmetros <code><b>burst</b></code> ou <code><b>iburst</b></code>.
+<p />
+Para evitar a falha de segurança descrita no modo simétrico passivo, <strong>deve-se sempre manter a autenticação habilitada</strong>. Isso é o padrão do sistema. Para desabilitar a autenticação inclui-se o parâmetro <code><b>disable auth</b></code> no arquivo de configuração: <span class="vermelho">isso não deve ser feito</span>, a menos que se entenda muito bem as conseqüências e haja uma razão muito forte.
+<p /> <ul>
+<li> <strong><em>Broadcast</em></strong> ou <strong><em>Multicast</em></strong>: O NTP pode fazer uso de pacotes do tipo <em>broadcast</em> ou <em>multicast</em> para enviar ou receber informações de tempo. Esse tipo de configuração pode ser vantajosa no caso de redes locais com poucos servidores alimentando uma grande quantidade de clientes.
+</li></ul> 
+<p class="tabulacao">
+      O cliente NTP no modo <em>broadcast</em> ou <em>multicast</em> (à partir da versão 4), ao receber o primeiro pacote de um servidor, busca os dados por um curto período de tempo, como se estivesse no modo cliente - servidor, a fim de conhecer o atraso envolvido. Ou seja, durante alguns instantes há troca de pacotes entre cliente e servidor, depois disso o cliente passa apenas a receber os pacotes <em>broadcast</em> ou <em>multicast</em> do servidor.
+<br /> 
+      Para configurar um servidor utiliza-se o parâmetro <strong>broadcast</strong>, seguido do endereço IP de broadcast da interface de rede, ou de um endereço <em>multicast</em>. O IANA reservou os endereços multicast 224.0.1.1 (IPv4) e ff05::101 (IPv6 - site local) para o NTP, mas outros endereços podem ser utilizados. O parâmetro <code><b>minpoll</b></code> controla o tempo entre pacotes e o parâmetro <strong>ttl</strong> o número de saltos máximo de cada um deles.
+<br /> 
+      Para configurar o cliente utiliza-se o parâmetro <strong>broadcastclient</strong>. Na versão 3 do NTP era necessário também utilizar o parâmetro <strong>broadcastdelay</strong> para definir o atraso de rede envolvido.
+<br /> 
+      Como no caso do modo simétrico passivo, há aqui uma questão de segurança, porque um intruso pode facilmente enviar pacotes NTP falsos em modo <em>broadcast</em>. Então <strong>a autenticação deve sempre estar habilitada</strong>. Isso é o padrão do sistema. Para desabilitar a autenticação inclui-se o parâmetro <strong>disable auth</strong> no arquivo de configuração: <span class="vermelho">isso não deve ser feito</span>, a menos que se entenda muito bem as conseqüências e haja uma razão muito forte.</p>
+<p />
+Ao consultar-se a lista de servidores no NTP, o tipo de conexão (<em>t</em>) é informada. Pode ser <em>local</em>, <em>unicast</em>, <em>multicast</em> ou <em>broadcast</em>, no exemplo abaixo todas as conexões são <em>unicast</em>:
+<p />
+<pre>
+       <span class="verde">usuario@cliente.local:~$ <b>ntpq -c pe</b></span>
+         remote     refid    st   <b>t</b> when poll reach   delay   offset  jitter
+       ======================================================================
+       -servidor1   .IRIG.    1   <b>u</b>    8   32  377    0.407    0.248  0.016
+       -servidor2   .GPS.     1   <b>u</b>    -   32  377    0.474    0.213  0.019
+       +servidor3   .GPS.     1   <b>u</b>    9   64  377   15.680   -0.005  0.026
+       +servidor4   .IRIG.    1   <b>u</b>   30   64  377   15.582    0.004  0.100
+       *servidor5   .GPS.     1   <b>u</b>   10   32  377    0.400   -0.026  0.049
+       xservidor6   .IRIG.    1   <b>u</b>   26   64  377    7.824    9.923  0.367
+</pre>
+<div class="voltar"><a href="/NTP/MenuNTPNtp#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="O_Funcionamento_do_NTP"></a> O Funcionamento do NTP </h4>
+<p />
+Como já visto, NTP é um protocolo de rede que permite a sincronização dos relógios dos dispositivos à partir de referências de tempo confiáveis. Num primeiro momento isso pode parecer algo tão simples quanto "consultar o tempo em um servidor" e "ajustar o relógio local" de tempos em tempos. Na verdade, algumas implementações do SNTP, a versão simplificada do protocolo, fazem isso e apenas isso. Mas o NTP em sua forma completa é muito mais complexo.
+<p />
+Diversos componentes do sistema colaboram para:
+<p /> <ul>
+<li> Obter, à partir de diversas amostras, informações de tempo de um determinado servidor, como o deslocamento, dispersão e variação.
+</li></ul> 
+<p /> <ul>
+<li> Discernir, dentre um conjunto de servidores, quais fornecem o tempo correto e quais estão mentindo.
+</li></ul> 
+<p /> <ul>
+<li> Escolher, dentre os servidores que fornecem o tempo correto, qual é a melhor referência.
+</li></ul> 
+<p /> <ul>
+<li> Disciplinar o relógio local, descobrindo seus principais parâmetros de funcionamento, como precisão, estabilidade e escorregamento e ajustando-o de forma contínua e gradual, mesmo na ausência temporária de referências de tempo confiáveis, para que tenha e melhor exatidão possível.
+</li></ul> 
+<p /> <ul>
+<li> Garantir a monotonicidade do tempo.
+</li></ul> 
+<p /> <ul>
+<li> Identificar, à partir de métodos criptográficos, servidores de tempo conhecidos e confiáveis, evitando possíveis ataques.
+</li></ul> 
+<p /> <ul>
+<li> Formar, em conjunto com outros servidores NTP, uma topologia simples, confiável, robusta e escalável para a sincronização de tempo.
+</li></ul> 
+<div class="img-centro"><img src="http://ntp.br/pub/NTP/MenuNTPNtp/img_MenuNTPNtp_3.gif" alt=""/></div>
+<p class="legenda">Figura 2: O funcionamento do NTP <sup>(1)</sup></p>
+<p />
+A <strong>Figura 2</strong> mostra os principais componentes do NTP, que são apresentados e explicados de uma forma bastante simplificada no texto a seguir. Para informações mais precisas sobre como são calculadas as várias métricas do sistema e sobre como devem funcionar os diversos algorítmos, recomenda-se a consulta direta às RFCs e à documentação oficial.
+<div class="voltar"><a href="/NTP/MenuNTPNtp#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Troca_de_Mensagens_e_C_lculo_do"></a><a name="Troca_de_Mensagens_e_C_lculo_do_"></a> Troca de Mensagens e Cálculo do Deslocamento </h4>
+<p />
+As mensagens do NTP são baseadas no protocolo UDP, que é um protocolo não confiável e não orientado à conexão.
+<p />
+A troca de mensagens entre cliente e servidor permite que o cliente descubra qual seu deslocamento (<em>offset</em>) em relação ao servidor, ou seja, o quanto seu relógio local difere do relógio do servidor.
+<p />
+Consideremos servidor e cliente com relógios não sincronizados. A troca de mensagens, ilustrada na <strong>Figura 3</strong>, dá-se da seguinte forma:
+<p /> <ol>
+<li> O <strong>Cliente</strong> lê seu relógio, que fornece o tempo <strong>a</strong>.
+</li> <li> O <strong>Cliente</strong> envia a <strong>Mensagem 1</strong> com a informação de tempo <strong>a</strong> para o servidor.
+</li> <li> O <strong>Servidor</strong> recebe a <strong>Mensagem 1</strong> e nesse instante lê seu relógio, que fornece o instante <strong>x</strong>. O <strong>Servidor</strong> mantém <strong>a</strong> e <strong>x</strong> em variáveis.
+</li> <li> O <strong>Servidor</strong> após algum tempo lê novamente seu relógio, que fornece o instante <strong>y</strong>.
+</li> <li> O <strong>Servidor</strong> envia a <strong>Mensagem 2</strong> com <strong>a</strong>, <strong>x</strong> e <strong>y</strong> para o cliente.
+</li> <li> O <strong>Cliente</strong> recebe a <strong>Mensagem 2</strong> e nesse instante lê seu relógio, que fornece o instante <strong>b</strong>.
+</li></ol> 
+<p />
+<div class="img-centro"><img src="http://ntp.br/pub/NTP/MenuNTPNtp/img_MenuNTPNtp_4.gif" alt=""/></div>
+<p class="legenda">Figura 3: Troca de mensagens <sup>(1)</sup></p>
+<p />
+Ao receber a <strong>Mensagem 2</strong>, o <strong>Cliente</strong> passa a conhecer os instantes <strong>a</strong>, <strong>x</strong>, <strong>y</strong> e <strong>b</strong>. Mas <strong>a</strong> e <strong>b</strong> estão numa escala de tempo, enquanto <strong>x</strong> e <strong>y</strong> em outra. O valor do incremento dessas escalas é o mesmo, mas os relógios não estão sincronizados.
+<p />
+Não é possível, então, calcular o tempo que a <strong>Mensagem 1</strong> levou para ser transmitida (<strong>T-ida</strong>), nem o tempo que a <strong>Mensagem 2</strong> gastou na rede (<strong>T-volta</strong>). Contudo, o <strong>tempo total</strong> de ida e volta, ou <strong>atraso</strong> (também conhecido por <strong><em>Round Trip Time</em></strong> ou <strong><em>RTT</em></strong>) que é a soma <strong>T-ida + T-volta</strong> pode ser calculado como:
+<p class="tabulacao">
+<strong>atraso (delay) =  (b-a)-(y-x).</strong> </p>
+<p />
+Considerando-se que o tempo de ida é igual ao tempo de volta, pode-se calcular o deslocamento entre o servidor e o relógio local como como:
+<p class="tabulacao">
+<strong>deslocamento (offset) = x - (a + atraso/2) =</strong> <br /> 
+<strong>deslocamento (offset) = (x-a+y-b)/2.</strong> </p>
+<p />
+Para facilitar a compreensão, considere-se o seguinte exemplo numérico.
+<p /> <ol>
+<li> O <strong>Cliente</strong> lê o relógio: <strong>a=9</strong>.
+</li> <li> O <strong>Cliente</strong> envia a <strong>Mensagem 1 (a=9)</strong>.
+</li> <li> O <strong>Servidor</strong> recebe a <strong>Mensagem 1 (a=9)</strong> e lê seu relógio: <strong>x=4</strong>.
+</li> <li> O <strong>Servidor</strong> algum tempo depois lê seu relógio novamente: <strong>y=9</strong>.
+</li> <li> O <strong>Servidor</strong> envia a <strong>Mensagem 2 (a=9, x=4, y=9)</strong>.
+</li> <li> O <strong>Cliente</strong> recebe a <strong>Mensagem 2 (a=9, x=4, y=9)</strong> e lê seu relógio: <strong>b=18</strong>.
+</li></ol> 
+<div class="img-centro"><img src="http://ntp.br/pub/NTP/MenuNTPNtp/img_MenuNTPNtp_5.gif" alt=""/></div>
+<p class="legenda">Figura 4: Troca de mensagens - exemplo <sup>(1)</sup></p>
+<p />
+Ao olhar a <strong>Figura 4</strong>, é fácil observar que <strong>T-ida=2</strong> e <strong>T-volta=2</strong>. Contudo, nem o <strong>Cliente</strong> nem o <strong>Servidor</strong> têm essa visão. O <strong>Servidor</strong> ao final da troca de mensagens descarta todas as informações sobre a mesma. O <strong>Cliente</strong> conhece as variáveis <strong>a=9</strong>, <strong>x=4</strong>, <strong>y=9</strong> e <strong>b=18</strong>, mas à partir delas é impossível calcular <strong>T-ida</strong> ou <strong>T-volta</strong>. Contudo, é possível calcular o atraso e o deslocamento:
+<p class="tabulacao">
+<strong>atraso = (b-a)-(y-x) = (18-9)-(9-4) = 9 - 5 = 4.</strong> <br /> <br /> 
+<strong>deslocamento = (x-a+y-b)/2 = (4-9+9-18)/2 = -14/2 = -7.</strong> </p>
+<p />
+Um deslocamento de <strong>-7</strong> significa que o relógio local do <strong>Cliente</strong> deve ser <strong>atrasado 7 unidades de tempo</strong> para se igualar ao do <strong>Servidor</strong>.
+<p />
+Note-se que foi assumido alguns parágrafos acima, para se conseguir calcular o deslocamento, que <strong>T-ida = T-volta</strong>. Mas <strong>isso nem sempre é verdade!</strong> Há atrasos estocásticos nas redes devido às filas dos roteadores e switchs. Numa WAN ou na Internet enlaces de diferentes velocidades e roteamento assimétrico, além de outros fatores, também causam diferenças entre <strong>T-ida</strong> e <strong>T-volta</strong>.  
+<p />
+No entanto o NTP funciona exatamente dessa forma, considerando que T-ida = T-volta.
+<p />
+Isso implica num erro. Esse erro, representado na <strong>Figura 5</strong>, é no pior caso igual à metade do atraso. Ou seja:
+<p class="tabulacao">
+<strong>deslocamento - atraso/2 &lt;= deslocamento verdadeiro &lt;= deslocamento + atraso/2</strong> </p>
+<p />
+<div class="img-centro"><img src="http://ntp.br/pub/NTP/MenuNTPNtp/img_MenuNTPNtp_6.gif" alt=""/></div>
+<p class="legenda">Figura 5: Erro do deslocamento por causa da assimetria</p>
+<p />
+Tome-se o seguinte exemplo numérico, ilustrando o pior caso. Os servidores são os mesmos da <strong>Figura 4</strong>, mas a primeira mensagem leva um tempo desprezível pra ser enviada, enquanto a segunda demora 4 unidades de tempo: <strong>a=9; x=2; y=7; b=18</strong>.  Nesse caso <strong>T-ida=0</strong> e <strong>T-volta=4</strong>. O exemplo está ilustrado na <strong>Figura 6</strong>.
+<div class="img-centro"><img src="http://ntp.br/pub/NTP/MenuNTPNtp/img_MenuNTPNtp_7.gif" alt=""/></div>
+<p class="legenda">Figura 6: Troca de mensagens - assimetria <sup>(1)</sup></p>
+<p />
+Calcula-se o atraso como:
+<p class="tabulacao">
+<strong>atraso = (b-a)-(y-x) = (18-9)-(7-2) = 9 - 5 = 4</strong>. <br /> <br /> 
+<strong>deslocamento = (x-a+y-b)/2 = (2-9+7-18)/2 = -18/2 = -9</strong>. </p>
+O deslocamento está errado! Sabe-se que o valor correto é -7, contudo o valor calculado é -9. Isso deve-se a assimetria da rede, no tocante a T-ida e T-volta.
+<p />
+No entanto, à partir do cálculo do deslocamento e do atraso, e levando em conta a limitação do método, que considera T-ida=T-volta, sabe-se que o deslocamente verdadeiro está entre:
+<p class="tabulacao">
+deslocamento - 2 &lt;= deslocamento verdadeiro &lt;= deslocamento + 2
+<br /> <br /> 
+-9 -2 &lt;= deslocamento verdadeiro &lt;= -9 + 2
+<br /> <br /> 
+-11 &lt;= deslocamento verdadeiro &lt;= -7
+</p>
+Ou seja, dado um deslocamento de -9 e um atraso de 4, sabe-se que o valor verdadeiro do deslocamento é algo entre -11 e -7, mas não há como ter certeza de qual o valor. Como nesse exemplo o valor correto é conhecido de antemão, -7, pode-se verificar que o cálculo funciona adequadamente.
+<div class="voltar"><a href="/NTP/MenuNTPNtp#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="O_Algor_tmo_de_Filtro_de_Rel_gio"></a> O Algorítmo de Filtro de Relógio </h4>
+<p />
+Através da troca de mensagens, o NTP consegue as informações de atraso e deslocamento de um servidor. Essa troca de mensagens não é realizada uma única vez. Ela se repete periodicamente, com o período dinamicamente controlado pelo NTP.
+<p />
+No início da sincronização o cliente NTP faz uma consulta a cada servidor a cada 64s. Esse período varia ao longo do tempo, geralmente aumenta, até chegar a 1024s (aproximadamente 17min). As variáveis <code><b>minpoll</b></code> e <code><b>maxpoll</b></code> definem o mínimo e o máximo, e são representadas em potência de 2. Ou seja, por padrão <code><b>minpoll</b></code> = 6 (2<small><small><sup>6</sup></small></small>=64) e <code><b>maxpoll</b></code> = 10 (2<small><small><sup>10</sup></small></small>=1024). Numa consulta à lista de servidores NTP, a variável <code><b>poll</b></code> representa o período e a variável <strong>when</strong> é um contador que indica quantos segundos se passaram desde a última consulta; quando <strong>poll = when</strong> uma nova consulta é realizada e a variável <strong>when</strong> é zerada. Se o parâmetro <code><b>iburst</b></code> é utilizado na configuração de um servidor, a taxa de envio de pacotes é acelerada no início da sincronização, de forma a se conseguir um conjunto de dados mais depressa. A variável <code><b>reach</b></code> representa um registrador de deslocamento de 8 bits, cujo valor é mostrado no formato octal. Um bit 1 significa que o cliente obteve resposta do servidor para uma consulta. Então o valor 377 = 11.111.111, significa que as últimas 8 consultas ao servidor foram bem sucedidas.
+<p />
+<pre>
+       <span class="verde">usuario@servidor:~$ <b>ntpq -c pe</b></span>
+         remote     refid    st   t <b>when poll reach</b>   delay   offset  jitter
+       ======================================================================
+       *servidor1   .IRIG.    1   u   <b>93  128  377</b>    0.523    0.020   0.033
+       +servidor2   .GPS.     1   u   <b>57  128  377</b>    0.488   -0.054   0.025
+       -servidor3   .IRIG.    1   u   <b>50  128  377</b>    5.151   -0.386   0.382
+       +servidor4   .IRIG.    1   u   <b>34   64  377</b>    5.163   -0.360   0.559
+</pre>
+<br /><br />
+<div class="img-dir"><img src="http://ntp.br/pub/NTP/MenuNTPNtp/img_MenuNTPNtp_8.gif" alt=""/><p class="legenda">Figura 7</p></div>
+<p />
+É importante notar então, que não há apenas um valor de atraso e um de deslocamento para cada servidor, mas um conjunto deles, provenientes das diversas trocas de mensagem! A partir dessa lista de valores, o <strong>Algorítmo de Filtro de Relógio</strong> calcula então um valor de atraso (<em>delay</em>), de deslocamento (<em>offset</em>) e de variação (<em>jitter</em>).
+<p />
+Na verdade, cada amostra é composta de 4 valores: atraso, deslocamento, dispersão e estampa de tempo. A estampa de tempo indica quando a amostra chegou. A dispersão é o erro estimado do relógio de servidor remoto, informada pelo servidor na mensagem NTP.
+<p />
+A lista com os valores é ordenada em função do atraso. Considera-se que as amostras com menor atraso são melhores porque provavelmente não se sujeitaram a filas nos <em>switches</em> e roteadores, de forma que parte das variações estocásticas de tempo no envio e recebimento das mensagens é evitada com essa escolha.
+<p />
+Os valores mais antigos são descartados, porque o valor de deslocamento pode não mais corresponder à realidade, já que a exatidão do relógio local varia ao longo do tempo.
+<p />
+Após descartar as amostras antigas, resta uma lista com as amostras mais recentes e ordenadas em função do atraso. Da primeira entrada dessa lista são retiradas as variáveis atraso e deslocamento para o par cliente servidor (note-se que para cada par cliente - servidor há uma variável de cada tipo).
+<p />
+A dispersão e a variação são calculadas levando em conta todos os valores da lista.
+<p />
+A <strong>Figura 7</strong> ilustra o funcionamento desse algorítmo.
+<p />
+Os valores para cada servidor associado podem ser consultados no NTP como segue:
+<p />
+<pre>
+       <span class="verde">usuario@cliente.local:~$ <b>ntpq</b></span>
+       <b>ntpq> pe</b>
+         remote     refid    st   t when poll reach   <b>delay   offset  jitter</b>
+       ======================================================================
+       -servidor1   .IRIG.    1   u    8   32  377    <span class="vermelho"><b>0.407    0.248   0.016</b></span>
+       -servidor2   .GPS.     1   u    -   32  377    <b>0.474    0.213   0.019</b>
+       +servidor3   .GPS.     1   u    9   64  377   <b>15.680   -0.005   0.026</b>
+       +servidor4   .IRIG.    1   u   30   64  377   <b>15.582    0.004   0.100</b>
+       *servidor5   .GPS.     1   u   10   32  377    <b>0.400   -0.026   0.049</b>
+       xservidor6   .IRIG.    1   u   26   64  377    <b>7.824    9.923   0.367</b>
+        servidor7   .INIT.   16   u    - 1024    0    <b>0.000    0.000 4000.00</b>
+       -servidor8   .ACTS.    1   u   13   64  377  <b>202.274    2.459   0.309</b>
+        LOCAL(0)   LOCAL(0)  13   l   48   64  377    <b>0.000    0.000   0.001</b>
+</pre>
+<p />
+Detalhando os valores para o primeiro (&amp;1) servidor da lista:
+<p />
+<pre>
+       <b>ntpq> rv &amp;1</b>
+       assID=47012 status=9314 reach, conf, sel_outlyer, 1 event, event_reach,
+       srcadr=servidor1, srcport=123, dstadr=cliente.local, dstport=123,
+       leap=00, stratum=1, precision=-19, rootdelay=0.000,
+       rootdispersion=0.351, refid=IRIG, reach=377, unreach=0, hmode=3,
+       pmode=4, hpoll=5, ppoll=5, flash=00 ok, keyid=0, ttl=0, <span class="vermelho"><b>offset=0.248</b></span>,
+       <span class="vermelho"><b>delay=0.407, dispersion=0.059, jitter=0.016,</b></span>
+       reftime=cacb6721.f903866e  Thu, Oct 25 2007 17:04:01.972,
+       org=cacb6729.1e5c8d02  Thu, Oct 25 2007 17:04:09.118,
+       rec=cacb6729.1e5a1448  Thu, Oct 25 2007 17:04:09.118,
+       xmt=cacb6729.1e393ee5  Thu, Oct 25 2007 17:04:09.118,
+       filtdelay=     0.44    0.41    0.56    0.56    0.58    0.54    0.58    0.53,
+       filtoffset=    0.26    0.25    0.23    0.27    0.26    0.22    0.24    0.25,
+       filtdisp=      0.00    0.03    0.06    0.09    0.12    0.15    0.18    0.21
+</pre>
+<div class="voltar"><a href="/NTP/MenuNTPNtp#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="O_Algor_timo_de_Sele_o_dos_Rel_g"></a> O Algorítimo de Seleção dos Relógios </h4>
+<p />
+Uma vez que o Algorítmo de Filtro de Relógios tenha calculado os principais parâmetros referentes a cada servidor, faz-se importante descobrir quais deles são confiáveis e quais não. Os servidores que têm algum erro no tempo fornecido são chamados de <strong>relógios falsos</strong> (<strong><em>falsetickers</em></strong>, na literatura em inglês, a tradução é aproximada). Os servidores que fornecem a hora corretamente são chamados de <strong>relógios verdadeiros</strong> (<strong><em>truechimmers</em></strong>, em inglês, uma tradução mais literal seria algo como "badaladores verdadeiros").
+<p />
+Para a seleção dos relógios, o NTP considera como verdadeiro o <strong>deslocamento</strong> que se encontra dentro de um determinado <strong>intervalo de confiança</strong>, representado na <strong>Figura 8</strong>. Esse intervalo é calculado, para cada associação com um servidor, como:
+<p class="tabulacao">
+<strong>intervalo de confiança = (deslocamento/2) + dispersão</strong>. </p>
+<div class="img-centro"><img src="http://ntp.br/pub/NTP/MenuNTPNtp/img_MenuNTPNtp_9.gif" alt=""/></div>
+<p class="legenda">Figura 8</p>
+<p />
+A <strong>Seleção</strong> de relógios busca um intervalo de intersecção para os valores de deslocamento de cada servidor, considerados os intervalos de confiança. Os servidores cujos deslocamentos ficam fora da intersecção são <strong>relógios falsos</strong>. A <strong>Figura 9</strong> ilustra isso para 4 servidores, A, B e C são relógios verdadeiros, e D é um relógio falso:
+<div class="img-centro"><img src="http://ntp.br/pub/NTP/MenuNTPNtp/img_MenuNTPNtp_10.gif" alt=""/></div>
+<p class="legenda">Figura 9</p>
+<p />
+Ao consultar-se a lista de servidores do NTP, os relógios falsos são identificados por um "x". No exemplo abaixo, o servidor6 é um <span class="vermelho"><b>relógio falso</b></span> (esses símbolos, como o <strong>"x"</strong>, usados para diferenciar os servidores, são chamados de <em>tally-codes</em>, para mais detalhes deve-se consultar a seção <a href="/NTP/MenuNTPAvancado" class="twikiLink">Utilizando</a>.):
+<p />
+<pre>
+       <span class="verde">usuario@cliente.local:~$ <b>ntpq </b></span>
+       <b>ntpq> pe</b>
+         remote     refid    st   t when poll reach   delay   offset  jitter
+       ======================================================================
+       -servidor1   .IRIG.    1   u    8   32  377   0.407    0.248   0.016
+       -servidor2   .GPS.     1   u    -   32  377   0.474    0.213   0.019
+       +servidor3   .GPS.     1   u    9   64  377  15.680   -0.005   0.026
+       +servidor4   .IRIG.    1   u   30   64  377  15.582    0.004   0.100
+       *servidor5   .GPS.     1   u   10   32  377   0.400   -0.026   0.049
+       <span class="vermelho"><b>xservidor6   .IRIG.    1   u   26   64  377   7.824    9.923   0.367</b></span>
+        servidor7   .INIT.   16   u    - 1024    0   0.000    0.000 4000.00
+       -servidor8   .ACTS.    1   u   13   64  377 202.274    2.459   0.309
+        LOCAL(0)   LOCAL(0)  13   l   48   64  377   0.000    0.000   0.001
+</pre>
+<div class="voltar"><a href="/NTP/MenuNTPNtp#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="O_Algor_tmo_de_Agrupamento"></a> O Algorítmo de Agrupamento </h4>
+<p />
+O algorítmo de Agrupamento trabalha com os servidores que são relógios verdadeiros, utilizando técnicas estatísticas, com o objetivo de selecionar os melhores dentre eles. Os critérios de seleção utilizados são: <ul>
+<li> estrato (<em>stratum</em>)
+</li> <li> distância para a raiz 
+</li> <li> variação (<em>jitter</em>)
+</li></ul> 
+<p />
+No processo alguns servidores são descartados, sendo chamados de <strong>relógios afastados</strong> (<em>outlyers</em>). Os que permanecem são chamados de relógios <strong>sobreviventes</strong> (<em>survivors</em>), algumas vezes na literatura em inglês utiliza-se candidatos (<em>candidates</em>) no mesmo sentido que sobreviventes, por conta do algorítmo utilizado onde, à princípio, todos os relógios verdadeiros são candidatos, mas apenas alguns sobrevivem.
+<p />
+O melhor dos relógios sobreviventes é considerado como <strong>par do sistema</strong> (<em>system peer</em>).
+<p />
+Na consulta abaixo, o <span class="verde"><b>par do sistema</b></span> é indicado pelo <span class="verde">"*" (em verde)</span>; os <span class="azul"><b>relógios sobreviventes</b></span> por <span class="azul">"+" (em azul)</span>; e os <span class="laranja"><b>relógios afastados</b></span> por <span class="laranja">"-" (em laranja)</span> (esses símbolos, como o "*", "+" e "-", usados para diferenciar os servidores, são chamados de <em>tally-codes</em>, para mais detalhes deve-se consultar a seção <a href="/NTP/MenuNTPAvancado" class="twikiLink">Utilizando</a>.):
+<p />
+<pre>
+       <span class="verde">usuario@cliente.local:~$ <b>ntpq</b></span>
+       <b>ntpq> pe</b>
+         remote     refid    st   t when poll reach   delay   offset  jitter
+       ======================================================================
+       <span class="laranja"><b>-servidor1   .IRIG.    1   u    8   32  377   0.407    0.248   0.016
+       -servidor2   .GPS.     1   u    -   32  377   0.474    0.213   0.019</b></span>
+       <span class="azul"><b>+servidor3   .GPS.     1   u    9   64  377  15.680   -0.005   0.026
+       +servidor4   .IRIG.    1   u   30   64  377  15.582    0.004   0.100</b></span>
+       <span class="verde"><b>*servidor5   .GPS.     1   u   10   32  377   0.400   -0.026   0.049</b></span>
+       <span class="vermelho">xservidor6   .IRIG.    1   u   26   64  377   7.824    9.923   0.367
+        servidor7   .INIT.   16   u    - 1024    0   0.000    0.000 4000.00</span>
+       <span class="laranja"><b>-servidor8   .ACTS.    1   u   13   64  377 202.274    2.459   0.309</b></span>
+        <span class="vermelho">LOCAL(0)   LOCAL(0)  13   l   48   64  377   0.000    0.000   0.001</span>
+</pre>
+<div class="voltar"><a href="/NTP/MenuNTPNtp#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="O_Algor_tmo_de_Combina_o_de_Rel"></a><a name="O_Algor_tmo_de_Combina_o_de_Rel_"></a> O Algorítmo de Combinação de Relógios </h4>
+<p />
+Se o algorítmo de Agrupamento encontrar apenas um sobrevivente, ele será o <strong>par do sistema</strong> e será utilizado como <strong>referência para ajustar o relógio local</strong>. Se for usada a palavra chave <code><b>prefer</b></code> na configuração de um servidor e este estiver <strong>dentre os sobreviventes</strong>, ele será considerado como par do sistema e, mesmo que existam outros sobreviventes, estes serão ignorados. Nesses casos, o algorítmo de Combinação de Relógios não é utilizado.
+<p />
+Para os demais casos, quando há mais do que um sobrevivente e nenhum deles foi configurado com a palavra chave <code><b>prefer</b></code>, o algorítmo de Combinação de Relógios calcula uma média ponderada dos deslocamentos dos relógios, com o objetivo de aumentar a exatidão.
+<p />
+No exemplo abaixo os 3 servidores destacados contribuem para o valor de deslocamento de -0,119ms, mostrado nas variáveis do sistema.
+<p />
+<pre>
+       <span class="verde">usuario@cliente.local:~$ <b>ntpq</b></span>
+
+       <b>ntpq> pe</b>
+         remote     refid        st   t when poll reach   delay   offset  jitter
+       ==========================================================================
+       <span class="vermelho"><b>+servidor1   .IRIG.        1   u    7   16  377    0.410   -0.087   0.022
+       *servidor2   .GPS.         1   u    7   16  377    0.380   -0.128   0.052
+       +servidor3   .IRIG.        1   u    5   16  377   14.750   -0.166   0.076</b></span>
+       -servidor4   200.1.2.123   2   u   15   16  377    0.449   -0.466   0.009
+       xservidor5   .IRIG.        1   u   17   64  377    7.772    9.447   0.186
+       xservidor6   .ACTS.        1   u   52   64  377  193.471    5.779   5.444
+       -servidor    .GPS.         1   u    9   16  377    0.344   -0.486   0.071
+       -servidor    200.1.2.123   2   u   45   64  377    4.437    1.423   0.723
+
+       <b>ntpq> rl</b>
+       assID=0 status=06f4 leap_none, sync_ntp, 15 events, event_peer/strat_chg,
+       version="ntpd 4.2.2p4@1.1585-o Wed Mar  7 20:43:30 UTC 2007 (1)",
+       processor="i686", system="Linux/2.6.20-16-generic", leap=00, stratum=2,
+       precision=-20, rootdelay=0.380, rootdispersion=5.864, peer=40768,
+       refid=servidor2,
+       reftime=cad0765f.9bd22b77  Mon, Oct 29 2007 13:10:23.608, poll=4,
+       clock=cad07677.9bbc05c3  Mon, Oct 29 2007 13:10:47.608, state=4,
+       <span class="vermelho"><b>offset=-0.119</b></span>, frequency=55.279, jitter=0.060, noise=0.014,
+       stability=0.009, tai=0
+</pre>
+<p />
+No exemplo a seguir, apesar de haver 3 sobreviventes, foi usada a palavra chave <code><b>prefer</b></code> na configuração do <strong>servidor5</strong>. Como ele é um dos sobreviventes, foi escolhido como par do sistema e é o único responsável pelos parâmetros de sincronização. Nesse caso, o algorítmo de Combinação de Relógios não é utilizado:
+<p />
+<pre>
+       <span class="verde">usuario@cliente.local:~$ <b>ntpq</b></span>
+
+       <b>ntpq> pe</b>
+
+         remote     refid    st   t when poll reach   delay   offset  jitter
+       ======================================================================
+       -servidor1   .IRIG.    1   u    6   32  377    0.364    0.393   0.032
+       -servidor2   .GPS.     1   u    1   32  377    0.415    0.357   0.012
+       <span class="azul">+servidor3   .GPS.     1   u   40   64  377   19.990    0.002   0.019
+       +servidor4   .IRIG.    1   u   11   64  377   14.804    0.318   0.172
+       <b>*servidor5   .GPS.     1   u    5   32  377    0.366   -0.001   0.017</b></span>
+       xservidor6   .IRIG.    1   u   19   64  377    7.779    9.969   0.235
+
+       <b>ntpq> rl</b>
+       assID=0 status=0654 leap_none, sync_ntp, 5 events, event_peer/strat_chg,
+       version="ntpd 4.2.0a@1:4.2.0a+stable-8-r Mon Sep 18 19:09:33 UTC 2006 (1)",
+       processor="i686", system="Linux/2.6.17-12-generic", leap=00, stratum=2,
+       precision=-20, rootdelay=0.366, rootdispersion=12.913, peer=29992,
+       refid=servidor5,
+       reftime=cad07802.aea704bc  Mon, Oct 29 2007 13:17:22.682, poll=5,
+       clock=cad0780b.f47980f5  Mon, Oct 29 2007 13:17:31.954, state=4,
+       <span class="azul"><b>offset=-0.001</b></span>, frequency=-23.914, noise=0.015, jitter=0.017,
+       stability=0.037
+</pre>
+<div class="voltar"><a href="/NTP/MenuNTPNtp#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Disciplina_do_Rel_gio_Local"></a> Disciplina do Relógio Local </h4>
+<p />
+O processo de disciplina do Relógio Local controla a fase e a freqüência do relógio do sistema. Ele é baseado na combinação de duas filosofias de controle bastante diferentes entre si: <em>Phase Locked Loop (PLL)</em> e <em>Frequency Locked Loop (FLL)</em> (traduções desses termos são incomuns, mas poderiam ser Laço Controlado por Fase e Laço Controlado por Freqüência). Ambas as filosofias implementam controles onde há realimentação, ou seja, onde a informação de saída é usada novamente na entrada, como simbolizado na <strong>Figura 2</strong>, no início desse texto.
+<p />
+O controle baseado em fase é melhor para as ocasiões onde há uma grande variação (<em>jitter</em>). Essa abordagem procura minimizar o erro no tempo, controlando indiretamente a freqüência.
+<p />
+O controle baseado em freqüência é melhor para quando há instabilidades na freqüência (variações mais lentas que o <em>jitter</em>, conhecidas como <em>wander</em>). A abordagem controla diretamente a freqüência, e indiretamente o erro no tempo.
+<p />
+O NTP disciplina o relógio local de forma contínua, mesmo em períodos onde não é possível consultar servidores de tempo. As características do relógio local são medidas e se tornam conhecidas do NTP, o que torna possível que ele funcione dessa forma. O arquivo indicado pela chave <code><b>driftfile</b></code> (geralmente <code><b>/var/lib/ntp/ntp.drift</b></code>) na configuração armazena o erro esperado de freqüência para o relógio.
+<p />
+Algumas características importantes desse algorítmo:
+<p /> <ul>
+<li> Saltos no tempo são evitados sempre que possível. O tempo é ajustado para mais ou para menos gradualmente, variando-se a freqüência do relógio local.
+</li></ul> 
+<p /> <ul>
+<li> Se uma diferença maior do que 128ms for detectada o NTP considera que o tempo está muito errado, e que é necessário um salto para frente ou para trás para corrigi-lo. Contudo isso só é feito se essa diferença maior que 128ms persistir por um período maior que 900s (15min), para evitar que condições de congestionamento grave mas temporário na rede, que podem levar a medições erradas de tempo, causem inadvertidamente esse tipo de salto.
+</li></ul> 
+<p /> <ul>
+<li> Se uma diferença maior que 1000s (~16,7min) for detectada o algorítmo aborta a execução, considerando que algo muito errado aconteceu. Se houver diferenças dessa ordem ou maiores elas devem ser corrigidas manualmente antes de se executar o daemon NTP.
+</li></ul> 
+<div class="voltar"><a href="/NTP/MenuNTPNtp#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Seguran_a"></a> Segurança </h4>
+<p />
+Por segurança no contexto da Tecnologia da Informação entende-se basicamente garantir quatro propriedades da informação: <ul>
+<li> integridade,
+</li> <li> disponibilidade,
+</li> <li> autenticidade e
+</li> <li> confidencialidade.
+</li></ul> 
+Os algorítmos vistos anteriormente, aliados à correta configuração do sistema, com um número suficiente de fontes de tempo com referências primárias independentes, garantem de forma satisfatória a <strong>integridade</strong> e <strong>disponibilidade</strong> do serviço de tempo.
+<p />
+Os algorítimos de criptografia abordados neste item visam garantir a <strong>autenticidade</strong> da informação. Ou seja, têm o objetivo de assegurar ao cliente de que o servidor é quem ele diz ser.
+<p />
+A <strong>confidencialidade</strong> não é considerada um problema no contexto do NTP. Ou seja, a informação de tempo sempre trafega na rede de forma aberta, sem criptografia, mesmo quando uma assinatura cifrada é utilizada para garantir a autenticidade da informação. As razões principais para o NTP funcionar dessa forma são que: <ol>
+<li> o tempo é uma informação pública, não há razão para esconder essa informação;
+</li> <li> trabalhar com a informação de tempo cifrada demandaria tempo tanto do servidor quando do cliente e degradaria o desempenho do sistema, fazendo-o menos exato.
+</li></ol> 
+<p />
+Existem basicamente dois métodos no NTP para realizar a autenticação, chave simétrica (<em>symmetric key</em>) e  chave pública (<em>autokey</em>).
+<p />
+<strong>Autenticação por Chave Simétrica (<em>Symmetric key</em>)</strong>
+<p />
+A autenticação por chave simétrica é o esquema utilizado originalmente na versão 3 do NTP, mas mantido da versão 4. Um conjunto de chaves deve ser gerado e compartilhado entre servidor e cliente. O NTP não fornece meios para a transmissão ou armazenamento seguro das chaves; isso deve ser feito com outros recursos.
+<p />
+Chaves simétricas podem ser usadas para: <ul>
+<li> autenticar servidores ou pares no modo simétrico ativo;
+</li> <li> autenticar pares no modo simétrico passivo ou servidores broadcast ou multicast;
+</li> <li> autenticar requisições dos programas de monitoração e controle <code><b>ntpq</b></code> e <code><b>ntpdc</b></code>.
+</li></ul> 
+<p />
+Quando o daemon NTP é iniciado, ele lê o arquivo de chaves especificado pelo comando <code>keys</code> no arquivo de configuração e armazena-as num cache. Cada chave deve ser ativada com o comando <code><b>trustedkey</b></code> antes de ser usada. Isso pode ser feito com o programa em funcionamento, utilizando o <code><b>ntpdc</b></code>. Os comandos <code><b>requestkey</b></code> e <code><b>controlkey</b></code> selecionam as chaves utilizadas para autenticar os programas <code><b>ntpdc</b></code> e <code><b>ntpq</b></code>. 
+<p />
+O arquivo de chaves pode conter várias chaves, uma em cada linha. Cada linha tem 3 colunas. A primeira é o número da chave, entre 1 e 65535. A segunda é o tipo da chave; recomenda-se utilizar M para MD5, que é representada por uma seqüência de até 31 caracteres ASCII (A versão 3 do NTP suportava também DES, mas além de ser pior, há problemas legais nos Estados Unidos, que consideram programas utilizando DES como munição, proibindo sua exportação). A terceira é a chave em si. 
+Exemplo de arquivo com chaves:
+<pre>
+       <span class="vermelho"><b>1   M    ABCDEFGHIJLMJNOPQRST
+       2   M    ESSAEHUMACHAVEMD5VALIDA
+       3   M    ESSAEHUMACHAVEMD5VALIDATB
+       15  M    1234ACDAS@#$LKAS)KJDKASH
+       498 M    NTPv4.98</b></span>
+</pre>
+<p />
+Exemplo de utilização das chaves simétricas na configuração do ntp:
+<pre>
+       server servidor1.dominio1 <span class="vermelho"><b>key 498</b></span>
+       server servidor2.dominio2 <span class="vermelho"><b>key 2</b></span>
+       peer   servidor3.dominio3 <span class="vermelho"><b>key 3</b></span>
+
+       <span class="azul"># caminho para o arquivo com as chaves</span>
+       <span class="vermelho"><b>keys /etc/ntp.keys</b></span>
+
+       <span class="azul"># define quais chaves são confiáveis</span>
+       <span class="vermelho"><b>trustedkey 2 15 498</b></span>
+
+       <span class="vermelho"><b>requestkey 15</b></span>    <span class="azul"># chave para utilizar o ntpq</span>
+       <span class="vermelho"><b>controlkey 15</b></span>    <span class="azul"># chave para utilizar o ntpqc</span>
+</pre>
+<p />
+<strong>Autenticação por Chave Pública (<em>Autokey</em>)</strong>
+<p />
+Na versão 4 do NTP uma nova forma de autenticação é suportada, baseada em chaves públicas e num protocolo que foi chamado de <em>autokey</em>. A integridade dos pacotes é verificada através de chaves MD5 e a autenticidade das fontes de tempo é averiguada por meio de assinaturas digitais e vários esquemas de autenticação. Esquemas de identificação (<em>identity schemes</em>) baseados em trocas do tipo desafio/resposta são usados para evitar vários tipos de ataques aos quais o método de chaves simétricas é potencialmente vulnerável.
+<p />
+A autenticação é baseada em <strong>grupos de segurança</strong> (<em>security groups</em>). Pode-se entender um <strong>grupo de segurança</strong> como um conjunto de servidores e clientes NTP que compartilha os mesmos métodos de autenticação, tendo em sua raiz um ou mais servidores considerados confiáveis, e administrados por uma mesma entidade. Um grupo não necessariamente precisa ter servidores estrato 1 em sua raiz, mas pode ser cliente de outros grupos de segurança.
+<p />
+O número de opções que há para configurar-se o <em>autokey</em> é assustador. Contudo a configuração necessária para a maioria das situações é relativamente simples. Pode-se configurar um grupo de segurança com um ou mais servidores confiáveis (<em>TH - Trusted Hosts</em>) no estrato mais baixo. Elege-se um desses servidores para ser o agente confiável (<em>TA - trusted agent</em>) e gerar os certificados privados, um certificado público auto assinado, e chaves de identificação privadas. Se houver mais de um servidor confiável, esses certificados e chaves são copiados para os demais manualmente.
+<p />
+Os demais clientes e servidores geram chaves privadas e certificados auto assinados considerados não confiáveis. Cada um deles fornece sua senha ao agente confiável e requisita  as chaves e certificados do grupo (isso pode ser feito por email ou por um formulário web, por exemplo). Para os servidores são fornecidas chaves cifradas. Para os clientes somente um subconjunto de parâmetros de identificação não criptografados é fornecido.
+<p />
+O <em>autokey</em> se encarrega de resgatar os certificados ao longo da cadeia de servidores NTP até chegar a um servidor confiável, garantindo que toda a cadeia de servidores é confiável.
+<p />
+Para garantir a integridade dos pacotes assinaturas baseadas no endereço IP são utilizadas. O endereço tem de ser o mesmo, então, para o cliente e para o servidor, o que significa que a autenticação baseada em chave pública <strong>não funciona em conjunto com NAT</strong>.
+<p />
+Mais detalhes de configuração do autokey podem ser obtidos na documentação oficial do NTP.
+<br /> 
+<br /> 
+<p />
+<hr />
+<strong><sup>(1)</sup> Figuras adaptadas de</strong>: TORRES JÚNIOR, PEDRO R. Caracterização da Rede de Sincronização na Internet. Dissertação de Mestrado. 2007. Universidade Federal do Paraná. Curitiba. 
+<div class="voltar"><a href="/NTP/MenuNTPNtp#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+		</div><!--.conteudo-->
+</div>
+	</div><!--.container-->
+	<noscript><p>Script para limpar os campos de formulario</p></noscript>
+</body>
+</html>

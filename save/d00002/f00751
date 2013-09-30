@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>The posting Completely different: BIND 1 ... / 2012-12-21 - Koos van den Hout</title>
+<base href="http://idefix.net/~koos/">
+<meta name="description" content="The posting Completely different: BIND 10 - Jan-Piet Mens triggered me to have a look at my resolver/authoritive setup at home. I was running only bind 9 both as authoritive server for several zones and as resolver for home systems but I decided to test a - Koos van den Hout Homepage"><meta name="keywords" content="Koos van den Hout">
+<meta name="Author" content="Koos van den Hout">
+<link rel="alternate" title="Koos van den Hout homepage" type="application/rss+xml" href="http://idefix.net/~koos/index.rdf">
+<link rel="alternate" title="khoos twitter feed" type="application/rss+xml" href="http://twitter.com/statuses/user_timeline/19301166.rss">
+<link href="koos.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link href="https://plus.google.com/114168607206195341184" rel="publisher"/>
+</head>
+<body>
+<div class="blockcontainer">
+<h1>The posting Completely different: BIND 1 ... / 2012-12-21 - Koos van den Hout</h1>
+<div class="entry">
+<div class="generalitem newsitem">
+<strong><a name="1356126199"></a>2012-12-21</strong> <span class="age">8 months ago</span>
+<blockquote><div>The posting <a href="http://jpmens.net/2012/12/21/completely-different-bind-10/">Completely different: BIND 10 - Jan-Piet Mens</a> triggered me to have a
+look at my resolver/authoritive setup at home. I was running only bind
+9 both as authoritive server for several zones and as resolver for home
+systems but I decided to test a setup with those functions split. For
+fun I tried it with recursion in pdns-recursor, part of
+<a href="http://www.powerdns.com/content/open-source-community.html">PowerDNS</a>
+while keeping bind9 for the authoritive server. I had to select the right
+IPv6 and IPv4 addresses for authoritive and resolving servers. I do have enough addresses at home thanks to IPv6 and IPv4-with-NAT to do this, but I have
+to select the right ones. The server
+at home is known as <tt>ns2.idefix.net</tt> so the choice of addresses
+for the authoritive server is easy. So the relevant part of the bind9
+configuration in <tt>named.conf</tt>:
+<pre>
+    listen-on-v6 {
+        2001:980:14ca:42::694; # auth ext
+    };
+    listen-on {
+        82.95.196.202; # auth ext
+    };
+</pre>
+And the pdns-recursor in <tt>recursor.conf</tt> is set up like:
+<pre>
+# local-address IP addresses to listen on, separated by spaces or commas
+#
+local-address=127.0.0.1,2001:980:14ca:42::18,10.42.2.1,::1
+</pre>
+It was a bit of pondering which process got to listen on the v4/v6
+localhost address, but I think the resolver is the best candidate. The
+resolver advertised in <tt>radvd.conf</tt> has been adjusted.
+<p></p>
+The next thing to setup was a certain set of zones that the recursor
+can't find on the Internet, so they need to be asked directly from the
+authoritive bind9 server.  I configured this in <tt>recursor.conf</tt>
+like:
+<pre>
+forward-zones=koos.koffie.dot=82.95.196.202,10.in-addr.arpa=82.95.196.202,a.c.4.1.0.8.9.0.1.0.0.2.ip6.arpa=82.95.196.202
+</pre>
+<strike>I tried this with the IPv6 addresses for the authoritive server but this
+makes pdns-recursor not answer at all, so I reverted to IPv4 for the
+moment until I understand what is going wrong and why.</strike> Testing this makes
+pdns-recursor hang for other queries too, so for full debugging I need
+to test this in a way that doesn't affect the rest of my home network.
+From the command-line the requests work over both IPv6 and IPv4. Enabling
+query-logging in bind9 doesn't show those requests coming in.
+<p></p>
+<strong>Update:</strong>
+If I read things correctly forward-zones with IPv6 support only came in
+powerdns-recursor 3.2 and ubuntu 8.04 comes with pdns-recursor 3.1.4.
+Switching to pdns-recursor from hardy-backports upgrades to 3.3-2~hardy1
+and forward-zones starts working over IPv6. Less legacy IP, more IPv6!
+<pre>
+forward-zones=koos.koffie.dot=2001:980:14ca:42::694,10.in-addr.arpa=2001:980:14ca:42::694,a.c.4.1.0.8.9.0.1.0.0.2.ip6.arpa=2001:980:14ca:42::694
+</pre>
+And it works.
+</div></blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a></div><hr class="newsitemcloser">
+</div>
+<hr class="hider">
+</div>
+</div>
+<div class="addressbox">
+<div class="infloatright"><a href="http://6bone.informatik.uni-leipzig.de/ipv6/stats/stats.php3" title="My homepage reachable via IPv6!"><img src="icons/ipv6-ready.png" style="width:80px; height: 15px; border: none;"><img src="http://6bone.informatik.uni-leipzig.de/ipv6/stats/log.php3?URL=page.idefix.net&ImageId=6" style="width: 1px; height: 1px; border: none; padding: 0px;" alt="IPv6 ready"></a></div>
+<a href="http://idefix.net/" rel="author">Koos van den Hout</a>, reachable as <a href="mailto:koos+website@koos.idefix.net">koos+website@koos.idefix.net</A>.
+<a href="http://pgp.surfnet.nl:11371/pks/lookup?op=vindex&amp;search=0xF0D7C263&amp;fingerprint=on">PGP key DSS/1024 0xF0D7C263</a>
+<a href="/~koos/index.rdf" title="RSS feed" class="rssfeed">RSS</a>
+<br>
+Other webprojects: <a href="http://www.camp-wireless.org/">Camp Wireless, wireless Internet access at campsites</a>,
+<a href="http://www.virtualbookcase.com/">The Virtual Bookcase, book reviews</a>,
+<a href="http://weather.idefix.net/">Weather maps</a>
+</div>
+<div class="smalltime">
+This page generated in 0.060108 seconds.</div>
+</body>
+</html>

@@ -1,0 +1,1542 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><title>Evaluating Multiple Mobile Routers and Multiple NEMO-Prefixes
+      in NEMO Basic Support</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="Evaluating Multiple Mobile Routers and Multiple NEMO-Prefixes
+      in NEMO Basic Support">
+<meta name="generator" content="xml2rfc v1.29 (http://xml.resource.org/)">
+<style type='text/css'>
+<!--
+    body {
+        font-family: verdana, charcoal, helvetica, arial, sans-serif;
+        margin: 2em;
+        font-size: small ; color: #000000 ; background-color: #ffffff ; }
+    .title { color: #990000; font-size: x-large ;
+        font-weight: bold; text-align: right;
+        font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
+        background-color: transparent; }
+    .filename { color: #666666; font-size: 18px; line-height: 28px;
+        font-weight: bold; text-align: right;
+        font-family: helvetica, arial, sans-serif;
+        background-color: transparent; }
+    td.rfcbug { background-color: #000000 ; width: 30px ; height: 30px ;
+        text-align: justify; vertical-align: middle ; padding-top: 2px ; }
+    td.rfcbug span.RFC { color: #666666; font-weight: bold; text-decoration: none;
+        background-color: #000000 ;
+        font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+        font-size: x-small ; }
+    td.rfcbug span.hotText { color: #ffffff; font-weight: normal; text-decoration: none;
+        text-align: center ;
+        font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+        font-size: x-small ; background-color: #000000; }
+/* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+    div#counter{margin-top: 100px}
+
+    a.info{
+        position:relative; /*this is the key*/
+        z-index:24;
+        text-decoration:none}
+
+    a.info:hover{z-index:25; background-color:#990000 ; color: #ffffff ;}
+
+    a.info span{display: none}
+
+    a.info:hover span.info{ /*the span will display just on :hover state*/
+        display:block;
+        position:absolute;
+        font-size: smaller ;
+        top:2em; left:2em; width:15em;
+        padding: 2px ;
+        border:1px solid #333333;
+        background-color:#eeeeee; color:#990000;
+        text-align: left ;}
+
+     A { font-weight: bold; }
+     A:link { color: #990000; background-color: transparent ; }
+     A:visited { color: #333333; background-color: transparent ; }
+     A:active { color: #333333; background-color: transparent ; }
+
+    p { margin-left: 2em; margin-right: 2em; }
+    p.copyright { font-size: x-small ; }
+    p.toc { font-size: small ; font-weight: bold ; margin-left: 3em ;}
+
+    span.emph { font-style: italic; }
+    span.strong { font-weight: bold; }
+    span.verb, span.vbare { font-family: "Courier New", Courier, monospace ; }
+
+    span.vemph { font-style: italic; font-family: "Courier New", Courier, monospace ; }
+    span.vstrong { font-weight: bold; font-family: "Courier New", Courier, monospace ; }
+    span.vdeluxe { font-weight: bold; font-style: italic; font-family: "Courier New", Courier, monospace ; }
+
+    ol.text { margin-left: 2em; margin-right: 2em; }
+    ul.text { margin-left: 2em; margin-right: 2em; }
+    li { margin-left: 3em;  }
+
+    pre { margin-left: 3em; color: #333333;  background-color: transparent;
+        font-family: "Courier New", Courier, monospace ; font-size: small ;
+        text-align: left;
+        }
+
+    h3 { color: #333333; font-size: medium ;
+        font-family: helvetica, arial, sans-serif ;
+        background-color: transparent; }
+    h4 { font-size: small; font-family: helvetica, arial, sans-serif ; }
+
+    table.bug { width: 30px ; height: 15px ; }
+    td.bug { color: #ffffff ; background-color: #990000 ;
+        text-align: center ; width: 30px ; height: 15px ;
+         }
+    td.bug A.link2 { color: #ffffff ; font-weight: bold;
+        text-decoration: none;
+        font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
+        font-size: x-small ; background-color: transparent }
+
+    td.header { color: #ffffff; font-size: x-small ;
+        font-family: arial, helvetica, sans-serif; vertical-align: top;
+        background-color: #666666 ; width: 33% ; }
+    td.author { font-weight: bold; margin-left: 4em; font-size: x-small ; }
+    td.author-text { font-size: x-small; }
+    table.data { vertical-align: top ; border-collapse: collapse ;
+        border-style: solid solid solid solid ;
+        border-color: black black black black ;
+        font-size: small ; text-align: center ; }
+    table.data th { font-weight: bold ;
+        border-style: solid solid solid solid ;
+        border-color: black black black black ; }
+    table.data td {
+        border-style: solid solid solid solid ;
+        border-color: #333333 #333333 #333333 #333333 ; }
+
+    hr { height: 1px }
+-->
+</style>
+</head>
+<body>
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr><td class="header">NEMO Working Group</td><td class="header">R. Kuntz</td></tr>
+<tr><td class="header">Internet-Draft</td><td class="header">M. Tsukada</td></tr>
+<tr><td class="header">Expires: January 22, 2006</td><td class="header">WIDE at Keio University</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">E. Paik</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">KT</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">T. Ernst</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">K. Mitsuya</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">WIDE at Keio University</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">July 21, 2005</td></tr>
+</table></td></tr></table>
+<div align="right"><span class="title"><br />Evaluating Multiple Mobile Routers and Multiple NEMO-Prefixes
+      in NEMO Basic Support</span></div>
+<div align="right"><span class="title"><br />draft-kuntz-nemo-multihoming-test-02.txt</span></div>
+
+<h3>Status of this Memo</h3>
+<p>
+By submitting this Internet-Draft,
+each author represents that any applicable patent or other IPR claims of which
+he or she is aware have been or will be disclosed,
+and any of which he or she becomes aware will be disclosed,
+in accordance with Section&nbsp;6 of BCP&nbsp;79.</p>
+<p>
+Internet-Drafts are working documents of the Internet Engineering
+Task Force (IETF), its areas, and its working groups.
+Note that other groups may also distribute working documents as
+Internet-Drafts.</p>
+<p>
+Internet-Drafts are draft documents valid for a maximum of six months
+and may be updated, replaced, or obsoleted by other documents at any time.
+It is inappropriate to use Internet-Drafts as reference material or to cite
+them other than as &ldquo;work in progress.&rdquo;</p>
+<p>
+The list of current Internet-Drafts can be accessed at
+<a href='http://www.ietf.org/ietf/1id-abstracts.txt'>http://www.ietf.org/ietf/1id-abstracts.txt</a>.</p>
+<p>
+The list of Internet-Draft Shadow Directories can be accessed at
+<a href='http://www.ietf.org/shadow.html'>http://www.ietf.org/shadow.html</a>.</p>
+<p>
+This Internet-Draft will expire on January 22, 2006.</p>
+
+<h3>Copyright Notice</h3>
+<p>
+Copyright &copy; The Internet Society (2005).</p>
+
+<h3>Abstract</h3>
+
+<p>
+        This document describes the tests performed and results
+        obtained with multihomed mobile networks managed by NEMO Basic
+        Support. We have particularly analyzed mobile networks with
+        multiple mobile routers and mobile networks with multiple
+        NEMO-Prefixes.
+      
+</p><a name="toc"></a><br /><hr />
+<h3>Table of Contents</h3>
+<p class="toc">
+<a href="#anchor1">1.</a>&nbsp;
+Introduction<br />
+<a href="#anchor2">2.</a>&nbsp;
+Testing Environment<br />
+<a href="#anchor3">3.</a>&nbsp;
+Case (1,1,1): Single MR, Single HA, Single Prefix<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor4">3.1</a>&nbsp;
+Scenario<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor5">3.2</a>&nbsp;
+Results<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor6">3.2.1</a>&nbsp;
+Using interface preferences<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor7">3.2.2</a>&nbsp;
+Using Multiple Care-of Addresses registration<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor8">3.3</a>&nbsp;
+Conclusion<br />
+<a href="#anchor9">4.</a>&nbsp;
+Case (1,1,2): Single MR, Single HA, Multiple NEMO-Prefixes<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor10">4.1</a>&nbsp;
+Scenario<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor11">4.2</a>&nbsp;
+Results<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor12">4.2.1</a>&nbsp;
+Using interface preferences<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor13">4.2.2</a>&nbsp;
+Using Multiple Care-of Addresses registration<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor14">4.3</a>&nbsp;
+Potential problems and solutions<br />
+<a href="#anchor15">5.</a>&nbsp;
+Case (1,2,1): Single MR, Multiple HAs, Single NEMO-Prefix<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor16">5.1</a>&nbsp;
+Scenario<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor17">5.2</a>&nbsp;
+Results<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor18">5.3</a>&nbsp;
+Potential problems and solutions<br />
+<a href="#anchor19">6.</a>&nbsp;
+Case (1,2,2): Single MR, Multiple HAs, Multiple NEMO-Prefixes<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor20">6.1</a>&nbsp;
+Scenario<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor21">6.2</a>&nbsp;
+Results<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor22">6.3</a>&nbsp;
+Potential problems and solutions<br />
+<a href="#anchor23">7.</a>&nbsp;
+Case (2,1,1): Multiple MRs, Single HA, Single NEMO-Prefix<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor24">7.1</a>&nbsp;
+Scenario<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor25">7.2</a>&nbsp;
+Results<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor26">7.2.1</a>&nbsp;
+With both MRs in a foreign network<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor27">7.2.2</a>&nbsp;
+With MR2 at home and MR1 in a foreign network<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor28">7.3</a>&nbsp;
+Potential problems and solutions<br />
+<a href="#anchor29">8.</a>&nbsp;
+Case (2,1,2): Multiple MRs, Single HA, Multiple NEMO-Prefixes<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor30">8.1</a>&nbsp;
+Scenario<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor31">8.2</a>&nbsp;
+Results<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor32">8.2.1</a>&nbsp;
+With both MRs in a foreign network<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor33">8.2.2</a>&nbsp;
+With MR2 at home and MR1 in a foreign network<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor34">8.3</a>&nbsp;
+Potential problems and solutions<br />
+<a href="#anchor35">9.</a>&nbsp;
+Case (2,2,1): Multiple MRs, Multiple HAs, Single NEMO-Prefix<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor36">9.1</a>&nbsp;
+Scenario<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor37">9.2</a>&nbsp;
+Results<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor38">9.3</a>&nbsp;
+Potential problems and solutions<br />
+<a href="#anchor39">10.</a>&nbsp;
+Case (2,2,2): Multiple MRs, Multiple HAs, Multiple NEMO-Prefixes<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor40">10.1</a>&nbsp;
+Scenario<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor41">10.2</a>&nbsp;
+Results<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor42">10.3</a>&nbsp;
+Potential problems and solutions<br />
+<a href="#anchor43">11.</a>&nbsp;
+Conclusions<br />
+<a href="#anchor44">12.</a>&nbsp;
+Changes<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor45">12.1</a>&nbsp;
+Changes from version 01 to 02<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor46">12.2</a>&nbsp;
+Changes from version 00 to 01<br />
+<a href="#rfc.references1">13.</a>&nbsp;
+References<br />
+<a href="#rfc.authors">&#167;</a>&nbsp;
+Authors' Addresses<br />
+<a href="#rfc.copyright">&#167;</a>&nbsp;
+Intellectual Property and Copyright Statements<br />
+</p>
+<br clear="all" />
+
+<a name="anchor1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1"></a><h3>1.&nbsp;Introduction</h3>
+
+<p>In this document we study the support of multihoming in the
+      NEMO <a class="info" href="#URL.NEMO">[12]<span> (</span><span class="info">IETF, &ldquo;The NEMO Working Group,&rdquo; July&nbsp;2005.</span><span>)</span></a> context. We present the results
+      of tests performed on NEMO Basic support <a class="info" href="#RFC3963">[8]<span> (</span><span class="info">Devarapalli, V., Wakikawa, R., Petrescu, A., and P. Thubert, &ldquo;Network Mobility (NEMO) Basic Support Protocol,&rdquo; January&nbsp;2005.</span><span>)</span></a>
+      with multihoming configurations. We discuss the potential problems
+      that may prevent to combine multihoming with NEMO Basic Support. We
+      also make some recommendations to solve issues in case of mobile
+      router failures.
+
+      
+</p>
+<p>
+      Our tests follow the spirit of the analysis of multihoming in
+      NEMO described in <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[3]<span> (</span><span class="info">Ernst, T., &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; February&nbsp;2005.</span><span>)</span></a> 
+      <a class="info" href="#Paper.Ernst04">[19]<span> (</span><span class="info">Ernst, T. and J. Charbon, &ldquo;Multihoming with NEMO Basic Support,&rdquo; January&nbsp;2004.</span><span>)</span></a>.  The terminology used is this memo 
+      is defined in <a class="info" href="#RFC3753">[9]<span> (</span><span class="info">Manner, J. and M. Kojo, &ldquo;Mobility Related Terminology,&rdquo; June&nbsp;2004.</span><span>)</span></a> and <a class="info" href="#I-D.ietf-nemo-terminology">[2]<span> (</span><span class="info">Ernst, T. and H. Lach, &ldquo;Network Mobility Support Terminology,&rdquo; February&nbsp;2005.</span><span>)</span></a> whereas the multihomed
+      configurations are classified according to the taxonomy defined
+      in <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[3]<span> (</span><span class="info">Ernst, T., &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; February&nbsp;2005.</span><span>)</span></a>.
+
+      
+</p>
+<p> We first give a short description of our testbed and
+      implementations used before describing our tests on distinct
+      configurations, following the same order of the classification
+      defined in <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[3]<span> (</span><span class="info">Ernst, T., &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; February&nbsp;2005.</span><span>)</span></a>.
+      Some configurations remain to be tested.
+      
+</p>
+<a name="anchor2"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2"></a><h3>2.&nbsp;Testing Environment</h3>
+
+<p>
+      The multihoming tests were performed on the indoor testbed of
+      the Nautilus6 Project <a class="info" href="#URL.N6">[10]<span> (</span><span class="info">WIDE, &ldquo;The Nautilus6 Project,&rdquo; July&nbsp;2005.</span><span>)</span></a>. 
+      The indoor testbed allows us to test protocols under development.
+      It is composed of two mobile routers and two home agents, each 
+      running NEMO Basic Support on NetBSD 1.6.2 or Debian GNU/Linux with 
+      kernel 2.6.8.1. Several LFNs are located in each mobile network.
+      Additionaly, the mobile routers can periodically change their point
+      of attachment to the Internet thanks to an emulator that allows to
+      switch between the mobile router's home network and four foreign 
+      networks.
+
+      
+</p>
+<p>
+      At the moment, three NEMO Basic Support implementations are freely 
+      available:
+      
+</p>
+<p>
+      </p>
+<ul class="text">
+<li> SHISA <a class="info" href="#URL.SHISA">[15]<span> (</span><span class="info">WIDE, &ldquo;SHISA, an implementation of MIPv6/NEMO,&rdquo; July&nbsp;2005.</span><span>)</span></a> is an implementation for *BSD 
+	Operating Systems of Mobile IPv6 and NEMO Basic Support developed in 
+	WIDE project <a class="info" href="#URL.WIDE">[14]<span> (</span><span class="info">WIDE, &ldquo;The WIDE Project,&rdquo; July&nbsp;2005.</span><span>)</span></a>.
+	SHISA supports mobile node, home agent, correspondent node and DHAAD, and 
+	also various extensions such as NEMO Basic Support <a class="info" href="#RFC3963">[8]<span> (</span><span class="info">Devarapalli, V., Wakikawa, R., Petrescu, A., and P. Thubert, &ldquo;Network Mobility (NEMO) Basic Support Protocol,&rdquo; January&nbsp;2005.</span><span>)</span></a> 
+	(in implicit and explicit mode) and multiple care-of addresses
+	registration <a class="info" href="#I-D.wakikawa-mobileip-multiplecoa">[4]<span> (</span><span class="info">Wakikawa, R., &ldquo;Multiple Care-of Addresses Registration,&rdquo; June&nbsp;2005.</span><span>)</span></a>.
+</li>
+<li>  NEPL (NEMO Platform for Linux) <a class="info" href="#URL.NEPL">[16]<span> (</span><span class="info">Go-Core and Nautilus6, &ldquo;NEPL, NEMO Platform for Linux,&rdquo; July&nbsp;2005.</span><span>)</span></a> is a NEMO 
+	implementation for Linux based on MIPL2 <a class="info" href="#URL.MIPL">[17]<span> (</span><span class="info">Go-Core, &ldquo;MIPL, Mobile IPv6 for Linux,&rdquo; July&nbsp;2005.</span><span>)</span></a>. It has
+	been developed by Go-Core project at the Helsinki University of Technology
+	<a class="info" href="#URL.MIPL">[17]<span> (</span><span class="info">Go-Core, &ldquo;MIPL, Mobile IPv6 for Linux,&rdquo; July&nbsp;2005.</span><span>)</span></a> in cooperation with Nautilus6
+	<a class="info" href="#URL.N6">[10]<span> (</span><span class="info">WIDE, &ldquo;The Nautilus6 Project,&rdquo; July&nbsp;2005.</span><span>)</span></a>. It aims to be RFC3963 <a class="info" href="#RFC3963">[8]<span> (</span><span class="info">Devarapalli, V., Wakikawa, R., Petrescu, A., and P. Thubert, &ldquo;Network Mobility (NEMO) Basic Support Protocol,&rdquo; January&nbsp;2005.</span><span>)</span></a> 
+	compliant, it supports both implicit and explicit mode signaling, and 
+	DHAAD.
+</li>
+<li> ATLANTIS <a class="info" href="#URL.NEMO.impl">[13]<span> (</span><span class="info">Mitsuya, K., &ldquo;Nautilus6 NEMO Basic Support implementation,&rdquo; July&nbsp;2004.</span><span>)</span></a> is an implementation of 
+	NEMO Basic Support based on draft-03 of NEMO Basic Support 
+	<a class="info" href="#RFC3963">[8]<span> (</span><span class="info">Devarapalli, V., Wakikawa, R., Petrescu, A., and P. Thubert, &ldquo;Network Mobility (NEMO) Basic Support Protocol,&rdquo; January&nbsp;2005.</span><span>)</span></a>. Developed by Nautilus6, it is presented as
+	an extension of KAME MIPv6 implementation <a class="info" href="#URL.KAME">[11]<span> (</span><span class="info">WIDE, &ldquo;The KAME Project,&rdquo; July&nbsp;2005.</span><span>)</span></a> 
+	for NetBSD 1.6.1. It supports MR and HA functionalities and both 
+	explicit and implicit modes. The HA supports both modes at once and 
+	the MR switches their mode by configuration. It also supports DHAAD
+	and IPSec protection between HA and MR. 
+</li>
+</ul><p>  
+     
+      
+</p>
+<p>
+      Please note that each of these implementations are still work in progress.
+      
+</p>
+<p>
+      In the tests presented in this document, we used both SHISA and NEPL. Those
+      implementations are currently under progress. However we confirm that
+      communication between MRs works well. Nested mobility is also working: first
+      nested level of VMN and VMR can communicate with other internet nodes. We also 
+      have successfully tested interoperability between those implementations 
+      <a class="info" href="#URL.NEMO-interop-tests">[18]<span> (</span><span class="info">Kuntz, R., &ldquo;NEMO Basic Support implementation tests at the 6th IPv6 TAHI Interoperability Test Event,&rdquo; January&nbsp;2005.</span><span>)</span></a>. 
+      The case (1,1,1) presented below describes a little bit further each 
+      implementation capabilities.
+      
+</p>
+<a name="anchor3"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3"></a><h3>3.&nbsp;Case (1,1,1): Single MR, Single HA, Single Prefix</h3>
+
+<p>
+      We are interested in multihomed mobile networks advertising multiple 
+      NEMO-prefixes, but this case is a good scenario to test each 
+      implementation capabilities.
+      
+</p>
+<a name="rfc.section.3.1"></a><h4><a name="anchor4">3.1</a>&nbsp;Scenario</h4>
+<pre>
+
+                      _
+                   CN|_|---|  _   _____
+                           |-|_|-|     |
+                              _  |     |
+      _  |   p1  __        |-|_|-|     |-|
+     |_|-|  &lt;-  |  |-CoA1--|     |     | |  _  |-
+         |------|  |             |     | |-|_|-|
+         |      |__|-CoA2--|  _  |     |       |
+                           |-|_|-|_____|
+
+     LFN         MR          ARs Internet  HA  Home Network
+
+            (1,1,1) Simple Mobile Network
+
+</pre>
+
+<p>
+        The MR has two egress interfaces and advertises one NEMO-Prefix on its
+	ingress interface to the mobile network. The MR has only one home address 
+	and can either use an interface preference mechanism to bind either
+	CoA1 or CoA2 to this HoA at the home agent, or use multiple 
+	care-of addresses (MCoA) registration 
+	<a class="info" href="#I-D.wakikawa-mobileip-multiplecoa">[4]<span> (</span><span class="info">Wakikawa, R., &ldquo;Multiple Care-of Addresses Registration,&rdquo; June&nbsp;2005.</span><span>)</span></a> to bind both care-of
+	addresses to its home address at the home agent. The HA acts as the default 
+	gateway on the home link. 
+	
+</p>
+<a name="rfc.section.3.2"></a><h4><a name="anchor5">3.2</a>&nbsp;Results</h4>
+
+<a name="rfc.section.3.2.1"></a><h4><a name="anchor6">3.2.1</a>&nbsp;Using interface preferences</h4>
+
+<p>
+	The MR uses only one egress interface at the same time. We can put a
+	preference on each interface. The mobile router uses the available
+	interface which has the highest preference, and binds its care-of 
+	address to its home address at the home agent. If the running interface
+	fails, then another interface can be automatically chosen and the
+	binding updated at the home agent, transparently for all the 
+	communications coming from or going through the MR.
+	
+</p>
+<p>
+	In this test, both egress interfaces are connected to a foreign network. 
+	If the mobile router supports interface preferences mechanism, then 
+	it can recover when the active interface fails by using the other 
+	interface. The mobile router sends a binding update via the newly 
+	activated interface to bind its new CoA to the MR's HoA at the home 
+	agent. Both HA and MR updates the tunnel endpoints, the interface 
+	change is done transparently for both the MR and LFN's communications.
+	
+</p>
+<a name="rfc.section.3.2.2"></a><h4><a name="anchor7">3.2.2</a>&nbsp;Using Multiple Care-of Addresses registration</h4>
+
+<p>
+	With MCoA registration
+	<a class="info" href="#I-D.wakikawa-mobileip-multiplecoa">[4]<span> (</span><span class="info">Wakikawa, R., &ldquo;Multiple Care-of Addresses Registration,&rdquo; June&nbsp;2005.</span><span>)</span></a>, the MR can bind each 
+	interface's CoA to the same HoA at the home agent. A binding identifier 
+	(BID) is defined for each CoA, the MR can then send each flow 
+	(defined by policies such as protocol, ports, destination address etc.)
+	to one specific interface according to its BID. With MCoA registration, 
+	the MR can get benefit from multiple paths to the Internet, such as load 
+	sharing, load balancing, and failure recovery.
+        
+</p>
+<p>
+	In this test, both egress interfaces are connected to a foreign network.
+	If both the mobile router and its home agent support MCoA registration, 
+	then the mobile network can recover from an interface failure on the MR: 
+	if the mobile router and 
+	the home agent can dynamically adapt the flow policies, the other active
+	interface can be used to send all the flows that were sent to the failed
+	interface. 
+        
+</p>
+<a name="rfc.section.3.3"></a><h4><a name="anchor8">3.3</a>&nbsp;Conclusion</h4>
+
+<p>
+      On a multihomed mobile router, interface preference mechanisms or multiple 
+      care-of addresses registration can be used to recover from an interface 
+      failure. MCoA registration allows to get full benefits of the multiple paths 
+      to the Internet.
+      
+</p>
+<p>
+      At the moment, only SHISA on BSD operating systems implements 
+      interface preferences mechanisms and MCoA registration. Those features are 
+      still under development on NEPL for Linux operating system. As all (1,*,*) 
+      tests require at least interface preference mechanisms, only SHISA will be 
+      used for (1,*,*) tests, but both SHISA and NEPL will be used for (2,*,*) 
+      tests.
+      
+</p>
+<a name="anchor9"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4"></a><h3>4.&nbsp;Case (1,1,2): Single MR, Single HA, Multiple NEMO-Prefixes</h3>
+
+<a name="rfc.section.4.1"></a><h4><a name="anchor10">4.1</a>&nbsp;Scenario</h4>
+<pre>
+
+                      _
+                   CN|_|---|  _   _____
+                           |-|_|-|     |
+                              _  |     |
+      _  |   p1  __        |-|_|-|     |-|
+     |_|-|  &lt;-  |  |-CoA1--|     |     | |  _  |-
+         |------|  |             |     | |-|_|-|
+         |  &lt;-  |__|-CoA2--|  _  |     |       |
+             p2            |-|_|-|_____|
+
+     LFN         MR          ARs Internet  HA  Home Network
+
+            (1,1,2) Multihomed Mobile Network
+
+</pre>
+
+<p>
+	The MR has two egress interfaces and advertises two different NEMO-Prefixes
+	on its ingress interface(s) to the mobile network. The MR has only one home 
+	address. In this test, we can expect to register both NEMO-prefixes for 
+	one care-of address at a time (using interface preferences) at the home 
+	agent, or, if we use MCoA registration, to register both NEMO-Prefixes
+	for both care-of addresses at the same time at the home agent. The HA acts as
+	the default gateway on the home link. 
+        
+</p>
+<a name="rfc.section.4.2"></a><h4><a name="anchor11">4.2</a>&nbsp;Results</h4>
+
+<a name="rfc.section.4.2.1"></a><h4><a name="anchor12">4.2.1</a>&nbsp;Using interface preferences</h4>
+
+<p>
+	The MR uses only one egress interface at the same time and registers the
+	CoA it uses at the home agent. Both MNPs are registered with a single BU
+	for one CoA. 
+	
+</p>
+<p>
+	As for the (1,1,1) case, the MR can recover if the active interface fails
+	by using the other interface. In that case the MR sends a BU with both 
+	MNPs to bind the CoA of the newly activated interface to the MR's HoA at 
+	the home agent. 
+	
+</p>
+<p>
+	Two MNPs are advertised inside the mobile network. The LFNs can configure 
+	two IPv6 addresses from these prefixes, and are reachable via both addresses.
+	The mobile router only use one interface as the same time, and 
+	binds both MNPs to the same care-of address. Thus, as long as one egress
+	interface is usable on the MR, all LFNs are reachable at both addresses.
+	
+</p>
+<a name="rfc.section.4.2.2"></a><h4><a name="anchor13">4.2.2</a>&nbsp;Using Multiple Care-of Addresses registration</h4>
+
+<p>
+	The MR binds each interface's CoA to the same HoA at the home agent
+	thanks to MCoA registration.
+	
+</p>
+<p>
+	In this test, we have defined some simple policies as followed: 
+	the mobile router sends all traffic with source address built from MNP p1
+	to one interface, and all traffic with source address built from MNP p2 to
+	the other interface. We have defined the same policies on the home agent 
+	for the destination address of the packets. In that case each class of 
+	traffic uses a different MR-HA tunnel. If one of the MR's egress 
+	interface fails, the mobile router and the home agent need to dynamically
+	adapt the policies to redirect some traffic from the failed interface to
+	the other active one. 
+	
+</p>
+<a name="rfc.section.4.3"></a><h4><a name="anchor14">4.3</a>&nbsp;Potential problems and solutions</h4>
+
+<p>
+      If we bind more than one care-of address to the same home address at the 
+      home agent (with MCoA registration), we need to select which path to use
+      for each flow. This can be done with policies defined by 
+      the user of the mobile router, or using profile management as described in
+      <a class="info" href="#Paper.enst-profile-management">[20]<span> (</span><span class="info">Lucian, S., Bonnin, J-M., Guillouard, K., and B. Stevant, &ldquo;Towards a Highly Adaptable User-Centric Terminal Architecture,&rdquo; September&nbsp;2004.</span><span>)</span></a>.
+      
+</p>
+<p>
+      If one of the MR's egress interface fails, the MR and the HA must be able 
+      to dynamically adapt its routing policies to redirect all the traffic from
+      the failed interface to another active one.
+      
+</p>
+<p>
+      Two MNPs are advertised on the mobile network. The LFNs can configure two 
+      addresses and have to choose one of them when they initiate a communication 
+      with a correspondent. No ingress filtering issues should happen if the MR
+      and the HA are properly configured to route the traffic from both MNPs.
+      
+</p>
+<a name="anchor15"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5"></a><h3>5.&nbsp;Case (1,2,1): Single MR, Multiple HAs, Single NEMO-Prefix</h3>
+
+<a name="rfc.section.5.1"></a><h4><a name="anchor16">5.1</a>&nbsp;Scenario</h4>
+<pre>
+
+                      _
+                   CN|_|---|  _   _____
+                           |-|_|-|     |
+                              _  |     |
+      _  |   p1  __        |-|_|-|     |-|        _
+     |_|-|  &lt;-  |  |-CoA1--|     |     | |  _  |-|1|
+         |------|  |             |     | |-|_|-|  _
+         |      |__|-CoA2--|  _  |     |       |-|2|
+                           |-|_|-|_____|
+
+     LFN         MR          ARs Internet  AR Home Network with 2 HAs
+
+            (1,2,1) Multihomed Mobile Network
+
+</pre>
+
+<p>
+	The MR has two egress interfaces and advertises one NEMO-Prefix on its
+	ingress interface to the mobile network. Registering the same MNP to 
+	two different home agents raises an issue: each HA has to advertise a 
+	route to the MNP, which is a problem if each HA is in a different domain.
+	In this test we configure both HAs on the same home link. They do not act as 
+	a gateway to the Internet. We can have several scenario:
+        </p>
+<ul class="text">
+<li>The MR has two home addresses, and registers each one on a different 
+	home agent, with the same MNP.
+</li>
+<li>The MR has one HoA, two CoAs (but only registers one at the same time), 
+	registers the same HoA/CoA to each HA, and use the interface preference
+	mechanism.
+</li>
+<li>The MR has one HoA, two CoAs and registers HoA/CoA1/CoA2 to each
+	home agent (thanks to MCoA registration).
+</li>
+</ul><p> 
+        
+</p>
+<a name="rfc.section.5.2"></a><h4><a name="anchor17">5.2</a>&nbsp;Results</h4>
+
+<p>
+      At the moment the MR cannot register to multiple home agents that are on 
+      the same home link. Thus we cannot test any of the scenario described 
+      previously. This will be for a later session, when implementation will 
+      allow that.
+      
+</p>
+<a name="rfc.section.5.3"></a><h4><a name="anchor18">5.3</a>&nbsp;Potential problems and solutions</h4>
+
+<p>
+      We can at least raise the following issues that may happen in such case. 
+      In the case of multiple home addresses, how the mobile router would choose it 
+      when initiating communications? This problem would be the same on a host 
+      operating Mobile IPv6 and is also discussed in 
+      <a class="info" href="#I-D.multihoming-mip6">[7]<span> (</span><span class="info">Montavont, N., Wakikawa, R., and T. Ernst, &ldquo;Analysis of Multihoming in Mobile IPv6,&rdquo; June&nbsp;2005.</span><span>)</span></a>. Also, as only one MNP is registered
+      by the MR on two different home agents, two different routes to the MNP 
+      are available, via two home agents.
+      
+</p>
+<p>
+      However the benefits we can get from such topology are interesting:
+      </p>
+<ul class="text">
+<li>Home agent redundancy. If one HA fails, the other one can relay the
+	failed one. We can also use bicasting via both HAs.
+</li>
+<li>Tunnel redundancy. If one of the MR's interface loses its connectivity,
+	the other one could be used transparently for the ongoing communications.
+</li>
+</ul><p>
+      
+</p>
+<a name="anchor19"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.6"></a><h3>6.&nbsp;Case (1,2,2): Single MR, Multiple HAs, Multiple NEMO-Prefixes</h3>
+
+<a name="rfc.section.6.1"></a><h4><a name="anchor20">6.1</a>&nbsp;Scenario</h4>
+<pre>
+
+                      _                  |  _
+                   CN|_|---|  _   _____  |-|1|-|
+                           |-|_|-|     |-|     |-
+                              _  |     |
+      _  |   p1  __        |-|_|-|     |-|
+     |_|-|  &lt;-  |  |-CoA1--|     |     | |  _  |-
+         |------|  |             |     | |-|2|-|
+         |  &lt;-  |__|-CoA2--|  _  |     |       |
+             p2            |-|_|-|_____|
+
+     LFN         MR          ARs Internet  HAs Home Network
+
+            (1,2,2) Multihomed Mobile Network
+
+</pre>
+
+<p>
+	The MR has two egress interfaces and advertises two NEMO-Prefixes on its 
+	ingress interface(s) to the mobile network. Each home agent are in 
+	in a different network. Both MRs' interfaces are in a foreign network.
+	The MR has two home addresses and registers one HoA and one MNP per home 
+	agent. The LFNs can configure two IPv6 addresses, one from each MNP advertised 
+	in the mobile network. Each HA acts as the default gateway on its home link.
+	
+</p>
+<a name="rfc.section.6.2"></a><h4><a name="anchor21">6.2</a>&nbsp;Results</h4>
+
+<p>
+      Each MR's egress interface has one HoA/CoA/MNP registered to one HA. 
+      If one of the MR's egress interface fails, both the MR and LFNs are not
+      reachable anymore to the address built from the prefix that is related 
+      to this interface. If the MR does not redirect the flow from the failed
+      egress interface to the other one, the LFNs' communications are broken 
+      and LFNs cannot reach the Internet anymore if they use the address built
+      from the prefix associated to the failed interface as source address.
+      
+</p>
+<a name="rfc.section.6.3"></a><h4><a name="anchor22">6.3</a>&nbsp;Potential problems and solutions</h4>
+
+<p>
+      Two MNPs are advertised in the mobile network, thus LFNs can be multihomed. 
+      All packets go through one MR, so ingress filtering should not happen 
+      on the MR side. If the MR always sends the packets to the home agent which
+      is related to the prefix that the source address is built from, no ingress
+      filtering should happen on the HA side.
+      
+</p>
+<p>
+      However, in case of failures and to keep transparency for the LFNs, The MR could
+      redirect the packets to another active interface. In such a case, ingress 
+      filtering can occur at the home agent, which may drop packets with a 
+      source address different from what it is allowed to receive from the MR.
+      Also, redirecting the packets from one interface to another would only 
+      recover one way of the communications, as the other way would still take
+      the path via the failed interface. The MR could then move the tunnel endpoint
+      from the failed interface to the active one: the active interface would 
+      have to manage two home addresses, and two tunnels to two different 
+      home agents.
+      
+</p>
+<p>
+      In case of MR's interface failure, the LFN may have to change the source 
+      address it uses to send its datas. If so, all ongoing communications would 
+      be reset as TCP connections cannot survive to IP address change.
+      
+</p>
+<a name="anchor23"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.7"></a><h3>7.&nbsp;Case (2,1,1): Multiple MRs, Single HA, Single NEMO-Prefix</h3>
+
+<a name="rfc.section.7.1"></a><h4><a name="anchor24">7.1</a>&nbsp;Scenario</h4>
+
+<p>
+	We will first test with both MRs in foreign networks: 
+	
+</p><pre>
+
+                       _
+                    CN|_|---|  _   _____
+                            |-|_|-|     |
+                               _  |     |
+         | &lt;-p1  ___        |-|_|-|     |-|
+      _  |------|_1_|-CoA1--|     |     | |  _  |-
+     |_|-|       ___              |     | |-|_|-|
+         |------|_2_|-CoA2--|  _  |     |       |
+           &lt;-p1             |-|_|-|_____|
+
+     LFN         MRs          ARs Internet  HA  Home Network
+
+              (2,1,1) Multihomed Mobile Network
+                 both MRs in foreign networks
+
+
+</pre>
+
+<p>
+	Each MR (MR1 and MR2) has one egress interface and advertises the same 
+	NEMO-Prefix p1 on the mobile network. When the HA receives a BU with a MNP
+	that is already in binding cache from another MR, it creates a new entry 
+	in the binding cache. The home agent thus has two binding cache entries: 
+	one for HoA1/CoA1/p1, and one for HoA2/CoA2/p1. The HA acts as the default 
+	gateway on the home link.
+	
+</p>
+<p>
+        Notes:
+        </p>
+<ul class="text">
+<li>The LFN's default router can be either MR1 or MR2.
+</li>
+<li>The HA can forward packets to the MNP via either MR1 or MR2.
+</li>
+<li>In the implementations we use (on Linux and on BSD), in the case 
+	several MRs register the same MNP to the home agent, the home agent always
+	selects the first MR that registered to forward packet to the MNP.
+</li>
+<li>The LFN's routers list contains both MRs. Once its default router is
+	selected, the LFN will then always use it unless its default router is not
+	reachable anymore.
+</li>
+</ul><p>    
+        
+</p>
+<p>
+	We will then test with one MR in a foreign network, and the second MR at 
+	home. The mobile router that is at home does not register to its home agent: 
+	
+</p><pre>
+
+                       _
+                    CN|_|---|  _   _____
+                            |-|_|-|     |
+                               _  |     |
+         | &lt;-p1  ___        |-|_|-|     |-|
+      _  |------|_1_|-CoA1--|     |_____| |  _  |
+     |_|-|       ___                      |-|_|-|
+         |------|_2_|---------------------------|
+           &lt;-p1
+
+     LFN         MRs          ARs Internet  HA  Home Network
+
+               (2,1,1) Multihomed Mobile Network
+              MR2 at home, MR1 in foreign network
+
+
+</pre>
+
+<p>
+	Notes:	
+        </p>
+<ul class="text">
+<li>The LFN's default router can be either MR1 or MR2.
+</li>
+<li>The HA can forward packets to MNP via either MR1 or MR2.
+</li>
+</ul><p> 
+        
+</p>
+<a name="rfc.section.7.2"></a><h4><a name="anchor25">7.2</a>&nbsp;Results</h4>
+
+<a name="rfc.section.7.2.1"></a><h4><a name="anchor26">7.2.1</a>&nbsp;With both MRs in a foreign network</h4>
+
+<p>	
+	The LFN's default router is MR1 and HA forwards packets to the mobile 
+	network via MR1.	
+        
+</p>
+<p>
+	If MR1's egress interface fails, the home agent is able to route packets 
+	to the MNP via MR2. Once the binding cache entry and the routes relative 
+	to MR1 are deleted on the home agent, it is able to choose the other MR 
+	to reach the mobile network. If the implementation or the operating system 
+	cannot handle multiple 
+	routes to the same MNP, the HA may have to wait to receive a BU from MR2
+	to build a new route to the MNP. As the LFN still uses MR1 as default
+	router, it cannot reach the Internet. In our case we configured MR1 to 
+	start sending router advertisements with a lifetime set to 0, to force 
+	the LFN to choose another default router.
+	
+</p>
+<p>
+	If MR1's ingress fails, the LFN is able to change its default router, 
+	but the home agent may still use the failed MR as entry point of the 
+	mobile network.
+	
+</p>
+<p>
+	If we shutdown MR1, or if both ingress and egress interfaces fails, the HA
+	chooses MR2 to forward packets to the mobile network (once the binding cache
+	entry and the routes relative to MR1 have been deleted) and the LFNs choose
+	MR2 as default router. In this scenario, we can get a stable configuration 
+	without any manual operations.
+        
+</p>
+<p>	
+	If LFN's default router is MR1 and HA forwards packets to the mobile 
+	network via MR2, the path for the communication between a CN and a LFN
+	is asymmetrical, but it does not bring any new issues to the previous cases.
+        
+</p>
+<a name="rfc.section.7.2.2"></a><h4><a name="anchor27">7.2.2</a>&nbsp;With MR2 at home and MR1 in a foreign network</h4>
+
+<p>	
+	We have first tested with a static route installed on the HA to the 
+	MNP via the MR that is at home. According to the implementation, the 
+	static route is preferred to the route installed by the mobility daemon
+	via the MR that is in foreign network, or the contrary. 
+	This can raise several issues: if the static route is preferred, then if
+	the MR that is at home fails, the MR in foreign network will 
+	never be used by the home agent as an entry point to the mobile network,
+	unless we manually delete the static route on the home agent. 
+	If the route installed by the mobility daemon is preferred, then the
+	mobile router that is at home will never be used as an entry point to the 
+	mobile network.
+        
+</p>
+<p>
+	We then have tested using a routing protocol (RIPNG using the ZEBRA 
+	routing software) between the MR that is at home and the home agent.
+	In that case, on both operating systems, the home agent prefers a route 
+	installed by the mobility daemon rather than a route installed by ZEBRA
+	from RIPNG announces. Then, the mobile router that is in foreign network
+	is always used as an entry point to the mobile network by the home agent.
+	However, if that MR fails, the route installed from RIPNG announces is 
+	used and the mobile network can still be reachable by correspondents.
+        
+</p>
+<p>	
+	We then modified ZEBRA in order that the home agent prefers a route
+	installed from RIPNG announces rather than from the mobility daemon. 
+	In that case, all the traffic to the mobile network is sent through 
+	the MR that is in its home network. If this MR fails, it takes some 
+	time before the HA uses the route installed by the mobility daemon: 
+	with RIPNG, routes are considered as expired once 180 seconds elapse
+	from the last time the timeout was initialized. Then the route entry
+	is still present in the routing table during 120 seconds with a metric
+	set to 16 (infinity).
+	
+</p>
+<p>
+	On the LFN side, it could be useful that it chooses the MR that is at home 
+	as default router. The MR in foreign network could advertise RA with a 
+	lifetime set to 0 or use ICMP redirects as long as the other MR is at 
+	home and alive. This would need some cooperation protocol between MRs.
+        
+</p>
+<a name="rfc.section.7.3"></a><h4><a name="anchor28">7.3</a>&nbsp;Potential problems and solutions</h4>
+
+<p> 
+        Regarding to these tests, we can discuss about:
+        </p>
+<ul class="text">
+<li> A mechanism for the LFN to change quickly its default router in case of
+	 egress interface failure on it. 
+</li>
+<li> A mechanism for the LFN to change its default router to keep a 
+	 symmetric path between CNs and LFNs. It means that when one of the MR 
+	 fails, LFN must be able to switch to the MR that will be chosen by the
+	 home agent to forward packets to the mobile network. It requires a 
+	 mechanism between HA and MR and between MR and LFN.
+</li>
+<li> A mechanism for the MR to deregister quickly towards its home agent 
+	 when the MR notices a failure. For example a Negative Binding Update via 
+	 another MR when its egress interface fails, or a de-registration BU only
+	 for some prefixes when one of the ingress interfaces fails. The reference 
+	 <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[3]<span> (</span><span class="info">Ernst, T., &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; February&nbsp;2005.</span><span>)</span></a> gives some clue.
+</li>
+<li> When the MR is at home, the use of a dynamic routing protocol 
+	 between MR and HA instead of static routes on the HA, so the home agent's 
+	 routing table will be dynamically updated in case of failure on the MR 
+	 side. However our configurations does not support the case when the MR 
+	 that is at home and uses a dynamic routing protocol moves in a foreign 
+	 network. For that purpose, the NEMO Basic Support specification
+	 <a class="info" href="#RFC3963">[8]<span> (</span><span class="info">Devarapalli, V., Wakikawa, R., Petrescu, A., and P. Thubert, &ldquo;Network Mobility (NEMO) Basic Support Protocol,&rdquo; January&nbsp;2005.</span><span>)</span></a> describes the support of dynamic routing 
+	 protocols between a MR and its HA. But as we currently don't have 
+	 such feature implemented, we could not test it.
+</li>
+<li> A mechanism for the HA to choose a MR which is at home instead of the
+	 one that is in a foreign network, if the topology allows this choice. The
+	 solution depends on NEMO Basic Support and route selection
+	 implementations. However, always choosing the MR that is at home might 
+	 not be the best solution. Some metrics could help to choose the best 
+	 path to the mobile network.
+</li>
+<li> A mechanism for the MR that is in a foreign network to deregister its
+	 NEMO-prefix if it knows that at least one another MR is at home, and 
+	 register again when it learns that no MRs are at home anymore. A
+	 coordination mechanism between MRs could help this solution. 
+</li>
+<li> The LFN may also prefer to choose the MR that is at home as exit 
+	 router. Cooperation between MRs or between the MR and the LFN would 
+	 help.
+</li>
+<li> One solution could be to use virtual home network in case of multiple 
+	 MRs. The reference <a class="info" href="#I-D.ietf-nemo-home-network-models">[6]<span> (</span><span class="info">Thubert, P., Wakikawa, R., and V. Devarapalli, &ldquo;NEMO Home Network models,&rdquo; June&nbsp;2005.</span><span>)</span></a> 
+	 gives some clues in section 7, and explains advantages and drawbacks of
+	 such a solution.
+</li>
+</ul><p>  
+       
+</p>
+<a name="anchor29"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.8"></a><h3>8.&nbsp;Case (2,1,2): Multiple MRs, Single HA, Multiple NEMO-Prefixes</h3>
+
+<a name="rfc.section.8.1"></a><h4><a name="anchor30">8.1</a>&nbsp;Scenario</h4>
+<pre>
+
+                       _
+                    CN|_|---|  _   _____
+                            |-|_|-|     |
+                               _  |     |
+         | &lt;-p1  ___        |-|_|-|     |-|
+      _  |------|_1_|-CoA1--|     |     | |  _  |-
+     |_|-|       ___              |     | |-|_|-|
+         |------|_2_|-CoA2--|  _  |     |       |
+           &lt;-p2             |-|_|-|_____|
+
+     LFN         MRs          ARs Internet  HA  Home Network
+
+            (2,1,2) Multihomed Mobile Network
+
+
+</pre>
+
+<p> 	
+	Each MR (MR1 and MR2) has one egress interface and advertises different  
+	NEMO-Prefixes p1 and p2 on the mobile network. The home agent has 
+	two binding cache entries: one for HoA1/CoA1/p1, and one for HoA2/CoA2/p2.
+	The HA acts as the default gateway on the home link.
+	
+</p>
+<p>
+        Notes:
+        </p>
+<ul class="text">
+<li>The LFN's default router can be either MR1 or MR2.
+</li>
+<li>The HA will forward packets to MR1 and MR2 according to the NEMO-prefix 
+	registered in the binding cache for each MR.
+</li>
+<li> There are two different prefixes advertised in the mobile network.
+        The LFNs can configure two IPv6 global addresses: one for each prefix 
+	advertised, and are reachable via these two addresses.
+</li>
+<li> A CN can reach the LFN via its two IPv6 addresses, but the path is
+	different whether which address is used to reach the LFN.
+</li>
+</ul><p>  
+        
+</p>
+<a name="rfc.section.8.2"></a><h4><a name="anchor31">8.2</a>&nbsp;Results</h4>
+
+<a name="rfc.section.8.2.1"></a><h4><a name="anchor32">8.2.1</a>&nbsp;With both MRs in a foreign network</h4>
+
+<p>
+	First, the LFN uses the address built from the MNP p1 advertised by MR1 as 
+	source address, and uses MR1 as default router. If a CN communicates 
+	with the LFN using its address built from the MNP p1 as destination address, 
+	the communication is symmetric. But if a CN communicates with the LFN using
+	its address built from the MNP p2 as destination address, the communication path
+	is asymmetrical. Ingress filtering can occur on MR1 if it does not allow to
+	forward packets whose source address is not built from the MNP p1.
+	
+</p>
+<p> When the ingress or egress interface fails on MR2:
+        </p>
+<ul class="text">
+<li>If a CN communicates with the LFN with its address built from the MNP p1,
+	the communication does not stop, because both sides of the communications
+	go through MR1.
+</li>
+<li>If a CN communicates with the LFN with its address built from the MNP p2, the 
+	CN cannot reach the LFN but the LFN can still reach the CN as it uses MR1 as
+	default router.
+</li>
+</ul><p>  
+	
+</p>
+<p>One way for the CN to reach the LFN is to change the destination
+	address, but the CN must be aware that the LFN is reachable via two 
+	addresses, and address change would break all ongoing TCP 
+	communications.
+</p>
+<p>Another way is that the HA forwards all packets via the HA-MR1 tunnel.
+	For this idea, the HA must be aware that MR1 and MR2 belong to the same
+	mobile network. The HA must also be aware when one of MR2's interface 
+	fails: if MR2's egress interface fails, the binding cache entry on the HA
+	will be deleted when its lifetime expires. But the HA has currently no way
+	to know	when MR2's ingress interface fails.
+</p>
+<p>
+	When the ingress interface fails on MR1:
+	</p>
+<ul class="text">
+<li>The LFN does not receive router advertisement anymore from MR1, so 
+	its default router will change to MR2. The address built from the MNP p1 becomes
+	deprecated and the one built from the MNP p2 is preferred. The LFN is then able 
+	to reach the internet, but as the source address changed, all ongoing TCP
+	communications break.
+</li>
+<li>The CN cannot reach the LFN on its address built from the MNP p1, but can 
+	reach it on its address built from the MNP p2 as soon as the LFN changed its 
+	default router to MR2.
+</li>
+<li>If MR1's ingress interface recovers, MR2 is still the LFN's default
+	router. The communication may be asymmetrical if the LFN uses the newly 
+	address built from the MNP p1 as source address.
+</li>
+</ul><p>  
+	
+</p>
+<p>If MR1's egress interface fails, the LFN cannot be aware of the
+	failure and will go on using MR1 as default router. Thus the LFN is not
+	reachable anymore to any of its	addresses. One solution could be 
+	that MR1 advertises RA with a lifetime set to 0 or to send ICMP redirects 
+	to force the LFN to change its default router. Then LFN could be at least
+	reachable on its address built from the prefix advertised by MR2.
+</p>
+<p>Now, the LFN uses the address built from the MNP p1 advertised by MR1 as 
+	source address, and uses MR2 as default router.	
+        </p>
+<ul class="text">
+<li>If MR2's ingress interface fails, the LFN will switch its default router
+        to MR1. The LFN will not be reachable at its address built from the prefix
+        advertised by MR2, but will be reachable on the one built from the prefix
+        advertised by MR1.
+</li>
+<li>If MR2's egress interface fails, the LFN will not be reachable at any of 
+        its addresses. This case is similar to one above.
+</li>
+<li>If MR1's ingress or egress interface fails, the LFN will still be 
+        reachable at its address built from the MNP p2 but not at the one built from 
+        the MNP p1.
+</li>
+</ul><p>  
+  	
+</p>
+<a name="rfc.section.8.2.2"></a><h4><a name="anchor33">8.2.2</a>&nbsp;With MR2 at home and MR1 in a foreign network</h4>
+
+<p>
+        Behavior will be basically the same as above, because instead of having 
+	two different entries in the binding cache and two routes towards a MR-HA
+	tunnel, the home agent will have one entry in binding cache for MR1 that is
+	in foreign network, one route to the MNP p1 towards the MR1-HA tunnel, and 
+	one route to the MNP p2 via MR2 created by a dynamic routing protocol.
+	A mechanism for the home agent and the LFN to prefer the MR that is at
+	home could be useful, as discussed in section 7.3.
+	The mechanisms to reduce the MRs' failures seen in the case (2,1,1) 
+	can also apply here.
+        
+</p>
+<a name="rfc.section.8.3"></a><h4><a name="anchor34">8.3</a>&nbsp;Potential problems and solutions</h4>
+
+<p> The LFN may use the address built from one of the prefix as a source 
+	address and use the MR that advertises the other prefix as default router.
+	In this case we do not have ingress filtering issues on the HA because packets
+	from the LFN are encapsulated by the MR and forwarded to the HA, and we only have
+	one home agent for both MRs. However ingress filtering may happen on the 
+	mobile router if it filters the packets whose addresses are built from a 
+	prefix the MR is not configured to serve.
+</p>
+<p> Communications between a LFN and a CN can be asymmetrical in some cases,
+	regarding to the LFN's
+	default router and the address it uses to communicate with a CN.
+</p>
+<p> In case of one of the MR failure, if the home agent knows that both 
+	NEMO-prefixes are for the same mobile network, it can use the other MR 
+	to reach the mobile network. MR1 could advertise to the HA the NEMO-prefix 
+	that MR2 advertised (and conversely), so the HA would have two binding cache
+	entries and routes
+	for the same prefixes, and would be able to use a similar solution than 
+	for the (2,1,1) case.
+</p>
+<p>With some policy mechanisms, the LFN could send packets with source
+	address built from the MNP p1 to MR1, and packets with source address built 
+	from the MNP p2 to MR2. This could avoid ingress filtering issues at the MR 
+	and the LFN could always reach or be reachable to one of its address 
+	if one of the MR's interface fails.
+</p>
+<p>In any cases, as raised in
+	<a class="info" href="#I-D.ietf-nemo-multihoming-issues">[3]<span> (</span><span class="info">Ernst, T., &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; February&nbsp;2005.</span><span>)</span></a>, section 4.3,
+	if the LFN changes its source address it used to send packets, ongoing 
+	transport sessions without multihoming capabilities (such as TCP) are 
+	terminated.
+</p>
+<a name="anchor35"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.9"></a><h3>9.&nbsp;Case (2,2,1): Multiple MRs, Multiple HAs, Single NEMO-Prefix</h3>
+
+<a name="rfc.section.9.1"></a><h4><a name="anchor36">9.1</a>&nbsp;Scenario</h4>
+<pre>
+
+                      _
+                   CN|_|---|  _   _____
+                           |-|_|-|     |
+                              _  |     |
+        | &lt;-p1  ___        |-|_|-|     |-|        _
+     _  |------|_1_|-CoA1--|     |     | |  _  |-|1|
+    |_|-|       ___              |     | |-|_|-|  _
+        |------|_2_|-CoA2--|  _  |     |       |-|2|
+          &lt;-p1             |-|_|-|_____|
+
+    LFN         MRs          ARs Internet  AR Home Network with 2 HAs
+
+            (2,2,1) Multihomed Mobile Network
+
+</pre>
+
+<p>
+	Each MR (MR1 and MR2) has one egress interface and advertises the same  
+	NEMO-Prefix p1 on the mobile network. Registering the same MNP 
+	to two different home agents raise one issue: each HA has to 
+	advertise a route to the MNP, which is a problem if each HA is in a 
+	different domain. In this test we configure both HAs on the same home 
+	link. They do not act as a gateway to the Internet. Both HAs advertise 
+	a route to the MNP thanks to a dynamic 
+	routing protocol. The access router on the home link can then build a 
+	route to the MNP via one of the home agent.
+	
+</p>
+<a name="rfc.section.9.2"></a><h4><a name="anchor37">9.2</a>&nbsp;Results</h4>
+
+<p>
+	If one of the MR's egress interface fails, the HA where the MR is 
+	registered will delete the corresponding binding cache entry once 
+	its lifetime has expired, and remove the route installed by the 
+	mobility daemon. As the HA is configured to announce kernel routes 
+	with the dynamic routing protocol, the route to the MNP will not be
+	announced anymore. 
+	The AR will be able to change its default route to the MNP via the 
+	other HA if needed. Thus the mobile network will still be reachable.
+	However, the LFN's default router may be the MR whose egress interface
+	failed. The failed MR should then advertise RA with a lifetime set to 0
+	or send ICMP redirects when it detects a failure on its egress interface.
+	
+</p>
+<p>
+	If one of the MR's ingress interface fails, the LFN will be able to 
+	choose the other MR as default router if needed. However, if all the 
+	traffic to the MNP is forwarded by the access router to the HA whose 
+	MR's ingress interface has failed, the mobile network will be unreachable 
+	from the Internet. So, the MR whose ingress interface has failed should 
+	deregister to its HA (at least as mobile router, but it can still act 
+	as a mobile host). The HA would thus delete the route to the MNP via the 
+	MR, and the same mechanism as above could apply.
+	
+</p>
+<p>
+        If one MR is in its home network, and the other MR is in a foreign
+	network, it may be better that all traffic goes through the MR that is 
+	at home. Both HAs will have a route to the same MNP:
+	</p>
+<ul class="text">
+<li> Both HAs will have a route built from the dynamic routing protocol 
+	running between the HA and the MR that is at home.
+</li>
+<li> One HA will also have a route built by the mobility daemon for the 
+	MR that is in a foreign network.
+</li>
+</ul><p>
+	If the HA that has both routes prefers the route built by the dynamic
+	routing protocol to the one built by the mobility daemon, 
+	then whatever the AR chooses as next hop to the MNP, all traffic 
+	will go through the MR that is at home.
+	
+</p>
+<a name="rfc.section.9.3"></a><h4><a name="anchor38">9.3</a>&nbsp;Potential problems and solutions</h4>
+
+<p>
+	How do the both home agents will delegate the same prefix to different MRs?
+	This is a prefix delegation issue. If we delegate a prefix to different MRs 
+	manually, they will face a problem when the MRs are split into different
+	mobile networks.
+        
+</p>
+<a name="anchor39"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.10"></a><h3>10.&nbsp;Case (2,2,2): Multiple MRs, Multiple HAs, Multiple NEMO-Prefixes</h3>
+
+<a name="rfc.section.10.1"></a><h4><a name="anchor40">10.1</a>&nbsp;Scenario</h4>
+<pre>
+
+                       _                  |  _
+                    CN|_|---|  _   _____  |-|1|-|
+                            |-|_|-|     |-|     |-
+                               _  |     |
+         | &lt;-p1  ___        |-|_|-|     |-|
+      _  |------|_1_|-CoA1--|     |     | |  _  |-
+     |_|-|       ___              |     | |-|2|-|
+         |------|_2_|-CoA2--|  _  |     |       |
+           &lt;-p2             |-|_|-|_____|
+
+     LFN         MRs          ARs Internet  HAs  Home Networks
+
+            (2,2,2) Multihomed Mobile Network
+
+</pre>
+
+<p>
+	Each MR (MR1 and MR2) has one egress interface and advertises a different  
+	NEMO-Prefix on the mobile network. They register to a different home agent.
+	Each home agent acts as the default gateway on its home link. 
+	
+</p>
+<a name="rfc.section.10.2"></a><h4><a name="anchor41">10.2</a>&nbsp;Results</h4>
+
+<p>
+	If each MR takes care of one prefix, and registers to a different HA, there 
+	is nothing to add about the problems we can face if we have ingress or 
+	egress interface failures on one MR. However, solutions to the problem 
+	are more complex since there are two HAs: for instance, one MR may have
+	problem to register the other MR's MNP to the other HA (as suggested 
+	in section 8.3) due to access control and security issues.
+	
+</p>
+<p>As raised in <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[3]<span> (</span><span class="info">Ernst, T., &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; February&nbsp;2005.</span><span>)</span></a>, 
+	if one MR takes care of more than one prefix, problems issued from this
+	configuration can be decomposed into problems from others cases, 
+	especially (2,1,2).
+        
+</p>
+<a name="rfc.section.10.3"></a><h4><a name="anchor42">10.3</a>&nbsp;Potential problems and solutions</h4>
+
+<p>  
+	As raised in <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[3]<span> (</span><span class="info">Ernst, T., &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; February&nbsp;2005.</span><span>)</span></a> section 4.3,
+	when the two tunnels between MRs and HAs end at different home agents, and 
+	each HA registers a different NEMO-Prefix, ingress filtering may occur at 
+	the HA. According to <a class="info" href="#RFC3963">[8]<span> (</span><span class="info">Devarapalli, V., Wakikawa, R., Petrescu, A., and P. Thubert, &ldquo;Network Mobility (NEMO) Basic Support Protocol,&rdquo; January&nbsp;2005.</span><span>)</span></a> section 9, the HA must check
+	whether the source address of the inner IPv6 header is a topologically 
+	correct address with respect to the IPv6 prefixes used in the mobile 
+	network. A solution to this problem could be source address switching
+	on the LFN or nested tunnels, as described in
+	<a class="info" href="#I-D.ietf-nemo-multihoming-issues">[3]<span> (</span><span class="info">Ernst, T., &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; February&nbsp;2005.</span><span>)</span></a> appendix B.
+        
+</p>
+<a name="anchor43"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.11"></a><h3>11.&nbsp;Conclusions</h3>
+
+<p>
+      This document investigates the issues for practical deployment of NEMO basic
+      support. It focuses on technical issues as well as implementation issues from 
+      multiple MRs, multiple HAs and multiple MNPs topologies.
+      The tests we performed are work in progress. We are testing other cases and 
+      check if additional issues appear with the topologies presented in this 
+      document.
+      
+</p>
+<a name="anchor44"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.12"></a><h3>12.&nbsp;Changes</h3>
+
+<a name="rfc.section.12.1"></a><h4><a name="anchor45">12.1</a>&nbsp;Changes from version 01 to 02</h4>
+
+<p>Added test cases (1,1,1), (1,1,2), (1,2,2), (2,2,1).
+</p>
+<p>Updated test cases (1,2,1), (2,1,1), (2,1,2), (2,2,2).
+</p>
+<p>Some tests now support Multiple Care-of Addresses registration.
+</p>
+<p>Updated References list.
+</p>
+<a name="rfc.section.12.2"></a><h4><a name="anchor46">12.2</a>&nbsp;Changes from version 00 to 01</h4>
+
+<p>Editorial changes
+</p>
+<p>Added some text about existing NEMO Basic Support implementations.
+</p>
+<p>Updated References list.
+</p>
+<a name="rfc.references1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>13.&nbsp;References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-nemo-requirements">[1]</a></td>
+<td class="author-text">Ernst, T., &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-ietf-nemo-requirements-04.txt">Network Mobility Support Goals and Requirements</a>,&rdquo; draft-ietf-nemo-requirements-04 (work in progress), February&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-nemo-terminology">[2]</a></td>
+<td class="author-text">Ernst, T. and H. Lach, &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-ietf-nemo-terminology-03.txt">Network Mobility Support Terminology</a>,&rdquo; draft-ietf-nemo-terminology-03 (work in progress), February&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-nemo-multihoming-issues">[3]</a></td>
+<td class="author-text">Ernst, T., &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-ietf-nemo-multihoming-issues-02.txt">Analysis of Multihoming in Network Mobility Support</a>,&rdquo; draft-ietf-nemo-multihoming-issues-02 (work in progress), February&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.wakikawa-mobileip-multiplecoa">[4]</a></td>
+<td class="author-text">Wakikawa, R., &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-wakikawa-mobileip-multiplecoa-04.txt">Multiple Care-of Addresses Registration</a>,&rdquo; draft-wakikawa-mobileip-multiplecoa-04 (work in progress), June&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ernst-generic-goals-and-benefits">[5]</a></td>
+<td class="author-text">Ernst, T., &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-ernst-generic-goals-and-benefits-01.txt">Goals and Benefits of Multihoming</a>,&rdquo; draft-ernst-generic-goals-and-benefits-01 (work in progress), February&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-nemo-home-network-models">[6]</a></td>
+<td class="author-text">Thubert, P., Wakikawa, R., and V. Devarapalli, &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-ietf-nemo-home-network-models-04.txt">NEMO Home Network models</a>,&rdquo; draft-ietf-nemo-home-network-models-04 (work in progress), June&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.multihoming-mip6">[7]</a></td>
+<td class="author-text">Montavont, N., Wakikawa, R., and T. Ernst, &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-montavont-mobileip-multihoming-pb-statement-04.txt">Analysis of Multihoming in Mobile IPv6</a>,&rdquo; draft-montavont-mobileip-multihoming-pb-statement-04 (work in progress), June&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC3963">[8]</a></td>
+<td class="author-text">Devarapalli, V., Wakikawa, R., Petrescu, A., and P. Thubert, &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc3963.txt">Network Mobility (NEMO) Basic Support Protocol</a>,&rdquo; RFC&nbsp;3963, January&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC3753">[9]</a></td>
+<td class="author-text">Manner, J. and M. Kojo, &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc3753.txt">Mobility Related Terminology</a>,&rdquo; RFC&nbsp;3753, June&nbsp;2004.</td></tr>
+<tr><td class="author-text" valign="top"><a name="URL.N6">[10]</a></td>
+<td class="author-text">WIDE, &ldquo;<a href="http://www.nautilus6.org">The Nautilus6 Project</a>,&rdquo; URL&nbsp;http://www.nautilus6.org, July&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="URL.KAME">[11]</a></td>
+<td class="author-text">WIDE, &ldquo;<a href="http://wwww.kame.net">The KAME Project</a>,&rdquo; URL&nbsp;http://www.kame.net, July&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="URL.NEMO">[12]</a></td>
+<td class="author-text">IETF, &ldquo;<a href="http://www.ietf.org/html.charters/nemo-charter.html">The NEMO Working Group</a>,&rdquo; URL&nbsp;http://www.ietf.org/html.charters/nemo-charter.html, July&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="URL.NEMO.impl">[13]</a></td>
+<td class="author-text">Mitsuya, K., &ldquo;<a href="http://www.nautilus6.org/implementation/atlantis.html">Nautilus6 NEMO Basic Support implementation</a>,&rdquo; Implementation Report&nbsp;http://www.nautilus6.org/implementation/atlantis.html, July&nbsp;2004.</td></tr>
+<tr><td class="author-text" valign="top"><a name="URL.WIDE">[14]</a></td>
+<td class="author-text">WIDE, &ldquo;<a href="http://www.wide.ad.jp/">The WIDE Project</a>,&rdquo; URL&nbsp;http://www.wide.ad.jp/, July&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="URL.SHISA">[15]</a></td>
+<td class="author-text">WIDE, &ldquo;<a href="http://www.mobileip.jp/">SHISA, an implementation of MIPv6/NEMO</a>,&rdquo; URL&nbsp;http://www.mobileip.jp/, July&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="URL.NEPL">[16]</a></td>
+<td class="author-text">Go-Core and Nautilus6, &ldquo;<a href="http://www.mobile-ipv6.org/">NEPL, NEMO Platform for Linux</a>,&rdquo; URL&nbsp;http://www.mobile-ipv6.org/, July&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="URL.MIPL">[17]</a></td>
+<td class="author-text">Go-Core, &ldquo;<a href="http://www.mobile-ipv6.org/">MIPL, Mobile IPv6 for Linux</a>,&rdquo; URL&nbsp;http://www.mobile-ipv6.org/, July&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="URL.NEMO-interop-tests">[18]</a></td>
+<td class="author-text">Kuntz, R., &ldquo;<a href="http://www.nautilus6.org/doc/tc-nemo-tahi-interop-20050207-KuntzR.txt">NEMO Basic Support implementation tests at the 6th IPv6 TAHI Interoperability Test Event</a>,&rdquo; Interoperability tests report&nbsp;http://www.nautilus6.org/doc/tc-nemo-tahi-interop-20050207-KuntzR.txt, January&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="Paper.Ernst04">[19]</a></td>
+<td class="author-text">Ernst, T. and J. Charbon, &ldquo;Multihoming with NEMO Basic Support,&rdquo; Proceedings&nbsp;First International Conference on Mobile Computing and Ubiquitous Networking (ICMU), January&nbsp;2004.</td></tr>
+<tr><td class="author-text" valign="top"><a name="Paper.enst-profile-management">[20]</a></td>
+<td class="author-text">Lucian, S., Bonnin, J-M., Guillouard, K., and B. Stevant, &ldquo;Towards a Highly Adaptable User-Centric Terminal Architecture,&rdquo; Proceedings&nbsp;7th International Symposium on Wireless Personal Multimedia Communication (WPMC04), September&nbsp;2004.</td></tr>
+</table>
+
+<a name="rfc.authors"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Authors' Addresses</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Romain Kuntz</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">WIDE at Keio University</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Jun Murai Lab., Keio University.</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">K-square Town Campus, 1488-8 Ogura, Saiwa-Ku</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Kawasaki, Kanagawa  212-0054</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Japan</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+81-44-580-1600</td></tr>
+<tr><td class="author" align="right">Fax:&nbsp;</td>
+<td class="author-text">+81-44-580-1437</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:kuntz@sfc.wide.ad.jp">kuntz@sfc.wide.ad.jp</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://www.sfc.wide.ad.jp/~kuntz/">http://www.sfc.wide.ad.jp/~kuntz/</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Manabu Tsukada</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">WIDE at Keio University</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Jun Murai Lab., Keio University.</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">K-square Town Campus, 1488-8 Ogura, Saiwa-Ku</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Kawasaki, Kanagawa  212-0054</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Japan</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+81-44-580-1600</td></tr>
+<tr><td class="author" align="right">Fax:&nbsp;</td>
+<td class="author-text">+81-44-580-1437</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:tu-ka@sfc.wide.ad.jp">tu-ka@sfc.wide.ad.jp</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://www.sfc.wide.ad.jp/~tu-ka/">http://www.sfc.wide.ad.jp/~tu-ka/</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Eun Kyoung Paik</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">KT</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Portable Internet Team, Convergence Lab., KT</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">17 Woomyeon-dong, Seocho-gu</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Seoul  137-792</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Korea</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+82-2-526-5233</td></tr>
+<tr><td class="author" align="right">Fax:&nbsp;</td>
+<td class="author-text">+82-2-526-5200</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:euna@kt.co.kr">euna@kt.co.kr</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://mmlab.snu.ac.kr/~eun/">http://mmlab.snu.ac.kr/~eun/</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Ernst Thierry</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">WIDE at Keio University</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Jun Murai Lab., Keio University.</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">K-square Town Campus, 1488-8 Ogura, Saiwa-Ku</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Kawasaki, Kanagawa  212-0054</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Japan</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+81-44-580-1600</td></tr>
+<tr><td class="author" align="right">Fax:&nbsp;</td>
+<td class="author-text">+81-44-580-1437</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:ernst@sfc.wide.ad.jp">ernst@sfc.wide.ad.jp</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://www.sfc.wide.ad.jp/~ernst/">http://www.sfc.wide.ad.jp/~ernst/</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Koshiro Mitsuya</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">WIDE at Keio University</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Jun Murai Lab., Keio University.</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">K-square Town Campus, 1488-8 Ogura, Saiwa-Ku</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Kawasaki, Kanagawa  212-0054</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Japan</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+81-44-580-1600</td></tr>
+<tr><td class="author" align="right">Fax:&nbsp;</td>
+<td class="author-text">+81-44-580-1437</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:mitsuya@sfc.wide.ad.jp">mitsuya@sfc.wide.ad.jp</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://www.sfc.wide.ad.jp/~mitsuya/">http://www.sfc.wide.ad.jp/~mitsuya/</a></td></tr>
+</table>
+<a name="rfc.copyright"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Intellectual Property Statement</h3>
+<p class='copyright'>
+The IETF takes no position regarding the validity or scope of any
+Intellectual Property Rights or other rights that might be claimed
+to pertain to the implementation or use of the technology
+described in this document or the extent to which any license
+under such rights might or might not be available; nor does it
+represent that it has made any independent effort to identify any
+such rights.
+Information on the procedures with respect to
+rights in RFC documents can be found in BCP&nbsp;78 and BCP&nbsp;79.</p>
+<p class='copyright'>
+Copies of IPR disclosures made to the IETF Secretariat and any
+assurances of licenses to be made available,
+or the result of an attempt made to obtain a general license or
+permission for the use of such proprietary rights by implementers or
+users of this specification can be obtained from the IETF on-line IPR
+repository at <a href='http://www.ietf.org/ipr'>http://www.ietf.org/ipr</a>.</p>
+<p class='copyright'>
+The IETF invites any interested party to bring to its attention
+any copyrights,
+patents or patent applications,
+or other
+proprietary rights that may cover technology that may be required
+to implement this standard.
+Please address the information to the IETF at <a href='mailto:ietf-ipr@ietf.org'>ietf-ipr@ietf.org</a>.</p>
+<h3>Disclaimer of Validity</h3>
+<p class='copyright'>
+This document and the information contained herein are provided
+on an &ldquo;AS IS&rdquo; basis and THE CONTRIBUTOR,
+THE ORGANIZATION HE/SHE REPRESENTS OR IS SPONSORED BY (IF ANY),
+THE INTERNET SOCIETY AND THE INTERNET ENGINEERING TASK FORCE DISCLAIM
+ALL WARRANTIES,
+EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE
+INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED
+WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.</p>
+<h3>Copyright Statement</h3>
+<p class='copyright'>
+Copyright &copy; The Internet Society (2005).
+This document is subject to the rights,
+licenses and restrictions contained in BCP&nbsp;78,
+and except as set forth therein,
+the authors retain all their rights.</p>
+<h3>Acknowledgment</h3>
+<p class='copyright'>
+Funding for the RFC Editor function is currently provided by the
+Internet Society.</p>
+</body></html>

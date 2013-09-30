@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  <head>
+    <title>
+      SystemNotesDebian6 – BIND 10 Development
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="search" href="/search" />
+        <link rel="help" href="/wiki/TracGuide" />
+        <link rel="alternate" href="/wiki/SystemNotesDebian6?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="/wiki" />
+        <link rel="stylesheet" href="/chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="/chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="/search/opensearch" title="Search BIND 10 Development" />
+    <script type="text/javascript" src="/chrome/common/js/jquery.js"></script><script type="text/javascript" src="/chrome/common/js/babel.js"></script><script type="text/javascript" src="/chrome/common/js/messages/en_US.js"></script><script type="text/javascript" src="/chrome/common/js/trac.js"></script><script type="text/javascript" src="/chrome/common/js/search.js"></script><script type="text/javascript" src="/chrome/common/js/folding.js"></script>
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="/chrome/common/js/ie_pre7_hacks.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://www.isc.org"><img src="/isc-logo-hack.png" alt="ISC Logo" /></a>
+      </div>
+      <form id="search" action="/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="/login">Login</a></li><li><a href="/prefs">Preferences</a></li><li><a href="/wiki/TracGuide">Help/Guide</a></li><li><a href="/about">About Trac</a></li><li><a href="/register">Register</a></li><li class="last"><a href="/reset_password">Forgot your password?</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="/wiki">Wiki</a></li><li><a href="/timeline">Timeline</a></li><li><a href="/roadmap">Roadmap</a></li><li><a href="/report">View Tickets</a></li><li class="last"><a href="/search">Search</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="/wiki">wiki:</a><a class="pathentry" href="/wiki/SystemNotesDebian6" title="View SystemNotesDebian6">SystemNotesDebian6</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+          <ul>
+              <li class="first"><a href="/wiki/WikiStart">Start Page</a></li><li><a href="/wiki/TitleIndex">Index</a></li><li class="last"><a href="/wiki/SystemNotesDebian6?action=history">History</a></li>
+          </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          
+          <div class="trac-modifiedby"><a href="/wiki/SystemNotesDebian6?action=diff&amp;version=14" title="Version 14 by muks: Add a note about the boost::optional issue">Last modified</a> <a class="timeline" href="/timeline?from=2013-01-03T13%3A58%3A36Z&amp;precision=second" title="2013-01-03T13:58:36Z in Timeline">8 months</a> ago</div>
+          <div id="wikipage"><p>
+The following description applies to bind10-devel-20120517 version installed on "Stable" Debian 6.0 GNU/Linux, codenamed "Squeeze".
+</p>
+<p>
+<strong>1. Install necessary dependencies.</strong>
+</p>
+<p>
+Most required dependencies are available as Debian packages, so their installation is easy:
+</p>
+<pre class="wiki">$ sudo apt-get install g++ python3 python3-dev python3.1 python3.1-dev libbotan1.8-dev libbz2-dev libgmp3-dev bzip2 make libboost-dev pkg-config libsqlite3-dev sqlite3
+</pre><p>
+Also see ticket <a class="closed ticket" href="/ticket/2593" title="defect: Using old versions of boost::optional fails with GCC 4.4.x and above (closed: fixed)">#2593</a> about an issue in <tt>boost::optional</tt> between some versions of boost and GCC.
+</p>
+<p>
+You may need to install python3-dev also. If you plan to run the unittests, install libgtest-dev.
+</p>
+<p>
+<strong>2. Install log4cplus</strong>
+</p>
+<p>
+Almost everything is included in Debian 6.0, except log4cplus, which has to be compiled from sources. Download log4cplus from <a class="ext-link" href="http://log4cplus.sourceforge.net/"><span class="icon"> </span>http://log4cplus.sourceforge.net/</a>. Then issue the following commands to compile and install it:
+</p>
+<pre class="wiki">$ tar xvjf log4cplus-1.0.4.tar.bz2
+$ cd log4cplus-1.0.4/
+$ ./configure --prefix=/usr/local
+$ make
+$ sudo make install
+$ sudo ldconfig
+</pre><p>
+<strong>3. BIND10 Compilation and installation</strong>
+</p>
+<p>
+Once those steps are completed, you should be ready for BIND10 compilation and installation:
+</p>
+<pre class="wiki">$ tar zxvf bind10-devel-20120517.tar.gz
+$ cd bind10-devel-20120517/
+$ ./configure --prefix=/usr/local/
+$ make
+$ sudo make install
+</pre><p>
+<strong>4. Update library cache (optional)</strong>
+</p>
+<p>
+If you try to start BIND10 and see errors about libcc.so.0, like the following one:
+</p>
+<pre class="wiki">root@vault101:/home/thomson/bind10-devel-20120517# bind10
+Traceback (most recent call last):
+  File "/usr/local/sbin/bind10", line 67, in &lt;module&gt;
+    import isc.cc
+  File "/usr/local/lib/python3/dist-packages/isc/__init__.py", line 6, in &lt;module&gt;
+    import isc.config
+  File "/usr/local/lib/python3/dist-packages/isc/config/__init__.py", line 1, in &lt;module&gt;
+    from isc.config.ccsession import *
+  File "/usr/local/lib/python3/dist-packages/isc/config/ccsession.py", line 45, in &lt;module&gt;
+    from isc.log import log_config_update
+ImportError: libcc.so.0: cannot open shared object file: No such file or directory
+</pre><p>
+you should update your library cache:
+</p>
+<pre class="wiki">$ sudo ldconfig -v
+</pre><p>
+<strong>5. Run BIND10! </strong>
+</p>
+<p>
+Congratulations, you are now ready to run BIND10!
+</p>
+<p>
+Run BIND10 boss in one console:
+</p>
+<pre class="wiki">$ sudo bind10
+</pre><p>
+And start configuring it from the other console:
+</p>
+<pre class="wiki">$ bindctl
+</pre></div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="/wiki/SystemNotesDebian6?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="/chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="/about"><strong>Trac 0.12.2</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right">Visit the <a href="https://www.isc.org/bind10">BIND 10</a> pages.</p>
+    </div>
+  </body>
+</html>

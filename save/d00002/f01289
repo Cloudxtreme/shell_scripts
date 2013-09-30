@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title> IRO: IPsec Route Optimization (for MIPv6) </title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+</head>
+<body>
+
+<div class="content">
+<div class="pagetitle"> IRO: IPsec Route Optimization (for MIPv6) </div>
+
+<p>&nbsp;</p>
+
+<p> <b>Disclaimer</b>: in this page, I consider the data traffic
+  exchanged between the MN and its HA is IPsec protected (tunnel
+  mode). The signaling traffic is obviously (as requested by the
+  specification) protected using IPsec in transport mode. I also
+  consider that basic <b>(unprotected)</b> Route Optimization as
+  defined in <a href="http://tools.ietf.org/html/rfc3775">RFC3775</a>
+  is not used. Basically, all communications between a MN and its
+  (non-HA) peers are either:
+  <ul>
+    <li> protected by IPsec in tunnel mode between the MN and the
+    HA </li>
+    <li> E2E protected using the IPsec Route Optimization mechanism
+    described
+    in <a href="http://tools.ietf.org/html/draft-ebalard-mext-ipsec-ro-01">
+    IRO draft</a></li>
+  </ul>
+</p> 
+
+<p> <b>Purpose and scope of the work</b> described on this page are the
+  following:
+
+  <ul>
+    <li> <b>Simplify on-wire format of MIPv6 traffic</b>: the goal is to
+    limit traffic between the MN and its HA/peers to IPsec and IKE
+    only. The main aspect of that work is the removal of RH2 and HAO
+    in signaling packets exchanged between a MN and its HA/peers.</li>
+
+    <li> <b>Replace the initial Route Optimization mechanism defined
+	in <a href="http://tools.ietf.org/html/rfc3775">RFC3775</a>
+	based on stronger hypothesis</b>: 
+      <ul>
+	<li> Ability and wilingness for the MN to use IPsec with its
+	peers (<b>credentials available on both sides</b>)</li>
+	<li> Route Optimization is enabled only for previous peers,
+	i.e. the ones for which IPsec is used. Said differently,
+	common unprotected Route Optimization is not an option for
+	IRO-enabled MN.</li>
+      </ul>
+    </li>
+  </ul>
+</p>
+
+<p> <b> Table of Content </b>
+  <ul>
+    <li> <a href="#gettingrid">Getting rid of HAO/RH2 extensions in MIPv6 traffic</a> </li>
+    <li> <a href="#iro">IPsec Route Optimization</a> </li>
+  </ul>
+</p>
+
+<p> <b> Changelog </b>
+<ul>
+  <li> 18 June 2010: Initial version </li>
+</ul>
+
+<hr/>
+
+
+
+<h1> <a name="gettingrid">Getting rid of HAO/RH2 extensions in MIPv6 traffic</a> </h1>
+
+<!-- Current situation -->
+<h2> Current situation </h2>
+
+<p> The format of the IPsec-protected Binding Update (BU) message sent
+  by the MN to its HA from a foreign network to register its new CoA
+  is provided below: </p> 
+
+<img src="bu.svg" width="600" alt="Binding Update" title="Binding Update"/>
+
+<p> The Binding Update message is sent using the current CoA of MN
+  (address in source address field of the IPv6 header). <b>The HoA is
+  found in the Home Address Option in the Destination Option Header
+  extensions following the IPv6 header</b>. The Binding Update message
+  (Mobility Header type 5) is IPsec-protected. It contains an AltCoA
+  option which provides the current CoA of the MN. Unlike the version
+  found in the IPv6 header, this one undergo IPsec protection and
+  cannot be tampered with en route.</p>
+
+<p> After reception and processing of the BU, the HA replies with an
+  IPsec protected Binding Acknwoledgement (BA) message. The format of
+  the message is provided below: </p> 
+
+<img src="ba.svg" width="600" alt="Binding Acknowledgement"
+     title="Binding Acknowledgement"/>
+
+<p> The <b>Type2 Routing Header contains the final destination of the
+  packet, i.e. the HoA</b>. The destination address of the packet (the one
+  in the IPv6 header) is the MN's CoA.</p>
+
+<!-- Purpose of RH2 and HAO -->
+<h2> Purpose of RH2 and HAO </h2>
+
+<p> HAO and RH2 are included in MIPv6 signaling traffic from/to the
+  Mobile Node in order to:
+  <ul>
+    <li> <b>explicitly</b> provide the real source/destination of the
+    traffic (the HoA) </li>
+    <li> <b>prevent this traffic to be dropped by ingress filtering
+    rules</b>: the source/destination of the packet (in the IPv6 header)
+    are always compatible with the prefix of the foreign
+    network. </li>
+    <li> <b>to prevent the use of a full tunneling mechanism</b> (a
+    complete IPv6 header, i.e. 40 bytes) and reduce the size of the
+    packet: both the RH2 and the Destination Option Header carrying a
+    HAO consume only 24 bytes. </li>
+  </ul>
+</p>
+
+<!-- Drawbacks of RH2/HAO -->
+<h2> Drawbacks of RH2/HAO </h2>
+
+<p> Here is a list of some of the drawbacks associated with the use
+  of RH2/HAO by MIPv6:
+
+<ul>
+  <li> <b>Additional complexity</b> associated with the mechanism: at
+  least under Linux (but I suspect this is the same on most systems),
+  supporting RH2 and HAO is quite complex. </li>
+
+  <li> <b>Firewalls</b>: in IPv6 environments, one can expect firewall
+  to let IPsec (ESP) and IKE (500/udp) traffic pass through by
+  default. But the inclusion of HAO and RH2 changes
+  everything. For instance, even if this is probably not widely
+  known,  <font color="red"><b> Cisco PIX firewalls basically drop
+  IPv6 traffic including Routing Headers. This behavior is hardcoded
+  and cannot be modified. </b></font>. This basically means
+  that <font color="red"><b>all the networks in which Cisco PIX
+  firewalls have been deployed break IPv6
+  mobility</b></font>. There may be other devices which act in the
+  same kind of way. It should also be noted that even though RH2 are
+  different from RH0,
+  the <a href="http://natisbad.org/RH0/">deprecation of RH0</a> may
+  have resulted in some additional filtering of RH2.</li> 
+
+  <li> <b>HAO and RH2 carry redundant information</b>: BU and BA are
+  always IPsec protected. The associated transport mode SP and SA
+  reference the HoA as source/destination address of the packet. The
+  address is available on both sides (on the HA and the MN) and is
+  also carried in the packet, in an indirect fashion: the SPI found
+  in the ESP header provides a direct access to the HoA both on the
+  MN and the HA. Said differently: the SPI is sufficient to get
+  access to the HoA (the real source/destination of the packet) and
+  the use of RH2/HAO only duplicate information. The main arguments
+  to support this design decision are the following (not backed by
+  me):
+    <ul>
+      <li> having the information available explictly in the packets
+	may allow some kind of filtering in the network.</li>
+
+      <li> the mechanism simplifies implementation by avoiding
+      modifications of the IPsec stack (in order to access the HoA
+      from the SPI): this is clearly implementation dependant and
+      <a href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">there 
+      are various proofs that the IPsec stack needs to be modified
+      anyway to support MIPv6</a>.</li>
+    </ul>
+</li>
+</ul>
+</p>
+
+<!-- Removing RH2/HAO from MIPv6 traffic -->
+<h2> Removing RH2/HAO from MIPv6 traffic </h2>
+
+<p> Based on previous points and some additional tests performed on
+  the field, I decided to work on the removal of RH2/HAO from MIPv6
+  traffic. I implemented the changes in Linux kernel (IPsec stack
+  and MIPv6 code) and in UMIP </p>
+
+<p> For the output path, the explicit inclusion of RH2/HAO in the
+  packet (after a switch of HoA and provided CoA) which was previously
+  done is simply replaced by a replacement of the HoA (found in the
+  IPv6 header after IPsec processing) by provided CoA. </p> 
+
+<p> For the input path, instead of using specific handlers to process
+  HAO and RH2 extensions in incoming traffic and provides feedback on
+  addresses (as ancillary data of incoming messages received on
+  sockets), the XFRM stack is modified in order to handle ESP packets
+  with addresss which do not patch SP/SA information. </p> 
+
+<!-- Implementation for Linux kernel and UMIP -->
+<h2> Implementation for Linux kernel and UMIP </h2>
+
+<p> If you want to test the feature, patched kernel tarballs (2.6.34 or 2.6.35.5) 
+  and a patched version of UMIP (tarball and .deb) are provided below:
+
+  <ul>
+    <li><b>Patched kernels:</b>
+      <ul>
+	<li><b>2.6.34:</b> <a href="linux-2.6.34-no-rh2-hao.tar.gz">
+	    tarball</a> - <a href="linux-2.6.34-no-rh2-hao.tar.gz.sign">sig</a></li>
+
+	<li><b>2.6.35.5:</b> <a href="linux-2.6.35.5-no-rh2-hao.tar.gz">
+    tarball</a> - <a href="linux-2.6.35.5-no-rh2-hao.tar.gz.sign">sig</a></li>
+	</ul>
+
+    <li><b>Patched UMIP: </b> <a href="umip-0.4.tgz">tarball</a>
+	- <a href="umip-0.4.tgz.sign">sig</a> /
+	<a href="umip_0.4-20_i386.deb">.deb</a> 
+	- <a href="umip_0.4-20_i386.deb.sign">sig</a>
+    </li>
+  </ul>
+<p>
+
+<p> I make the hypothesis you already have a working setup, i.e. a MN
+  and a HA configured to work together. After having recompiled a
+  kernel from the tarball above (no additional option needed), install
+  it and reboot. You can then install the patched version of UMIP
+  (patches are in debian/patches folder and are applied automatically
+  when Debian rules files is called). </p>
+
+<p> Then, you simply need to modify the configuration files on the MN
+  and the HA in the following way. If 2001:db8::1 is your MN's HoA and
+  2001:db8::2 is your HA's address: 
+
+  <ul>
+    <li> Add <b>IRO 2001:db8::1;</b> in your HA configuration file. </li>
+    <li> Add <b>IRO 2001:db8::2;</b> in your MN configuration file. </li>
+  </ul>
+</p>
+
+<p> After having installed the updated version of UMIP, you can take a
+  look at the <b>man</b> page for additional information on the
+  option. </p>
+
+<hr/>
+<h1> <a name="iro">IPsec Route Optimization</a> </h1>
+
+<p> <font color="red">Work in progress!</font>. This section will be
+  dedicated to the design and implementation of the secure Route
+  Optimization described in <a href="http://tools.ietf.org/html/draft-ebalard-mext-ipsec-ro-01">
+    IRO draft</a> </p>
+
+</div>
+</body>
+</html>

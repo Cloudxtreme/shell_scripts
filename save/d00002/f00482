@@ -1,0 +1,439 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Debian and grsec kernel on NETGEAR ReadyNAS 102</title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+</head>
+<body>
+
+<div class="content">
+
+<p><font size="1pt" color="red"> Disclaimer: the information provided on this
+  page is given as is, i.e. without warranty that you will not break
+  your system following it. Additionally, do not expect to get support
+  and warranty from NETGEAR if this happens.</font></p> 
+
+
+<div class="pagetitle">Debian and grsec kernel on NETGEAR ReadyNAS 102</div><br/>
+
+<p>This page documents some efforts to get a recent grsec-enabled
+  kernel and latest Debian system running on NETGEAR ReadyNAS 102,
+  instead of the original (Marvell/NETGEAR-patched) kernel and custom
+  system. The final goal is to have kernel patches pushed upstream;
+  check Changelog and Todo list below to see current status and
+  progresses. <a href="../NAS/index.html"></a>This is the same kind of
+  work I previously performed for Netgear ReadyNAS Duo v2</a>.</p>
+
+<p>As the platform are very similar and I already spent quite some
+  time documenting Duo v2 hardware, only the main differences are
+  given here:</p>
+<ul>
+<li>The Duo v2 is powered by a single core Marvell Kirkwood 88F6282
+  ARMv5TE CPU runinng at 1.6GHz when the 102 is powered by a Marvell
+  Armada 370 ARMv7 CPU running at 1.2GHz. <b>The latter has NX
+  support</b>.</li>
+<li>The Duo v2 has 256MB of DDR3 RAM, the 102 comes with 512MB (2 Hynix
+  H5TQ2G83DFRH9C chips).</li> 
+<li>Both devices have 1 front USB2.0 port and 2 rear USB3.0 ports. The
+  102 also comes with a rear eSATA port.</li> 
+<li>The USB3.0 controller of the Duo v2 is a NEC/RENESAS µPD720200 USB
+  3.0 Host Controller when the 102 includes a Fresco Logic
+  FL1009-2Q0.</li>  
+<li>The Duo v2 and the 102 both have a GMT G762 Fan controller and a
+  Protechnic 91mm MGT9212YB-025 fan. </li>
+<li>The RTC and alarm chip of the Duo v2 is a Ricoh RS5C32A while the
+  one in the 102 is an Intersil ISL12057.</li>
+<li>Both devices includes 128MB of NAND (1 Hynix H27U1G8F2BTR).</li>
+</ul>
+
+
+<a name="changelog"></a>
+<h3> Changelog i.e. work done </h3>
+
+<ul>
+<li> <u>May 2013:</u> added information on serial console pins. Got
+  first custom running kernel on the device (3.10-rc1) using a basic
+  custom .dts file. Work on improving initial .dts file to support
+  more hardware parts (LED, buttons, ...).</li>
+<li> <u>April 2013:</u> Created the page. First pictures of hardware
+  parts. First connection via 3.3V serial console (available under the
+  sticker at the rear of the NAS). Started splitting NETGEAR/Marvell
+  patch above 3.0.56 kernel (1.1 million lines).</li>
+</ul>
+
+<a name="todo-list"></a>
+<h3> Todo list i.e. work in progress </h3>
+
+<ul>
+<li> <s>Get an initial .dts file capable of booting a userland</s> </li>
+<li> <s>Add entries for gpio LEDs in .dts file </s> </li>
+<li> <s>Add entries for gpio buttons in .dts file </s> </li>
+<li> Find which GPIO activity LED is using </li>
+<li> Add entry for G762 fan controller in .dts file </li>
+<li> Add entry for ISL 12057 RTC chip in .dts file </li>
+<li> Make USB3.0 ports working (waiting for MVEBU PCIe patches
+  integration)</li>
+<li> Debug the issue w/ the ethernet PHY not been recognized</li>
+<li> Understand if current kernels can support NAND </li>
+</ul>
+
+<h2> Table of Contents </h2>
+
+<p>If you are in a hurry looking for a specific info, you can use this
+table of contents to directly access information on a specific
+hardware part of the system or get an overview of what a NETGEAR
+ReadyNAS Duo v2 is made of.</p>
+
+<ul>
+<li> <a href="#hw-soc">Marvell SoC Armada 370 ARMv7 @1.2Ghz </a> </li>
+<li> <a href="#hw-nand"> 128 MB Hynix H27U1G8F2BTR NAND Flash </a> </li>
+<li> <a href="#hw-ram"> 512 MB RAM via 2x256 Hynix DDR3 @1333Mhz </a> </li>
+<li> <a href="#hw-ISL12057"> Intersil ISL12057 I<sup>2</sup>C bus
+  RTC </a>  </li>
+<li> <a href="#hw-fresco-logic-fl1009"> Fresco Logic FL1009 USB 3.0
+    xHCI Controller</a> </li>
+<li> <a href="#hw-fan-controller"> GMT G762 PWM Fan Controller </a> </li>
+<li> <a href="#hw-fan"> Protechnic Electric Co MG9212YB-25 Fan </a> </li>
+<li> <a href="#hw-daugther-board"> Main daughter board (rear ports) </a> </li>
+<li> <a href="#hw-mainboard-buttons-led"> Main board front
+  buttons and LED </a> </li>
+<li> <a href="#hw-marvell-88SE9170-NNX2"> Marvell 88SE9170 PCI-e dual-
+    port 6Gbps SATA controller </a> </li>
+<li> <a href="#hw-marvell-88E1318"> Marvell 88E1318 Gigabit Ethernet PHY </a> </li>
+<li> <a href="#hw-serial"> Serial interface via 16550A UART </a> </li>
+<li> <a href="#hw-cr2032"> CR2032 battery </a> </li>
+<li> <a href="#hw-marvell-G47B"> Marvell G47B </a> </li>
+<li> <a href="#hw-richtek-RT8105"> Richtek RT8105 </a> </li>
+<li> <a href="#hw-TI-TPS6251"> Texas instruments TPS6251 </a> </li>
+<!-- <li> <a href="#hw-leds-buttons"> Leds and buttons </a> </li> -->
+<!-- <li> <a href="#hw-crypto-engine"> Marvell Cryptograpic Engine and Security -->
+<!--     Accelerator (CESA)</a> </li> -->
+<!-- <li> <a href="#hw-dma-xor"> DMA/XOR engine </a> </li> -->
+</ul>
+
+<!-- <img src="pics/thumbs/RN102_back_2_thumb.jpg"> -->
+<!-- <img src="pics/thumbs/RN102_back_thumb.jpg"> -->
+<!-- <img src="pics/thumbs/RN102_back_zoom_thumb.jpg"> -->
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-soc"></a>
+<h3> Marvell Armada 370 </h3>
+
+<p>The ReadyNAS 102 is powered by an
+  (ARMv7-based) <a href="refs/Marvell_ARMADA_370_SoC.pdf">Marvell
+  ARMADA 370</a> SoC. The CPU comes with a FPU and NX bit support. The
+  SoC includes a 16-bit DDR3 memory interface, two ethernet MAC
+  controllers (one routed on the 102), two DMA/XOR engines, a network
+  security engine, two UART interfaces, thermal support, etc. The
+  following Armada 370 SoC block diagrams (extracted from the product
+  brief) provides an overview of supported functionalities:</p>
+
+<img src="pics/armada370-soc-block-diagram.jpg">
+
+<p> The following excerpt (also fro the product brief) provides an
+  expected typical use of the SoC in 2 bay NAS implementations: </p>
+
+<img src="pics/armada370-soc-typical-nas-implem.jpg">
+
+<p> The ReadyNAS 102 uses this architecture with some additional
+  hardware parts to support more functionalities (specific RTC with
+  alarm support, USB 3.0, eSATA controller, etc) </p>
+
+<p> Here is what /proc/cpuinfo reports for the CPU: </p>
+
+<pre>
+# cat /proc/cpuinfo
+Processor	: Marvell PJ4Bv7 Processor rev 1 (v7l)
+BogoMIPS	: 1196.85
+Features	: swp half thumb fastmult vfp edsp vfpv3 vfpv3d16 
+CPU implementer	: 0x56
+CPU architecture: 7
+CPU variant	: 0x1
+CPU part	: 0x581
+CPU revision	: 1
+
+Hardware	: Marvell Armada-370
+Revision	: 0000
+Serial		: 0000000000000000
+</pre>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-nand"></a>
+<h3> Hynix H27U1G8F2BTR </h3>
+
+<p> The ReadyNAS 102 comes with 128MB of NAND flash. This is provided
+  by a
+  single <a href="../NAS/refs/Hynix_NAND_128Mo_H27U1G8F2BT.pdf">Hynix
+  H27U1G8F2BTR chip</a>, as depicted below. The same chip was used on
+  the <a href="../NAS/index.html">ReadyNAS Duo v2</a>. </p>
+
+<!-- <img src="pics/thumbs/RN102_Hynix_H27U1G8F2BTRBC_2_thumb.jpg"> -->
+<img src="pics/thumbs/RN102_Hynix_H27U1G8F2BTRBC_thumb.jpg">
+
+<p> Here is what NETGEAR default kernel reports about the NAND of the
+  102 and its layout: </p>
+
+<pre>
+armada-nand armada-nand.0: Init. HAL based NFC in 8bit mode with DMA Disabled using BCH 4bit ECC
+NAND device: Manufacturer ID: 0xad, Chip ID: 0xf1 (Hynix NAND 128MiB 3,3V 8-bit)
+Bad block table found at page 65472, version 0x01
+Bad block table found at page 65408, version 0x01
+mtd: no mtd-id
+5 cmdlinepart partitions found on MTD device armada-nand
+Creating 5 MTD partitions on "armada-nand":
+0x000000000000-0x000000180000 : "u-boot"
+0x000000180000-0x0000001a0000 : "u-boot-env"
+0x000000200000-0x000000800000 : "uImage"
+0x000000800000-0x000000c00000 : "minirootfs"
+0x000000c00000-0x000008000000 : "ubi"
+</pre>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-ram"></a>
+<h3> Hynix H5TQ2G83DFRH9C </h3>
+
+<p> The ReadyNAS 102 comes with 512MB of RAM connected to the
+  SoC. This is provided by two soldered Hynix H5TQ2G83DFRH9C
+  chips. </p> 
+
+<!-- <img src="pics/thumbs/RN102_Hynix_H5TQ2G83DFRH9C_2_thumb.jpg"> -->
+<img src="pics/thumbs/RN102_Hynix_H5TQ2G83DFRH9C_3_thumb.jpg">
+<!-- <img src="pics/thumbs/RN102_Hynix_H5TQ2G83DFRH9C_4_thumb.jpg"> -->
+<!-- <img src="pics/thumbs/RN102_Hynix_H5TQ2G83DFRH9C_thumb.jpg"> -->
+
+<p>  </p>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-ISL12057"></a>
+<h3> Intersil ISL12057 I<sup>2</sup>C bus RTC </h3>
+
+<p> The RaedyNAS 102 comes with an Intersil ISL12057 I<sup>2</sup>C
+  bus RTC chip, as depicted below. </p>
+
+<img src="pics/thumbs/RN102_Intersil_ISL12057_2_thumb.jpg">
+<!-- <img src="pics/thumbs/RN102_Intersil_ISL12057_thumb.jpg"> -->
+
+<p> The Intersil ISL 12057 is a low power RTC and Alarm chip. Support
+  for the chip is not yet available in current mainline kernel (3.8 at
+  the time of writing) but a short patch (596 LoC) has been written
+  by NETGEAR for the ReadyNAS 102 kernel (based on 3.0.56). The same
+  kind of work I did for G762 fan controller for NETGEAR ReadyNAS Duo
+  v2 could also be done for this driver in order to make it available
+  in mainline kernel. Here is <a href="refs/ISL12057.pdf">a local copy
+  of the ISL12057 datasheet</a>.</p>
+
+<p>  </p>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-fresco-logic-fl1009"></a>
+<h3> Fresco Logic FL1009 USB3.0/xHCI host controller </h3>
+
+<p>The USB3.0/xHCI controller used by the device is a Fresco Logic
+  FL1009, as depicted below. A product brief is locally
+  cached <a href="refs/Fresco_Logic_Product_Brief_FL1000_FL1009.pdf">here</a>.
+  The FL1009 is a 2-port PCIe, which was the first one to gain USB-IF
+  certification. It has also being demoed by Fresco Logic to hit
+  speeds in excess of 400MB/s. </p>
+  
+<img src="pics/thumbs/RN102_Fresco_Logic_FL1009-2Q0_USB3_thumb.jpg">
+
+<p>  </p>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-fan-controller"></a>
+<h3> GMT G762 PWM Fan controller </h3>
+
+<p> The rotation speed of the fan is controlled by a GMT G762 PWM fan 
+  controller chip. Both of those (fan and controller) are the same as
+  the one used on RN102 old brother
+  (i.e. <a href="../NAS/index.html">ReadyNAS Duo v2</a>)</p> 
+
+<!-- <img src="pics/thumbs/RN102_GMT_G762_2_thumb.jpg"> -->
+<img src="pics/thumbs/RN102_GMT_G762_thumb.jpg">
+
+<p>  </p>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-daugther-board"></a>
+<h3> Main daughter board (USB 3.0 eSata, serial, ethernet and fan
+  connector) </h3>
+
+<p> The ReadyNAS 102 mainboard has two connected daughter boards: </p>
+<ul>
+<li>The main daughter board supports all the rear connector of the
+  device, i.e. the two USB ports, the eSata port, the ethernet, the
+  fan connector and the serial console pins.</li> 
+<li>The second daughter board holds the two SATA connectors for the
+  disks. </li>
+</ul>
+<p> The main daughter board is depicted below. </p>
+
+<img src="pics/thumbs/RN102_IO_DVT_V2.0_2_thumb.jpg">
+<!-- <img src="pics/thumbs/RN102_IO_DVT_V2.0_3_thumb.jpg"> -->
+<img src="pics/thumbs/RN102_IO_DVT_V2.0_4_thumb.jpg">
+<!-- <img src="pics/thumbs/RN102_IO_DVT_V2.0_5_thumb.jpg"> -->
+<!-- <img src="pics/thumbs/RN102_IO_DVT_V2.0_6_thumb.jpg"> -->
+<!-- <img src="pics/thumbs/RN102_IO_DVT_V2.0_serial_thumb.jpg"> -->
+<!-- <img src="pics/thumbs/RN102_IO_DVT_V2.0_thumb.jpg"> -->
+
+<p>  </p>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-mainboard-buttons-led"></a>
+<h3> Mainboard front buttons and LED </h3>
+
+<p> The following picture provides an overview of the five leds, two
+  buttons (Power and USB copy) and the USB port available on the
+  front of the device, under the enclosure. </p>
+
+<!-- <img src="pics/thumbs/RN102_main_board_front_2_thumb.jpg"> -->
+<img src="pics/thumbs/RN102_main_board_front_thumb.jpg">
+
+<p>  </p>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-marvell-88E1318"></a>
+<h3> Marvell 88E1318 Gigabit Ethernet PHY </h3>
+
+<p> The Marvell ARMADA 370 SoC comes with an integrated Ethernet MAC
+  but not with a PHY. The ReadyNAS 102 has
+  a <a href="../NAS/refs/Marvell/Alaska_88E1310_S_1318_S-001_product_brief.pdf">Marvell
+  88E1318 Gigabit Ethernet PHY</a>. </p>
+
+<!-- <img src="pics/thumbs/RN102_Marvell_88E1318-NNB2_2_thumb.jpg"> -->
+<img src="pics/thumbs/RN102_Marvell_88E1318-NNB2_3_thumb.jpg">
+<!-- <img src="pics/thumbs/RN102_Marvell_88E1318-NNB2_thumb.jpg"> -->
+
+<p>  </p>
+
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-marvell-88SE9170-NNX2"></a>
+<h3> Marvell 88SE9170-NNX2 Sata Controller </h3>
+
+<p> The ReadyNAS 102 includes a specific Marvell 88SE9170 2 ports PCIe
+  2.0 1X SATA storage controller </p>
+
+<img src="pics/thumbs/RN102_Marvell_88SE9170-NNX2_thumb.jpg">
+
+<p>  </p>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-marvell-G47B"></a>
+<h3> Marvell G47B </h3>
+
+<!-- <img src="pics/thumbs/RN102_Marvell_G47B_2_thumb.jpg"> -->
+<img src="pics/thumbs/RN102_Marvell_G47B_3_thumb.jpg">
+<!-- <img src="pics/thumbs/RN102_Marvell_G47B_thumb.jpg"> -->
+
+<p> </p>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-marvell-88SE9170-NNX2"></a>
+<h3> Protechnic Electric Co MG9212YB-25 Fan </h3>
+
+
+<!-- <img src="pics/thumbs/RN102_Protechnic_MGT9212YB-025_2_thumb.jpg"> -->
+<!-- <img src="pics/thumbs/RN102_Protechnic_MGT9212YB-025_3_thumb.jpg"> -->
+<!-- <img src="pics/thumbs/RN102_Protechnic_MGT9212YB-025_4_thumb.jpg"> -->
+<img src="pics/thumbs/RN102_Protechnic_MGT9212YB-025_thumb.jpg">
+
+<p> The fan on the 102 is the same as the one found on its old
+  brother, the Duo v2,
+  i.e. a 92mmx92mmx25mm <a href="../NAS/refs/Protechnic_Electric_CO_-_MG9212YB-25.pdf"> 
+  Protechnic Electric CO MG9212YB-25 Fan</a> a Protechnic Electric Co MG9212YB-25
+  Fan. </p> 
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-richtek-RT8105"></a>
+<h3> Richtek RT8105 </h3>
+
+
+<img src="pics/thumbs/RN102_RT8105_2_thumb.jpg">
+<!-- <img src="pics/thumbs/RN102_RT8105_thumb.jpg"> -->
+
+<p>  </p>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-serial"></a>
+<h3> Serial interface / Console </h3>
+
+<img src="pics/thumbs/RN102_serial_sticker_thumb.jpg">
+
+<p> Marvell SoC directly embbeds two UARTs. In the NAS, one is rooted
+  up to the main daughter board and associated pins are directly
+  available under a simple sticker at the rear of the device, on the
+  left side above the kensington port, as depicted
+  above. </p> 
+
+<p> Once the sticker removed, the four pins of the serial console on
+  the main daughter board can be used to get access to the
+  device. <font color="red">Note that the serial port is a 3.3V 
+  one, i.e. you need a specific adapter like the one depicted below
+  and cannot use a usual 12V serial or USB serial dongle for that
+  purpose.</font>. </p> 
+
+<img src="../NAS/pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_usb-serial_thumb.jpg">
+
+<p> The specific purpose of each pin is depicted below</p>
+
+<img src="pics/thumbs/RN102_IO_DVT_V2.0_7_thumb.jpg">
+
+
+<p> Please note that the serial console is a 3.3V one, which means . Below is what default NETGEAR kernel
+  reports about the serial console. </p>
+
+<pre>
+Serial: 8250/16550 driver, 2 ports, IRQ sharing disabled^M
+serial8250.0: ttyS0 at MMIO 0xd0012000 (irq = 41) is a 16550A^M
+console [ttyS0] enabled^M
+</pre>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-TI-TPS6251"></a>
+<h3> Texas Instruments - TPS65251 </h3>
+
+<img src="pics/thumbs/RN102_TI_TPS65251_2_thumb.jpg">
+<!-- <img src="pics/thumbs/RN102_TI_TPS65251_thumb.jpg"> -->
+
+<p>  </p>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-cr2032"></a>
+<h3> CR2032 Battery</h3>
+
+<img src="pics/thumbs/RN102_CR2032_thumb.jpg">
+
+
+
+</div>
+</body>
+</html>

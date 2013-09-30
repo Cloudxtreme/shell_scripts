@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Tarsnap - Frequently Asked Questions</title>
+<link rel="stylesheet" type="text/css" title="Default style" href="tarsnap.css">
+<link rel="canonical" href="http://www.tarsnap.com/faq.html">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Tarsnap is a secure online backup system for Linux, BSD, OS X, and other UNIX-like operating systems">
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10889726-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    if("http:" == document.location.protocol) {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = 'http://www.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    }
+  })();
+</script>
+</head>
+<body>
+<div class="banner">
+<h1><a href="http://www.tarsnap.com/">Tarsnap</a></h1>
+<p class="tagline">Online backups for the truly paranoid</p>
+<a href="#nav" style="display: none">Navigation menu</a>
+</div>
+<div class="nonbanner">
+<div class="main">
+<div class="onecol">
+  <div class="box">
+    <h3>Frequently Asked Questions about Tarsnap</h3>
+    <div class="boxcontents">
+      <h4>I tried to register but I never received the
+	confirmation email.  What's wrong?</h4>
+      <p>
+	It's probably stuck in a spam filter somewhere.  Tarsnap sends email
+	via <a href="http://www.sendgrid.com/">SendGrid</a>, which is usually
+	successful in delivering email (more so than when Tarsnap mail was
+	sent directly, at least); but convincing everyone to accept email from
+	you is incredibly difficult these days.
+      </p>
+      <p>
+	If you can't convince your spam filters to let Tarsnap email through,
+	try registering from an email address at a different domain.
+      </p>
+      <h4><a name="DEDUPE">If Tarsnap costs $0.30 / GB of storage, how is it
+	possible to store "archives adding up to several terabytes" while
+	paying less than $10/month?</h4>
+      <p>
+	Tarsnap automatically "deduplicates" &mdash; that is, identifies and
+	removes duplicate blocks of data &mdash; from the archives it stores.
+	While any one archive will usually not contain many copies of the same
+	data (although there are exceptions, e.g., software developers with
+	multiple check-outs of different source code trees), it is very common
+	to have several archives created at different times which share a lot
+	of their contents.
+      </p>
+      <p>
+	For example, one of the tarsnap.com servers recently printed the
+	following from its hourly backup run (via the <tt>--print-stats</tt>
+	option):
+      </p>
+      <pre>                                       Total size  Compressed size
+All archives                       17681167861052    4480261572891
+  (unique data)                       13834332132       3264046263
+This archive                           2704794761        623975240
+New data                                  1378882           332909</pre>
+      <p>
+	This server has over 6,000 archives stored &mdash; hourly backups for
+	over 8 months &mdash; which add up to a total of 17.7 TB; but after
+	duplicate blocks of data are removed (or more precisely, only stored
+	once), that drops to 13.8 GB, which is then compressed to 3.3 GB
+	&mdash; an amount which costs less than $1/month to store.
+      </p>
+      <h4>I've been using Tarsnap for a few hours, but I
+	can't see any usage shown on the web interface.  What's going on?</h4>
+      <p>
+	All Tarsnap accounting is currently done daily at approximately
+	midnight UTC.  Wait until after that point and your usage should be
+	visible.  (Payments made should show up immediately, however).
+      </p>
+      <h4>What happens when my account runs out of money?</h4>
+      <p>
+	You will be sent an email when your account balance falls below 7 days
+	worth of storage costs warning you that you should probably add more
+	money to your account soon.  If your account balance falls below
+	zero, you will lose access to Tarsnap, an email will be sent to inform
+	you of this, and a 7 day countdown will start; if your account
+	balance is still below zero after 7 days, it will be deleted along
+	with the data you have stored.
+      </p>
+      <h4>Why did my daily storage usage cost change when I haven't uploaded
+	or deleted any data?</h4>
+      <p>
+	Tarsnap's storage cost is priced per month, and different months have
+	different numbers of days.
+      </p>
+      <h4>Is Tarsnap storage reliable?</h4>
+      <p>
+	Yes.  Data archived via Tarsnap is stored on the
+	<a href="http://aws.amazon.com/s3">Amazon S3</a> storage service
+	(the original version, not the new "reduced redundancy" version).
+      </p>
+      <h4>Why doesn't Tarsnap <tt>--list-archives</tt> print archives in
+	alphabetical (or chronological) order?</h4>
+      <p>
+	The archive metadata which contains Tarsnap archive names and
+	creation times is encrypted; so it's impossible for the Tarsnap
+	client code to figure out in what order the archives should be listed
+	until it downloads and decrypts the metadata.  Once it has done so,
+	it might as well just print out the information immediately &mdash;
+	if you want a particular order, <tt>sort(1)</tt> is your friend.
+      </p>
+      <h4>Have you considered accepting bitcoins as payment?</h4>
+      <p>
+	Yes, I have considered it.  No, I don't plan on accepting them in the
+	near future.  While bitcoins seem to be based on a firm footing as far
+	as security is concerned, I'm rather dubious about the economics; it's
+	hard to see how a currency which is designed to be deflationary can
+	achieve any sort of stable value.
+      </p>
+      <p>
+	If and when the value of bitcoins stabilizes, I'll reconsider them;
+	but as long as the value is changing so rapidly, accepting bitcoins
+	would be too much of a headache.
+      </p>
+      <h4>Does Tarsnap run on Windows?</h4>
+      <p>
+	Only via Cygwin.
+      </p>
+      <h4>I've forgotten my password; how can I reset it?</h4>
+      <p>
+	Please <a href="contact.html">contact the author</a>.
+      </p>
+      <h4>I've lost the key file for a machine; how can I delete its data so
+	that I'm not stuck paying for it forever?</h4>
+      <p>
+	Please <a href="contact.html">contact the author</a>.
+      </p>
+      <h4>How can I do X?</h4>
+      <p>
+	Please <a href="contact.html">contact the author</a>.
+      </p>
+      <h4>Why isn't my question listed here?</h4>
+      <p>
+	Either it isn't asked frequently enough, or it was forgotten when
+	this page was written.  Please <a href="contact.html">contact the
+	author</a>.
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+<div class="leftmargin"><div class="nav" id="nav"><ul class="navtop"><li><a href="index.html">Tarsnap</a></li><li><a href="design.html">Design</a></li><li><a href="https://www.tarsnap.com/download.html">Download</a></li><li><a href="documentation.html">Documentation</a><ul><li><a href="gettingstarted.html">Getting started</a></li><li><a href="usage.html">General usage</a></li><li><a href="man.html">Man pages</a></li><li><a href="technical.html">Technical details</a></li><li><a class="current" href="faq.html">FAQ</a></li></ul></li><li><a href="support.html">Support</a></li><li><a href="https://www.tarsnap.com/account.html">Accounts</a></li></ul></div></div></div>
+</body></html>

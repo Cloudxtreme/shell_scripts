@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <title>Python program: zoneinfo</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <!-- Copyright (C) 2011-2012 Shumon Huque -->
+  <meta name="author" content="Shumon Huque">
+  <meta name="keywords"
+          content="zoneinfo, Python, DNS Zone Information,
+                  Huque, Shumon, Shumon Huque, Python programs">
+  <meta name="description"
+          content="Python program to obtain information about a DNS zone.">
+  <link rel="stylesheet" type="text/css" href="/~shuque/style/document1.css">
+</head>
+
+<!-- Background white, links blue (unvisited), navy (visited), red (active) -->
+ <BODY
+  BGCOLOR="#FFFFFF"
+  TEXT="#000000"
+  LINK="#0000FF"
+  VLINK="#000080"
+  ALINK="#FF0000"
+ >
+<h1>zoneinfo: obtain information about a DNS zone</h1>
+
+
+<h2>Source code</h2>
+<ul>
+<li>mctester<br>
+    <a href="zoneinfo-0.1.tar.gz">zoneinfo-0.1.tar.gz</a>,
+    <a href="zoneinfo-0.1.tar.gz.asc">PGP signature</a><br>
+<li><a href="zoneinfo.src.txt">View source code</a>
+</ul>
+
+<h2>Usage:</h2>
+
+<pre>
+
+    zoneinfo [-d] zonename
+
+</pre>
+
+<p>
+
+zoneinfo: A program to query a DNS zone and print out some 
+information about. Currently the information includes the 
+number of nameserver records and nameserver addresses, whether
+or not the nameservers respond to TCP queries, whether or not
+IPv6 is enabled, DNSSEC deployment status and statistics (keytags,
+algorithms, NSEC3 parameters, DS record information etc). Passing
+the option "-d" will print additional debugging information.
+
+</p>
+
+<h2>Pre-requisites:</h2>
+
+<pre>
+	Python 2.x
+	dnspython module (http://www.dnspython.org/)
+
+Installation:
+
+    * System wide (typically /usr/bin or /usr/local/bin), as root:
+
+        python setup.py install
+
+    * In your home directory ($HOME/bin):
+
+        python setup.py install --home=$HOME
+
+    * Or just copy the "zoneinfo" file to wherever you want to put it.
+
+</pre>
+
+<h2>Example runs:</h2>
+
+<pre>
+
+$ zoneinfo berkeley.edu
+DNS Zone: berkeley.edu
+Elapsed time for zone check: 2.95 sec
+5 Nameserver records
+10 Nameserver addresses (IPv4=5, IPv6=5)
+DNS/UDP response: 10 of 10 servers
+DNS/TCP response: 10 of 10 servers
+DNS/IPv4 response: 5 of 5 servers
+DNS/IPv6 response: 5 of 5 servers
+All servers for zone respond to TCP DNS queries
+Zone advertises IPv6 enabled DNS servers
+Zone has DNSSEC enabled
+     KSK keytags and algorithms: (12834, 10)
+     ZSK keytags and algorithms: (34747, 10)
+Zone has published DS (Delegation Signer) records:
+     DS digest keytags and algorithms: (12834, 2)
+
+$ zoneinfo google.com
+DNS Zone: google.com
+Elapsed time for zone check: 0.33 sec
+4 Nameserver records
+4 Nameserver addresses (IPv4=4, IPv6=0)
+DNS/UDP response: 4 of 4 servers
+DNS/TCP response: 4 of 4 servers
+DNS/IPv4 response: 4 of 4 servers
+DNS/IPv6 response: 0 of 0 servers
+All servers for zone respond to TCP DNS queries
+Zone does not advertise IPv6 enabled DNS servers
+Zone does not have DNSSEC enabled
+
+</pre>
+
+Shumon Huque<br>
+E-mail: shuque -at- upenn.edu<br>
+Web: <a href="/~shuque/">http://www.huque.com/~shuque/</a><br>
+University of Pennsylvania.
+
+<p>
+
+Copyright (c) 2011-2012 Shumon Huque. All rights reserved.  This program 
+is free software; you can redistribute it and/or modify it under the same 
+terms as Python itself.
+
+<p>
+
+Back to <a href="/~shuque/">Shumon Huque's home page</a><br>
+ </BODY>
+</HTML>

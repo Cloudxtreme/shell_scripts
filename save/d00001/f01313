@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta http-equiv="Content-Style-Type" content="text/css" />
+ <meta name="MSSmartTagsPreventParsing" content="TRUE" />
+ <link rel="stylesheet" type="text/css" href="vstyle.css" />
+ <link rel="apple-touch-icon" href="pics/blumenkohl.png" />
+ <!--[if IE]>
+ <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+ <![endif]-->
+ <link rel="icon" type="image/png" href="favicon.png" />
+ <link rel="canonical" href="https://www.mirbsd.org/kwalletcli.htm" />
+ <meta name="author" content="Thorsten Glaser" />
+ <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited. Unmodified redistribution with no endorsement permitted." />
+ <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
+ <meta name="licence" content="see the source files in CVSWEB for details" />
+ <title>MirOS: kwalletcli – CLI for the KDE Wallet</title>
+ <meta name="robots" content="index, follow" />
+ <!--
+  This is copyrighted material. For the full licence text, see the file
+  LICENCE in the current directory. In no event may text from this page
+  be simply copied into another work covered by an unfree (or otherwise
+  mismatching) licence, such as the GNU Free Documentation License.
+ -->
+</head><body>
+<h1><img src="hashed/52F256B9.png" alt="CLI for the KDE Wallet" /></h1>
+<div class="trailing">
+<div class="index">
+ <ul class="lv1">
+<li class="dummy"><a href="main.htm">Main</a><ul class="lv2">
+<li class="dummy"><a href="wlog-10.htm">Weblog</a> for #10</li>
+<li class="dummy dummy"><a href="tags.htm">Tag Cloud</a></li>
+<li class="dummy dummy"><a href="news.htm">Old News</a> &amp;
+ <a href="oldnews.htm#owlog">WLog</a></li>
+</ul></li>
+<li class="dummy"><a href="about.htm">About</a></li>
+<!-- these are not in a usable state
+<li class="dummy"><a href="docs.htm">Documentation</a></li>
+<li class="dummy dummy"><a href="faq.htm">FAQ</a></li>
+-->
+<li class="spacer dummy"><a href="getting.htm">Download</a></li>
+<li class="dummy"><a href="rss.htm">RSS &amp; Mailing Lists</a></li>
+<li class="dummy"><a href="irc.htm">IRC</a></li>
+<li class="dummy"><a href="wtf.htm" title="WTF‽">Acronyms</a></li>
+<li class="dummy"><a href="projects.htm">Project Ideas</a></li>
+<li class="dummy"><a href="danke.htm">Donate</a></li>
+<li class="dummy"><a href="man.htm">Manpages</a><ul class="lv2">
+<li><a href="htman/i386/">i386</a></li>
+<li><a href="htman/sparc/">sparc</a></li>
+</ul></li>
+<li class="dummy"><a href="ports.htm">MirPorts</a> Framework</li>
+<li class="dummy"><a href="pkgsrc.htm">pkgsrc®</a> integration</li>
+<li class="markindex">Subprojects<ul class="lv2">
+<li class="dummy"><a href="jupp.htm">jupp</a> Editor</li>
+<li class="markindex"><a href="kwalletcli.htm">KWalletCLI</a></li>
+<!-- li class="dummy"><a href="makefs.htm">makefs</a></li -->
+<li class="dummy"><a href="mksh.htm">mksh</a> Shell</li>
+</ul></li>
+ </ul>
+</div>
+<div class="content">
+<h2 id="toc">Table of Content</h2>
+<ul>
+ <li><a href="#toc">Table of Content</a></li>
+ <li><a href="#main">CLI for the KDE Wallet</a></li>
+ <li><ul>
+  <li><a href="#download">Download</a></li>
+  <li><a href="#contents">Ingredients</a></li>
+  <li><ul>
+   <li><a href="#wishlist">Wishlist</a></li>
+  </ul></li>
+ </ul></li>
+ <li><a href="#packaging">Packaging</a></li>
+ <li><ul>
+  <li><a href="#depends">Dependencies</a></li>
+ </ul></li>
+ <li><a href="#bindings">Language Bindings</a></li>
+ <li><ul>
+  <li><a href="#b_c">C binding</a></li>
+  <li><a href="#b_py">Python binding (external)</a></li>
+  <li><a href="#b_shell">Shell binding</a></li>
+  <li><a href="#b_pyex">Python example (contrib)</a></li>
+ </ul></li>
+ <li><a href="#security">Security</a></li>
+ <li><a href="#users">Users</a></li>
+ <li><a href="#clog">ChangeLog</a></li>
+</ul>
+<table width="100%"><tr><td>
+<p>Homepage of the Command-Line Interface to the KDE Wallet.</p>
+<p>Get the Logo (<a href="pics/kwalletcli.svg">SVG</a>).</p>
+</td><td style="width:160px;"><object data="pics/kwalletcli.svg"
+ type="image/svg+xml" width="128" height="128"><img alt="kwalletcli Logo"
+ src="pics/kwalletcli128.png" /></object></td></tr></table>
+
+<h2 id="main">CLI for the KDE Wallet</h2>
+<p>What's it? A command-line interface to the KDE Wallet, for KDE 3 and
+ KDE 4 both (so shell scripts, Python, etc. do not need to use DCOP or
+ D-Bus directly to access it to store passwords, instead being able to
+ call this convenient wrapper). Please read <a
+ href="permalinks/wlog-10_e20090708-tg.htm">the wlog entry
+ announcing kwalletcli public beta test</a> for some more background
+ information. Currently, only the default wallet is supported; while
+ the CLI itself could be enhanced by a selection, the utilities also
+ provided cannot really expose this functionality.</p>
+<p>kwalletcli is OSI Certified <img alt="Open Source Software™"
+ src="pics/open_source_button.png" /></p>
+
+<h3 id="download">Download</h3>
+<p>Current version: kwalletcli 2.11 (2011-06-03)</p><ul>
+ <li>RMD160 (kwalletcli-2.11.tar.gz) = 254f7315014152fcf4fde69bb8bef6081968bf9e</li>
+ <li>TIGER (kwalletcli-2.11.tar.gz) = 71a6971ac6f4cc94f1310acb8547123b4b867f52002ef25e</li>
+ <li>1165299207 60022 /MirOS/dist/hosted/kwalletcli/kwalletcli-2.11.tar.gz</li>
+ <li>MD5 (kwalletcli-2.11.tar.gz) = bf5c0bc1608041dd637f0e8e5e4f8586</li>
+ <li style="list-style:none;">Mirrors</li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.11.tar.gz">Germany</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.11.tar.gz">Japan</a></li>
+</ul>
+
+<h3 id="contents">Ingredients</h3>
+<p>The kwalletcli distfile provides a number of things:</p><ul>
+ <li>A <tt>LICENCE</tt> file. kwalletcli is covered by <a
+  href="MirOS-Licence">The MirOS Licence</a> (<a
+  href="MirOS-Licence.htm">HTML transcript</a>); the logo is
+  <em>additionally</em> restricted by the Terms and Conditions of the
+  GNU LGPL v3+ (both licences are OSI certified, DFSG free, etc.)</li>
+ <li>An SVG logo and a few compiled PNG versions.</li>
+ <li>The CLI itself (binary). The manual page (HTML): <a href="htman/i386/man1/kwalletcli.htm" class="manlink">kwalletcli(1)</a></li>
+ <li>An <a href="htman/i386/man1/ssh-askpass.htm" class="manlink">ssh-askpass(1)</a> alike tool called <tt><a href="htman/i386/man1/kwalletaskpass.htm" class="manlink">kwalletaskpass(1)</a></tt>,
+  which provides some kind of SSO by storing the SSH private key
+  passphrase in the KDE Wallet (<a href="htman/i386/man1/mksh.htm" class="manlink">mksh(1)</a> script)</li>
+ <li>An pinentry alike tool called <tt><a href="htman/i386/man1/pinentry-kwallet.htm" class="manlink">pinentry-kwallet(1)</a></tt>
+  which provides some kind of SSO by storing pinentry replies, once
+  given (it calls the original pinentry-{qt,gtk,curses} as coprocess),
+  in the KDE Wallet and providing them to e.g. the GnuPG agent (<a
+  href="mksh.htm">mksh</a> script)</li>
+ <li>A pinentry (Assuan protocol) <strong>client</strong> called
+  <tt><a href="htman/i386/man1/kwalletcli_getpin.htm" class="manlink">kwalletcli_getpin(1)</a></tt> which is used to request information
+  from the user which is not <em>yet</em> stored in the KDE Wallet,
+  as well as confirmation whether it should be stored there (script)
+  and serves as generic pinentry/Assuan client as well</li>
+</ul>
+
+<h4 id="wishlist">Wishlist</h4>
+<p>Possible extensions include gnome-keyring bindings as well as some
+ for the new KDE/GNOME intra-desktop keyring/wallet standard talking
+ D-Bus instead of using the libkwalletclient convenience libraries;
+ support for selecting a non-default keyring; more utilities on top
+ of <tt><a href="htman/i386/man1/kwalletcli.htm" class="manlink">kwalletcli(1)</a></tt> (e.g. a libpurple plugin, and means for
+ M*zilla Firef*x, Opera and other desktop software to use it to store
+ passwords in the Wallet).</p>
+
+<h2 id="packaging">Packaging</h2>
+<p><a href="http://packages.debian.org/kwalletcli">Debian</a> has a
+ kwalletcli (KDE 4) package from squeeze onwards. The backports
+ repository contains a kwalletcli (KDE 3) package for lenny.</p>
+<p>Suggested packaging: MidnightBSD mports (for they provide KDE
+ anyway), OpenSuSE Build Service (RPM for many platforms), etc.<br />
+ If KDE (upstream) desires, they may include it (under The MirOS
+ Licence) in their distribution, even.</p>
+<h3 id="depends">Dependencies</h3>
+<p>Either Qt3 and KDE3, or Qt4 and KDE4, development headers and
+ libraries, and the matching compiler (gcc/g++ is tested, others are
+ not). Either MirMake (MirBSD <a href="htman/i386/man1/make.htm" class="manlink">make(1)</a>) or GNU make. For the scripts, <a
+ href="mksh.htm">mksh</a> R38+ is a run-time dependency. The
+ manpages require nroff/gnroff and the <tt>-mdoc</tt> macropackage to
+ compile. The HTML manpages can only be re-made on MirBSD.</p>
+
+<h2 id="bindings">Language Bindings</h2>
+
+<h3 id="b_c">C binding</h3>
+<p>See the source file <tt>kwalletcli.h</tt> for details. This is the
+ source-level C binding API (function <tt>kw_io()</tt> and a couple of
+ return value definitions) that can be re-used. There is no C++ binding,
+ because the high-level KWallet API is already C++, although, for ease
+ of use, the C binding can be used from others' C++ code as well.</p>
+
+<h3 id="b_py">Python binding (external)</h3>
+<p>There's a sample Python 2 binding (we don't know which exact minimum
+ version is required) contributed to the Gajim source code (dual-licenced
+ under the same licence as Gajim (GPLv3 only), as well as the same licence
+ (MirOS) as kwalletcli). The binding was originally written by the author
+ of kwalletcli as well.</p><ul>
+<li><a href="http://trac.gajim.org/ticket/5153">initial submission</a></li>
+<li><a href="http://trac.gajim.org/browser/src/common/kwalletbinding.py">the
+ code</a> (maintained inside the Gajim repository, as most prominent user of
+ it; bugfixed by Yann “asterix” Leboulanger once already, thanks!</li>
+<li><a href="http://trac.gajim.org/changeset/10798%3A6c332dd9e795/src/common/passwords.py?format=diff&amp;new=10798:6c332dd9e795">usage
+ example</a> (again, Gajim code)</li>
+</ul>
+<p>Note that the Python binding uses <tt>subprocess.Popen()</tt> and the
+ Shell binding to do the actual work.</p>
+
+<h3 id="b_shell">Shell binding</h3>
+<p>The <a href="htman/i386/man1/kwalletcli.htm" class="manlink">kwalletcli(1)</a> manpage provides a documentation of the shell
+ binding. The other utilities part of the distribution, as well as
+ the Python binding, serve as usage examples.</p>
+
+<h3 id="b_pyex">Python example (contrib)</h3>
+<p class="boxhead">This is a user-contributed example in Python, submitted
+ by Stephen McIntosh:</p><div class="boxtext">
+ <pre>
+import kwalletbinding as kw
+def operation():
+    op = raw_input("Add or Read? ")
+    return op
+def addpass():
+    kw.kwallet_put('kdewalletcli',
+      raw_input("Name: "),
+      raw_input("Password: "))
+    print("...\nDone!")
+def getpass():
+    readpass = kw.kwallet_get('kdewalletcli',
+      raw_input("Name: "))
+    print "...\nThe password is: " + readpass
+
+if kw.kwallet_available():
+    op = operation()
+    if op.lower() == "add":
+        addpass()
+    else:
+        getpass()
+else:
+    print "KDE Wallet not available!"
+ </pre>
+</div><p class="boxfoot">(edited slightly for legibility)</p>
+
+<h2 id="security">Security</h2>
+<p>Passwords can, of course, only be accessed if the KDE Wallet is
+ opened. Hence, the on-disc security of the passwords is the same
+ as for all other applications using it. We make no statement on its
+ security (the GnuPG mailing lists have some flamewars about it), but
+ if this is “enough” for you (or, if you are a company sysadmin, your
+ boss), you're welcome. On the other hand, since the KDE pop-up will
+ only show “kwalletcli”, not the application/script using it, when it
+ asks whether access to the Wallet is to be permitted, password stealing
+ by untrusted-local applications is easier (but if you have these, you
+ have totally different problems anyway). Hence, we suggest to “allow
+ always” access for <a href="htman/i386/man1/kwalletcli.htm" class="manlink">kwalletcli(1)</a> and take the usual care when installing
+ and running applications from third parties.</p>
+<p>If you turn “iodebug” in pinentry-kwallet on, it will log the entire
+ dialogue with both parent and co-process, including passwords, to a
+ file in your home directory. (This can only be done by editing the
+ script directly, which is why we refrain from warning the user in a
+ dialogue, as an attacker can also remove that warning.)</p>
+
+<h2 id="users">Users</h2>
+<p>The <a href="http://gajim.org/">Gajim</a> Jabber client supports
+ kwalletcli, by means of <a href="#b_py">the Python binding</a>, for
+ storing Jabber passwords in the KDE Wallet in an encrypted manner,
+ since version 0.13 (committed after some discussion; Gajim already
+ supported gnome-keyring though).</p>
+
+<h2 id="clog">ChangeLog</h2>
+<!--
+<p>Changes in the current (unreleased) development version:</p><ul>
+-->
+<p id="r2_11">kwalletcli 2.11</p><ul>
+ <li>Correct exit code for when the read routines die</li>
+ <li>Catch signals and terminate gracefully</li>
+ <li>Better protocol compliance</li>
+ <li>Be more strict when parsing commands</li>
+ <li>Quell warning for “GETINFO version”</li>
+ <li>Prevent converting underscores into accelerator markings</li>
+ <li>Document currently used exit codes</li>
+ <li>Add CAVEATS to manual pages</li>
+</ul>
+<p id="r2_10">kwalletcli 2.10</p><ul>
+ <li>In <a href="htman/i386/man1/pinentry-kwallet.htm" class="manlink">pinentry-kwallet(1)</a>, replace with the slave immediately
+  if <tt>$DISPLAY</tt> is unset or empty (as we cannot contact the
+  KDE Wallet in that case, anyway). Fixes another case of spurious
+  “Do you want to store … in the KDE Wallet?” questions.</li>
+ <li>Fix mis-read in recursive call case (parent, not slave).</li>
+ <li>Align look and feel of fallbacks (both xmessage and TUI) with
+  default pinentry GUI style</li>
+ <li><a href="htman/i386/man1/kwalletcli_getpin.htm" class="manlink">kwalletcli_getpin(1)</a> new options <tt>-m</tt> (message, with one
+  button); <tt>-Y OK</tt> and <tt>-N Cancel</tt> (set button labels)</li>
+ <li><strong>Security fix</strong> in <a href="htman/i386/man1/kwalletcli_getpin.htm" class="manlink">kwalletcli_getpin(1)</a>: tty I/O now
+  properly disables echoing input when asking for a passphrase</li>
+ <li>After scanning through <a href="htman/i386/man1/ssh.htm" class="manlink">ssh(1)</a> and <a href="htman/i386/man1/ssh-askpass.htm" class="manlink">ssh-askpass(1)</a> source, teach
+  <a href="htman/i386/man1/kwalletaskpass.htm" class="manlink">kwalletaskpass(1)</a> to use boolean queries for some whitelisted
+  strings and check it works with confirmation (Debian #603910)</li>
+ <li>Store negative replies to “Do you want to store X in the KDE Wallet?”
+  as “blacklist” in the wallet in <a href="htman/i386/man1/kwalletaskpass.htm" class="manlink">kwalletaskpass(1)</a> and <a href="htman/i386/man1/pinentry-kwallet.htm" class="manlink">pinentry-kwallet(1)</a>
+  to avoid asking the user every time</li>
+ <li>Document limits and raise <a href="htman/i386/man1/kwalletcli.htm" class="manlink">kwalletcli(1)</a> <tt>-P</tt> limit</li>
+ <li>Have <a href="htman/i386/man1/kwalletcli.htm" class="manlink">kwalletcli(1)</a> convert passwords from/to proper UTF-8 for Qt</li>
+</ul>
+<p id="r2_03">kwalletcli 2.03</p><ul>
+ <li>Fix building the kwalletcli binary with <a
+  href="https://fedoraproject.org/wiki/UnderstandingDSOLinkChange">indirect
+  linking</a>; patch from Felix Geyer &lt;debfx＠ubuntu.com&gt;</li>
+ <li>In <a href="htman/i386/man1/kwalletaskpass.htm" class="manlink">kwalletaskpass(1)</a>, do not even attempt to call <a href="htman/i386/man1/kwalletcli.htm" class="manlink">kwalletcli(1)</a>
+  if <tt>$DISPLAY</tt> is unset or empty, it will not be able to
+  communicate with it anyway. Fixes spurious “Do you want to store …
+  in the KDE Wallet?” questions when logged in via <a href="htman/i386/man1/ssh.htm" class="manlink">ssh(1)</a>.</li>
+ <li>Small documentation improvements, mostly re. <tt>$DISPLAY</tt></li>
+</ul>
+</div>
+<div class="footer">
+<p style="display: none;">Do <em>not</em> send any eMail to <a
+ href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
+ href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>, or <a
+ href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a> –
+ it won’t do any good to you.</p>
+<p>• <a
+ href="mailto:miros-discuss@mirbsd.org">eMail</a> contact to The MirOS Project
+ • <a href="imprint.htm">Impressum</a> • This website is (supposed
+ to be) <a href="http://validator.w3.org/check/referer">Valid HTML</a>! •
+</p>
+<p class="rcsdiv">Generated <!-- MBSD_HTSCONV_GENDATE_TAG_30284 --> on <span class="rcsid">2013-06-22 23:26:45</span> by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.71 2013/06/08 16:55:56 tg Exp $</span> from <span class="rcsid">$MirOS: www/src/kwalletcli.hts,v 1.29 2013/06/22 23:26:07 tg Exp $</span></p>
+</div></div>
+<div class="heading">
+ <img class="hdrlnks" alt="MirOS Logo"
+  src="pics/logo-grey.png" />
+</div>
+</body></html>

@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+
+<html>
+<head>
+<title>nlnetlabs.nl :: ldns ::</title>
+<meta name="author" content="NLnet Labs" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="description" content="NLnet Labs Website" />
+<meta name="keywords" content="NLnet Labs, DNSSEC, IPv6, NSD, Unbound, Routing" />
+<link rel="shortcut icon" href="/gx/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="/css/nlnetlabs2008.css" media="screen, projection, tv" />
+<link rel="stylesheet" type="text/css" href="/css/nlnetlabs-print.css" media="print" />
+
+<link rel="stylesheet" type="text/css" href="/css/nav.css" media="screen, projection, tv" />
+<link rel="stylesheet" type="text/css" href="/css/corners.css" media="screen, projection, tv" />
+<link rel="alternate"  title="RSS 2.0" href="/build/out/rss.xml" TYPE="application/rss+xml" />
+</head>
+<body>
+<div class="page">
+
+
+
+<div class="bodytop"></div>
+<div class="bodymiddle">
+ <div class="bodypad">
+  <div class="header">
+  <img class="printlogo" src="/gx/css-elements/LogoInGradientBar2-y100-cropped.png" alt=""/>
+    <div class="title" id="pagetitle">
+    	<h1>ldns</h1>
+    </div> <!-- title -->
+     
+    <div class="navdiv">
+    	<ul class="nav">
+	<!-- First Column -->
+	<li>
+	<div class="sh1"><a href="/"><i><b>NLnetLabs</b></i></a>
+	<ul>
+        <li><div class="sh1"><a href="/">Home</a></div></li>
+        <li><div class="sh1"><a href="/labs/news/">News</a></div></li>
+        <li><div class="sh1"><a href="/labs/about/">About</a></div></li>
+        <li><div class="sh1"><a href="/labs/mission/">Mission</a></div></li>
+        <li><div class="sh1"><a href="/labs/staff/">Staff</a></div></li>
+        <li><div class="sh1"><a href="/labs/alumni/">Student Alumni</a></div></li>
+        <li><div class="sh1"><a href="/labs/employment/">Employment</a></div></li>
+	</ul>
+	</div>
+	</li>
+
+	<!-- Second Column -->
+	<li>
+	<div class="sh1"><a><i><b>Projects</b></i></a>
+	<ul>
+                <li><div class="sh1"><a href="/projects/nsd/">NSD</a></div></li>
+                <li><div class="sh1"><a href="/projects/ldns/">Ldns</a></div></li>
+                <li><div class="sh1"><a href="/projects/unbound/">Unbound</a></div></li>
+                <li><div class="sh1"><a href="/projects/opendnssec/">OpenDNSSEC</a></div></li>
+                <li><div class="sh1"><a href="/projects/dnssec/">DNSSEC</a></div></li>
+                <li><div class="sh1"><a href="/projects/dnssec-trigger/">Dnssec-Trigger</a></div></li> 
+                <li><div class="sh1"><a href="/projects/dnssec-workshop/">DNSSEC Workshop</a></div></li>
+                <li><div class="sh1"><a href="/projects/credns/">Credns</a></div></li>
+                <li><div class="sh1"><a href="/projects/netdns/">Net::DNS</a></div></li>
+                <li><div class="sh1"><a href="/projects/bgpsim/">BGP Simulation</a></div></li>
+                <li><div class="sh1"><a href="/projects/drill/">Drill</a></div></li>
+                <li><div class="sh1"><a href="/projects/internships/">Student Projects</a></div></li>
+                <li><div class="sh1"><a href="/projects/older/">Older Projects</a></div></li>
+	</ul>
+	</div>
+	</li>
+
+	<!-- Third Column -->
+	<li>
+	<div class="sh1"><a href="/publications/"><i><b>Publications</b></i></a>
+	<ul>
+		<li><div class="sh1"><a href="/publications/">Publications</a></div></li>
+		<li><div class="sh1"><a href="/publications/presentations/">Presentations</a></div></li>
+		<li><div class="sh1"><a href="/publications/dnssec_howto/">DNSSEC Howto</a></div></li>
+	</ul>
+	</div>
+	</li>
+
+	<!-- Fourth Column -->
+	<li>
+	<div class="sh1"><a><i><b>Support</b></i></a>
+	<ul>
+		<li><div class="sh1"><a href="/downloads/">Downloads</a></div></li>
+		<li><div class="sh1"><a href="/labs/bugs/">Bug reports</a></div></li>
+		<li><div class="sh1"><a href="/svn/">Subversion</a></div></li>
+		<li><div class="sh1"><a href="/projects/nsd/support.html">NSD support</a></div></li>
+<!--		<li><div class="sh1"><a href="/forum/">Forum</a></div></li> -->
+	</ul>
+	</div>
+	</li>
+
+	<!-- Fifth Column -->
+	<li>
+	<div class="sh1"><a href="/blog"><i><b>Blog</b></i></a>
+	</div>
+	</li>
+
+	</ul>  <!-- nav -->
+
+    </div>
+
+  </div> <!-- header -->
+ </div> <!-- bodypad -->
+ <div class="bodybottom"></div>
+</div> <!-- bodymiddle -->
+
+
+
+<div class="bodytop"></div>
+<div class="bodymiddle">
+ <div class="bodypad">
+
+<div class="container">
+    <div class="contentbalk">
+	
+	<table class="maintable">
+    <tr>
+
+
+
+<td class="tdblock" style="vertical-align:top;padding-right:5px;">
+
+	
+	
+<div class="roundedcornr_box_769974">
+   <div class="roundedcornr_top_769974"><div><!-- intentional hack--></div></div>
+      <div class="roundedcornr_content_769974">
+	 	<div class="divblock">
+
+
+<h2 class="green">ldns</h2>
+<p>
+The goal of ldns is to simplify DNS programming, it 
+supports recent RFCs like the DNSSEC documents, and allows developers to
+easily create software conforming to current RFCs, and experimental software
+for current Internet Drafts. A secondary benefit of using ldns is speed;
+ldns is written in C it should be a lot faster than Perl.
+</p>
+<p>
+The first major tool to use ldns is Drill, from which part of the library was
+derived. From version 1.0.0 on, drill is be included in the ldns release and
+will not be distributed separately anymore. Its version number will follow that of
+ldns. The library also includes some other examples and tools to show how it
+can be used.
+</p>
+<p>
+ldns depends on OpenSSL for its crypto functions. It can be compiled
+without OpenSSL, but of course you'll lose the ability to perform any
+cryptographic functions.
+</p>
+
+<h3 class="green">Feature list</h3>
+<ul>
+<li>IP4 and IP6 support,
+<li>TSIG support,
+<li>DNSSEC support; signing and verification,
+<li>small size,
+<li>online documentation as well as manual pages.
+</ul>
+<p>
+If you want to send us patches please use the code from subversion
+(trunk).
+
+<h2 class="green">Download</h2>
+
+
+		The latest release is 1.6.16, 
+		dating Nov 13, 2012<p><a href="/downloads/ldns/ldns-1.6.16.tar.gz">
+		Download
+		</a>
+		(checksum sha1:
+		5b4fc6c5c3078cd061905c47178478cb1015c62a)
+		</p><p>
+		The changelog for this version can be found at
+		<a href="http://git.nlnetlabs.nl/ldns/tree/Changelog?id=release-1.6.16">http://git.nlnetlabs.nl/ldns/tree/Changelog?id=release-1.6.16</a></p>
+
+
+<h3 class="green">Compiling</h3>
+After downloading, you can compile the library by doing:
+<pre>
+./configure && (g)make
+</pre>
+
+</p>
+<p>
+You need GNU make to compile it.
+
+</p>
+<p>
+If you compile from the repository, you also need the gnu autotools
+(autoreconf and libtool).
+
+<h3 class="green">Creating documentation</h3>
+The (html) documentation is created with doxygen. The manual pages are
+created with a perl program. While sitting in the source 
+directory a simple <tt>gmake doc</tt> should create everything.
+<p>
+
+<h2 class="green">Drill</h2>
+ldns includes the Drill tool.
+</p>
+<p>
+
+Drill is a tool ala dig from BIND. It was designed with DNSSEC in mind and
+should be a useful debugging/query tool for DNSSEC.
+</p>
+<p>
+
+A lot of DNS debugging is done with dig, but as dig is made with the same
+libraries as BIND8/9 (the most used DNS server out there), what are you
+actually debugging/testing? Drill has nothing in common with either NSD nor
+BIND. During the development process we are actually uncovering obscure bugs
+in NSD and BIND (and in drill itself).
+</p>
+<p>
+
+<h2 class="green">Example programs</h2>
+A few example programs are included in the source of ldns. They are <em>not</em>
+compiled by default. You need to explicitly build them with:
+<tt>cd examples && ./configure && (g)make</tt>
+<ol>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-chaos.c">ldns-chaos</a></tt>  - Prints some information about the nameserver. </li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-key2ds.c">ldns-key2ds</a></tt>  - Creates a DS record from a DNSKEY record</li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-keyfetcher.c">ldns-keyfecther</a></tt>  - Fetches DNSSEC public keys for zones </li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-keygen.c">ldns-keygen</a></tt>  - Generate private/pubkey key pair for DNSSEC.</li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-mx.c">ldns-mx</a></tt>  - Explained in the <a href="/projects/ldns/doc/tutorial1_mx.html">tutorial</a>. Prints the mx records for a domain. </li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-read-zone.c">ldns-read-zone</a></tt>  - Reads a zone file and prints it with 1 RR per line. </li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-signzone.c">ldns-signzone</a></tt>  - Signs a zone file according to DNSSECbis. </li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-version.c">ldns-version</a></tt>  - Prints the version of the library. </li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-update.c">ldns-update</a></tt>  - UPDATE examples. </li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-walk.c">ldns-walk</a></tt>  - 'Walks' a DNSSEC zone </li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-zsplit.c">ldns-zsplit</a></tt>  - Splits a zone file in smaller parts </li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-zcat.c">ldns-zcat</a></tt>  - Concatenates zone file parts split with ldns-zsplit </li>
+<li><tt><a href="http://git.nlnetlabs.nl/ldns/tree/examples/ldns-compare-zones.c">ldns-compare-zones</a></tt>  - See the differences between zones (added/removed names, added/removed rrs for names) </li>
+</ol>
+</ol>
+Also see their manual pages. (in the examples/ dir)
+
+<h2 class="green">Support</h2>
+We have a mailing list where ldns related discussion are held. These
+discussions can range from implementation issues to generic DNS/DNSSEC issues.
+</p>
+<p>
+You can find the mailing list information page 
+<a href="http://open.nlnetlabs.nl/mailman/listinfo/ldns-users">here</a>.
+
+	
+</div><!-- end divblock -->
+<div class="roundedcornr_bottom_769974"></div>
+
+</div> <!-- end roundedcornr_content_769974 -->
+</div> <!-- end roundedcornr_box_769974 -->
+
+
+</td>
+
+
+
+<td class="tdblock" style="width:25%;vertical-align:top;padding-left:5px;">
+
+	
+<div class="roundedcornr_box_769974">
+   <div class="roundedcornr_top_769974"><div><!-- intentional hack--></div></div>
+      <div class="roundedcornr_content_769974">
+	 	<div class="divblock">
+
+
+	<h2 class="green">Links</h2>
+
+	<a href="doc/index.html">Doxygen Documentation</a> <br />
+	<a href="doc/pages.html">Tutorials</a> <br />
+	<a href="http://git.nlnetlabs.nl/ldns/">GIT Repository</a> <br />
+	<a href="/mailman/listinfo/ldns-users">Mailing List</a> <br />
+	<a href="/labs/bugs/">Bugs</a> <br />
+
+&nbsp;
+	
+</div><!-- end divblock -->
+<div class="roundedcornr_bottom_769974"></div>
+
+</div> <!-- end roundedcornr_content_769974 -->
+</div> <!-- end roundedcornr_box_769974 -->
+
+
+</td>
+
+
+
+	</tr>
+	</table>
+	
+    </div> <!-- contentbalk -->
+</div> <!-- container -->
+
+ </div> <!-- bodypad -->
+ <div class="bodybottom"></div>
+</div> <!-- bodymiddle -->
+
+
+<div class="FooterNotice">
+<p>Thu Aug 15  2013
+</p>
+<!-- You have to use &#169; otherwise xslt processing will choke -->
+<p> &#169; Stichting NLnet Labs</p>
+<p>Science Park 400, 1098 XH Amsterdam, The Netherlands</p>
+<p><a href="mailto:labs@nlnetlabs.nl">labs@nlnetlabs.nl</a>, subsidised by <a href="http://www.nlnet.nl">NLnet</a> and <a href="http://www.sidn.nl">SIDN</a>.
+</p>
+</div> <!-- FooterNotice -->
+<br /><br />
+</div> <!-- page -->
+
+</body>
+</html>
+

@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>PROGRAD</title>
+<link href="geral.css" rel="stylesheet" type="text/css" />
+<link href="css/menu.css" rel="stylesheet" type="text/css" />
+
+<link href="css/multibox.css" rel="stylesheet" type="text/css" />
+<link href="css/calendario.css" rel="stylesheet" type="text/css" />
+<link href="css/banner.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="valida.js"></script>
+<script type="text/javascript" src="js/calendario.js"></script>
+
+<script type="text/javascript">navigate('','','');</script>
+
+<script type="text/javascript" src="js/jquery-1.3.1.min.js"></script>
+<script type="text/javascript">
+
+
+$(document).ready(function() {		
+	
+	//Execute the slideShow
+	slideShow();
+
+});
+
+function slideShow() {
+
+	//Set the opacity of all images to 0
+	$('#gallery a').css({opacity: 0.0});
+	
+	//Get the first image and display it (set it to full opacity)
+	$('#gallery a:first').css({opacity: 1.0});
+	
+	//Set the caption background to semi-transparent
+	$('#gallery .caption').css({opacity: 0.7});
+
+	//Resize the width of the caption according to the image width
+	$('#gallery .caption').css({width: $('#gallery a').find('img').css('width')});
+	
+	//Get the caption of the first image from REL attribute and display it
+	$('#gallery .content').html($('#gallery a:first').find('img').attr('rel'))
+	.animate({opacity: 0.7}, 400);
+	
+	//Call the gallery function to run the slideshow, 6000 = change to next image after 6 seconds
+	setInterval('gallery()',6000);
+	
+}
+
+function gallery() {
+	
+	//if no IMGs have the show class, grab the first image
+	var current = ($('#gallery a.show')?  $('#gallery a.show') : $('#gallery a:first'));
+
+	//Get next image, if it reached the end of the slideshow, rotate it back to the first image
+	var next = ((current.next().length) ? ((current.next().hasClass('caption'))? $('#gallery a:first') :current.next()) : $('#gallery a:first'));	
+	
+	//Get next image caption
+	var caption = next.find('img').attr('rel');	
+	
+	//Set the fade in effect for the next image, show class has higher z-index
+	next.css({opacity: 0.0})
+	.addClass('show')
+	.animate({opacity: 1.0}, 1000);
+
+	//Hide the current image
+	current.animate({opacity: 0.0}, 1000)
+	.removeClass('show');
+	
+	//Set the opacity to 0 and height to 1px
+	$('#gallery .caption').animate({opacity: 0.0}, { queue:false, duration:0 }).animate({height: '1px'}, { queue:true, duration:300 });	
+	
+	//Animate the caption, opacity to 0.7 and heigth to 100px, a slide up effect
+	$('#gallery .caption').animate({opacity: 0.7},100 ).animate({height: '100px'},500 );
+	
+	//Display the content
+	$('#gallery .content').html(caption);
+	
+	
+}
+
+</script>
+
+
+
+
+</head>
+<body>
+
+<div id="page_container">
+<div class="topo">
+<a class="linklogo" href="index.php"></a>
+
+<div id="formtopo">
+<form action="http://www.cursos.nead.ufpr.br/login/index.php" method="post">
+
+<p><input id="usuario-moodle" name="username" type="text" style="width:145px;float:left;" size="12" value="Usu&aacute;rio"/></p>
+<p><input id="senha-moodle" name="password" size="12" type="password" style="margin-top:3px;float:left;" value="senha"  onchange=""/>
+<input id="botao-moodle" name="Button" type="submit" value="OK" style="width:30px;background-color:#a1b7c2;float:left;color:#FFFFFF;font-family:Arial, Helvetica, sans-serif;margin-top:2px;" /></p>
+
+</form>
+</div>
+  
+</div>
+ 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+
+<style type="text/css">
+body { font: normal 62.5% verdana; }
+
+.submenu a#institucional{ height:27px; width:100px; background: url(images/menugif/institucional.gif) 0 0;}
+.submenu a#coordenadorias{ height:27px; width:114px; background: url(images/menugif/coordenadoria.gif) 0 0;}
+.submenuaberto a#coordenadorias{ height:27px; width:114px; background: url(images/menugif/coordenadoria.gif) 0 -27px;}
+.submenu a#programas{ height:27px; width:86px; background: url(images/menugif/programas.gif) 0 0;}
+.submenu a#graduacao{ height:27px; width:145px; background: url(images/menugif/graduacao.gif) 0 0;}
+.submenu a#publicacoes{ height:27px; width:92px; background: url(images/menugif/publicacoes.gif) 0 0;}
+.submenu a#eventos{ height:27px; width:71px; background: url(images/menugif/eventos.gif) 0 0;}
+.submenu a#noticias{ height:27px; width:71px; background: url(images/menugif/noticias.gif) 0 0;}
+.submenu a#links{ height:27px; width:54px; background: url(images/menugif/links.gif) 0 0;}
+.submenu a#contato{	height:27px; width:66px; background: url(images/menugif/contato.gif) 0 0;}
+
+
+.submenu a#institucional_act{ height:27px; width:100px; background: url(images/menugif/institucional.gif) 0 -54px;}
+.submenu a#coordenadorias_act{ height:27px; width:114px; background: url(images/menugif/coordenadoria.gif) 0 -54px;}
+.submenuaberto a#coordenadorias_act{ height:27px; width:114px; background: url(images/menugif/coordenadoria.gif) 0 -27px;}
+.submenu a#programas_act{ height:27px; width:86px; background: url(images/menugif/programas.gif) 0 -54px;}
+.submenu a#graduacao_act{ height:27px; width:145px; background: url(images/menugif/graduacao.gif) 0 -54px;}
+.submenu a#publicacoes_act{ height:27px; width:92px; background: url(images/menugif/publicacoes.gif) 0 -54px;}
+.submenu a#eventos_act{ height:27px; width:71px; background: url(images/menugif/eventos.gif) 0 -54px;}
+.submenu a#noticias_act{ height:27px; width:71px; background: url(images/menugif/noticias.gif) 0 -54px;}
+.submenu a#links_act{ height:27px; width:54px; background: url(images/menugif/links.gif) 0 -54px;}
+.submenu a#contato_act{	height:27px; width:66px; background: url(images/menugif/contato.gif) 0 -54px;}
+
+
+.submenu a#institucional:hover,
+.submenu a#coordenadorias:hover,
+.submenu a#programas:hover:hover,
+.submenu a#graduacao:hover,
+.submenu a#publicacoes:hover,
+.submenu a#eventos:hover,
+.submenu a#noticias:hover,
+.submenu a#links:hover,
+.submenu a#contato:hover{
+	background-position:0 -27px
+}
+
+li a#coordenadorias_monitoria{ height:37px; width:158px; background: url(images/menugif/monitoria.gif) 0 0;}
+li a#coordenadorias_avaliacao{ height:38px; width:158px; background: url(images/menugif/avaliacao.gif) 0 0;}
+li a#coordenadorias_educacao{ height:22px; width:158px; background: url(images/menugif/educacao.gif) 0 0;}
+li a#coordenadorias_acesso{ height:22px; width:158px; background: url(images/menugif/acesso.gif) 0 0;}
+li a#coordenadorias_educacao_dist{ height:23px; width:158px; background: url(images/menugif/educacao_dist.gif) 0 0;}
+li a#coordenadorias_estagios{ height:20px; width:158px; background: url(images/menugif/estagios.gif) 0 0;}
+li a#coordenadorias_formacao{ height:23px; width:158px; background: url(images/menugif/formacao.gif) 0 0;}
+li a#coordenadorias_ensino{ height:24px; width:158px; background: url(images/menugif/ensino.gif) 0 0;}
+li a#coordenadorias_politicas{ height:57px; width:158px; background: url(images/menugif/politicas.gif) 0 0;}
+li a#coordenadorias_nucleos{ height:25px; width:158px; background: url(images/menugif/nucleo.gif) 0 0;}
+
+
+li a#coordenadorias_monitoria:hover{background-position:0 -37px;}
+li a#coordenadorias_avaliacao:hover{background-position:0 -38px;}
+li a#coordenadorias_educacao:hover{background-position:0 -22px;}
+li a#coordenadorias_acesso:hover{background-position:0 -22px;}
+li a#coordenadorias_educacao_dist:hover{background-position:0 -23px;}
+li a#coordenadorias_estagios:hover{background-position:0 -20px;}
+li a#coordenadorias_formacao:hover{background-position:0 -23px;}
+li a#coordenadorias_ensino:hover{background-position:0 -24px;}
+li a#coordenadorias_nucleos:hover{background-position:0 -25px;}
+li a#coordenadorias_politicas:hover{background-position:0 -60px;}
+
+#pos_menu{
+	position:relative;
+	z-index:900;
+}
+
+ul.menubar{
+  margin: 0px;
+  padding: 0px;
+  background-color: #FFFFFF; /* IE6 Bug */
+  font-size: 100%;
+	
+}
+
+ul.menubar .submenu{
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  background-color: #FFFFFF;
+  border: 0;
+  float:left;
+}
+
+ul.menubar .submenuaberto{
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  border: 0;
+  float:left;
+}
+
+ul.menubar ul.menu{
+  display: none;
+  position: absolute;
+  margin: 0px;
+}
+
+ul.menubar a{
+  display:block;
+  padding: 0;
+}
+
+ul.menu, ul.menu ul {
+  margin: 0;
+  padding: 0;
+  border-bottom: 0;
+  width: 158px; /* Width of Menu Items */
+}
+
+ul.menu li{
+  position: relative;
+  list-style: none;
+  border: 0px;
+  margin-left:4px;
+  
+}
+
+ul.menu li a {
+  display: block;
+  text-decoration: none;
+  border: 0;
+  border-bottom: 0px;
+  padding: 0;
+}
+
+ul.menu li sup {
+  font-weight:bold;
+  font-size:7px;
+}
+
+/* Fix IE. Hide from IE Mac \*/
+* html ul.menu li { float: left; height: 1%; }
+* html ul.menu li a { height: 1%; }
+/* End */
+
+ul.menu ul{
+  position:relative;
+  display: none;
+  left: 149px; /* Set 1px less than menu width */
+  top: 0px;
+}
+
+ul.menu li.submenu ul { display: none; } /* Hide sub-menus initially */
+
+ul.menu li.submenu { background: transparent url(arrow.gif) right center no-repeat; }
+
+ul.menu li a:hover { color: #E2144A; }
+
+</style>
+
+<script type="text/javascript">
+	function horizontal() { 
+	   var navItems = document.getElementById("menu_dropdown").getElementsByTagName("li");    
+	   for (var i=0; i< navItems.length; i++) {
+		  if(navItems[i].className == "submenu" || navItems[i].className == "submenuaberto"){
+			 if(navItems[i].getElementsByTagName('ul')[0] != null){
+			 
+				navItems[i].onmouseover=function() {
+					this.getElementsByTagName('ul')[0].style.display="block";
+					this.className = "submenuaberto";
+				}
+				navItems[i].onmouseout=function() {
+					this.getElementsByTagName('ul')[0].style.display="none";
+					this.className = "submenu";
+				}
+			 }
+		  }	  
+	   } 
+	}
+</script>
+
+</head>
+<body onload="horizontal();">
+
+
+    <ul id="menu_dropdown" class="menubar">
+       <li class="submenu"><a id="institucional" href="institucional.php?org=historico&sec=institucional"></a></li>
+       <li class="submenu"><a id="coordenadorias" href="coordenadorias.php?org=copaie&sec=coordenadorias"></a>
+          <div id="pos_menu">
+          <ul class="menu">
+            <li><a id="coordenadorias_avaliacao" href="coordenadorias.php?org=copaie&sec=coordenadorias"></a></li>
+            <li><a id="coordenadorias_acesso" href="coordenadorias.php?org=copap&sec=coordenadorias"></a></li>
+            <li><a id="coordenadorias_educacao_dist" href="coordenadorias.php?org=cipead&sec=coordenadorias"></a></li>
+            <li><a id="coordenadorias_educacao" href="coordenadorias.php?org=copep&sec=coordenadorias"></a></li>
+            <li><a id="coordenadorias_ensino" href="coordenadorias.php?org=copeg&sec=coordenadorias"></a></li>
+            <li><a id="coordenadorias_estagios" href="coordenadorias.php?org=cge&sec=coordenadorias"></a></li>
+            <li><a id="coordenadorias_formacao" href="coordenadorias.php?org=copefor&sec=coordenadorias"></a></li>
+            <li><a id="coordenadorias_monitoria" href="coordenadorias.php?org=cepigrad&sec=coordenadorias"></a></li>
+            <li><a id="coordenadorias_nucleos" href="coordenadorias.php?org=nc&sec=coordenadorias"></a></li>                      
+            <li><a id="coordenadorias_politicas" href="coordenadorias.php?org=copac&sec=coordenadorias"></a></li>
+            
+          </ul>
+          </div> 
+       </li>
+	   <li class="submenu"><a id="programas"href="programas.php?org=sat&sec=programas"></a></li>
+	   <li class="submenu"><a id="graduacao" href="cursos.php?sec=graduacao"></a></li>
+       <li class="submenu"><a id="publicacoes" href="publicacoes.php?sec=publicacoes"></a></li>
+       <li class="submenu"><a id="eventos" href="eventos.php?sec=eventos"></a></li>
+       <li class="submenu"><a id="noticias" href="noticias.php?sec=noticias"></a></li>
+       <li class="submenu"><a id="links" href="links.php?sec=links"></a></li>
+       <li class="submenu"><a id="contato" href="contato.php?sec=contato"></a></li>
+    </ul>
+</body>
+</html>
+</body>
+</html>
+
+
+<!--CORPO-->
+<div id="corpo">
+  <div id="homr_left">
+<!--DESTAQUES--> 
+  <div id="destaques">
+  <img src="images/home/destaque_03.jpg" style="float:left; padding:0px 1px 0px 1px;" />
+             <div id="gallery">
+                                  
+                        <a href="noticias.php?id=121"  class="show" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>Curso Intensivo de Formação Pré-Acadêmica - NEAB</h3>
+	A Coordenação do Núcleo de Estudos Brasileiros ..."/>
+                </a>
+                        <a href="noticias.php?id=120" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>INSCRIÇÕES PARA O 12º ENAF</h3>
+	Estarão abertas no período de 17 de junho a 1º ..."/>
+                </a>
+                        <a href="noticias.php?id=119" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>REVALIDAÇÃO DE DIPLOMAS ESTRANGEIROS</h3>
+	A Prograd publicou o Edital 006/2013 que rege a..."/>
+                </a>
+                        <a href="noticias.php?id=117" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>HORÁRIO DE FUNCIONAMENTO DA PROGRAD</h3>
+	<u>Horário de funcionamento da PROGRAD:&nbsp;</..."/>
+                </a>
+                        <a href="noticias.php?id=115" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>Propostas Licenciar 2013 Aprovadas</h3>
+	&nbsp;A COPEFOR divulga a relação das propostas..."/>
+                </a>
+                        <a href="noticias.php?id=114" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>PARFOR - Seleção de candidatos</h3>
+	&nbsp;&nbsp;&nbsp; A Pró-Reitoria de Graduação ..."/>
+                </a>
+                        <a href="noticias.php?id=113" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>PROCESSO SELETIVO - PID2013</h3>
+	Professores que tiveram seus planos PID2013 apr..."/>
+                </a>
+                        <a href="noticias.php?id=109" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>Chamadas complementares do vestibular 2013 Edital ...</h3>
+	NAA/NC/PROGRAD/UFPR prevê nove chamadas complem..."/>
+                </a>
+                        <a href="noticias.php?id=108" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>Calouros têm três dias para confirmar matrícula no...</h3>
+	Os calouros que efetuaram registro acadêmico no..."/>
+                </a>
+                        <a href="noticias.php?id=103" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>CALENDÁRIO ACADÊMICO 2013</h3>
+	Para ter acesso ao calendário acadêmico, <addre..."/>
+                </a>
+                        <a href="noticias.php?id=95" >
+					<img   src="phpThumb/phpThumb.php?src=../admin/noticias/arquivos/2709121348743698cartaz_copefor_cursos_100.jpg&amp;w=400&amp;h=230&amp;zc=T"  border="0" width="400" height="230" title="" alt="" rel="<h3>COPEFOR OFERTA CURSO DE METODOLOGIA DO ENSINO SUPE...</h3>
+	Caro professor(a) da UFPR,
+	
+	A Coordenação d..."/>
+                </a>
+                        <a href="noticias.php?id=85" >
+					<img src="images/home/eventoSemImagem.gif"  border="0" width="400" height="230" title="" alt="" rel="<h3>Edital destina R$3 milhões para projetos de melhor...</h3>
+	Neste ano o Programa de Melhoria da Qualidade S..."/>
+                </a>
+                        <a href="noticias.php?id=51" >
+					<img   src="phpThumb/phpThumb.php?src=../admin/noticias/arquivos/1909121348064157manual.jpg&amp;w=400&amp;h=230&amp;zc=T"  border="0" width="400" height="230" title="" alt="" rel="<h3>Manual traz orientações para os calouros</h3>
+	A Pró-reitoria de Graduação e Educação Profissi..."/>
+                </a>
+                      
+                      
+                        <div class="caption"><div class="content"></div></div>
+            </div>
+             
+<!--PROGRAMAS-->
+  <div id="programas">
+   <img src="images/home/programas_03.jpg" style="float:left; padding:0px 1px 0px 1px;" />
+ 
+  <div class="banner_programas">
+      
+        <embed src="banner_programas/programas.swf"  quality="high" bgcolor="#ffffff" width="380" height="194" name="programas" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" wmode="transparent" />
+       
+	</div>
+</div>
+  
+  </div>
+  
+  <div id="home_right">
+  <h1><img src="images/home/ultimasnoticias_03.gif" /></h1>
+   <div id="linha"></div>
+<!--NOTICIAS-->
+      <div id="noticias">
+
+
+  <div id="ultimasnoticias">
+  <h3 class="h3">Curso Intensivo de Formação Pré-Acadêmica - NEAB</h3>
+<p class="texto" >
+	A Coordenação do Núcleo de Estudos Brasileiros da Universidade Federal do Paraná (NEAB-UFPR), no uso de suas atribuições, torna público o edital 01/2013 do Curso Intensivo de Formação Pré-Acadêmica...</p>
+<h3 class="h3"><a href="noticias.php?id=121" ><br />Saiba Mais +</a></h3>
+  </div>
+   
+
+  <div id="ultimasnoticias">
+  <h3 class="h3">INSCRIÇÕES PARA O 12º ENAF</h3>
+<p class="texto" >
+	Estarão abertas no período de <strong>17 de junho a 1º de julho</strong> as inscrições de projetos para o <strong>12º Encontro das Atividades Formativas (ENAF)</strong>, a ser realizado de 7 a 11 d...</p>
+<h3 class="h3"><a href="noticias.php?id=120" ><br />Saiba Mais +</a></h3>
+  </div>
+      </div>
+  
+  
+  
+  <div id="linha"></div>
+     <h1><img src="images/home/eventostitle_03.gif"  style=" padding:0px 0px 0px 10px;"/></h1>
+
+<!--CALENDARIO E EVENTOS-->
+      <div id="calendarioeventos">
+  <div id="eventoshome">
+    
+  <!--/*<img src="admin/eventos/arquivos/" />*/-->
+  <p class="texto"  > 
+	<strong>NO MOMENTO NÃO ESTAMOS FAZENDO INSCRIÇÕES DE NENHUM EVENTO POR ESTE SITE.</strong>
+
+	<a href="http://www.siepe.ufpr.br/">
+	</a>
+
+	 
+</p>
+  <h3 class="h3" > <a href="eventos.php?id=63" > Saiba Mais +</a></h3>
+    
+  <div class="manual">
+ <a href="download/manual_2010_color.pdf" target="_blank">
+ <img src="images/home/manual10.jpg" alt="Manual do Aluno" title="Download Manual do Aluno." style="text-decoration:none;"/>
+</a> 
+  </div>
+  </div>
+  	<div id="calendario">
+          	<div id="calback">
+            	<div id="calendar"></div>
+       		</div> 
+	</div>
+    <script type="text/javascript">navigate('','','');</script>
+</div>
+</div>
+
+<!--RODAPE-->
+
+</div>
+</div>
+<div id="rodape">
+     
+      <p class="textorodape">Pra&ccedil;a Santos Andrade, n&ordm; 50 - CEP 80.020-300 - Curitiba/PR - Telefones: (41) 3310-2767 - Fax: 2759</p>
+    
+</div>
+</div>
+  
+</body>
+</html>
+
+</html>

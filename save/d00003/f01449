@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=us-ascii" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<link rel="stylesheet" href="/~kazu/green.css" type="text/css" media="all" />
+<script type="text/javascript" src="/~kazu/menu.js"></script>
+<script type="text/javascript" src="submenu.js"></script>
+<title>Receiver Policy Framework (RPF)</title></head>
+<body onload="Submenu.create()">
+<div id="main">
+
+<h1>Receiver Policy Framework (RPF)</h1>
+<div class="right">
+<p>Author: Kazu Yamamoto<br />
+<a href="http://hackage.haskell.org/package/rpf">The latest version</a></p>
+</div>
+<p>Receiver Policy Framework (RPF) is a <a href="https://www.milter.org/">Milter</a> program to change actions of e-mail receiver side according to results of the anti-spam technologies.</p>
+<p>It supports IP/Domain based filtering, SPF(Sender Policy Framework), SenderID, DomainKeys, and DKIM.</p>
+<p>RPF provides a language to describe policy. Here is an example:</p>
+<pre>
+// #ip
+connect {
+    accept: #ip == 127.0.0.1;
+    continue;
+}
+
+// #spf, #mail_from
+mail_from {
+    accept: #spf == pass;
+    continue;
+}
+
+// #from, #pra, #sender_id, #dkim_from, #domainkeys_from,
+// #sig_dkim, #sig_domainkeys
+header {
+    accept: #sender_id == pass;
+    reject: #mail_from == &quot;yahoo.com&quot; &amp;&amp; #sig_domainkeys == No;
+    continue;
+}
+
+// #dkim, #domainkeys
+body {
+    accept: #dkim == pass;
+    accept: #domainkeys == pass;
+    continue;
+}
+</pre>
+<p>RPF is implemented against solve the dilemma of the anti-spam technologies. That is, SPF/Sender-ID is strong against ML but weak against forwarding while DomainKeys/DKIM is strong against forwarding but weak against ML. So, e-mail receiver would implement policy such that either result of SPF/Sender-ID or that of DomainKeys/DKIM is PASS, the server accepts the message.</p>
+<p>RPF is written in <a href="http://www.haskell.org/">Haskell</a> without using libmilter. Comments, requests, and/or bug reports should be posted to <a href="http://github.com/kazu-yamamoto/rpf/issues">github</a>.</p>
+
+</div>
+<div id="submenu"></div>
+</body>
+</html>

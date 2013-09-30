@@ -1,0 +1,575 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #47016:
+SCI interrupt storm                                                                                                             
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #47016</h1>
+
+<pre>
+From www@NetBSD.org  Sat Sep 29 09:43:20 2012
+Return-Path: &lt;www@NetBSD.org&gt;
+Received: from mail.netbsd.org (mail.netbsd.org [149.20.53.66])
+	by www.NetBSD.org (Postfix) with ESMTP id D72E763E46D
+	for &lt;gnats-bugs@gnats.NetBSD.org&gt;; Sat, 29 Sep 2012 09:43:20 +0000 (UTC)
+Message-Id: &lt;20120929094318.8826863D798@www.NetBSD.org&gt;
+Date: Sat, 29 Sep 2012 09:43:18 +0000 (UTC)
+From: qfh02545@nifty.com
+Reply-To: qfh02545@nifty.com
+To: gnats-bugs@NetBSD.org
+Subject: SCI interrupt storm
+X-Send-Pr-Version: www-1.0
+
+
+<b>&gt;Number:</b>         47016
+<b>&gt;Category:</b>       port-amd64
+<b>&gt;Synopsis:</b>       SCI interrupt storm
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       serious
+<b>&gt;Priority:</b>       high
+<b>&gt;Responsible:</b>    chs
+<b>&gt;State:</b>          open
+<b>&gt;Class:</b>          sw-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Sat Sep 29 09:45:01 +0000 2012
+<b>&gt;Last-Modified:</b>  Sun Mar 31 20:35:01 +0000 2013
+<b>&gt;Originator:</b>     HITOSHI OSADA
+<b>&gt;Release:</b>        NetBSD-current (20120929)
+<b>&gt;Organization:</b>
+<b>&gt;Environment:</b>
+NetBSD amd785g 6.99.11 NetBSD 6.99.11 (GENERIC) #0: Sat Sep 29 18:05:23 JST 2012  that@amd785g:/NetBSD-obj/src-obj-that/sys/arch/amd64/compile/GENERIC amd64
+
+
+<b>&gt;Description:</b>
+SCI interrupt strom occured at very recent kernel.
+The kernel build around Sep 9 has no problem.
+
+
+vmstat -e:
+
+
+event                                         total     rate type
+bus_dma loads                                  5166       12 misc
+bus_dma nbouncebufs                              45        0 misc
+vmcmd kills                                     295        0 misc
+vmcmd extends                                    28        0 misc
+vmcmd calls                                    2546        5 misc
+vmemev bt_inuse                                 552        1 misc
+vmemev bt_count                                 638        1 misc
+vmemev bt_pages                                   6        0 misc
+TLB shootdown                                  4153        9 intr
+cpu0 runqueue pull                               29        0 misc
+cpu0 runqueue push                               38        0 misc
+cpu0 runqueue stay                             6241       14 misc
+cpu0 runqueue localize                          438        1 misc
+softint net/0                                   381        0 misc
+softint net block/0                               1        0 misc
+softint bio/0                                  5023       11 misc
+softint bio block/0                               7        0 misc
+softint clk/0                                  7315       17 misc
+softint ser/0                                     7        0 misc
+callout late/0                                    3        0 misc
+crosscall unicast                                 6        0 misc
+crosscall broadcast                              84        0 misc
+namecache entries collected                    2299        5 misc
+namecache under scan target                     430        1 misc
+cpu0 timer                                    42872      100 intr
+cpu0 MTRR update IPI                              7        0 misc
+cpu1 runqueue pull                                9        0 misc
+cpu1 runqueue push                               88        0 misc
+cpu1 runqueue stay                             5941       13 misc
+cpu1 runqueue localize                          850        1 misc
+softint net/1                                     2        0 misc
+softint net block/1                               2        0 misc
+softint clk/1                                  2909        6 misc
+cpu1 timer                                    42872      100 misc
+cpu1 FPU synch IPI                                2        0 misc
+cpu1 MTRR update IPI                              9        0 misc
+ioapic0 pin 9                              69124265   161505 intr
+ioapic0 pin 1                                  1030        2 intr
+ioapic0 pin 18                                  442        1 intr
+ioapic0 pin 22                                 4834       11 intr
+ioapic0 pin 16                                   52        0 intr
+ioapic0 pin 17                                    1        0 intr
+ioapic0 pin 4                                     8        0 intr
+acpicpu0 C1 (HALT)                         33924519    79262 misc
+acpicpu0 P0 (3000 MHz)                           40        0 misc
+acpicpu0 P1 (2300 MHz)                           10        0 misc
+acpicpu0 P2 (1800 MHz)                           10        0 misc
+acpicpu0 P3 (800 MHz)                            20        0 misc
+acpicpu1 C1 (HALT)                            49794      116 misc
+acpicpu1 P0 (3000 MHz)                           40        0 misc
+acpicpu1 P1 (2300 MHz)                           10        0 misc
+acpicpu1 P2 (1800 MHz)                           10        0 misc
+acpicpu1 P3 (800 MHz)                            20        0 misc
+kpreempt defer: kernel_lock                       1        0 misc
+kpreempt immediate                                7        0 misc
+
+
+dmesg:
+
+
+Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
+    2006, 2007, 2008, 2009, 2010, 2011, 2012
+    The NetBSD Foundation, Inc.  All rights reserved.
+Copyright (c) 1982, 1986, 1989, 1991, 1993
+    The Regents of the University of California.  All rights reserved.
+
+
+NetBSD 6.99.11 (GENERIC) #0: Sat Sep 29 18:05:23 JST 2012
+	that@amd785g:/NetBSD-obj/src-obj-that/sys/arch/amd64/compile/GENERIC
+total memory = 3838 MB
+avail memory = 3710 MB
+timecounter: Timecounters tick every 10.000 msec
+timecounter: Timecounter &quot;i8254&quot; frequency 1193182 Hz quality 100
+To Be Filled By O.E.M. To Be Filled By O.E.M. (To Be Filled By O.E.M.)
+mainbus0 (root)
+ACPI Warning: Optional field Pm2ControlBlock has zero address or length: 0x0000000000000000/0x1 (20110623/tbfadt-586)
+cpu0 at mainbus0 apid 0: AMD Athlon(tm) II X2 250 Processor, id 0x100f62
+cpu1 at mainbus0 apid 1: AMD Athlon(tm) II X2 250 Processor, id 0x100f62
+ioapic0 at mainbus0 apid 2: pa 0xfec00000, version 21, 24 pins
+acpi0 at mainbus0: Intel ACPICA 20110623
+acpi0: X/RSDT: OemId &lt;042010,RSDT1216,20100420&gt;, AslId &lt;MSFT,00000097&gt;
+acpi0: SCI interrupting at int 9
+timecounter: Timecounter &quot;ACPI-Fast&quot; frequency 3579545 Hz quality 1000
+hpet0 at acpi0: high precision event timer (mem 0xfed00000-0xfed00400)
+timecounter: Timecounter &quot;hpet0&quot; frequency 14318180 Hz quality 2000
+BROD (PNP0C02) at acpi0 not configured
+attimer1 at acpi0 (TMR, PNP0100): io 0x40-0x43 irq 0
+pcppi1 at acpi0 (SPKR, PNP0800): io 0x61
+midi0 at pcppi1: PC speaker
+sysbeep0 at pcppi1
+OMSC (PNP0C02) at acpi0 not configured
+RMSC (PNP0C02) at acpi0 not configured
+pckbc1 at acpi0 (PS2K, PNP0303) (kbd port): io 0x60,0x64 irq 1
+UAR1 (PNP0501) at acpi0 not configured
+SIOR (PNP0C02) at acpi0 not configured
+PCIE (PNP0C02) at acpi0 not configured
+RMEM (PNP0C01) at acpi0 not configured
+acpibut0 at acpi0 (PWRB, PNP0C0C-170): ACPI Power Button
+acpiwmi0 at acpi0 (AOD, PNP0C14-0): ACPI WMI Interface
+acpiwmibus at acpiwmi0 not configured
+attimer1: attached to pcppi1
+pckbd0 at pckbc1 (kbd slot)
+pckbc1: using irq 1 for kbd slot
+wskbd0 at pckbd0: console keyboard
+pci0 at mainbus0 bus 0: configuration mode 1
+pci0: i/o space, memory space enabled, rd/line, rd/mult, wr/inv ok
+pchb0 at pci0 dev 0 function 0: vendor 0x1022 product 0x9601 (rev. 0x00)
+ppb0 at pci0 dev 1 function 0: vendor 0x1849 product 0x9602 (rev. 0x00)
+pci1 at ppb0 bus 1
+pci1: i/o space, memory space enabled
+vga0 at pci1 dev 5 function 0: vendor 0x1002 product 0x9710 (rev. 0x00)
+wsdisplay0 at vga0 kbdmux 1: console (80x25, vt100 emulation), using wskbd0
+wsmux1: connecting to wsdisplay0
+radeondrm0 at vga0: ATI Radeon HD 4200
+radeondrm0: Initialized radeon 1.29.0 20080613
+ppb1 at pci0 dev 10 function 0: vendor 0x1022 product 0x9609 (rev. 0x00)
+ppb1: PCI Express 2.0 &lt;Root Port of PCI-E Root Complex&gt;
+pci2 at ppb1 bus 2
+pci2: i/o space, memory space enabled, rd/line, wr/inv ok
+re0 at pci2 dev 0 function 0: RealTek 8168/8111 PCIe Gigabit Ethernet (rev. 0x03)
+re0: interrupting at ioapic0 pin 18
+re0: Ethernet address 00:19:66:ef:3d:71
+re0: using 256 tx descriptors
+rgephy0 at re0 phy 7: RTL8169S/8110S/8211 1000BASE-T media interface, rev. 2
+rgephy0: 10baseT, 10baseT-FDX, 100baseTX, 100baseTX-FDX, 1000baseT, 1000baseT-FDX, auto
+ahcisata0 at pci0 dev 17 function 0: vendor 0x1002 product 0x4391 (rev. 0x00)
+ahcisata0: interrupting at ioapic0 pin 22
+ahcisata0: 64-bit DMA
+ahcisata0: AHCI revision 1.10, 6 ports, 32 slots, CAP 0xf722ff85&lt;CCCS,PSC,SSC,PMD,SPM,ISS=0x2=Gen2,SCLO,SAL,SALP,SMPS,SSNTF,SNCQ,S64A&gt;
+atabus0 at ahcisata0 channel 0
+atabus1 at ahcisata0 channel 1
+atabus2 at ahcisata0 channel 2
+atabus3 at ahcisata0 channel 3
+atabus4 at ahcisata0 channel 4
+atabus5 at ahcisata0 channel 5
+ohci0 at pci0 dev 18 function 0: vendor 0x1002 product 0x4397 (rev. 0x00)
+ohci0: interrupting at ioapic0 pin 16
+ohci0: OHCI version 1.0, legacy support
+usb0 at ohci0: USB revision 1.0
+ohci1 at pci0 dev 18 function 1: vendor 0x1002 product 0x4398 (rev. 0x00)
+ohci1: interrupting at ioapic0 pin 16
+ohci1: OHCI version 1.0, legacy support
+usb1 at ohci1: USB revision 1.0
+ehci0 at pci0 dev 18 function 2: vendor 0x1002 product 0x4396 (rev. 0x00)
+ehci0: interrupting at ioapic0 pin 17
+ehci0: dropped intr workaround enabled
+ehci0: EHCI version 1.0
+ehci0: companion controllers, 3 ports each: ohci0 ohci1
+usb2 at ehci0: USB revision 2.0
+ohci2 at pci0 dev 19 function 0: vendor 0x1002 product 0x4397 (rev. 0x00)
+ohci2: interrupting at ioapic0 pin 18
+ohci2: OHCI version 1.0, legacy support
+usb3 at ohci2: USB revision 1.0
+ohci3 at pci0 dev 19 function 1: vendor 0x1002 product 0x4398 (rev. 0x00)
+ohci3: interrupting at ioapic0 pin 18
+ohci3: OHCI version 1.0, legacy support
+usb4 at ohci3: USB revision 1.0
+ehci1 at pci0 dev 19 function 2: vendor 0x1002 product 0x4396 (rev. 0x00)
+ehci1: interrupting at ioapic0 pin 19
+ehci1: dropped intr workaround enabled
+ehci1: EHCI version 1.0
+ehci1: companion controllers, 3 ports each: ohci2 ohci3
+usb5 at ehci1: USB revision 2.0
+piixpm0 at pci0 dev 20 function 0: vendor 0x1002 product 0x4385 (rev. 0x3c)
+piixpm0: interrupting at SMI, polling
+iic0 at piixpm0: I2C bus
+ixpide0 at pci0 dev 20 function 1: ATI Technologies IXP IDE Controller (rev. 0x00)
+ixpide0: bus-master DMA support present
+ixpide0: primary channel configured to compatibility mode
+ixpide0: primary channel interrupting at ioapic0 pin 14
+atabus6 at ixpide0 channel 0
+ixpide0: secondary channel configured to compatibility mode
+ixpide0: secondary channel interrupting at ioapic0 pin 15
+atabus7 at ixpide0 channel 1
+hdaudio0 at pci0 dev 20 function 2: HD Audio Controller
+hdaudio0: interrupting at ioapic0 pin 16
+hdafg0 at hdaudio0: Realtek ALC888
+hdafg0: DAC00 8ch: Speaker [Jack]
+hdafg0: DAC01 2ch: HP Out [Jack]
+hdafg0: DIG02 2ch: SPDIF Out [Jack &amp; Built-In]
+hdafg0: ADC03 2ch: Line In [Jack], Mic In [Jack]
+hdafg0: ADC04 2ch: Mic In [Jack]
+hdafg0: 8ch/2ch 44100Hz 48000Hz 96000Hz 192000Hz PCM16 PCM20 PCM24 AC3
+audio0 at hdafg0: full duplex, playback, capture, independent
+pcib0 at pci0 dev 20 function 3: vendor 0x1002 product 0x439d (rev. 0x00)
+ppb2 at pci0 dev 20 function 4: vendor 0x1002 product 0x4384 (rev. 0x00)
+pci3 at ppb2 bus 3
+pci3: i/o space, memory space enabled
+ohci4 at pci0 dev 20 function 5: vendor 0x1002 product 0x4399 (rev. 0x00)
+ohci4: interrupting at ioapic0 pin 18
+ohci4: OHCI version 1.0, legacy support
+usb6 at ohci4: USB revision 1.0
+pchb1 at pci0 dev 24 function 0: vendor 0x1022 product 0x1200 (rev. 0x00)
+pchb2 at pci0 dev 24 function 1: vendor 0x1022 product 0x1201 (rev. 0x00)
+pchb3 at pci0 dev 24 function 2: vendor 0x1022 product 0x1202 (rev. 0x00)
+amdnb_misc0 at pci0 dev 24 function 3: AMD NB Misc Configuration
+amdtemp0 at amdnb_misc0: AMD CPU Temperature Sensors (Family10h)
+pchb4 at pci0 dev 24 function 4: vendor 0x1022 product 0x1204 (rev. 0x00)
+isa0 at pcib0
+com0 at isa0 port 0x3f8-0x3ff irq 4: ns16550a, working fifo
+acpicpu0 at cpu0: ACPI CPU
+acpicpu0: C1: HLT, lat   0 us, pow     0 mW
+acpicpu0: P0: FFH, lat   4 us, pow 30375 mW, 3000 MHz
+acpicpu0: P1: FFH, lat   4 us, pow 25500 mW, 2300 MHz
+acpicpu0: P2: FFH, lat   4 us, pow 21735 mW, 1800 MHz
+acpicpu0: P3: FFH, lat   4 us, pow  7900 mW,  800 MHz
+acpicpu0: T0: I/O, lat   1 us, pow     0 mW, 100 %
+acpicpu0: T1: I/O, lat   1 us, pow     0 mW,  88 %
+acpicpu0: T2: I/O, lat   1 us, pow     0 mW,  76 %
+acpicpu0: T3: I/O, lat   1 us, pow     0 mW,  64 %
+acpicpu0: T4: I/O, lat   1 us, pow     0 mW,  52 %
+acpicpu0: T5: I/O, lat   1 us, pow     0 mW,  40 %
+acpicpu0: T6: I/O, lat   1 us, pow     0 mW,  28 %
+acpicpu0: T7: I/O, lat   1 us, pow     0 mW,  16 %
+acpicpu1 at cpu1: ACPI CPU
+timecounter: Timecounter &quot;clockinterrupt&quot; frequency 100 Hz quality 0
+timecounter: Timecounter &quot;TSC&quot; frequency 2993507660 Hz quality 3000
+uhub0 at usb0: vendor 0x1002 OHCI root hub, class 9/0, rev 1.00/1.00, addr 1
+uhub0: 3 ports with 3 removable, self powered
+uhub1 at usb1: vendor 0x1002 OHCI root hub, class 9/0, rev 1.00/1.00, addr 1
+uhub1: 3 ports with 3 removable, self powered
+uhub2 at usb2: vendor 0x1002 EHCI root hub, class 9/0, rev 2.00/1.00, addr 1
+uhub2: 6 ports with 6 removable, self powered
+uhub3 at usb3: vendor 0x1002 OHCI root hub, class 9/0, rev 1.00/1.00, addr 1
+uhub3: 3 ports with 3 removable, self powered
+uhub4 at usb4: vendor 0x1002 OHCI root hub, class 9/0, rev 1.00/1.00, addr 1
+uhub4: 3 ports with 3 removable, self powered
+uhub5 at usb5: vendor 0x1002 EHCI root hub, class 9/0, rev 2.00/1.00, addr 1
+uhub5: 6 ports with 6 removable, self powered
+uhub6 at usb6: vendor 0x1002 OHCI root hub, class 9/0, rev 1.00/1.00, addr 1
+uhub6: 2 ports with 2 removable, self powered
+ahcisata0 port 0: device present, speed: 3.0Gb/s
+ahcisata0 port 1: device present, speed: 3.0Gb/s
+ahcisata0 port 2: device present, speed: 3.0Gb/s
+ehci0: handing over low speed device on port 6 to ohci1
+wd0 at atabus0 drive 0
+wd0: &lt;INTEL SSDSA2M080G2GC&gt;
+wd0: drive supports 16-sector PIO transfers, LBA48 addressing
+wd0: 76319 MB, 155061 cyl, 16 head, 63 sec, 512 bytes/sect x 156301488 sectors
+wd0: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+wd0(ahcisata0:0:0): using PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133) (using DMA)
+wd1 at atabus1 drive 0
+wd1: &lt;WDC WD10EADS-00L5B1&gt;
+wd1: drive supports 16-sector PIO transfers, LBA48 addressing
+wd1: 931 GB, 1938021 cyl, 16 head, 63 sec, 512 bytes/sect x 1953525168 sectors
+wd1: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+wd1(ahcisata0:1:0): using PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133) (using DMA)
+wd2 at atabus2 drive 0
+wd2: &lt;WDC WD10EACS-00ZJB0&gt;
+wd2: drive supports 16-sector PIO transfers, LBA48 addressing
+wd2: 931 GB, 1938021 cyl, 16 head, 63 sec, 512 bytes/sect x 1953525168 sectors
+wd2: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+wd2(ahcisata0:2:0): using PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133) (using DMA)
+Kernelized RAIDframe activated
+pad0: outputs: 44100Hz, 16-bit, stereo
+audio1 at pad0: half duplex, playback, capture
+boot device: wd0
+root on wd0a dumps on wd0b
+root file system type: ffs
+warning: no /dev/console
+uhidev0 at uhub1 port 3 configuration 1 interface 0
+uhidev0: Logitech USB Trackball, rev 1.10/14.00, addr 2, iclass 3/1
+ums0 at uhidev0: 5 buttons
+wsmouse0 at ums0 mux 0
+cprng sysctl: WARNING pseudorandom rekeying.
+wsdisplay0: screen 1 added (80x25, vt100 emulation)
+wsdisplay0: screen 2 added (80x25, vt100 emulation)
+wsdisplay0: screen 3 added (80x25, vt100 emulation)
+wsdisplay0: screen 4 added (80x25, vt100 emulation)
+
+
+
+
+
+
+<b>&gt;How-To-Repeat:</b>
+
+
+<b>&gt;Fix:</b>
+
+
+<b>&gt;Release-Note:</b>
+
+
+<b>&gt;Audit-Trail:</b>
+
+
+Responsible-Changed-From-To: port-amd64-maintainer-&gt;chs
+Responsible-Changed-By: chs@NetBSD.org
+Responsible-Changed-When: Sat, 29 Sep 2012 18:27:27 +0000
+Responsible-Changed-Why:
+must be due to my recent changes.
+
+
+
+
+From: &quot;Chuck Silvers&quot; &lt;chs@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47016 CVS commit: src/sys/arch/x86/x86
+Date: Wed, 3 Oct 2012 17:04:25 +0000
+
+
+ Module Name:	src
+ Committed By:	chs
+ Date:		Wed Oct  3 17:04:25 UTC 2012
+
+ 
+ Modified Files:
+ 	src/sys/arch/x86/x86: mpacpi.c
+
+ 
+ Log Message:
+ as a workaround for PR 47016, call ioapic_reenable() at the end of
+ ACPI interrupt routing to fix the settings for the SCI interrupt.
+ the problem is that after my recent changes, the SCI handler is
+ installed before the MADT info is parsed, so we don't know what
+ polarity it should have.  the real fix for this will be to rearrange
+ the ACPI initialization so that everything is done in a more sensible
+ order, but that will take some more time.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.95 -r1.96 src/sys/arch/x86/x86/mpacpi.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47016 CVS commit: [netbsd-6] src/sys
+Date: Thu, 22 Nov 2012 00:39:01 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Thu Nov 22 00:39:01 UTC 2012
+
+ 
+ Modified Files:
+ 	src/sys/arch/ia64/acpi [netbsd-6]: acpi_machdep.c
+ 	src/sys/arch/ia64/include [netbsd-6]: acpi_machdep.h
+ 	src/sys/arch/x86/acpi [netbsd-6]: acpi_machdep.c
+ 	src/sys/arch/x86/include [netbsd-6]: acpi_machdep.h
+ 	src/sys/arch/x86/x86 [netbsd-6]: mpacpi.c
+ 	src/sys/dev/acpi [netbsd-6]: acpi.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by chs in ticket #683):
+ 	sys/arch/ia64/include/acpi_machdep.h: revision 1.6
+ 	sys/arch/x86/include/acpi_machdep.h: revision 1.11
+ 	sys/dev/acpi/acpi.c: revision 1.255
+ 	sys/arch/x86/acpi/acpi_machdep.c: revision 1.4
+ 	sys/arch/x86/x86/mpacpi.c: revision 1.95
+ 	sys/arch/x86/x86/mpacpi.c: revision 1.96
+ 	sys/arch/ia64/acpi/acpi_machdep.c: revision 1.6
+ locate PCI buses and determine their bus numbers using the info
+ previously extracted from ACPICA rather than trying to figure it out again.
+ allow PCI buses that don't have a _PRT method.
+ as a workaround for PR 47016, call ioapic_reenable() at the end of
+ ACPI interrupt routing to fix the settings for the SCI interrupt.
+ the problem is that after my recent changes, the SCI handler is
+ installed before the MADT info is parsed, so we don't know what
+ polarity it should have.  the real fix for this will be to rearrange
+ the ACPI initialization so that everything is done in a more sensible
+ order, but that will take some more time.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.5 -r1.5.8.1 src/sys/arch/ia64/acpi/acpi_machdep.c
+ cvs rdiff -u -r1.5 -r1.5.8.1 src/sys/arch/ia64/include/acpi_machdep.h
+ cvs rdiff -u -r1.3 -r1.3.2.1 src/sys/arch/x86/acpi/acpi_machdep.c
+ cvs rdiff -u -r1.10 -r1.10.8.1 src/sys/arch/x86/include/acpi_machdep.h
+ cvs rdiff -u -r1.92 -r1.92.8.1 src/sys/arch/x86/x86/mpacpi.c
+ cvs rdiff -u -r1.252 -r1.252.6.1 src/sys/dev/acpi/acpi.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Chuck Silvers&quot; &lt;chs@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47016 CVS commit: src/sys/arch/x86/acpi
+Date: Sun, 31 Mar 2013 19:34:25 +0000
+
+
+ Module Name:	src
+ Committed By:	chs
+ Date:		Sun Mar 31 19:34:25 UTC 2013
+
+ 
+ Modified Files:
+ 	src/sys/arch/x86/acpi: acpi_machdep.c
+
+ 
+ Log Message:
+ yet more fixes for PR 47648 / PR 47016:
+ when using a temporary mp_intr_map, initialize the &quot;flags&quot; field
+ as well as &quot;redir&quot; since apic_set_redir() uses both.  fix how
+ the flags field is change when applying an override, the trigger
+ and polarity sub-fields aren't just one bit like they are in redir.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.5 -r1.6 src/sys/arch/x86/acpi/acpi_machdep.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47016 CVS commit: [netbsd-6] src/sys/arch/x86
+Date: Sun, 31 Mar 2013 20:32:02 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Sun Mar 31 20:32:01 UTC 2013
+
+ 
+ Modified Files:
+ 	src/sys/arch/x86/acpi [netbsd-6]: acpi_machdep.c
+ 	src/sys/arch/x86/x86 [netbsd-6]: mpacpi.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by chs in ticket #855):
+ 	sys/arch/x86/acpi/acpi_machdep.c: revision 1.5
+ 	sys/arch/x86/acpi/acpi_machdep.c: revision 1.6
+ 	sys/arch/x86/x86/mpacpi.c: revision 1.97
+ redo the ACPI interrupt handler setup again, this time handling
+ MADT overrides that change the pin as well as the polarity.
+ fixes PR 47648.
+ yet more fixes for PR 47648 / PR 47016:
+ when using a temporary mp_intr_map, initialize the &quot;flags&quot; field
+ as well as &quot;redir&quot; since apic_set_redir() uses both.  fix how
+ the flags field is change when applying an override, the trigger
+ and polarity sub-fields aren't just one bit like they are in redir.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.3.2.1 -r1.3.2.2 src/sys/arch/x86/acpi/acpi_machdep.c
+ cvs rdiff -u -r1.92.8.1 -r1.92.8.2 src/sys/arch/x86/x86/mpacpi.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+<b>&gt;Unformatted:</b>
+
+ 
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

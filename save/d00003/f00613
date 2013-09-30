@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="Jan-Piet Mens" />
+        <meta name="ICBM" content="52.0341, 8.4772" />
+	<link rel="apple-touch-icon" href="/inc/apple-touch-icon.png" />
+        <meta name="geo.position" content="52.0341;8.4772" />
+        <link rel="pavatar" href="http://jpmens.net/inc/pavatar.png" />
+        <meta name="DC.title" content="Jan-Piet Mens" />    
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@jpmens" />
+	<meta name="keywords" content="jpmens,jan-piet mens,jpm" /> 
+	<link rel="icon" href="/favicon.ico" type="image/x-icon" /> 
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> 
+	<meta name="google-site-verification" content="eOAtwQVe63Q3l-kJrBJQR8fsP_AqstRj-9lw3kx92tM" />
+	<link rel="alternate" type="application/atom+xml" title="Atom all posts" href="/atom.xml" />
+
+	<link rel="stylesheet" href="/css/style.css" type="text/css"/>
+	<link rel="stylesheet" href="/css/syntax.css" type="text/css"/>
+	<script type="text/javascript" src="/inc/jquery-min.js"></script>
+	<script type="text/javascript" src="/inc/jpmens.js"></script>
+	<script type="text/javascript" src="/inc/dnssecmagic.js"></script>
+
+	
+		<title>Jan-Piet Mens :: DNSMASQ tips</title>
+		<meta name="twitter:url" content="http://jpmens.net/pages/dns/dnsmasq-tips/" />
+		<meta name="twitter:title" content="DNSMASQ tips" />
+		<meta name="twitter:description" 
+			
+			  content="You'll find a whole chapter on dnsmasq in my book Alternative DNS
+Servers. The program has evolved a bit since the book was published, and
+Stefan Rubner found some new features. This is his report...."
+			
+			/>
+	
+
+</head>
+<body>
+        <div id="header">
+            <div class="inner">
+		<div class='mygrep'>
+                <ul>
+			<li><span id='dnssecmagic'></span></li>
+			<li><span id='ipmagic'></span></li>
+			<li><a href="/atom.xml" ><img src="/inc/feed.png" width="16" height="16" alt="Atom" /></a></li>
+                    <li>
+                          <a title="grep" href='#' class='greplink'>Search</a>
+                          <div class='form'>
+                            <form id='qform' action="http://www.google.com/cse" method="get">
+                              <input type="hidden" name="cx" value="018110282457752677189:f9v9jgssdag" />
+                              <input type="hidden" name="ie" value="UTF-8" />
+                              <input id='grepfield' type="text" name="q" size="6" />
+                              <input type="hidden" name="sa" value="Search" />
+                            </form>
+                          </div>
+                    </li>
+                    <li><a title="more" href="/pages/index.html">Pages</a></li>
+                    <li><a title="ls -l" href="/archive/">Archives</a></li>
+		    <li><a title="Twitter" href="https://twitter.com/jpmens">@jpmens</a></li>
+                    <li>
+		         <a href="https://plus.google.com/107349548255760539356?rel=author">+</a>
+		    	<a title="whoami" href="/pages/about/">About</a></li>
+                </ul>
+		</div>
+                <h1><a href="/">Jan-Piet Mens</a></h1>
+            </div>
+        </div>
+
+
+
+
+
+        <div id="content">  
+	    <div id='searchres' class="inner">
+		<div class="post" id="">
+		    <div class="title"><h1><a href="/pages/dns/dnsmasq-tips/">DNSMASQ tips</a></h1></div>
+		    <p>You'll find a whole chapter on <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a> in my book <a href="/2010/10/29/alternative-dns-servers-the-book-as-pdf/">Alternative DNS
+Servers</a>. The program has evolved a bit since the book was published, and
+Stefan Rubner found some new features. This is his report.</p>
+
+<h3>Unknown Hosts</h3>
+
+<p>After having set up your Dnsmasq environment and painstakingly having added
+your DHCP definitions and (re)started Dnsmasq, you will most likely discover a
+little problem there: Dnsmasq will only resolve hosts that are in your DHCP
+definitions <em>and</em> have requested an IP address from Dnsmasq already.</p>
+
+<p>Now one could of course add all these hosts to <code>/etc/hosts</code> manually. Well,
+if you're in for some additional typing exercise, there you go. For all others
+I wrote a little Perl script that'll do the job by reading and parsing the
+dhcp-host definitions in Dnsmasq's config file:</p>
+
+<div class="highlight"><pre><code class="perl"><span class="c1">#!/usr/bin/perl -w</span>
+<span class="c1">#-----------------------------------------------------#</span>
+<span class="c1"># dnsmasq_gen_hostlist.pl                             #</span>
+<span class="c1"># Generate a host compatible list of host entries     #</span>
+<span class="c1"># from Dnsmasq&#39;s dhcp-host definitions                #</span>
+<span class="c1">#-----------------------------------------------------#</span>
+<span class="c1"># Authors                                             #</span>
+<span class="c1"># (sru) Stefan Rubner &lt;stefan at whocares.de&gt;         #</span>
+<span class="c1">#-----------------------------------------------------#</span>
+<span class="c1"># Revision History                                    #</span>
+<span class="c1"># 0.1.0 (sru) First implementation                    #</span>
+<span class="c1">#-----------------------------------------------------#</span>
+<span class="c1"># Usage                                               #</span>
+<span class="c1"># dnsmasq_gen_hostlist.pl &lt;infile&gt; &gt; &lt;outfile&gt;        #</span>
+<span class="c1">#                                                     #</span>
+<span class="c1"># If &lt;outfile&gt; is omitted the results are printed to  #</span>
+<span class="c1"># STDOUT.                                             #</span>
+<span class="c1">#-----------------------------------------------------#</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nv">$ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+  <span class="k">print</span> <span class="s">&quot;\nUsage:\n&quot;</span><span class="p">;</span>
+  <span class="k">print</span> <span class="s">&quot;$0 &lt;infile&gt; &gt; &lt;outfile&gt;\n\n&quot;</span><span class="p">;</span>
+  <span class="k">print</span> <span class="s">&quot;If &lt;outfile&gt; is omitted the results are printed to STDOUT.\n\n&quot;</span><span class="p">;</span>
+  <span class="nb">exit</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nv">$conf</span> <span class="o">=</span> <span class="nv">$ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+<span class="k">my</span> <span class="nv">%data</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="o">&lt;&gt;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">next</span> <span class="k">if</span> <span class="sr">/^\s*($|#)/</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span> <span class="o">=~</span><span class="sr"> /^(dhcp-host).*[=,]([a-zA-Z0-9\-_]+),([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*),/</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="c1"># print &quot;Host found: $1 ($2 -&gt; $3)\n&quot;;</span>
+    <span class="nv">$data</span><span class="p">{</span><span class="nv">$2</span><span class="p">}</span> <span class="o">=</span> <span class="s">&quot;$3\t$2&quot;</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">elsif</span> <span class="p">(</span><span class="nv">$_</span> <span class="o">=~</span><span class="sr"> /^cname=([a-zA-Z0-9\-_]+),([a-zA-Z0-9\-_]+)/</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1"># print &quot;  Cname found: $2 -&gt; $1\n&quot;;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$data</span><span class="p">{</span><span class="nv">$2</span><span class="p">})</span> <span class="p">{</span>
+      <span class="nv">$data</span><span class="p">{</span><span class="nv">$2</span><span class="p">}</span> <span class="o">.=</span> <span class="s">&quot; $1&quot;</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">print</span> <span class="s">&quot;# FIXME FIXME FIXME\n&quot;</span><span class="p">;</span>
+      <span class="k">print</span> <span class="s">&quot;# Definition of CNAME $1 for host $2 before host was defined!\n&quot;</span><span class="p">;</span>
+      <span class="k">print</span> <span class="s">&quot;# Please fix your configuration file $conf!!\n&quot;</span><span class="p">;</span>
+      <span class="k">print</span> <span class="s">&quot;# FIXME FIXME FIXME\n&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">foreach</span> <span class="nv">$records</span> <span class="p">(</span><span class="nb">sort</span> <span class="nb">keys</span> <span class="nv">%data</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">print</span> <span class="s">&quot;$data{$records}\n&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+<p>Say you have your main Dnsmasq config in <code>/etc/dnsmasq/dnamasq.conf</code>. To make
+use of the script above, just add a line at the very end (or anyplace else you
+deem fit):</p>
+
+<div class="highlight"><pre><code class="text">addn-hosts=/etc/dnsmasq/dnsmasq.hosts-dynamic
+</code></pre>
+</div>
+
+
+<p>To generate the file you just told Dnsmasq to use as additional hosts resource, call</p>
+
+<div class="highlight"><pre><code class="bash">./dnsmasq_gen_hostlist.pl /etc/dnsmasq/dnsmasq.conf &gt; /etc/dnsmasq/dnsmasq.hosts-dynamic
+</code></pre>
+</div>
+
+
+<p>For convenience, just add that to Dnsmasq's startup script ;) (Adapt and
+modify as needed, of course)</p>
+
+<h3>Same IP for multi-connected host</h3>
+
+<p>One of the coolest new features available since Dnsmasq 2.46 is the ability to
+offer the same IP address to clients with different MAC addresses. From the
+docs:</p>
+
+<div class="highlight"><pre><code class="text"># Give a host with ethernet address 11:22:33:44:55:66 or              
+# 12:34:56:78:90:12 the IP address 192.168.0.60. Dnsmasq will assume  
+# that these two ethernet interfaces will never be in use at the same      
+# time, and give the IP address to the second, even if it is already       
+# in use by the first. Useful for laptops with wired and wireless           
+# addresses.                                                                
+dhcp-host=11:22:33:44:55:66,12:34:56:78:90:12,192.168.0.60   
+</code></pre>
+</div>
+
+
+
+
+
+	
+		
+
+			<div class="info">
+<a href="/pages/dns/dnsmasq-tips/" title="Link to this article">07 Nov 2009</a> :: <a title="e-mail link to this article" href="mailto:?X-site=jpmens.net&amp;subject=DNSMASQ tips&amp;body=You%20might%20like%20this:%20http://jpmens.net/pages/dns/dnsmasq-tips/">e-mail</a>
+</div><!-- info -->
+
+			<div id='comments'>
+  <h3>Comments</h3>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jpmens-net';
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    var disqus_url = 'http://jpmens.net/pages/dns/dnsmasq-tips/';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+
+
+	
+		</div><!-- post -->
+	    </div><!-- inner -->
+        </div><!-- content -->
+
+
+
+ <div id="tail">
+ </div>
+
+<!-- Piwik --> 
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://jpmens.net/pi/piwik/" : "http://jpmens.net/pi/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://jpmens.net/pi/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+
+        <!-- Place this image somewhere at the bottom of your page -->
+        <span><img
+                src="http://www.dnssec-failed.org/1x1.gif"
+                width="1"
+                height="1"
+                id="dnssecmagicpixel"
+                onload="dnssecmagicpixelLoaded();" /></span>
+
+ </body>
+</html>
+

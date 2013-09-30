@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="must-revalidate" />
+<title>how to use pkgsrc on solaris</title>
+
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="../../global.css" type="text/css" />
+<link rel="stylesheet" href="../../style.css" type="text/css" />
+<link rel="stylesheet" href="../../local.css" type="text/css" />
+
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_solaris&amp;do=edit" />
+
+
+
+
+</head>
+<body><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/toggle.js" type="text/javascript" charset="utf-8"></script><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/relativedate.js" type="text/javascript" charset="utf-8"></script>
+    <div id="centralHeader">
+      <div id="logo">
+        <a href="http://www.NetBSD.org/"><img src="http://www.NetBSD.org/images/NetBSD-smaller.png" alt="[NetBSD Logo]"/></a>
+        <div id="name"><a href="http://www.NetBSD.org/">The NetBSD Project</a></div>
+        <div id="slogan"><a href="http://www.NetBSD.org/">&ldquo;Of course it runs NetBSD&rdquo;</a></div>
+      </div>
+      <div id="headerTools">
+	<div id="headerSearch">
+
+<form method="get" action="https://wiki.netbsd.org/cgi-bin/ikiwiki" id="searchform">
+<div>
+<input class="whiteOnBlack" type="text" id="searchbox" name="P" value="Search" size="12" maxlength="255" onfocus="if(this.value==this.defaultValue ) this.value='';" /> <input type="submit" value="Search" />
+</div>
+</form>
+
+
+	</div>
+      </div>
+    </div>
+
+    <div id="navBar" role="navigation">
+	<span class="doNotDisplay">
+          Navigation:
+        </span>
+	<ul>
+	<li><a href="http://www.NetBSD.org/">
+		  WWW Home</a></li>
+	<li>
+	<a href="http://www.NetBSD.org/">
+		  News &amp; Media</a><ul>
+	<li><a href="http://www.NetBSD.org//changes/">
+		    Recent changes</a></li>
+	<li><a href="http://blog.NetBSD.org/">
+		    NetBSD blog</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/events.html">
+		    Events</a></li>
+	<li><a href="http://www.NetBSD.org/changes/rss.html">
+		    Feeds</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/about/">
+		  About</a><ul>
+	<li><a href="http://www.NetBSD.org/about/">
+		    NetBSD</a></li>
+	<li><a href="http://www.NetBSD.org/foundation/">
+		    The NetBSD Foundation</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/">
+		    Advocacy</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/docs/">
+		  Documentation</a><ul>
+	<li><a href="http://www.NetBSD.org/docs/misc/index.html">
+		    FAQ &amp; HOWTOs</a></li>
+	<li><a href="http://www.NetBSD.org/docs/guide/en/">
+		    The Guide</a></li>
+	<li><a href="http://man.NetBSD.org/">
+		    Manual pages</a></li>
+	<li><a href="http://wiki.NetBSD.org/">
+		    Wiki</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/support/">
+		  Support</a><ul>
+	<li><a href="http://www.NetBSD.org/support/send-pr.html">
+		    Problem report guide</a></li>
+	<li><a href="http://www.NetBSD.org/cgi-bin/sendpr.cgi?gndb=netbsd">
+		    Report a bug</a></li>
+	<li><a href="http://www.NetBSD.org/support/query-pr.html">
+		    Query bug database</a></li>
+	<li><a href="http://www.NetBSD.org/support/security/">
+		    Security</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/community/">
+		  Community</a><ul>
+	<li><a href="http://onetbsd.org/">
+		    Blogs</a></li>
+	<li><a href="http://www.NetBSD.org/mailinglists/">
+		    Mailing lists</a></li>
+	<li><a href="http://mail-index.NetBSD.org/">
+		    List archives</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/developers/">
+		  Developers</a><ul>
+	<li><a href="http://cvsweb.NetBSD.org/">
+		    Browse source</a></li>
+	<li><a href="http://nxr.NetBSD.org/">
+		    Cross-reference</a></li>
+	<li><a href="http://releng.NetBSD.org/">
+		    Release engineering</a></li>
+	<li><a href="http://wiki.NetBSD.org/projects/">
+		    Projects list</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/ports/">
+		  Ports</a><ul>
+	<li><a href="http://www.NetBSD.org/ports/history.html">
+		    History</a></li>
+	<li><a href="http://www.NetBSD.org/ports/emulators.html">
+		    Emulators</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.pkgsrc.org/">
+		Packages</a><ul>
+	<li><a href="http://www.pkgsrc.se/">
+		    Browse packages</a></li>
+	<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+		    Release engineering</a></li>
+	</ul>
+	</li>
+	</ul>
+    </div>
+ 
+      	  
+		  <div class="actions">
+		    <ul>
+			<li><a href="../../">Wiki Home</a></li>
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_solaris&amp;do=edit" rel="nofollow">Edit</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_solaris&amp;do=comment">Comment</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_solaris&amp;do=getsource">Source</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/cvsweb/wikisrc/pkgsrc/how_to_use_pkgsrc_on_solaris.mdwn">History</a></li>
+		      
+			<li><a href="../../wiki/new_page" rel="nofollow">New</a></li>
+		      
+			<li><a href="../../recentchanges/">RecentChanges</a></li>
+		      
+		    </ul>
+		  </div>
+    </div>
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+<a href="../../">NetBSD Wiki</a>/<a href="../">pkgsrc</a>/
+</span>
+<span class="title">
+how to use pkgsrc on solaris
+
+</span>
+</span><!--.header-->
+</div>
+</div>
+
+
+
+<div id="content">
+<p>Document status: <strong>DRAFT</strong></p>
+
+<p>In this article I will document how to transform a Solaris 10 x86 core installation into a pkgsrc-powered desktop system. The Solaris core installation does not include any X11, GNOME or GNU utilites. We will use modular X.org from pkgsrc. The guide assumes that the reader has some prior experience using Solaris and pkgsrc.</p>
+
+<p><strong>Contents</strong></p>
+
+<div class="toc">
+<ol>
+	<li class="L1"><a href="#index1h1">Installation</a>
+	</li>
+	<li class="L1"><a href="#index2h1">Compiler setup</a>
+	</li>
+	<li class="L1"><a href="#index3h1">pkgsrc</a>
+	</li>
+	<li class="L1"><a href="#index4h1">Installing modular X.org from pkgsrc</a>
+	</li>
+	<li class="L1"><a href="#index5h1">Outstanding PR's with patches</a>
+	</li>
+	<li class="L1"><a href="#index6h1">Other hints</a>
+	</li>
+	<li class="L1"><a href="#index7h1">See also</a>
+	</li>
+	<li class="L1"><a href="#index8h1">External links</a>
+	</li>
+</ol>
+</div>
+
+
+<h1><a name="index1h1"></a>Installation</h1>
+
+<p>Begin by installing a Solaris core system. When done, mount the Solaris CD/DVD and install the following extra packages:</p>
+
+<ul>
+<li>SUNWarc Lint Libraries (usr)</li>
+<li>SUNWbtool CCS tools bundled with SunOS (Solaris 9)</li>
+<li>SUNWbzip The bzip compression utility</li>
+<li>SUNWdoc Documentation Tools</li>
+<li>SUNWhea SunOS Header Files</li>
+<li>SUNWlibm Math &amp; Microtasking Library Headers &amp; Lint Files (Usr)</li>
+<li>SUNWlibmr Math Library Lint Files (Root) (Solaris 10)</li>
+<li>SUNWman On-Line Manual Pages</li>
+<li>SUNWscpr Source Compatibility, (Root)</li>
+<li>SUNWscpu Source Compatibility, (Usr)</li>
+<li>SUNWsprot Solaris Bundled tools</li>
+<li>SUNWtoo SUNWtoo Programming Tools</li>
+<li>SUNWxcu4 XCU4 Utilities</li>
+</ul>
+
+
+<p>These packages are required if you intend to use modular-xorg-server from pkgsrc:</p>
+
+<ul>
+<li>SUNWdfbh Dumb Frame Buffer Header Files</li>
+<li>SUNWaudh Audio Header Files (don't ask why!)</li>
+</ul>
+
+
+<pre><code>
+# mount -F hsfs /dev/dsk/c1t1d0p0 /mnt
+# cd /mnt/Solaris10/Product
+# cp -r SUNW... /var/spool/pkg
+# pkgadd
+</code></pre>
+
+
+<p>To see which SUNW packages are already installed, use the /usr/bin/pkginfo command.</p>
+
+<h1><a name="index2h1"></a>Compiler setup</h1>
+
+<p>Now you need a compiler. You have a couple of options:</p>
+
+<ul>
+<li>Use my prebuilt compiler kit, available from <a href="http://notyet">http://notyet</a></li>
+<li>Install SUNWgcc from the Solaris DVD</li>
+<li>Install Sun Studio 10</li>
+<li>Install gcc from Sunfreeware.com</li>
+<li>[advanced] Bootstrap your own gcc, using one of the above. If you get an error about a library not being found, remember to use <em>crle -u -l libpath</em> to add it to the link path. Make sure any /usr/pkg/* library paths are included early in this string so that pkgsrc binaries will only have dependencies on pkgsrc libraries as much as possible.</li>
+</ul>
+
+
+<h1><a name="index3h1"></a>pkgsrc</h1>
+
+<p>Got a compiler? Good! Let's download and bootstrap pkgsrc.</p>
+
+<p>Grab pkgsrc.tar.gz from <a href="ftp://ftp.NetBSD.org/pub/pkgsrc/current/">ftp://ftp.NetBSD.org/pub/pkgsrc/current/</a> and untar to /usr, or get it from CVS.</p>
+
+<pre><code># cd /usr/pkgsrc/bootstrap
+# env CFLAGS=-O2 CC=/usr/local/gcc4/bin/gcc ./bootstrap
+</code></pre>
+
+<p>[coffee break]</p>
+
+<p>Now we can tune /usr/pkg/etc/mk.conf. I use the following additional settings:</p>
+
+<pre><code>
+CFLAGS+=-O2
+CXXFLAGS+=-O2
+CC=/usr/local/gcc4/bin/gcc
+CXX=/usr/local/gcc4/bin/g++
+X11_TYPE=modular
+PKG_DEVELOPER=yes
+PKG_DEFAULT_OPTIONS+=freetype truetype mmx subpixel official-mozilla-branding
+</code></pre>
+
+
+<p>At this point you're free to install whatever packages you like.</p>
+
+<p>On Solaris 9 (at least), Python 2.4 is the latest version that will build. You may want to set PYTHON_VERSION_DEFAULT= 24 in mk.conf in order to build python packages. (As of 13feb2010.)</p>
+
+<h1><a name="index4h1"></a>Installing modular X.org from pkgsrc</h1>
+
+<p>It is mentioned above, but easy to miss... you really want to set <strong>X11_TYPE=modular</strong> in mk.conf, otherwise none of this will work. You will also want to set <strong>MOTIF_TYPE=openmotif</strong> or <strong>MOTIF_TYPE=lesstif</strong> to avoid having pkgsrc/mk/motif.buildlink3.mk choose /usr/dt/... which requires X11_TYPE=native instead of modular.</p>
+
+<p>Packages needed for modular X.org are:</p>
+
+<ul>
+<li>meta-pkgs/modular-xorg-fonts
+
+<ul>
+<li>xxx: fonts/mkfontdir needs a hack that I have not yet committed</li>
+</ul>
+</li>
+<li>meta-pkgs/modular-xorg-apps</li>
+<li>x11/modular-xorg-server
+
+<ul>
+<li>xxx: needs some hacks that have not yet been committed (--disable-dri, libdrm, driproto KDSETMODE ioctl, vtname /dev/fb)</li>
+</ul>
+</li>
+<li>x11/xf86-input-keyboard</li>
+<li>x11/xf86-input-mouse</li>
+<li>x11/xf86-video-vesa (or pick a suitable driver for your card)</li>
+<li>x11/xterm</li>
+</ul>
+
+
+<p>Now run /usr/pkg/bin/Xorg -configure, which should work. Move the generated configuration file to /etc/X11/xorg.conf. Now you can attempt to start the server, by running Xorg with no arguments. If you get a picture, but the mouse isn't working, try to set your mouse device to "/dev/kdmouse" and the protocol to "PS/2" in xorg.conf.</p>
+
+<p>TODO: write about installing firefox, desktop stuff, ...</p>
+
+<h1><a name="index5h1"></a>Outstanding PR's with patches</h1>
+
+<p>There are some PR's with patches that solve Solaris build issues that are not yet committed. These may solve a problem you are having.</p>
+
+<ul>
+<li><a href="http://www.netbsd.org/cgi-bin/query-pr-single.pl?number=40153">pkg/40153</a> - Synopsis: pkgsrc/devel/binutils fails to build on solaris 10 sparc</li>
+<li><a href="http://www.netbsd.org/cgi-bin/query-pr-single.pl?number=40201">pkg/40201</a> - Synopsis: pkgsrc/sysutils/memconf update needed</li>
+<li><a href="http://www.netbsd.org/cgi-bin/query-pr-single.pl?number=39085">pkg/39085</a> - Synopsis: firefox3 compile problem (just committed!)</li>
+<li><a href="http://www.netbsd.org/cgi-bin/query-pr-single.pl?number=40221">pkg/40221</a> - Synopsis: pkgsrc/mail/p5-Mail-Mbox-MessageParser requires GNU grep (needed by grepmail)</li>
+<li><a href="http://www.netbsd.org/cgi-bin/query-pr-single.pl?number=40222">pkg/40222</a> - Synopsis: pkgsrc/databases/sqsh fix build w/sybase libs on Solaris</li>
+</ul>
+
+
+<h1><a name="index6h1"></a>Other hints</h1>
+
+<p>These may not be the 'right' think to do, but are still a help to get past some issues until the right thing can be figured out:</p>
+
+<ul>
+<li><p>errors building libffi (required by python 2.5+) using Sun Studio compiler can be worked around by using gcc or setting:</p>
+
+<p>  PYTHON_VERSION_DEFAULT=24</p></li>
+<li><p>errors regarding a <strong>missing gtk-rebase</strong> can be worked around by installing the package <strong>textproc/gtk-doc</strong></p></li>
+<li><p>using a native jdk (on anything except SunOS-5.11-i386, which already works) can be done by adding these to /usr/pkg/etc/mk.conf:</p>
+
+<p>  PKG_JVM_DEFAULT=                sun-jdk6
+  _PKG_JVMS_ACCEPTED+=            sun-jdk6</p></li>
+<li><p>errors regarding wrong number of arguments to readdir_r() and some other xxx_r() functions can be fixed by adding to the package Makefile:</p>
+
+<p>  CFLAGS.SunOS+=                  -D_POSIX_PTHREAD_SEMANTICS</p></li>
+</ul>
+
+
+<p>If you encounter issues with missing libraries, refer to <a href="ftp://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/doc/pkgsrc.html#undefined-reference">the pkgsrc guide</a> first.</p>
+
+<h1><a name="index7h1"></a>See also</h1>
+
+<ul>
+<li><span class="createlink"><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2FThe_pkgsrc_portability_guide&amp;from=pkgsrc%2Fhow_to_use_pkgsrc_on_solaris&amp;do=create" rel="nofollow">?</a>The pkgsrc portability guide</span></li>
+<li><span class="createlink"><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2FHow_to_use_pkgsrc_on_Mac_OS_X&amp;from=pkgsrc%2Fhow_to_use_pkgsrc_on_solaris&amp;do=create" rel="nofollow">?</a>How to use pkgsrc on Mac OS X</span></li>
+</ul>
+
+
+<h1><a name="index8h1"></a>External links</h1>
+
+<ul>
+<li><a href="http://solarpack.sourceforge.net/howto-dev.html">NPC on Solaris developer HOWTO</a></li>
+<li><a href="http://www.oe-files.de/oefiles/lab/solpkgsrc">pkgsrc under Solaris</a> at The &#214;-Files - recommends using gcc (the <a href="http://cooltools.sunsource.net/gcc/">GCC for Sun Systems package</a> on Sparc (note that 4.2.0 is the last version supporting Solaris 9), bootstrapped lang/gcc34 on x86), 32-bit binaries, building everything from pkgsrc</li>
+</ul>
+
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_solaris&amp;do=comment">Add a comment</a>
+</div>
+
+</div>
+
+
+
+		      
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../how_to_use_pkgsrc/">how to use pkgsrc</a>
+
+
+</div><!-- #backlinks -->
+
+
+
+
+<div class="pagedate">
+Last edited <span class="relativedate" title="Sun, 05 Feb 2012 07:41:24 +0000">early Sunday morning, February  5th, 2012</span>
+<!-- Created <span class="relativedate" title="Sun, 05 Feb 2012 07:41:24 +0000">early Sunday morning, February  5th, 2012</span> -->
+</div>
+
+
+
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?do=prefs">Preferences | Logout</a>
+
+
+
+</div><!-- #pageinfo -->
+
+
+<!-- from NetBSD Wiki -->
+</div><!-- .pagefooter #footer -->
+
+
+
+</body>
+</html>

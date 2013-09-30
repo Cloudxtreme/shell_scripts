@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8">
+
+    <title>inPage - webové stránky pro každého, katalog stránek</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Webové stránky snadno pro každého. Kompletní řešení webových stránek s doménou, webhostingem, e-mailem, e-shopem a SEO. Vytvoření a úpravu internetových stránek zvládne každý.">
+    <meta name="keywords" content="webové stránky,webové stránky snadno,inpage,stránky,www stránky,stránky zdarma,internetové stránky,tvorba www stránek,web stránky" />        
+    
+
+    <link rel="shortcut icon" href="/favicon.ico">        
+
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic&subset=latin,latin-ext" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/animate.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/bootstrap-override.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/theme.css?date=2013-08-26" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/fonts.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/colors.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/theme-responsive.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/pricing-table.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/cs.css" />
+
+        
+    <script type="text/javascript" src="/js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/sliding.js"></script>
+    <script type="text/javascript" src="/js/theme.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("a[href*='http://']:not([href*='" + window.location.hostname + "']), a[href*='https://']:not([href*='" + window.location.hostname + "'])").addClass("link-external");
+        $("a[href*='http://']:not([href*='" + window.location.hostname + "']):has(img)").removeClass("link-external");
+        // side bar
+        $('.bs-docs-sidenav').affix({
+          offset: {
+            //top: 0,
+            //bottom: 500
+          }
+        });
+
+	$('#link-login').click(function() {
+		$('#login-box').toggle();
+		return false;
+	});
+
+	$('#submit-login').click(function() {
+		var domain = $('#domain-login').val();
+		var login = $('#password-login').val();
+
+		if (domain == '') {
+			alert('Zadejte doménu');
+			return false;
+		}
+
+		if (login == '') {
+			alert('Zadejte heslo');
+			return false;
+		}
+
+		var regex = /(www)\.([a-z0-9\-.]+)\.([a-z]{2,5})/;
+
+		if (!regex.test(domain)) {
+			alert('Doména nemá správný tvar');
+			return false;
+		}
+
+		$('#form-login').attr('action', 'http://'+domain+'/admin/login/');
+		$('#form-login').submit();
+
+		return false;
+	});
+
+	$('#close-login').click(function() {
+		$('#login-box').hide();
+		return false;
+	});
+      });
+    </script>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-290875-26']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+  <body data-spy="scroll" data-target=".bs-docs-sidebar" data-offset="100">
+    <script> document.body.className += ' js'</script>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">
+            <img src="/images/logo-cz.png" alt="logo" />
+          </a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right">
+              <li><a data-placement="bottom" title="Úvodní strana služby inPage" href="/">Úvod</a></li>
+              <li><a data-placement="bottom" title="Prohlídka" href="/prohlidka/">Prohlídka</a></li>
+              <li class="active"><a data-placement="bottom" title="Ceny a varianty služby inPage" href="/ceny-a-varianty/">Ceny a varianty</a></li>
+              <li><a data-placement="bottom" title="Ukázky webů vytvořené uživateli služby inPage" href="/reference/">Reference</a></li>
+              <li><a data-placement="bottom" title="Nápověda pro službu inPage" href="/napoveda/">Nápověda</a></li>
+              <li><a data-placement="bottom" title="Kontakt a zákaznická podpora služby inPage" href="/kontakt/">Kontakty</a></li>
+            </ul>
+          </div>
+          <a id="link-login" href="#" title="Přihlášení k účtu">Přihlášení k účtu &raquo;</a>
+          <div id="login-box" style="display: none;">
+            <form id="form-login" method="post" action="">
+              <div>
+                <label for="domain">Doména</label>
+                <input type="text" name="domain" id="domain-login" value="www.">
+              </div>
+              <div>
+                <label for="password">Heslo</label>
+                <input type="password" name="password" id="password-login">
+              </div>
+              <div class="text-right">
+                <input class="btn" id="submit-login" type="submit" value="Přihlásit">
+              </div>
+	      <p style="margin-top: -1.7em;"><a href="/zapomenute-heslo/">Zapomněli jste heslo?</a></p>
+            </form>
+            <a class="close" id="close-login" href="#" title="Zavřít">×</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <section id="top">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <hgroup>
+          <h1>Ceny a varianty</h1>
+          <h2>Spusťte své webové stránky ještě dnes!</h2>
+        </hgroup>
+      </div>
+    </div>
+  </div>
+</section>
+<hr />
+
+<section id="section-pricing" class="even">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h2 class="text-center"><span>Ceny a varianty <small>služby inPage</small></span></h2>
+
+        <table id="table-cenik" class="table table-bordered pricing-table">
+          <thead>
+            <tr>
+              <th class="col0"></th>
+              <th class="col1 pricing-demo">
+          <div class="head-inner">
+            <div class="info1">
+              <h3><small>Program</small> <span>inPage</span> <strong>Demo</strong></h3>
+              <p class="desc">Ideální pro nezávazné vyzkoušení</p>
+            </div>
+            <div class="info2">
+              <p class="price"><strong>ZDARMA</strong></p>
+            </div>
+          </div>
+          </th>
+          <th class="col2 pricing-start">
+          <div class="head-inner">
+            <div class="info1">
+              <h3><small>Program</small> <span>inPage</span> <strong>Start</strong></h3>
+              <p class="desc">Příprava prezentace<br />35 dní zdarma<br></p>
+            </div>
+            <div class="info2">
+              <p class="price"><strong>82</strong> <small>Kč/měsíc</small>
+                <br><small>(99 Kč s DPH)</small></p>
+            </div>
+          </div>
+          </th>
+          <th class="col3 pricing-popular">
+          <div class="head-inner">
+            <div class="info1">
+              <h3><small>Program</small> <span>inPage</span> <strong>Standard</strong></h3>
+              <p class="desc">Kompletní systém pro úspěšné www stránky</p>
+            </div>
+            <div class="info2">
+              <p class="price"><strong>100</strong> <small>Kč/měsíc</small>
+                <br><small>(121 Kč s DPH)</small></p>
+            </div>
+          </div>
+          </th>
+          <th class="col4 pricing-eshop">
+          <div class="head-inner">
+            <div class="info1">
+              <h3><small>Program</small> <span>inPage</span> <strong>Premium</strong></h3>
+              <p class="desc">Pro rozsáhlé webové prezentace a&nbsp;e-shopy</p>
+            </div>
+            <div class="info2">
+              <p class="price"><strong>200</strong> <small>Kč/měsíc</small>
+                <br><small>(242 Kč s DPH)</small></p>
+            </div>
+          </div>
+          </th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col0"></td>
+              <td class="col1">
+                <p><a href="/demo/" class="btn btn-info">Vyzkoušet inPage <i class="icon-chevron-right icon-white"></i></a></p>
+                <p>&nbsp;</p>
+              </td>
+              <td class="col2"><p><a href="/objednavka/start/" class="btn btn-success">Objednat program <i class="icon-chevron-right icon-white"></i></a></p><p><a href="/detail-programu/start/">Detail</a></p></td>
+              <td class="col3"><p><a href="/objednavka/standard/" class="btn btn-success">Objednat program <i class="icon-chevron-right icon-white"></i></a></p><p><a href="/detail-programu/standard/">Detail</a></p></td>
+              <td class="col4"><p><a href="/objednavka/premium/" class="btn btn-success">Objednat program <i class="icon-chevron-right icon-white"></i></a></p><p><a href="/detail-programu/premium/">Detail</a></p></td>
+            </tr>
+
+            <!--domeny-->
+            <tr class="head">
+              <th class="col0"><h4>Domény</h4></th>
+          <th class="col1"></th>
+          <th class="col2"></th>
+          <th class="col3"></th>
+          <th class="col4"></th>
+          </tr>
+          <tr>
+            <td class="col0">Doména</td>
+            <td class="col1"><strong class="color-green">demo</strong>.inpage.cz <small>provoz na doméně <strong>III. řádu</strong></small></td>
+            <td class="col2"><strong class="color-green">nazev-domeny</strong>.inpage.cz<small>provoz na doméně <strong>III. řádu</strong></small></td>
+            <td class="col3"><strong class="color-green">www.nazev-domeny.cz</strong> <small>provoz na doméně <strong>II. řádu</strong></small></td>
+            <td class="col4"><strong class="color-green">www.nazev-domeny.cz</strong> <small>provoz na doméně <strong>II. řádu</strong></small></td>
+          </tr>
+          <tr>
+            <td class="col0">Registrace domény</td>
+            <td class="col1"><i class="icon icon-remove icon-gray"><span>Ne</span></i></td>
+            <td class="col2"><i class="icon icon-remove icon-gray"><span>Ne</span></i></td>
+            <td class="col3"><strong class="color-green">ZDARMA</strong><br /><small>(CZ, EU, COM, NET či INFO)</small></td>
+            <td class="col4"><strong class="color-green">ZDARMA</strong><br /><small>(CZ, EU, COM, NET či INFO)</small></td>
+          </tr>
+
+          <!--sablony-->
+          <tr class="head">
+            <th class="col0"><h4>Šablony</h4></th>
+          <th class="col1"></th>
+          <th class="col2"></th>
+          <th class="col3"></th>
+          <th class="col4"></th>
+          </tr>
+          <tr>
+            <td class="col0">Šablony vzhledu</td>
+            <td class="col1"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+            <td class="col2"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+            <td class="col3"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+            <td class="col4"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+          </tr>
+          <tr>
+            <td class="col0">Banka motivů</td>
+            <td class="col1"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+            <td class="col2"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+            <td class="col3"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+            <td class="col4"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+          </tr>
+
+          <!--limity-->
+          <tr class="head">
+            <th class="col0"><h4>Stránky www</h4></th>
+          <th class="col1"></th>
+          <th class="col2"></th>
+          <th class="col3"></th>
+          <th class="col4"></th>
+          </tr>
+          <tr>
+            <td class="col0">Počet rubrik</td>
+            <td class="col1"><strong class="color-green">10</strong></td>
+            <td class="col2"><strong class="color-green">10</strong></td>
+            <td class="col3"><strong class="color-green">100</strong></td>
+            <td class="col4"><strong class="color-green">neomezeně</strong></td>
+          </tr>
+          <tr>
+            <td class="col0">Počet článků</td>
+            <td class="col1"><strong class="color-green">50</strong></td>
+            <td class="col2"><strong class="color-green">50</strong></td>
+            <td class="col3"><strong class="color-green">500</strong></td>
+            <td class="col4"><strong class="color-green">neomezeně</strong></td>
+          </tr>
+
+          <!--fotogalerie-->
+          <tr class="head">
+            <th class="col0"><h4>Fotogalerie</h4></th>
+          <th class="col1"></th>
+          <th class="col2"></th>
+          <th class="col3"></th>
+          <th class="col4"></th>
+          </tr>
+          <tr>
+            <td class="col0">Počet fotogalerií</td>
+            <td class="col1"><strong class="color-green">10</strong></td>
+            <td class="col2"><strong class="color-green">10</strong></td>
+            <td class="col3"><strong class="color-green">100</strong></td>
+            <td class="col4"><strong class="color-green">neomezeně</strong></td>
+          </tr>
+
+          <!--eshop-->
+          <tr class="head">
+            <th class="col0"><h4>E-shop</h4></th>
+          <th class="col1"></th>
+          <th class="col2"></th>
+          <th class="col3"></th>
+          <th class="col4"></th>
+          </tr>
+          <tr>
+            <td class="col0">Počet kategorií</td>
+            <td class="col1"><strong class="color-green">1</strong></td>
+            <td class="col2"><strong class="color-green">1</strong></td>
+            <td class="col3"><strong class="color-green">1</strong></td>
+            <td class="col4"><strong class="color-green">neomezeně</strong></td>
+          </tr>
+          <tr>
+            <td class="col0">Počet produktů</td>
+            <td class="col1"><strong class="color-green">10</strong></td>
+            <td class="col2"><strong class="color-green">10</strong></td>
+            <td class="col3"><strong class="color-green">20</strong></td>
+            <td class="col4"><strong class="color-green">neomezeně</strong></td>
+          </tr>
+
+          <!--data-->
+          <tr class="head">
+            <th class="col0"><h4>Data</h4></th>
+          <th class="col1"></th>
+          <th class="col2"></th>
+          <th class="col3"></th>
+          <th class="col4"></th>
+          </tr>
+          <tr class="hideable">
+            <td class="col0">Prostor pro www</td>
+            <td class="col1"><strong class="color-green">100 MB</strong></td>
+            <td class="col2"><strong class="color-green">100 MB</strong></td>
+            <td class="col3"><strong class="color-green">200 MB</strong></td>
+            <td class="col4"><strong class="color-green">1 GB</strong></td>
+          </tr>
+          <tr>
+            <td class="col0">Prostor celkem</td>
+            <td class="col1"><strong class="color-green">100 MB</strong></td>
+            <td class="col2"><strong class="color-green">100 MB</strong></td>
+            <td class="col3"><strong class="color-green">2,7 GB</strong></td>
+            <td class="col4"><strong class="color-green">12 GB</strong></td>
+          </tr>
+          <tr>
+            <td class="col0">FTP</td>
+            <td class="col1"><i class="icon icon-remove icon-gray"><span>Ne</span></i></td>
+            <td class="col2"><i class="icon icon-remove icon-gray"><span>Ne</span></i></td>
+            <td class="col3"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+            <td class="col4"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+          </tr>
+
+          <!--emaily-->
+          <tr class="head">
+            <th class="col0"><h4>E-maily</h4></th>
+          <th class="col1"></th>
+          <th class="col2"></th>
+          <th class="col3"></th>
+          <th class="col4"></th>
+          </tr>
+          <tr>
+            <td class="col0">Schránky</td>
+            <td class="col1"><i class="icon icon-remove icon-gray"><span>Ne</span></i></td>
+            <td class="col2"><i class="icon icon-remove icon-gray"><span>Ne</span></i></td>
+            <td class="col3"><strong class="color-green">10x</strong></td>
+            <td class="col4"><strong class="color-green">50x</strong></td>
+          </tr>
+
+          <!--moznosti-->
+          <tr class="head">
+            <th class="col0"><h4>Možnosti</h4></th>
+          <th class="col1"></th>
+          <th class="col2"></th>
+          <th class="col3"></th>
+          <th class="col4"></th>
+          </tr>
+          <tr>
+            <td class="col0">Volba jazyka</td>
+            <td class="col1"><i class="icon icon-ok icon-green"><span>Ano</span></i> <small>(cs, sk, hu, pl, en, de, ro)</small></td>
+            <td class="col2"><i class="icon icon-ok icon-green"><span>Ano</span></i> <small>(cs, sk, hu, pl, en, de, ro)</small></td>
+            <td class="col3"><i class="icon icon-ok icon-green"><span>Ano</span></i> <small>(cs, sk, hu, pl, en, de, ro)</small></td>
+            <td class="col4"><i class="icon icon-ok icon-green"><span>Ano</span></i> <small>(cs, sk, hu, pl, en, de, ro)</small></td>
+          </tr>
+          <tr>
+            <td class="col0">V katalogu</td>
+            <td class="col1"><i class="icon icon-remove icon-gray"><span>Ne</span></i></td>
+            <td class="col2"><i class="icon icon-remove icon-gray"><span>Ne</span></i></td>
+            <td class="col3"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+            <td class="col4"><i class="icon icon-ok icon-green"><span>Ano</span></i></td>
+          </tr>
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <td class="col0"></td>
+              <td class="col1">
+                <p><a href="/demo/" class="btn btn-info">Vyzkoušet inPage <i class="icon-chevron-right icon-white"></i></a></p>
+                <p>&nbsp;</p>
+              </td>
+              <td class="col2">
+                <p><a href="/objednavka/start/" class="btn btn-success">Objednat program <i class="icon-chevron-right icon-white"></i></a></p>
+                <p><a href="/detail-programu/start/">Detail</a></p>
+              </td>
+              <td class="col3">
+                <p><a href="/objednavka/standard/" class="btn btn-success">Objednat program <i class="icon-chevron-right icon-white"></i></a></p>
+                <p><a href="/detail-programu/standard/">Detail</a></p>
+              </td>
+              <td class="col4">
+                <p><a href="/objednavka/premium/" class="btn btn-success">Objednat program <i class="icon-chevron-right icon-white"></i></a></p>
+                <p><a href="/detail-programu/premium/">Detail</a></p>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</section>
+<hr />
+
+<section class="text-bigger">
+  <div class="container">
+    <div class="row">
+      <div class="span4">
+        <p class="text-center">
+          <a href="/tvorba-webovych-stranek/">
+            <img class="img-polaroid" src="/images/ilustracni-startovaci-balicky-inpage.png" />
+          </a>
+        </p>
+      </div>
+      <div class="span7 offset1">
+        <h2>Vytvoření webových stránek</h2>
+        <p>Potřebujete webové stránky,<br>a chcete ušetřit svůj čas na realizaci stránek?</p>
+        <p>Nechte nás pracovat za vás a <strong>ušetřete čas i peníze</strong>.<br>Vytvoříme vám <strong>profesionální webovou prezentaci</strong>.</p>
+        <p><a href="/tvorba-webovych-stranek/">Vytvoření webových stránek &raquo;</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+<hr />
+<section class="even text-bigger">
+  <div class="container">
+    <div class="row">
+      <div class="span7">
+        <h2>Doplňkové služby</h2>
+        <p>Vylepšete si své webové stránky pomocí doplňkových služeb, které si můžete objednat jednotlivě podle potřeb a aktuálního stavu prezentace.</p>
+        <p>Na základě požadavků vám grafik vytvoří individuální motiv prezentace nebo školení pracovníci provedou SEO optimalizaci obsahu.</p>
+        <p>Naše doplňkové služby jsou také vhodné i pro již vytvořené a&nbsp;provozované webové prezentace.</p>
+        <p><a href="/doplnkove-sluzby/">Doplňkové služby &raquo;</a></p>
+      </div>
+      <div class="span4 offset1">
+        <p class="text-center">
+          <a href="/doplnkove-sluzby/">
+            <img class="img-polaroid" src="/images/ilustracni-sluby-inpage.png" />
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<hr />
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="span3">
+            <h5>Služba inPage</h5>
+            <ul>
+              <li><a href="/">Úvod</a></li>
+              <li><a href="/prohlidka/">Prohlídka</a></li>
+              <li><a href="/ceny-a-varianty/">Ceny a varianty</a></li>
+              <li><a href="/tvorba-webovych-stranek/">Startovací balíčky</a></li>
+              <li><a href="/mapa-webu/">Mapa webu</a></li>
+            </ul>
+          </div>
+          <div class="span3">
+            <h5>Podpora</h5>
+            <ul>
+              <li><a href="http://www.blog.inpage.cz/">Blog inPage</a></li>
+              <li><a href="/napoveda/">Nápověda</a></li>
+              <li><a href="/napoveda/">Kniha zdarma</a></li>
+              <li><a href="/napoveda/">Podpora 24/7</a></li>
+              <li><a href="/kontakt/">Kontakty</a></li>
+            </ul>
+          </div>
+          <div class="span3">
+            <h5>Skupina ZONER</h5>
+            <ul>
+              <li><a href="http://www.regzone.cz/">Domény</a></li>
+              <li><a href="http://www.czechia.com/">Webhosting</a></li>
+              <li><a href="http://www.sslmarket.cz/">SSL certifikáty</a></li>
+              <li><a href="http://www.zoner.cz/">Fotografie</a></li>
+              <li><a href="http://www.zoner.eu/">Zoner</a></li>
+            </ul>
+          </div>
+          <div class="span3">
+            <div class="widget">
+              <h5>inPage na webu</h5>
+              <ul id="list-social">
+                <li><a target="_blank" href="http://www.blog.inpage.cz/" title="Blog inPage"><img src="/images/icons/footer/icon-blog.png" /> Blog inPage</a></li>
+                <li><a target="_blank" href="https://www.facebook.com/inPage.cz" title="inPage na facebooku"><img src="/images/icons/footer/icon-facebook.png" /> Facebook</a></li>
+                <li><a target="_blank" href="https://plus.google.com/110350393407712986015/posts" title="inPage na Google+"><img src="/images/icons/footer/icon-google.png" /> Google+</a></li>
+                <li><a target="_blank" href="https://twitter.com/inpagecz" title="inPage na Twitteru"><img src="/images/icons/footer/icon-twitter.png" /> Twitter</a></li>
+                <li><a target="_blank" href="http://www.blog.inpage.cz/rss.xml" title="RSS feed inPage"><img src="/images/icons/footer/icon-rss.png" /> RSS</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="verybottom">
+        <div class="container">
+          <div class="row" id="logo-zone">
+            <div class="span12">
+              <p class="text-center">
+                <a href="http://www.zoner.eu/" target="_blank"><img src="/images/logo-zoner.png" /></a>
+              </p>
+              <p class="text-center">
+                Službu inPage poskytuje společnost ZONER software, a.s.<br />
+                2007–2013              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <a id="scrolltop" href="#">
+      <span>nahoru</span>
+    </a>
+
+  </body>
+</html>
+
+
+
+
+

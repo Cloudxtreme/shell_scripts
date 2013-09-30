@@ -1,0 +1,41 @@
+<html>
+<head>
+<script type="text/javascript" src="/assets/js/api.js"></script>
+
+<!-- Remove Google Analytics code -->
+
+<script type="text/javascript">
+var urlSearch = location.search;
+if(document.referrer && urlSearch){
+	urlSearch = urlSearch + '&utm_referrer=' +escape(document.referrer);
+} else if(document.referrer && !urlSearch){
+	urlSearch = '?utm_referrer=' +escape(document.referrer);
+}
+
+function countrySelector()
+{
+var cty = getCookie("countryCookie");
+if(cty == "")
+{
+  document.location.href ="/us/en/"+urlSearch;
+}
+else
+{
+    if(cty == "/us/en/" || cty == "/as/en/" || cty == "/au/en/" || cty == "/cn/zh/" || cty == "/fr/fr/" || cty == "/de/de/" || cty == "/in/en/" || cty == "/jp/jp/" || cty == "/kr/kr/" || cty == "/es/es/" || cty == "/tw/tc/" || cty == "/gb/en/" || cty == "/ru/ru/" || cty == "/it/it/")
+    {
+ 		document.location.href = cty+urlSearch;
+ 	}
+ 	else
+ 	{
+ 	 	document.location.href ="/us/en/"+urlSearch;
+ 	}
+}
+}
+</script>
+
+<noscript>
+<META HTTP-EQUIV="Refresh" CONTENT="0; URL=/us/en/" />
+</noscript>
+</head>
+<body onload="javascript:countrySelector()"></body>
+</html>

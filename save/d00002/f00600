@@ -1,0 +1,51 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.45
+     from nwf on 12 January 1997 -->
+
+<TITLE>NetBSD/amiga-Networking-FAQ - FAQ13</TITLE>
+</HEAD>
+<BODY>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_67.html">previous</A>, <A HREF="nwf_69.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_55.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+<HR>
+
+
+<H2><A NAME="SEC68" HREF="nwf_toc.html#SEC68">5.13 What are these 'silo overflows' when using the modem?</A></H2>
+
+<P>
+If you run high baud-rates on your modem, the computer might be to slow
+to handle all those interrupts from the serial interface and drop some
+characters, which it calls a 'silo overflow'. To prevent this, try one
+of the following two solutions:
+
+</P>
+
+<OL>
+<LI>Try setting bigger buffers for serial i/o. Put the following in
+
+your kernel config file an recompile:
+
+
+<PRE>
+options	"SERIBUF_SIZE=4096"
+options	"SEROBUF_SIZE=32"
+</PRE>
+
+<LI>If this doesn't work, you can try to play with the interrupt
+
+system, lowering the clock-interrupts from level 6 to level 4, which
+will no longer block the serial receive interrupts at level 5.
+To do so, uncomment the following line from your kernel config file and
+recompile:
+
+
+<PRE>
+options	LEV6_DEFER	# defers l6 to l4 (below serial l5)
+</PRE>
+
+</OL>
+
+<HR>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_67.html">previous</A>, <A HREF="nwf_69.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_55.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta http-equiv="Content-Style-Type" content="text/css" />
+ <meta name="MSSmartTagsPreventParsing" content="TRUE" />
+ <link rel="stylesheet" type="text/css" href="vstyle.css" />
+ <link rel="apple-touch-icon" href="pics/blumenkohl.png" />
+ <!--[if IE]>
+ <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+ <![endif]-->
+ <link rel="icon" type="image/png" href="favicon.png" />
+ <link rel="canonical" href="https://www.mirbsd.org/ports.htm" />
+ <meta name="author" content="Thorsten Glaser" />
+ <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited. Unmodified redistribution with no endorsement permitted." />
+ <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
+ <meta name="licence" content="see the source files in CVSWEB for details" />
+ <title>MirOS: The MirPorts Framework</title>
+ <meta name="robots" content="index, follow" />
+ <!--
+  This is copyrighted material. For the full licence text, see the file
+  LICENCE in the current directory. In no event may text from this page
+  be simply copied into another work covered by an unfree (or otherwise
+  mismatching) licence, such as the GNU Free Documentation License.
+ -->
+</head><body>
+<h1><img src="hashed/17AC3459.png" alt="MirPorts: The MirOS Ports Framework" /></h1>
+<div class="trailing">
+<div class="index">
+ <ul class="lv1">
+<li class="dummy"><a href="main.htm">Main</a><ul class="lv2">
+<li class="dummy"><a href="wlog-10.htm">Weblog</a> for #10</li>
+<li class="dummy dummy"><a href="tags.htm">Tag Cloud</a></li>
+<li class="dummy dummy"><a href="news.htm">Old News</a> &amp;
+ <a href="oldnews.htm#owlog">WLog</a></li>
+</ul></li>
+<li class="dummy"><a href="about.htm">About</a></li>
+<!-- these are not in a usable state
+<li class="dummy"><a href="docs.htm">Documentation</a></li>
+<li class="dummy dummy"><a href="faq.htm">FAQ</a></li>
+-->
+<li class="spacer dummy"><a href="getting.htm">Download</a></li>
+<li class="dummy"><a href="rss.htm">RSS &amp; Mailing Lists</a></li>
+<li class="dummy"><a href="irc.htm">IRC</a></li>
+<li class="dummy"><a href="wtf.htm" title="WTF‽">Acronyms</a></li>
+<li class="dummy"><a href="projects.htm">Project Ideas</a></li>
+<li class="dummy"><a href="danke.htm">Donate</a></li>
+<li class="dummy"><a href="man.htm">Manpages</a><ul class="lv2">
+<li><a href="htman/i386/">i386</a></li>
+<li><a href="htman/sparc/">sparc</a></li>
+</ul></li>
+<li class="markindex"><a href="ports.htm">MirPorts</a> Framework</li>
+<li class="dummy"><a href="pkgsrc.htm">pkgsrc®</a> integration</li>
+<li class="dummy">Subprojects<ul class="lv2">
+<li class="dummy"><a href="jupp.htm">jupp</a> Editor</li>
+<li class="dummy"><a href="kwalletcli.htm">KWalletCLI</a></li>
+<!-- li class="dummy"><a href="makefs.htm">makefs</a></li -->
+<li class="dummy"><a href="mksh.htm">mksh</a> Shell</li>
+</ul></li>
+ </ul>
+</div>
+<div class="content">
+<p>(The official MirPorts homepage can always be reached at <a
+ href="http://mirbsd.de/ports">http://mirbsd.de/ports</a> which
+ redirects to a &quot;known working&quot; mirror.)</p>
+
+<p>On this page:</p>
+
+<ul>
+ <li><a href="#intro">Introduction</a></li>
+ <li><a href="#install">Set-up instructions</a></li>
+ <li><ul>
+  <li><a href="#installsystem">System-wide installation</a></li>
+  <li><a href="#installuser">Installation as an unprivileged user</a></li>
+ </ul></li>
+ <li><a href="#platforms">Platform-specific notes</a></li>
+ <li><ul>
+  <li><a href="#miros">MirOS BSD</a></li>
+  <li><a href="#darwin">Mac OS X</a></li>
+  <li><a href="#mnbsd">MidnightBSD</a></li>
+  <li><a href="#obsd">OpenBSD</a></li>
+ </ul></li>
+ <li><a href="#using">Using the MirPorts Framework</a></li>
+</ul>
+
+<h2 id="intro">Introduction</h2>
+
+<p>MirPorts&mdash;a derivative of the OpenBSD ports tree&mdash;is
+ our solution for installing additional software packages not contained
+ in the base system.</p>
+
+
+<p>Both MirOS and MirPorts should put most of the “dotfiles” in users’
+ home directories in a single directory named “.etc”. You can have  your
+ own programs and scripts in ~/.etc/bin.</p>
+
+<p>MirPorts is portable. It has support for the following operating
+ systems:</p>
+
+<ul>
+ <li>MirOS BSD (-stable and -current)</li>
+ <li>OpenBSD (-stable and -current)</li>
+ <li>MidnightBSD</li>
+ <li>Mac OS X  (10.4 and newer) / Darwin</li>
+ <li>Interix / SFU 3.5 (to a lesser degree)</li>
+</ul>
+
+<p>Even on stable releases, using the newest MirPorts version is
+ recommended. For all platforms, we are still searching for developers
+ as well as testers to build packages and to submit bug reports.</p>
+
+<h2 id="install">Set-up instructions</h2>
+
+<p>Please refer to the <a href="man8/Setup.sh.htm">installer’s
+ manual page</a> for an invocation reference of the Setup.sh script.</p>
+
+<h3 id="installsystem">System-wide installation</h3>
+
+<p>The system-wide setup is usually carried out by a user who can run
+ commands as root by using <a href="htman/i386/man8/sudo.htm" class="manlink">sudo(8)</a>.</p>
+ 
+<ol>
+ <li>First, MirPorts must be checked out from CVS into either /usr/ports
+  or /usr/mirports. If you are on MirOS and installed the ports10.ngz
+  set, you can skip this step, and you will find the sources unpacked in
+  /usr/ports. In the following commands, replace “mirports” by “ports”
+  to use the /usr/ports directory.<pre>
+$ cd /usr
+$ sudo mkdir mirports
+$ sudo chown 2999 mirports
+$ cvs -d _anoncvs@anoncvs.mirbsd.org:/cvs co -d mirports ports
+</pre></li>
+ <li>Now you need to run the setup script. It will automatically use
+  <a href="htman/i386/man8/sudo.htm" class="manlink">sudo(8)</a> to gain root privileges where necessary. If the -e flag is
+  given below, the configuration files will be placed inside
+  /usr/mpkg/etc instead of /etc. If you do not have mksh, replace it by
+  bash.<pre>
+$ cd /usr/mirports
+$ mksh Setup.sh -e
+</pre><p>On MirOS, you can skip this step if you installed the
+  pkgutl10.ngz set during the installation. If not, then run</p><pre>
+$ cd /usr/ports ; make setup
+</pre><p>instead of the commands above.</p></li>
+ <li>On non-MirOS systems, to use MirPorts, some environment variables
+  (PATH etc.) have to be set. For Bourne shells (mksh, bash or similar),
+  run the following command:<pre>
+$ . /usr/mpkg/db/SetEnv.sh
+</pre><p>and add it to your ~/.profile or /etc/profile (for all users).
+  For tcsh, the command is</p><pre>
+$ source /usr/mpkg/db/SetEnv.csh
+</pre><p>To make the changes permanent, the command must be added to
+ ~/.tcshrc.</p></li>
+</ol>
+
+<h3 id="installuser">Installation as an unprivileged user</h3>
+
+<p>For an unprivileged installation, the same three steps as above are
+ necessary. In the Setup.sh invocation, the -u flag is used to select an
+ unprivileged setup, and the target directory is selected with the -l
+ flag. This directory is usually located in your home directory and will
+ contain all installed packages, configuration files and the package
+ database. In the following, we will use <tt></tt> for this
+ directory.</p>
+
+<ol>
+ <li>Checkout:<pre>
+$ cvs -d _anoncvs@anoncvs.mirbsd.org:/cvs co -d mirports ports
+</pre></li>
+ <li>Setup:<pre>
+$ cd ports
+$ mkdir -p /bin
+$ MKSH=/bin/mksh bash Setup.sh -uel 
+</pre></li>
+ <li>Set environment variables:<pre>
+$ . /db/SetEnv.sh
+</pre><p>Or for tcsh:</p><pre>
+$ source /db/SetEnv.csh
+</pre></li>
+</ol>
+
+
+<h2 id="platforms">Platform-specific notes</h2>
+
+<h3 id="miros">MirOS BSD</h3>
+
+
+<p>To install MirPorts system-wide on MirOS BSD, just execute</p><pre>
+ $ cd /usr/ports
+ $ make setup
+</pre><p>as an unprivileged user. The sudo command is invoked
+ automatically to gain root privileges where needed.</p>
+
+<h3 id="darwin">Mac OS X</h3>
+
+<p>Before using MirPorts, you need to install the Developer Tools from
+ the separate DVD provided, as well as the X11 package from the
+ installation DVD.</p>
+
+<h3 id="mnbsd">MidnightBSD</h3>
+
+<p>MidnightBSD support is experimental, and it currently
+ lacks support for the “i386-unknown-midnightbsd0.2” gnutarget in
+ most applications. This should be unproblematic due to MirLibtool.</p>
+
+<p>You must install perl from mports before setting up MirPorts, as
+ parts of the infrastructure are written in Perl.</p>
+
+<p>Note that the MirPorts Framework always uses the <a
+ href="mksh.htm">MirBSD Korn Shell</a> internally to run
+ command lines embedded in the Makefiles, configure scripts,
+ etc. Since mksh lives as <tt>/bin/mksh</tt> in MidnightBSD,
+ there is no need to install it; however, if a more recent
+ version is available, you can upgrade it from shells/mksh;
+ export MKSH=/mksh then (or overwrite the system’s
+ copy).</p>
+
+<h3 id="obsd">OpenBSD</h3>
+
+<p>Using MirPorts on OpenBSD is currently untested but should work well
+ in principle. It does not conflict with the OpenBSD ports tree. You can
+ use ksh for the Setup.sh invocation in step 2 above.</p>
+
+<p>If you use MirPorts on OpenBSD and are willing to help us test,
+ please drop an e-mail to the miros-discuss@ mailing list. Thanks!</p>
+
+<h2 id="using">Using the MirPorts Framework</h2>
+
+<p>The directories below /usr/ports are the categories for ports. Each
+ port is contained in its own subdirectory and contains a Makefile.
+ Just executing <tt>mmake install</tt> in such a directory will download
+ the source code, compile it, create a binary package and install it.
+ Dependencies are automatically installed  when necessary. Some ports
+ exist in different “flavours”, e.g. with or without X support.</p>
+
+<p>For example, to install the “joe” port from the “editors” category,
+ use the following commands:</p><pre>
+ $ cd /usr/ports/editors/joe
+ $ mmake install clean
+</pre>
+
+<p>Always use mmake instead of make for invoking MirPorts commands. Some
+ other useful commands are:</p>
+ 
+<ul>
+ <li>To search for ports whose name contains “foo”, run the following
+  command in the top-level directory:<pre>
+$ mmake search name=foo
+</pre></li>
+ <li>To show all flavours of a given port, run:<pre>
+$ mmake show=FLAVOURS
+</pre></li>
+ <li>To install the package with, say, the “foo” and without the
+  “bar” flavour, run:<pre>
+$ env FLAVOUR='foo no-bar' mmake install clean
+</pre>Note that you must not place the assignment after the mmake
+ invocation.</li>
+</ul>
+</div>
+<div class="footer">
+<p style="display: none;">Do <em>not</em> send any eMail to <a
+ href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
+ href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>, or <a
+ href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a> –
+ it won’t do any good to you.</p>
+<p>• <a
+ href="mailto:miros-discuss@mirbsd.org">eMail</a> contact to The MirOS Project
+ • <a href="imprint.htm">Impressum</a> • This website is (supposed
+ to be) <a href="http://validator.w3.org/check/referer">Valid HTML</a>! •
+</p>
+<p class="rcsdiv">Generated <!-- MBSD_HTSCONV_GENDATE_TAG_30284 --> on <span class="rcsid">2013-06-08 01:22:30</span> by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.70 2013/06/08 00:58:01 tg Exp $</span> from <span class="rcsid">$MirOS: www/src/ports.hts,v 1.12 2011/02/12 23:41:32 bsiegert Exp $</span></p>
+</div></div>
+<div class="heading">
+ <img class="hdrlnks" alt="MirOS Logo"
+  src="pics/logo-grey.png" />
+</div>
+</body></html>

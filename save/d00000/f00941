@@ -1,0 +1,574 @@
+
+ 
+
+
+
+ 
+ 
+ 
+
+
+
+ 
+ 
+ <!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+ 
+ <meta name="ROBOTS" content="NOARCHIVE">
+ 
+ <link rel="icon" type="image/vnd.microsoft.icon" href="http://www.gstatic.com/codesite/ph/images/phosting.ico">
+ 
+ 
+ <link rel="canonical" href="http://code.google.com/p/web-testing-framework/wiki/TestingServiceAPI" />
+ 
+ <script type="text/javascript">
+ 
+ 
+ 
+ 
+ var codesite_token = null;
+ 
+ 
+ var CS_env = {"assetVersionPath":"http://www.gstatic.com/codesite/ph/4319235871638307680","relativeBaseUrl":"","assetHostPath":"http://www.gstatic.com/codesite/ph","projectHomeUrl":"/p/web-testing-framework","token":null,"loggedInUserEmail":null,"domainName":null,"profileUrl":null,"projectName":"web-testing-framework"};
+ var _gaq = _gaq || [];
+ _gaq.push(
+ ['siteTracker._setAccount', 'UA-18071-1'],
+ ['siteTracker._trackPageview']);
+ 
+ (function() {
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+ })();
+ 
+ </script>
+ 
+ 
+ <title>TestingServiceAPI - 
+ web-testing-framework -
+ 
+ API Standards for The Testing Service - 
+ Standard interfaces and bindings for web performance testing - Google Project Hosting
+ </title>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/4319235871638307680/css/core.css">
+ 
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/4319235871638307680/css/ph_detail.css" >
+ 
+ 
+ 
+ <link type="application/atom+xml" rel="alternate" href="/feeds/p/web-testing-framework/svnchanges/basic?path=/wiki/TestingServiceAPI.wiki">
+ 
+ 
+<!--[if IE]>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/4319235871638307680/css/d_ie.css" >
+<![endif]-->
+ <style type="text/css">
+ .menuIcon.off { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -42px }
+ .menuIcon.on { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -28px }
+ .menuIcon.down { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 0; }
+ 
+ 
+ #maincol {
+ padding-top: 0;
+ padding-bottom: 0;
+ }
+
+ 
+ </style>
+</head>
+<body class="t6">
+<script type="text/javascript">
+ window.___gcfg = {lang: 'en'};
+ (function() 
+ {var po = document.createElement("script");
+ po.type = "text/javascript"; po.async = true;po.src = "https://apis.google.com/js/plusone.js";
+ var s = document.getElementsByTagName("script")[0];
+ s.parentNode.insertBefore(po, s);
+ })();
+</script>
+<div class="headbg">
+
+ <div id="gaia">
+ 
+
+ <span>
+ 
+ 
+ <a href="#" id="projects-dropdown" onclick="return false;"><u>My favorites</u> <small>&#9660;</small></a>
+ | <a href="https://www.google.com/accounts/ServiceLogin?service=code&amp;ltmpl=phosting&amp;continue=http%3A%2F%2Fcode.google.com%2Fp%2Fweb-testing-framework%2Fwiki%2FTestingServiceAPI&amp;followup=http%3A%2F%2Fcode.google.com%2Fp%2Fweb-testing-framework%2Fwiki%2FTestingServiceAPI" onclick="_CS_click('/gb/ph/signin');"><u>Sign in</u></a>
+ 
+ </span>
+
+ </div>
+
+ <div class="gbh" style="left: 0pt;"></div>
+ <div class="gbh" style="right: 0pt;"></div>
+ 
+ 
+ <div style="height: 1px"></div>
+<!--[if lte IE 7]>
+<div style="text-align:center;">
+Your version of Internet Explorer is not supported. Try a browser that
+contributes to open source, such as <a href="http://www.firefox.com">Firefox</a>,
+<a href="http://www.google.com/chrome">Google Chrome</a>, or
+<a href="http://code.google.com/chrome/chromeframe/">Google Chrome Frame</a>.
+</div>
+<![endif]-->
+
+
+
+ <table style="padding:0px; margin: 0px 0px 10px 0px; width:100%" cellpadding="0" cellspacing="0"
+ itemscope itemtype="http://schema.org/CreativeWork">
+ <tr style="height: 58px;">
+ 
+ 
+ 
+ <td id="plogo">
+ <link itemprop="url" href="/p/web-testing-framework">
+ <a href="/p/web-testing-framework/">
+ 
+ <img src="http://www.gstatic.com/codesite/ph/images/defaultlogo.png" alt="Logo" itemprop="image">
+ 
+ </a>
+ </td>
+ 
+ <td style="padding-left: 0.5em">
+ 
+ <div id="pname">
+ <a href="/p/web-testing-framework/"><span itemprop="name">web-testing-framework</span></a>
+ </div>
+ 
+ <div id="psum">
+ <a id="project_summary_link"
+ href="/p/web-testing-framework/"><span itemprop="description">Standard interfaces and bindings for web performance testing</span></a>
+ 
+ </div>
+ 
+ 
+ </td>
+ <td style="white-space:nowrap;text-align:right; vertical-align:bottom;">
+ 
+ <form action="/hosting/search">
+ <input size="30" name="q" value="" type="text">
+ 
+ <input type="submit" name="projectsearch" value="Search projects" >
+ </form>
+ 
+ </tr>
+ </table>
+
+</div>
+
+ 
+<div id="mt" class="gtb"> 
+ <a href="/p/web-testing-framework/" class="tab ">Project&nbsp;Home</a>
+ 
+ 
+ 
+ 
+ <a href="/p/web-testing-framework/downloads/list" class="tab ">Downloads</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/web-testing-framework/w/list" class="tab active">Wiki</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/web-testing-framework/issues/list"
+ class="tab ">Issues</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/web-testing-framework/source/checkout"
+ class="tab ">Source</a>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <div class=gtbc></div>
+</div>
+<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" class="st">
+ <tr>
+ 
+ 
+ 
+ <td class="subt">
+ <div class="issueDetail">
+<div class="isf">
+ 
+ <span class="inIssueList"> 
+ <span>Search</span>
+ <form action="/p/web-testing-framework/w/list" method="GET" style="display:inline">
+ <select id="can" name="can" >
+ <option disabled="disabled">Search within:</option>
+ 
+ <option value="1" >&nbsp;All wiki pages</option>
+ <option value="3" >&nbsp;Featured pages</option>
+ <option value="2" selected="selected">&nbsp;Current pages</option>
+ 
+ 
+ <option value="4" >&nbsp;Deprecated pages</option>
+ 
+ </select>
+ <span>for</span>
+ <span id="qq"><input type="text" size="38" id="searchq" name="q" value=""
+ autocomplete="off" ></span>
+ 
+ 
+ 
+ <input type="submit" value="Search" >
+ </form>
+ </span>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+</div>
+</div>
+
+ </td>
+ 
+ 
+ 
+ 
+ 
+ 
+ <td align="right" valign="top" class="bevel-right"></td>
+ </tr>
+</table>
+
+
+<script type="text/javascript">
+ var cancelBubble = false;
+ function _go(url) { document.location = url; }
+</script>
+<div id="maincol"
+ 
+>
+
+ 
+
+
+
+
+
+
+
+ <style type="text/css">
+ .delcom { background: #e8e8e8 }
+ .commentcontent {
+ margin: 2em;
+ padding: 0px 10px;
+ width: 66em;
+ }
+ .artifactcomment {
+ border-top: 3px solid #c3d9ff;
+ }
+ #commentform {
+ border-top: 3px solid #c3d9ff;
+ }
+ </style>
+
+<div id="wikipage">
+<table>
+ <tr>
+ 
+ 
+ <td style="vertical-align:top; padding-left:5px">
+ 
+ <div id="wikiheader">
+ 
+ <span style="font-size:120%;font-weight:bold">TestingServiceAPI</span>
+ &nbsp;
+ <div> 
+ 
+ <i>API Standards for The Testing Service</i>
+ 
+ 
+ <br/>
+ 
+ <a class="label" style="padding-top: 2px"
+ href="/p/web-testing-framework/w/list?q=label:Featured"
+ title="Listed on project home page"
+ >Featured</a>
+ 
+ 
+ 
+ <div id="wikiauthor" style="float:right">
+ Updated <span title="Mon Apr 18 08:33:41 2011">
+ Apr 18, 2011</span>
+ 
+ by 
+
+ <a class="userlink"
+ href="/u/104759401447358500786/">PatMee...@gmail.com</a
+>
+ 
+ </div>
+ </div>
+ </div>
+ 
+ <div id="wikicontent">
+ <div class="vt" id="wikimaincol">
+ <h1><a name="Introduction"></a>Introduction<a href="#Introduction" class="section_anchor"></a></h1><p>These are the interfaces that need to be supported by a service that implements Web Performance Testing. </p><h1><a name="Operations"></a>Operations<a href="#Operations" class="section_anchor"></a></h1><p>These are the operations that the interfaces will need to support </p><h2><a name="Location/Configuration_Enumeration"></a>Location/Configuration Enumeration<a href="#Location/Configuration_Enumeration" class="section_anchor"></a></h2><p>We need a way to query for the different test machine configurations and capabilities.  This will need to be a filterable query for a flat list rather than a hierarchy because some models may make sense to say &quot;give me all of the physical locations&quot; and then list the configurations in each location but it is also possible to build a UI that would want the list of tester pools that have a particular browser or that are on a particular carrier. </p><p>There will need to be a collection of entry-points: - Query for the list of parameters that can be used for filtering and their possible values - Query for the actual tester pools (and identify fields of data you&#x27;d like back about each pool) </p><h2><a name="Script_Registration"></a>Script Registration<a href="#Script_Registration" class="section_anchor"></a></h2><p>For complex or larger test scripts there needs to be an interface for registering a script bundle (including any referenced external files) and referencing it in the actual test request. </p><p><strong>Method:</strong> POST </p><p><strong>URI:</strong> script </p><p><strong>Parameters:</strong> </p><p><strong>Response:</strong> </p><p><strong>Example:</strong> </p><p><i>Request</i> </p><pre class="prettyprint">POST http://www.webpagetest.org/wtf/test
+multipart-form
+script_file=...</pre><p><i>Response</i> </p><pre class="prettyprint"></pre><h2><a name="Test_Submission"></a>Test Submission<a href="#Test_Submission" class="section_anchor"></a></h2><p>The ability to submit a test request to a given tester pool/configuration.  If a test can be completed synchronously then the results are returned directly in the response, otherwise the status of the test is returned (the response is the same as the Status Check API). </p><p>Not all features will be supported by all services so be sure to check the capabilities of a service before assuming it can support the features you are requesting (particularly when requesting multiple iterations, urls, etc). </p><p><strong>Method:</strong> POST </p><p><strong>URI:</strong> test </p><p><strong>Parameters:</strong> <ul><li><strong>url</strong>: URL to be tested (if the test is for an url).  If multiple URLs are supported in a single test they should be tab-delimited. </li><li><strong>config</strong>: Configuration to use for the test (see Location/Configuration enumeration above).  If multiple configurations are supported for a single test they should be tab-delimited. </li><li><strong>connection</strong>: Predefined connectivity for the given configuration or or custom parameters if supported.  For custom configurations, bandwidth is in Kbps (1024 Bps), latency is in ms and packet loss is in percent and each supports fractional (decimal) values.  The values are preceded with <strong>d</strong> for download bandwidth, <strong>u</strong> for upload bandwidth, <strong>l</strong> for round-trip latency and <strong>p</strong> for packet loss (additional parameters may be avaliable in the future). </li><ul><li><strong>custom:<tt>&lt;parameters&gt;</tt></strong>: custom:d1500,u768,l50,p0 </li></ul><li><strong>iterations</strong>: Number of times to run the test </li><li><strong>end</strong>: End condition for the test </li><ul><li><strong>onload</strong>: Test ends when the browser indicates the page has finished loading </li><li><strong>activity</strong>: Test ends when the browser has stopped requesting resources for a defined period (2 seconds?) </li></ul><li><strong>script</strong>: Script to use for the test (sent with the test request).  The actual scripting language is vendor-specific </li><li><strong>script-id</strong>: Script to use for the test (reference to script uploaded separately) </li><li><strong>screen-shots</strong>: Grab screen shots of the test.  Images will be included in the HAR file, base-64 encoded.  Can be a comma-delimited list of: </li><ul><li><strong>all</strong>: All available screen shots </li><li><strong>error</strong>: Only when there is a test error </li><li><strong>start-render</strong>: Initial render of the test </li><li><strong>end</strong>: The final image at the end of the test </li><li><strong>onload</strong>: The page at the time of the onLoad event </li></ul><li><strong>video</strong>: Capture video of the page load (output format is vendor-specific).  If multiple video modes are available we can extend the values to support them. </li><ul><li><strong>1</strong>: Capture video </li><li><strong>0</strong>: Do not capture video </li></ul><li><strong>login</strong>: Authentication (if supported).  User name and password need to be supplied separately.  It is recommended that https be used for the API for any tests where credentials are supplied. </li><ul><li><strong>basic</strong>: HTTP-basic auth </li></ul><li><strong>login-user</strong>: User name for authentication </li><li><strong>login-pass</strong>: Password for authentication </li><li><strong>post-result</strong>: Post the result to the supplied URI.  This will allow for direct integration with the data API&#x27;s.  The result will be deleted locally upon successful post.  Multiple URIs may be supported by tab-delimiting them. </li><li><strong>beacon-result</strong>: Send an abridged beacon to the supplied URI with summary information (and retain the test for a short period to allow for asynchronous fetching of the result). Multiple URIs may be supported by tab-delimiting them. </li></ul></p><p><strong>Response:</strong> </p><p><strong>Example:</strong> </p><p><i>Request</i> </p><pre class="prettyprint">POST http://www.webpagetest.org/wtf/test
+url=...</pre><p><i>Response</i> </p><pre class="prettyprint"></pre><h2><a name="Check_Status/Retrieve_Test_Result"></a>Check Status/Retrieve Test Result<a href="#Check_Status/Retrieve_Test_Result" class="section_anchor"></a></h2><p>Returns the details of a test.  If the test isn&#x27;t complete yet then the status would be returned </p><p><strong>Method:</strong> GET </p><p><strong>URI:</strong> test/<tt>&lt;id&gt;</tt> <ul><li><strong>id</strong>: Test ID returned when the test was submitted </li></ul></p><p><strong>Parameters:</strong> </p><p><strong>Response:</strong> </p><p><strong>Example:</strong> </p><p><i>Request</i> </p><pre class="prettyprint">GET http://www.webpagetest.org/wtf/test/20110325_XX_YYYSA</pre><p><i>Response</i> </p><pre class="prettyprint"></pre><h2><a name="Cancel/Delete_Test_Result"></a>Cancel/Delete Test Result<a href="#Cancel/Delete_Test_Result" class="section_anchor"></a></h2><p>The testing service isn&#x27;t expected to provide long-term storage of results.  At a minimum you&#x27;ll need to be able to cancel a pending test but it wouldn&#x27;t hurt to allow for an explicit delete of ephemeral results as well. </p><p><strong>Method:</strong> DELETE </p><p><strong>URI:</strong> test/<tt>&lt;id&gt;</tt> <ul><li><strong>id</strong>: Test ID returned when the test was submitted </li></ul></p><p><strong>Parameters:</strong> </p><p><strong>Response:</strong> </p><p><strong>Example:</strong> </p><p><i>Request</i> </p><pre class="prettyprint">DELETE http://www.webpagetest.org/wtf/test/20110325_XX_YYYSA</pre><p><i>Response</i> </p><pre class="prettyprint"></pre><h2><a name="Notification/Beaconing_of_Results"></a>Notification/Beaconing of Results<a href="#Notification/Beaconing_of_Results" class="section_anchor"></a></h2><p>In addition to polling for status/result we should allow for the testing service to push results (or just notification of results being available) using a standard interface (HTTP Post to a supplied URL). </p>
+ </div>
+ </div>
+ </td><tr>
+</table>
+ </div>
+
+
+ 
+ <div id="wikicommentcol">
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+<div class="collapse">
+
+
+ 
+
+
+<div id="commentlist">
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/115660166428239545181/">markp...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Mar 27 04:01:21 2011">Mar 27, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>I would like to propose to support both &quot;real-time&quot; tests and &quot;polling for result&quot; type of tests. In a real-time test the test result will be part of the response of the &quot;Test submission&quot; call. So maybe we can add a flag in &quot;Test submission&quot; for that (or make it part of the response for that call). </p><p>Mark </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/105365334487933644281/">adrian...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Apr  7 00:53:44 2011">Apr 7, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>Not an expert on REST interfaces, but from what I&#x27;ve seen aren&#x27;t id&#x27;s typically passed in via the URI?  Eg: </p><p>GET <a href="http://www.webpagetest.org/wtf/test/20110325_XX_YYYSA" rel="nofollow">http://www.webpagetest.org/wtf/test/20110325_XX_YYYSA</a> </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/117267775141335763058/">ian.t.wi...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Apr  8 10:34:34 2011">Apr 8, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>I also agree that we should distinguish between time sensitive/real time tests and best effort requests.  There will be some requests that if that can&#x27;t be completed right away aren&#x27;t needed.  In theory on the back-end these requests will be handled by different equipment and possibly billed for at a different rate by providers. </p><p>This could be done with a separate call or simply a variable though. </p><p>This also raises the issue of scheduled tests, i.e. do a test at or as close to a specific day and time in the future.  Taking this a step further there is the issue of scheduling recurring tests.  Sounds like we need a position on whether or not that is in scope here. </p><p>Finally perhaps it&#x27;s best to tackle this near the end, but there is the small matter of error handling. </p><p>Ian </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by  project member 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/104759401447358500786/">PatMee...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Mon Apr 18 07:38:47 2011">Apr 18, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>@ian, I&#x27;d prefer not to tackle scheduled tests directly as part of this API (or at least this iteration) because I think the consumption model is different enough that it justifies it&#x27;s own interface.  I expect you&#x27;d want to managed the schedules and &quot;jobs&quot; but the result access would be more through something like the data api.  For most users I expect they&#x27;ll be using a vendor&#x27;s UI for managing the schedules and then use the data API as the integration point for the results. </p><p>@adrian - thx, I&#x27;ll adjust the interface appropriately. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+</div>
+</div>
+
+ 
+
+
+ <script type="text/javascript">
+ function delComment(sequence_num, create_time, delete_mode) {
+ var f = document.forms["delcom"];
+ f.sequence_num.value = sequence_num;
+ f.create_time.value = create_time;
+ f.mode.value = delete_mode;
+ f.submit();
+ return false;
+ }
+ </script>
+
+
+ </div>
+ 
+ 
+ 
+ 
+ <br>
+ <div class="artifactcomment">
+ <span class="indicator">&#9658;</span> <a href="https://www.google.com/accounts/ServiceLogin?service=code&amp;ltmpl=phosting&amp;continue=http%3A%2F%2Fcode.google.com%2Fp%2Fweb-testing-framework%2Fwiki%2FTestingServiceAPI&amp;followup=http%3A%2F%2Fcode.google.com%2Fp%2Fweb-testing-framework%2Fwiki%2FTestingServiceAPI"
+ >Sign in</a> to add a comment
+ </div>
+ 
+ 
+ 
+ 
+ <form name="delcom" action="../w/delComment.do" method="POST">
+ <input type="hidden" name="sequence_num" value="" >
+ <input type="hidden" name="create_time" value="" >
+ <input type="hidden" name="mode" value="" >
+ <input type="hidden" name="pagename" value="TestingServiceAPI" >
+ <input type="hidden" name="token" value="" >
+ </form>
+
+
+ <script src="http://www.gstatic.com/codesite/ph/4319235871638307680/js/prettify/prettify.js"></script>
+ <script type="text/javascript">
+ prettyPrint();
+ </script>
+
+<script type="text/javascript" src="http://www.gstatic.com/codesite/ph/4319235871638307680/js/dit_scripts.js"></script>
+
+
+
+  
+ 
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/4319235871638307680/js/ph_core.js"></script>
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/4319235871638307680/js/ph_dwiki.js"></script>
+ 
+ 
+ 
+ 
+</div> 
+
+<div id="footer" dir="ltr">
+ <div class="text">
+ <a href="/projecthosting/terms.html">Terms</a> -
+ <a href="http://www.google.com/privacy.html">Privacy</a> -
+ <a href="/p/support/">Project Hosting Help</a>
+ </div>
+</div>
+ <div class="hostedBy" style="margin-top: -20px;">
+ <span style="vertical-align: top;">Powered by <a href="http://code.google.com/projecthosting/">Google Project Hosting</a></span>
+ </div>
+
+ 
+ 
+
+
+ 
+ </body>
+</html>
+
+

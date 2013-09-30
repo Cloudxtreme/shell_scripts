@@ -1,0 +1,612 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><!-- InstanceBegin template="/Templates/SU_3COL.dwt"
+
+codeOutsideHTMLIsLocked="false" --> 
+<head>
+<!-- InstanceBeginEditable name="doctitle" -->
+<meta name="google-site-verification" content="-I17qVmzw2T1pvkAz01B6sB9jh-rDqA6FmgRHVVASKE" />
+<style type="text/css">
+<!--
+/** 
+ * Slideshow style rules.
+ */
+#slideshow {
+	margin:0 auto;
+	width:640px;
+	height:263px;
+	background:transparent url(img/bg_slideshow.jpg) no-repeat 0 0;
+	position:relative;
+}
+#slideshow #slidesContainer {
+  margin:0 auto;
+  width:560px;
+  height:263px;
+  overflow:auto; /* allow scrollbar */
+  position:relative;
+}
+#slideshow #slidesContainer .slide {
+  margin:0 auto;
+  width:540px; /* reduce by 20 pixels of #slidesContainer to avoid horizontal scroll */
+  height:263px;
+}
+
+/** 
+ * Slideshow controls style rules.
+ */
+.control {
+  display:block;
+  width:50px;
+  height:263px;
+  text-indent:-10000px;
+  position:absolute;
+  cursor: pointer;
+}
+#leftControl {
+  top:0;
+  left:0;
+  background:transparent url(http://sgf.stanford.edu/images/control_left.jpg) no-repeat 0 0;
+}
+#rightControl {
+  top:0;
+  right:0;
+  background:transparent url(http://sgf.stanford.edu/images/control_right.jpg) no-repeat 0 0;
+}
+
+/** 
+ * Style rules for Demo page
+
+* {
+  margin:0;
+  padding:0;
+  font:normal 11px Verdana, Geneva, sans-serif;
+  color:#ccc;
+}
+a {
+  color: #fff;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+a:hover {
+  text-decoration:underline;
+}
+body {
+  background:#393737 url(img/bg_body.jpg) repeat-x top left;
+}
+ */
+#pageContainer {
+  margin:0 auto;
+  width:960px;
+}
+#pageContainer h1 {
+  display:block;
+  width:960px;
+  height:114px;
+  background:transparent url(img/bg_pagecontainer_h1.jpg) no-repeat top left;
+  text-indent: -10000px;
+}
+.slide h2, .slide p {
+  margin:15px;
+}
+.slide h2 {
+  font:italic 24px Georgia, "Times New Roman", Times, serif;
+  letter-spacing:-1px;
+}
+.slide img {
+  float:right;
+  margin:0 15px;
+}
+/*
+#footer {
+  height:100px;
+}
+#footer p {
+  margin:30px auto 0 auto;
+  display:block;
+  width:560px;
+  height:40px;
+}
+*/
+-->
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  var currentPosition = 0;
+  var slideWidth = 560;
+  var slides = $('.slide');
+  var numberOfSlides = slides.length;
+
+  // Remove scrollbar in JS
+  $('#slidesContainer').css('overflow', 'hidden');
+
+  // Wrap all .slides with #slideInner div
+  slides
+    .wrapAll('<div id="slideInner"></div>')
+    // Float left to display horizontally, readjust .slides width
+	.css({
+      'float' : 'left',
+      'width' : slideWidth
+    });
+
+  // Set #slideInner width equal to total width of all slides
+  $('#slideInner').css('width', slideWidth * numberOfSlides);
+
+  // Insert controls in the DOM
+  $('#slideshow')
+    .prepend('<span class="control" id="leftControl">Clicking moves left</span>')
+    .append('<span class="control" id="rightControl">Clicking moves right</span>');
+
+  // Hide left arrow control on first load
+  manageControls(currentPosition);
+
+  // Create event listeners for .controls clicks
+  $('.control')
+    .bind('click', function(){
+    // Determine new position
+	currentPosition = ($(this).attr('id')=='rightControl') ? currentPosition+1 : currentPosition-1;
+    
+	// Hide / show controls
+    manageControls(currentPosition);
+    // Move slideInner using margin-left
+    $('#slideInner').animate({
+      'marginLeft' : slideWidth*(-currentPosition)
+    });
+  });
+
+  // manageControls: Hides and Shows controls depending on currentPosition
+  function manageControls(position){
+    // Hide right arrow if position is first slide
+	if(position==0){ $('#leftControl').hide() } else{ $('#leftControl').show() }
+	// Hide right arrow if position is last slide
+    if(position==numberOfSlides-1){ $('#rightControl').hide() } else{ $('#rightControl').show() }
+  }	
+});
+</script>
+<title>Stanford Graduate Fellowships - Home</title>
+<!-- InstanceEndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="scripts/ResizeReloadNN4.js"></script>
+<script type="text/javascript" src="scripts/p7TMMscripts.js"></script>
+<script type="text/javascript" src="scripts/p7uberlink.js"></script>
+<script type="text/javascript" src="scripts/jquery-1.2.6.pack.js"></script>
+<link rel="stylesheet" href="css/structure.css" type="text/css" media="screen"/>
+<link rel="stylesheet" href="css/content.css" type="text/css" media="screen"/>
+<link rel="stylesheet" href="css/print.css" type="text/css" media="print"/>
+<link rel="stylesheet" href="css/p7TMM04.css" type="text/css" media="screen" />
+<!--[if IE]>
+    <link rel="stylesheet" href="/css/iehacks.css" type="text/css" media="screen"/>
+<![endif]-->
+<!--[if lt IE 7]>
+    <script type="text/javascript" src="/scripts/p7tmIEwidth.js"></script>
+    <script type="text/javascript">P7_limit('wrapper2',855);</script>
+<![endif]-->
+<!-- InstanceParam name="HomePage" type="boolean" value="true" -->
+
+<link href="css/home.css" rel="stylesheet" type="text/css" media="screen" />
+
+<!-- InstanceParam name="ThreeColumns" type="boolean" value="true" -->
+
+
+<link href="css/ThreeCol.css" rel="stylesheet" type="text/css" media="screen" />
+
+<!-- InstanceParam name="id" type="text" value="home" -->
+<!-- InstanceParam name="PageHeading" type="boolean" value="true" -->
+<!-- InstanceParam name="Top-of-Page" type="boolean" value="false" -->
+<!-- InstanceParam name="SortableTable" type="boolean" value="false" -->
+<!-- InstanceParam name="DropShadow" type="boolean" value="false" -->
+<!-- InstanceParam name="ImageCaption" type="boolean" value="false" -->
+<!-- InstanceParam name="StripedTable" type="boolean" value="false" -->
+
+
+
+
+<!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style1 {
+  color: #990000;
+  font-style: italic;
+  font-weight: bold;
+}
+-->
+</style>
+<!-- InstanceEndEditable -->
+</head>
+<body id="home">
+<div class="skip"><a href="#bodyText">Skip to content</a> <a href="#leftnav">Skip to navigation</a></div>
+<div id="wrapper1">
+    <div id="SUlink"><a name="top"></a><a href="http://www.stanford.edu" target="_blank"><img
+
+src="uiparts/stanford_university_home.gif" alt="Stanford University Home" title="Stanford University Home"/></a></div>
+    <div id="header"><a href="http://vpge.stanford.edu" title="VPGE Home Page" target="_blank"><img
+
+src="uiparts/site_title_clear.gif" width="617" height="35" /></a></div>
+    <div id="wrapper2">
+        <div id="indent">
+            <div id="banner">
+                <div id="red_swipe_fixed"></div>
+                <div id="title_fixed"></div>
+            </div>
+            		<div class="columns">
+				<div class="leftcolumn" id="leftnav">
+					<div id="search">
+	<div>Search:</div>
+ <form action="http://www.stanford.edu/search" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="003265255082301896483:sq5n7qoyfh8" />
+    <input type="hidden" name="cof" value="FORID:9" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="16" />
+    <input type="hidden" name="as_dt" value="i" />
+    <input type="hidden" name="as_sitesearch" value="http://sgf.stanford.edu" />
+		<button class="search_button" name="sa" value="Search" type="submit">Submit</button>
+  </div>
+</form>
+</div>
+					<script type="text/javascript">
+
+var _gaq = _gaq || [];
+var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js'; 
+_gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+ _gaq.push(['_setAccount', 'UA-36596095-1']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>
+
+<div id="p7TMM_1" class="p7TMM04">
+	<ul class="p7TMM">
+		<li><a href="http://sgf.stanford.edu/program/overview.html?id=1">Stanford Graduate Fellowships in Science and Engineering</a>
+			<div>
+				<ul>
+                <li><a href="http://sgf.stanford.edu/program/names.html">SGF Fellows Directory</a></li>
+					<li><a href="http://sgf.stanford.edu/program/photo.html">SGF Fellows Group Photos</a></li>
+                    <li><a href="http://sgf.stanford.edu/news.html">SGFs in the News</a></li>
+				</ul>
+			</div>
+		</li>
+		<li><a href="http://sgf.stanford.edu/program/fellow.html">What do Fellows receive?</a>
+			<div>
+				<ul>
+					<li><a href="http://sgf.stanford.edu/program/multiple.html">Multiple Award Eligibility</a></li>
+				</ul>
+			</div>
+		</li>
+		<li><a href="http://sgf.stanford.edu/policy.html">Policies</a>
+			<div>
+				<ul>
+					<li><a href="http://sgf.stanford.edu/current/tenure.html">Tenure</a></li>
+					<li><a href="http://sgf.stanford.edu/current/requirements.html">Enrollment</a></li>
+					<li><a href="http://sgf.stanford.edu/current/supp_appt.html">Supplemental Appointments</a></li>
+					<li><a href="http://sgf.stanford.edu/current/banking/banking_interruption.html">Banking</a></li>
+					<li><a href="http://sgf.stanford.edu/current/leaves.html">Leaves of Absence</a></li>
+					<li><a href="http://sgf.stanford.edu/current/degree_progress.html">Degree Progress</a></li>
+				</ul>
+			</div>
+		<li><a href="http://sgf.stanford.edu/current/faq.html">Frequently Asked Questions</a>
+			<div>
+				<ul>
+					<li><a href="http://sgf.stanford.edu/current/tax_info.html">Tax Information</a></li>
+				</ul>
+			</div>
+		</li>
+		<li><a href="https://www.stanford.edu/group/sgf/admin/index.html">Faculty &amp; Administrators</a>
+			<div>
+				<ul>
+					<li><a href="https://www.stanford.edu/group/sgf/admin/nomination.html">Nominations, Award Offers</a>
+						<div>
+							<ul>
+								<li><a href="https://www.stanford.edu/group/sgf/admin/calendar.html">Submissions Calendar</a></li>
+								<li><a href="https://www.stanford.edu/group/sgf/admin/new_students.html">Round One Process</a></li>
+								<li><a href="https://www.stanford.edu/group/sgf/admin/cont_students.html">Round Two Process</a></li>
+								<li><a href="https://www.stanford.edu/group/sgf/admin/offers.html">Award Offers</a></li>
+							</ul>
+						</div>
+					</li>
+					<li><a href="https://www.stanford.edu/group/sgf/admin/administration.html">Fellowship Administration</a>
+						<div>
+							<ul>
+								<li><a href="https://www.stanford.edu/group/sgf/admin/grad_financial_sys.html">Fellowship Accounts and Entry</a></li>
+								<li><a href="https://www.stanford.edu/group/sgf/admin/configurations.html">Award Configurations</a></li>
+							</ul>
+						</div>
+					</li>
+					<li><a href="https://www.stanford.edu/group/sgf/admin/tgr.html">Policies</a></li>
+					<li><a href="https://www.stanford.edu/group/sgf/admin/fac_advisory.html">Graduate Fellowships Faculty Advisory Committee</a></li>
+				</ul>
+			</div>
+		<li><a href="http://sgf.stanford.edu/contacts.html">Contacts</a></li>
+		<li><a href="http://sgf.stanford.edu/index.html">Home</a></li>
+	</ul>
+	<!--[if lte IE 6]>
+<style>.p7TMM04 .p7TMM, .p7TMM04 a, .p7TMM04 li {height:1%;}</style>
+<![endif]-->
+	<!--[if IE 5]>
+<style>.p7TMM04 a, .p7TMM04 a {overflow: visible !important;}</style>
+<![endif]-->
+	<script type="text/javascript">
+<!--
+		P7_TMMop('p7TMM_1',3,0,0,0,1,0,1,0,-1);
+//-->
+	</script>
+</div>
+					<p id="sealdisplay"><a href="http://www.stanford.edu/" target="_blank" title="Click to go to Stanford home page"></a></p>
+				</div>
+               
+                <div class="rightcolumn">
+					<div id="ql0" class="quicklinks">
+<a href="https://www.google.com/calendar/embed?src=5okenntl72o3sfhpjdiob60ino@group.calendar.google.com&amp;ctz=America/Los_Angeles" target="_blank" class="nobg" id='calendar-of-events2'><img class="img_border_gray" alt="Events and Deadlines" title="Click to open the VPGE Calendar" src="/images/calendar.jpg" /></a>
+  <p style="margin-left:8px;">Add the VPGE calendar to your own by clicking on the &quot;+ Google Calendar&quot; on the bottom right corner of the calendar.</p>
+</div>
+<script language="JavaScript" type="text/javascript">
+//$("a#calendar-of-events").fancybox();
+$("#calendar-of-events2").fancybox({
+'width' : '75%',
+'height' : '75%',
+'autoScale' : false,
+'transitionIn' : 'none',
+'transitionOut' : 'none',
+'type' : 'iframe'
+});
+</script>
+<script language="JavaScript" type="text/javascript">
+//$("a#calendar-of-events").fancybox();
+$("#calendar-of-events").fancybox({
+'width' : '75%',
+'height' : '75%',
+'autoScale' : false,
+'transitionIn' : 'none',
+'transitionOut' : 'none',
+'type' : 'iframe'
+});
+</script>
+
+					<!-- InstanceBeginEditable name="Quick Links" -->
+					<div id="ql1" class="quicklinks">
+	<h2>Quick Links:</h2>
+	<ul>
+		<li><a href="http://vpge.stanford.edu/policy/advising.html">Graduate Advising</a> </li>
+		<li><a href="http://studentaffairs.stanford.edu/registrar/academic-calendar-1112" target="_blank" title="Link opens in new window">Academic Calendar</a></li>
+		<li><a href="http://www.stanford.edu/dept/registrar/bulletin/" target="_blank" title="Link opens in new window">Stanford Bulletin</a></li>
+		<li><a href="http://gradadmissions.stanford.edu" target="_blank" title="Link opens in new window">Applying
+		    to Graduate Study at Stanford</a></li>
+	  <li><a href="http://gap.stanford.edu">Graduate Academic Policies &amp; Procedures
+	      Handbook</a></li>
+          <li><a href="http://vpge.stanford.edu/a2z-index.html">Site Index</a></li>
+  </ul>
+</div>
+				  <!-- InstanceEndEditable -->
+					<!-- InstanceBeginEditable name="Notable Links" -->
+					<div id="ql2" class="quicklinks">
+	<h2>Notable:</h2>
+	<ul>
+	  <li><a href="http://vpge.stanford.edu/fellowships/fellows.html">2013 Recipients of VPGE Fellowships and Awards</a></li>
+	  <li><a href="http://vpge.stanford.edu/funding/basics.html">Grad Student Funding Fundamentals</a></li>
+      <li><a href="http://vpge.stanford.edu/students/TenResources.html">10 Resources for Grads</a></li>
+      <li><a href="http://sgsi.stanford.edu/" target="_blank"><strong>Stanford Graduate Summer Institute</strong></a></li>
+	</ul>
+</div>
+  
+  
+				  	<!-- InstanceEndEditable -->
+					<div class="rcolEditable">
+						<!-- InstanceBeginEditable name="More Material" -->
+                        <p></p>
+						<!-- InstanceEndEditable -->
+						<!-- InstanceBeginEditable name="Sidebar Photo" -->
+						<!-- InstanceEndEditable -->
+					</div>
+				</div>
+              <div class="centercolumn" id="bodyText">
+               
+                <h1><!-- InstanceBeginEditable name="PageHeading" --><!-- InstanceEndEditable --></h1>
+               
+                <!-- InstanceBeginEditable name="Body" -->
+                   
+                   
+                <h1>Welcome!</h1>
+                <p>The <strong>Stanford Graduate Fellowships Program in Science
+                    and Engineering </strong>first   awarded fellowships in 1997. The program was initiated
+
+by Gerhard Casper, then   President of Stanford University, and is designed to support the University's   commitment to
+
+attract the very best graduate students and to reduce its   dependence on federal funding for Ph.D. training. The
+
+fellowships are available   in the natural sciences, mathematics, statistics, engineering, the basic   sciences in the
+
+School of Medicine, and those social sciences, including   education, which are now dependent on federal assistantship
+
+support for their   doctoral students.</p>
+                <p>Over the years, over 900 Stanford Graduate Fellows students have conferred their
+
+ PhD at Stanford University. </p>
+<center>
+<table>
+<tr><td><iframe width="500" height="281" src="http://www.youtube.com/embed/U1fTB_68F4w?rel=0" frameborder="0"
+
+allowfullscreen></iframe></td></tr>
+</table>
+</center>                 
+
+<p><br />
+SGF recipient RHIJU DAS used a video game to unlock the mysteries of RNA and
+went on to join the Stanford faculty. This video celebrates the 15th
+anniversary of the SGF program and the generous donors who made it a
+reality. </p>       
+
+<h2 class="header">SGFs in the News</h2>
+
+<div id="slideshow">
+    <div id="slidesContainer">
+    <div class="slide">
+        <h2>SGFs Honoured with Centennial Teaching Assistant Awards</h2>
+       <p><a href="https://teachingcommons.stanford.edu/grants-awards/teaching-awards/centennial-teaching-assistant-awards"><img src="http://sgf.stanford.edu/images/winners2.jpg" alt="photo of Edison Yu" width="215" height="145" /></a>Three SGFs are among the winners of the 2013 Centennial Teaching Assistant Awards. The award recognises outstanding instruction by teaching assistants. <strong>Edison Yu</strong>, <em>(shown, left)</em> (2005 Sequoia Capital Fellow) received the award for Economics. <strong>Robert Arthur</strong>, (2010 David and Lucile Packard Foundation Fellow) received his award for Civil and Environmental Engineering teaching and <strong>Linus Park</strong>, (2006 Charles H. Kruger Fellow) received his award for his work as a TA in Mechanical Engineering.
+       </p>
+      </div>
+      <div class="slide">
+        <h2>Hearing Loss Study</h2>
+       <p><a href="http://med.stanford.edu/ism/2013/july/blast.html"><img src="http://sgf.stanford.edu/images/blast.jpg" alt="Thumbnail of mouse ears" width="215" height="139" /></a><strong>Jongmin Baek</strong>, 2010 Alcatel-Lucent Fellow and doctoral candidate in Computer Science, is one of the autors of a recent paper detailing of a  study which found that hearing loss from loud explosions may be reversible. Read a summary of the research in this <a href="http://med.stanford.edu/ism/2013/july/blast.html"> July 1 2013 issue of </a>  <em>Stanford Medicine</em>. 
+       </p>
+      </div>
+          <div class="slide">
+        <h2>Zinc-air Battery Created</h2>
+       <p><a href="http://news.stanford.edu/news/2013/june/zinc-air-battery-060413.html"><img src="https://sgf.stanford.edu/images/zinc-airBattery.jpg" alt="Thumbnail of zinc air battery " width="215" height="143" /></a> <strong>Hailiang Wang</strong> (2009 Henry Fan Fellow) and <strong>Guosong Hong</strong> - both from  the <a href ="https://chemistry.stanford.edu/"> Department of Chemistry</a> - are among the  co-authors of a <a href=" http://www.nature.com/ncomms/journal/v4/n5/full/ncomms2812.html#affil-auth">paper</a>, published in the journal <em>Nature Communications</em> which describes their team's creation of an advanced zinc-air battery. Their zinc-air model has higher catalytic activity and durability than similar batteries made with platinum and other costly catalysts. Their discoveries could lead to the development of a low-cost alternative to conventional lithium-ion technology widely used today, the researchers said. 
+       </p>
+      </div>
+          
+          <div class="slide">
+        <h2>Tracking Tuna Migration</h2>
+       <p><a href="http://news.stanford.edu/news/2013/march/bluefin-tuna-secrets-030413.html"><img src="https://sgf.stanford.edu/images/tuna_news.jpg" alt="Thumbnail of swimming tuna" width="215" height="144" /></a> <a href= "http://micheli.stanford.edu/DanielMadigan.html"><strong>Daniel Madigan</strong></a> (2007 Benchmark Fellow) is part of an interdisciplinary team who discovered a way to trace the migration patterns of juvenile Pacific bluefin tuna for the first time. By analyzing the levels of cesium-134 and cesium-137 (the signature radioisotopes from the Fukushima reactor accident) in young fish found in California waters they were able to determine conclusively that these were fish which originated in the area around Fukushima. The population of Pacific bluefin tuna has been decimated in recent years (they are currently estimated to be only 4% of their historical levels), and the researchers  hope that this information can be used in conservation efforts. 
+       </p>
+      </div>
+          <div class="slide">
+        <h2>Battery Performance</h2>
+       <p><a href="http://news.stanford.edu/news/2013/june/bao-cui-hydrogel-060313.html"><img src="http://sgf.stanford.edu/images/MathewMcDThumb.jpg" alt="Thumbnail of Matthew McDowelll" width="215" height="143" /></a> <a href= "http://www.stanford.edu/~mattm3/index.html"><strong>Matthew McDowell</strong></a> (2008 Chevron Fellow) is one of a team of Stanford scientists who have developed inexpensive silicon-based electrodes that dramatically improve the charge storage capacity of lithium-ion batteries. Their findings are detailed in this <a href="http://www.nature.com/ncomms/2013/130604/ncomms2941/full/ncomms2941.html"><em>Nature Communications</em> article</a>. 
+       </p>
+      </div>
+      
+      <div class="slide">
+        <h2>Metamaterials and Invisibility</h2>
+       <p><a href="http://news.stanford.edu/news/2013/february/light-emitting-bioprobe-021913.html"><img src="https://sgf.stanford.edu/images/thumnail10.png" alt="Thumbnail of cell" width="215" height="144" /></a> <a href= "http://dionne.stanford.edu/AshwinAtre.html"><strong>Ashwin Atre</strong></a> (Robert L. and Audrey S. Hancock Fellow) is one of a team of Stanford engineers who have developed a new <em>metamaterial</em> i.e. an engineered material that exhibits properties not found in the natural world.  With adjustments, the team believe this metamaterial could lead to developing a "perfect lens" for a microscope or even invisibility cloaks. Their findings are detailed in this <a href="http://onlinelibrary.wiley.com/doi/10.1002/adom.201200022/abstract"><em>Advanced Optical Materials</em> article</a> and summarized in this <a href =  "http://news.stanford.edu/news/2013/may/meta-material-invisible-050613.html">May 6th article</a> in the <em>Stanford Report</em>. 
+       </p>
+      </div>
+       <div class="slide">
+        <h2>Light-emitting bioprobe in a single cell</h2>
+       <p><a href="http://news.stanford.edu/news/2013/february/light-emitting-bioprobe-021913.html"><img src="http://sgf.stanford.edu/images/news1Thumb.jpg" alt="Thumbnail of cell" width="215" height="145" /></a><strong>Gary Shambat</strong>, 2008 Sequoia Capital Stanford Graduate Fellow and doctoral candidate in Electrical Engineering, is one of the scientists involved in the development of a new type of nanobeam device which can be inserted into living cells. The implications for research and treatment are described as "stunning" in this <a href="http://news.stanford.edu/news/2013/february/light-emitting-bioprobe-021913.html">February 19, 2013 article</a> of the <em>Stanford Report</em>. 
+       </p>
+      </div>
+      
+      <div class="slide">
+        <h2>Hydrogen-Plasma Reactions with Graphene</h2>
+       <p><a href="http://pubs.acs.org/doi/abs/10.1021/nn304903m"><img src="http://sgf.stanford.edu/images/news2Thumb.jpg" alt="Thumbnail of cell" width="215" height="145" /></a> <strong>Georgi Diankov</strong>, 2008 John Stauffer Stanford Graduate Fellow, has been researching the reactive properties of the material graphene. His discovery that single sheets of graphene are 100 times more chemically reactive than double or triple sheets is detailed in this <a href="http://pubs.acs.org/doi/abs/10.1021/nn304903m">online paper at <em>ACS Nano</em>.</a> 
+       </p>
+      </div>
+      <div class="slide">
+        <h2>Visualizing Blood Flow</h2>
+       <p><a href="http://www.nature.com/nm/journal/vaop/ncurrent/full/nm.2995.html"><img src="http://sgf.stanford.edu/images/news3Thumb.jpg" alt="Thumbnail of Guosong Hong and Hongjie Dai" width="215" height="143" /></a> <strong>Guosong Hong</strong>, <em>(shown, left)</em> 2010 Abbott Laboratories Stanford Graduate Fellow and graduate student in Chemistry is part of a team of Stanford scientists that have developed a new technique for watching blood flow in living animals. Their research is detailed in a paper (first authored by Hong) in the journal <a href="http://www.nature.com/nm/journal/vaop/ncurrent/full/nm.2995.html"><em>Nature Medicine</em></a> and also featured in a recent edition of the <a href="http://news.stanford.edu/news/2012/november/visualizing-blood-flow-112912.html">Stanford Report</a>  
+       </p>
+      </div>
+      <div class="slide">
+        <h2>AUV Exploration</h2>
+       <p><a href="http://news.stanford.edu/news/2012/november/underwater-robot-software-112612.html"><img src="http://sgf.stanford.edu/images/news4Thumb.jpg" alt="Thumbnail of An autonomous underwater vehicle being deployed from the Rachel Carson research vessel" width="215" height="143" /></a> <strong>Sarah Houts</strong>, 2008 Claudia and William Coleman Foundation Fellow and doctoral candidate in Stanford's Aerospace Robotics Laboratory, has programed a software system with possible applications ranging from monitoring icebergs for change to enabling autonomous underwater vehicles (AUVs) to better navigate obstacles.  Read about her research in <a href="http://news.stanford.edu/news/2012/november/underwater-robot-software-112612.html">this article in the Stanford Report</a>.
+       </p>
+      </div>
+              <div class="slide">
+        <h2>Quantum Cryptography</h2>
+       <p><a href="http://news.stanford.edu/news/2012/november/toward-quantum-cryptography-111512.html"><img src="http://sgf.stanford.edu/images/news5Thumb.jpg" alt="Thumbnail of the spin-photon entanglement experimental apparatus" width="215" height="143" /></a><strong>Kristiaan De Greve</strong>, PhD, a 2005 Herb and Jane Dwight Fellow and currently a postdoc at Harvard, was the lead author in a recent paper in <em>Nature</em>. The <a href="http://www.nature.com/nphys/journal/v7/n11/full/nphys2078.html">article</a> details the collaboration between researchers at Stanford, the University of Würzburg and Heriot-Watt University. Their findings are also discussed in a November 2012 issue of <a href="http://news.stanford.edu/news/2012/november/toward-quantum-cryptography-111512.html">The Stanford Report</a>.
+       </p>
+      </div>   
+      
+            
+        <div class="slide">
+        <h2>Optical Control of Protein Activity</h2>
+       <p><a href="http://www.sciencemag.org/content/338/6108/810.full"><img src="http://sgf.stanford.edu/images/news6Thumb.jpg" alt="Thumbnail of Xin Zhou" width="215" height="143" /></a> <strong>Xin Zhou</strong>, the 2011 Gabilan Fellow was the lead author on an <a href="http://www.sciencemag.org/content/338/6108/810.full">article in the Nov. 9th edition <em> Science </em></a>. Collaborating with Stanford Assistant Professor of Pediatrics and of Bioengineering Michael Lin, fellow graduate student Amy Lam, and research assistant Hokyung Chung, they developed a simple way to activate and track proteins using beams of light.
+       </p>
+      </div> 
+            <div class="slide">
+        <h2>Magnetism to Control Light</h2>
+       <p><a href="http://news.stanford.edu/news/2012/october/photon-synthetic-magnetism-110112.html"><img src="http://sgf.stanford.edu/images/news7Thumb.jpg" alt="Thumbnail of Professor Shanhui Fan , postdoc Zongfu Yu and doctoral candidate Kejie Fang" width="215" height="143" /></a> <strong>Kejie Fang</strong>, <em>(shown, right)</em> 2011 William R. and Sara Hart Kimball Fellow, is the first author of a recent <a href =
+"http://www.nature.com/nphoton/journal/vaop/ncurrent/full/nphoton.2012.236.html"> paper</a> in <em>Nature Photonics</em> 
+
+which describes the first-ever effective control of the flow of photons using magnetic fields. Using a device created by an
+
+interdisciplinary team of Stanford physicists and engineers, the researchers were able to create a synthetic magnetic force
+
+ to direct a stream of photons.
+       </p>
+      </div> 
+            <div class="slide">
+        <h2>&ldquo;Bi-Fi&rdquo; - the Biological Internet</h2>
+       <p><a href="http://engineering.stanford.edu/news/stanford-bioengineers-introduce-biological-internet"><img src="http://sgf.stanford.edu/images/news8Thumb.jpg" alt="Thumbnail of Monica Ortiz" width="215" height="144" /></a> <strong>Monica Ortiz</strong>, 2008 Gabilan Fellow and currently a doctoral candidate in bioengineering, together with Drew Endy, PhD, an assistant professor of bioengineering at Stanford, have harnesed the DNA of a paraisitic virus and used  it to create a biological mechanism which can send genetic messages between cells. This exciting development is described in this <a href="http://www.jbioleng.org/content/6/1/16/abstract" title="Link to Journal of Bioengineering paper ">paper</a> in the September 2012 edition of the <em>Journal of Biological Engineering</em>.
+       </p>
+      </div> 
+ 
+            <div class="slide">
+        <h2>Real-Time RNA Folding</h2>
+       <p><a href="http://news.stanford.edu/news/2012/october/block-rna-folding-101912.html"><img src="http://sgf.stanford.edu/images/news9Thumb.jpg" alt="Thumbnail of folding RNA" width="215" height="143" /></a> <strong> Kirsten Frieda</strong>, 2006  Gabilan Fellow, in collaboration with Professor Steven Block used &quot;optical
+tweezers&quot; to observe the folding up of a single RNA molecule in real-time. Their use of  microscopic beads as a read-out of RNA folding is unprecedented and has  important implications in understanding gene regulation. Their technique has  been <a href="http://news.stanford.edu/news/2012/october/block-rna-folding-101912.html" target="_blank">
+
+published</a> in the journal <em>Science.</em>
+       </p>
+      </div>
+              <div class="slide">
+        <h2>Battery Discovery</h2>
+       <p><a href="http://news.stanford.edu/news/2012/july/lithium-surfur-battery-071812.html"><img src="http://sgf.stanford.edu/images/news10Thumb.jpg" alt="Thumbnail of Johanna  Nelson and  Mike Toney" width="215" height="143" /></a><strong> Johanna  Nelson</strong>, postdoctoral scholar at SLAC, has been using<a href="http://news.stanford.edu/news/2012/july/lithium-surfur-battery-071812.html"> high-power X-ray imaging  to study lithium-sulfur batteries to hopefully develop viable lithium-sulfur  batteries for electric cars</a>. The co-lead authors of the study are SLAC  postdoctoral researcher Sumohan Misra and Stanford doctoral student <strong>Yuan Yang</strong>, a 2009 ABB SGF fellow. The study is also co-authored by <strong>Hailiang Wang</strong>, a 2009 Henry Fan Fellow.
+       </p>
+      </div>   
+      
+            
+        <div class="slide">
+        <h2>Pre-Natal Testing</h2>
+       <p><a href="http://med.stanford.edu/ism/2012/july/genome.html"><img src="http://sgf.stanford.edu/images/news11Thumb.jpg" alt="Thumbnail of H. Christina Fan" width="215" height="143" /></a> <strong>H. Christina Fan</strong>, a  2005 Hong Kong Alumni Fellow, <a href="http://med.stanford.edu/ism/2012/july/genome.html">was co-first author of an article </a>under Stephen Quake, the Lee Otterson Professor in the School of Engineering and  professor of Bioengineering and of Applied Physics, on the sequencing of fetal genomes. This method requires blood samples from only the mother - not the  father or fetus, and so can diagnose genetic abnormalities without risk to the  fetus. <a href="http://www.technologyreview.com/tr35/profile.aspx?trid=1311">She was recently named one of 2012's top 35 innovators under 35</a>
+       </p>
+      </div> 
+            <div class="slide">
+        <h2>Neural Rythms</h2>
+       <p><a href="http://news.stanford.edu/news/2012/june/reach-neural-rhythms-060612.html"><img src="http://sgf.stanford.edu/images/news12Thumb.jpg" alt="Thumbnail of neural patterns" width="215" height="143" /></a> Mark  Churchland, now a professor at Columbia, and <strong>John Cunningham</strong>,
+
+a 2004&nbsp;Professor Michael J. Flynn Fellow, now a professor at Washington University in St. Louis,  have shown that the
+
+<a href="http://news.stanford.edu/news/2012/june/reach-neural-rhythms-060612.html">brain  activity</a> controlling arm
+
+movement does not encode external spatial information &ndash; such as  direction, distance, and speed &ndash; but is 
+instead rhythmic in nature. <strong>Justin  Foster</strong>, 2007 Texas  Instruments SGF, was also an author of the paper. 
+       </p>
+      </div> 
+            <div class="slide">
+        <h2>Carbon Nanotubes</h2>
+       <p><a href="http://news.stanford.edu/news/2012/may/unzipped-carbon-nanotubes-052712.html"><img src="http://sgf.stanford.edu/images/news13Thumb.jpg" alt="Thumbnail of carbon nanotubes" width="215" height="144" /></a> <strong>Hailiang Wang</strong>, a 2009 Henry Fan Fellow, is a co-author of a  <a href="http://news.stanford.edu/news/2012/may/unzipped-carbon-nanotubes-052712.html">study on the potential of carbon nanotubules </a>to energize fuel cells and  metal-air batteries. Platinum catalysts, which are currently used to energize 
+fuel cells, are very expensive, and this alternative could lower the cost of  fuel cell electricity production. This discovery may play an important role in many fields, including the development fuel cell cars.
+       </p>
+      </div> 
+    </div>
+  </div>
+  <p>&nbsp;            </p>
+  <p><strong>For more SGF discoveries and news, go to
+    <a href="http://sgf.stanford.edu/SGFsNews.html">http://sgf.stanford.edu/SGFsNews.html</a>. </strong></p>
+                                                          
+                   
+                <h2>Especially for Fellows</h2>
+                    <ul>
+                    
+                      <li><a href="http://vpge.stanford.edu/fellowships/fellows.html#SGF" target="_blank">  2012 Stanford
+
+Graduate Fellowship Recipients</a></li>
+                      <li><span class="style1">Save the Date:</span> the SGF Welcome Dinner for 2013 recipients will be on November 7, 2013, from 6 - 8:30 p.m., in the Stanford Faculty Club, Main Dining Room. </li>
+                </ul>
+                    <img src="https://pgnet.stanford.edu/home/rta/view?rtaCode=213562&rtaType=P">                <!--
+
+InstanceEndEditable -->                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">&nbsp;</div>
+    <div id="footertext">
+        <a href="http://gradadmissions.stanford.edu/contacts.html">Contact</a>&nbsp;|&nbsp;
+        <a href="http://www.stanford.edu/home/directories/index.html" target="_blank">Directories</a>&nbsp;|&nbsp;
+        <a href="http://www.stanford.edu/home/visitors/maps.html" target="_blank">Maps</a>&nbsp;&amp;&nbsp;
+        <a href="http://www.stanford.edu/home/visitors/directions.html" target="_blank">Directions</a>
+    </div>
+    <div class="copyrighttext">&copy; Stanford University. All Rights Reserved. Stanford, CA 94305. (650) 723-2300. <a
+
+href="http://www.stanford.edu/home/atoz/terms.html" target="_blank">Terms of Use</a>&nbsp;|&nbsp;<a
+
+href="http://www.stanford.edu/home/atoz/copyright.html" target="_blank">Copyright Complaints</a></div>
+</div>
+<script type="text/javascript">
+<!--
+    P7_Uberlink('p7currentlink','p7TMM_1');
+    P7_Uberlink('p7currentlink','ql1');
+    P7_Uberlink('p7currentlink','ql2');
+-->
+</script>
+</body><!-- InstanceEnd -->
+</html>
+
+

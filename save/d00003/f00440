@@ -1,0 +1,430 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html
+xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head
+profile="http://gmpg.org/xfn/11"><meta
+http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Linux / Unix: See Network Interface Card Statistics  With nicstat Command</title><meta
+name="robots" content="noodp, noydir" /><meta
+name="description" content="Explains how to install nicstat command to print out network statistics for all  network cards (NICs) under Solaris Unix and Linux oses." /><meta
+name="keywords" content="CentOS, Debian Linux, RHEL, Solaris Unix, Ubuntu, Unix" /><link
+rel="stylesheet" href="http://s13.cyberciti.org/cms/mini_layout_v02.css" type="text/css" media="screen, projection" /> <!--[if lte IE 8]><link
+rel="stylesheet" href="http://s13.cyberciti.org/cms/mini_ie_v01.css" type="text/css" media="screen, projection" /><![endif]--><link
+rel="canonical" href="http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/" /><link
+rel="alternate" type="application/rss+xml" title="nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format RSS Feed" href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" /><link
+rel="pingback" href="http://www.cyberciti.biz/cms/xmlrpc.php" /><link
+rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.cyberciti.biz/cms/xmlrpc.php?rsd" /><link
+rel="alternate" type="application/rss+xml" title="nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format &raquo; Solaris / Linux: nicstat Command Show Network Interface Card Statistics Comments Feed" href="http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/feed/" /> <script type='text/javascript' src='http://www.cyberciti.biz/cms/wp-includes/js/comment-reply.min.js?ver=3.6'></script> <script type="text/javascript"></script> <link
+rel="shortcut icon" href="http://s0.cyberciti.org/static/legacy/i/favicon.ico"><meta
+name="robots" content="noarchive" /> <script type='text/javascript'>var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+var gads = document.createElement('script');
+gads.async = true;
+gads.type = 'text/javascript';
+var useSSL = 'https:' == document.location.protocol;
+gads.src = (useSSL ? 'https:' : 'http:') +
+'//www.googletagservices.com/tag/js/gpt.js';
+var node = document.getElementsByTagName('script')[0];
+node.parentNode.insertBefore(gads, node);
+})();</script> <script type='text/javascript'>googletag.cmd.push(function() {
+googletag.defineSlot('/1010897/CBZ_ARTICLE_GAS_LAR_SKY_B', [300, 600], 'div-gpt-ad-1364634124258-0').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_GAS_MED_RECT_B', [300, 250], 'div-gpt-ad-1364634124258-1').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_LEADERBOARD_A', [728, 90], 'div-gpt-ad-1364634124258-2').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_MED_RECT_A', [300, 250], 'div-gpt-ad-1364634124258-3').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_MED_RECT_B', [300, 250], 'div-gpt-ad-1364634124258-4').addService(googletag.pubads());
+googletag.pubads().enableSingleRequest();
+googletag.pubads().collapseEmptyDivs();
+googletag.pubads().set("page_url", "http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/");
+googletag.enableServices();
+});</script> <!--
+	generated in 0.216 seconds
+	41365 bytes batcached for 1500 seconds
+-->
+</head><body
+class="custom"><div
+id="container"><div
+id="page"><div
+class="menu-home-container"><ul
+id="menu-home" class="menu"><li
+id="menu-item-32" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-32"><a
+href="http://www.cyberciti.biz/topics/">Main Menu</a><ul
+class="sub-menu"><li
+id="menu-item-34" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-34"><a
+href="http://www.cyberciti.biz/topics/datacenter/">Datacenter</a></li><li
+id="menu-item-35" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35"><a
+href="http://www.cyberciti.biz/topics/hardware/">Hardware</a></li><li
+id="menu-item-38" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-38"><a
+href="http://www.cyberciti.biz/topics/security/">IT / Linux Security</a></li><li
+id="menu-item-37" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-37"><a
+href="http://www.cyberciti.biz/topics/open-source/">Open source</a></li><li
+id="menu-item-31" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-31"><a
+href="http://www.cyberciti.biz/topics/reviews/">Reviews</a></li><li
+id="menu-item-39" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-39"><a
+href="http://www.cyberciti.biz/topics/storage/">Storage</a></li><li
+id="menu-item-40" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40"><a
+href="http://www.cyberciti.biz/topics/virtualization/">Virtualization</a></li><li
+id="menu-item-33" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-33"><a
+href="http://www.cyberciti.biz/topics/cloud-computing/">Cloud Computing</a><ul
+class="sub-menu"><li
+id="menu-item-85" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-85"><a
+title="CDN " href="http://www.cyberciti.biz/topics/cloud-computing/content-delivery-network/">Content delivery network</a></li></ul></li><li
+id="menu-item-41" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-41"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/">Mobile</a><ul
+class="sub-menu"><li
+id="menu-item-42" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-42"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/android/">Android</a></li><li
+id="menu-item-43" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-43"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/ios/">iOS</a></li></ul></li><li
+id="menu-item-36" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a
+href="http://www.cyberciti.biz/topics/networking/">Networking</a></li><li
+id="menu-item-28" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-28"><a
+href="http://www.cyberciti.biz/#">Programming</a><ul
+class="sub-menu"><li
+id="menu-item-29" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-29"><a
+title="Linux Shell Scripting Tutorial" href="http://bash.cyberciti.biz/guide/Main_Page">Linux Shell Scripting</a></li><li
+id="menu-item-30" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30"><a
+title="Python programming  tutorials" href="http://www.cyberciti.biz/topics/python-tutorials/">Python</a></li></ul></li><li
+id="menu-item-377" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-377"><a
+title="See all topics by Category or Month" href="http://www.cyberciti.biz/topics/">See all topics</a></li></ul></li><li
+id="menu-item-378" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-378"><a
+title="Linux How-To Articles, Tips, and Guides" href="http://www.cyberciti.biz/faq/">Linux How-To &#038; Tutorials</a></li><li
+id="menu-item-6" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6"><a
+title="Linux / Unix and Shell Scripting Forum" href="http://nixcraft.com/forum.php">Forums</a></li><li
+id="menu-item-62" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-62"><a
+title="About us" href="http://www.cyberciti.biz/tips/about-us">About</a></li><li
+id="menu-item-63" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-63"><a
+title="Email us " href="http://www.cyberciti.biz/tips/contact-us">Contact us</a></li><li
+id="menu-item-65" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-65"><a
+title="Various aspects of nixCraft can be monitored with RSS feeds." href="http://www.cyberciti.biz/nixcraft-rss-feed-syndication/">RSS/Feed</a></li></ul></div><div
+id="header"><div
+id="leaderboard"><div
+id="lbtop"><div
+id='div-gpt-ad-1364634124258-2'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-2'); });</script> </div></div></div><div
+id="crumbslogo"><a
+href="/" title="Home page">nixcraft - insight into linux admin work</a></div></div><div
+id="content_box"><div
+id="content" class="hfeed"><div
+class="post-348 post type-post status-publish format-standard hentry category-command-line-hacks category-hardware category-networking tag-centos tag-debian-linux tag-rhel tag-solaris-unix tag-ubuntu tag-unix post_box top" id="post-348"><div
+class="headline_area"><h1 class="entry-title">Solaris / Linux: nicstat Command Show Network Interface Card Statistics</h1><p
+class="headline_meta">by <span
+class="author vcard"><a
+href="http://www.cyberciti.biz/tips/about-us" rel="author" class="url fn">nixCraft</a></span> on <abbr
+class="published" title="2013-03-10">March 10, 2013</abbr> &middot; <span><a
+href="http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/#comments" rel="nofollow"><span
+class="dsq-postid" rel="348 http://www.cyberciti.biz/?p=348">0 comments</span></a></span>&middot; <span>Last updated <abbr
+class="updated" title="2013-03-13">March 13, 2013</abbr><span></p><p
+class="headline_meta">in <span><a
+href="http://www.cyberciti.biz/topics/open-source/command-line-hacks/" title="View all posts in Command Line Hacks" rel="category tag">Command Line Hacks</a>, <a
+href="http://www.cyberciti.biz/topics/hardware/" title="View all posts in Hardware" rel="category tag">Hardware</a>, <a
+href="http://www.cyberciti.biz/topics/networking/" title="View all posts in Networking" rel="category tag">Networking</a></span></p></div><div
+class="format_text entry-content"><p><img
+src="http://s0.cyberciti.org/uploads/cms/2013/03/nicstat-welcome.png" alt="nicstat-welcome" width="335" height="307" class="alignright size-full wp-image-353" /><span
+class="drop_cap">T</span>he nicstat command is top like utility for network interface card (NIC). It displays information and statistics about all your network card such as packets, kilobytes per second, average packet sizes and more. It works under Solaris and Linux operating systems.</p><p>In this post, I will explain how to install and use the nicstat command to find out stats about your NICs under Debian / Ubuntu / RHEL / CentOS Linux operating systems.<br
+/> <span
+id="more-348"></span></p><h2>The old good netstat -i command</h2><p>The -i option display a table of all network interfaces along with the following information:<br
+/> <code># netstat -i</code><br
+/> Sample outputs:</p><pre>Kernel Interface table
+Iface       MTU Met    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
+eth0       1500   0 199549124      0      0      0 153882468      0      0      0 BMRU
+eth1       1500   0 138357627      0    630      0 151312724      0      0      0 BMRU
+lo        16436   0        0      0      0      0        0      0      0      0 LRU</pre><p>However, nicstat provides more information about your nic such as:</p><ol><li>Show TCP statistics.</li><li>Show UDP statistics.</li><li>Reports bytes in & out.</li><li>Report packets in & out.</li><li>Reports nic utilization.</li><li>Reports nic saturation and more.</li></ol><h2>Step #1: Download and install nicstat</h2><p>Type the following <a
+href="http://www.cyberciti.biz/tips/linux-wget-your-ultimate-command-line-downloader.html">wget command to download the latest version of nicstat</a> :<br
+/> <code># wget http://nchc.dl.sourceforge.net/project/nicstat/nicstat-1.92.tar.gz</code></p><h3>Extract tar ball</h3><p><a
+href="http://www.cyberciti.biz/faq/tar-extract-linux/">Use tar command to extract the tar ball</a> called nicstat-1.92.tar.gz, enter:<br
+/> <code># tar xvf nicstat-1.92.tar.gz</code><br
+/> You will get both source code and binary files:<br
+/> <code># cd nicstat-1.92<br
+/> # ls -la </code><br
+/> Sample outputs:</p><pre>drwxr-xr-x.  2 509833 wheel   4096 Mar 10 07:43 .
+dr-xr-x---. 13 root   root    4096 Mar 10 07:43 ..
+-rw-r--r--.  1 509833 wheel   4952 Oct 22 13:05 ChangeLog.txt
+-rwxr-xr-x.  1 509833 wheel    475 Oct 15 16:49 dladm.sh
+-rw-r--r--.  1 509833 wheel   1312 Oct 17 18:47 enicstat
+-rw-r--r--.  1 509833 wheel   8902 Oct 17 18:47 LICENSE.txt
+-rw-r--r--.  1 509833 wheel   1629 Sep  4  2012 Makefile.Linux
+-rw-r--r--.  1 509833 wheel   1596 Oct 17 19:31 Makefile.Solaris
+-rw-r--r--.  1 509833 wheel   9423 Oct 22 13:05 nicstat.1
+-rw-r--r--.  1 509833 wheel  67376 Oct 22 13:05 nicstat.c
+-rwxr-xr-x.  1 509833 wheel  29645 Mar 10 07:46 .nicstat.RedHat_5_i386
+-rwxr-xr-x.  1 509833 wheel   4134 Oct 15 20:38 nicstat.sh
+-rwxr-xr-x.  1 509833 wheel  69772 Oct 18 19:35 .nicstat.Solaris_10_i386
+-rwxr-xr-x.  1 509833 wheel  74920 Oct 18 19:36 .nicstat.Solaris_10_sparc
+-rwxr-xr-x.  1 509833 wheel  77700 Oct 18 19:37 .nicstat.Solaris_11_i386
+-rwxr-xr-x.  1 509833 wheel  83636 Oct 18 19:39 .nicstat.Solaris_11_sparc
+-rwxr-xr-x.  1 509833 wheel 112448 Oct 18 19:49 .nicstat.Solaris_9_i386
+-rwxr-xr-x.  1 509833 wheel 127104 Oct 18 19:44 .nicstat.Solaris_9_sparc
+-rwx------.  1 509833 wheel  32250 Oct 18 20:02 .nicstat.Ubuntu_8_i386
+-rw-r--r--.  1 509833 wheel    834 Oct 22 13:05 README.txt
+</pre><h2>Step #2: Install required 32-bit package</h2><p>You need to install the 32 bit glibc package. It contains standard libraries which is used by nicstat command. Only install the following packages if you are using 64-bit version:</p><h3>A note about Debian Linux 6.0.5 64 bit version</h3><p>Type the following command to install required 32 bit libc6:<br
+/> <code>$ sudo apt-get install  libc6-i386 </code></p><h3>A note about Ubuntu Linux 12.04 LTS 64 bit version</h3><p>Type the following command to install required 32 bit libc6:<br
+/> <code>$ sudo apt-get install libc6:i386 </code><br
+/> cd into nicstat directory and type the following command to <a
+href="http://www.cyberciti.biz/faq/unix-creating-symbolic-link-ln-command/">crate a soft link to Ubuntu_8_i386 binary</a>:<br
+/> <code># cd nicstat-1.92<br
+/> # ln -s .nicstat.Ubuntu_8_i386 .nicstat.Linux_i386</code></p><h3>A note about CentOS / RHEL 6.4 64 bit version</h3><p>Type the following command to install required 32 bit libc6:<br
+/> <code># yum install glibc.i686</code><br
+/> cd into nicstat directory and type the following command to <a
+href="http://www.cyberciti.biz/faq/unix-creating-symbolic-link-ln-command/">crate a soft link to .nicstat.RedHat_5_i386 binary</a>:<br
+/> <code># cd nicstat-1.92<br
+/> # ln -s .nicstat.RedHat_5_i386 .nicstat.RedHat_6_i386</code></p><h2>How do I use nicstat command?</h2><p>Simply type the following command:<br
+/> <code># ./nicstat.sh</code><br
+/> Sample outputs:</p><div
+id="attachment_349" class="wp-caption aligncenter" style="width: 600px"><a
+href="http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/attachment/nicstat-linux-output/" rel="attachment wp-att-349"><img
+src="http://s0.cyberciti.org/uploads/cms/2013/03/nicstat-linux-output.png" alt="Fig.01: nicstat in action" width="590" height="45" class="size-full wp-image-349" /></a><p
+class="wp-caption-text">Fig.01: nicstat in action</p></div><p>Pass the <kbd>-x</kbd> option to see extended output:<br
+/> <code># ./nicstat.sh -x</code><br
+/> Sample outputs:</p><pre>15:39:22      RdKB    WrKB   RdPkt   WrPkt   IErr  OErr  Coll  NoCP Defer  %Util
+eth0         349.4   31.98   325.0   250.6   0.00  0.00  0.00  0.00  0.00   3.12
+eth1         28.68   169.4   226.3   247.4   0.00  0.00  0.00  0.00  0.00   1.62</pre><p>Pass the <kbd>-s</kbd> option to see extended output:<br
+/> <code># ./nicstat.sh -s</code><br
+/> Sample outputs:</p><pre>    Time      Int          rKB/s          wKB/s
+15:40:55     eth0        349.372         31.981
+15:40:55     eth1         28.686        169.365</pre><p>To print summary every 1 second, type:<br
+/> <code>./nicstat.sh 1 </code><br
+/> To print summary every 2 second 5 times only, type:<br
+/> <code>./nicstat.sh 2 5</code><br
+/> Sample outputs:<br
+/><div
+id="attachment_350" class="wp-caption alignright" style="width: 602px"><a
+href="http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/attachment/ubuntu-nicstat-output/" rel="attachment wp-att-350"><img
+src="http://s0.cyberciti.org/uploads/cms/2013/03/ubuntu-nicstat-output.png" alt="Fig.02: nicstat displaying output 5 times only" width="592" height="227" class="size-full wp-image-350" /></a><p
+class="wp-caption-text">Fig.02: nicstat displaying output 5 times only<br
+/></p></div></p><h3>Understanding nicstat output</h3><p>The fields of nicstat's from the above output display are:</p><ol><li><kbd><strong>5:51:22</strong></kbd> (HH:MM:SS) : The time corresponding to the end of  the  sample in 24 hour clock format.</li><li><kbd><strong>eth0</strong></kbd> and <kbd><strong>eth1</strong></kbd> : The interface name.</li><li><kbd><strong>rKB/s</strong></kbd> : Kilobytes/second received.</li><li><kbd><strong>wKB/s</strong></kbd> : Kilobytes/second written.</li><li><kbd><strong>rPk/s</strong></kbd> : Packets/second received.</li><li><kbd><strong>wPk/s</strong></kbd> : Packets/second written.</li><li><kbd><strong>rAvs</strong></kbd> : Average size of packets received).</li><li><kbd><strong>wAvs</strong></kbd> : Average size of packets transmitted.</li><li><kbd><strong>%Util</strong></kbd> : Percentage  utilization  of  the  interface.  For full-duplex interfaces, this is the  greater  of  rKB/s  or  wKB/s  as  a percentage  of  the  interface speed.  For half-duplex interfaces, rKB/s and wKB/s are summed.</li><li><kbd><strong>Sat</strong></kbd> : This the number of errors/second  seen  for  the interface. An indicator the interface may be approaching saturation.  This statistic is combined from a number of kernel  statistics.  It is recommended to use the <kbd>-x</kbd> option to see more individual statistics when attempting to diagnose a network issue.</li></ol><h3>How do I see my TCP nic stats?</h3><p>Pass the <kbd>-t</kbd> option to see the TCP stats:<br
+/> <code># ./nicstat.sh -t</code><br
+/> Sample outputs:</p><pre>16:13:44    InKB   OutKB   InSeg  OutSeg Reset  AttF %ReTX InConn OutCon Drops
+TCP         0.00    0.00   811.3   592.2  0.01  0.02 0.000   12.6   2.09  0.02</pre><p>Where,</p><ol><li><kbd><strong>InKB</kbd></strong> : Kilobytes/second received.</li><li><kbd><strong>OutKB</kbd></strong> :  Kilobytes/second transmitted.</li><li><kbd><strong>InSeg</kbd></strong> :  TCP Segments/second received.</li><li><kbd><strong>OutSeg</kbd></strong> : TCP Segments/second transmitted.</li><li><kbd><strong>Reset</kbd></strong> : The number of times TCP connections have made a direct transition to  the  CLOSED  state  from  either  the ESTABLISHED state or the CLOSE-WAIT state.</li><li><kbd><strong>AttF</kbd></strong> : The number of times that TCP connections have made a direct transition to the CLOSED state from either the  SYN-SENT state or the SYN-RCVD state, plus the number of times TCP connections have made a direct  transition  to  the LISTEN state from the SYN-RCVD state.</li><li><kbd><strong>%ReTX</kbd></strong> : Percentage  of TCP segments retransmitted - that is, the number of TCP segments transmitted containing one or more previously transmitted octets.</li><li><kbd><strong>InConn</kbd></strong> : The  number of times that TCP connections have made a direct transition to the SYN-RCVD state from the LISTEN state.</li><li><kbd><strong>OutCon</kbd></strong> : The  number  of times that TCP connections have made a direct transition to the SYN-SENT state from  the CLOSED state..</li><li><kbd><strong>Drops</kbd></strong> :  Number of connections dropped from the completed connection queue and incomplete connection queue.</li></ol><h3>How do I see my UDP nic stats?</h3><p>Pass the <kbd>-u</kbd> option to see the UDP stats:<br
+/> <code># ./nicstat.sh -u</code><br
+/> Sample outputs:</p><pre>16:15:11                    InDG   OutDG     InErr  OutErr
+UDP                         0.35    0.36      0.00    0.00</pre><p>Where,</p><ol><li><kbd><strong>InDG</kbd></strong> :  UDP Datagrams)/second received.</li><li><kbd><strong>OutDG</kbd></strong> : UDP Datagrams)/second transmitted.</li><li><kbd><strong>InErr</kbd></strong> : Packets received  that  could  not be processed because they contained errors.</li><li><kbd><strong>OutErr</kbd></strong> : Packets that were not  successfully  transmitted  because  of errors.</li></ol><h3>Other option</h3><p>You can combine options<br
+/> <code># ./nicstat.sh -x -t -u</code><br
+/> OR pass the <kbd>-a</kbd> option which is equivalent to <kbd>-x -t -u</kbd>:<br
+/> <code># ./nicstat.sh -a </code><br
+/> Sample outputs:</p><pre>16:34:10    InKB   OutKB   InSeg  OutSeg Reset  AttF %ReTX InConn OutCon Drops
+TCP         0.00    0.00   545.4   448.5  2.71  0.03 0.000   10.9   21.3  0.00
+16:34:10                    InDG   OutDG     InErr  OutErr
+UDP                         0.01    0.01      0.00    0.00
+16:34:10      RdKB    WrKB   RdPkt   WrPkt   IErr  OErr  Coll  NoCP Defer  %Util
+eth0         348.9   31.94   324.5   250.3   0.00  0.00  0.00  0.00  0.00   3.12
+eth1         28.71   169.2   227.1   248.1   0.00  0.00  0.00  0.00  0.00   1.62</pre><p>Print statistics for eth0 interfaces, setting speed of "eth0"  and "eth1" to 100mbps/full-duplex and 100mbps/full-duplex, respectively:<br
+/> <code># ./nicstat.sh -S eth0:100Full,eth1:100Full 5</code><br
+/> Print statistics for eth0 interfaces, setting speed of "eth0"  and "eth1" to 100mbps/half-duplex and 1000mbps/full-duplex, respectively:<br
+/> <code># ./nicstat.sh -S eth0:100h,eth1:1000 5</code></p><h5>References:</h5><ol><li><a
+target="_blank" href="https://blogs.oracle.com/timc/entry/nicstat_the_solaris_and_linux">nicstat blog entry</a>.</li><li><a
+target="_blank" href="http://www.brendangregg.com/index.html#Downloads">Project home page</a> and/or <a
+target="_blank" href="https://blogs.oracle.com/timc/entry/nicstat_the_solaris_and_linux"></a>nicstat - the Solaris and Linux Network Monitoring Tool.</li><li>nicstat man page</li></ol><p
+class="post_tags">Tagged as: <a
+href="http://www.cyberciti.biz/tutorials/centos/" rel="tag">CentOS</a>, <a
+href="http://www.cyberciti.biz/tutorials/debian-linux/" rel="tag">Debian Linux</a>, <a
+href="http://www.cyberciti.biz/tutorials/rhel/" rel="tag">RHEL</a>, <a
+href="http://www.cyberciti.biz/tutorials/solaris-unix/" rel="tag">Solaris Unix</a>, <a
+href="http://www.cyberciti.biz/tutorials/ubuntu/" rel="tag">Ubuntu</a>, <a
+href="http://www.cyberciti.biz/tutorials/unix/" rel="tag">Unix</a></p><ul
+class="share"><li
+class="tweeter"><a
+href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/" data-via="nixcraft">Tweet</a></li><li
+class="googleplus"><g:plusone size="medium" href="http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/"></g:plusone></script></li><li
+class="facebook"><iframe
+src="//www.facebook.com/plugins/like.php?href=http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe></li><li
+class="stubleupon"><su:badge layout="2" location="http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/"></su:badge></li><li
+class="reddit"><a
+href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false"> <img
+src="http://s0.cyberciti.org/images/misc/spreddit7.gif" alt="submit to reddit" border="0" /> </a></li><li
+class="pdfdl"><a
+href="http://www.cyberciti.biz/view/pdf/cms/348.php"><img
+src="http://s0.cyberciti.org/images/misc/pdfdlv1.jpg" alt="Download this as pdf"></a></li></ul> <br/><br/><p
+class="my_social_follow"> If you would like to be kept up to date with our posts, you can follow us on <a
+href="https://twitter.com/nixcraft" title="Find us on twitter">Twitter</a>, <a
+href="https://facebook.com/nixcraft" title="Find us on Facebook">Facebook</a>, <a
+href="https://plus.google.com/104257421720370350735" rel="publisher" title="Find us on Google+">Google+</a>, or even by subscribing to our <a
+href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks">RSS Feed</a>.</p> <br/><div
+class='my_featured_articles_0'> Featured Articles:<ul><li><a
+href="http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html">30 Handy Bash Shell Aliases For Linux / Unix / Mac OS X</a></li><li><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/">Top 30 Nmap Command Examples For Sys/Network Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/php-security-best-practices-tutorial.html">25 PHP Security Best Practices For Sys Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/top-linux-monitoring-tools.html">20 Linux System Monitoring Tools Every SysAdmin Should Know</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-security.html">20 Linux Server Hardening Security Tips</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-iptables-examples.html">Linux: 20 Iptables Examples For New SysAdmins</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html">Top 20 OpenSSH Server Best Security Practices </a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html">Top 20 Nginx WebServer Best Security Practices</a><li><A
+href="http://www.cyberciti.biz/tips/check-unix-linux-configuration-file-for-syntax-errors.html">20 Examples: Make Sure Unix / Linux Configuration Files Are Free From Syntax Errors</a><li><a
+href="http://www.cyberciti.biz/open-source/best-terminal-applications-for-linux-unix-macosx/">15 Greatest Open Source Terminal Applications Of 2012</a> <img
+style="verticalp-align: text-top; padding-left: 1px;" src="http://s0.cyberciti.org/static/legacy/i/new_post.png" alt="" border="0"></li><li><a
+href="http://www.cyberciti.biz/tips/my-10-unix-command-line-mistakes.html">My 10 UNIX Command Line Mistakes</a></li><li><a
+href="http://www.cyberciti.biz/tips/open-source-project-management-software.html">Top 10 Open Source Web-Based Project Management Software</a></li><li><a
+href="http://www.cyberciti.biz/tips/download-email-client-for-linux-mac-osx-windows.html">Top 5 Email Client For Linux, Mac OS X, and Windows Users</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-laptop.html">The Novice Guide To Buying A Linux Laptop</a></li></ul></div></div></div><div
+id="disqus_thread"></div> <script type="text/javascript">/*<![CDATA[*//*  */
+    var disqus_url = 'http://www.cyberciti.biz/hardware/linux-install-nicstat-command-to-print-network-statistics-for-nics/';
+    var disqus_identifier = '348 http://www.cyberciti.biz/?p=348';
+    var disqus_container_id = 'disqus_thread';
+    var disqus_domain = 'disqus.com';
+    var disqus_shortname = 'cyberciti';
+    var disqus_title = "Solaris \/ Linux: nicstat Command Show Network Interface Card Statistics";
+        var disqus_config = function () {
+        var config = this; // Access to the config object
+        config.language = '';
+        /*
+           All currently supported events:
+            * preData — fires just before we request for initial data
+            * preInit - fires after we get initial data but before we load any dependencies
+            * onInit  - fires when all dependencies are resolved but before dtpl template is rendered
+            * afterRender - fires when template is rendered but before we show it
+            * onReady - everything is done
+         */
+        config.callbacks.preData.push(function() {
+            // clear out the container (its filled for SEO/legacy purposes)
+            document.getElementById(disqus_container_id).innerHTML = '';
+        });
+                config.callbacks.onReady.push(function() {
+            // sync comments in the background so we don't block the page
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = '?cf_action=sync_comments&post_id=348';
+            var firstScript = document.getElementsByTagName( "script" )[0];
+            firstScript.parentNode.insertBefore(script, firstScript);
+        });
+                    };
+/*  *//*]]>*/</script> <script type="text/javascript">/*  */
+    var DsqLocal = {
+        'trackbacks': [
+        ],
+        'trackback_url': "http:\/\/www.cyberciti.biz\/hardware\/linux-install-nicstat-command-to-print-network-statistics-for-nics\/trackback\/"    };
+/*  */</script> <script type="text/javascript">/*<![CDATA[*//*  */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.' + 'disqus.com' + '/embed.js?pname=wordpress&pver=2.74';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+/*  *//*]]>*/</script> <div
+class="prev_next post_nav"><p
+class="previous">Previous post: <a
+href="http://www.cyberciti.biz/reviews/book-review-of-gimp-a-complete-guide-to-everything/" rel="prev">Book Review: The Book Of Gimp</a></p><p>Next post: <a
+href="http://www.cyberciti.biz/linux-news/download-kali-linux-version-1-iso-dvd-images/" rel="next">Download of the day: Kali Linux ( BackTrack Linux )</a></p></div></div><div
+id="sidebars"><div
+id="multimedia_box" class="custom_box"><div
+id="custom_box"><div
+style='color: #555555; text-align:center; line-height: 200%;'> <span
+style='font-size: 22px; font-weight:bold;'>GET FREE TIPS &amp; NEWS</span> <br/> <span
+style='font-style:italic;'>Make the most of Linux Sysadmin work!</span> <br
+/></div><center><form
+action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=Nixcraft-LinuxFreebsdSolarisTipsTricks', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">&nbsp;&nbsp;&nbsp;&nbsp;<input
+type="text" class="text_input" name="email" value="Enter your email" id="name" onclick="if (this.value=='Enter your email') {this.value=''};" onblur="if (this.value=='') {this.value='Enter your email';}"/><input
+type="hidden" value="Nixcraft-LinuxFreebsdSolarisTipsTricks" name="uri"/> <input
+type="hidden" name="loc" value="en_US"/><input
+value="Join" class="form_submit" type="submit"></form> <br/> <span
+style="font-size: 12px;"> <a
+target="_blank" title="Connect with nixCraft on Youtube to see all our Linux video tutorials" href="https://www.youtube.com/user/nixcraftcom">Youtube </a> &nbsp; | &nbsp; <a
+target="_blank" href="https://twitter.com/nixcraft" title="Follow nixCraft on Twitter!">Twitter</a> &nbsp; | &nbsp; <a
+target="_blank" title="Connect with nixCraft on Google Plus!!" href="https://plus.google.com/104257421720370350735">Google +</a> </span></center></div></div><div
+id="sidebar_1" class="sidebar"><ul
+class="sidebar_list"><li
+class="widget widget_text" id="text-3"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-3' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-3'); });</script> </div></div></li><li
+class="widget widget_text" id="text-9"><div
+class="textwidget"><div
+id="cse-search-box" style="width: 100%;">Loading</div> <script src="http://www.google.com/jsapi" type="text/javascript"></script> <script type="text/javascript">google.load('search', '1', {language : 'en', style : google.loader.themes.V2_DEFAULT});
+  google.setOnLoadCallback(function() {
+    var customSearchOptions = {};
+    var imageSearchOptions = {};
+    imageSearchOptions['layout'] = google.search.ImageSearch.LAYOUT_POPUP;
+    customSearchOptions['enableImageSearch'] = true;
+    customSearchOptions['imageSearchOptions'] = imageSearchOptions;  var customSearchControl = new google.search.CustomSearchControl(
+      '002165917076592449621:riwi1tlrb1m', customSearchOptions);
+    customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+    var options = new google.search.DrawOptions();
+    options.setAutoComplete(true);
+    options.enableSearchboxOnly("http://www.cyberciti.biz/linux-search.php");
+    customSearchControl.draw('cse-search-box', options);
+  }, true);</script></div></li><li
+class="widget widget_text" id="text-5"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-4' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-4'); });</script> </div></div></li><li
+class="widget widget_text" id="text-7"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-1' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-1'); });</script> </div></div></li><li
+class="widget widget_text" id="text-10"><div
+class="textwidget"><div
+class="g-plus" data-href="//plus.google.com/104257421720370350735" data-rel="publisher"></div></div></li><li
+class="widget widget_wp_related_posts" id="wp_related_posts_widget"><div
+class="wp_rp_wrap  wp_rp_modern" id="wp_rp_first"><div
+class="wp_rp_content"><h3>Related Posts</h3><ul
+class="related_post wp_rp" style="visibility: visible"><li ><a
+href="http://www.cyberciti.biz/hardware/linux-iotop-simple-top-like-io-monitor/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/13.jpg" alt="Linux iotop: Check What&#8217;s Stressing And Increasing Load On Your Hard Disks" /></a><a
+href="http://www.cyberciti.biz/hardware/linux-iotop-simple-top-like-io-monitor/" class="wp_rp_title">Linux iotop: Check What&#8217;s Stressing And Increasing Load On Your Hard Disks</a></li><li ><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/1.jpg" alt="Top 30 Nmap Command Examples For Sys/Network Admins" /></a><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/" class="wp_rp_title">Top 30 Nmap Command Examples For Sys/Network Admins</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/linux-ls-commands-examples/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/6.jpg" alt="ls* Commands Are Even More Useful Than You May Have Thought" /></a><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/linux-ls-commands-examples/" class="wp_rp_title">ls* Commands Are Even More Useful Than You May Have Thought</a></li><li ><a
+href="http://www.cyberciti.biz/hardware/5-linux-unix-commands-for-connecting-to-the-serial-console/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/6.jpg" alt="5 Linux / Unix Commands For Connecting To The Serial Console" /></a><a
+href="http://www.cyberciti.biz/hardware/5-linux-unix-commands-for-connecting-to-the-serial-console/" class="wp_rp_title">5 Linux / Unix Commands For Connecting To The Serial Console</a></li><li ><a
+href="http://www.cyberciti.biz/programming/review-geany-ide-for-bsd-unix-appleosx/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/8.jpg" alt="Linux / Unix: Install and Use Geany Integrated Development Environment" /></a><a
+href="http://www.cyberciti.biz/programming/review-geany-ide-for-bsd-unix-appleosx/" class="wp_rp_title">Linux / Unix: Install and Use Geany Integrated Development Environment</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/linux-screenshot-program-tool/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/23.jpg" alt="Shutter: The Ultimate Linux Screenshot Program " /></a><a
+href="http://www.cyberciti.biz/open-source/linux-screenshot-program-tool/" class="wp_rp_title">Shutter: The Ultimate Linux Screenshot Program </a></li><li ><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/pv-command-examples/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/11.jpg" alt="Linux / Unix pv Command: Monitor Progress of Data Sent Via a Pipe" /></a><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/pv-command-examples/" class="wp_rp_title">Linux / Unix pv Command: Monitor Progress of Data Sent Via a Pipe</a></li><li ><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/23.jpg" alt="Amazon Cloudfront Dynamic Content Delivery With A WordPress Blog" /></a><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/" class="wp_rp_title">Amazon Cloudfront Dynamic Content Delivery With A WordPress Blog</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/remark-command-regex-markup-examples/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/3.jpg" alt="remark Command: Highlight Any Text or Command Output Using Regular Expressions" /></a><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/remark-command-regex-markup-examples/" class="wp_rp_title">remark Command: Highlight Any Text or Command Output Using Regular Expressions</a></li><li ><a
+href="http://www.cyberciti.biz/howto/debian-linux/ifdata-command-network-info-without-ip-ifconfig/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/5.jpg" alt="Linux ifdata Command: See Network Interface Info Without Parsing ifconfig Output" /></a><a
+href="http://www.cyberciti.biz/howto/debian-linux/ifdata-command-network-info-without-ip-ifconfig/" class="wp_rp_title">Linux ifdata Command: See Network Interface Info Without Parsing ifconfig Output</a></li></ul></div></div></li><li
+class="widget widget_text" id="text-11"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-0' style='width:300px; height:600px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-0'); });</script> </div> <br/> <a
+href="https://plus.google.com/b/104257421720370350735/" rel="publisher">Find us on Google+</a></div></li></ul></div></div></div><div
+id="footer"><div
+class="idglogo"> <img
+src="http://s0.cyberciti.org/static/legacy/i/idg-logo-new.gif" alt="" border="0" /></div><div
+class="copynotice"> &copy;2004-2013 nixCraft. All rights reserved. Cannot be reproduced without written permission. <br
+/> <a
+href="/tips/privacy">Privacy Policy</a> | <a
+href="/tips/disclaimer">Terms of Service</a> | <a
+href="/tips/contact-us" title="Email us / Contact us">Questions or Comments</a> | <a
+href="/tips/copyright" title="nixCraft copyright information">Copyright Info</a> | <a
+href="/tips/sitemaps" title="nixCraft sitemap">Sitemap</a></div>	</div>
+</div>
+</div>
+<!--[if lte IE 8]>
+<div id="ie_clear"></div>
+<![endif]-->
+<script src="http://www.cyberciti.biz/mint/?js" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-108650-1']);
+  _gaq.push(['_setDomainName', 'www.cyberciti.biz']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = '//apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script type="text/javascript">
+  (function() {
+    var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+    li.src = '//platform.stumbleupon.com/1/widgets.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+  })();
+</script>
+</body>
+</html>

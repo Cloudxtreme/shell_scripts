@@ -1,0 +1,198 @@
+	 
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MikroTik RMA Center</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="engine/style/fwin.css" media="screen" type="text/css">
+	<link rel="stylesheet" href="style/rma3.css" media="screen" type="text/css">
+	<link rel="stylesheet" href="js/shadowbox/shadowbox.css" media="screen" type="text/css">
+	<link rel="stylesheet" href="style/datePicker.css" media="screen" type="text/css">
+	<link rel="stylesheet" href="style/rma2print.css" media="print" type="text/css">
+	<link rel="stylesheet" href="style/jquery-ui-1.9.2.custom.min.css" type="text/css">
+	<script type="text/javascript" src="js/jquery.1.9.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.9.2.custom.min.js"></script>
+	<script type="text/javascript" src="js/fwin.js"></script>
+	<script type="text/javascript" src="js/shadowbox/shadowbox.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/date.js"></script>
+	<!--[if IE]><script type="text/javascript" src="engine/js/jquery.bgiframe.js"></script><![endif]-->
+	<script type="text/javascript" src="js/jquery.datePicker.js"></script>
+	<!-- shadowbox hak -->
+	<script type="text/javascript">
+Shadowbox.init({
+	language:   "en",
+	players:  ['img'],
+	resizeDuration: "0.1",
+	fadeDuration: "0.1",
+	handleOversize: "resize",
+	autoDimensions: "true",
+	overlayColor: "#000",
+	onOpen : function(){
+		$('#sb-overlay').click(function(){Shadowbox.close()});
+		$('#sb-wrapper not[#sb-nav-close #sb-nav-next #sb-nav-previous]').click(function(){Shadowbox.close()});
+	}
+});
+	</script>
+</head>
+<body>
+<div id="error_box" style="display: none; position absolute;">&nbsp;</div>
+<div id="loading_box" style="display: none; position: absolute;">Loading...</div>
+
+<!-- web content -->
+<div id="mainholder">
+	<div id="header">
+		<div id="mainlogo"><img src="img/logo.png" alt="Logo" /></div>
+		<div id="mainlogin">
+<form action="/index.php" method="post">
+<input type="hidden" name="action" value="rma" /><table><tr><td>RMA number: </td><td><input type="text" name="lf_rma" value="" size="10" /></td></tr><tr><td>Approve code: </td><td><input type="password" name="lf_code" value="" size="10" maxlength="6" /></td></tr><tr><td colspan="2" class="righty"><input type="submit" name="lf_dologin" value="Authorize" /></td></tr></table></form></div>
+		<div id="maintitle"><img src="img/title.png" alt="Title" /></div>
+	</div>
+	<div id="nav">
+		<div class="menu"><a href="?action=instructions">RMA Procedure</a></div>
+		<div class="rmen"><a href="/index.php?action=instruction&amp;lng=EN">EN</a></div>
+	</div>
+	<div id="content">
+		<br />
+<h3>RMA (Return Material Authorization) Procedure Overview</h3>
+
+<p>MikroTik warrants all RouterBOARD series equipment for the term of twelve (12) months from the shipping date to be free of defects in materials and workmanship under normal use and service, except in case of damage caused by mechanical, electrical or other accidental or intended damages caused by improper use or due to wind, rain, fire or other acts of nature.</p>
+
+<p>To return failed units to MikroTik, you must perform the following RMA (Return Merchandise Authorization) procedure. Follow the instructions below to save time, efforts, avoid costs, and improve the speed of the RMA process.</p>
+
+<p>1. If you have purchased your product from a MikroTik Reseller, please contact the Reseller company regarding all warranty and repair issues, the following instructions apply ONLY if you purchased your equipment directly from MikroTik in Latvia.</p>
+
+<p>2. MikroTik does not offer repairs for products that are not covered by warranty. Exceptions can be made for: CCR1016-12G, CCR1016-12G-BU, CCR1036-12G-4S, RB1100, RB1100AH, RB1100AHx2, RB1200, RB600, RB600A and RB800 as a paid service (fees apply).</p>
+ 
+<p>
+3. Out-of-warranty devices and devices not covered by warranty sent to Mikrotik 
+will be returned to the sender at sender's cost.
+If the customer has not organized return of such rejected devices within 12 months from the day of arrival, MikroTik has the right to discard them.
+</p>
+
+<p>
+4. MikroTik may offer to its Clients a compensation system for certain 
+RouterBOARD models by substituting failed units with new ones, up to 2% of the
+amount of products purchased by the Client  during the last twelve (12)
+months which is also the warranty period, according to warranty terms. Sold
+amount will be counted starting from date listed below.
+</p>
+
+<p>The list of products that will be compensated:</p><table class="tabula bordTable">
+<tr><th>Item</th><th>Compensation program start</th></tr><tr><td>R2SHPn</td><td>2012-11-20</td></tr><tr><td>R52</td><td>2008-12-23</td></tr><tr><td>R52-350</td><td>2007-05-15</td></tr><tr><td>R52Hn</td><td>2010-01-20</td></tr><tr><td>R52n-M</td><td>2010-06-18</td></tr><tr><td>R5SHPn</td><td>2011-12-23</td></tr><tr><td>RB11</td><td>2003-10-17</td></tr><tr><td>RB11E</td><td>2008-02-18</td></tr><tr><td>RB2011iL-IN</td><td>2013-08-01</td></tr><tr><td>RB2011iL-RM</td><td>2013-06-04</td></tr><tr><td>RB2011L</td><td>2012-03-01</td></tr><tr><td>RB2011L-IN</td><td>2012-05-01</td></tr><tr><td>RB2011L-RM</td><td>2012-08-14</td></tr><tr><td>RB2011LS</td><td>2012-05-01</td></tr><tr><td>RB2011LS-IN</td><td>2012-05-18</td></tr><tr><td>RB2011UAS-2HnD</td><td>2012-08-14</td></tr><tr><td>RB2011UAS-2HnD-IN</td><td>2012-08-27</td></tr><tr><td>RB2011UAS-IN</td><td>2012-06-28</td></tr><tr><td>RB2011UAS-RM</td><td>2012-09-11</td></tr><tr><td>RB250GS</td><td>2010-06-01</td></tr><tr><td>RB260GS</td><td>2013-03-04</td></tr><tr><td>RB411</td><td>2010-11-01</td></tr><tr><td>RB411AH</td><td>2010-11-01</td></tr><tr><td>RB411AR</td><td>2010-11-01</td></tr><tr><td>RB411GL</td><td>2012-01-01</td></tr><tr><td>RB411L</td><td>2011-12-01</td></tr><tr><td>RB411U</td><td>2010-11-01</td></tr><tr><td>RB411UAHL</td><td>2012-01-01</td></tr><tr><td>RB411UAHR</td><td>2010-11-01</td></tr><tr><td>RB433</td><td>2010-11-01</td></tr><tr><td>RB433L</td><td>2012-01-01</td></tr><tr><td>RB433UAHL</td><td>2012-01-23</td></tr><tr><td>RB433UL</td><td>2013-05-01</td></tr><tr><td>RB44Ge</td><td>2012-08-14</td></tr><tr><td>RB450</td><td>2010-11-01</td></tr><tr><td>RB450G</td><td>2010-11-01</td></tr><tr><td>RB493</td><td>2008-08-08</td></tr><tr><td>RB502</td><td>2010-11-01</td></tr><tr><td>RB604</td><td>2010-11-01</td></tr><tr><td>RB711-2Hn</td><td>2011-07-01</td></tr><tr><td>RB711-2HnD</td><td>2012-02-07</td></tr><tr><td>RB711-5Hn</td><td>2011-07-01</td></tr><tr><td>RB711-5Hn-MMCX</td><td>2010-07-20</td></tr><tr><td>RB711-5Hn-u.FL</td><td>2010-07-20</td></tr><tr><td>RB711-5HnD</td><td>2011-10-01</td></tr><tr><td>RB711A-5Hn-MMCX</td><td>2010-07-20</td></tr><tr><td>RB711G-5HnD</td><td>2011-09-01</td></tr><tr><td>RB711GA-5HnD</td><td>2011-09-01</td></tr><tr><td>RB711UA-2HnD</td><td>2011-08-01</td></tr><tr><td>RB711UA-5HnD</td><td>2011-09-27</td></tr><tr><td>RB750</td><td>2010-11-01</td></tr><tr><td>RB750G</td><td>2009-04-20</td></tr><tr><td>RB750GL</td><td>2011-05-01</td></tr><tr><td>RB750UP</td><td>2011-11-01</td></tr><tr><td>RB751G-2HnD</td><td>2012-01-01</td></tr><tr><td>RB751U-2HnD</td><td>2011-09-01</td></tr><tr><td>RB816</td><td>2012-02-08</td></tr><tr><td>RB911G-2HPnD</td><td>2013-06-04</td></tr><tr><td>RB911G-5HPnD</td><td>2013-03-19</td></tr><tr><td>RB912UAG-2HPnD</td><td>2013-06-04</td></tr><tr><td>RB912UAG-5HPnD</td><td>2013-03-19</td></tr><tr><td>RB912UAG-5HPnD-OUT</td><td>2013-05-01</td></tr><tr><td>RB951-2n</td><td>2012-06-01</td></tr><tr><td>RB951G-2HnD</td><td>2013-01-16</td></tr><tr><td>RB951Ui-2HnD</td><td>2013-06-28</td></tr><tr><td>RBGroove A-2Hn</td><td>2012-04-01</td></tr><tr><td>RBGroove A-52HPn</td><td>2013-04-01</td></tr><tr><td>RBGroove A-5Hn</td><td>2011-05-16</td></tr><tr><td>RBGroove2Hn</td><td>2012-04-01</td></tr><tr><td>RBGroove52HPn</td><td>2013-04-04</td></tr><tr><td>RBGroove5Hn</td><td>2011-05-16</td></tr><tr><td>RBMetal2SHPn</td><td>2012-10-18</td></tr><tr><td>RBMetal5SHPn</td><td>2012-05-11</td></tr><tr><td>RBOmniTIKU-5HnD</td><td>2011-07-01</td></tr><tr><td>RBOmnitikUPA-5HnD</td><td>2012-01-18</td></tr><tr><td>RBSEXTANT5HnD</td><td>2011-11-08</td></tr><tr><td>RBSEXTANTG5HnD</td><td>2012-05-22</td></tr><tr><td>RBSXT2nDr2</td><td>2013-01-04</td></tr><tr><td>RBSXT5HnD</td><td>2011-01-10</td></tr><tr><td>RBSXT5HPnD</td><td>2012-03-01</td></tr><tr><td>RBSXT5nDr2</td><td>2013-01-15</td></tr><tr><td>RBSXTG-5HnD</td><td>2012-03-01</td></tr><tr><td>RBSXTG-5HPnD-SAr2</td><td>2013-05-01</td></tr><tr><td>RBSXTG2HnD</td><td>2012-11-28</td></tr></table><br />
+
+<h3>RMA Procedure</h3>
+
+<p>
+1. Send an email to the MikroTik Support department 
+(<a href="mailto:support@mikrotik.com">support@mikrotik.com</a>), detailing the 
+problem that you are having and including as much information as possible. 
+If the Support Department agrees that the unit cannot be revived on-site, and a 
+repair procedure must be performed, Support Department will give you 
+authorization code and link to the <strong>Hardware support request 
+form.</strong> 
+</p>
+
+<p>
+2. Fill in Hardware support request form. This form only accepts devices directly 
+sold to you and only items that are covered by warranty. For all items you must 
+provide a problem description and serial number. Products with no serial 
+numbers (such as power supplies) will be selectable from the table of items 
+that were delivered to you. 
+</p>
+
+<p>
+3. Check if it is possible to obtain compensation by choosing 
+&quot;Preview compensation&quot;. System will show how many units can be 
+compensated. When all malfunctioning units are added, please &quot;confirm RMA list&quot;.
+</p>
+
+<p>4. You will receive an E-Mail with RMA link in order to finish and confirm your RMA request. Please use provided link. When it's done, MikroTik will arrange compensated unit dispatch together with next shipment or separately, based on special request.</p>
+
+<p>5. All compensated units must be stored for 12 months, as MikroTik may request them back for inspection.
+If MikroTik will request units for inspection, but they will not be sent within one month after request,
+further compensation can be denied.</p>
+
+<p>6. Log into our <a href="http://rma.mikrotik.com/">RMA system webpage</a> to check your RMA shipment,
+and confirm that all items that are listed will indeed be shipped 
+to us. Please remove all other items from the &quot;current shipment&quot;
+form. Due to European Union Customs requirements, you must provide
+an appropriate Original Invoice if you are not a resident of
+the European Union. We strongly advise to use the standard shipping
+invoice generated by our RMA system. If you wish to use your own Invoice,
+you must include the European Union HS (Harmonised System) codes! In the
+invoice you must also include the RMA Number and the following text
+&quot;FOR CUSTOMS PURPOSES ONLY. NO COMMERCIAL VALUE.&quot; You will be asked
+to upload the invoice, so we can confirm if the described information is
+provided correctly, before you send the shipment.</p>
+
+<p>7. Please make sure that you have correctly identified the problem and that
+the unit is indeed not working, because customer has to pay shipping charges
+and up to 50$ for testing of each unit, <em>if there were no problems found</em>.<br />
+IMPORTANT NOTICE! Before returning a RouterBOARD router, please ensure that:</p>
+<ul>
+<li>The board has a valid license (you can use serial terminal to check that)</li>
+<li>The problem is not related to software problems (reinstall the software with
+Netinstall without saving the configuration to the newest RouterOS version)</li>
+</ul>
+
+<p>8. Products being returned must be shipped at your expense. If the repair is 
+done under warranty, MikroTik will return the product to the customer at no 
+charge.<br />
+The <strong>RMA shipment number</strong> must be on the outside of the return 
+package, and if you use MikroTik invoice - it must be included in the shipment 
+otherwise if you use your own invoice - you need to include <strong>printed RMA 
+shipment unit list</strong> in the shipment, or the package will be rejected 
+and returned to customer.<br />
+Contents of the package must match the information on the printed RMA shipment 
+unit list, or the package will be returned as is. The customer will pay for the 
+return shipping of products that are not covered by warranty.</p>
+
+<p>9. Products to be returned should be properly packed to avoid damage during 
+delivery. Such transport damages may cause false analysis results and/or lead 
+to invalidation of warranty. </p>
+
+<p>10. Please send the shipment to the RMA facility address (will be issued upon 
+approval of your RMA form).<br />
+To speed up your RMA procedure, fill in all shipping information in your RMA 
+account (name of the carrier, flight details, airway bill number etc).</p>
+
+<h3>Useful information:</h3>
+<ul>
+<li>
+Routers returned for repair must be either unlocked from all passwords, or
+the full-access password must be provided.
+</li>
+<li>
+If you have a broken RouterBOARD then please do not send back working power supply 
+components (Power adapter, POE Power injector, POE Power supply or Power plug). 
+This will save transportation costs for you.
+</li>
+<li>
+Please inform us of any changes to your company information:<br/>
+E-mail: <a href="mailto:rma@mikrotik.com">rma@mikrotik.com</a><br/>
+Fax: (371)67317701
+</li>
+<li>
+You will receive notification by E-mail:<br/>
+<ul>
+<li>when MikroTikls RMA center will receive your shipment</li>
+<li>when MikroTikls RMA center will send back to you repaired goods</li>
+</ul>
+</li>
+<li>
+In case the RMA Department sends you an Original Invoice for approval,
+it should be approved within one month, otherwise the RMA shipment will
+be sent with the standard RMA Department created Invoice.
+</li>
+<li>
+When you log into your account, you can see your RMA history. That will include 
+all shipping information and your RMA status changes history.
+</li>
+</ul>
+
+		</div>
+	<div class="copyrights">1995 - 2013 SIA Mikrotikls. All rights reserved. MikroTik is registered trademark.</div>
+</div>
+</body>
+</html>

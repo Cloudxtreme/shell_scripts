@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>XDM on a Xvnc server</title>
+</head>
+<body>
+<p>Prerequisites for this to work are :
+<ul>
+<li>A recent OpenBSD install (works from certain 3.4-current versions and up)
+<li>All X packages (xbase35.tgz, xfont35.tgz, xserv35.tgz, xshare35.tgz) installed
+<li>The tightvnc port (/usr/ports/net/tightvnc/) or package installed
+</ul>
+<p>I'm not 100% sure about needing xserv35.tgz, but it works definitely if it's installed. Now configure xdm to start an Xvnc server :
+<p>Add the following line to /etc/X11/xdm/Xservers :
+<pre>
+	:1 local /usr/local/bin/Xvnc :1 -geometry 1024x768 -depth 16 -desktop banana -wm
+</pre>
+<p>And add this to /etc/X11/xdm/xdm-config :
+<pre>
+	DisplayManager._1.authorize:    false
+</pre>
+<p>After this, (re)start xdm(1), and you should be able to connect your vnc client to display :1, log in and work remotely on your OpenBSD machine. Remember to use SSH tunneling (see ssh(1) for more details) to secure the communcation channel between VNC client and server. To enforce this, you can use the '-localhost' option to Xvnc.
+<br>
+<p><a href="../">Back to OpenBSD stuff</a>
+<p align="right"><a href="http://www.openbsd.org/"><img border="0" src="../../images/openbsd_pb.gif" alt="Powered by OpenBSD" width="150" height="40"></a>
+</body>
+</html>

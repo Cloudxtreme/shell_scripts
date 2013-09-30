@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+
+<title>ブログ／新着記事一覧 | CANPAN</title>
+
+
+<meta name="Keywords" content="ブログ,新着記事" />
+
+<meta name="viewport" content="width=1000" />
+
+<link rel="stylesheet" type="text/css" media="all" href="/shared/css/import.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/blog/css/newarticle.css" />
+
+<script type="text/javascript" src="/shared/js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="/shared/js/common.js"></script>
+<script type="text/javascript" src="/blog/js/blog.js"></script>
+<script type="text/javascript">	var _gaq = _gaq || [];	_gaq.push(['_setAccount', 'UA-29336251-1']);	_gaq.push(['_trackPageview']);	(function() {		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);	})();</script></head>
+<body>
+<div class="skiplink">
+	<a href="#container">このページの本文へ</a>
+</div>
+
+<div id="header" role="banner">
+	<div class="wrapper">
+		<p class="logo"><a href="/"><img src="/shared/img/common/fields_logo.gif" width="178" height="51" alt="CANPAN FIELDS" /></a></p>
+		<div class="members-menu">
+			<ul>
+				<li><a class="registration" href="/member/registration/agreement"><img src="/shared/img/common/link_registration.gif" width="109" height="32" alt="ユーザー登録する" /></a></li>
+				<li><a class="login" href="/member/login"><img src="/shared/img/common/link_login.gif" width="82" height="32" alt="ログインする" /></a></li>
+			</ul>
+		</div>
+		<ul class="main-menu" role="navigation">
+			<li class="topics"><a href="/topic/"><img src="/shared/img/common/link_topics.gif" width="95" height="112" alt="トピックス" /></a></li>
+			<li class="blog current"><a href="/blog/"><img src="/shared/img/common/link_blog.gif" width="70" height="112" alt="ブログ" /></a></li>
+			<li class="organizations"><a href="/organization/"><img src="/shared/img/common/link_organizations.gif" width="95" height="112" alt="団体情報" /></a></li>
+			<li class="reports"><a href="/report/"><img src="/shared/img/common/link_reports.gif" width="107" height="112" alt="事業成果物" /></a></li>
+			<li class="subsidies"><a href="/grant/"><img src="/shared/img/common/link_subsidies.gif" width="93" height="112" alt="助成制度" /></a></li>
+		</ul>
+		<ul class="sub-menu">
+			<li><a class="external" href="/help/"><img src="/shared/img/common/link_help.gif" width="54" height="32" alt="ヘルプ" /></a></li>
+		</ul>
+		<div class="serch-box">
+			<div id="cse-search-form" style="width: 100%;">Loading</div>
+			<script src="//www.google.com/jsapi" type="text/javascript"></script>
+			<script type="text/javascript"> 
+				google.load('search', '1', {language : 'ja'});
+				google.setOnLoadCallback(function() {
+					var customSearchControl = new google.search.CustomSearchControl('004680779670631568733:fbmwbkkatri');
+					customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+					var options = new google.search.DrawOptions();
+					options.enableSearchboxOnly("http://www.google.com/cse?cx=004680779670631568733:fbmwbkkatri");
+					customSearchControl.draw('cse-search-form', options);
+				}, true);
+			</script>
+			<link rel="stylesheet" href="/shared/css/default.css" type="text/css" />
+		</div>
+	</div>
+</div>
+
+<div id="container">
+	<div class="wrapper">
+		
+		<div id="page-title">
+
+			<h1><img src="/blog/img/title_newarticle.gif" width="178" height="17" alt="ブログ／新着記事一覧" /></h1>
+		</div>
+		
+		<div id="left-column">
+			<div class="wrapper">
+				
+				<div class="section first">
+					<ul class="tabs">
+						<li class="current"><a class="btn" href=""><img src="/blog/img/tab_newarticle.gif" width="205" height="52" alt="新着記事" /></a></li>
+						<li><a class="btn" href="/blog/newblog"><img src="/blog/img/tab_newblog.gif" width="205" height="52" alt="新着CANPANブログ" /></a></li>
+						<li><a class="btn" href="/blog/pickup"><img src="/blog/img/tab_pickup.gif" width="205" height="52" alt="ピックアップブログ" /></a></li>
+					</ul>
+				</div>
+				
+
+				<div id="tagcloud" class="section">
+					<h2><img src="/blog/img/subtitle_tagtrend.gif" width="87" height="30" alt="CANPANブログ 話題のタグ" /></h2>
+					<div class="top"></div>
+					<iframe src="http://blog.canpan.info/_contents/recent_tags/hot_tags.html"></iframe>
+					<div class="bottom"></div>
+					<h2><img src="/blog/img/subtitle_tagnew.gif" width="84" height="30" alt="CANPANブログ 新しいタグ" /></h2>
+					<div class="top"></div>
+					<iframe src="http://blog.canpan.info/_contents/recent_tags/recent_tags.html"></iframe>
+					<div class="bottom"></div>
+				</div>
+
+			</div>
+		</div>
+		
+		<div id="right-column" role="main">
+			
+			<div id="search-results">
+				<h2 class="sound-only">表示</h2>
+				<div class="box upper">
+					<div class="top"></div>
+					<dl>
+						<dt><span>表示件数</span></dt>
+						<dd>
+							<p class="count">20/212547件（1〜20件目）</p>
+							<ul class="paging">
+								<li>＜ 前へ</li>
+								<li class="current">1</li>
+								<li><a href="/blog/?page=2">2</a></li>
+								<li><a href="/blog/?page=3">3</a></li>
+								<li><a href="/blog/?page=4">4</a></li>
+								<li><a href="/blog/?page=5">5</a></li>
+								<li><a href="/blog/?page=2">次へ ＞</a></li>
+							</ul>
+						</dd>
+					</dl>
+					<div class="bottom-arrow"></div>
+				</div>
+				
+
+				<h2 class="sound-only">一覧</h2>
+				<table>
+					<tbody>
+
+						<tr class="first">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://ameblo.jp/bps-m/entry-11600276335.html">銀板象嵌水流紋〜w</a></h3>
+									<p>
+ ども、おいらですw午後からは、銀板に象嵌部分を彫り込んで、切り抜いた白珊瑚も合わせてみて、こんな感じになりましたぁサンゴだけ別に磨いて嵌め込んで、バチカン用 ... [<a class="external" href="http://ameblo.jp/bps-m/entry-11600276335.html">もっと読む</a>]</p>
+									<p class="blog">[個人] 外部ブログ／びーねっと工房の偏屈オヤジのブログ</p>
+									<p class="owner">投稿者：びーねっと</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 17:02更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://ahi-jimu.seesaa.net/article/373060380.html">エアコンがこわれまして・・</a></h3>
+									<p>事務所のエアコンが壊れました！先週の木曜日のことです。節約をムネとするＡＨＩでもさすがに今夏はエアコンを使わずにはいられません。週末、ひとしきり雨が降って今日は ... [<a class="external" href="http://ahi-jimu.seesaa.net/article/373060380.html">もっと読む</a>]</p>
+									<p class="blog">[個人] 外部ブログ／ＡＨＩの事務所から</p>
+									<p class="owner">投稿者：アジア保健保健研修所</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:55更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/miyamiya/archive/404">彼の前でだけ泣ける。。。</a></h3>
+									<p>彼も知ってのとうり、私はなかなか気の強い女だ。男の前でなんて、泣いたことがない。彼の前なら、つらいときすなおに泣けるような気がする。中学のとき、大喧嘩して泣いた ... [<a class="external" href="http://blog.canpan.info/miyamiya/archive/404">もっと読む</a>]</p>
+									<p class="blog">[個人] CANPANブログ／明日天気になあれ</p>
+									<p class="owner">投稿者：michiko</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:55更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://ameblo.jp/carehouse-tennou/entry-11600276326.html">秋の気配</a></h3>
+									<p> 　皆様、こんにちは
+
+　今日の足利市は、穏やかな風が吹き、今ま
+
+での厳しい暑さとは違い、過ごしやすい一日
+
+となりました
+
+　気がつくと、もう８月も残りわず ... [<a class="external" href="http://ameblo.jp/carehouse-tennou/entry-11600276326.html">もっと読む</a>]</p>
+									<p class="blog">[個人] 外部ブログ／ケアハウス天王</p>
+									<p class="owner">投稿者：軽費老人ホーム</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:54更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/kitchen_patio/archive/380">９月のランチメニュー</a></h3>
+									<p>こんにちはきっと夏の暑さもあと少しですね9月のランチメニューをご紹介します！！9/2(月)　魚竜田揚げ　煮物　みそ汁　ごはん9/3(火)　鶏肉の梅しそ焼き　サラ ... [<a class="external" href="http://blog.canpan.info/kitchen_patio/archive/380">もっと読む</a>]</p>
+									<p class="blog">[個人] CANPANブログ／生活相談室なかにわ★ちょこっとキッチンPatio</p>
+									<p class="owner">投稿者：キッチンPatio</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:52更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/yamaboushi/archive/249">月曜日♩</a></h3>
+									<p>今週で8月も終わり・・・一ヶ月過ぎるのは本当に早いものです今日もみなさん元気元気笑顔が素敵です今日のメニュー☆☆麻婆ナス☆玉子焼き☆チャンプル☆箸休め☆汁物でし ... [<a class="external" href="http://blog.canpan.info/yamaboushi/archive/249">もっと読む</a>]</p>
+									<p class="blog">[団体] CANPANブログ／やまぼうし　　『夢をあきらめない』</p>
+									<p class="owner">投稿者：やまぼうし</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:51更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/katuyama/archive/17">災害に強いまちづくりを！</a></h3>
+									<p>災害に強いまちづくりを応援します！(大阪市からのお知らせです)大阪市では、地域の防災力の向上を目的に、老朽住宅の建替えや解体、耐震診断や改修、狭あい道路の拡幅に ... [<a class="external" href="http://blog.canpan.info/katuyama/archive/17">もっと読む</a>]</p>
+									<p class="blog">[個人] CANPANブログ／勝山地域まちづくり協議会</p>
+									<p class="owner">投稿者：勝山地域まちづくり協議会</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:41更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/takizawa/archive/591">8月26日の献立</a></h3>
+									<p>今日のメニューは…・ごはん・牛乳・ベーコンの味噌汁・ぶりの塩麹焼き・ピーマンの金平・洋梨シャーベット今が旬のピーマン。村内でもたくさん収穫されています。ピーマン ... [<a class="external" href="http://blog.canpan.info/takizawa/archive/591">もっと読む</a>]</p>
+									<p class="blog">[個人] CANPANブログ／滝沢村給食センター　</p>
+									<p class="owner">投稿者：滝沢村給食センター</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:41更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/wakabakai/archive/76">ありがと３３　邑智園夏祭り</a></h3>
+									<p>8月3日　邑智園では恒例となりました夏祭りを“おかげさまで33周年　ありがと３３　”と題して開催しました。タイトル通りおかげさまで私たちはご縁のある方々からのお ... [<a class="external" href="http://blog.canpan.info/wakabakai/archive/76">もっと読む</a>]</p>
+									<p class="blog">[団体] CANPANブログ／わかばのたより</p>
+									<p class="owner">投稿者：社会福祉法人わかば会</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:41更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/sukoyaka26/archive/20">９月の活動日について（ご案内）</a></h3>
+									<p>こんにちは！すこやか２６の９月の活動日は・・・毎週日曜日・9/14・9/16・9/23を除く日となっております。（但し土曜日は午前中のみの活動です）よろしくお願 ... [<a class="external" href="http://blog.canpan.info/sukoyaka26/archive/20">もっと読む</a>]</p>
+									<p class="blog">[団体] CANPANブログ／ＮＰＯ法人すこやか26ブログ</p>
+									<p class="owner">投稿者：つくりみち</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:40更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/dog-hana/archive/13">佐賀県武雄市について</a></h3>
+									<p>　本日もDVの研究のため、母子・寡婦福祉資金貸付制度の相談窓口である各市の福祉事務所を調査していました。　そこで、奇妙な画面が出る市に出会ったのです。それは佐賀 ... [<a class="external" href="http://blog.canpan.info/dog-hana/archive/13">もっと読む</a>]</p>
+									<p class="blog">[個人] CANPANブログ／NPO法人ボランティアスタッフの一日</p>
+									<p class="owner">投稿者：森川</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:39更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/nanbunosato/archive/774">一足先に</a></h3>
+									<p>一足先に秋の飾りを作っています何が出来るかな ... [<a class="external" href="http://blog.canpan.info/nanbunosato/archive/774">もっと読む</a>]</p>
+									<p class="blog">[個人] CANPANブログ／湖山医療福祉グループ　　 百葉の会　南部の郷</p>
+									<p class="owner">投稿者：南部の郷</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:31更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/famisapo/archive/19">「よみうり子育て応援団＠仙台」開催！！</a></h3>
+									<p>よみうり子育て応援団＠仙台「お父さんを楽しもう！」（入場無料、託児あり）２００１年から毎年開催されている「よみうり子育て応援団」が、今年は仙台で開催されます。子 ... [<a class="external" href="http://blog.canpan.info/famisapo/archive/19">もっと読む</a>]</p>
+									<p class="blog">[団体] CANPANブログ／特定非営利活動法人せんだいファミリーサポート・ネットワーク</p>
+									<p class="owner">投稿者：ファミサポ事務局</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:30更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://garden.swing-npo.com/?eid=1399891">ぼくは神様</a></h3>
+									<p>ぐ〜るぐる、ぐ〜るぐる。はるかくん、ベッドの上でなんだか右手をまわしています。「地球まわしてんねん。」う！うそー!!な！なんと!!地球がまわるのは自転とか公転と ... [<a class="external" href="http://garden.swing-npo.com/?eid=1399891">もっと読む</a>]</p>
+									<p class="blog">[団体] 外部ブログ／NPO法人スウィング -swingy days-</p>
+									<p class="owner">投稿者：NPO法人スウィング</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:25更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/rikutakakyodo/archive/188">【イベント】2013夏祭り“甦れ！盆踊り”</a></h3>
+									<p>◆◆2013夏祭り“甦れ！盆踊り”◆◆“憩える！集える！元気を発信する！みんなのコミュニティ広場”再生の里ヤルキタウンでは、8月最後の土曜日に盆踊りを開催いたし ... [<a class="external" href="http://blog.canpan.info/rikutakakyodo/archive/188">もっと読む</a>]</p>
+									<p class="blog">[個人] CANPANブログ／陸前高田まちづくり協働センター</p>
+									<p class="owner">投稿者：陸前高田まちづくり協働センター</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:22更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/orange083/archive/27">難病・慢性疾患全国フォーラム2013のお知らせ</a></h3>
+									<p>すべての患者・障害者・高齢者が安心して暮らせる社会を！！難病・慢性疾患全国フォーラム2013が東京で開催されます。日時：2013年11月9日（土）12時40分よ ... [<a class="external" href="http://blog.canpan.info/orange083/archive/27">もっと読む</a>]</p>
+									<p class="blog">[団体] CANPANブログ／おれんじの会（山口県特発性大腿骨頭壊死症患者会）</p>
+									<p class="owner">投稿者：渡邉利絵</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:21更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/engel/archive/1359">じゃがいものおやつ</a></h3>
+									<p>　８月２６日（月）　今日は朝から秋晴れの良いお天気です。気温は高いのですが、湿度が低くてカラッとしているので気持ちがいいです。先日収穫した、たんぽぽ畑のじゃがい ... [<a class="external" href="http://blog.canpan.info/engel/archive/1359">もっと読む</a>]</p>
+									<p class="blog">[個人] CANPANブログ／恵理子ママの部屋</p>
+									<p class="owner">投稿者：牛崎恵理子</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:19更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/bgclub/archive/465">B&amp;G美原海洋クラブ（大阪府）　活動報告（月別活動人数より）</a></h3>
+									<p>B&amp;G美原海洋クラブ　　８月の活動【活動内容】　　海洋スポーツ；　　６日　　　１１３人　　　　　　　　　　その他；　　　　　　１日　　　　２１人・活動３日目から ... [<a class="external" href="http://blog.canpan.info/bgclub/archive/465">もっと読む</a>]</p>
+									<p class="blog">[団体] CANPANブログ／Ｂ＆Ｇ海洋クラブブログ</p>
+									<p class="owner">投稿者：B&amp;G海洋クラブ</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:18更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/ikumin/archive/116">災害に強いまちづくりを！</a></h3>
+									<p>災害に強いまちづくりを応援します！(大阪市からのお知らせです)大阪市では、地域の防災力の向上を目的に、老朽住宅の建替えや解体、耐震診断や改修、狭あい道路の拡幅に ... [<a class="external" href="http://blog.canpan.info/ikumin/archive/116">もっと読む</a>]</p>
+									<p class="blog">[個人] CANPANブログ／生野区まちづくりセンター支部</p>
+									<p class="owner">投稿者：影山</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:18更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<h3><a class="external" href="http://blog.canpan.info/anan/archive/1675">雨続きですが…</a></h3>
+									<p>何やら先週の後半から雨が多いですねまだ稲刈りが終わっていないところは　どうなることやらやきもきしていますところで　今日ヨシピーは『夏期社会適応訓練』の事業報告を ... [<a class="external" href="http://blog.canpan.info/anan/archive/1675">もっと読む</a>]</p>
+									<p class="blog">[個人] CANPANブログ／地域活動支援センターあなん</p>
+									<p class="owner">投稿者：支援センターあなん</p>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="update">2013年8月26日 16:13更新</p>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<div class="box lower">
+					<div class="top-arrow"></div>
+					<dl>
+						<dt><span>表示件数</span></dt>
+						<dd>
+							<p class="count">20/212547件（1〜20件目）</p>
+							<ul class="paging">
+								<li>＜ 前へ</li>
+								<li class="current">1</li>
+								<li><a href="/blog/?page=2">2</a></li>
+								<li><a href="/blog/?page=3">3</a></li>
+								<li><a href="/blog/?page=4">4</a></li>
+								<li><a href="/blog/?page=5">5</a></li>
+								<li><a href="/blog/?page=2">次へ ＞</a></li>
+							</ul>
+						</dd>
+					</dl>
+					<div class="bottom"></div>
+				</div>
+			</div>
+			
+		</div>
+		
+	</div>
+</div>
+
+<div id="footer" role="banner">
+	<div class="wrapper">
+		<a class="pagetop" href="#"><img src="/shared/img/common/link_pagetop.gif" width="61" height="30" alt="このページの先頭へ" /></a>
+	</div>
+	<div class="wrapper lower">
+		<ul class="footer-menu">
+			<li><a class="about external" href="http://canpan.info/about/"><img src="/shared/img/common/link_about.gif" width="87" height="32" alt="CANPANについて" /></a></li>
+			<li><a class="term external" href="http://canpan.info/term/canpan.html"><img src="/shared/img/common/link_term.gif" width="89" height="32" alt="CANPAN利用規約" /></a></li>
+			<li><a class="privacy external" href="http://canpan.info/term/privacy.html"><img src="/shared/img/common/link_privacy.gif" width="86" height="32" alt="個人情報について" /></a></li>
+			<li><a class="contact external" href="https://canpan.info/contact/"><img src="/shared/img/common/link_contact.gif" width="64" height="32" alt="お問い合わせ" /></a></li>
+		</ul>
+		<a class="nf external" href="http://www.nippon-foundation.or.jp/"><img src="/shared/img/common/nf-logo.gif" width="140" height="25" alt="日本財団 - The Nippon Foundation" /></a>
+		<p class="copyright"><img src="/shared/img/common/copyright.gif" width="144" height="10" alt="Copyright (C) The Nippon Foundation" /></p>
+	</div>
+</div>
+
+</body>
+</html>

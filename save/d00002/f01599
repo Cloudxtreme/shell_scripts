@@ -1,0 +1,2147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Linux on Dell Latitude E4300</title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div class="content">
+
+<div class="pagetitle">Linux on Dell Latitude E4300</div><br/>
+
+<a name="Changelog"></a>
+<h2> Changelog </h2>
+
+<ul>
+<li> January 2009: Initial version </li>
+<li> 17 July 2009:
+  <ul>
+    <li>eSATA port is also an USB port, as reported by Lars Wilhelmsen.</li>
+    <li>E-port is a perfect companion for the E4300: some notes about it.</li>
+  </ul>
+</li>
+<li> 18 July 2009:
+  <ul>
+    <li>Flashing the BIOS of your E4300 on Debian</li>
+    <li>Suspend to RAM works fine</li>
+  </ul>
+</li>
+<li> 22 July 2009:
+  <ul>
+    <li>Broadcom USH firmware upgrade</li>
+  </ul>
+</li>
+<li> 17 August 2009:
+  <ul>
+    <li>Broadcom USH now working w/ Cryptoflex E-Gate 32K</li>
+  </ul>
+</li>
+<li> 28 October 2010:
+  <ul>
+    <li>Updated URL for Dell BIOS images (Thanks to Jesper Henriksen)</li>
+  </ul>
+</li>
+
+</ul>
+
+<a name="Overview"></a>
+<h2> Overview </h2>
+
+<p> This page contains some notes on configuring/supporting the
+  various hardware elements available in
+  the <a href="http://www.dell.com/downloads/global/products/latit/en/e4200_e4300_specsheet_unitedstates.pdf">Dell
+  Latitude E4300</a>. Each section is dedicated to a specific piece of
+  hardware (smartcard reader, bluetooth module, ...) or a specific Linux
+  feature (suspend to RAM, X server, ...)</p>
+
+<p> The distribution considered here is Debian (32 bit). I expect the
+  setup to be fairly similar if you use Ubuntu but you'll have to
+  investigate required changes when needed. If you use another Linux
+  distribution (redhat?), there is no reason you will not be able to
+  do the same things, sometimes in a fairly different way but you
+  might still find this notes useful. </p>
+
+<p> Because you might have selected a different hardware configuration
+  for your E4300, here is the output of the lspci and lsusb under a
+  2.6.28 kernel on mine:</p>
+
+<pre>
+arno@small:~$ lspci
+00:00.0 Host bridge: Intel Corporation Mobile 4 Series Chipset Memory Controller Hub
+00:02.0 VGA compatible controller: Intel Corporation Mobile 4 Series Chipset Integrated
+                                   Graphics Controller
+00:02.1 Display controller: Intel Corporation Mobile 4 Series Chipset Integrated
+                            Graphics Controller (rev 07)
+00:19.0 Ethernet controller: Intel Corporation 82567LM Gigabit Network Connection
+00:1a.0 USB Controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #4
+00:1a.1 USB Controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #5
+00:1a.2 USB Controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #6
+00:1a.7 USB Controller: Intel Corporation 82801I (ICH9 Family) USB2 EHCI Controller #2
+00:1b.0 Audio device: Intel Corporation 82801I (ICH9 Family) HD Audio Controller
+00:1c.0 PCI bridge: Intel Corporation 82801I (ICH9 Family) PCI Express Port 1 (rev 03)
+00:1c.1 PCI bridge: Intel Corporation 82801I (ICH9 Family) PCI Express Port 2 (rev 03)
+00:1c.3 PCI bridge: Intel Corporation 82801I (ICH9 Family) PCI Express Port 4 (rev 03)
+00:1d.0 USB Controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #1
+00:1d.1 USB Controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #2
+00:1d.2 USB Controller: Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #3
+00:1d.7 USB Controller: Intel Corporation 82801I (ICH9 Family) USB2 EHCI Controller #1
+00:1e.0 PCI bridge: Intel Corporation 82801 Mobile PCI Bridge (rev 93)
+00:1f.0 ISA bridge: Intel Corporation ICH9M-E LPC Interface Controller
+00:1f.2 RAID bus controller: Intel Corporation Mobile 82801 SATA RAID Controller
+00:1f.3 SMBus: Intel Corporation 82801I (ICH9 Family) SMBus Controller (rev 03)
+02:01.0 FireWire (IEEE 1394): Ricoh Co Ltd R5C832 IEEE 1394 Controller (rev 05)
+02:01.1 SD Host controller: Ricoh Co Ltd R5C822 SD/SDIO/MMC/MS/MSPro Host Adapter
+02:01.2 System peripheral: Ricoh Co Ltd R5C843 MMC Host Controller (rev ff)
+0c:00.0 Network controller: Intel Corporation PRO/Wireless 5300 AGN [Shiloh]
+        Network Connection
+
+arno@small:~$ lsusb
+Bus 008 Device 002: ID 413c:8147 Dell Computer Corp. 
+Bus 008 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 007 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 006 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 005 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 004 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 003 Device 002: ID 0a5c:5801 Broadcom Corp. 
+Bus 003 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 001 Device 004: ID 413c:8162 Dell Computer Corp. 
+Bus 001 Device 003: ID 413c:8161 Dell Computer Corp. 
+Bus 001 Device 002: ID 0a5c:4500 Broadcom Corp. 
+Bus 001 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+</pre>
+
+<p>Some additional notes:</p>
+
+<ul>
+<li> I did not select the camera (the option was not compatible with
+  the HSDPA card, i.e. the WWAN option), so you will not find any info
+  on it on this page. </li> 
+<li> I opted for a 250 GB 5400 RPM SATA disk, not a SSD one. I might
+  change my mind at some point when bigger models (more than 200 GB)
+  will be available at reasonable prices. </li> 
+<li> I ordered the Advanced E-Port station (for the 2 DVI outputs and
+  additional USB plugs) </li>
+<li> I selected the backlight keyboard option (nice and useful) </li>
+<li> I did not ordered a DVD drive (additional weight for a useless
+  component) </li>
+</ul>
+
+<p> Don't hesitate to send me a mail if you have questions or
+  corrections, or if you want me to extend a specific section with
+  your inputs.</p>
+
+<p>Keep in mind this is a work in progress so be gentle.</p>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="smartcard"></a>
+<h2> Smartcard Reader </h2>
+
+<p>The E4300 comes with a smartcard reader. A card can be inserted on
+  the left side of the laptop located at the same level as the
+  touchpad. The reader is a
+  Broadcom <a href="http://www.broadcom.com/products/Small-Medium-Business/Security-Processor-Solutions/BCM5880#tab=features-tab">BCM5880</a>,
+  internally connected to the system via USB (Note that this chip is
+  also the one supporting the UPEK fingerprint reader).</p> 
+
+<p> Before reading further, if you really intend to use the smartcard
+  reader of your E4300, you should definitely consider reading
+  next section and spend the time needed to update the firmware of
+  the USH to the latest available version. Old version have serious
+  bug which prevent the use of the reader with at some cards
+  (e.g. Cryptoflex E-Gate 32K in my specific case).</p>
+
+<p>Once you have done that, come back here for more fun (additional
+  patches required to have the beast work). </p>
+
+<p> Below is an lsusb output for the device:</p> 
+
+<pre>
+Bus 003 Device 002: ID 0a5c:5801 Broadcom Corp. 
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               1.10
+  bDeviceClass            0 (Defined at Interface level)
+  bDeviceSubClass         0 
+  bDeviceProtocol         0 
+  bMaxPacketSize0        64
+  idVendor           0x0a5c Broadcom Corp.
+  idProduct          0x5801 
+  bcdDevice            1.01
+  iManufacturer           1 Broadcom Corp
+  iProduct                2 5880
+  iSerial                 3 0123456789ABCD
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength          139
+    bNumInterfaces          2
+    bConfigurationValue     0
+    iConfiguration          0 
+    bmAttributes         0xc0
+      Self Powered
+    MaxPower              100mA
+
+    ...
+    &lt; snip: removed Broadcom USH w/swipe sensor Interface Descriptor &lt;
+    ...
+
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           3
+      bInterfaceClass        11 Chip/SmartCard
+      bInterfaceSubClass      0 
+      bInterfaceProtocol      0 
+      iInterface              5 Contacted SmartCard
+      ChipCard Interface Descriptor:
+        bLength                54
+        bDescriptorType        33
+        bcdCCID              1.00
+        nMaxSlotIndex           0
+        bVoltageSupport         7  5.0V 3.0V 1.8V 
+        dwProtocols             3  T=0 T=1
+        dwDefaultClock       4000
+        dwMaxiumumClock      4000
+        bNumClockSupported      0
+        dwDataRate           9600 bps
+        dwMaxDataRate      250000 bps
+        bNumDataRatesSupp.      0
+        dwMaxIFSD             247
+        dwSyncProtocols  00000000 
+        dwMechanical     00000000 
+        dwFeatures       000102BA
+          Auto configuration based on ATR
+          Auto voltage selection
+          Auto clock change
+          Auto baud rate change
+          Auto PPS made by CCID
+          NAD value other than 0x00 accpeted
+          TPDU level exchange
+        dwMaxCCIDMsgLen       271
+        bClassGetResponse      00
+        bClassEnvelope         00
+        wlcdLayout           none
+        bPINSupport             0 
+        bMaxCCIDBusySlots       1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x02  EP 2 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x86  EP 6 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               1
+Device Status:     0x0000
+  (Bus Powered)
+</pre>
+
+<p> As you can read above, the reader
+  is <a href="http://www.usb.org/developers/devclass_docs/DWG_Smart-Card_CCID_Rev110.pdf">CCID</a>
+  compliant. It supports both ISO/IEC 7816 T=0 and T=1 protocols. I
+  use it in combination with a Cryptoflex E-Gate 32K Card. </p>
+
+<!-- http://www.usb.org/developers/devclass_docs/DWG_Smart-Card_USB-ICC_ICCD_rev10.pdf --> 
+
+<p> At the time of writing, after having installed opensc and openct
+  packages (and their dependencies), some small configuration steps
+  are still needed to be able to interact with the card. The broadcom
+  reader being quite recent, it is not referenced in openct's udev
+  script (/etc/udev/rules.d/z60_openct.rules) and a line must be added
+  manually:</p>
+
+<pre>
+...
+
+SUBSYSTEM=="usb", ACTION=="add", ENV{DEVTYPE}=="usb_device", \
+	NAME="bus/usb/$env{BUSNUM}/$env{DEVNUM}", MODE="0644"
+
+# Broadcom 5880                                                              &lt;= ADDED
+ENV{MODALIAS}=="usb:v0A5Cp5801*", RUN+="/lib/udev/openct_usb"                &lt;= ADDED
+
+# egate
+ENV{MODALIAS}=="usb:v0973p0001*", RUN+="/lib/udev/openct_usb"
+
+...
+</pre>
+
+<p> This line will have udev call openct-control to attach the USB
+  device and make the reader available (this is mostly what
+  /lib/udev/openct_usb is used for).</p>
+
+<p> On openct side, some configuration is also required to make it
+  aware that this specific USB reader is supported via one of the
+  internal reader driver, more specifically the ccid driver. This is
+  done by adding the information in /etc/openct.conf file, at the end
+  of the ccid driver ids list:  </p>
+
+<pre>
+driver	ccid {
+	ids = {
+		usb:03f0/1024,	# HP Keyboard with CCID reader
+		usb:046a/0010,	# Cherry smartboard G83-6744
+		usb:04e6/5115,
+		usb:04e6/5116,
+		usb:04e6/5117,	# SCM Micro token size reader
+		usb:04e6/511d,	# SCM Micro SCR3311
+		usb:04e6/E001,
+		usb:04e6/E003,
+		usb:073d/0c00,	# Eutron SimPocket (doesn't work yet)
+		usb:076b/1021,  # OmniKey CardMan 1021
+		usb:076b/3021,
+		usb:076b/5121,
+		usb:076b/6622,	# OmniKey CardMan 6121
+		usb:0783/0003,
+		usb:08e6/3437,	# Gemplus
+		usb:08e6/3438,	# Gemplus GemPC Key SmartCard Reader
+		usb:08e6/4433,	# Gemplus
+		usb:0b97/7762,	# O2 Micro, Inc. Oz776 SmartCard Reader 
+		usb:0b97/7772,	# O2 Micro, Inc. Oz776 SmartCard Reader 
+		usb:0bf8/1006,	# fujitsu siemens 3.5 drive size reader
+		usb:0a5c/5801,  # Broadcom 5880 Smartcard/UPEK Reader         &lt;= ADDED
+	};
+};
+</pre> 
+
+<p> After you have restarted openct (and possibly udev), you should
+  be able to see your card (additional installation and configuration
+  steps may be required if you use a different card, not directly
+  supported by opensc):</p>
+
+<pre>
+arno@small:~$ openct-tool atr
+Detected CCID Compatible
+Card present, status changed
+ATR: 3b 95 18 40 ff 62 01 02 01 04
+</pre>
+
+<p> But if you try and list the elements on the card using
+  pkcs15-tool (or do other operations using pkcs15-* utilities), you
+  get an error:</p>
+
+<pre>
+arno@small:~$ pkcs15-tool -D
+PKCS#15 initialization failed: Wrong length
+</pre> 
+
+<p> After some debugging at opensc level, it seems that the reader
+  returns (via openct) some APDU with leading NULL bytes (more
+  precisely, 252 of those NULL bytes). I wrote a small temporary fix
+  (below) for opensc package but the problem should probably be
+  corrected at a lower level level. </p>
+
+<pre>
+Index: opensc-0.11.4/src/libopensc/apdu.c
+===================================================================
+--- opensc-0.11.4.orig/src/libopensc/apdu.c	2008-12-26 09:37:55.000000000 +0100
++++ opensc-0.11.4/src/libopensc/apdu.c	2008-12-26 09:41:36.000000000 +0100
+@@ -455,6 +455,25 @@
+                         	return SC_ERROR_NOT_SUPPORTED;
+ 	                }
+ 
++#define BROADCOM_E4300_BUG_APDU_DROP 252
++			if (apdu->resplen &gt;= BROADCOM_E4300_BUG_APDU_DROP) {
++				int i, allzero=1;
++				u8 *tmp = apdu->resp;
++
++				for (i=0; i &lt; BROADCOM_E4300_BUG_APDU_DROP; i++) {
++					if (tmp[i] != 0) {
++						allzero = 0;
++						break;
++					}
++				}
++
++				if (allzero) {
++					memmove(tmp, tmp + BROADCOM_E4300_BUG_APDU_DROP,
++						apdu-&gt;resplen - BROADCOM_E4300_BUG_APDU_DROP);
++					apdu-&gt;resplen -= BROADCOM_E4300_BUG_APDU_DROP;
++				}
++			}
++
+ 			/* if the command already returned some data 
+ 			 * append the new data to the end of the buffer
+ 			 */
+
+</pre>
+
+<p> For those who are familiar with cryptoflex cards and previously
+  used them via their native USB interface on previous version of
+  Dell laptops (once plugged, the card was reported as a new smarcard
+  reader), the Broadcom hardware does not seem to support that
+  mode. The card is only accessible via the common CCID interface of
+  the broadcom reader. </p>
+
+<p> Being familiar with the Cryptoflex E-Gate, I know it is quite
+  fast. Used in combination with a Dell SmartCard Reader Keyboard (USB
+  ID 413c:2101) for authentication with login, sudo, screensaver
+  unlocking ... the delay associated with the transaction has never
+  been an issue. But when used in combination with the SmartCard
+  Reader of the BCM5880, the delay can make it impossible to use for
+  common tasks using <b>only</b> the small previous patch. </p>
+
+<p> Simply put, for things to work smoothly, you need:</p>
+<ul>
+<li> at least version 11 of the USH firmware</li>
+<li> previous patch for opensc </li>
+<li> a patched version of openct </li>
+<li></li>
+</ul>
+
+<p> Below are some very simple statistics presenting the delay when
+  using the Cryptoflex E-Gate <b>with a Dell SmartCard Reader Keyboard</b>
+  ...</p> 
+
+<pre>
+$ sudo -k          #
+$ time sudo date
+Please insert your smart card or enter your username.
+Smart card inserted. 
+Welcome OpenSC Card (Arno)!
+Smart card password: 
+Sat Jul 25 22:49:29 CEST 2009
+
+real    0m3.999s
+user    0m0.080s
+sys     0m0.020s
+</pre>
+
+<p> ... or the BCM5880 (w/o version 11 of the USH firmware and w/o
+  openct patch):</p> 
+
+<pre>
+$ sudo -k
+$ time sudo date
+Please insert your smart card or enter your username.
+Smart card inserted. 
+Welcome OpenSC Card (Arno)!
+Smart card password:
+Sat Jul 25 13:03:29 CEST 2009
+
+real    0m14.108s
+user    0m0.044s
+sys     0m0.020s
+</pre>
+
+<p> Being presented with the password prompt for the PIN (smartcard's
+  discovery and reset process), typing the smartcard's pin and waiting
+  for the authentication process via the smartcard to occur before the
+  'date' command is executed take 14 seconds with the BCM5880. With
+  the Dell SmartCard Reader Keyboard, the process takes only 4
+  seconds.</p> 
+
+<p> More precisely, with the BCM5880, the password prompt for the PIN
+is presented only after 8 seconds or so (1 second or so with the
+SmartCard Reader Keyboard). Then, after the PIN has been typed, the
+date is presented only after 5 seconds ot so (2 seconds or so with the
+SmartCard Reader Keyboard).</p> 
+
+<p> Considering the cryptographic processing occuring on the device
+  is expected to be the one causing the delay, I started
+  investigating why such a difference between both readers. A quick
+  look at the lsusb output between the two devices provides the
+  following major differences:</p>
+
+
+<pre>
+BCM5880:                                   Dell SmartCard Keyboard:
+							 							    
+bcdUSB               1.10		   	bcdUSB               2.00				    
+							 							    
+bMaxPacketSize0        64			bMaxPacketSize0         8				    
+idVendor           0x0a5c Broadcom Corp.	idVendor           0x413c Dell Computer Corp.		    
+idProduct          0x5801 			idProduct          0x2101 SmartCard Reader Keyboard	    
+bcdDevice            1.01			bcdDevice            1.00				    
+iManufacturer           1 Broadcom Corp        iManufacturer           1 Dell			    
+iProduct                2 5880			iProduct                2 Dell Smart Card Reader Keyboard 
+iSerial                 3 0123456789ABCD	iSerial                 0 				    
+							 							    
+iInterface              5 Contacted            iInterface              0 			    
+                          SmartCard
+							 							    
+dwDataRate           9600 bps			dwDataRate          10752 bps			    
+dwMaxDataRate      250000 bps			dwMaxDataRate      344086 bps			    
+							 							    
+dwMaxIFSD             247			dwMaxIFSD             254			    
+							 							    
+dwFeatures       000102BA			dwFeatures       00010230			    
+  Auto configuration based on ATR		  
+  Auto voltage selection			  
+  Auto clock change				  Auto clock change
+  Auto baud rate change                          Auto baud rate change
+  Auto PPS made by CCID										    
+  NAD value other than 0x00 accpeted		  NAD value other than 0x00 accpeted		    	    
+  TPDU level exchange				  TPDU level exchange				    
+							         
+bPINSupport             0 			bPINSupport             1  verification	     
+						        						     
+bEndpointAddress     0x86  EP 6 IN		bEndpointAddress     0x83  EP 3 IN		     	    
+bmAttributes            3			bmAttributes            3			     	    
+  Transfer Type            Interrupt		  Transfer Type            Interrupt		     
+  Synch Type               None			  Synch Type               None		     
+  Usage Type               Data			  Usage Type               Data		     
+wMaxPacketSize     0x0010  1x 16 bytes		wMaxPacketSize     0x0008  1x 8 bytes		     
+bInterval               1		      	bInterval              24                           
+</pre>
+
+<p> So, the main differences between those USB CCID devices are: </p>
+
+<ul>
+<li>The Dell SmartCard Reader Keyboard is a USB 2.0 device while the
+  BCM5880 is "only" USB1.1 compliant. This may imply less bandwidth
+  for the BCM 5880 but considering the amount of data exchanged, this
+  should not be significant.</li>
+<li> the default ICC I/O data rate (in bps) of both readers differ are
+  basically the same (10752 vs 9600 bps) but the maximum data rate for
+ the BCM5880 is expected to be basically 38% lower than the one of the
+  Dell SmartCard Reader Keyboard. </li>
+<li> The Dell SmartCard Reader Keyboard advertises basic features
+  while the BCM5880 advertises additional ones.</li>
+<li></li>
+</ul>
+
+<p> Considering there was nothing to do for the two first points, I
+  decided to take a look at the initialization steps performed by
+  openct for the additional features of the BCM5880 (Debian package
+  source, version 0.6.16, src/ifd/ifd-ccid.c mainly). After some time
+  modifying the code to make BCM5880 dumber (i.e. make it advertise
+  less features), I noticed that without passing via the code
+  associated supporting the "Auto configuration based on ATR" made the
+  initial latency disappear, allowing to get the following statistic: </p>
+
+<pre>
+$ sudo -k
+$ time sudo date
+Please insert your smart card or enter your username.
+Smart card inserted. 
+Welcome OpenSC Card (Arno)!
+Smart card password: 
+Sat Jul 25 22:49:53 CEST 2009
+
+real    0m6.056s
+user    0m0.064s
+sys     0m0.036s
+</pre>
+
+<p> More precisely, it now takes only around one second for the
+  paswword prompt for the PIN to be presented, just like for the Dell
+  SmartCard Reader Keyboard. Nonetheless, the rest of the process is
+  still taking 2 additional seconds. </p>
+
+<p> The patch is here: </p>
+
+<pre>
+Index: openct-0.6.16/src/ifd/ifd-ccid.c
+===================================================================
+--- openct-0.6.16.orig/src/ifd/ifd-ccid.c	2009-08-03 08:29:50.000000000 +0200
++++ openct-0.6.16/src/ifd/ifd-ccid.c	2009-08-03 08:34:47.000000000 +0200
+@@ -742,7 +742,9 @@
+ 	} else if (ccid.dwFeatures &amp; 0x60000) {
+ 		st->reader_type = TYPE_APDU;
+ 	}
+-	if (ccid.dwFeatures &amp; 0x2)
++	/* AUTO_ATRPARSE seems broken on BCM 5880 aka Broadcom USH */
++	if ((ccid.dwFeatures &amp; 0x2) &amp;&amp;
++	    !(de.idVendor == 0x0a5c &amp;&amp; de.idProduct == 0x5801))
+ 		st->flags |= FLAG_AUTO_ATRPARSE;
+ 	if (ccid.dwFeatures &amp; 0x4)
+ 		st->flags |= FLAG_AUTO_ACTIVATE;
+</pre>
+
+<p> As a matter of fact, the 2 seconds delay is due to some bugs in
+  older version of the USH firmware. Upgrading the USH firmware as
+  described in following section makes the additional 2 seconds
+  latency disappear completely. </p>
+
+<h2> Updating Broadcom USH firmware </h2>
+
+<p> In order to upgrade BCM5880 firmware, I first took a look at
+  Broadcom's web site to see if there was something available. There
+  is only a
+  single <a href="http://www.broadcom.com/products/Small-Medium-Business/Security-Processor-Solutions/BCM5880#tab=features-tab">
+  single page about the chip</a> and no associated support/download
+  for that low-level product.</p>
+
+<p> So I decided to go for a search on Dell's website. There, looking
+  for Broadcom Unified Securiy Hub, USH, or BCM5880 did not helped:
+  the chip is part of something bigger called <a href="http://support.dell.com/support/edocs/software/dcp/security.pdf">"Dell 
+  ControlPoint Security Manager"</a>. Using that designation and the
+  Service Tag of the device (8L5024J) I ended up
+  on <a href="http://support.us.dell.com/support/downloads/download.aspx?c=us&amp;l=en&amp;s=gen&amp;releaseid=R206690&amp;formatcnt=2&amp;libid=0&amp;fileid=289156">that
+  page</a> which seemed to match my search. The package
+  (auto-extractible exe) contains all the drivers for the various
+  hardware parts that the ControPoint Security Manager can use on
+  existing DELL devices:</p>
+
+<ul>
+  <li>Broadcom Trusted Platform Module</li>
+  <li>Atmel Trusted Platform Module</li>
+  <li>STMicroelectronics Trusted Platform Module</li>
+  <li>Winbond Trusted Platform Module</li>
+  <li>O2Micro Smart Card Reader</li>
+  <li>Dell Smart Card Keyboard</li>
+  <li>UPEK TouchChip Fingerprint Reader</li>
+  <li>Authentec Fingerprint Reader</li>
+  <li>Broadcom Unified Security Hub</li>
+  <li>Vista Storage Driver Update (for ATAPI.SYS)</li>
+</ul>
+
+<p> This probably explains the size of the package: 72MB. The .exe is
+  of no use under Linux (well, in fact, a patched version of unshield,
+  and additional tools will allow you to extract the various layers
+  contained in the archive but this is not reliable enough to be
+  discussed in more length here). So, after spending more time on
+  Google, I ended up via external links on Dell's FTP server "Security"
+  repository: <a href="http://ftp.us.dell.com/Security/">http://ftp.us.dell.com/Security/</a></p>
+
+<p>There, I downloaded <a href="http://ftp.us.dell.com/Security/Broadcom_Unified-Security-Hu_A07_R210234.exe">Broadcom_Unified-Security-Hu_A07_R210234.exe</a>,
+  which wine managed to handle correctly. After extraction:</p> 
+
+<pre>
+$ ls -l
+total 20
+drwxr-xr-x 2 arno arno 4096 2009-07-20 10:13 DOS
+drwxr-xr-x 2 arno arno 4096 2009-07-20 10:13 firmware
+drwxr-xr-x 2 arno arno 4096 2009-07-20 10:13 ODM
+-rw-r--r-- 1 arno arno   31 2008-11-11 13:58 UPDATE.BAT
+-rw-r--r-- 1 arno arno  781 2009-02-06 09:53 Version.txt
+</pre>
+
+<p> Update: don't bother downloading that version. As pointer to me by
+ Klaus Meyners, there is a more recent version of broadcom USH firmware
+  (version A11) is available elsewhere on Dell's servers, more
+  precisely <a href="http://ftp.ins.dell.com/Control Point/">here</a>.
+  It fixes the latency associated with the reader (the problem with
+  the automatic ATR parsing feature announced by the reader is still
+  there and requires openct fix described above). </p>
+
+<p> So I rebooted on an USB key running a DOS system and performed
+  the upgrade.</p>
+
+<p> In order for the firmware upgrade to start and complete,
+  I had to deactivate the TPM in the BIOS (update utility tells you
+  that) and switch off the wifi (update utility <b>does not</b> tell
+  you that). </p>
+
+<p> In the end, with this version 11, the opensc patch and the openct
+  patch, the Cryptoflex E-gate works perfectly with the smartcard
+  reader of the E4300, providing the exact same latency as the Dell
+  SmartCard keyboard. </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="sound"></a>
+<h2> Sound </h2>
+
+<p> Even when the volume is set at the highest possible level, the
+  sound is still quite low. </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="disk"></a>
+<h2> Disk </h2>
+
+<p> Not much to say: </p>
+<pre>
+arno@small:~$ sudo hdparm -tT /dev/sda
+
+/dev/sda:
+ Timing cached reads:   11264 MB in  1.99 seconds = 5652.75 MB/sec
+ Timing buffered disk reads:  164 MB in  3.04 seconds =  54.03 MB/sec
+</pre>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="ram"></a>
+<h2> RAM </h2>
+
+<p> Considering RAM is quite cheap and required when using virtual
+machines, I ordered the laptop with 4Go (4096MB (2x2048) 800MHz DDR3
+Dual Channel). </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="raid"></a>
+<h2> RAID Controller </h2>
+
+<p>What's the expected purpose of that builtin RAID controller? to be
+  used in conjunction with an external esata disk?</p>
+<pre>
+00:1f.2 RAID bus controller: Intel Corporation Mobile 82801 SATA RAID Controller (rev 03)
+</pre>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="battery"></a>
+<h2> Battery </h2>
+
+<p> The 6-cell battery extends the size of the laptop of about 1
+  inch. For that reason, I selected a primary 3-cell battery ("Primary
+  3-cell 30W/HR LI-ION", lasts less than 2 hours) and additional slice
+  batteries ("Additional Slice Battery 48W/HR LI-ION")</p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="touchpad"></a>
+<h2> Touchpad </h2>
+<p></p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="keyboard"></a>
+<h2> Keyboard </h2>
+<p>As stated before, I asked for the backlight version, which is very
+  useful in the dark. The backlight is control via hardware keys,
+  i.e. no specific binding configuration is required on the system (I
+  speak here as an old Linux PowerBook user). </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="wifi"></a>
+<h2> Wifi </h2>
+
+<p> I selected an Intel 5300 AGN Card, which is supported by recent
+  kernels (support was introduced in 2.6.26 via iwalgn if I am not
+  mistaken).</p>
+
+<p> The only required additional step (after having activated
+  the associated option in your kernel configuration) is make the
+  firmware available so that it can be loaded when the device is
+  detected. At the time of writing, you have to do that manually on
+  Debian.</p> 
+
+<p> Just go
+  to <a href="http://www.intellinuxwireless.org/?n=Downloads">"Intel
+  Wireless Wifi Link Linux drivers for Linux" download page</a> to
+  grab the correct microcode tarball (the 5000 images, in our specific
+  case). Just untar the archive somewhere and copy the
+  iwlwifi-5000-1.ucode file to /lib/firmware/ where the kernel will
+  look for it</p>
+
+<p> Note that you have additional configuration options in the kernel
+  configuration file to embed such firmwares in your kernel image, but
+  I do not discuss this kind of configuration here. </p> 
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="ethernet"></a>
+<h2> Ethernet </h2>
+<p> The ethernet controller on the E4300 is an Intel 82567LM Gigabit
+  one. It is supported by the e1000e driver. </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="bluetooth"></a>
+<h2> Bluetooth </h2>
+
+<p> Here is what you get by default:</p> 
+
+<pre>
+arno@small:~$ hcitool dev
+Devices:
+</pre>
+
+<p> Now, just consider the following:</p>
+
+<pre>
+arno@small~$ sudo lsusb -t
+...
+Bus#  1
+`-Dev#   1 Vendor 0x1d6b Product 0x0001
+  `-Dev#  10 Vendor 0x0a5c Product 0x4500
+    |-Dev#  11 Vendor 0x413c Product 0x8161
+    `-Dev#  12 Vendor 0x413c Product 0x8162
+...
+</pre>
+
+<p> The broadcom device 0a5c:4500 is
+  a <a href="http://www.broadcom.com/products/Bluetooth/Bluetooth-RF-Silicon-and-Software-Solutions/BCM2046">BCM
+  2046</a>, which is our missing bluetooth EDR module, or at least its
+  tail. It is seen as a hub, with 2 attached devices: 413c:8161 and
+  413c:8162 (usbview provides a better tree view). lsusb may let you
+  think that those devices are respectively a keyboard and a
+  mouse. Those are in fact some kinds of fake devices from the
+  bluetooth adapter which can be used at boot time without the any
+  prior OS knowledge. If you are interested, there are
+  explanations <a href="http://idebian.wordpress.com/2008/07/06/manage-hid-bluetooth-devices-in-linux/">here</a>. You
+  should definitely take the time and read it.</p>
+
+<p> The trick to make it appear is to use hid2hci to "switch the HID
+  proxy Bluetooth dongle into HCI mode". The thing is that latest
+  current Debian version of bluez-utils (3.36-2) does not have
+  information about 413c:8162 (this is the one that should be
+  switched). Latest version of bluez-utils (4.25) has it. Patching the
+  tool with the following does the trick:</p>
+
+<pre>
+--- hid2hci.c.orig      2009-01-05 23:13:07.000000000 +0100
++++ hid2hci.c   2008-10-26 07:40:34.000000000 +0100
+@@ -264,6 +264,7 @@
+        { HCI, 0x046d, 0xc71c, switch_logitech },       /* Logitech diNovo Edge */
+        { HCI, 0x413c, 0x8154, switch_dell     },       /* Dell Wireless 410 */
+        { HCI, 0x413c, 0x8158, switch_dell     },       /* Dell Wireless 370 */
++       { HCI, 0x413c, 0x8162, switch_dell     },       /* Dell Wireless 365 */
+        { -1 }
+ };
+
+</pre>
+
+After recompiling the package/tool, switching the mode can be done the
+following way:
+
+<pre>
+arno@small:/tmp/bluez-utils-3.36/tools$ sudo ./hid2hci
+Switching device 413c:8162 to HCI mode was successful
+</pre>
+
+<p> After that, an additional devices shows up (413c:8160):</p>
+
+<pre>
+arno@small:~$ sudo lsusb -t
+...
+Bus#  1
+`-Dev#   1 Vendor 0x1d6b Product 0x0001
+  `-Dev#  10 Vendor 0x0a5c Product 0x4500
+    |-Dev#  11 Vendor 0x413c Product 0x8161
+    |-Dev#  12 Vendor 0x413c Product 0x8162
+    `-Dev#  13 Vendor 0x413c Product 0x8160
+...
+</pre>
+
+<p> which is recognized as our missing Dell Wireless 365 Bluetooth
+  Module:</p>
+
+<pre>
+arno@small:~$ sudo lsusb -v -d 413c:8160
+
+Bus 001 Device 013: ID 413c:8160 Dell Computer Corp. 
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass          224 Wireless
+  bDeviceSubClass         1 Radio Frequency
+  bDeviceProtocol         1 Bluetooth
+  bMaxPacketSize0        64
+  idVendor           0x413c Dell Computer Corp.
+  idProduct          0x8160 
+  bcdDevice            1.73
+  iManufacturer           1 Dell Computer Corp
+  iProduct                2 Dell Wireless 365 Bluetooth Module
+  iSerial                 0 
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength          216
+    bNumInterfaces          4
+    bConfigurationValue     1
+    iConfiguration          0 
+    bmAttributes         0xe0
+      Self Powered
+      Remote Wakeup
+    MaxPower              100mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           3
+      bInterfaceClass       224 Wireless
+      bInterfaceSubClass      1 Radio Frequency
+      bInterfaceProtocol      1 Bluetooth
+...
+</pre>
+
+<p>And finally:</p>
+
+<pre>
+arno@small:~$ sudo hcitool dev
+Devices:
+        hci0    00:22:69:C6:F2:EE
+</pre>
+
+<p> Let's reset the device to be able to use it and do a simple
+  scan:</p>
+
+<pre>
+arno@small:~$ sudo hciconfig hci0 reset
+arno@small:~$ sudo hcitool scan
+Scanning ...
+        00:0E:07:B7:0D:93       MyDummyPhone
+</pre>
+
+<p> If you want things to happen automatically (the hid2hci call at
+  startup and the device reset) you need two additional changes:</p>
+
+<ul>
+  <li> Set HID2HCI_ENABLED=1 in /etc/default/bluetooth to have
+  hid2hci called at startup. </li>
+
+  <li> Have the newly added device reseted automatically: this will be
+  <a href="http://thread.gmane.org/gmane.linux.network/113040">the
+  default behavior in next stable kernel (2.6.29)</a> but current 
+  version (2.6.28) and previous ones need a fix for the HCI reset
+  quirk. The simple patch below does the job (it is against
+  2.6.28). </li> 
+</ul>
+
+<pre>
+Index: linux-2.6.28/drivers/bluetooth/btusb.c
+===================================================================
+--- linux-2.6.28.orig/drivers/bluetooth/btusb.c	2009-01-18 01:14:41.000000000 +0100
++++ linux-2.6.28/drivers/bluetooth/btusb.c	2009-01-18 01:16:00.000000000 +0100
+@@ -105,6 +105,9 @@
+ 	{ USB_DEVICE(0x0a5c, 0x2146), .driver_info = BTUSB_RESET },
+ 	{ USB_DEVICE(0x0a5c, 0x2151), .driver_info = BTUSB_RESET },
+ 
++	/* Dell Wireless 365 */
++	{ USB_DEVICE(0x413c, 0x8160), .driver_info = BTUSB_RESET },
++
+ 	/* Apple MacBook Pro with Broadcom chip */
+ 	{ USB_DEVICE(0x05ac, 0x820f), .driver_info = BTUSB_RESET },
+ 
+Index: linux-2.6.28/drivers/bluetooth/hci_usb.c
+===================================================================
+--- linux-2.6.28.orig/drivers/bluetooth/hci_usb.c	2009-01-18 01:14:57.000000000 +0100
++++ linux-2.6.28/drivers/bluetooth/hci_usb.c	2009-01-18 01:16:21.000000000 +0100
+@@ -141,6 +141,9 @@
+ 	/* Broadcom 2046 */
+ 	{ USB_DEVICE(0x0a5c, 0x2151), .driver_info = HCI_RESET },
+ 
++	/* Dell Wireless 365 */
++	{ USB_DEVICE(0x413c, 0x8160), .driver_info = HCI_RESET },
++
+ 	/* Microsoft Wireless Transceiver for Bluetooth 2.0 */
+ 	{ USB_DEVICE(0x045e, 0x009c), .driver_info = HCI_RESET },
+ 
+</pre>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="hspa"></a>
+<h2> HSDPA card </h2>
+
+<p> The Dell Wireless 5530 HSDPA card is basically a rebranded
+  Ericsson product
+  (<a href="http://www.ericsson.com/solutions/mobile_broadband_modules/docs/mobile_broadband_module_datasheet_print.pdf">Ericsson
+  Mobile Broadband Module F3507g</a>). It provides both HSDPA modem
+  (7.2Mbps DL / 2.0Mbps UL) and GPS functionality. Under Linux, both
+  functions are controlled and used via serial interfaces (TTYs). In
+  practice, the 3 serial interfaces are resepectively used to:</p>
+
+<ul>
+<li>Control the device: start some functions, get info, activates some 
+  modes. A common set of AT commands is used for that purpose for
+  both the GPS and the HSDPA part.</li>
+<li>Exchange data traffic with the network: the consumer for that
+  interface is usually pppd (if you use pppd and not the mbm solution
+  described below).</li> 
+<li>Receive the GPS NMEA message flow: the consumer for that interface
+  is gpsd.</li>
+</ul>
+
+<p> In that section, I only cover the initial setup of the device
+  (valid kernel options) and the configuration of the HSDPA part. A
+  specific section is dedicated to the GPS functionality. </p>
+
+<p> You may already have noticed from a lsusb output that the Dell
+  Wireless 5530 advertises a lot of Interface Descriptors for various
+  functions. From a kernel standpoint, the good way to support the
+  device is by using the cdc_acm and cdc_wdm (well, at the moment, I
+  don't know yet how to use the /dev/cdc-wdm0 and /dev/cdc-wdm1
+  devices created when the latter is loaded): </p>  
+
+<ul>
+  <li><b>cdc_acm</b>: this driver will create the /dev/ttyACM0,
+  /dev/ttyACM1 and /dev/ttyACM2 TTYs. Their use is explained later in
+  this section. Here is the location of the kernel option:
+
+<pre>
+Symbol: USB_ACM [=m]
+Prompt: USB Modem (CDC ACM) support
+  Defined at drivers/usb/class/Kconfig:7
+  Depends on: USB_SUPPORT &amp;&amp; USB
+  Location:
+    -> Device Drivers
+      -> USB support (USB_SUPPORT [=y])
+</pre>
+  </li>
+
+  <li><b>cdc_wdm</b>: this driver will create the /dev/cdc-wdm0 and
+  /dev/cdc-wdm1 devices:
+<pre>
+Symbol: USB_WDM [=m]
+Prompt: USB Wireless Device Management support
+  Defined at drivers/usb/class/Kconfig:32
+  Depends on: USB_SUPPORT &amp;&amp; USB
+  Location:
+    -> Device Drivers
+      -> USB support (USB_SUPPORT [=y])
+</pre>
+  </li>
+</ul>
+
+<p> Note that if you also have selected the <b>option</b> driver
+  below, it may be loaded before the <b>cdc_acm</b> and <b>cdc_wdm</b>
+  drivers and will create /dev/ttyUSB0 to /dev/ttyUSB10. Basically,
+  /dev/ttyUSB2, /dev/ttyUSB4 and /dev/ttyUSB10 will operate in the
+  same way as /dev/ttyACM0, 1 and 2. Considering
+  the <a href="https://kerneltrap.org/mailarchive/linux-usb/2008/11/17/4141384/thread">ongoing 
+  merge request of the MBM driver by Ericsson</a>, <b>cdc_acm</b>
+  and <b>cdc_wdm</b> are the right drivers to use. </p> 
+
+<pre>
+Symbol: USB_SERIAL_OPTION [=m]
+Prompt: USB driver for GSM and CDMA modems
+  Defined at drivers/usb/serial/Kconfig:542
+  Depends on: USB_SUPPORT &amp;&amp; USB_SERIAL
+  Location:
+    -> Device Drivers
+      -> USB support (USB_SUPPORT [=y])
+        -> USB Serial Converter support (USB_SERIAL [=m])
+</pre>
+
+<p> Simply put, the HSDPA card can be fully controlled using AT
+  commands passed via a TTY interface (I use /dev/ttyACM0 for that
+  purpose). Then, /dev/ttyACM1 can be used by pppd to exchange data
+  with the network. The third TTY (/dev/ttyACM2) may be used, as
+  described in the section dedicated to the GPS, to receive NMEA
+  message flow. </p>
+
+<p> To sum up, you can use:</p>
+
+<ul>
+  <li> /dev/ttyACM0: as the control interface for both the modem and the GPS</li>
+  <li> /dev/ttyACM1: as the serial line for ppp connection (if you use pppd) </li>
+  <li> /dev/ttyACM2: as the interface on which NMEA messages flow are received </li>
+</ul>
+
+<p> The modem supports an extensive list of AT commands (<b><a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstar">AT*</a></b>
+  can be used to get that list): many of them are officialy documented
+  (i.e. by Sony/Ericsson). Many others are not. I have
+  created <a href="Dell_Wireless_5530_AT_cmd_ref.html">a page
+  dedicated to the AT commands supported by the Dell Wireless
+  5530</a>, their interest an how to use them. </p>
+
+<p> Typically, common interactions with the modem require knowledge
+ of a very limited set of AT commands:</p>
+
+<ul>
+  <li><a href="Dell_Wireless_5530_AT_cmd_ref.html#ATplusCFUN">AT+CFUN</a>: used to set the phone functionality,
+  i.e. activate/deactivate the GSM/WCDMA radio </li>
+  <li><a href="Dell_Wireless_5530_AT_cmd_ref.html#ATplusCPIN">AT+CPIN</a>: enter the PIN to unlock the SIM card </li>
+  <li><a href="Dell_Wireless_5530_AT_cmd_ref.html#ATplusCSQ">AT+CSQ</a>: get the quality of the signal </li>
+</ul>
+
+<p> Now, there is a better alternative than pppd. But it requires some
+  kernel support which is not yet available upstream (at least not in
+  2.6.28). But the associated patch is pretty small (less than 500
+  lines) and has been written by developers from Ericsson and
+  submitted for review on netdev.</p>
+
+<p>Anyway, the idea is to provide an Ethernet emulation for the
+  device, i.e. get an ethernet interface on the system that can be
+  used as usual (i.e. with dhclient). The information provided below
+  on how to set things up are based~:</p>
+
+<ul>
+  <li> A <a href="http://kerneltrap.org/mailarchive/linux-net/2008/10/29/3846534">post</a>
+      on netdev by Carl Nordbeck for the submission of the patch
+    providing "Ericsson Mobile Broadband Module" option (i.e. USB_NET_MBM)</li>
+  <li> Some additional information on AT commands behaviors provided
+  by Bj&oslash;rn Mork and Carl Nordbeck (Thanks!)</li>
+  <li>
+  A <a href="http://www.mail-archive.com/networkmanager-list@gnome.org/msg11048.html">post</a>
+      by Per Hallsmark on Network Manager mailing list</li> 
+  <li> <a href="mbm.patch">the patch itself</a> </li>
+</ul>
+
+<p> First, you have to get the <a href="mbm.patch">patch</a> and
+  apply it to your kernel tree (AFAICT, it applies fine on 2.6.27,
+  2.6.28 and 2.6.29-rc3). Then, you need to select the newly created
+  option:</p>
+
+<pre>
+Symbol: USB_NET_MBM [=m]
+Prompt: Ericsson Mobile Broadband Module
+  Defined at drivers/net/usb/Kconfig:348
+  Depends on: NETDEVICES &amp;&amp; USB &amp;&amp; NET &amp;&amp; USB_USBNET
+  Location:
+    -> Device Drivers
+      -> Network device support (NETDEVICES [=y])
+        -> USB Network Adapters
+  Selects: USB_NET_CDCETHER
+</pre>
+
+<p> Note that it automatically selects USB_NET_CDCETHER. Also note
+  that to you still need to select the USB_ACM and USB_WDM discussed
+  previously to get the TTY lines to control the modem via AT commands
+  (and be able to use the GPS).</p>
+
+<p> When loading the mbm module, you should see sth like the
+  following in dmesg output:</p>
+
+<pre>
+$ sudo dmesg
+...
+usbcore: registered new interface driver cdc_ether
+mb0: register 'mbm' at usb-0000:00:1d.7-6, Mobile Broadband Network Device, 02:80:37:*:*:*
+usbcore: registered new interface driver mbm
+</pre>
+
+<p>Your lsmod output should contain the following</p>
+
+<pre>
+$ sudo lsmod
+Module                  Size  Used by
+mbm                     4864  0 
+cdc_ether               4736  1 mbm
+usbnet                 14472  2 mbm,cdc_ether
+mii                     4736  1 usbnet
+...
+</pre>
+
+<p> But the best part is that a new ethernet interface (mb0) should
+  have been created~: </p>
+
+<pre>
+$ sudo ip link
+...
+11: mb0: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop state DOWN qlen 1000
+    link/ether 02:80:37:**:**:** brd ff:ff:ff:ff:ff:ff
+</pre>
+
+<p> if you still use ifconfig, don't forget to call it with "-a"
+  option as the interface is down by default. For an unknow reason (at
+  least to me),
+  the <a href="http://en.wikipedia.org/wiki/Organizationally_Unique_Identifier">OUI</a>
+  in the ethernet address is not
+  a <a href="http://standards.ieee.org/regauth/oui/oui.txt">registered
+  one</a> (among others, "Ericsson Group" has 00-80-37,
+  coincidentally). </p>
+
+<p> Now, we need to issue some AT commands in order to configure the
+  modem (unlock the SIM, activate the antenna, set account parameters,
+  ask for Packet Switched mode, ...). The final goal is to get the mb0
+  device report an usable link (i.e. UP state). I describe required
+  steps below with as many details as possible in order for the order
+  and interactions to be explicit.  </p>
+
+<p> The first thing to do is to unlock your SIM card (i.e. pass it its
+  PIN)if it is not already unlocked:</p>
+
+<pre>
+$ screen /dev/ttyACM0
+AT+CPIN?                       &lt;&lt; PIN needed?
++CPIN: SIM PIN                 &lt;&lt; Yes, PIN needed
+
+OK
+
+AT+CPIN="1234"
+OK
+
+AT+CPIN?                       &lt;&lt; Card is unlocked
++CPIN: READY
+
+OK                                      
+</pre>
+
+<p> At some point, you need to activate the RF circuits (and
+  optionnally select the mode in which you want it to
+  operate). Use <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATplusCFUN">AT+CFUN</a> command for that purpose. Possible values are
+  documented on the <a href="Dell_Wireless_5530_AT_cmd_ref.html">AT
+  commands page</a>: </p>
+
+<pre>
+AT+CFUN=1
+OK
+</pre>
+
+<p> Note that you can activate the RF circuits before or after
+  unlocking the SIM. If the PIN has already been passed before
+  activating the RF circuit, you should may get something like the
+  following (depending on your mobile operator): </p>
+
+<pre>
+AT+CPIN="1234"
+OK
+
+*ESTKSMENU: Services SFR,0,6
+2,SFR &amp; Moi
+3,Perso du mobile
+4,Messages
+5,Texto Chat
+6,Infos &amp; Loisirs
+16,Ripertoire SIM
+
+
+*EMWI: 1,0
+
++PACSP0
+</pre>
+
+<p> At that point, we need to select the Internet Account to be used
+  for the connection. This means creating one with specific parameters
+  (connection type, APN name, ...) or use an existing
+  one. The <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarEIAC">AT*EIAC</a>
+  can be used to get access to the list of already defined accounts
+  (and also create one if needed). Reading/Writing the parameters of
+  an existing account is done respectively using the
+  <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarEIAPSR">AT*EIAPSR</a>/<a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarEIAPSW">AT*EIAPSW</a>  command. Flushing a given account or all
+  existing accounts can be done using <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarEIAD">AT*EIAD</a>:</p> 
+
+<pre>
+AT*EIAC?                        &lt;&lt; List existing accounts
+*EIAC: 1,1,"PS Account 1"
+*EIAC: 2,1,""
+*EIAC: 3,1,""
+*EIAC: 4,1,"PS Account 4"
+*EIAC: 9,1,"PS Account 9"
+
+OK
+AT*EIAPSR=1                     &lt;&lt; Read account w/ index 1
+*EIAPSR: 1,1,"websfr",4,0,0
+
+OK
+AT*EIAPSR=9                     &lt;&lt; Read account w/ index 9
+*EIAPSR: 9,1,"websfr",4,0,0
+
+OK
+
+AT*EIAD=9,1                     &lt;&lt; Flush PS IA #9
+OK
+
+AT*EIAC?                        &lt;&lt; List existing accounts
+*EIAC: 1,1,"PS Account 1"
+*EIAC: 2,1,""
+*EIAC: 3,1,""
+*EIAC: 4,1,"PS Account 4"
+
+OK
+
+AT*EIAD=0                       &lt;&lt; Flush all IA
+OK
+
+AT*EIAC?                        &lt;&lt; List existing accounts
+OK                              &lt;&lt; None
+</pre>
+
+<p> Now, if you need to create an account, <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarEIAC">AT*EIAC</a> can be used to
+  create a dummy one (i.e. get assigned an unused index,
+  basically) for a given bearer type. Below, passing 1 to the command
+  creates an account with bearer type "PS connection over
+  UMTS/GPRS network". Optionally, a friendly name can be given for the
+  account ("SFR Account" below). In the example below, created account
+  is assigned index value 5. Parameters can then be modified using
+  <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarEIAPSW">AT*EIAPSW</a> command. Below, created account is modified to set the APN to
+  "websfr"; other parameters being left to their default value (The
+  value we set below are for the french operator SFR). Then, if you
+  operator requires some credentials (login/password), those can be
+  configured using the <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarEIAAUW">AT*EIAAUW</a> command. </p> 
+
+<pre>
+AT*EIAC=1,"SFR Account"         &lt;&lt; Create a dummy account for PS connections over
+*EIAC: 5,"SFR Account"                   UMTS/GPRS network (Account name will be SFR
+                                         Account). Selected index is 5 (not chosen).
+OK
+
+AT*EIAPSR=5                     &lt;&lt; Read current parameters
+*EIAPSR: 5,1,"SFR Account",4,0,0
+
+OK
+
+AT*EIAPSW=5,1,"websfr",4,0,0    &lt;&lt; Set the APN to "websfr". Other params
+                                         left to their default values
+OK
+
+AT*EIAPSR=5
+*EIAPSR: 5,1,"websfr",4,0,0     &lt;&lt; Check our modification
+
+OK
+
+AT*EIAAUW=5,1,"mylogin","mypwd",00111,0  &lt;&lt; optional step depending on your operator
+                                         &lt;&lt; (for SFR, it is pointless): credentials
+                   
+AT*EIAAUR=5,1                            &lt;&lt; Check our modification
+*EIAAUR: 5,1,"mylogin","mypwd",00111,0   &lt;&lt; 
+
+OK
+</pre>
+
+<p> Now,
+  the <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarENAP">AT*ENAP</a>
+  can be used to enable the PS bearer emulation 
+  for a given connection (after getting a PDP context from your
+  operator's GGSN). In the example below, we use the fifth
+  connection (hence the value 5 for the second parameter of the
+  command).</p> 
+
+<pre>
+AT*ENAP=1,5
+
+OK
+</pre>
+
+<p> After issuing that command, the link should be ready. This can be
+  check using
+  the <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarENAP">AT*ENAP</a>
+  command in following way:</p> 
+
+<pre>
+AT*ENAP?
+*ENAP: 1
+
+OK
+</pre>
+
+<p> If the value returned by the command is 0, the issue may not be an
+  account problem but bad coverage. If it happens to you while
+  testing, try and force GPRS for the connection by issuing an AT+CFUN=5
+  command.</p>
+
+<p> In the end, the following line should also appear in  your kernel
+  logs:</p>
+
+<pre>
+$ sudo dmesg
+...
+Jan 31 16:51:12 small kernel: usb 8-6: link speeds: 7200 kbps RX, 2000 kbps TX
+</pre>
+
+<p> and your mb0 interface should now be up and running:</p>
+
+<pre>
+$ sudo ip link
+...
+11: mb0: &lt;BROADCAST,MULTICAST,PROMISC,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 02:80:37:**:**:** brd ff:ff:ff:ff:ff:ff
+</pre>
+
+<p> The link can later be set down using AT*ENAP=0. </p>
+
+<p> Now that we have the ethernet emulation ok and the interface up
+  and running, we can use dhcpcd (or any other DHCP client, like
+  dhclient) on the interface to get an IP, a route and DNS parameters
+  (i.e. get the information from the PDP context).</p> 
+
+<pre>
+$ sudo dhcpcd mb0
+dhcpcd.sh: interface mb0 has been configured with new IP=10.132.52.53
+$ ping www.google.com
+PING www.l.google.com (74.125.39.103) 56(84) bytes of data.
+64 bytes from fx-in-f103.google.com (74.125.39.103): icmp_seq=2 ttl=241 time=1527 ms
+64 bytes from fx-in-f103.google.com (74.125.39.103): icmp_seq=3 ttl=241 time=1074 ms
+64 bytes from fx-in-f103.google.com (74.125.39.103): icmp_seq=4 ttl=241 time=84.2 ms
+64 bytes from fx-in-f103.google.com (74.125.39.103): icmp_seq=5 ttl=241 time=73.7 ms
+64 bytes from fx-in-f103.google.com (74.125.39.103): icmp_seq=6 ttl=241 time=73.8 ms
+64 bytes from fx-in-f103.google.com (74.125.39.103): icmp_seq=7 ttl=241 time=73.6 ms
+64 bytes from fx-in-f103.google.com (74.125.39.103): icmp_seq=8 ttl=241 time=72.9 ms
+64 bytes from fx-in-f103.google.com (74.125.39.103): icmp_seq=9 ttl=241 time=72.0 ms
+^C
+--- www.l.google.com ping statistics ---
+9 packets transmitted, 8 received, 11% packet loss, time 8002ms
+rtt min/avg/max/mdev = 72.072/381.600/1527.329/542.826 ms, pipe 2
+</pre>
+
+<!-- 
+<p> If you want to automate things, there are many pages on the
+  Internet which explain how to do that, usually using wvdial or
+  NetworkManager. I use my own set of scripts. </p> -->
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="rfid"></a>
+<h2> Contactless (RFID) reader </h2>
+
+<p> The RFID reader is not supported. It is part of the broadcom USH </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="tpm"></a>
+<h2> TPM </h2>
+
+<p> The Broadcom TPM security chip on the E4300 is compliant with the
+  TCG TIS 1.2 TPM specification: it is supported by the tpm_tis
+  kernel driver:</p>
+
+<pre>
+Symbol: TCG_TPM [=y]
+Prompt: TPM Hardware Support
+  Defined at drivers/char/tpm/Kconfig:5
+  Depends on: HAS_IOMEM &amp;&amp; EXPERIMENTAL
+  Location:
+    -> Device Drivers
+      -> Character devices
+  Selects: SECURITYFS
+</pre>
+
+<p> If your kernel has been compiled with the support and the TPM is
+  enabled in the BIOS, you should found a /dev/tpm0 on your
+  system:</p> 
+
+<pre>
+$ ls -l /dev/tpm0 
+crw------- 1 tss tss 10, 224 2009-01-18 01:58 /dev/tpm0
+</pre>
+
+<p> Without some userland support the device is pretty
+  useless. You should install:</p>
+
+<ul>
+  <li><b>trousers</b>: provides an open-source TCG Software Stack
+  (TSS). In practice, this provides <b>tcsd</b>, a daemon listening
+  on 30003/tcp, which is used by userland apps to access the TPM.</li> 
+
+  <li><b>tpm-tools</b>: provides a set of userland apps dedicated to
+  the user interactions with the TPM. As a small panorama of the
+  capabilities, here are quick descriptions of the tools in the
+  package:
+
+  <ul>
+    <li><b>tpmtoken_import</b>: import an X.509 certificate or
+    and RSA key pair into a user's TPM PKCS#11 data store.</li>
+    <li><b>tpmtoken_init</b>: initialize the user's TPM PKCS#11
+    data store.</li>
+    <li><b>tpmtoken_protect</b>: encrypt or decrypt data using a
+    symmetric key stored in the user's TPM PKCS#11 data store.</li>
+    <li><b>tpmtoken_objects</b>: display the objects in the
+    user's TPM PKCS#11 data store</li>
+    <li><b>tpmtoken_setpasswd</b>: change the password(s)
+    associated with the user's TPM PKCS#11 data store.</li>
+    <li><b>tpm_sealdata</b>: seal input data to the system's TPM</li>
+    <li><b>tpm_takeownership</b>: setup an owner on the TPM</li>
+    <li><b>tpm_selftest</b>: request TPM perform selftest and report</li>
+    <li><b>tpm_restrictsrk</b>: <font color="red">XXX</font></li>
+    <li><b>tpm_changeownerauth</b>: change the authorization data
+    associated with the owner or SRK</li>
+    <li><b>tpm_createek</b>: create and Endorsement Key Pair on
+    the TPM.</li>
+    <li><b>tpm_restrictpubek</b>: restrict the ability to display
+    the public portion of the Endorsement Key to the owner</li>
+    <li><b>tpm_revokeek</b>: revokes the Endorsement Key Pair of
+    the TPM</li>
+    <li><b>tpm_clear</b>: return the TPM to the default state
+       (unowned, disabled, inactive)</li>
+    <li><b>tpm_resetdalock</b>: reset  the  dictionary  attack
+       lock for the user (require owner authentication)</li>
+    <li><b>tpm_setenable</b>: change TPM enable states</li>
+    <li><b>tpm_setpresence</b>: change TPM physical presence
+    states or settings</li>
+    <li><b>tpm_setoperatorauth</b>: sets the operator
+    authorization value in the TPM.</li>
+    <li><b>tpm_setclearable</b>: disable TPM clear operations</li>
+    <li><b>tpm_version</b>: report TPM version and manufacturer
+    information</li>
+    <li><b>tpm_getpubek</b>: restrict the ability to display the
+       public portion of the Endorsement Key to the owner</li>
+    <li><b>tpm_setownable</b>: change whether the TPM allows tpm_takeownership opera‐
+       tions</li>
+    <li><b>tpm_setactive</b>: change TPM active states</li>
+  </ul>
+  </li>
+</ul>
+
+<p>After having installed previous packages, you can get some
+  information on the TPM:</p>
+
+<pre>
+$ sudo tpm_version
+  TPM 1.2 Version Info:
+  Chip Version:        1.2.6.0
+  Spec Level:          2
+  Errata Revision:     1
+  TPM Vendor ID:       BRCM
+  TPM Version:         01010000
+  Manufacturer Info:   4252434d
+</pre>
+
+<b><font color="red"> I have found no time yet to have more fun with
+    the TPM. I just generated an EK (i.e. the device works). </font></b> 
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="usb"></a>
+<h2> USB </h2>
+
+<p> The laptop comes with an USB2 port on the right side ... but it
+  also comes with an eSATA port on the left side which acts as a
+  combined USB/eSATA port.</p>
+
+<p> I initially missed the fact that the eSATA port had that
+  capability. Thanks to Lars Wilhelmsen for pointing that to me (and
+  shame on me for the time it took me to update the page). As he wrote
+  in his email, this basically increases the number of available USB
+  ports by 100% compared to my initial review. </p>  
+
+<p>I still wonder why Dell does not offer a bay (to be plugged in
+  replacement of the DVD drive) with additional USB ports. </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="sd"></a>
+<h2> SD Card Reader </h2>
+
+<pre>
+02:01.1 SD Host controller: Ricoh Co Ltd R5C822 SD/SDIO/MMC/MS/MSPro Host Adapter 
+                            (rev 22) (prog-if 01)
+        Subsystem: Dell Device 024d
+        Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping-
+                 SERR+ FastB2B- DisINTx-
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=medium &gt;TAbort-
+                &lt;TAbort- &lt;MAbort- &gt;SERR- &lt;PERR- INTx-
+        Latency: 64, Cache Line Size: 64 bytes
+        Interrupt: pin B routed to IRQ 18
+        Region 0: Memory at f65ff600 (32-bit, non-prefetchable) [size=256]
+        Capabilities: [80] Power Management version 2
+                Flags: PMEClk- DSI- D1+ D2+ AuxCurrent=0mA PME(D0+,D1+,D2+,D3hot+,D3cold+)
+                Status: D0 PME-Enable- DSel=0 DScale=2 PME-
+        Kernel driver in use: sdhci-pci
+
+02:01.2 System peripheral: Ricoh Co Ltd R5C843 MMC Host Controller (rev ff) (prog-if ff)
+        !!! Unknown header type 7f
+        Kernel driver in use: ricoh-mmc
+</pre>
+
+<p> The laptop comes with a SD card reader located on the side, just
+  below the touchpad. It is recognized and works just fine. </p>
+
+<!-- find which driver / kernel config provides the support -->
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="fingerprint"></a>
+<h2> Fingerprint reader </h2>
+
+<p> The UPEK fingerprint reader is located on the far left of the
+  touchpad, below the keyboard.</p>
+
+<pre>
+Bus 003 Device 002: ID 0a5c:5801 Broadcom Corp. 
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               1.10
+  bDeviceClass            0 (Defined at Interface level)
+  bDeviceSubClass         0 
+  bDeviceProtocol         0 
+  bMaxPacketSize0        64
+  idVendor           0x0a5c Broadcom Corp.
+  idProduct          0x5801 
+  bcdDevice            1.01
+  iManufacturer           1 Broadcom Corp
+  iProduct                2 5880
+  iSerial                 3 0123456789ABCD
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength          139
+    bNumInterfaces          2
+    bConfigurationValue     0
+    iConfiguration          0 
+    bmAttributes         0xc0
+      Self Powered
+    MaxPower              100mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           3
+      bInterfaceClass       254 Application Specific Interface
+      bInterfaceSubClass      0 
+      bInterfaceProtocol      0 
+      iInterface              4 Broadcom USH w/swipe sensor
+      ** UNRECOGNIZED:  10 25 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x01  EP 1 OUT
+        bmAttributes            2
+          Transfer Type            Bulk
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0040  1x 64 bytes
+        bInterval               0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x85  EP 5 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               1
+    ...
+    &lt; snip: removed Contacted SmartCard Interface Descriptor &gt;
+    ...
+</pre>
+
+<p> There is currently no support for the device (neither
+  via <a href="http://reactivated.net/fprint/wiki/Main_Page">fprint</a>,
+  <a href="http://thinkfinger.sourceforge.net/">thinkfinger</a>,  or any
+  other project). Considering that Broadcom does not provide the
+  specs, this will probably require some reverse engineering. </p>  
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="BIOS"></a>
+<h2> BIOS </h2>
+
+<p> The laptop was delivered with a BIOS in version A03. At the time
+  of writing, latest version available on Dell's web site is
+  A07. After having taken a look at which improvements the various
+  BIOS releases brought, I decided to update my BIOS. </p> 
+
+<p> Some time ago, the procedure would have required the system to
+  run some mouse oriented OS but, thanks to some efforts from Dell
+  engineers, the procedure can now be performed from Linux too. The
+  tool they have developed and maintain are even available as standard
+  Debian packages. </p>
+
+<p> Note that you need your kernel to be compiled with CONFIG_DELL_RBU
+  option, either statically or as a module. If you decided to go for
+  a module, load it now. </p>
+
+<pre>
+$ sudo modprobe dell_rbu
+</pre>
+
+<p> Then, you need to install the following packages </p>
+
+<pre>
+$ sudo apt-get update
+$ sudo apt-get install libsmbios-bin libsmbios2
+</pre>
+
+<p> libsmbios-bin provides various Dell utilities: </p>
+
+<pre>
+$ dpkg -L libsmbios-bin 
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/libsmbios-bin
+/usr/share/doc/libsmbios-bin/copyright
+/usr/share/doc/libsmbios-bin/changelog.Debian.gz
+/usr/sbin
+/usr/sbin/mkbiospkg.sh
+/usr/sbin/assetTag
+/usr/sbin/getSystemId
+/usr/sbin/propertyTag
+/usr/sbin/serviceTag
+/usr/sbin/verifySmiPassword
+/usr/sbin/wakeupCtl
+/usr/sbin/dellBiosUpdate
+/usr/sbin/dellLcdBrightness
+/usr/sbin/dumpSmbios
+/usr/sbin/dellWirelessCtl
+/usr/sbin/dellMediaDirectCtl
+/usr/sbin/activateCmosToken
+/usr/sbin/createUnitTestFiles
+/usr/sbin/disable_console_redir
+/usr/sbin/dumpCmos
+/usr/sbin/isCmosTokenActive
+/usr/sbin/smitest
+/usr/sbin/stateByteCtl
+/usr/sbin/upBootCtl
+/usr/sbin/getPasswordFormat
+/usr/sbin/ascii2enUS_scancode
+/usr/sbin/probes
+/usr/sbin/dellLEDCtl
+</pre>
+
+<p> getSystemId provides various information on the system:</p>
+
+<pre>
+$ sudo getSystemId 
+Libsmbios:    2.0.3
+System ID:    0x024D
+Service Tag:  8L5024J
+Express Service Code: 18692449219
+Product Name: Latitude E4300
+BIOS Version: A03
+Vendor:       Dell Inc.
+Is Dell:      1
+</pre>
+
+<p> Among others, the System ID (0x024D for the E4300), which we then
+  use to get the latest BIOS from Dell's firmware
+  repository: <a href="http://linux.dell.com/repo/firmware/bios-hdrs/">
+  http://linux.dell.com/repo/firmware/bios-hdrs/</a>.</p>
+
+<pre>
+$ w3m http://linux.dell.com/repo/software/bios-hdrs/
+...
+[DIR] system_bios_ven_0x1028_dev_0x024a_version_a08/          17-Jul-2009 06:26    -
+[DIR] system_bios_ven_0x1028_dev_0x024d_version_a00/          17-Jul-2009 06:26    -
+[DIR] system_bios_ven_0x1028_dev_0x024d_version_a02/          17-Jul-2009 06:26    -
+[DIR] system_bios_ven_0x1028_dev_0x024d_version_a03/          17-Jul-2009 06:26    -
+[DIR] system_bios_ven_0x1028_dev_0x024d_version_a04/          17-Jul-2009 06:26    -
+[DIR] system_bios_ven_0x1028_dev_0x024d_version_a05/          17-Jul-2009 06:26    -
+[DIR] system_bios_ven_0x1028_dev_0x024d_version_a06/          17-Jul-2009 06:26    -
+[DIR] system_bios_ven_0x1028_dev_0x024e_version_a00/          17-Jul-2009 06:26    -
+[DIR] system_bios_ven_0x1028_dev_0x024e_version_a02/          17-Jul-2009 06:26    -
+
+...
+...
+...
+
+Index of /repo/software/bios-hdrs/system_bios_ven_0x1028_dev_0x024d_version_a06
+
+Icon  Name                      Last modified      Size  Description[DIR] Parent Directory                               -   
+[   ] bios.hdr                  24-Feb-2009 01:24  3.5M  
+[TXT] dell-std-license.txt      17-Jul-2009 06:24  7.0K  
+[TXT] extract.log               17-Jul-2009 01:56  3.6K  
+[   ] package.ini               24-Feb-2009 01:24  242   
+</pre>
+
+<p> At the time of writing, the latest version available on the
+  server is A06. In fact, A07 is the latest BIOS version, but is
+  available only as a .exe which cannot directly be used with linux
+  tools. An extraction process is needed to create a bios.hdr
+  file. The files available at previous URL have already been
+  extracted and can be used directly with linux tools. </p>
+
+<p> Once you have grabbed the bios.hdr file for the BIOS version you
+  need, you can use dellBiosUpdate to perform to test if the version
+  is correct and to perform the update. The update will only be
+  performed during the next reboot: </p> 
+
+<pre>
+$ sudo dellBiosUpdate -t -f bios.hdr
+BIOS file matches this system and is newer.
+$ sudo dellBiosUpdate -i -f bios.hdr 
+HeaderId : $RBU
+Header Length: 84
+Header Major Ver: 1
+Header Minor Ver: 0
+Num Systems: 1
+Version: A06
+Quick Check: Copyright 2009 Dell Inc.
+System ID List: 0x024d
+
+$ sudo dellBiosUpdate -u -f bios.hdr
+Supported RBU type for this system: (MONOLITHIC, PACKET)
+Using RBU v2 driver. Initializing Driver. 
+Setting RBU type in v2 driver to: PACKET
+writing (4096) to file: /sys/devices/platform/dell_rbu/packet_size
+Writing RBU data (4096bytes/dot): .......................................
+.........................................................................
+.........................................................................
+.........................................................................
+.........................................................................
+.........................................................................
+.........................................................................
+.........................................................................
+.........................................................................
+.........................................................................
+.........................................................................
+.........................................................................
+.........................................................
+Done writing packet data.
+Activate CMOS bit to notify BIOS that update is ready on next boot.
+Update staged sucessfully. BIOS update will occur on next reboot.
+
+$ sudo reboot
+</pre>
+
+<p> After the reboot and the BIOS update, getSystemId should reflect
+  the update: </p>
+
+<pre>
+$ sudo getSystemId 
+Libsmbios:    2.0.3
+System ID:    0x024D
+Service Tag:  8L5024J
+Express Service Code: 18692449219
+Product Name: Latitude E4300
+BIOS Version: A06
+Vendor:       Dell Inc.
+Is Dell:      1
+</pre>
+
+<p> If the BIOS version you want to install is not available on
+  Dell website as a .hdr file, you can extract the .hdr file yourself
+  from the .exe. You need wine for that purpose: </p>
+
+<pre>
+$ wine E4300A07.EXE -writehdrfile -nopause
+$ ls
+E4300A07.EXE  E4300A07.hdr
+$ sudo dellBiosUpdate -t -f E4300A07.hdr
+BIOS file matches this system and is newer.
+$ sudo dellBiosUpdate -i -f E4300A07.hdr 
+HeaderId : $RBU
+Header Length: 84
+Header Major Ver: 1
+Header Minor Ver: 0
+Num Systems: 1
+Version: A07
+Quick Check: Copyright 2009 Dell Inc.
+System ID List: 0x024d
+$ sudo dellBiosUpdate -u -f E4300A07.hdr
+$ sudo reboot 
+</pre>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="esata"></a>
+<h2> eSATA port </h2>
+
+<p> The port is located on the left side of the laptop. I have no
+  eSATA peripheral to plug in so I have not tried it yet in that
+  mode. But the port is in fact a combined eSATA/USB port: it can be
+  used to plug USB devices. </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="expresscard"></a>
+<h2> Express card slot </h2>
+
+<p> Not tried: like for eSATA, i have no such peripheral yet. </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="ieee1394"></a>
+<h2> Firewire </h2>
+
+<pre>
+02:01.0 FireWire (IEEE 1394): Ricoh Co Ltd R5C832 IEEE 1394 Controller (rev 05)
+                              (prog-if 10 [OHCI])
+        Subsystem: Dell Device 024d
+        Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping-
+                 SERR+ FastB2B- DisINTx-
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=medium &gt;TAbort- &lt;TAbort- 
+                &lt;MAbort- &gt;SERR- &lt;PERR- INTx-
+        Latency: 64 (500ns min, 1000ns max), Cache Line Size: 64 bytes
+        Interrupt: pin A routed to IRQ 19
+        Region 0: Memory at f65ff800 (32-bit, non-prefetchable) [size=2K]
+        Capabilities: [dc] Power Management version 2
+                Flags: PMEClk- DSI- D1+ D2+ AuxCurrent=0mA PME(D0+,D1+,D2+,D3hot+,D3cold+)
+                Status: D0 PME-Enable- DSel=0 DScale=2 PME+
+        Kernel driver in use: ohci1394
+        Kernel modules: ohci1394
+</pre>
+
+<p> The laptop comes with a small (6 pins) IEEE 1394
+  interface. It is recognised and works fine (tested with a firewire
+  drive using a simple 6 pin to 9 pin converter).</p>
+
+<p> The annoying thing with 6 pins IEEE 1394 interfaces is that they
+  do not provide power to the device: when plugging a disk, you need
+  to use an external power source for the drive. If you have a
+  Firewire iSight, do not expect you will be able to use it with an
+  adapter. </p> 
+
+<!-- find which driver / kernel config provides the support -->
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="gps"></a>
+<h2> GPS </h2>
+
+<p> The GPS function is provided by the Dell Wireless 5530 card
+  (rebranded <a href="http://www.ericsson.com/solutions/mobile_broadband_modules/docs/mobile_broadband_module_datasheet_print.pdf">Ericsson
+  Mobile Broadband Module F3507g</a>). Using the cdc_acm driver, 3 
+  serial interfaces (/dev/ttyACM{0,1,2}) are provided to control and
+  use the various functions of the device. At least, the HSDPA and GPS
+  functions works well. </p>
+
+<p> Simply put, using simple AT commands, just like for the HSDPA part,
+  the GPS can be activated (in either <a href="http://en.wikipedia.org/wiki/Global_Positioning_System">GPS</a> 
+  or <a href="http://en.wikipedia.org/wiki/Differential_Global_Positioning_System">DGPS</a>
+  mode) to get an <a href="http://en.wikipedia.org/wiki/NMEA_0183">NMEA 0183</a> messages flow on /dev/ttyACM2. This flow is
+  then perfectly handled by gpsd which then makes it available to its
+  users (gpsdrive, tangogps, ...) on 2947/tcp. </p> 
+
+<p> In the following, I use:</p>
+
+<ul>
+  <li> /dev/ttyACM0: the control interface for both the modem and the GPS</li>
+  <li> /dev/ttyACM1: the modem interface (used by pppd) </li>
+  <li> /dev/ttyACM2: the interface on which NMEA messages flow are received </li>
+</ul>
+
+<p> Let's first start with the AT commands of interest for the control
+  of the GPS. The list below is just a quick summary, extracted from
+  the exhaustive list of commands supported by the Dell Wireless 5350
+  I maintain <a href="Dell_Wireless_5530_AT_cmd_ref.html">here</a>:</p>
+
+<ul>
+  <li> <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATplusCFUN">AT+CFUN</a>: Activate/Deactivate the RF circuit (also used to switch
+    between various modes). After enabling the RF circuit, the blue led
+    near the bluetooth one at the top of the keyboard should get
+    on. Activating the RF circuit is required in order to be able to
+    use the GPS (following command will return an ERROR otherwise).</li> 
+  
+  <li> <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarE2GPSCTL">AT*E2GPSCTL</a>: used to start/stop the NMEA message flow on the
+     specific TTY (selected using AT*E2GPSNPD), and configure
+     associated parameters (GPS or DGPS, interval between the
+     messages). </li> 
+  
+  <li> <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarE2GPSNPD">AT*E2GPSNPD</a>: when issued on a TTY, this specific TTY is selected to
+    receive the NMEA message flows. The specific form (GPS, DGPS) and
+    interval between the messages is configured using the AT*E2GPSCTL
+    command on another TTY. </li>
+  <li> <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarE2GPSCLM">AT*E2GPSCLM</a>: not documented </li>
+  <li> <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarE2GPSEPH">AT*E2GPSEPH</a>: not documented </li>
+  <li> <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarE2GPSSTAT">AT*E2GPSSTAT</a>: not documented </li>
+  <li> <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarE2GPSTIME">AT*E2GPSTIME</a>: not documented </li>
+</ul>
+
+<p> Let's know see a concrete use of those commands (everything done
+  by hand but this can easily be automated using via a simple
+  script).</p>
+
+<p> First, the RF circuit need to be activated by issuing AT+CFUN=1
+  (AT+CFUN=5 or 6 will also do the job) on the control TTY
+  (/dev/ttyACM0). Unlocking the SIM is also required. Don't ask! I
+  have no clue why this is needed but GPS-related AT commands will
+  fail otherwise.</p>
+
+<p> Then, <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarE2GPSCTL">AT*E2GPSCTL</a> 
+  command is used to start receiving the NMEA message flow (first
+  argument set to 1) on the /dev/ttyACM2 (previously selected for that
+  purpose). The second argument is used to control the frequency:
+  here, one message every four seconds. The last argument being set to
+  1 asks for DGPS message format for NMEA messages (0 is for common
+  GPS format).</p> 
+
+<pre>
+$ screen /dev/ttyACM0
+
+AT+CFUN=1                &lt;&lt; enable the RF circuit
+OK
+
+AT+CPIN="1234"           &lt;&lt; unlock the SIM
+OK
+
+*ESTKSMENU: Services SFR,0,6
+2,SFR &amp; Moi
+3,Perso du mobile
+4,Messages
+5,Texto Chat
+6,Infos &amp; Loisirs
+16,Ripertoire SIM
+
+
+*EMWI: 1,0
+
++PACSP0
+
+AT*E2GPSCTL=1,4,1        &lt;&lt; Starts NMEA flow, 4 second interval, DGPS
+</pre>
+
+<p> Then, to receive the NMEA messages flow on /dev/ttyACM2 we need to
+  issue
+  the <a href="Dell_Wireless_5530_AT_cmd_ref.html#ATstarE2GPSNPD">AT*E2GPSNPD</a>
+  command on that specific TTY. After that step, your output should
+  look like the one below. Switching between GPS mode (DGPS vs GPS) is
+  done by changing the last value of AT*E2GSPCTL commad (using
+  respectively 1 and 0). Before doing something else, you first need to 
+  terminate screen before starting any application that will use this
+  TTY (like GPSD, as covered later).</p>
+
+<pre>
+$ screen /dev/ttyACM2
+
+AT*E2GPSNPD                      &lt;&lt; Leave this screen using Ctrl-a k
+
+$ screen /dev/ttyACM2
+$GPGGA,,,,,,0,00,10.0,,M,,,,*34                         &lt;&lt; common GPS flow i.e.
+$GPRMC,134525.41,V,,,,,,,030136,,,N*7B                     AT*E2GPSCTL=1,X,0 has
+$GPGSA,A,1,,,,,,,,,,,,,22.3,10.0,20.0*00                   been issued on control TTY
+$GPGGA,,,,,,0,00,10.0,,M,,,,*34
+$GPRMC,134530.41,V,,,,,,,030136,,,N*7F
+$GPGSA,A,1,,,,,,,,,,,,,22.3,10.0,20.0*00
+$GPGGA,,,,,,0,00,10.0,,M,,,,*34
+$GPRMC,134535.41,V,,,,,,,030136,,,N*7A
+$GPGSA,A,1,,,,,,,,,,,,,22.3,10.0,20.0*00
+$GPGGA,,,,,,0,00,10.0,,M,-0.323049,M,0.0030199,0130*6B  &lt;&lt; switching to DGPS by
+$GPRMC,000024.40,V,,,,,,,060180,,,N*70                     issuing AT*E2GPSCTL=1,X,1
+$GPGSA,A,1,,,,,,,,,,,,,22.3,10.0,20.0*00                   on control TTY 
+$GPGGA,,,,,,0,00,10.0,,M,-0.323049,M,0.0030199,0130*6B
+$GPRMC,000029.40,V,,,,,,,060180,,,N*7D
+$GPGSA,A,1,,,,,,,,,,,,,22.3,10.0,20.0*00
+$GPGGA,,,,,,0,00,10.0,,M,-0.323049,M,0.0030199,0130*6B
+$GPRMC,000034.40,V,,,,,,,060180,,,N*71
+$GPGSA,A,1,,,,,,,,,,,,,22.3,10.0,20.0*00
+$GPGGA,,,,,,0,00,10.0,,M,-0.323049,M,0.0030199,0130*6B
+$GPRMC,000039.40,V,,,,,,,060180,,,N*7C
+$GPGSA,A,1,,,,,,,,,,,,,22.3,10.0,20.0*00
+
+[screen is terminating]                                 &lt;&lt; Leave screen using Ctrl-a k 
+</pre>
+
+<p> Now, in order for apps to be able to use the GPS, gpsd should be
+  started (again, terminate your screen session on
+  /dev/ttyACM2). Under Debian, the configuration of dgps is performed
+  in /etc/default/gpsd. Mine looks like the following:</p>
+
+<pre>
+$ cat /etc/default/gpsd
+START_DAEMON="true"
+DAEMON_OPTS=""
+DEVICES="/dev/ttyACM2"
+USBAUTO="true"
+</pre>
+
+<p> You can then start the daemon and then use xgps to check
+  everything is working as expected (you will have to go outside and
+  wait until you get a fix): </p>
+
+<pre>
+$ sudo /etc/init.d/gpsd restart
+Stopping GPS (Global Positioning System) daemon: gpsd.
+Starting GPS (Global Positioning System) daemon: gpsd.
+
+$ xgps &amp;
+</pre>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="processor"></a>
+<h2> Processor </h2>
+
+<!-- Intel Core 2 Duo SP9400(2.40GHz,1066MHz,6MB) -->
+
+<pre>
+processor       : 0
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 23
+model name      : Intel(R) Core(TM)2 Duo CPU     P9400  @ 2.40GHz
+stepping        : 6
+cpu MHz         : 800.000
+cache size      : 6144 KB
+physical id     : 0
+siblings        : 2
+core id         : 0
+cpu cores       : 2
+apicid          : 0
+initial apicid  : 0
+fdiv_bug        : no
+hlt_bug         : no
+f00f_bug        : no
+coma_bug        : no
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 10
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr
+                  pge mca cmov pat pse36 clflush dts acpi mmx fxsr
+                  sse sse2 ss ht tm pbe nx lm constant_tsc
+                  arch_perfmon pebs bts pni dtes64 monitor ds_cpl
+                  vmx smx est tm2 ssse3 cx16 xtpr pdcm sse4_1
+                  lahf_lm tpr_shadow vnmi flexpriority
+bogomips        : 4790.75
+clflush size    : 64
+power management:
+</pre>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<!-- <hr></hr> <a name="latitudeonreader"></a> -->
+<!-- <h2> Dell Latitude ON reader </h2> -->
+
+
+<!-- <p> FIX ME</p> -->
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- <hr></hr> <a name="controlvault"></a> -->
+<!-- <h2> Dell ControlVault </h2> -->
+<!-- http://www.dell.com/downloads/global/products/latit/en/dell_controlvault_specsheet.pdf -->
+
+<!-- <p></p> --> 
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="portreplicator"></a>
+<h2> Advanced E-Port replicator </h2>
+
+<p> With the laptop, I ordered the advanced E-port replicator. It has
+  5 USB ports, an eSATA/USB port, a serial port, a VGA output, 2 
+  DVI ports, 2 HDMI ports, an ethernet port, mouse and keyboard ports,
+  a parallel port, audio line and mic ports. </p>
+
+<p> The idea was to be able to have external displays, a mouse and my
+  Dell Smartcard Keyboard connected to the E-port on my desk. </p> 
+
+<p> With a recent kernel (currently a 2.6.30 but previous version may
+  also work fine) and a recent version of Xorg (dpkg reports 1:7.4+1
+  for xserver-xorg and 2:2.7.0-1 for xserver-xorg-video-intel), I
+  have my two Dell 2407WFP plugged on the two DVI ports, each at a
+  1920x1200@60Hz resolution. It just works nicely, providing a desktop
+  with a 3840x1200 resolution. </p> 
+
+<p> In fact, the E-port is so useful when you are at your desk that I
+  have one at work and another at home, both serving the same LCD
+  monitors. The combination of such LCD displays, E-port and E4300 is
+  simply perfect: it provides a big desktop surface in a limited
+  amount of space and great performances. In fact, I don't even use my
+  old desktop box anymore at work and have dropped the other boxes I
+  had at home. </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="screen"></a>
+<h2> Screen/output </h2>
+
+<p> The screen is nice. xrandr reports the following: </p>
+
+<pre>
+Screen 0: minimum 320 x 200, current 1280 x 800, maximum 4096 x 4096
+VGA disconnected (normal left inverted right x axis y axis)
+LVDS connected 1280x800+0+0 (normal left inverted right x axis y axis) 287mm x 180mm
+   1280x800       60.0*+   40.0  
+   1024x768       60.0  
+   800x600        60.3     56.2  
+   640x480        59.9  
+HDMI-1 disconnected (normal left inverted right x axis y axis)
+HDMI-2 disconnected (normal left inverted right x axis y axis)
+TV disconnected (normal left inverted right x axis y axis)
+</pre>
+
+<p> The laptop also has an external output (VGA) which can be used
+  simultaneously, either as a clone or to extend your desktop. </p>
+
+<p> If you need more, see previous section on the advanced E-port
+  replicator. </p> 
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<hr></hr> <a name="suspend"></a>
+<h2> Suspend </h2>
+
+<p> At the time of writing, suspend to RAM works just fine. I simply use
+  s2ram with -f flag. The E4300 is not known to work yet I suppose; it may
+  be when you'll try with yours. Under Debian, s2ram is provided by
+  uswsusp packages: </p>
+
+<pre>
+$ sudo apt-get install uswsusp
+$ sudo s2ram -f 
+</pre>
+
+</div>
+</body>
+</html>

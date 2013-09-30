@@ -1,0 +1,915 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/certbr.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/css/interna.css" />
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+<link rel="stylesheet" type="text/css" media="handheld" href="/css/handheld.css" />
+<link rel="alternate" title="RSS CERT.br" href="http://www.cert.br/rss/certbr-rss.xml" type="application/rss+xml" />
+<meta http-equiv="Normal" content="http://www.cert.br/" />
+<meta name="description" content="Projeto SpamPots - Resultados Preliminares" />
+<meta name="keywords" content="honeytraps, distributed honeypots, Projeto SpamPots, Brazilian Honeypots Alliance, nbso, cert-br, cert br, br-cert, Brazilian Computer Security and Incident Response Team, Brazilian Computer Emergency Response Team, Grupo de Resposta a Incidentes, Brazilian CERT, CERT.br, Centro de Estudos, Resposta e Tratamento de Incidentes de Segurança no Brasil"/>
+
+<title>Projeto SpamPots - Resultados Preliminares</title>
+
+</head>
+<body>
+
+<!-- ************************************************************ -->
+<!-- ******* begin header *************************************** -->
+
+<!-- Topo do Site -->
+
+<h1 class="main-logo"><a href="http://www.cert.br/" accesskey="1"><img
+src="/images/logo-cert.png" alt="CERT.br" title="Centro de Estudos,
+Resposta e Tratamento de Incidentes de Segurança no Brasil"
+id="logo-nic" width="120" height="89" /></a></h1>
+
+<div id="header-home">
+
+<span class="ir-conteudo"><a href="#contents" accesskey="2">Ir para o
+conteúdo </a><br /></span>
+
+<h2><a href="http://www.nic.br/">Núcleo de Informação e Coordenação
+do Ponto BR</a></h2>
+
+<p class="header-link-english" lang="en"><a
+href="/en/">English</a></p>
+
+<!-- Menu Global -->
+<div id="globalmenu">
+<div class="globalmenu-corner-left"></div>
+<ul>
+  <li><a href="http://www.cgi.br/"><acronym title="Comitê Gestor da
+       Internet no Brasil">CGI.br</acronym></a> - </li>
+  <li><a href="http://www.nic.br/"><acronym title="Núcleo de
+       Informação e Coordenação do Ponto BR">NIC.br</acronym></a> - </li>
+  <li><a href="http://registro.br/"><acronym title="Registro de
+       Domínios para a Internet no Brasil">Registro.br</acronym></a> -
+       </li>
+  <li><a href="http://www.cert.br/"><acronym title="Centro de
+       Estudos, Resposta e Tratamento de Incidentes de Segurança no
+       Brasil">CERT.br</acronym></a> - </li>
+  <li><a href="http://www.cetic.br/"><acronym title="Centro de
+       Estudos sobre as Tecnologias da Informação e da
+       Comunicação">CETIC.br</acronym></a> - </li>
+  <li><a href="http://www.ceptro.br/"><acronym title="Centro de
+       Estudos e Pesquisas em Tecnologia de Redes e
+       Operações">CEPTRO.br</acronym></a> - </li>
+  <li><a href="http://www.w3c.br/"><acronym title="World Wide Web
+       Consortium - Escritório Brasil">W3C.br</acronym></a></li>
+</ul>
+</div>
+
+<div class="globalmenu-right"><a href="http://www.nic.br/imprensa/"
+class="linkframes-top">Imprensa</a></div>
+<div class="globalmenu-corner-right"></div>
+
+<!-- Fim do Menu Global -->
+
+</div>
+<!-- Fim do Topo -->
+
+<!-- ******* end header ***************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* begin breadcrumbs ********************************** -->
+
+<div id="breadcrumbs">
+Você está em:
+<a class="breadcrumbs" href="/">CERT.br</a> >
+<a class="breadcrumbs" href="/docs/">Publicações</a> >
+<strong>Resultados Preliminares do Projeto SpamPots 1.2</strong>
+</div>
+
+<!-- ******* end breadcrumbs ************************************ -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* begin menu ***************************************** -->
+
+<!-- Barra Lateral -->
+<div id="mainmenu">
+<!-- Início do Menu Esquerdo -->
+<ul>
+  <li class="menu"><a href="/sobre/">Sobre o CERT.br</a></li>
+  <li class="menu"><a href="/csirts/">CSIRTs</a></li>
+  <li class="menu"><a href="/stats/">Estatísticas</a></li>
+  <li class="menu"><a href="/cursos/">Cursos</a></li>
+  <li class="menu"><a href="/projetos/">Projetos</a></li>
+  <li class="menu"><a href="/docs/">Publicações</a></li>
+  <li class="menu"><a href="/docs/palestras/">Palestras</a></li>
+  <li class="menu"><a href="/links/">Links</a></li>
+  <li class="menu"><a href="/docs/certbr-faq.html">FAQ</a></li>
+  <li class="menu"><a href="/mapa/">Mapa do site</a></li>
+  <li class="menu"><a href="/contato/">Contato</a></li>
+  <li class="twitter"><a href="http://twitter.com/certbr">Twitter</a></li>
+  <li class="rss"><a href="/rss/certbr-rss.xml">RSS</a></li>
+</ul>
+<!-- Fim do Menu Esquerdo -->
+
+<br /><br />
+
+<!-- Inicio da Busca -->
+<form method="get" action="http://www.google.com/search" title="busca">
+<fieldset>
+<label for="busca" accesskey="4"><span class="busca-txt">Busca</span>
+<br />
+<input type="text" size="17" name="q" maxlength="255" id="busca" />
+</label>
+<input type="hidden" name="domains"
+value="cgi.br;nic.br;registro.br;cert.br;cetic.br;ceptro.br;w3c.br" />
+<input type="hidden" name="ie" value="iso-8859-1" />
+<input type="hidden" name="oe" value="iso-8859-1" />
+<input type="image" src="/images/busca-btn.png" name="sa" value="ok" alt="ok" />
+<label class="invisible" for="busca-no-site">Selecione o site</label>
+<select name="sitesearch" id="busca-no-site">
+<option value="cgi.br">Buscar em CGI.br</option>
+<option value="nic.br">Buscar em NIC.br</option>
+<option value="registro.br">Buscar em Registro.br</option>
+<option value="cert.br" selected="selected">Buscar em CERT.br</option>
+<option value="cetic.br">Buscar em CETIC.br</option>
+<option value="ceptro.br">Buscar em CEPTRO.br</option>
+<option value="w3c.br">Buscar em W3C.br</option>
+</select>
+</fieldset>
+</form>
+<!-- Fim da Busca -->
+
+<!-- Inicio Validator -->
+
+<a href="http://validator.w3.org/check?uri=referer"><img
+src="/images/btn-valid-xhtml.png" alt="V&aacute;lido XHTML" width="72"
+height="25" class="validator-xhtml" /></a> <span
+class="invisible">|</span>
+
+<a href="http://jigsaw.w3.org/css-validator/check/referer"><img
+src="/images/btn-valid-css.png" alt="V&aacute;lido CSS" width="72"
+height="25" class="validator-css" /></a><br />
+
+<!-- Fim Validator -->
+
+<!-- Acessibilidade -->
+
+<span class="acessibilidade"><a href="/acessibilidade/"
+accesskey="3">Acessibilidade do site</a></span>
+
+</div>
+<!-- Fim da Barra Lateral -->
+
+<!-- ******* end menu ******************************************* -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* begin conteudo ************************************* -->
+
+<div id="conteudo">
+<a name="contents"></a>
+
+<!-- ************************************************************ -->
+
+<h3>
+
+Resultados Preliminares do Projeto SpamPots: Uso de <i>Honeypots</i>
+de Baixa Interatividade na Obtenção de Métricas sobre o Abuso de Redes
+de Banda Larga para o Envio de <i>Spam</i>
+
+</h3>
+
+<p>
+<b>Autor: </b>CERT.br<br />
+<b>Versão:</b> 1.2 -- 27/09/2007
+</p>
+<!-- ************************************************************ -->
+
+<h4>
+Sumário
+</h4>
+
+<ul>
+
+  <li class="nostyle-padding"><a href="#1">1. Descrição do
+  Projeto</a>
+  <ul>
+
+    <li class="nostyle-padding"><a
+    href="#1.1">1.1. Arquitetura</a></li>
+
+  </ul>
+  </li>
+  <li class="nostyle-padding"><a href="#2">2. Resultados
+  Preliminares</a>
+  <ul>
+
+    <li class="nostyle-padding"><a href="#2.1">2.1. <i>Country
+    Codes</i> mais freqüentes</a></li>
+    <li class="nostyle-padding"><a href="#2.2">2.2. ASNs mais
+    freqüentes</a></li>
+    <li class="nostyle-padding"><a href="#2.3">2.3. Portas TCP
+    abusadas</a></li>
+    <li class="nostyle-padding"><a href="#2.4">2.4. Sistemas
+    operacionais de origem mais freqüentes</a></li>
+
+  </ul>
+  </li>
+
+  <li class="nostyle-padding"><a href="#3">3. Trabalhos
+  Futuros</a></li>
+
+  <li class="nostyle-padding"><a href="#4">4. Coordenação do
+  Projeto</a></li>
+
+  <li class="nostyle-padding"><a href="#5">5. Histórico de
+  Revisões</a></li>
+
+</ul>
+
+<!-- ************************************************************ -->
+
+
+<!-- ************************************************************ -->
+<a name="1"></a>
+<h4>1. Descrição do Projeto</h4>
+
+<p>
+
+As <a href="/stats/spam/">estatísticas de <i>spam</i></a> do CERT.br
+fornecem uma visão do problema do <i>spam</i> em redes brasileiras,
+através da análise das reclamações recebidas.  Estas reclamações se
+dividem em reclamações de envio de <i>spam</i>, de páginas que fazem
+propaganda de produtos oferecidos em <i>spam</i>, de abusos de
+<i>relays</i> e <i>proxies</i> abertos.
+
+</p>
+<p>
+
+Nos últimos anos as reclamações de <i>spams</i> enviados via o abuso
+de máquinas brasileiras com <i>proxies</i> abertos ou <i>proxies</i>
+instalados por códigos maliciosos, têm sido de 30% a 40% do total de
+reclamações.  Porém, praticamente nenhum dado existe sobre a natureza,
+a origem ou destino desse tipo de <i>spam</i>.  Sendo extremamente
+importante a obtenção de métricas que permitam entender melhor o
+perfil do abuso de <i>proxies</i> no Brasil, de modo a facilitar a
+proposição de formas de prevenção mais efetivas.
+
+</p>
+<p>
+
+O objetivo do projeto é obter, através de <i>honeypots</i> de baixa
+interatividade, dados relativos ao abuso de máquinas conectadas via
+redes de banda larga para envio de <i>spam</i>. Este projeto tem seu
+foco nas redes ADSL e Cabo nas versões doméstica e empresarial que
+possuam IP roteável.
+
+</p>
+
+<!-- ************************************************************ -->
+<br /><a name="1.1"></a>
+<h4>1.1. Arquitetura</h4>
+
+<p>
+
+<i>Honeypots</i> de baixa interatividade são computadores configurados
+de modo a apenas emular determinados sistemas operacionais e serviços.
+Quando um atacante interage com um destes <i>honeypots</i>, ele não
+está interagindo diretamente com o sistema, mas sim com um programa
+que emula suas características, como sistema operacional e versões de
+aplicativos.
+
+</p>
+
+<p>
+
+Neste projeto, um <i>spammer</i> que tentar abusar de um destes
+<i>honeypots</i> para o envio de <i>spam</i>, estará interagindo com
+programas projetados para fazê-lo acreditar que está conseguindo
+enviar seus e-mails.  Deste modo, nenhum <i>spam</i> foi realmente
+enviado aos destinatários, mas apenas coletado para análise por um
+servidor central.
+
+</p>
+
+<p>
+
+Estes <i>honeypots</i> foram instalados em 5 operadoras diferentes de
+cabo e DSL, em conexões residenciais e comerciais.
+
+</p>
+
+<p>
+
+A figura abaixo ilustra a arquitetura deste sistema:
+
+</p>
+
+<p class="center">
+
+<img src="arquitetura.png" alt="Arquitetura" />
+
+</p>
+
+
+
+<!-- ************************************************************ -->
+
+<a name="2"></a>
+<h4>2. Resultados Preliminares</h4>
+
+Uma análise inicial dos dados coletados, referentes a 466 dias, é
+apresentada nesta seção.  Os totais gerais relativos aos dados
+observados estão na Tabela 1.
+
+<table class="statsout">
+
+<caption><b>Tabela 1: Estatísticas Gerais.</b>
+</caption>
+
+<tr>
+<td>
+
+<table class="seg-adm">
+
+<tr>
+  <td class="l">Período em que foram coletados os dados</td>
+  <td class="r">10/06/2006 a 18/09/2007</td>
+</tr>
+
+<tr>
+  <td class="l">Dias de dados coletados</td>
+  <td class="r">466</td>
+</tr>
+
+<tr>
+  <td class="l">Total de e-mails coletados</td>
+  <td class="r">524.585.779</td>
+</tr>
+
+<tr>
+  <td class="l">Total de destinatários</td>
+  <td class="r">4.805.521.964</td>
+</tr>
+
+<tr>
+  <td class="l">Média de destinatários por <i>spam</i></td>
+  <td class="r">9,16</td>
+</tr>
+
+<tr>
+  <td class="l">IPs únicos que enviaram <i>spam</i></td>
+  <td class="r">216.888</td>
+</tr>
+
+<tr>
+  <td class="l">ASNs únicos que enviaram <i>spam</i></td>
+  <td class="r">3.006</td>
+</tr>
+
+<tr>
+  <td class="l"><i>Country Codes</i> (CCs) de origem</td>
+  <td class="r">165</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+<p>
+
+A distribuição do volume de mensagens recebidas ao longo do período é
+apresentada na figura abaixo:
+
+</p>
+
+<p class="center">
+<br /><br />
+<img src="emails-20060610-20070918.png" alt="Total de e-mails recebidos" />
+
+</p>
+
+As subseções a seguir contêm as tabelas e gráficos referentes às
+diversas categorias de estatísticas produzidas a partir dos dados
+coletados.
+
+<!-- ************************************************************ -->
+<br /><a name="2.1"></a>
+<h4>2.1. <i>Country Codes</i> mais freqüentes</h4>
+
+
+<table class="statsout">
+
+<caption><b>Tabela 2.1: <i>Country Codes</i> mais freqüentes.</b>
+</caption>
+
+<tr>
+<td>
+
+<table class="seg-adm">
+
+<tr class="titlecurso">
+  <td class="c">#</td>
+  <td class="c"><i>Country Code</i> (CC)</td>
+  <td class="c">E-mails</td>
+  <td class="c">%</td>
+</tr>
+
+<tr>
+  <td class="c">01</td>
+  <td class="c">TW</td>
+  <td class="r">385.189.756</td>
+  <td class="r">73,43</td>
+</tr>
+
+<tr>
+  <td class="c">02</td>
+  <td class="c">CN</td>
+  <td class="r">82.884.642</td>
+  <td class="r">15,80</td>
+</tr>
+
+<tr>
+  <td class="c">03</td>
+  <td class="c">US</td>
+  <td class="r">29.764.293</td>
+  <td class="r">5,67</td>
+</tr>
+
+<tr>
+  <td class="c">04</td>
+  <td class="c">CA</td>
+  <td class="r">6.684.667</td>
+  <td class="r">1,27</td>
+</tr>
+
+<tr>
+  <td class="c">05</td>
+  <td class="c">JP</td>
+  <td class="r">5.381.192</td>
+  <td class="r">1,03</td>
+</tr>
+
+<tr>
+  <td class="c">06</td>
+  <td class="c">HK</td>
+  <td class="r">4.383.999</td>
+  <td class="r">0,84</td>
+</tr>
+
+<tr>
+  <td class="c">07</td>
+  <td class="c">KR</td>
+  <td class="r">4.093.365</td>
+  <td class="r">0,78</td>
+</tr>
+
+<tr>
+  <td class="c">08</td>
+  <td class="c">UA</td>
+  <td class="r">1.806.210</td>
+  <td class="r">0,34</td>
+</tr>
+
+<tr>
+  <td class="c">09</td>
+  <td class="c">DE</td>
+  <td class="r">934.417</td>
+  <td class="r">0,18</td>
+</tr>
+
+<tr>
+  <td class="c">10</td>
+  <td class="c">BR</td>
+  <td class="r">863.657</td>
+  <td class="r">0,16</td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+
+<p class="center">
+<br /><br />
+
+<img src="cc-20060610-20070918-monthly-top5.png" alt="Top Country Codes" />
+
+<br /><br /><br />
+
+<img src="cc-20060610-20070918-monthly-top5-percent.png" alt="Top
+Country Codes - Percentage" />
+
+</p>
+
+<!-- ************************************************************ -->
+<br /><a name="2.2"></a>
+<h4>2.2. ASNs mais freqüentes</h4>
+
+<table class="statsout">
+
+<caption><b>Tabela 2.2: ASNs mais freqüentes.</b>
+</caption>
+
+<tr>
+<td>
+
+<table class="seg-adm">
+
+<tr class="titlecurso">
+  <td class="c">#</td>
+  <td class="c">ASN</td>
+  <td class="l">Nome do AS</td>
+  <td class="c">E-mails</td>
+  <td class="c">%</td>
+</tr>
+
+<tr>
+  <td class="c">01</td>
+  <td class="r">9924</td>
+  <td class="l">TFN-TW Taiwan Fixed Network, Telco and Network Service
+                Provider (TW)</td>
+  <td class="r">170.998.167</td>
+  <td class="r">32,60</td>
+</tr>
+
+<tr>
+  <td class="c">02</td>
+  <td class="r">3462</td>
+  <td class="l">HINET Data Communication Business Group (TW)</td>
+  <td class="r">131.381.486</td>
+  <td class="r">25,04</td>
+</tr>
+
+<tr>
+  <td class="c">03</td>
+  <td class="r">17623</td>
+  <td class="l">CNCGROUP-SZ CNCGROUP IP network of ShenZhen region MAN
+                network (CN)</td>
+  <td class="r">65.214.192</td>
+  <td class="r">12,43</td>
+</tr>
+
+<tr>
+  <td class="c">04</td>
+  <td class="r">4780</td>
+  <td class="l">SEEDNET Digital United Inc. (TW)</td>
+  <td class="r">54.430.806</td>
+  <td class="r">10,38</td>
+</tr>
+
+<tr>
+  <td class="c">05</td>
+  <td class="r">9919</td>
+  <td class="l">NCIC-TW New Century InfoComm Tech Co., Ltd. (TW)</td>
+  <td class="r">9.186.802</td>
+  <td class="r">1,75</td>
+</tr>
+
+<tr>
+  <td class="c">06</td>
+  <td class="r">4837</td>
+  <td class="l">CHINA169-BACKBONE CNCGROUP China169 Backbone (CN)</td>
+  <td class="r">9.025.142</td>
+  <td class="r">1,72</td>
+</tr>
+
+<tr>
+  <td class="c">07</td>
+  <td class="r">33322</td>
+  <td class="l">NDCHOST - Network Data Center Host, Inc. (US)</td>
+  <td class="r">8.359.583</td>
+  <td class="r">1,59</td>
+</tr>
+
+<tr>
+  <td class="c">08</td>
+  <td class="r">4134</td>
+  <td class="l">CHINANET-BACKBONE (CN)</td>
+  <td class="r">7.287.251</td>
+  <td class="r">1,39</td>
+</tr>
+
+<tr>
+  <td class="c">09</td>
+  <td class="r">18429</td>
+  <td class="l">EXTRALAN-TW Extra-Lan Technologies Co., LTD (TW)</td>
+  <td class="r">6.746.124</td>
+  <td class="r">1,29</td>
+</tr>
+
+<tr>
+  <td class="c">10</td>
+  <td class="r">7271</td>
+  <td class="l">LOOKAS - Look Communications Inc. (CA)</td>
+  <td class="r">5.599.442</td>
+  <td class="r">1,07</td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+
+<p class="center">
+<br /><br />
+
+<img src="asn-20060610-20070918-monthly-top7.png" alt="Top ASNs" />
+
+<br /><br /><br />
+
+<img src="asn-20060610-20070918-monthly-top7-percent.png" alt="Top
+ASNs - Percentage" />
+
+</p>
+
+<!-- ************************************************************ -->
+<br /><a name="2.3"></a>
+<h4>2.3. Portas TCP abusadas</h4>
+
+<table class="statsout">
+
+<caption><b>Tabela 2.3: Portas TCP abusadas</b>
+</caption>
+
+<tr>
+<td>
+
+<table class="seg-adm">
+
+<tr class="titlecurso">
+  <td class="c">#</td>
+  <td class="c">Porta TCP</td>
+  <td class="c">Protocolo</td>
+  <td class="c">Serviço Usual</td>
+  <td class="c">%</td>
+</tr>
+
+<tr>
+  <td class="c">01</td>
+  <td class="r">1080</td>
+  <td class="r">SOCKS</td>
+  <td class="r"><tt>socks</tt></td>
+  <td class="r">37,31</td>
+</tr>
+
+<tr>
+  <td class="c">02</td>
+  <td class="r">8080</td>
+  <td class="r">HTTP</td>
+  <td class="r"><tt>alternate http</tt></td>
+  <td class="r">34,79</td>
+</tr>
+
+<tr>
+  <td class="c">03</td>
+  <td class="r">80</td>
+  <td class="r">HTTP</td>
+  <td class="r"><tt>http</tt></td>
+  <td class="r">10,92</td>
+</tr>
+
+<tr>
+  <td class="c">04</td>
+  <td class="r">3128</td>
+  <td class="r">HTTP</td>
+  <td class="r"><tt>Squid</tt></td>
+  <td class="r">6,17</td>
+</tr>
+
+<tr>
+  <td class="c">05</td>
+  <td class="r">8000</td>
+  <td class="r">HTTP</td>
+  <td class="r"><tt>alternate http</tt></td>
+  <td class="r">2,76</td>
+</tr>
+
+<tr>
+  <td class="c">06</td>
+  <td class="r">6588</td>
+  <td class="r">HTTP</td>
+  <td class="r"><tt>AnalogX</tt></td>
+  <td class="r">2,29</td>
+</tr>
+
+<tr>
+  <td class="c">07</td>
+  <td class="r">25</td>
+  <td class="r">SMTP</td>
+  <td class="r"><tt>smtp</tt></td>
+  <td class="r">1,46</td>
+</tr>
+
+<tr>
+  <td class="c">08</td>
+  <td class="r">4480</td>
+  <td class="r">HTTP</td>
+  <td class="r"><tt>Proxy+</tt></td>
+  <td class="r">1.38</td>
+</tr>
+
+<tr>
+  <td class="c">09</td>
+  <td class="r">3127</td>
+  <td class="r">SOCKS</td>
+  <td class="r"><tt>MyDoom Backdoor</tt></td>
+  <td class="r">1,00</td>
+</tr>
+
+<tr>
+  <td class="c">10</td>
+  <td class="r">3382</td>
+  <td class="r">HTTP</td>
+  <td class="r"><tt>Sobig.f Backdoor</tt></td>
+  <td class="r">0,96</td>
+</tr>
+
+<tr>
+  <td class="c">11</td>
+  <td class="r">81</td>
+  <td class="r">HTTP</td>
+  <td class="r"><tt>alternate http</tt></td>
+  <td class="r">0,96</td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+
+<p class="center">
+<br /><br />
+<img src="ports-20060610-20070918-monthly-top7.png" alt="Top TCP Ports" />
+
+<br /><br /><br />
+
+<img src="ports-20060610-20070918-monthly-top7-percent.png" alt="Top TCP Ports" />
+
+</p>
+
+<!-- ************************************************************ -->
+<br /><a name="2.4"></a>
+<h4>2.4. Sistemas operacionais de origem mais freqüentes</h4>
+
+<table class="statsout">
+
+<caption><b>Tabela 2.4: Sistemas operacionais de origem mais
+            freqüentes.</b>
+</caption>
+
+<tr>
+<td>
+
+<table class="seg-adm">
+
+<tr class="titlecurso">
+  <td class="c">Sistema Operacional</td>
+  <td class="c">E-mails</td>
+  <td class="c">%</td>
+</tr>
+
+<tr>
+  <td class="l">Windows</td>
+  <td class="r">329.568.661</td>
+  <td class="r">62,82</td>
+</tr>
+
+<tr>
+  <td class="l">Unknown</td>
+  <td class="r">191.963.101</td>
+  <td class="r">36,59</td>
+</tr>
+
+<tr>
+  <td class="l">Unix</td>
+  <td class="r">2.802.853</td>
+  <td class="r">0,53</td>
+</tr>
+
+<tr>
+  <td class="l">Outros</td>
+  <td class="r">251.164</td>
+  <td class="r">0,05</td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+
+<p class="center">
+<br /><br />
+
+<img src="srcos-20060610-20070918-monthly.png" alt="Top OSs" />
+
+<br /><br /><br />
+
+<img src="srcos-20060610-20070918-monthly-percent.png" alt="Top OSs" />
+
+</p>
+
+
+
+<!-- ************************************************************ -->
+
+<a name="3"></a>
+<h4>3. Trabalhos Futuros</h4>
+
+<p>
+
+Após esta fase inicial do projeto as atividades terão continuidade,
+com seu enfoque em:
+
+</p>
+
+<ul>
+  <li> Análise mais detalhada do problema, através de técnicas de
+       Mineração de Dados com o intuito de:
+       <ul>
+
+         <li> determinar a ocorrência de padrões envolvendo idiomas,
+              pontos de origem e conteúdo das mensagens;</li>
+
+         <li> gerar algoritmos para melhor caracterização de
+              <i>spams</i> envolvendo esquemas de fraude
+              (<i>phishings</i>/<i>scams</i>);</li>
+
+         <li> gerar algoritmos que possam auxiliar o processo de
+              filtragem de <i>spams</i>.</li>
+
+       </ul>
+       </li>
+
+  <li> Gerar relatórios públicos com recomendações de melhores
+       práticas para provedores de serviços de banda larga, com o
+       intuito de:
+       <ul>
+
+         <li> reduzir o abuso de redes brasileiras para o envio de
+              <i>spam</i>;</li>
+         <li> reduzir o número de <i>spams</i> com origem em redes
+              brasileiras.</li>
+
+       </ul>
+       </li>
+
+  <li> Cooperação internacional -- já estão em andamento discussões
+       com Grupos de Tratamento de Incidentes de outros países para
+       implantação de sensores que possam auxiliar a obtenção de uma
+       visão mais global do problema.</li>
+
+</ul>
+
+
+<!-- ************************************************************ -->
+<a name="4"></a>
+<h4>4. Coordenação do Projeto</h4>
+
+<p>
+
+A coordenação do Projeto SpamPots está a cargo do Comitê Gestor da
+Internet no Brasil - CGI.br. A articulação e coordenação técnica do
+funcionamento dos <i>honeypots</i>, assim como a coleta dos dados e a
+produção dos resultados preliminares, foram realizadas pelo Centro de
+Estudos, Resposta e Tratamento de Incidentes de Segurança no Brasil -
+CERT.br, mantido pelo NIC.br.
+
+</p>
+
+
+<!-- ************************************************************ -->
+<a name="5"></a>
+<h4>5. Histórico de Revisões</h4>
+
+<ul>
+
+  <li class="nostyle-padding"><b>Versão 1.0</b>
+  <a href="/docs/whitepapers/spampots/versao1.0/">Versão Inicial,
+  Resultados com 325 dias de coleta; 11/07/2007</a></li>
+
+  <li class="nostyle-padding"><b>Versão 1.1</b>
+  <a href="/docs/whitepapers/spampots/versao1.1/">Atualização dos
+  resultados, com 417 dias de coleta; 16/08/2007</a></li>
+
+  <li class="nostyle-padding"><b>Versão 1.2</b>
+  Atualização dos resultados, com 466 dias de coleta; 27/09/2007</li>
+
+</ul>
+
+<!-- ************************************************************ -->
+
+<!-- Início do rodape -->
+<p class="rodape">
+$Date: 2012/03/19 21:46:50 $
+</p>
+<!-- Fim do rodape -->
+
+</div>
+
+<!-- ******* fim conteudo *************************************** -->
+<!-- ************************************************************ -->
+
+</body>
+</html>

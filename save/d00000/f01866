@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="iso-8859-1">
+
+<meta name="author" content="CERT.br" />
+<meta name="description" content="Códigos Maliciosos (Malware)" />
+<meta name="keywords" content="segurança, Internet, prevenção, riscos, códigos maliciosos, malware, vírus, worm, bot, botnet, zumbi, spyware, keylogger, screenlogger, adware, backdoor, cavalo de troia, trojan, rootkit, prevenção, resumo comparativo" />
+
+<link rel="stylesheet" type="text/css" media="screen" href="/css/cartilha.css" />
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+<script type="text/javascript" src="/js/modernizr.js"></script>
+
+<title>Cartilha de Segurança -- Códigos Maliciosos (Malware)</title>
+
+</head>
+
+<body>
+
+<!-- ************************************************************ -->
+<!-- ******* Begin header *************************************** -->
+
+<header>
+<section id="header-cert">
+
+<h1>
+<a href="http://www.cert.br/">
+<img src="/images/logo_cert.png" alt="CERT.br" />
+</a>
+</h1>
+<span><a href="http://www.cert.br/">Centro de Estudos, Resposta e
+Tratamento de<br />Incidentes de Segurança no Brasil</a></span>
+
+<div id="header-cgi-nic">
+<a href="http://www.nic.br/" title="Núcleo de Informação e Coordenação do Ponto BR">
+<img src="/images/logo_nic.png" alt="NIC.br" class="logo-nic" />
+</a>
+<a href="http://www.cgi.br/" title="Comitê Gestor da Internet no Brasil">
+<img src="/images/logo_cgi.png" alt="CGI.br" />
+</a>
+</div>
+
+</section>
+
+<section class="topo">
+
+<h2>
+<a href="/" accesskey="1">
+<img src="/images/logo_cartilha.png"
+alt="Cartilha de Segurança para Internet" class="logo-cartilha" />
+</a>
+</h2>
+
+<nav>
+<ul>
+  <li><a href="/">Início</a></li>
+  <li><a href="/livro/">Livro</a></li>
+  <li><a href="/fasciculos/">Fascículos</a></li>
+  <li><a href="/sobre/">Sobre</a></li>
+</ul>
+</nav>
+
+<form method="get" class="search-form" action="http://www.google.com/search" >
+  <input type="text" value="Buscar" name="q" size="20"
+         class="searchInput" />
+  <input type="hidden" name="sitesearch" value="cartilha.cert.br" />
+  <input type="image" name="submit" class="searchButton"
+         src="/images/button_search.png" alt="Search" />
+</form>
+
+<span class="ir-conteudo"><a href="#content" accesskey="2">Ir para o
+conteúdo</a></span>
+
+<div class="breadcrumb">
+  Você está em: <a href="/">Cartilha</a> &gt;
+  <strong>4. Códigos Maliciosos (Malware)</strong>
+</div>
+
+</section>
+</header>
+
+<!-- ******* End header ***************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin sumario ************************************** -->
+
+<aside>
+  <nav>
+    <div class="menu-navigation-container">
+      <p>Sumário</p>
+      <ul id="menu-navigation" class="menu">
+        <li><a href="/seguranca/">1. Segurança na Internet</a></li>
+        <li><a href="/golpes/">2. Golpes na Internet</a></li>
+        <li><a href="/ataques/">3. Ataques na Internet</a></li>
+        <li class="on"><a href="/malware/">4. Códigos Maliciosos (Malware)</a></li>
+        <li><a href="/spam/">5. Spam</a></li>
+        <li><a href="/riscos/">6. Outros riscos</a></li>
+        <li><a href="/mecanismos/">7. Mecanismos de segurança</a></li>
+        <li><a href="/senhas/">8. Contas e senhas</a></li>
+        <li><a href="/criptografia/">9. Criptografia</a></li>
+        <li><a href="/uso-seguro/">10. Uso seguro da Internet</a></li>
+        <li><a href="/privacidade/">11. Privacidade</a></li>
+        <li><a href="/computadores/">12. Segurança de computadores</a></li>
+        <li><a href="/redes/">13. Segurança de redes</a></li>
+        <li><a href="/dispositivos-moveis/">14. Segurança em dispositivos móveis</a></li>
+        <li><a href="/glossario/">Glossário</a></li>
+      </ul>
+    </div>
+  </nav>
+</aside>
+
+<!-- ******* End sumario **************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin conteudo ************************************* -->
+
+<a name="content"></a>
+
+<!-- ************************************************************ -->
+
+<article id="chapter_4">
+
+<div class="posicaoConteudo">
+<div class="conteudoLateralEsquerda">
+<div class="conteudoLateralDireita">
+<div class="inicioConteudo"></div>
+<div class="conteudo">
+
+<h3>
+<a name="4"></a>
+4. Códigos maliciosos (<i>Malware</i>)
+</h3>
+
+  <img class="ilustracao-r" src="/images/situacoes/malware.jpg"
+       alt="[Códigos Maliciosos (Malware)]" title="Códigos Maliciosos (Malware)" />
+
+<p>
+Códigos maliciosos (<i>malware</i>) são programas especificamente
+desenvolvidos para executar ações danosas e atividades maliciosas em um
+computador. Algumas das diversas formas como os códigos maliciosos podem
+infectar ou comprometer um computador são:
+</p>
+
+<ul>
+
+  <li> pela exploração de vulnerabilidades existentes nos programas
+  instalados;
+
+  <li> pela auto-execução de mídias removíveis infectadas, como
+  <i>pen-drives</i>;
+
+  <li> pelo acesso a páginas <i>Web</i> maliciosas, utilizando
+  navegadores vulneráveis;
+
+  <li> pela ação direta de atacantes que, após invadirem o computador,
+  incluem arquivos contendo códigos maliciosos;
+
+  <li> pela execução de arquivos previamente infectados, obtidos em
+  anexos de mensagens eletrônicas, via mídias removíveis, em páginas
+  <i>Web</i> ou diretamente de outros computadores (através do
+  compartilhamento de recursos).
+
+</ul>
+
+<p>
+Uma vez instalados, os códigos maliciosos passam a ter acesso aos dados
+armazenados no computador e podem executar ações em nome dos usuários,
+de acordo com as permissões de cada usuário.
+</p>
+
+<p>
+Os principais motivos que levam um atacante a desenvolver e a propagar
+códigos maliciosos são a obtenção de vantagens financeiras, a coleta de
+informações confidenciais, o desejo de autopromoção e o vandalismo. Além
+disto, os códigos maliciosos são muitas vezes usados como intermediários
+e possibilitam a prática de golpes, a realização de ataques e a
+disseminação de <i>spam</i> (mais detalhes nos Capítulos <a
+href="/golpes/">Golpes na Internet</a>, <a href="/ataques/">Ataques na
+Internet</a> e <a href="/spam/"><i>Spam</i></a>, respectivamente).
+</p>
+
+<p>
+Os principais tipos de códigos maliciosos existentes são apresentados
+nas próximas seções.
+</p>
+
+
+<!-- ************************************************************ -->
+
+<section id="section_4_1">
+
+<h4>
+<a name="4.1"></a>
+4.1. Vírus
+</h4>
+
+  <img class="ilustracao-r" src="/images/personagens/virus.jpg"
+       alt="[Vírus]" title="Vírus" />
+
+<p>
+Vírus é um programa ou parte de um programa de computador, normalmente
+malicioso, que se propaga inserindo cópias de si mesmo e se tornando
+parte de outros programas e arquivos.
+</p>
+
+<p>
+Para que possa se tornar ativo e dar continuidade ao processo de
+infecção, o vírus depende da execução do programa ou arquivo hospedeiro,
+ou seja, para que o seu computador seja infectado é preciso que um
+programa já infectado seja executado.
+</p>
+
+<p>
+O principal meio de propagação de vírus costumava ser os disquetes. Com
+o tempo, porém, estas mídias caíram em desuso e começaram a surgir novas
+maneiras, como o envio de <i>e-mail</i>. Atualmente, as mídias
+removíveis tornaram-se novamente o principal meio de propagação, não
+mais por disquetes, mas, principalmente, pelo uso de <i>pen-drives</i>.
+</p>
+
+<p>
+Há diferentes tipos de vírus. Alguns procuram permanecer ocultos,
+infectando arquivos do disco e executando uma série de atividades sem o
+conhecimento do usuário. Há outros que permanecem inativos durante
+certos períodos, entrando em atividade apenas em datas específicas.
+Alguns dos tipos de vírus mais comuns são:
+</p>
+
+<dl>
+
+  <dd> <b>Vírus propagado por <i>e-mail</i>:</b> recebido como um
+  arquivo anexo a um <i>e-mail</i> cujo conteúdo tenta induzir o usuário
+  a clicar sobre este arquivo, fazendo com que seja executado. Quando
+  entra em ação, infecta arquivos e programas e envia cópias de si mesmo
+  para os <i>e-mails</i> encontrados nas listas de contatos gravadas no
+  computador.
+
+  <dd> <b>Vírus de <i>script</i>:</b> escrito em linguagem de
+  <i>script</i>, como <i>VBScript</i> e <i>JavaScript</i>, e recebido ao
+  acessar uma página <i>Web</i> ou por <i>e-mail</i>, como um arquivo
+  anexo ou como parte do próprio <i>e-mail</i> escrito em formato HTML.
+  Pode ser automaticamente executado, dependendo da configuração do
+  navegador <i>Web</i> e do programa leitor de <i>e-mails</i> do
+  usuário.
+
+  <dd> <b>Vírus de macro:</b> tipo específico de vírus de <i>script</i>,
+  escrito em linguagem de macro, que tenta infectar arquivos manipulados
+  por aplicativos que utilizam esta linguagem como, por exemplo, os que
+  compõe o Microsoft Office (Excel, Word e PowerPoint, entre outros).
+
+  <dd> <b>Vírus de telefone celular:</b> vírus que se propaga de celular
+  para celular por meio da tecnologia <i>bluetooth</i> ou de mensagens
+  MMS (<i><b>M</b>ultimedia <b>M</b>essage <b>S</b>ervice</i>). A
+  infecção ocorre quando um usuário permite o recebimento de um arquivo
+  infectado e o executa. Após infectar o celular, o vírus pode destruir
+  ou sobrescrever arquivos, remover ou transmitir contatos da agenda,
+  efetuar ligações telefônicas e drenar a carga da bateria, além de
+  tentar se propagar para outros celulares.
+
+</dl>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_4_2">
+
+<h4>
+<a name="4.2"></a>
+4.2. <i>Worm</i>
+</h4>
+
+  <img class="ilustracao-r" src="/images/personagens/worm.jpg"
+       alt="[Worm]" title="Worm" />
+
+<p>
+<i>Worm</i> é um programa capaz de se propagar automaticamente pelas
+redes, enviando cópias de si mesmo de computador para computador.
+</p>
+
+<p>
+Diferente do vírus, o <i>worm</i> não se propaga por meio da inclusão de
+cópias de si mesmo em outros programas ou arquivos, mas sim pela
+execução direta de suas cópias ou pela exploração automática de
+vulnerabilidades existentes em programas instalados em computadores.
+</p>
+
+<p>
+<i>Worms</i> são notadamente responsáveis por consumir muitos recursos,
+devido à grande quantidade de cópias de si mesmo que costumam propagar
+e, como consequência, podem afetar o desempenho de redes e a utilização
+de computadores.
+</p>
+
+<p>
+O processo de propagação e infecção dos <i>worms</i> ocorre da seguinte
+maneira:
+</p>
+
+<ol type="a">
+
+  <li> <b>Identificação dos computadores alvos:</b> após infectar um
+  computador, o <i>worm</i> tenta se propagar e continuar o processo de
+  infecção. Para isto, necessita identificar os computadores alvos para
+  os quais tentará se copiar, o que pode ser feito de uma ou mais das
+  seguintes maneiras:
+
+  <ul>
+
+    <li> efetuar varredura na rede e identificar computadores ativos;
+
+    <li> aguardar que outros computadores contatem o computador
+    infectado;
+
+    <li> utilizar listas, predefinidas ou obtidas na Internet, contendo
+    a identificação dos alvos;
+
+    <li> utilizar informações contidas no computador infectado, como
+    arquivos de configuração e listas de endereços de <i>e-mail</i>.
+
+  </ul>
+
+  <li> <b>Envio das cópias:</b> após identificar os alvos, o <i>worm</i>
+  efetua cópias de si mesmo e tenta enviá-las para estes computadores,
+  por uma ou mais das seguintes formas:
+
+  <ul>
+
+    <li> como parte da exploração de vulnerabilidades existentes em
+    programas instalados no computador alvo;
+
+    <li> anexadas a <i>e-mails</i>;
+
+    <li> via canais de IRC (<i><b>I</b>nternet <b>R</b>elay
+    <b>C</b>hat</i>);
+
+    <li> via programas de troca de mensagens instantâneas;
+
+    <li> incluídas em pastas compartilhadas em redes locais ou do tipo
+    P2P (<i>Peer to Peer</i>).
+
+  </ul>
+
+  <li> <b>Ativação das cópias:</b> após realizado o envio da cópia, o
+  <i>worm</i> necessita ser executado para que a infecção ocorra, o que
+  pode acontecer de uma ou mais das seguintes maneiras:
+
+  <ul>
+
+    <li> imediatamente após ter sido transmitido, pela exploração de
+    vulnerabilidades em programas sendo executados no computador alvo no
+    momento do recebimento da cópia;
+
+    <li> diretamente pelo usuário, pela execução de uma das cópias
+    enviadas ao seu computador;
+
+    <li> pela realização de uma ação específica do usuário, a qual o
+    <i>worm</i> está condicionado como, por exemplo, a inserção de uma
+    mídia removível.
+
+  </ul>
+
+  <li> <b>Reinício do processo:</b> após o alvo ser infectado, o
+  processo de propagação e infecção recomeça, sendo que, a partir de
+  agora, o computador que antes era o alvo passa a ser também o
+  computador originador dos ataques.
+
+</ol>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_4_3">
+
+<h4>
+<a name="4.3"></a>
+4.3. <i>Bot</i> e <i>botnet</i>
+</h4>
+
+  <img class="ilustracao-r" src="/images/personagens/bot.jpg"
+       alt="[Bot]" title="Bot" />
+
+<p>
+<i>Bot</i> é um programa que dispõe de mecanismos de comunicação com o
+invasor que permitem que ele seja controlado remotamente. Possui
+processo de infecção e propagação similar ao do <i>worm</i>, ou seja, é
+capaz de se propagar automaticamente, explorando vulnerabilidades
+existentes em programas instalados em computadores.
+</p>
+
+<p>
+A comunicação entre o invasor e o computador infectado pelo <i>bot</i>
+pode ocorrer via canais de IRC, servidores <i>Web</i> e redes do tipo
+P2P, entre outros meios. Ao se comunicar, o invasor pode enviar
+instruções para que ações maliciosas sejam executadas, como desferir
+ataques, furtar dados do computador infectado e enviar <i>spam</i>.
+</p>
+
+  <img class="ilustracao-l" src="/images/personagens/zombie.jpg"
+       alt="[Zombie]" title="Zombie" />
+
+<p>
+Um computador infectado por um <i>bot</i> costuma ser chamado de zumbi
+(<i>zombie computer</i>), pois pode ser controlado remotamente, sem o
+conhecimento do seu dono. Também pode ser chamado de <i>spam zombie</i>
+quando o <i>bot</i> instalado o transforma em um servidor de
+<i>e-mails</i> e o utiliza para o envio de <i>spam</i>.
+</p>
+
+  <img class="ilustracao-r" src="/images/situacoes/botnet.jpg"
+       alt="[Botnet]" title="Botnet" />
+
+<p>
+<i>Botnet</i> é uma rede formada por centenas ou milhares de
+computadores zumbis e que permite potencializar as ações danosas
+executadas pelos <i>bots</i>.
+</p>
+
+<p>
+Quanto mais zumbis participarem da <i>botnet</i> mais potente ela será.
+O atacante que a controlar, além de usá-la para seus próprios ataques,
+também pode alugá-la para outras pessoas ou grupos que desejem que uma
+ação maliciosa específica seja executada.
+</p>
+
+<p>
+Algumas das ações maliciosas que costumam ser executadas por intermédio
+de <i>botnets</i> são: ataques de negação de serviço, propagação de
+códigos maliciosos (inclusive do próprio <i>bot</i>), coleta de
+informações de um grande número de computadores, envio de <i>spam</i> e
+camuflagem da identidade do atacante (com o uso de <i>proxies</i>
+instalados nos zumbis).
+</p>
+
+<p>
+O esquema simplificado apresentado a seguir exemplifica o funcionamento
+básico de uma <i>botnet</i>:
+</p>
+
+<ol type="a">
+
+  <li> Um atacante propaga um tipo específico de <i>bot</i> na esperança
+  de infectar e conseguir a maior quantidade possível de zumbis;
+
+  <li> os zumbis ficam então à disposição do atacante, agora seu
+  controlador, à espera dos comandos a serem executados;
+
+  <li> quando o controlador deseja que uma ação seja realizada, ele
+  envia aos zumbis os comandos a serem executados, usando, por exemplo,
+  redes do tipo P2P ou servidores centralizados;
+
+  <li> os zumbis executam então os comandos recebidos, durante o período
+  predeterminado pelo controlador;
+
+  <li> quando a ação se encerra, os zumbis voltam a ficar à espera dos
+  próximos comandos a serem executados.
+
+</ol>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_4_4">
+
+<h4>
+<a name="4.4"></a>
+4.4. <i>Spyware</i>
+</h4>
+
+  <img class="ilustracao-r" src="/images/personagens/spyware.jpg"
+       alt="[Spyware]" title="Spyware" />
+
+<p>
+<i>Spyware</i> é um programa projetado para monitorar as atividades de
+um sistema e enviar as informações coletadas para terceiros.
+</p>
+
+<p>
+Pode ser usado tanto de forma legítima quanto maliciosa, dependendo de
+como é instalado, das ações realizadas, do tipo de informação monitorada
+e do uso que é feito por quem recebe as informações coletadas. Pode ser
+considerado de uso:
+</p>
+
+<dl>
+
+  <dd> <b>Legítimo:</b> quando instalado em um computador pessoal, pelo
+  próprio dono ou com consentimento deste, com o objetivo de verificar
+  se outras pessoas o estão utilizando de modo abusivo ou não
+  autorizado.
+
+  <dd> <b>Malicioso:</b> quando executa ações que podem comprometer a
+  privacidade do usuário e a segurança do computador, como monitorar e
+  capturar informações referentes à navegação do usuário ou inseridas em
+  outros programas (por exemplo, conta de usuário e senha).
+
+</dl>
+
+<p>
+Alguns tipos específicos de programas <i>spyware</i> são:
+</p>
+
+  <img class="ilustracao-r" src="/images/personagens/keylogger.jpg"
+       alt="[Keylogger]" title="Keylogger" />
+
+<p>
+<b><i>Keylogger</i>:</b> capaz de capturar e armazenar as teclas
+digitadas pelo usuário no teclado do computador. Sua ativação, em muitos
+casos, é condicionada a uma ação prévia do usuário, como o acesso a um
+<i>site</i> específico de comércio eletrônico ou de <i>Internet
+Banking</i>.
+</p>
+
+  <img class="ilustracao-l" src="/images/personagens/screenlogger.jpg"
+       alt="[Screenlogger]" title="Screenlogger" />
+
+<p>
+<b><i>Screenlogger</i>:</b> similar ao <i>keylogger</i>, capaz de
+armazenar a posição do cursor e a tela apresentada no monitor, nos
+momentos em que o <i>mouse</i> é clicado, ou a região que circunda a
+posição onde o <i>mouse</i> é clicado. É bastante utilizado por
+atacantes para capturar as teclas digitadas pelos usuários em teclados
+virtuais, disponíveis principalmente em <i>sites</i> de <i>Internet
+Banking</i>.
+</p>
+
+  <img class="ilustracao-r" src="/images/personagens/adware.jpg"
+       alt="[Adware]" title="Adware" />
+
+<p>
+<b><i>Adware</i>:</b> projetado especificamente para apresentar
+propagandas. Pode ser usado para fins legítimos, quando incorporado a
+programas e serviços, como forma de patrocínio ou retorno financeiro
+para quem desenvolve programas livres ou presta serviços gratuitos.
+Também pode ser usado para fins maliciosos, quando as propagandas
+apresentadas são direcionadas, de acordo com a navegação do usuário e
+sem que este saiba que tal monitoramento está sendo feito.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_4_5">
+
+<h4>
+<a name="4.5"></a>
+4.5. <i>Backdoor</i>
+</h4>
+
+  <img class="ilustracao-r" src="/images/situacoes/backdoor.jpg"
+       alt="[Backdoor]" title="Backdoor" />
+
+<p>
+<i>Backdoor</i> é um programa que permite o retorno de um invasor a um
+computador comprometido, por meio da inclusão de serviços criados ou
+modificados para este fim.
+</p>
+
+<p>
+Pode ser incluído pela ação de outros códigos maliciosos, que tenham
+previamente infectado o computador, ou por atacantes, que exploram
+vulnerabilidades existentes nos programas instalados no computador para
+invadi-lo.
+</p>
+
+<p>
+Após incluído, o <i>backdoor</i> é usado para assegurar o acesso futuro
+ao computador comprometido, permitindo que ele seja acessado
+remotamente, sem que haja necessidade de recorrer novamente aos métodos
+utilizados na realização da invasão ou infecção e, na maioria dos casos,
+sem que seja notado.
+</p>
+
+<p>
+A forma usual de inclusão de um <i>backdoor</i> consiste na
+disponibilização de um novo serviço ou na substituição de um determinado
+serviço por uma versão alterada, normalmente possuindo recursos que
+permitem o acesso remoto. Programas de administração remota, como
+BackOrifice, NetBus, SubSeven, VNC e Radmin, se mal configurados ou
+utilizados sem o consentimento do usuário, também podem ser
+classificados como <i>backdoors</i>.
+</p>
+
+<p>
+Há casos de <i>backdoors</i> incluídos propositalmente por fabricantes
+de programas, sob alegação de necessidades administrativas. Esses casos
+constituem uma séria ameaça à segurança de um computador que contenha um
+destes programas instalados pois, além de comprometerem a privacidade do
+usuário, também podem ser usados por invasores para acessarem
+remotamente o computador.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_4_6">
+
+<h4>
+<a name="4.6"></a>
+4.6. Cavalo de troia (<i>Trojan</i>)
+</h4>
+
+  <img class="ilustracao-r" src="/images/personagens/trojan.jpg"
+       alt="[Cavalo de troia (Trojan)]" title="Cavalo de troia (Trojan)" />
+
+<p>
+Cavalo de troia<a name="sup_footnote001"></a><a href="#footnote001"
+class="footnote">1</a>, <i>trojan</i> ou <i>trojan-horse</i>, é um
+programa que, além de executar as funções para as quais foi
+aparentemente projetado, também executa outras funções, normalmente
+maliciosas, e sem o conhecimento do usuário.
+</p>
+
+<p>
+Exemplos de <i>trojans</i> são programas que você recebe ou obtém de
+<i>sites</i> na Internet e que parecem ser apenas cartões virtuais
+animados, álbuns de fotos, jogos e protetores de tela, entre outros.
+Estes programas, geralmente, consistem de um único arquivo e necessitam
+ser explicitamente executados para que sejam instalados no computador.
+</p>
+
+<p>
+<i>Trojans</i> também podem ser instalados por atacantes que, após
+invadirem um computador, alteram programas já existentes para que, além
+de continuarem a desempenhar as funções originais, também executem ações
+maliciosas.
+</p>
+
+<p>
+Há diferentes tipos de <i>trojans</i>, classificados<a
+name="sup_footnote002"></a><a href="#footnote002" class="footnote">2</a>
+de acordo com as ações maliciosas que costumam executar ao infectar um
+computador. Alguns destes tipos são:
+</p>
+
+<dl>
+
+  <dd> <b><i>Trojan Downloader</i>:</b> instala outros códigos
+  maliciosos, obtidos de <i>sites</i> na Internet.
+
+  <dd> <b><i>Trojan Dropper</i>:</b> instala outros códigos maliciosos,
+  embutidos no próprio código do <i>trojan</i>.
+
+  <dd> <b><i>Trojan Backdoor</i>:</b> inclui <i>backdoors</i>,
+  possibilitando o acesso remoto do atacante ao computador.
+
+  <dd> <b><i>Trojan DoS</i>:</b> instala ferramentas de negação de
+  serviço e as utiliza para desferir ataques.
+
+  <dd> <b><i>Trojan</i> Destrutivo:</b> altera/apaga arquivos e
+  diretórios, formata o disco rígido e pode deixar o computador fora de
+  operação.
+
+  <dd> <b><i>Trojan Clicker</i>:</b> redireciona a navegação do usuário
+  para <i>sites</i> específicos, com o objetivo de aumentar a quantidade
+  de acessos a estes <i>sites</i> ou apresentar propagandas.
+
+  <dd> <b><i>Trojan Proxy</i>:</b> instala um servidor de <i>proxy</i>,
+  possibilitando que o computador seja utilizado para navegação anônima
+  e para envio de <i>spam</i>.
+
+  <dd> <b><i>Trojan Spy</i>:</b> instala programas <i>spyware</i> e os
+  utiliza para coletar informações sensíveis, como senhas e números de
+  cartão de crédito, e enviá-las ao atacante.
+
+  <dd> <b><i>Trojan Banker</i> ou Bancos:</b> coleta dados bancários do
+  usuário, através da instalação de programas <i>spyware</i> que são
+  ativados quando <i>sites</i> de <i>Internet Banking</i> são acessados.
+  É similar ao <i>Trojan Spy</i> porém com objetivos mais específicos.
+
+</dl>
+
+<div class="textoFootnote">
+<a name="footnote001"></a>
+<strong>[1]</strong> O "Cavalo de Troia", segundo a mitologia grega, foi
+uma grande estátua, utilizada como instrumento de guerra pelos gregos
+para obter acesso à cidade de Troia. A estátua do cavalo foi recheada
+com soldados que, durante a noite, abriram os portões da cidade
+possibilitando a entrada dos gregos e a dominação de Troia.
+<span class="voltarTopo"><a href="#sup_footnote001">voltar</a></span>
+<br />
+<a name="footnote002"></a>
+<strong>[2]</strong> Esta classificação baseia-se em coletânea feita
+sobre os nomes mais comumente usados pelos programas <i>antimalware</i>.
+<span class="voltarTopo"><a href="#sup_footnote002">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_4_7">
+
+<h4>
+<a name="4.7"></a>
+4.7. <i>Rootkit</i>
+</h4>
+
+  <img class="ilustracao-r" src="/images/personagens/rootkit.jpg"
+       alt="[Rootkit]" title="Rootkit" />
+
+<p>
+<i>Rootkit</i><a name="sup_footnote003"></a><a href="#footnote003"
+class="footnote">3</a> é um conjunto de programas e técnicas que permite
+esconder e assegurar a presença de um invasor ou de outro código
+malicioso em um computador comprometido.
+</p>
+
+<p>
+O conjunto de programas e técnicas fornecido pelos <i>rootkits</i> pode
+ser usado para:
+</p>
+
+<ul>
+
+  <li> remover evidências em arquivos de <i>logs</i> (mais detalhes na
+  Seção <a href="/mecanismos/#7.6">7.6</a> do Capítulo <a
+  href="/mecanismos/">Mecanismos de segurança</a>);
+
+  <li> instalar outros códigos maliciosos, como <i>backdoors</i>, para
+  assegurar o acesso futuro ao computador infectado;
+
+  <li> esconder atividades e informações, como arquivos, diretórios,
+  processos, chaves de registro, conexões de rede, etc;
+
+  <li> mapear potenciais vulnerabilidades em outros computadores, por
+  meio de varreduras na rede;
+
+  <li> capturar informações da rede onde o computador comprometido está
+  localizado, pela interceptação de tráfego.
+
+</ul>
+
+<p>
+É muito importante ressaltar que o nome <i>rootkit</i> não indica que os
+programas e as técnicas que o compõe são usadas para obter acesso
+privilegiado a um computador, mas sim para mantê-lo.
+</p>
+
+<p>
+<i>Rootkits</i> inicialmente eram usados por atacantes que, após
+invadirem um computador, os instalavam para manter o acesso
+privilegiado, sem precisar recorrer novamente aos métodos utilizados na
+invasão, e para esconder suas atividades do responsável e/ou dos
+usuários do computador. Apesar de ainda serem bastante usados por
+atacantes, os <i>rootkits</i> atualmente têm sido também utilizados e
+incorporados por outros códigos maliciosos para ficarem ocultos e não
+serem detectados pelo usuário e nem por mecanismos de proteção.
+</p>
+
+<p>
+Há casos de <i>rootkits</i> instalados propositalmente por empresas
+distribuidoras de CDs de música, sob a alegação de necessidade de
+proteção aos direitos autorais de suas obras. A instalação nestes casos
+costumava ocorrer de forma automática, no momento em que um dos CDs
+distribuídos contendo o código malicioso era inserido e executado. É
+importante ressaltar que estes casos constituem uma séria ameaça à
+segurança do computador, pois os <i>rootkits</i> instalados, além de
+comprometerem a privacidade do usuário, também podem ser reconfigurados
+e utilizados para esconder a presença e os arquivos inseridos por
+atacantes ou por outros códigos maliciosos.
+</p>
+
+<div class="textoFootnote">
+<a name="footnote003"></a>
+<strong>[3]</strong> O termo <i>rootkit</i> origina-se da junção das
+palavras "<i>root</i>" (que corresponde à conta de superusuário ou
+administrador do computador em sistemas Unix) e "<i>kit</i>" (que
+corresponde ao conjunto de programas usados para manter os privilégios
+de acesso desta conta).
+<span class="voltarTopo"><a href="#sup_footnote003">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_4_8">
+
+<h4>
+<a name="4.8"></a>
+4.8. Prevenção
+</h4>
+
+<p>
+Para manter o seu computador livre da ação dos códigos maliciosos existe
+um conjunto de medidas preventivas que você precisa adotar. Essas
+medidas incluem manter os programas instalados com as versões mais
+recentes e com todas as atualizações disponíveis aplicadas e usar
+mecanismos de segurança, como <i>antimalware</i> e <i>firewall</i>
+pessoal.
+</p>
+
+<p>
+Além disso, há alguns cuidados que você e todos que usam o seu
+computador devem tomar sempre que forem manipular arquivos. Novos
+códigos maliciosos podem surgir, a velocidades nem sempre acompanhadas
+pela capacidade de atualização dos mecanismos de segurança.
+</p>
+
+<p>
+Informações sobre os principais mecanismos de segurança que você deve
+utilizar são apresentados no Capítulo <a href="/mecanismos/">Mecanismos
+de segurança</a>. Outros cuidados que você deve tomar para manter seu
+computador seguro são apresentados no Capítulo <a
+href="/computadores/">Segurança de computadores</a>.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_4_9">
+
+<h4>
+<a name="4.9"></a>
+4.9. Resumo comparativo
+</h4>
+
+<p>
+Cada tipo de código malicioso possui características próprias que o
+define e o diferencia dos demais tipos, como forma de obtenção, forma de
+instalação, meios usados para propagação e ações maliciosas mais comuns
+executadas nos computadores infectados. Para facilitar a classificação e
+a conceituação, a Tabela <a href="#tab4.1">4.1</a> apresenta um resumo
+comparativo das características de cada tipo.
+</p>
+
+<p>
+É importante ressaltar, entretanto, que definir e identificar essas
+características têm se tornado tarefas cada vez mais difíceis, devido às
+diferentes classificações existentes e ao surgimento de variantes que
+mesclam características dos demais códigos. Desta forma, o resumo
+apresentado na tabela não é definitivo e baseia-se nas definições
+apresentadas nesta Cartilha.
+</p>
+
+<a name="tab4.1"></a>
+<table class="cartilha">
+  <caption>
+  Tabela 4.1: Resumo comparativo entre os códigos maliciosos.
+  </caption>
+<tr>
+<td>
+
+ <tr>
+ <th class="title" colspan="8" scope="row">Códigos Maliciosos</th>
+ </tr>
+ <tr>
+ <th class="header" scope="row"></th>
+ <th class="header" scope="row">Vírus</th>
+ <th class="header" scope="row"><i>Worm</i></th>
+ <th class="header" scope="row"><i>Bot</i></th>
+ <th class="header" scope="row"><i>Trojan</i></th>
+ <th class="header" scope="row"><i>Spyware</i></th>
+ <th class="header" scope="row"><i>Backdoor</i></th>
+ <th class="header" scope="row"><i>Rootkit</i></th>
+ </tr>
+ <tr>
+ <th class="multicol" colspan="8" scope="row">Como é obtido:</th>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Recebido automaticamente pela rede</th>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Recebido por <i>e-mail</i></th>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Baixado de <i>sites</i> na Internet</th>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Compartilhamento de arquivos</th>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Uso de mídias removíveis infectadas</th>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Redes sociais</th>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Mensagens instantâneas</th>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Inserido por um invasor</th>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Ação de outro código malicioso</th>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ </tr>
+ <tr>
+ <th class="multicol" colspan="8" scope="row">Como ocorre a instalação:</th>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Execução de um arquivo infectado</th>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Execução explícita do código malicioso</th>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Via execução de outro código malicioso</th>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Exploração de vulnerabilidades</th>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ </tr>
+ <tr>
+ <th class="multicol" colspan="8" scope="row">Como se propaga:</th>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Insere cópia de si próprio em arquivos</th>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Envia cópia de si próprio automaticamente pela rede</th>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Envia cópia de si próprio automaticamente por <i>e-mail</i></th>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Não se propaga</th>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ </tr>
+ <tr>
+ <th class="multicol" colspan="8" scope="row">Ações maliciosas mais comuns:</th>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Altera e/ou remove arquivos</th>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Consome grande quantidade de recursos</th>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Furta informações sensíveis</th>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Instala outros códigos maliciosos</th>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Possibilita o retorno do invasor</th>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Envia <i>spam</i> e <i>phishing</i></th>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Desfere ataques na Internet</th>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Procura se manter escondido</th>
+ <td class="c">&#10004;</td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c"></td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ <td class="c">&#10004;</td>
+ </tr>
+</table>
+
+</section>
+
+</div>
+</div>
+</div>
+</div>
+
+</article>
+
+<!-- ******* End content **************************************** -->
+<!-- ************************************************************ -->
+
+<div id="rodape">
+  <ul>
+    <li><a href="/cc/">Licença</a></li>
+    <li><a href="/creditos/">Créditos</a></li>
+    <li><a href="/avisos/">Avisos</a></li>
+    <li><a href="/downloads/">Downloads</a></li>
+    <li class="last"><a href="/divulgue/">Divulgue</a></li>
+  </ul>
+  <p>
+    <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/br/">
+    <img src="/images/ic_creativeCommons.png"
+    alt="Licença Creative Commons CERT.br">
+    </a>
+    Cartilha de Segurança para Internet - CERT.br - $Date: 2012/06/03 01:41:42 $
+  </p>
+    <div class="selosRodape">
+      <a href="http://ipv6.br/">
+      <img src="/images/ic_ipv6.png"
+      alt="Site acessível via IPv6" title="Site acessível via IPv6">
+      </a>
+      <a href="http://jigsaw.w3.org/css-validator">
+      <img src="/images/ic_css.png" alt="CSS Válido" title="CSS Válido">
+      </a>
+      <img src="/images/ic_html5.png" alt="Desenvolvido em HTML 5"
+      title="Desenvolvido em HTML 5">
+    </div>
+</div>
+
+</body>
+</html>

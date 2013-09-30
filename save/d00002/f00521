@@ -1,0 +1,121 @@
+<html>
+<head>
+<title>IPv6 Multicast Troubleshooting Guide</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<link rel=stylesheet href="kame-newsletter.css" type="text/css">
+</head>
+<body>
+<h1>IPv6 Multicast Trouble Shooting Guide</h1>
+<a href="http://www.kame.net/~suz/">SUZUKI, Shinsuke</a>
+at <a href="http://www.kame.net/">KAME Project</a>
+<pre>$Id: index.html,v 1.2 2005/07/18 04:55:37 suz Exp $</pre>
+
+<hr>
+
+<h2>Abstract</h2>
+<p>This troubleshooting guide classifies the tips for IPv6 multicast 
+troubleshooting into three categories.
+<ol>
+<li> <a href="#send">Issues in Sending Hosts</a>
+<li> <a href="#recv">Issues in Receiving Hosts</a>
+<li> <a href="#rtg">Issues in Routing Configuration</a>
+</ol>
+
+From my experiance, I often encounters the first two issues.
+So please be careful to confirm that they don't exist in your environment,
+before going into the analysis of the complex behavior of the PIM protocol.
+</p>
+
+<a name="send">
+<h2>1. Possible Issues in Sending Hosts</h2>
+</a>
+<dl>
+<dt>(a) Hoplimit is large enough?
+<dd><p>KAME transmits IPv6 multicast packets with hoplimit = 1, unless application explicitly specifies some hoplimit value.  This fact means that IPv6 multicast packets don't go over a router by default due to a lack of hoplimit.</p>
+
+<p>So if you cannot receive packets from a multicast packet sender, please check the hoplimit first!</p>
+ 
+<dt>(b) Packet size is less than 1280?
+<dd><p>Some router does not generate ICMPv6 Packet-Too-Big Error for multicast packets, to prevent ICMPv6 Error packet generation for multicast packets (Precisely speaking, it's against ICMPv6 Spec(draft-ietf-ipngwg-icmp-v6-04.txt section 2.4 (e)).  Such systems, however, assumes that multicast senders transmit multicast packets less than 1280 Byte).</p>
+
+<p>If your network has such a router, you should take a great care to see if the size of the transmitted packets shouldn't exceed more than 1280 bytes. </p>
+</dl>
+
+<a name="recv">
+<h2>2. Possible Issues in Receiving Hosts</h2>
+</a>
+<dl>
+<dt>(a) Have you joined a multicast group?
+<dd> <p>Sometimes people forget to start IPv6 multicast receiver application:-) </p>
+<dt>(b) MLD version is correct?
+<dd> <p>Especially when there's a MLD snooping switch between a host and its accomodating router, you should take care of the MLD version.</p>
+</dl>
+
+<a name="rtg">
+<h2>3. Possible Issues in Routing Configuration</h2>
+</a>
+<dl>
+<dt>(a) RP-related issues
+<dd> 
+<p>In case of pim6sd, you can check the mapping using "pim6stat" command.</p>
+ <pre>
+ # pim6stat
+ ....
+ ---------------------------RP-Set----------------------------
+ Current BSR address: 2001:200:0:8000::2000:1 Prio: 10 Timeout: 160
+ RP-address(Upstream)/Group prefix             Prio Hold Age
+ YOUR:RP:ROUTER::ADDR(fe80::UPST:REAM:RTR%IFNAME)
+      ffxx:x:xxxx::/96             0    150  150
+ </pre>
+<quote>c.f.) the equivalent command on other implementations. (Other vendor info is welcome!)<br>
+<ul>
+<li> AlaxalA AX-series: show ipv6 pim rendezvous-point mapping
+<li> Allied Telesys SB-series: show ipv6 pim rendezvous-point mapping
+<li> Cisco IOS-series: show ipv6 pim group-map
+<li> Cisco IOS XR-series: show pim ipv6 group-map
+<li> Foundry: show ipv6 pim group(?)
+<li> Hitachi GR/GS-series: show ipv6 pim rendezvous-point mapping
+<li> Juniper JunOS: show pim rps inet6
+<li> NEC IP8800-series: show ipv6 pim rp-mapping
+</ul>
+</quote>
+<p>
+ If you cannot find out the right Group-RP mapping, you should check the following things:
+ <ul>
+  <li>In case of static configuration,
+  <ul>
+   <li>whether the configuration is really right?
+   <li>how is the RP configuration at the RP router (please see (c)pim6sd-specific issues)
+  </ul>
+  <li>In case of BSR-based configuration,
+  <ul>
+   <li>BSR messages are really received?
+   <li>BSR messages are advertised from the upstream router for the BSR router?
+   <li>the router has a PIM-adjacency for the upstream router of the RP router?
+  </ul>
+ </ul>
+</p>
+</dl>
+
+<dt>(b) RPF-related issues
+<dd> To be written
+<dt>(c) pim6sd-specific issues
+<dd>
+ <dl>
+ <dt>static-RP
+ <dd>pim6sd does not support static-RP at RP router itself.  So at RP, you have to configure cand_bsr and cand_rp option as well.
+ </dl>
+</dl>
+
+<hr />
+<a href="http://www.kame.net/">KAME top page</a>
+<hr />
+<font size="-2">
+Copyright (c) 1998, 1999, 2000, 2001, 2002, and 2003 by the author (indicated separately).  All rights reserved.
+Freely redistributable. Absolutely no warranty.
+</font size>
+<hr />
+
+
+</doby>
+</html>

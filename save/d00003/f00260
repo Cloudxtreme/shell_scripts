@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+          
+<html lang="sv">
+                
+<head>   
+<title>KTH | Välkommen till KTH</title> 
+<!-- kljshfask23df5d42d35drhaskfbgas4dugw43q2gsf5ydawb4q246bf87w6bq64 --> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="shortcut icon" id="favicon" href="/img/icon/favicon.ico" /> 
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />     
+<meta name="robots" content="noodp" />
+<meta name="DC.Description" content="KTH är en modern teknisk högskola mitt i Stockholm med utbildning och forskning i världsklass. Sök till KTH och bli civilingenjör, arkitekt eller högskoleingenjör!" />
+<meta name="description" content="KTH är en modern teknisk högskola mitt i Stockholm med utbildning och forskning i världsklass. Sök till KTH och bli civilingenjör, arkitekt eller högskoleingenjör!" />             
+<link type="text/css" href="/css/v/7.3/kth.css" rel="stylesheet" />
+<!--[if IE 8]><link type="text/css" href="/css/v/7.3/ie8.css" rel="stylesheet" /><![endif]-->
+<!--[if IE 9]><link type="text/css" href="/css/v/7.3/ie9.css" rel="stylesheet" /><![endif]-->  
+      
+<script type="text/javascript" src="/script/v/7.3/core.min.js"></script>       
+<script type="text/javascript">var KthToolbarConfig = { locale : "sv_SE", loginUrl : "?action=login", loginMethod : "post" }; (function() { var se = document.createElement('script'); se.type = 'text/javascript'; se.async = true; se.src = 'https://www.kth.se/social/toolbar/widget.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(se, s); })();</script> 
+
+<script type="text/javascript" src="/public/profile.jsp"></script>              
+<script type="text/javascript">/* version 1.5 */
+
+$(document).ready(function() {
+
+	  // Mega menu
+	  $('.block.megaMenu a').on('mousedown', function(event) {
+		_gas.push(['_trackEvent', 'Mega menu', quoteReplace($(event.target).html()), event.target.getAttribute('href')]);
+		console.log("Mega menu: " + "'" + quoteReplace($(event.target).html()) + "'");
+	  });
+
+	  // Feed back
+	  $('.contentResponsible a').on('mousedown', function(event) {
+	    _gas.push(['_trackEvent', 'Feedback', getDocumentTitle()]);
+	    console.log("Feed back: " + "'" + getDocumentTitle() + "'");
+	  });
+
+	  // Curriculum
+	  $('.callToAction.completeCurriculum').on('mousedown', function(event) {
+	    _gas.push(['_trackEvent', 'Complete Curriculum', getDocumentTitle(), event.target.getAttribute('href')]);
+	    console.log("Curricuculum: " + "'" + getDocumentTitle() + "' (" + event.target.getAttribute('href') + ")");
+	  });
+
+	  // Banners and Teasers
+	  $('.block.teaser').on('mousedown', function(event) {  
+		var $this = $(this);
+		var hRef = $this.find('h2 a').attr('href');
+		var target = $(event.target);
+		
+		if (hRef && typeof(target.attr('href')) != 'undefined' && hRef != target.attr('href')) {
+		  hRef = target.attr('href');
+		} else if (!hRef && typeof(target.attr('href')) != 'undefined') {
+		  hRef = target.attr('href');
+		}
+		
+		if ($this.hasClass('overlay')) { // Banner
+		  if (target.is("a, a img")) {
+			_gas.push(['_trackEvent', 'Banner', findTeaserH2Text($this), hRef]);
+		    console.log("Banner:  " + findTeaserH2Text($this) + ' (' + hRef + ')');
+		  }
+		} else { // Teaser
+		  if (target.is('a:not([[href*="mailto"]), a img')) {
+			_gas.push(['_trackEvent', 'Teaser', findTeaserH2Text($this), hRef]);
+			console.log("Teaser:  " + findTeaserH2Text($this) + ' (' + hRef + ')');
+		  }
+		}
+	  });
+	  	  
+	  // Dropdowns
+	  $('.block.list.dropdown form select').change(function() {
+		  _gas.push(['_trackEvent', 'Dropdown', quoteReplace($(this).find('option[value="' + $(this).val() + '"]').text()), $(this).val()]);
+	  });
+	  
+	  // Form error
+	  if($('.article.standard.contact .contactForm .error h2').length != 0) {
+		_gas.push(['_trackPageview','/virtual/form - error ' + document.location.pathname + document.location.search]);
+		console.log("Form error at " + document.location.pathname + document.location.search);
+	  }
+	  
+	  // Form sent
+	  if($('.article.standard.contact .formSent').length != 0) {
+		_gas.push(['_trackPageview', '/virtual/formular - sent' + document.location.pathname + document.location.search]);
+		console.log("Form sent from " + document.location.pathname + document.location.search);
+	  }
+
+          // Special form tracking
+	  $('form .buttons .dataManipulation input, form#material input.submitForm').on('mousedown', function(event) {
+		_gas.push(['_trackEvent', 'Form', 'Sent', location.pathname]);
+		console.log("Form sent from " + location.pathname);
+	  });
+	  
+	  // LinkedIn
+	  $('.shareLarge .linkedin').on('mousedown', function(event) {
+	    _gas.push(['_trackSocial', 'LinkedIn', 'share', document.location.href]);
+	    console.log("Linked in event tracked");
+	  });
+	  
+	  // Twitter
+	  function trackTwitter(event) {
+	    if (event) {
+		  var targetUrl;
+		  if (event.target && event.target.nodeName == 'IFRAME') {
+		    targetUrl = extractParamFromUri(event.target.src, 'url');
+		  }
+		  _gas.push(['_trackSocial', 'twitter', 'tweet', targetUrl]);
+		  console.log("Twitter event tracked");
+	    }
+      }
+
+	if (typeof(twttr) != 'undefined') {
+	    //Wrap event bindings - Wait for async js to load
+        twttr.ready(function (twttr) {
+          twttr.events.bind('tweet', trackTwitter);
+        });
+	  }
+	  
+       function extractParamFromUri(uri, paramName) {
+		if (!uri) {
+		  return;
+		}
+		var regex = new RegExp('[\\?&#]' + paramName + '=([^&#]*)');
+	    var params = regex.exec(uri);
+		if (params != null) {
+		  return unescape(params[1]);
+		}
+		return;
+          }
+
+	  // Facebook
+	  if (typeof(FB) != 'undefined') {
+	    if (FB && FB.Event && FB.Event.subscribe) {
+          FB.Event.subscribe('edge.create', function(targetUrl) {
+            _gas.push(['_trackSocial', 'facebook', 'like', targetUrl]);
+            console.log("FB like");
+          });
+	  
+          FB.Event.subscribe('edge.remove', function(targetUrl) {
+            _gas.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
+            console.log("FB unlike");
+          });
+	  
+          FB.Event.subscribe('message.send', function(targetUrl) {
+            _gas.push(['_trackSocial', 'facebook', 'send', targetUrl]);
+            console.log("FB send");
+          });
+      
+          FB.Event.subscribe('comment.create', function(targetUrl) {
+            _gas.push(['_trackSocial', 'facebook', 'comment', targetUrl]);
+            console.log("FB comment");
+	      });
+	    }
+	  }
+	  
+	  // Page vote function
+	  $('#vote').click(function(event) {
+		var docTitle = quoteReplace(document.title);
+		var e = event.target;
+		
+		if(e && $(e).hasClass('icon-thumbs-up')) {
+		  _gas.push(['_trackEvent', 'Voting', 'Yes', docTitle, 1]);
+		  console.log('Voting "YES" for page: ' + docTitle);
+		} else if(e && $(e).hasClass('icon-thumbs-down')) {
+                  // Using gaq due to bug in gas
+ 		  _gaq.push(['_trackEvent', 'Voting', 'No', docTitle, -1]);
+		  console.log('Voting "NO" for page: ' + docTitle);
+		}
+	  });
+	  
+	  // Error page
+	  if ($('.errorPage').length != 0) {
+        var errCode = getErrorCode($(this).attr('class'));
+        _gas.push(['_trackPageview','/' + errCode + '.jsp?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer]);
+		console.log("Page error " + '_trackPageview','/' + errCode + '.jsp?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer);
+	  }
+	  
+	  /**
+	   * Get the error code if available.
+	   */
+	  function getErrorCode(classes) {
+		  var regExpErrCode = /.*error_code_(\w+).*/;
+		  
+		  if (classes && classes.match(regExpErrCode)) {
+            return classes.replace(regExpErrCode, $1);
+		  }
+		  return "";
+	  }
+	  
+	  /**
+	   * Get the h2 text from the teaser.
+	   */
+	  function findTeaserH2Text(e) {
+		  if (e.find('h2 a').html()) {
+			  return quoteReplace(e.find('h2 a').html());
+		  } else if (e.find('h2').html()) {
+			  return quoteReplace(e.find('h2').html());
+		  } else {
+			  return "";
+		  }
+	  }
+	  
+	  /**
+	   * Replace quotes from the given string.
+	   */
+	  function quoteReplace(s) {
+	      if (s) {
+			  s = s.replace(/\'/g,"\\'");
+		  }
+	      return s;
+	  }
+	  
+	  /**
+	   * Get the document title.
+	   */
+	  function getDocumentTitle() {
+		  return quoteReplace(document.title.replace('KTH | ',''));
+	  }
+	  
+});</script>  
+   <link href="http://www.kth.se/" rel="canonical">          
+<link rel="alternate" href="/aktuellt/nyheter?rss=news" type="application/rss+xml" hreflang="sv-SE" title="Nyheter från KTH">          
+<link rel="alternate" href="/aktuellt/kalender?rss=calendar" type="application/rss+xml" hreflang="sv-SE" title="KTH-kalendern">          
+<link rel="alternate" href="http://www.kth.se/en" type="text/html" hreflang="en-UK" title="This page in English">          
+<link rel="alternate" href="/?rss=navigation" type="application/rss+xml" hreflang="sv-SE" title="Meny - Välkommen till KTH">         <!-- kljshfask23df5d42d35drhaskfbgas4dugw43q2gsf5ydawb4q246bf87w6bq64 -->
+
+<style type="text/css">
+.block.html.geolocation { display: none; }
+</style>   <script type="text/javascript">(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = '/script/v/7.3/lib/gas-1.10.1.min.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();</script>
+</head>
+           
+<body class="defaultTheme  hideMainMenu startDepartment lang-sv">
+<div id="fb-root"></div>
+<div class="content" id="page">         
+<header>
+<div id="header" class="header"> 
+<div id="primaryHeader" class="primaryHeader">       <div class="tlc cid-1_77257 block figure defaultTheme mainLogo">      
+<div class="imageWrapper">   <a href="/"><img src="/polopoly_fs/1.77257!/image/logo-main-2013.png" alt="KTH:s logotyp" height="70" width="70" title="KTH:s logotyp"></a>    
+</div> 
+ </div> 
+          
+<div class="blockItemSeparator blockItemSeparatorIndex0"><span class="blockItemSeparatorInner"></span></div>
+         <div class="tlc cid-1_77262 block search  verbier">   
+<form class="form search" id="search-XnxnhvJfLyDxNCmPpIoNTKLje-searchForm" method="GET" action="https://www.kth.se/search/search">
+<fieldset class="" id="search-XnxnhvJfLyDxNCmPpIoNTKLje-searchFieldset">  
+<input type="hidden" class="parameters" name="l" value="sv">      
+<button title="Sök på alla KTH:s webbplatser" class="button filter" id="search-XnxnhvJfLyDxNCmPpIoNTKLje-filterButton" type="button"></button>
+<div class="q_field">
+<div class="input">
+<input id="search-XnxnhvJfLyDxNCmPpIoNTKLje-q" class="q" accesskey="s" type="text" size="26" maxlength="2048"  name="q" placeholder="Sök bland kurser, personer, platser m m..." />
+</div>
+</div>
+<button title="Rensa inmatningsfältet" id="search-XnxnhvJfLyDxNCmPpIoNTKLje-clearButton" type="button" class="button clear "></button>
+</fieldset> 
+<input type="submit" value="Sök" class="button search">
+</form>
+<script type="text/javascript">
+$(document).ready(function() {
+if ($("#search-XnxnhvJfLyDxNCmPpIoNTKLje-q").val() != "") {
+$("#search-XnxnhvJfLyDxNCmPpIoNTKLje-clearButton").addClass("visible");
+$("#search-XnxnhvJfLyDxNCmPpIoNTKLje-searchFieldset").addClass("hasText");
+}
+$("#search-XnxnhvJfLyDxNCmPpIoNTKLje-clearButton").click(function(e){
+$("#search-XnxnhvJfLyDxNCmPpIoNTKLje-q").val("");
+$(this).removeClass("visible");
+$('#search-XnxnhvJfLyDxNCmPpIoNTKLje-searchFieldset').removeClass('hasText');
+e.preventDefault();
+$('#search-XnxnhvJfLyDxNCmPpIoNTKLje-q').focus();
+});
+$("#search-XnxnhvJfLyDxNCmPpIoNTKLje-q").on("keyup", function(e) {
+if ($("#search-XnxnhvJfLyDxNCmPpIoNTKLje-q").val() != "") {
+$("#search-XnxnhvJfLyDxNCmPpIoNTKLje-clearButton").addClass("visible");
+$("#search-XnxnhvJfLyDxNCmPpIoNTKLje-searchFieldset").addClass("hasText");
+} else {
+$("#search-XnxnhvJfLyDxNCmPpIoNTKLje-clearButton").removeClass("visible");
+}
+});
+$("#search-XnxnhvJfLyDxNCmPpIoNTKLje-filterButton").click(function(e){
+$(".filterParameter").remove();
+$("#search-XnxnhvJfLyDxNCmPpIoNTKLje-searchFieldset").removeClass("filterd");
+$(this).hide();
+});
+});
+</script>   
+<script type="text/javascript">
+(function() {
+var se = document.createElement('script');
+se.type = 'text/javascript';
+se.async = true;
+se.src = 'https://www.kth.se/search/search/searchboxautocomplete.js';
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(se, s);
+})();
+$(document).ready(function() {
+if ($.fn.searchboxautocomplete) {
+$('#search-XnxnhvJfLyDxNCmPpIoNTKLje-q').searchboxautocomplete({ searchFormId: "#search-XnxnhvJfLyDxNCmPpIoNTKLje-searchForm", searchInputId : "#search-XnxnhvJfLyDxNCmPpIoNTKLje-q", filterButtonId : "#search-XnxnhvJfLyDxNCmPpIoNTKLje-filterButton" });
+}
+});
+</script>     </div>          
+<div class="blockItemSeparator blockItemSeparatorIndex1"><span class="blockItemSeparatorInner"></span></div>
+         <div class="tlc cid-1_390940 block html geolocation country CN"> <div class="tlc cid-1_390872 block teaser  color blue top  noMedia">
+		<div class="teaserText">
+			<div class="teaserTextInner">
+				<div class="paragraphs">
+					<p>
+						<em>Please visit our Chinese web site for more information about Master´s studies</em></p>
+				</div>
+				<div class="mainLink ">
+<span class="arrow"></span>
+					<a target="_blank" href="http://www.china.kth.se" class="standardLink">请访问我们的中文网站以获得更多关于研究生学习的信息</a></div>
+			</div>
+		</div>
+	</div>
+
+<style type="text/css">
+.cid-1_390940 {
+  width: 100%;
+  padding-top: 20px;
+}
+
+.block.teaser.color.blue.top.noMedia.cid-1_390872 {
+  width: 100%;
+  background-color: #9C102D;
+}
+
+.block.html.geolocation { display: none; }
+
+</style> </div>           
+<div class="blockItemSeparator blockItemSeparatorIndex2"><span class="blockItemSeparatorInner"></span></div>
+         
+<nav class="nav">  <div class="tlc cid-1_260064 block megaMenu  menuItemSize6" id="megaMenu">
+<span id="propertiesMegaMenu"></span>
+<ul class="menu"> 
+<li class="item menuItem1 using6MenuItems noJavascript" id="menu-group-1-260064-546370963_item">
+<script type="text/javascript">
+$("#menu-group-1-260064-546370963_item").data('menuItemContentId', "#menu-group-1-260064-546370963_menuItemContent");
+</script> 
+<h3 class="headerItem " id="menu-group-1-260064-546370963_header">   <a href="/utbildning" class="megaMenuHeaderItemLink "><span class="arrow"></span>UTBILDNING</a>   
+</h3> 
+<div id="menu-group-1-260064-546370963_menuItemContent" class="menuItemContent">
+<span class="pointerArrow"></span>
+<div class="megaMenuBody">
+<div class="megaMenuBodyInner">        <div class="tlc cid-1_202243 block columnSplitter  using4columns noLabel">
+<div class="columns"> 
+<div class="column column1">
+<div class="columnInner">        <div class="tlc cid-1_205479 block list links defaultTheme"> 
+<h3>Program</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/utbildning/program/arkitekt" class="standardLink">Arkitekt</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/program/civilingenjor" class="standardLink">Civilingenjör</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/program/hogskoleingenjor" class="standardLink">Högskoleingenjör</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/program/kandidatutbildning" class="standardLink">Kandidatutbildning</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/program/lararutbildning" class="standardLink">Lärarutbildning</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/utbildning/program/hogskoleutbildning" class="standardLink">Högskoleutbildning</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/program/teknisk-basutbildning" class="standardLink">Teknisk basutbildning</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/program/master-magisterutbildning" class="standardLink">Master- och magisterutbildning</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/utbildning/forskarutbildning" class="standardLink">Doktorsprogram</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column2">
+<div class="columnInner">        <div class="tlc cid-1_205568 block list links defaultTheme"> 
+<h3>Övrig utbildning</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="http://www.edab.kth.se/" class="standardLink">Uppdragsutbildning för företag</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/vidareutbildning" class="standardLink">Vidareutbildning för yrkesverksamma</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/kurser" class="standardLink">Kurser för fristående studerande</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kthexecutiveschool.se/" class="standardLink">KTH Executive school</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/natbaserat" class="standardLink">Nätbaserad utbildning</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column3">
+<div class="columnInner">        <div class="tlc cid-1_205604 block list links defaultTheme"> 
+<h3>Plugga på KTH</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/utbildning/anmalan-antagning-behorighet" class="standardLink">Anmälan och antagning</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/studier" class="standardLink">Att plugga på KTH</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/studentliv" class="standardLink">Livet som student</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/studier/elitidrott" class="standardLink">Elitidrott och studier</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/studier/studera-utomlands-1.340842" class="standardLink">Studera utomlands</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/arbetsliv" class="standardLink">Arbetsliv</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/faq" class="standardLink">Frågor och svar</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/utbildning/traffakth" class="standardLink">Träffa KTH</a></li> 
+<li><span class="arrow"></span> <a href="/utbildning/kontakt" class="standardLink">Kontakt</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column4">
+<div class="columnInner">           <div class="tlc cid-1_326548 block teaser   leftFloating  noMedia">     
+<div class="teaserText">
+<div class="teaserTextInner">      
+<h2><a href="/student/nypakth">Ny på KTH</a></h2>             
+<div class="paragraphs">      <div class="tlc cid-1_326550 block figure ">      
+<div class="imageWrapper">    <img src="/polopoly_fs/1.326550!/image/_mg_210_128.jpg" alt="" height="128" width="210">   
+</div> 
+ </div> 
+<p>
+	Är du nyantagen och har en massa frågor? Här hittar du viktig information om just ditt program, upprop, inskrivning, kontaktuppgifter.</p>
+</div> 
+  
+<div class="mainLink "> <span class="arrow"></span> <a href="/student/nypakth" class="standardLink">Ny på KTH</a>
+</div> 
+</div>
+</div> </div>
+  
+</div>
+</div> 
+</div> </div> 
+ 
+</div>
+</div>
+</div> 
+</li>   
+<li class="item menuItem2 using6MenuItems noJavascript" id="menu-group-1-260064-658370890_item">
+<script type="text/javascript">
+$("#menu-group-1-260064-658370890_item").data('menuItemContentId', "#menu-group-1-260064-658370890_menuItemContent");
+</script> 
+<h3 class="headerItem " id="menu-group-1-260064-658370890_header">   <a href="/student" class="megaMenuHeaderItemLink "><span class="arrow"></span>STUDENT PÅ KTH</a>   
+</h3> 
+<div id="menu-group-1-260064-658370890_menuItemContent" class="menuItemContent">
+<span class="pointerArrow"></span>
+<div class="megaMenuBody">
+<div class="megaMenuBodyInner">        <div class="tlc cid-1_202248 block columnSplitter  using4columns noLabel">
+<div class="columns"> 
+<div class="column column1">
+<div class="columnInner">        <div class="tlc cid-1_352740 block list links defaultTheme"> 
+<h3>Dina studier</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/student/schema" class="standardLink">Schema</a></li> 
+<li><span class="arrow"></span> <a href="/student/kurser" class="standardLink">Kurs- och programkatalogen</a></li> 
+<li><span class="arrow"></span> <a href="/student/program" class="standardLink">Under programstudierna</a></li> 
+<li><span class="arrow"></span> <a href="/student/kurs" class="standardLink">Inför och under en kurs</a></li> 
+<li><span class="arrow"></span> <a href="/student/studievagledning-kontakt" class="standardLink">Studievägledare och kanslier</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column2">
+<div class="columnInner">        <div class="tlc cid-1_205988 block list links defaultTheme">  
+<ul> 
+<li><span class="arrow"></span> <a href="/student/studentliv" class="standardLink">Stöd och studentliv</a></li> 
+<li><span class="arrow"></span> <a href="/student/kartor-adresser" class="standardLink">Kartor och adresser</a></li> 
+<li><span class="arrow"></span> <a href="/student/support" class="standardLink">IT-support och datorer</a></li> 
+<li><span class="arrow"></span> <a href="/student/framtid" class="standardLink">Framtid och karriär</a></li> 
+<li><span class="arrow"></span> <a href="/kthb" class="standardLink">KTH Biblioteket</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column3">
+<div class="columnInner">           <div class="tlc cid-1_205996 block teaser   top  image">   
+<div class="teaserImage">   <a href="/student"><img src="/polopoly_fs/1.205997!/image/studenter_i_forelasningssal.jpg" alt="" height="85" width="175"></a>   
+</div>   
+<div class="teaserText">
+<div class="teaserTextInner">      
+<h2><a href="/student">Få information från just ditt program</a></h2>             
+<div class="paragraphs"> <p>
+	Välj programtillhörighet på studentwebben.</p>
+</div> 
+  
+<div class="mainLink "> <span class="arrow"></span> <a href="/student" class="standardLink">Student på KTH</a>
+</div> 
+</div>
+</div> </div>
+  
+</div>
+</div> 
+<div class="column column4">
+<div class="columnInner">           <div class="tlc cid-1_326548 block teaser   leftFloating  noMedia">     
+<div class="teaserText">
+<div class="teaserTextInner">      
+<h2><a href="/student/nypakth">Ny på KTH</a></h2>             
+<div class="paragraphs">      <div class="tlc cid-1_326550 block figure ">      
+<div class="imageWrapper">    <img src="/polopoly_fs/1.326550!/image/_mg_210_128.jpg" alt="" height="128" width="210">   
+</div> 
+ </div> 
+<p>
+	Är du nyantagen och har en massa frågor? Här hittar du viktig information om just ditt program, upprop, inskrivning, kontaktuppgifter.</p>
+</div> 
+  
+<div class="mainLink "> <span class="arrow"></span> <a href="/student/nypakth" class="standardLink">Ny på KTH</a>
+</div> 
+</div>
+</div> </div>
+  
+</div>
+</div> 
+</div> </div> 
+ 
+</div>
+</div>
+</div> 
+</li>   
+<li class="item menuItem3 using6MenuItems noJavascript" id="menu-group-1-260064-288186056_item">
+<script type="text/javascript">
+$("#menu-group-1-260064-288186056_item").data('menuItemContentId', "#menu-group-1-260064-288186056_menuItemContent");
+</script> 
+<h3 class="headerItem " id="menu-group-1-260064-288186056_header">   <a href="/forskning" class="megaMenuHeaderItemLink "><span class="arrow"></span>FORSKNING</a>   
+</h3> 
+<div id="menu-group-1-260064-288186056_menuItemContent" class="menuItemContent">
+<span class="pointerArrow"></span>
+<div class="megaMenuBody">
+<div class="megaMenuBodyInner">        <div class="tlc cid-1_202244 block columnSplitter  using4columns noLabel">
+<div class="columns"> 
+<div class="column column1">
+<div class="columnInner">        <div class="tlc cid-1_205423 block list links defaultTheme"> 
+<h3>Forskningsplattformar</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/forskning/forskningsplattformar/forskningsplattformar-1.38176" class="standardLink">Om forskningsplattformarna</a></li> 
+<li><span class="arrow"></span> <a href="/forskning/forskningsplattformar/energy" class="standardLink">Energi</a></li> 
+<li><span class="arrow"></span> <a href="/forskning/forskningsplattformar/ict" class="standardLink">Informations- och kommunikationsteknologi</a></li> 
+<li><span class="arrow"></span> <a href="/forskning/forskningsplattformar/lifescience" class="standardLink">Life Science Technology</a></li> 
+<li><span class="arrow"></span> <a href="/forskning/forskningsplattformar/material" class="standardLink">Material</a></li> 
+<li><span class="arrow"></span> <a href="/forskning/forskningsplattformar/transport" class="standardLink">Transport</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column2">
+<div class="columnInner">        <div class="tlc cid-1_205489 block list links defaultTheme"> 
+<h3>Forskningssatsningar</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/forskning/sarskilda-forskningssatsningar/centrumbildningar-1.11756" class="standardLink">Centrumbildningar</a></li> 
+<li><span class="arrow"></span> <a href="/forskning/sarskilda-forskningssatsningar/eit-1.63977" class="standardLink">European Institute of Innovation and Technology, EIT</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/forskning/forskning-miljo-hallbar-utveckling" class="standardLink">Forskning för miljö och hållbar utveckling</a></li> 
+</ul>  </div>
+  
+<div class="columnItemSeparator columnItemSeparatorIndex"><span class="columnItemSeparatorInner"></span></div>          <div class="tlc cid-1_261153 block list links defaultTheme"> 
+<h3>Kontakt</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/forskning/research-office" class="standardLink">Research Office</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column3">
+<div class="columnInner">        <div class="tlc cid-1_204845 block html "> <div class="cssHacks megaMenuListHeaderHeight"></div> </div>   
+<div class="columnItemSeparator columnItemSeparatorIndex"><span class="columnItemSeparatorInner"></span></div>          <div class="tlc cid-1_273291 block list links defaultTheme">  
+<ul> 
+<li><span class="arrow"></span> <a href="http://kth.diva-portal.org/smash/search.jsf" class="standardLink">KTH:s vetenskapliga publikationer</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column4">
+<div class="columnInner">         <div class="tlc cid-1_205562 block calendar">
+<h3>Forskningskalendern</h3>
+<ul class="listing">         
+<li class="odd">
+<div class="vevent">    
+<span class="dtstart date day"> 26 </span>
+<div class="dtstart date month"> augusti</div>
+<div class="dtstart date startDay">        måndag, 09:00    
+ </div>   
+<div class="calendarContent"> 
+<span class="topic">Disputationer </span>  
+<span class="empty"> Björn Hasselgren
+</span>  <a href="/forskning/kalender/government-s-role-for-transport-infrastructure-historical-development-and-theoretical-approaches-1.390395" class="calendarEventLink summary">Government´s Role for Transport Infrastructure - Historical Development and Theoretical Approaches</a>
+</div>
+</div>
+</li>       
+<li class="even">
+<div class="vevent">    
+<span class="dtstart date day"> 29 </span>
+<div class="dtstart date month"> augusti</div>
+<div class="dtstart date startDay">       to 2013-08-29  12:00 
+- fr 2013-08-30  12:00    
+ </div>   
+<div class="calendarContent"> 
+<span class="topic">Konferenser och evenemang </span>   <a href="/forskning/kalender/ipack-center-annual-workshop-2013-1.407623" class="calendarEventLink summary">iPack Center Annual Workshop 2013</a>
+</div>
+</div>
+</li>    
+</ul>  </div>
+  
+</div>
+</div> 
+</div> </div> 
+ 
+</div>
+</div>
+</div> 
+</li>   
+<li class="item menuItem4 using6MenuItems noJavascript" id="menu-group-1-260064-331694763_item">
+<script type="text/javascript">
+$("#menu-group-1-260064-331694763_item").data('menuItemContentId', "#menu-group-1-260064-331694763_menuItemContent");
+</script> 
+<h3 class="headerItem " id="menu-group-1-260064-331694763_header">   <a href="/samverkan" class="megaMenuHeaderItemLink "><span class="arrow"></span>SAMVERKAN</a>   
+</h3> 
+<div id="menu-group-1-260064-331694763_menuItemContent" class="menuItemContent">
+<span class="pointerArrow"></span>
+<div class="megaMenuBody">
+<div class="megaMenuBodyInner">        <div class="tlc cid-1_202245 block columnSplitter  using3columns noLabel">
+<div class="columns"> 
+<div class="column column1">
+<div class="columnInner">        <div class="tlc cid-1_204971 block list links defaultTheme"> 
+<h3>Samverka med KTH</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/samverkan" class="standardLink">KTH Näringslivssamverkan</a></li> 
+<li><span class="arrow"></span> <a href="/forskning/sarskilda-forskningssatsningar/centrumbildningar-1.11756" class="standardLink">Centrumbildningar</a></li> 
+<li><span class="arrow"></span> <a href="/forskning/forskningsplattformar" class="standardLink">Strategiska forskningsplattformar</a></li> 
+<li><span class="arrow"></span> <a href="/innovation" class="standardLink">KTH Innovation</a></li> 
+<li><span class="arrow"></span> <a href="/om/skolsamarbete" class="standardLink">Samverkan med grund- och gymnasieskolan</a></li> 
+<li><span class="arrow"></span> <a href="/om/internationellt" class="standardLink">Internationellt samarbete</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column2">
+<div class="columnInner">        <div class="tlc cid-1_204980 block list links defaultTheme"> 
+<h3>Utbildningar för näringslivet</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="http://www.kthexecutiveschool.se/" class="standardLink">KTH Executive School AB</a></li> 
+<li><span class="arrow"></span> <a href="http://www.edab.kth.se/" class="standardLink">Uppdragsutbildning (KTH Education)</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/utbildning/vidareutbildning" class="standardLink">Vidareutbildning för yrkesverksamma (KTH Education)</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column3">
+<div class="columnInner">        <div class="tlc cid-1_204989 block list links defaultTheme"> 
+<h3>Kompetensförsörjning</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/exjobb" class="standardLink">KTH Exjobbportal</a></li> 
+<li><span class="arrow"></span> <a href="/samverkan/kompetensforsorjning/rekrytering" class="standardLink">Rekrytera studenter och alumner</a></li> 
+</ul>  </div>
+  
+<div class="columnItemSeparator columnItemSeparatorIndex"><span class="columnItemSeparatorInner"></span></div>          <div class="tlc cid-1_205473 block list links defaultTheme"> 
+<h3>Alumni och donationer</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/alumni" class="standardLink">KTH Alumni</a></li> 
+<li><span class="arrow"></span> <a href="/stod-kth" class="standardLink">Stöd KTH</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+</div> </div> 
+ 
+</div>
+</div>
+</div> 
+</li>   
+<li class="item menuItem5 using6MenuItems noJavascript" id="menu-group-1-260064-76026620_item">
+<script type="text/javascript">
+$("#menu-group-1-260064-76026620_item").data('menuItemContentId', "#menu-group-1-260064-76026620_menuItemContent");
+</script> 
+<h3 class="headerItem " id="menu-group-1-260064-76026620_header">   <a href="/om/organisation" class="megaMenuHeaderItemLink "><span class="arrow"></span>ORGANISATION</a>   
+</h3> 
+<div id="menu-group-1-260064-76026620_menuItemContent" class="menuItemContent">
+<span class="pointerArrow"></span>
+<div class="megaMenuBody">
+<div class="megaMenuBodyInner">        <div class="tlc cid-1_202247 block columnSplitter  using4columns noLabel">
+<div class="columns"> 
+<div class="column column1">
+<div class="columnInner">        <div class="tlc cid-1_204825 block list links defaultTheme"> 
+<h3>KTH:s skolor</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/abe" class="standardLink">Arkitektur och samhällsbyggnad</a></li> 
+<li><span class="arrow"></span> <a href="/bio" class="standardLink">Bioteknologi</a></li> 
+<li><span class="arrow"></span> <a href="/csc" class="standardLink">Datavetenskap och kommunikation</a></li> 
+<li><span class="arrow"></span> <a href="/ees" class="standardLink">Elektro- och systemteknik</a></li> 
+<li><span class="arrow"></span> <a href="/itm" class="standardLink">Industriell teknik och management</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column2">
+<div class="columnInner">        <div class="tlc cid-1_204845 block html "> <div class="cssHacks megaMenuListHeaderHeight"></div> </div>   
+<div class="columnItemSeparator columnItemSeparatorIndex"><span class="columnItemSeparatorInner"></span></div>          <div class="tlc cid-1_204846 block list links defaultTheme">  
+<ul> 
+<li><span class="arrow"></span> <a href="/ict" class="standardLink">Informations- och kommunikationsteknik</a></li> 
+<li><span class="arrow"></span> <a href="/che" class="standardLink">Kemivetenskap</a></li> 
+<li><span class="arrow"></span> <a href="/sth" class="standardLink">Teknik och hälsa</a></li> 
+<li><span class="arrow"></span> <a href="/sci" class="standardLink">Teknikvetenskap</a></li> 
+<li><span class="arrow"></span> <a href="/ece" class="standardLink">Teknikvetenskaplig kommunikation och lärande</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column3">
+<div class="columnInner">        <div class="tlc cid-1_204853 block list links defaultTheme"> 
+<h3>Övriga enheter</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/kthb" class="standardLink">KTH Biblioteket</a></li> 
+<li><span class="arrow"></span> <a href="/forskning/sarskilda-forskningssatsningar/centrumbildningar-1.11756" class="standardLink">Centrumbildningar</a></li> 
+<li><span class="arrow"></span> <a href="http://www.albanova.se/index.php?apilang=sv_SE&amp;q=an/hem" class="standardLink">AlbaNova Universitetscentrum</a></li> 
+<li><span class="arrow"></span> <a href="/om/organisation/rektorsgruppen-1.15623" class="standardLink">Rektorsgruppen</a></li> 
+<li><span class="arrow"></span> <a href="/om/organisation/kths-fakultetsrad" class="standardLink">Fakultetsrådet</a></li> 
+<li><span class="arrow"></span> <a href="/om/organisation/uf" class="standardLink">Universitetsförvaltningen</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column4">
+<div class="columnInner">           <div class="tlc cid-1_205851 block teaser   leftFloating  noMedia">     
+<div class="teaserText">
+<div class="teaserTextInner">       
+<h2>Sök anställd</h2>            
+<div class="paragraphs">       <div class="tlc cid-1_205852 block html "> <form action="https://www.kth.se/gemensamt/sok-anstalld/">
+<label for="givenName">Förnamn</label>
+<input id="givenName" name="givenName" type="text" style="width:170px">
+
+<label for="familyName">Efternamn</label>
+<input id="familyName" name="familyName" type="text" style="width:170px"><br>
+
+<label for="phone">Telefon</label>
+<input id="phone" name="phone" type="text" style="width:170px"><br>
+
+<input name="_eventId_search" value="Sök" class="submit" type="submit">
+
+
+</form>
+ </div> 
+</div> 
+  
+</div>
+</div> </div>
+  
+</div>
+</div> 
+</div> </div> 
+ 
+</div>
+</div>
+</div> 
+</li>   
+<li class="item menuItem6 using6MenuItems noJavascript" id="menu-group-1-260064-753176041_item">
+<script type="text/javascript">
+$("#menu-group-1-260064-753176041_item").data('menuItemContentId', "#menu-group-1-260064-753176041_menuItemContent");
+</script> 
+<h3 class="headerItem " id="menu-group-1-260064-753176041_header">   <a href="/om" class="megaMenuHeaderItemLink "><span class="arrow"></span>OM KTH</a>   
+</h3> 
+<div id="menu-group-1-260064-753176041_menuItemContent" class="menuItemContent">
+<span class="pointerArrow"></span>
+<div class="megaMenuBody">
+<div class="megaMenuBodyInner">        <div class="tlc cid-1_202246 block columnSplitter  using4columns noLabel">
+<div class="columns"> 
+<div class="column column1">
+<div class="columnInner">        <div class="tlc cid-1_205784 block list links defaultTheme"> 
+<h3>Kontakt</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/om/work-at-kth" class="standardLink">Att jobba på KTH</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/blogs/rektor" class="standardLink">Rektors veckobrev</a></li> 
+<li><span class="arrow"></span> <a href="/om/press" class="standardLink">Press och media</a></li> 
+<li><span class="arrow"></span> <a href="/om/kontakt" class="standardLink">Kontakt med KTH</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column2">
+<div class="columnInner">        <div class="tlc cid-1_205791 block list links defaultTheme"> 
+<h3>Fakta</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/om/kartor-adresser" class="standardLink">Kartor och adresser</a></li> 
+<li><span class="arrow"></span> <a href="/om/fakta" class="standardLink">Fakta och siffror</a></li> 
+<li><span class="arrow"></span> <a href="/om/organisation" class="standardLink">KTH:s organisation</a></li> 
+<li><span class="arrow"></span> <a href="/om/miljo-hallbar-utveckling" class="standardLink">Miljö och hållbar utveckling</a></li> 
+<li><span class="arrow"></span> <a href="/aktuellt" class="standardLink">Aktuellt på KTH</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column3">
+<div class="columnInner">        <div class="tlc cid-1_205839 block list links defaultTheme"> 
+<h3>Samarbete</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/om/skolsamarbete" class="standardLink">Skolsamarbete</a></li> 
+<li><span class="arrow"></span> <a href="/om/internationellt" class="standardLink">Internationellt samarbete</a></li> 
+<li><span class="arrow"></span> <a href="/om/naringsliv" class="standardLink">Näringslivssamverkan</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column4">
+<div class="columnInner">           <div class="tlc cid-1_205851 block teaser   leftFloating  noMedia">     
+<div class="teaserText">
+<div class="teaserTextInner">       
+<h2>Sök anställd</h2>            
+<div class="paragraphs">       <div class="tlc cid-1_205852 block html "> <form action="https://www.kth.se/gemensamt/sok-anstalld/">
+<label for="givenName">Förnamn</label>
+<input id="givenName" name="givenName" type="text" style="width:170px">
+
+<label for="familyName">Efternamn</label>
+<input id="familyName" name="familyName" type="text" style="width:170px"><br>
+
+<label for="phone">Telefon</label>
+<input id="phone" name="phone" type="text" style="width:170px"><br>
+
+<input name="_eventId_search" value="Sök" class="submit" type="submit">
+
+
+</form>
+ </div> 
+</div> 
+  
+</div>
+</div> </div>
+  
+</div>
+</div> 
+</div> </div> 
+ 
+</div>
+</div>
+</div> 
+</li>   
+</ul>
+<script type="text/javascript"> var previousMenuItemShowingKey = 'mega-menu-block-1-260064MenuItemShowing'; // The fontFamily attribute on #propertiesMegaMenu is set by the css to indicate
+// that the mega-menus menus should not be shown.
+var viewState = $('#propertiesMegaMenu').css('fontFamily');
+if (viewState == "property-view-state_maximized") {
+$('.bodyWrapper').click(function(event) {
+var previousMenuItemShowing = jQuery.data(document.body, previousMenuItemShowingKey);
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+});
+$('#menu-group-1-260064-546370963_header').click(function(event) {
+var nextMenuItemContentToShow = '#menu-group-1-260064-546370963_menuItemContent';
+if ($(nextMenuItemContentToShow).is(":hidden")) {
+var previousMenuItemShowing = jQuery.data(document.body,
+previousMenuItemShowingKey);
+event.preventDefault();
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+jQuery.data(document.body, previousMenuItemShowingKey,
+nextMenuItemContentToShow);
+$(nextMenuItemContentToShow).show();
+}
+event.stopPropagation();
+});
+} // The fontFamily attribute on #propertiesMegaMenu is set by the css to indicate
+// that the mega-menus menus should not be shown.
+var viewState = $('#propertiesMegaMenu').css('fontFamily');
+if (viewState == "property-view-state_maximized") {
+$('.bodyWrapper').click(function(event) {
+var previousMenuItemShowing = jQuery.data(document.body, previousMenuItemShowingKey);
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+});
+$('#menu-group-1-260064-658370890_header').click(function(event) {
+var nextMenuItemContentToShow = '#menu-group-1-260064-658370890_menuItemContent';
+if ($(nextMenuItemContentToShow).is(":hidden")) {
+var previousMenuItemShowing = jQuery.data(document.body,
+previousMenuItemShowingKey);
+event.preventDefault();
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+jQuery.data(document.body, previousMenuItemShowingKey,
+nextMenuItemContentToShow);
+$(nextMenuItemContentToShow).show();
+}
+event.stopPropagation();
+});
+} // The fontFamily attribute on #propertiesMegaMenu is set by the css to indicate
+// that the mega-menus menus should not be shown.
+var viewState = $('#propertiesMegaMenu').css('fontFamily');
+if (viewState == "property-view-state_maximized") {
+$('.bodyWrapper').click(function(event) {
+var previousMenuItemShowing = jQuery.data(document.body, previousMenuItemShowingKey);
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+});
+$('#menu-group-1-260064-288186056_header').click(function(event) {
+var nextMenuItemContentToShow = '#menu-group-1-260064-288186056_menuItemContent';
+if ($(nextMenuItemContentToShow).is(":hidden")) {
+var previousMenuItemShowing = jQuery.data(document.body,
+previousMenuItemShowingKey);
+event.preventDefault();
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+jQuery.data(document.body, previousMenuItemShowingKey,
+nextMenuItemContentToShow);
+$(nextMenuItemContentToShow).show();
+}
+event.stopPropagation();
+});
+} // The fontFamily attribute on #propertiesMegaMenu is set by the css to indicate
+// that the mega-menus menus should not be shown.
+var viewState = $('#propertiesMegaMenu').css('fontFamily');
+if (viewState == "property-view-state_maximized") {
+$('.bodyWrapper').click(function(event) {
+var previousMenuItemShowing = jQuery.data(document.body, previousMenuItemShowingKey);
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+});
+$('#menu-group-1-260064-331694763_header').click(function(event) {
+var nextMenuItemContentToShow = '#menu-group-1-260064-331694763_menuItemContent';
+if ($(nextMenuItemContentToShow).is(":hidden")) {
+var previousMenuItemShowing = jQuery.data(document.body,
+previousMenuItemShowingKey);
+event.preventDefault();
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+jQuery.data(document.body, previousMenuItemShowingKey,
+nextMenuItemContentToShow);
+$(nextMenuItemContentToShow).show();
+}
+event.stopPropagation();
+});
+} // The fontFamily attribute on #propertiesMegaMenu is set by the css to indicate
+// that the mega-menus menus should not be shown.
+var viewState = $('#propertiesMegaMenu').css('fontFamily');
+if (viewState == "property-view-state_maximized") {
+$('.bodyWrapper').click(function(event) {
+var previousMenuItemShowing = jQuery.data(document.body, previousMenuItemShowingKey);
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+});
+$('#menu-group-1-260064-76026620_header').click(function(event) {
+var nextMenuItemContentToShow = '#menu-group-1-260064-76026620_menuItemContent';
+if ($(nextMenuItemContentToShow).is(":hidden")) {
+var previousMenuItemShowing = jQuery.data(document.body,
+previousMenuItemShowingKey);
+event.preventDefault();
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+jQuery.data(document.body, previousMenuItemShowingKey,
+nextMenuItemContentToShow);
+$(nextMenuItemContentToShow).show();
+}
+event.stopPropagation();
+});
+} // The fontFamily attribute on #propertiesMegaMenu is set by the css to indicate
+// that the mega-menus menus should not be shown.
+var viewState = $('#propertiesMegaMenu').css('fontFamily');
+if (viewState == "property-view-state_maximized") {
+$('.bodyWrapper').click(function(event) {
+var previousMenuItemShowing = jQuery.data(document.body, previousMenuItemShowingKey);
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+});
+$('#menu-group-1-260064-753176041_header').click(function(event) {
+var nextMenuItemContentToShow = '#menu-group-1-260064-753176041_menuItemContent';
+if ($(nextMenuItemContentToShow).is(":hidden")) {
+var previousMenuItemShowing = jQuery.data(document.body,
+previousMenuItemShowingKey);
+event.preventDefault();
+if (previousMenuItemShowing) {
+$(previousMenuItemShowing).hide();
+}
+jQuery.data(document.body, previousMenuItemShowingKey,
+nextMenuItemContentToShow);
+$(nextMenuItemContentToShow).show();
+}
+event.stopPropagation();
+});
+}
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+// The fontFamily attribute on #propertiesMegaMenu is set by the css to indicate
+// that the mega-menus menus should not be shown.
+var viewState = $('#propertiesMegaMenu').css('fontFamily');
+if (viewState == "property-view-state_maximized") {
+$(".block.megaMenu .menu .item").hoverIntent(show, hide);
+$(".block.megaMenu .menu .item.noJavascript").removeClass("noJavascript");
+}
+});
+function show(){
+var property = $('#propertiesMenuItemContent').css('fontFamily');
+if (property == "property-view-state_hide-menu-item-content") {
+return;
+}
+var menuItemContentId = $(this).data("menuItemContentId");
+var menuItemContent = $("" + menuItemContentId);
+if ($.browser.msie) {
+menuItemContent.show();
+} else {
+menuItemContent.fadeIn(400);
+}
+}
+function hide(){
+var menuItemContentId = $(this).data("menuItemContentId");
+var menuItemContent = $("" + menuItemContentId);
+if ($.browser.msie) {
+menuItemContent.hide();
+} else {
+menuItemContent.fadeOut(200);
+}
+}
+</script> </div>
+</nav> 
+    
+<div id="minimizedMenus" class="minimizedMenus">
+<div class="buttons">
+<div id="megaMenuMinimizedButton" class="button open megaMenuButton">
+<span class="icon open"><span id="megaMenuMinimizedButtonLabel">Meny</span></span>
+</div>
+<div id="standardNavigationMinimizedButton" class="button open standardNavigationButton">
+<span class="icon open"><span id="standardNavigationMinimizedButtonLabel">Meny</span></span>
+</div>
+</div>
+<div class="menus">
+<ul id="megaMenuMinimizedPlaceholder" class="minimizedMenuPlaceholder">
+<li class="item label">Meny</li>
+</ul>
+<ul id="standardNavigationMinimizedPlaceholder" class="minimizedMenuPlaceholder">
+<li class="item label">Meny</li>
+</ul>
+</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+$("#minimizedMenus").minimizedMenus();
+});
+</script>
+
+</div>  
+<div id="secondaryHeader" class="secondaryHeader">    <div class="tlc cid-1_260060 block siteName">    <a href="/">Välkommen till KTH</a>   </div>          
+<div class="blockItemSeparator blockItemSeparatorIndex0"><span class="blockItemSeparatorInner"></span></div>
+               <span class="tlc cid-1_272446 block link  localeLink en-UK"><a href="http://www.kth.se/en" hreflang="en-UK" class="localeLink en-UK">In English</a></span>  
+</div> 
+</div>
+</header> 
+     
+
+<div class="bodyWrapper">
+<div class="bodyWrapper2">
+   
+
+ 
+<!-- kljshfask23df5d42d35drhaskfbgas4dugw43q2gsf5ydawb4q246bf87w6bq64 -->      <div class="tlc cid-2_10 content wide" id="content">         
+<div class="mainBlocks hasSecondaryBlocks"> 
+<div id="primaryBlocks" class="primaryBlocks">
+<div class="primaryBlocksInner">       <div class="tlc cid-1_206109 block list group defaultTheme">   
+<div class="blockItem">                      <div class="tlc cid-1_402064 block teaser overlay top color red  image">
+<div class="overlayWrapper">
+<div class="teaserImage">       <img src="/polopoly_fs/1.402077!/image/nypakth1.jpg" alt="" height="300" width="670">     
+</div>
+<div class="teaserText">
+<div class="teaserTextInner">     
+<h2>Nyantagen? Glöm inte det obligatoriska uppropet! </h2>            
+<div class="paragraphs"> <div>
+	
+	      <div class="tlc cid-1_406783 block list links defaultTheme">  
+<ul> 
+<li><span class="arrow"></span> <a href="/student/nypakth/upprop" class="standardLink">Läs mer om upprop och inskrivning</a></li> 
+</ul>  </div>
+
+</div>
+</div> 
+  
+</div>
+</div>
+</div> </div>
+<div class="clearer"></div>
+
+</div>          
+<div class="blockItemSeparator blockItemSeparatorIndex0"><span class="blockItemSeparatorInner"></span></div>
+  
+<div class="blockItem">                      <div class="tlc cid-1_394362 block teaser overlay bottom color blue  image">
+<div class="overlayWrapper">
+<div class="teaserImage">      <a href="http://www.kth.se/blogs/"><img src="/polopoly_fs/1.406733!/image/bloggare-230.jpg" alt="" height="230" width="670"></a>      
+</div>
+<div class="teaserText">
+<div class="teaserTextInner">           
+  
+<div class="mainLink noParagraphs"> <span class="arrow"></span> <a href="http://www.kth.se/blogs/" class="standardLink">Följ våra studentbloggar</a>
+</div> 
+</div>
+</div>
+</div> </div>
+<div class="clearer"></div>
+
+</div>          
+<div class="blockItemSeparator blockItemSeparatorIndex1"><span class="blockItemSeparatorInner"></span></div>
+  
+<div class="blockItem">      <div class="tlc cid-1_276538 block list group defaultTheme">   
+<div class="blockItem">                      <div class="tlc cid-1_407970 block teaser overlay bottom color black  image">
+<div class="overlayWrapper">
+<div class="teaserImage">      <a href="/aktuellt/nyheter/filmar-nar-tunga-stjarnor-kollapsar-1.407812"><img src="/polopoly_fs/1.407971!/image/gammablixt.jpg" alt="" height="350" width="670"></a>      
+</div>
+<div class="teaserText">
+<div class="teaserTextInner">    
+<h2><a href="/aktuellt/nyheter/filmar-nar-tunga-stjarnor-kollapsar-1.407812">Filmar när tunga stjärnor kollapsar</a></h2>             
+<div class="paragraphs"> <p>
+	NYHETER</p><p>
+	Fermisatelliten - ihopknåpad av forskare från KTH, Stockholms universitet och Linnéuniversitet - har som uppgift att samla in information om bland annat gammablixtar.</p>
+</div> 
+  
+<div class="mainLink "> <span class="arrow"></span> <a href="/aktuellt/nyheter/filmar-nar-tunga-stjarnor-kollapsar-1.407812" class="standardLink">Satelliten fyller fem år</a>
+</div> 
+</div>
+</div>
+</div> </div>
+<div class="clearer"></div>
+
+</div>          
+<div class="blockItemSeparator blockItemSeparatorIndex0"><span class="blockItemSeparatorInner"></span></div>
+  
+<div class="blockItem">    <div class="tlc cid-1_388417 block separator dotted"><span class="separatorInner"></span></div>
+
+</div>          
+<div class="blockItemSeparator blockItemSeparatorIndex1"><span class="blockItemSeparatorInner"></span></div>
+  
+<div class="blockItem">       <div class="tlc cid-1_276549 block columnSplitter  using2columns noLabel">
+<div class="columns"> 
+<div class="column column1">
+<div class="columnInner">           <div class="tlc cid-1_407331 block teaser   top  noMedia">     
+<div class="teaserText">
+<div class="teaserTextInner">  
+<h3 class="topic">NYHETER</h3>     
+<h2><a href="/aktuellt/nyheter/sex-kth-innovationer-till-silicon-valley-1.407301">Sex KTH-innovationer till Silicon Valley</a></h2>             
+<div class="paragraphs"> <p>
+	Sex svenska företagbefinner sig i USA och Silicon Valley för att visa vad de går för. De har alla det gemensamt att de på olika sätt har en mycket stark koppling till KTH och jobbar med IT.</p>
+</div> 
+  
+<div class="mainLink "> <span class="arrow"></span> <a href="/aktuellt/nyheter/sex-kth-innovationer-till-silicon-valley-1.407301" class="standardLink">Så ska de maximera möjligheterna att nå framgång i USA</a>
+</div> 
+</div>
+</div> </div>
+  
+</div>
+</div> 
+<div class="column column2">
+<div class="columnInner">           <div class="tlc cid-1_406832 block teaser   leftFloating  image">   
+<div class="teaserImage">   <a href="/aktuellt/nyheter/ny-hundforskning-krossar-myt-1.406806"><img src="/polopoly_fs/1.406834!/image/hund.jpg" alt="" height="277" width="210"></a>   
+</div>   
+<div class="teaserText">
+<div class="teaserTextInner">  
+<h3 class="topic">NYHETER</h3>     
+<h2><a href="/aktuellt/nyheter/ny-hundforskning-krossar-myt-1.406806">Ny hundforskning krossar myt</a></h2>             
+<div class="paragraphs"> <p>
+	Den allmänt vedertagna uppfattningen att den amerikanska urhunden mer eller mindre blivit utraderad av den europeiska kusinen efter det att européer landstigit på kontinenterna har visat sig vara felaktig.</p>
+</div> 
+  
+<div class="mainLink "> <span class="arrow"></span> <a href="/aktuellt/nyheter/ny-hundforskning-krossar-myt-1.406806" class="standardLink">Europeiska hundar har inte konkurrerat ut de amerikanska</a>
+</div> 
+</div>
+</div> </div>
+  
+</div>
+</div> 
+</div> </div> 
+
+</div>    </div>
+
+</div>    </div>
+          
+<div class="blockItemSeparator blockItemSeparatorIndex0"><span class="blockItemSeparatorInner"></span></div>
+         <div class="tlc cid-1_206145 block columnSplitter  using2columns noLabel">
+<div class="columns"> 
+<div class="column column1">
+<div class="columnInner">           <div class="tlc cid-1_206147 block news">
+<h3>Nyheter</h3>
+<ul class="listing">       
+<li class="odd"> <a href="/aktuellt/nyheter/kth-forskare-lar-robotar-samarbeta-1.408199" class="newsLink">KTH-forskare lär robotar samarbeta</a>
+<div class="date">26 aug 2013</div>
+</li>       
+<li class="even"> <a href="/aktuellt/nyheter/filmar-nar-tunga-stjarnor-kollapsar-1.407812" class="newsLink">Filmar när tunga stjärnor kollapsar</a>
+<div class="date">23 aug 2013</div>
+</li>       
+<li class="odd"> <a href="/aktuellt/nyheter/fossilfritt-sverige-ger-arbetstillfallen-1.407581" class="newsLink">Fossilfritt Sverige ger arbetstillfällen</a>
+<div class="date">22 aug 2013</div>
+</li>       
+<li class="even"> <a href="/aktuellt/nyheter/sex-kth-innovationer-till-silicon-valley-1.407301" class="newsLink">Sex KTH-innovationer till Silicon Valley</a>
+<div class="date">21 aug 2013</div>
+</li>       
+<li class="odd"> <a href="/aktuellt/nyheter/ny-hundforskning-krossar-myt-1.406806" class="newsLink">Ny hundforskning krossar myt</a>
+<div class="date">19 aug 2013</div>
+</li>       
+<li class="even"> <a href="/aktuellt/nyheter/kth-lektor-utreder-marksand-digitalradio-1.406308" class="newsLink">KTH-lektor utreder marksänd digitalradio</a>
+<div class="date">15 aug 2013</div>
+</li>       
+<li class="odd"> <a href="/aktuellt/nyheter/kejsarsnitt-kan-orsaka-ibs-1.406104" class="newsLink">Kejsarsnitt kan orsaka IBS</a>
+<div class="date">14 aug 2013</div>
+</li> 
+</ul>  </div>   
+  
+<div class="columnItemSeparator columnItemSeparatorIndex"><span class="columnItemSeparatorInner"></span></div>          <div class="tlc cid-1_299416 block list links defaultTheme">  
+<ul> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/aktuellt/nyheter" class="standardLink">Fler nyheter från KTH</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/aktuellt" class="standardLink">Aktuellt</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column2">
+<div class="columnInner">         <div class="tlc cid-1_206151 block calendar">
+<h3>Kalender</h3>
+<ul class="listing">         
+<li class="odd">
+<div class="vevent">    
+<span class="dtstart date day"> 26 </span>
+<div class="dtstart date month"> augusti</div>
+<div class="dtstart date startDay">        måndag, 09:00    
+ </div>   
+<div class="calendarContent"> 
+<span class="topic">Disputationer </span>  
+<span class="empty"> Björn Hasselgren
+</span>  <a href="/aktuellt/kalender/government-s-role-for-transport-infrastructure-historical-development-and-theoretical-approaches-1.390395" class="calendarEventLink summary">Government´s Role for Transport Infrastructure - Historical Development and Theoretical Approaches</a>
+</div>
+</div>
+</li>       
+<li class="even">
+<div class="vevent">    
+<span class="dtstart date day"> 26 </span>
+<div class="dtstart date month"> augusti</div>
+<div class="dtstart date startDay">        måndag, 13:15 
+- 14:00    
+ </div>   
+<div class="calendarContent"> 
+<span class="topic">Exjobbspresentationer </span>   <a href="/aktuellt/kalender/evaluation-of-plume-diagnostics-in-electric-propulsion-testing-1.405366" class="calendarEventLink summary">Evaluation of Plume Diagnostics in Electric Propulsion Testing</a>
+</div>
+</div>
+</li>       
+<li class="odd">
+<div class="vevent">    
+<span class="dtstart date day"> 27 </span>
+<div class="dtstart date month"> augusti</div>
+<div class="dtstart date startDay">        tisdag, 14:00 
+- 15:00    
+ </div>   
+<div class="calendarContent"> 
+<span class="topic">Exjobbspresentationer </span>   <a href="/aktuellt/kalender/debris-estimation-during-a-space-object-atmospheric-re-entry-1.405367" class="calendarEventLink summary">Debris estimation during a space object atmospheric re-entry</a>
+</div>
+</div>
+</li>       
+<li class="even">
+<div class="vevent">    
+<span class="dtstart date day"> 28 </span>
+<div class="dtstart date month"> augusti</div>
+<div class="dtstart date startDay">        onsdag, 11:00    
+ </div>   
+<div class="calendarContent"> 
+<span class="topic">Master thesis presentation </span>  
+<span class="empty"> Martina Zambelli
+</span>  <a href="/aktuellt/kalender/position-regulation-for-unicycle-like-robots-with-prescribed-performance-guarantees-1.406907" class="calendarEventLink summary">Position regulation for unicycle-like robots with prescribed performance guarantees</a>
+</div>
+</div>
+</li>       
+<li class="odd">
+<div class="vevent">    
+<span class="dtstart date day"> 28 </span>
+<div class="dtstart date month"> augusti</div>
+<div class="dtstart date startDay">        onsdag, 13:00 
+- 14:00    
+ </div>   
+<div class="calendarContent"> 
+<span class="topic">Master thesis presentation </span>  
+<span class="empty"> Philipp Heer
+</span>  <a href="/aktuellt/kalender/decentralized-mpc-for-smart-grid-applications-1.406938" class="calendarEventLink summary">Decentralized MPC for smart grid applications</a>
+</div>
+</div>
+</li>    
+</ul> 
+<div class="calendarDepartment">
+<div class="mainLink"> <span class="arrow"></span> <a href="/aktuellt/kalender">Fler händelser på KTH</a>
+</div>
+</div>  </div>
+  
+</div>
+</div> 
+</div> </div> 
+  
+</div>
+</div>  
+<div id="secondaryBlocks" class="secondaryBlocks">
+<div class="secondaryBlocksInner">       <div class="tlc cid-1_206177 block list group defaultTheme">   
+<div class="blockItem">       <div class="tlc cid-1_202257 block list links dottedBorder"> 
+<h3>Ingångar för...</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/utbildning" class="standardLink">Sökande till utbildning</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/student" class="standardLink">Befintliga studenter</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/alumni" class="standardLink">Alumner</a></li> 
+<li><span class="arrow"></span> <a href="/aktuellt/lediga-anstallningar" class="standardLink">Jobbsökande</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/samverkan" class="standardLink">Näringsliv</a></li> 
+<li><span class="arrow"></span> <a href="/om/kartor-adresser" class="standardLink">Besökare</a></li> 
+<li><span class="arrow"></span> <a href="/aktuellt/press" class="standardLink">Press och media</a></li> 
+<li><span class="arrow"></span> <a href="http://intra.kth.se/" class="standardLink">Anställda på KTH</a></li> 
+</ul>  </div>
+
+</div>          
+<div class="blockItemSeparator blockItemSeparatorIndex0"><span class="blockItemSeparatorInner"></span></div>
+  
+<div class="blockItem">          <div class="tlc cid-1_407942 block teaser   top  noMedia">     
+<div class="teaserText">
+<div class="teaserTextInner">             
+<div class="paragraphs">       <div class="tlc cid-1_407925 block html "> <iframe src="http://widget.stagram.com/in/KTHstudent/?s=95&w=2&h=2&b=0&p=0" allowtransparency="true" frameborder="0" scrolling="no" style="border:none;overflow:hidden;width:190px; height: 190px" ></iframe> <!-- Webstagram - web.stagram.com -->
+  </div> 
+</div> 
+  
+<div class="mainLink "> <span class="arrow"></span> <a href="http://instagram.com/KTHstudent" class="standardLink">Följ våra studenter på Instagram</a>
+</div> 
+</div>
+</div> </div>
+
+</div>          
+<div class="blockItemSeparator blockItemSeparatorIndex1"><span class="blockItemSeparatorInner"></span></div>
+  
+<div class="blockItem">          <div class="tlc cid-1_381442 block teaser   top  image">   
+<div class="teaserImage">   <a href="http://teknikmatteochnv.se/"><img src="/polopoly_fs/1.381443!/image/tekniklarare.jpg" alt="" height="160" width="670"></a>   
+</div>   
+<div class="teaserText">
+<div class="teaserTextInner">             
+  
+<div class="mainLink noParagraphs"> <span class="arrow"></span> <a href="http://teknikmatteochnv.se/" class="standardLink">Ny lärarutbildning vid KTH: Ämneslärare årskurs 7-9 (teknik)</a>
+</div> 
+</div>
+</div> </div>
+
+</div>          
+<div class="blockItemSeparator blockItemSeparatorIndex2"><span class="blockItemSeparatorInner"></span></div>
+  
+<div class="blockItem">         <div class="tlc cid-1_369439 block teaser   middle image">
+<div class="teaserText">
+<div class="teaserTextInner">       
+<div class="teaserImage">   <a href="/samverkan/projekt/aimday/aimday-transport-4-dec-2013-1.384095"><img src="/polopoly_fs/1.368189!/image/aimday.png" alt="" height="75" width="210"></a>   
+</div>            
+<div class="paragraphs"> <p>
+	Har du en fråga som du vill diskutera med forskare?</p>
+</div> 
+  
+<div class="mainLink "> <span class="arrow"></span> <a href="/samverkan/projekt/aimday/aimday-transport-4-dec-2013-1.384095" class="standardLink">Skicka in din fråga till AIMday Transport</a>
+</div> 
+</div>
+</div> </div>
+
+</div>          
+<div class="blockItemSeparator blockItemSeparatorIndex3"><span class="blockItemSeparatorInner"></span></div>
+  
+<div class="blockItem">          <div class="tlc cid-1_260957 block teaser   top  image">   
+<div class="teaserImage">    <img src="/polopoly_fs/1.260958!/image/gudmundson-670x271.jpg" alt="Peter Gudmundson" height="271" width="670" title="Peter Gudmundson">  
+</div>   
+<div class="teaserText">
+<div class="teaserTextInner">       
+<h2>Rektors veckobrev</h2>            
+<div class="paragraphs"> <p>
+	Peter Gudmundson skriver om frågor som berör KTH. Senaste inlägg:</p>       <div class="tlc cid-1_366031 block rssReader "> 
+<ul class="entries">   
+<li class="entry"><span class="arrow"></span> <a href="http://www.kth.se/blogs/rektor/2013/08/vad-ska-skolorna-gora-2013-16/" class="title">Vad ska skolorna göra 2013-16?</a></li>    
+</ul> </div> 
+
+</div> 
+  
+</div>
+</div> </div>
+
+</div>          
+<div class="blockItemSeparator blockItemSeparatorIndex4"><span class="blockItemSeparatorInner"></span></div>
+  
+<div class="blockItem">       <div class="tlc cid-1_206204 block html "> <div class="block figure ">
+  <div class="content" style="width: 210px">
+    <a href="http://www.kth.se/stod-kth"><img alt="Stöd KTH" height="95" src="/polopoly_fs/1.206196!/image/stod-kth-knapp.png" title="Stöd KTH"  width="210" /></a> 
+  </div>
+</div>
+
+<div class="block list links defaultTheme">
+  <ul class="linkSet">
+    <li><a class="standardLink" href="http://www.kth.se/stod-kth">En investering i morgondagens samhälle</a></li>
+  </ul>
+</div> </div> 
+</div>          
+<div class="blockItemSeparator blockItemSeparatorIndex5"><span class="blockItemSeparatorInner"></span></div>
+  
+<div class="blockItem">          <div class="tlc cid-1_335580 block teaser   top  image">   
+<div class="teaserImage">   <a href="/om/miljo-hallbar-utveckling"><img src="/polopoly_fs/1.335582!/image/fasad-670.jpg" alt="" height="271" width="670"></a>   
+</div>   
+<div class="teaserText">
+<div class="teaserTextInner">      
+<h2><a href="/om/miljo-hallbar-utveckling">Miljö och hållbar utveckling</a></h2>             
+  
+<div class="mainLink noParagraphs"> <span class="arrow"></span> <a href="/om/miljo-hallbar-utveckling" class="standardLink">Läs mer om KTH:s miljöarbete</a>
+</div> 
+</div>
+</div> </div>
+
+</div>    </div>
+  
+</div>
+</div> 
+</div>
+ </div> 
+</div>       
+
+</div>       
+<footer>
+<div id="footer">         <div class="tlc cid-1_202278 block columnSplitter  using4columns noLabel">
+<div class="columns"> 
+<div class="column column1">
+<div class="columnInner">        <div class="tlc cid-1_202279 block list links defaultTheme"> 
+<h3>KTH</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/utbildning" class="standardLink">Utbildning</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/forskning" class="standardLink">Forskning</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/samverkan" class="standardLink">Samverkan</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/om" class="standardLink">Om KTH</a></li> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/student" class="standardLink">Student på KTH</a></li> 
+<li><span class="arrow"></span> <a href="http://intra.kth.se/" class="standardLink">KTH Intranät</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column2">
+<div class="columnInner">        <div class="tlc cid-1_202289 block list links defaultTheme"> 
+<h3>Organisation</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="http://www.kth.se/kthb" class="standardLink">KTH Biblioteket</a></li> 
+<li><span class="arrow"></span> <a href="/om/organisation/skolor" class="standardLink">KTH:s skolor</a></li> 
+<li><span class="arrow"></span> <a href="/om/organisation/centrumbildningar-1.11756" class="standardLink">Centrumbildningar</a></li> 
+<li><span class="arrow"></span> <a href="/om/organisation/rektor-och-prorektor-1.15618" class="standardLink">Rektor</a></li> 
+<li><span class="arrow"></span> <a href="/om/organisation/uf" class="standardLink">Universitetsförvaltningen</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column3">
+<div class="columnInner">        <div class="tlc cid-1_202317 block list links defaultTheme"> 
+<h3>Tjänster</h3>  
+<ul> 
+<li><span class="arrow"></span> <a href="/student/schema" class="standardLink">Schema</a></li> 
+<li><span class="arrow"></span> <a href="/student/kurser" class="standardLink">Kurser och program</a></li> 
+<li><span class="arrow"></span> <a href="https://www.kth.se/social/" class="standardLink">KTH Social</a></li> 
+<li><span class="arrow"></span> <a href="https://webmail.kth.se" class="standardLink">Webmail</a></li> 
+</ul>  </div>
+  
+</div>
+</div> 
+<div class="column column4">
+<div class="columnInner">           <div class="tlc cid-1_260113 block teaser   leftFloating  noMedia">     
+<div class="teaserText">
+<div class="teaserTextInner">       
+<h2>Kontakt</h2>            
+<div class="paragraphs">       <div class="tlc cid-1_202325 block contactInfo">
+<address class="vcard">
+<span class="org">KTH</span>
+<span class="fn">KTH</span>
+<span class="adr">  
+<span class="postalcode">SE-100 44</span>  
+<span class="locality">Stockholm</span>  
+<span class="country-name">Sweden</span>  
+<span class="tel">+46 8 790 60 00</span>   
+</span>
+</address> </div>    <div class="tlc cid-1_391238 block separator space"><span class="separatorInner"></span></div>
+      <div class="tlc cid-1_391235 block list links defaultTheme">  
+<ul> 
+<li><span class="arrow"></span> <a href="/om/kontakt/kontaktformular-1.349416" class="standardLink">Kontakta KTH</a></li> 
+</ul>  </div>
+<table cellpadding="1" cellspacing="1">
+	<tbody>
+		<tr>
+			<td colspan="1" rowspan="1">
+				
+				     <div class="tlc cid-1_391209 block figure ">      
+<div class="imageWrapper">   <a href="http://www.facebook.com/kth"><img src="/polopoly_fs/1.391209!/image/facebook-50.png" alt="KTH på Facebook" height="66" width="60" title="KTH på Facebook"></a>    
+</div> 
+ </div> 
+
+			</td>
+			<td colspan="1" rowspan="1">
+				            <span class="tlc cid-1_391216 block link  standardLink"><a href="http://www.facebook.com/kth" class="standardLink">KTH på Facebook</a></span></td>
+		</tr>
+		<tr>
+			<td colspan="1" rowspan="1">
+				
+				     <div class="tlc cid-1_391591 block figure ">      
+<div class="imageWrapper">   <a href="http://www.youtube.com/kth"><img src="/polopoly_fs/1.391591!/image/youtube-50.png" alt="KTH på YouTube" height="57" width="60" title="KTH på YouTube"></a>    
+</div> 
+ </div> 
+
+			</td>
+			<td colspan="1" rowspan="1">
+				            <span class="tlc cid-1_391596 block link  standardLink"><a href="http://www.youtube.com/kth" class="standardLink">KTH på YouTube</a></span></td>
+		</tr>
+	</tbody>
+</table>
+</div> 
+  
+</div>
+</div> </div>
+  
+</div>
+</div> 
+</div> </div> 
+   
+</div>
+</footer>
+
+</div> 
+</body> 
+</html>
+

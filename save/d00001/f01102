@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Tarsnap - General usage</title>
+<link rel="stylesheet" type="text/css" title="Default style" href="tarsnap.css">
+<link rel="canonical" href="http://www.tarsnap.com/usage.html">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Tarsnap is a secure online backup system for Linux, BSD, OS X, and other UNIX-like operating systems">
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10889726-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    if("http:" == document.location.protocol) {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = 'http://www.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    }
+  })();
+</script>
+</head>
+<body>
+<div class="banner">
+<h1><a href="http://www.tarsnap.com/">Tarsnap</a></h1>
+<p class="tagline">Online backups for the truly paranoid</p>
+<a href="#nav" style="display: none">Navigation menu</a>
+</div>
+<div class="nonbanner">
+<div class="main">
+<div class="onecol">
+  <div class="box">
+    <h3 class="doc">Tarsnap general usage</h3>
+    <div class="boxcontents">
+      <p>
+	The examples here assume that you are using a Tarsnap configuration
+	file including <tt>keyfile</tt> and <tt>cachedir</tt> directives.
+	The sample configuration file provided with Tarsnap specifies these
+	(the default keyfile location is <tt>/root/tarsnap.key</tt>, and the
+	default cache directory location is
+	<tt>/usr/local/tarsnap-cache</tt>).
+      </p>
+      <dl class="examples">
+	<dt>Create an archive named "mybackup" containing <tt>/usr/home</tt>
+	  and <tt>/other/stuff</tt>:</dt>
+	<dd><tt>tarsnap -c -f mybackup /usr/home /other/stuff</tt></dd>
+	<dt>Create another archive a day later from the same directories;
+	  this will be much faster because Tarsnap will recognize and avoid
+	  uploading data which was stored previously:</dt>
+	<dd><tt>tarsnap -c -f anotherbackup /usr/home /other/stuff</tt></dd>
+	<dt>List all the archives which have been stored:</dt>
+	<dd><tt>tarsnap --list-archives</tt></dd>
+	<dt>Delete the first archive, leaving the second archive intact:</dt>
+	<dd><tt>tarsnap -d -f mybackup</tt></dd>
+	<dt>List the files in the "anotherbackup" archive</dt>
+	<dd><tt>tarsnap -tv -f anotherbackup</tt></dd>
+	<dt>Restore two users' home directories</dt>
+	<dd><tt>tarsnap -x -f anotherbackup usr/home/auser
+	  usr/home/anotheruser</tt></dd>
+      </dl>
+      <h4>Tarsnap cache directory</h4>
+      <p>
+	The <tt>tarsnap -c</tt> and <tt>tarsnap -d</tt> (archive creating and
+	deleting) operations use a "cache directory" which allows Tarsnap to
+	identify which blocks of data have been previously stored; this
+	directory is specified via the <tt>cachedir</tt> directive in the
+	Tarsnap configuration file or via the <tt>--cachedir</tt> option to
+	Tarsnap.  If the cache directory is lost or out of date, the
+	<tt>tarsnap -c</tt> and <tt>tarsnap -d</tt> operations will exit with
+	an error message instructing you to run <tt>tarsnap --fsck</tt> to
+	regenerate the cache directory.
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+<div class="leftmargin"><div class="nav" id="nav"><ul class="navtop"><li><a href="index.html">Tarsnap</a></li><li><a href="design.html">Design</a></li><li><a href="https://www.tarsnap.com/download.html">Download</a></li><li><a href="documentation.html">Documentation</a><ul><li><a href="gettingstarted.html">Getting started</a></li><li><a class="current" href="usage.html">General usage</a></li><li><a href="man.html">Man pages</a></li><li><a href="technical.html">Technical details</a></li><li><a href="faq.html">FAQ</a></li></ul></li><li><a href="support.html">Support</a></li><li><a href="https://www.tarsnap.com/account.html">Accounts</a></li></ul></div></div></div>
+</body></html>

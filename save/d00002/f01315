@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Bug #593: Puppet&#x27;s cron type struggles with vixie-cron - Puppet - Puppet Labs</title>
+<meta name="description" content="Redmine" />
+<meta name="keywords" content="issue,bug,tracker" />
+<meta content="authenticity_token" name="csrf-param" />
+<meta content="Vp34brb2np0uDFTQRpXyBjtd2EkqiSozxX8IbGVafRc=" name="csrf-token" />
+<link rel='shortcut icon' href='/favicon.ico?1363307366' />
+<link href="/stylesheets/jquery/jquery-ui-1.8.21.css?1357934870" media="all" rel="stylesheet" type="text/css" />
+<link href="/themes/puppetlabs_redmine_theme/stylesheets/application.css?1358972821" media="all" rel="stylesheet" type="text/css" />
+
+<script src="/javascripts/jquery-1.7.2-ui-1.8.21-ujs-2.0.3.js?1357934870" type="text/javascript"></script>
+<script src="/javascripts/application.js?1357934870" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+$(window).load(function(){ warnLeavingUnsaved('The current page contains unsaved text that will be lost if you leave this page.'); });
+//]]>
+</script>
+
+<link href="/plugin_assets/redmine_vote/stylesheets/stylesheet.css?1358364479" media="screen" rel="stylesheet" type="text/css" />
+<!-- page specific tags -->
+    <link href="http://projects.puppetlabs.com/issues/593.atom" rel="alternate" title="Puppet - Bug #593: Puppet&#x27;s cron type struggles with vixie-cron" type="application/atom+xml" />
+<script src="/javascripts/context_menu.js?1357934869" type="text/javascript"></script><link href="/stylesheets/context_menu.css?1357934869" media="screen" rel="stylesheet" type="text/css" /></head>
+<body class="theme-Puppetlabs redmine theme controller-issues action-show">
+<div id="wrapper">
+<div id="wrapper2">
+<div id="wrapper3">
+<div id="top-menu">
+    <div id="account">
+        <ul><li><a href="/login" class="login">Sign in</a></li>
+<li><a href="/account/register" class="register">Register</a></li></ul>    </div>
+    
+    <ul><li><a href="http://puppetlabs.com" class="puppetlabs">Puppet Labs Site</a></li>
+<li><a href="http://docs.puppetlabs.com" class="documentation">Documentation</a></li>
+<li><a href="http://www.puppetlabs.com/resources/customer-support" class="support">Support</a></li>
+<li><a href="http://www.puppetlabs.com/company/#contact" class="contact">Contact Us</a></li>
+<li><a href="http://www.puppetlabs.com/resources/downloads" class="download">Download</a></li>
+<li><a href="/" class="home">Home</a></li>
+<li><a href="/projects" class="projects">Projects</a></li>
+<li><a href="http://www.redmine.org/guide" class="help">Help</a></li></ul></div>
+
+<div id="header">
+    <div id="quick-search">
+        <form accept-charset="UTF-8" action="/projects/puppet/search" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+        <input name="issues" type="hidden" value="1" />
+        <label for='q'>
+          <a href="/projects/puppet/search" accesskey="4">Search</a>:
+        </label>
+        <input accesskey="f" class="small" id="q" name="q" size="20" type="text" />
+</form>        
+    </div>
+
+    <h1>Puppet</h1>
+
+    <div id="main-menu">
+        <ul><li><a href="/projects/puppet" class="overview">Overview</a></li>
+<li><a href="/projects/puppet/activity" class="activity">Activity</a></li>
+<li><a href="/projects/puppet/roadmap" class="roadmap">Roadmap</a></li>
+<li><a href="/projects/puppet/issues" class="issues selected">Issues</a></li>
+<li><a href="/projects/puppet/wiki" class="wiki">Wiki</a></li></ul>
+    </div>
+</div>
+
+<div id="main" class="">
+    <div id="sidebar">
+          <h3>Issues</h3>
+<a href="/projects/puppet/issues?set_filter=1">View all issues</a><br />
+<a href="/projects/puppet/issues/report">Summary</a><br />
+
+
+
+
+<h3>Custom queries</h3><a href="/projects/puppet/issues?query_id=272" class="query">Accepted but Unowned - Patches Welcome!</a><br /><a href="/projects/puppet/issues?query_id=95" class="query">All tickets</a><br /><a href="/projects/puppet/issues?query_id=289" class="query">Backlog Query</a><br /><a href="/projects/puppet/issues?query_id=98" class="query">Open cron issues</a><br /><a href="/projects/puppet/issues?query_id=304" class="query">Platform Report - 2 Week Activity</a><br /><a href="/projects/puppet/issues?query_id=199" class="query">Puppet Solaris issues</a><br /><a href="/projects/puppet/issues?query_id=107" class="query">Ruby 1.9 Issues</a><br /><a href="/projects/puppet/issues?query_id=145" class="query">Support Customer Tickets</a><br /><a href="/projects/puppet/issues?query_id=177" class="query">Support Tickets</a><br /><a href="/projects/puppet/issues?query_id=262" class="query">Telly Deprecations</a><br /><a href="/projects/puppet/issues?query_id=176" class="query">Tickets - Assigned to Me</a><br /><a href="/projects/puppet/issues?query_id=131" class="query">Tickets - Authored by Me</a><br /><a href="/projects/puppet/issues?query_id=173" class="query">Tickets - By Priority</a><br /><a href="/projects/puppet/issues?query_id=64" class="query">Tickets - In Topic Branch Pending Review</a><br /><a href="/projects/puppet/issues?query_id=147" class="query">Tickets - Top by votes</a><br /><a href="/projects/puppet/issues?query_id=29" class="query">Tickets - Unassigned to a target release</a><br /><a href="/projects/puppet/issues?query_id=19" class="query">Tickets - Unreviewed</a><br /><a href="/projects/puppet/issues?query_id=198" class="query">Tickets - unreviewed and outside SLA</a><br /><a href="/projects/puppet/issues?query_id=208" class="query">Tickets - waiting for action</a><br /><a href="/projects/puppet/issues?query_id=201" class="query">Tickets with simple fixes</a>
+
+
+
+    <div id="watchers">
+      
+<h3>Watchers (7)</h3>
+
+<ul><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/3cbd992adb7bb069dfd0ed86f329b873?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/552" class="user active">Alexey Lapitsky</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/8897fe1be65d245f437d4d45a2681ab6?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/776" class="user active">Dan Carley</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/1698" class="user active">Felix Frank</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/702c996f0e78f2ebb05b927b115fa22b?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/380" class="user active">Nigel Kersten</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/eadada85ce760817d46ff939f2b857a6?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/319" class="user active">Garrett Honeycutt</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/7f7fe07c6402a15a4888c3ba00efca45?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/693" class="user active">eric sorenson</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/78" class="user active">Jeff McCune</a></li></ul>
+
+    </div>
+
+        
+    </div>
+
+    <div id="content">
+        
+        <div class="contextual">
+
+
+<span class="issue-593-watcher"></span>
+
+
+</div>
+
+
+<h2>Bug #593</h2>
+
+<div class="issue status-5 priority-4 priority-default closed details">
+
+  <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/235dfa49055c0a25f2ccfc667a7a6b77?rating=PG&amp;size=50&amp;default=" ssl="false" title="" />
+
+<div class="subject">
+<div><h3>Puppet&#x27;s cron type struggles with vixie-cron</h3></div>
+</div>
+        <p class="author">
+        Added by <a href="/users/58" class="user active">Peter Abrahamsen</a> <a href="/projects/puppet/activity?from=2007-04-17" title="04/17/2007 02:37 am">over 6 years</a> ago.
+        Updated <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:18 pm">4 months</a> ago.
+        </p>
+
+<table class="attributes">
+<tr><th class="status">Status:</th><td class="status">Closed</td><th class="start-date">Start date:</th><td class="start-date"></td></tr><tr><th class="priority">Priority:</th><td class="priority">Normal</td><th class="due-date">Due date:</th><td class="due-date"></td></tr><tr><th class="assigned-to">Assignee:</th><td class="assigned-to">-</td><th class="progress">% Done:</th><td class="progress"><table class="progress" style="width: 80px;"><tr><td class="todo" style="width: 100%;"></td></tr></table><p class="pourcent">0%</p></td></tr><tr><th class="category">Category:</th><td class="category">cron</td><th></th><td></td></tr><tr><th class="fixed-version">Target version:</th><td class="fixed-version"><a href="/versions/371">3.2.0</a></td><th></th><td></td></tr>
+<tr>
+	<th>Affected Puppet version:</th><td>0.25.1</td>
+	<th>Branch:</th><td>https://github.com/puppetlabs/puppet/pull/1479</td>
+</tr>
+<tr>
+	<th>Keywords:</th><td>cronfixit</td>
+</tr>
+
+    <tr><td><b>
+
+
+
+
+    </td></tr>
+
+</table>
+
+<hr />
+<div class="description">
+  <div class="contextual">
+  
+  </div>
+
+  <p><strong>Description</strong></p>
+  <div class="wiki">
+  <p>After making a few changes to my cron job in my manifest, my crontab begins to look like:</p>
+
+<pre>
+# DO NOT EDIT THIS FILE - edit the master and reinstall.
+# (- installed on Thu Apr 12 12:16:01 2007)
+# (Cron version V5.0 -- $Id: crontab.c,v 1.12 2004/01/23 18:56:42 vixie Exp $)
+# HEADER This file was autogenerated at Thu Apr 12 12:16:01 -0700 2007 by puppet.
+# HEADER While it can still be managed manually, it is definitely notrecommended.
+# HEADER Note particularly that the comments starting with 'Puppet Name' should
+# HEADER not be deleted, as doing so could cause duplicate cron jobs.
+# DO NOT EDIT THIS FILE - edit the master and reinstall.
+# (- installed on Wed Apr 11 16:42:40 2007)
+# (Cron version V5.0 -- $Id: crontab.c,v 1.12 2004/01/23 18:56:42 vixie Exp $)
+# DO NOT EDIT THIS FILE - edit the master and reinstall.
+# (- installed on Tue Apr 10 13:49:45 2007)
+# (Cron version V5.0 -- $Id: crontab.c,v 1.12 2004/01/23 18:56:42 vixie Exp $)
+# DO NOT EDIT THIS FILE - edit the master and reinstall.
+# (- installed on Thu Apr  5 17:36:42 2007)
+# (Cron version V5.0 -- $Id: crontab.c,v 1.12 2004/01/23 18:56:42 vixie Exp $)
+# DO NOT EDIT THIS FILE - edit the master and reinstall.
+# (/tmp/crontab.XXXXWxMPKB installed on Thu Apr  5 17:08:07 2007)
+# (Cron version V5.0 -- $Id: crontab.c,v 1.12 2004/01/23 18:56:42 vixie Exp $)
+# Puppet Name: websync
+*/10 * * * * <snip>
+</pre>
+
+
+<p>If puppet would put its notice just before the first job it manages, I think it would avoid this problem.</p>
+
+  </div>
+</div>
+
+
+
+
+
+<hr />
+<div id="relations">
+<div class="contextual">
+</div>
+
+<p><strong>Related issues</strong></p>
+
+<form>
+<table class="list issues">
+<tr class="issue hascontextmenu" id="relation-1046">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="6990" /></td>
+<td class="subject">Blocks 
+    Puppet - 
+    <a href="/issues/6990" class="issue status-8 priority-4 priority-default">Bug #6990</a>: Rehabilitate cron provider
+</td>
+<td class="status">Accepted</td>
+<td class="start_date">04/06/2011</td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+</table>
+</form>
+
+<form accept-charset="UTF-8" action="/issues/593/relations" class="new_relation" data-remote="true" id="new-relation-form" method="post" style="display: none;"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="Vp34brb2np0uDFTQRpXyBjtd2EkqiSozxX8IbGVafRc=" /></div>
+
+
+<p><select id="relation_relation_type" name="relation[relation_type]" onchange="setPredecessorFieldsVisibility();"><option value="relates">Related to</option>
+<option value="duplicates">Duplicates</option>
+<option value="duplicated">Duplicated by</option>
+<option value="blocks">Blocks</option>
+<option value="blocked">Blocked by</option>
+<option value="precedes">Precedes</option>
+<option value="follows">Follows</option>
+<option value="copied_to">Copied to</option>
+<option value="copied_from">Copied from</option></select>
+Issue #<input id="relation_issue_to_id" name="relation[issue_to_id]" size="10" type="text" />
+<span id="predecessor_fields" style="display:none;">
+Delay: <input id="relation_delay" name="relation[delay]" size="3" type="text" /> days
+</span>
+<input name="commit" type="submit" value="Add" />
+<a href="#" onclick="$(&quot;#new-relation-form&quot;).hide();; return false;">Cancel</a>
+</p>
+
+<script type="text/javascript">
+//<![CDATA[
+observeAutocompleteField('relation_issue_to_id', '/issues/auto_complete?project_id=puppet&scope=all')
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setPredecessorFieldsVisibility();
+//]]>
+</script>
+
+</form>
+</div>
+
+</div>
+
+
+<div id="history">
+<h3>History</h3>
+  <div id="change-1183" class="journal has-details">
+    <div id="note-1">
+    <h4><a href="/issues/593#note-1" class="journal-link">#1</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/89ddb77a11819c8165f37f7526193395?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2" class="user active">Luke Kanies</a> <a href="/projects/puppet/activity?from=2007-06-19" title="06/18/2007 09:58 pm">about 6 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>1</i> to <i>2</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-3448" class="journal has-details">
+    <div id="note-2">
+    <h4><a href="/issues/593#note-2" class="journal-link">#2</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/7802746be036f5a33b0992d86d65d3dd?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1" class="user active">Redmine Admin</a> <a href="/projects/puppet/activity?from=2008-06-10" title="06/10/2008 03:13 am">about 5 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>2</i> to <i>Accepted</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-5842" class="journal has-notes has-details">
+    <div id="note-3">
+    <h4><a href="/issues/593#note-3" class="journal-link">#3</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/89ddb77a11819c8165f37f7526193395?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2" class="user active">Luke Kanies</a> <a href="/projects/puppet/activity?from=2009-01-12" title="01/11/2009 10:48 pm">over 4 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Affected Puppet version</strong> set to <i>0.24.7</i></li>
+    </ul>
+    <div class="wiki" id="journal-5842-notes"><p>I swear we fixed this problem a long time ago (which is appropriate, given how old the ticket is), but this will have to wait until a later release, when we can assess all of the cron tickets at once.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-6710" class="journal has-notes has-details">
+    <div id="note-4">
+    <h4><a href="/issues/593#note-4" class="journal-link">#4</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/89ddb77a11819c8165f37f7526193395?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2" class="user active">Luke Kanies</a> <a href="/projects/puppet/activity?from=2009-03-20" title="03/20/2009 05:53 am">over 4 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> changed from <i>0.25.0</i> to <i>2.6.0</i></li>
+    </ul>
+    <div class="wiki" id="journal-6710-notes"><p>Yes, I&rsquo;m bumping again.</p>
+
+<p>Can anyone by chance test this, to make sure it&rsquo;s still broken?  I&rsquo;m so convinced I fixed it already.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-6731" class="journal has-notes">
+    <div id="note-5">
+    <h4><a href="/issues/593#note-5" class="journal-link">#5</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/3cbd992adb7bb069dfd0ed86f329b873?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/552" class="user active">Alexey Lapitsky</a> <a href="/projects/puppet/activity?from=2009-03-22" title="03/22/2009 08:24 am">over 4 years</a> ago</h4>
+
+    <div class="wiki" id="journal-6731-notes"><p>0.24.7 is affected</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-10745" class="journal has-notes">
+    <div id="note-6">
+    <h4><a href="/issues/593#note-6" class="journal-link">#6</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/8897fe1be65d245f437d4d45a2681ab6?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/776" class="user active">Dan Carley</a> <a href="/projects/puppet/activity?from=2009-12-03" title="12/02/2009 04:21 pm">over 3 years</a> ago</h4>
+
+    <div class="wiki" id="journal-10745-notes"><p>0.25.0 also affected.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-10746" class="journal has-details">
+    <div id="note-7">
+    <h4><a href="/issues/593#note-7" class="journal-link">#7</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/31cc2100279326dd6148a7e163692097?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/27" class="user active">James Turnbull</a> <a href="/projects/puppet/activity?from=2009-12-03" title="12/02/2009 08:20 pm">over 3 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Affected Puppet version</strong> changed from <i>0.24.7</i> to <i>0.25.1</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-12153" class="journal has-details">
+    <div id="note-8">
+    <h4><a href="/issues/593#note-8" class="journal-link">#8</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/31cc2100279326dd6148a7e163692097?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/27" class="user active">James Turnbull</a> <a href="/projects/puppet/activity?from=2010-01-27" title="01/27/2010 07:36 am">over 3 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> changed from <i>2.6.0</i> to <i>2.7.x</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-14485" class="journal has-details">
+    <div id="note-9">
+    <h4><a href="/issues/593#note-9" class="journal-link">#9</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/89ddb77a11819c8165f37f7526193395?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2" class="user active">Luke Kanies</a> <a href="/projects/puppet/activity?from=2010-05-15" title="05/14/2010 10:48 pm">over 3 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Assignee</strong> deleted (<del><i>Luke Kanies</i></del>)</li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-20445" class="journal has-notes has-details">
+    <div id="note-10">
+    <h4><a href="/issues/593#note-10" class="journal-link">#10</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/702c996f0e78f2ebb05b927b115fa22b?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/380" class="user active">Nigel Kersten</a> <a href="/projects/puppet/activity?from=2010-10-28" title="10/28/2010 12:07 am">almost 3 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Accepted</i> to <i>Needs More Information</i></li>
+       <li><strong>Assignee</strong> set to <i>Nigel Kersten</i></li>
+    </ul>
+    <div class="wiki" id="journal-20445-notes"><p>Can we see an example manifest that produces this issue so we can be sure we&rsquo;re fixing it?</p>
+
+<p>It seems surprising that the cron provider would be so broken with vixie-cron.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-20451" class="journal has-notes">
+    <div id="note-11">
+    <h4><a href="/issues/593#note-11" class="journal-link">#11</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/702c996f0e78f2ebb05b927b115fa22b?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/380" class="user active">Nigel Kersten</a> <a href="/projects/puppet/activity?from=2010-10-28" title="10/28/2010 12:20 am">almost 3 years</a> ago</h4>
+
+    <div class="wiki" id="journal-20451-notes"><p>I&rsquo;m particularly interested in hearing whether the problem is with new lines and thus a duplicate of <a href="/issues/656" class="issue status-5 priority-4 priority-default closed" title="cron entries with newlines keep being updated (Closed)">#656</a>.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-20471" class="journal has-notes">
+    <div id="note-12">
+    <h4><a href="/issues/593#note-12" class="journal-link">#12</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/4f6abf77f8f64367b4ecedc4927e8775?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/684" class="user active">Alan Barrett</a> <a href="/projects/puppet/activity?from=2010-10-28" title="10/28/2010 09:28 am">almost 3 years</a> ago</h4>
+
+    <div class="wiki" id="journal-20471-notes"><p>What&rsquo;s happening here is that both puppet and cron want their special comments to be at the top of the file.</p>
+
+<p>If puppet finds that its special comment is somewhere in the file but not at the top, then it moves the comment to the top.</p>
+
+<p>If cron finds that its special comment is not at the top of the file, then it inserts a new comment at the top, regardless of whether or not the comment already existed elsewhere in the file.</p>
+
+<p>Interaction between these two processes causes multiple copies of cron&rsquo;s special comment to appear.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-20485" class="journal has-notes has-details">
+    <div id="note-13">
+    <h4><a href="/issues/593#note-13" class="journal-link">#13</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/702c996f0e78f2ebb05b927b115fa22b?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/380" class="user active">Nigel Kersten</a> <a href="/projects/puppet/activity?from=2010-10-28" title="10/28/2010 03:56 pm">almost 3 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Needs More Information</i> to <i>Accepted</i></li>
+       <li><strong>Assignee</strong> deleted (<del><i>Nigel Kersten</i></del>)</li>
+       <li><strong>Keywords</strong> set to <i>cronfixit</i></li>
+    </ul>
+    <div class="wiki" id="journal-20485-notes"><p>We have a bunch of cron issues. I&rsquo;m going to tag all the open cron issues with &lsquo;cronfixit&rsquo; and we&rsquo;ll try to address them all at once.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-63450" class="journal has-notes">
+    <div id="note-14">
+    <h4><a href="/issues/593#note-14" class="journal-link">#14</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2012-05-22" title="05/22/2012 12:38 am">over 1 year</a> ago</h4>
+
+    <div class="wiki" id="journal-63450-notes"><p>Nigel Kersten wrote:</p>
+
+<blockquote><p>We have a bunch of cron issues. I&rsquo;m going to tag all the open cron issues with &lsquo;cronfixit&rsquo; and we&rsquo;ll try to address them all at once.</p></blockquote>
+
+<p>So, I take it that&rsquo;s not working out too well for you? ;-S</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-63463" class="journal has-notes">
+    <div id="note-15">
+    <h4><a href="/issues/593#note-15" class="journal-link">#15</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2012-05-22" title="05/22/2012 02:34 am">over 1 year</a> ago</h4>
+
+    <div class="wiki" id="journal-63463-notes"><p>Uhm, snideness aside, I&rsquo;ve gone ahead and proposed a fix in https://github.com/ffrank/puppet/tree/ticket/2.7.x/593-vixie-cron-headers.</p>
+
+<p>So, no hard feelings?</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-66997" class="journal has-notes">
+    <div id="note-16">
+    <h4><a href="/issues/593#note-16" class="journal-link">#16</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/702c996f0e78f2ebb05b927b115fa22b?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/380" class="user active">Nigel Kersten</a> <a href="/projects/puppet/activity?from=2012-07-13" title="07/13/2012 12:54 pm">about 1 year</a> ago</h4>
+
+    <div class="wiki" id="journal-66997-notes"><p>yeah. clearly that hasn&rsquo;t worked out too well :( No hard feelings at all :)</p>
+
+<p>Can you do this as a pull request Felix? Looking at your fixes now.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-67028" class="journal has-notes has-details">
+    <div id="note-17">
+    <h4><a href="/issues/593#note-17" class="journal-link">#17</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2012-07-16" title="07/16/2012 07:00 am">about 1 year</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Accepted</i> to <i>In Topic Branch Pending Review</i></li>
+    </ul>
+    <div class="wiki" id="journal-67028-notes"><p>Done (I assume that is what Status &ndash; In Topic Branch&hellip; does).</p>
+
+<p>Hadn&rsquo;t even realized I could do this as an outside contributor. Thanks for the pointer, Nigel!</p>
+
+<p>Just rebased: https://github.com/ffrank/puppet/tree/ticket/2.7.x/593-vixie-cron-headers</p>
+
+<p>Although now, github indicates my history is diverged from the original? Uhm. Hope I didn&rsquo;t make a mess.</p>
+
+<p>Note on tests: There are none ;) I didn&rsquo;t find any for the actual crontabs to begin with, so I didn&rsquo;t bother starting now.
+(Honestly, the whole issue of tests still baffles me, it&rsquo;s harder than tweaking the actual providers.)</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69205" class="journal has-notes">
+    <div id="note-18">
+    <h4><a href="/issues/593#note-18" class="journal-link">#18</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/7f7fe07c6402a15a4888c3ba00efca45?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/693" class="user active">eric sorenson</a> <a href="/projects/puppet/activity?from=2012-08-15" title="08/15/2012 04:57 pm">about 1 year</a> ago</h4>
+
+    <div class="wiki" id="journal-69205-notes"><p>Hey, great job Felix. Can you please send a pull request to puppetlabs/puppet from your branch?</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-76051" class="journal has-notes">
+    <div id="note-19">
+    <h4><a href="/issues/593#note-19" class="journal-link">#19</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2012-11-08" title="11/08/2012 04:45 am">10 months</a> ago</h4>
+
+    <div class="wiki" id="journal-76051-notes"><p>eric sorenson wrote:</p>
+
+<blockquote><p>Hey, great job Felix. Can you please send a pull request to puppetlabs/puppet from your branch?</p></blockquote>
+
+<p>Eric,</p>
+
+<p>just got around to doing just that. I hadn&rsquo;t been aware that puppetlabs did this simply via github :S</p>
+
+<p>Hope it gets merged soon, thanks for endorsing.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-76190" class="journal has-notes">
+    <div id="note-20">
+    <h4><a href="/issues/593#note-20" class="journal-link">#20</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2012-11-12" title="11/12/2012 12:50 am">10 months</a> ago</h4>
+
+    <div class="wiki" id="journal-76190-notes"><p>Guys,</p>
+
+<p>there seem to be oddities with the patch, I don&rsquo;t understand them exactly though.</p>
+
+<p>I&rsquo;m grateful for any feedback to https://github.com/puppetlabs/puppet/pull/1268 to speed things up.</p>
+
+<p>TIA,
+Felix</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-80196" class="journal has-details">
+    <div id="note-21">
+    <h4><a href="/issues/593#note-21" class="journal-link">#21</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/36ccf398adbe1a4264d57b32917b990c?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/4316" class="user active">Andrew Parker</a> <a href="/projects/puppet/activity?from=2013-01-04" title="01/04/2013 03:45 pm">8 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> deleted (<del><i>2.7.x</i></del>)</li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-80612" class="journal has-notes">
+    <div id="note-22">
+    <h4><a href="/issues/593#note-22" class="journal-link">#22</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2013-01-07" title="01/07/2013 12:35 am">8 months</a> ago</h4>
+
+    <div class="wiki" id="journal-80612-notes"><p>So, err, does that mean 2.7.x is no longer receiving patches?</p>
+
+<p>I shall go on a limb, rebase to 3.x and apply what i <em>assume</em> to be a fix to Jeff&rsquo;s remarks on the pull request.</p>
+
+<p>In all, I have to admit that I&rsquo;m a bit underwhelmed by the amount of feedback given to both this issue and the pull request itself.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-80630" class="journal has-details">
+    <div id="note-23">
+    <h4><a href="/issues/593#note-23" class="journal-link">#23</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-01-07" title="01/07/2013 10:20 am">8 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Assignee</strong> set to <i>Jeff McCune</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-80632" class="journal has-notes">
+    <div id="note-24">
+    <h4><a href="/issues/593#note-24" class="journal-link">#24</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-01-07" title="01/07/2013 10:27 am">8 months</a> ago</h4>
+
+    <div class="wiki" id="journal-80632-notes"><p>Felix Frank wrote:</p>
+
+<blockquote><p>So, err, does that mean 2.7.x is no longer receiving patches?</p></blockquote>
+
+<p>Hey Felix, 2.7.x is receiving patches, but only of the &ldquo;this fixes a bug that causes a crash&rdquo; or &ldquo;this fixes a security vulnerability&rdquo; variety.  Bugs like this should target master please.</p>
+
+<blockquote><p>I shall go on a limb, rebase to 3.x and apply what i <em>assume</em> to be a fix to Jeff&rsquo;s remarks on the pull request.</p></blockquote>
+
+<p>When you rebase, please rebase against master and not 3.x.  We actually don&rsquo;t have a 3.x branch right now, just a 3.0.x and a master branch since we&rsquo;re really close to cutting a 3.1.0 RC from the master branch.  Once the pull request is based on master we&rsquo;ll figure out the exact version to merge into and then merge up from there.</p>
+
+<blockquote><p>In all, I have to admit that I&rsquo;m a bit underwhelmed by the amount of feedback given to both this issue and the pull request itself.</p></blockquote>
+
+<p>I&rsquo;m really sorry about this, please ping me directly if you find yourself blocked waiting on feedback from us.  I&rsquo;m trying to improve our tooling in an effort to reduce the overall lag time between a contribution and feedback on the contribution.  Things like Trello and Travis CI are helping us reduce this time, but I think this issue fell through the cracks a bit.</p>
+
+<p>-Jeff</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-80667" class="journal has-notes has-details">
+    <div id="note-25">
+    <h4><a href="/issues/593#note-25" class="journal-link">#25</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-01-07" title="01/07/2013 02:32 pm">8 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>In Topic Branch Pending Review</i> to <i>Tests Insufficient</i></li>
+       <li><strong>Assignee</strong> deleted (<del><i>Jeff McCune</i></del>)</li>
+    </ul>
+    <div class="wiki" id="journal-80667-notes"><p>I commented on the pull request, but doing so here as well:</p>
+
+<p>This looks OK, I just need to figure out how to get some test coverage added before we merge this in. Before we merge this, please also make sure the change in behavior regarding the parsed file &ldquo;API&rdquo; is documented. That is, parse file providers may implement the native_header_regex and drop_native_header methods.</p>
+
+<p>Felix, would you like to take a stab at adding test coverage and YARD documentation to the parsed file base class and to the crontab provider? I&rsquo;m happy to help out if you need some help. I think the best place to get started with the behavior tests are in spec/unit/provider/parsedfile_spec.rb, spec/shared_behaviours/all_parsedfile_providers.rb, and spec/unit/provider/cron/crontab_spec.rb.</p>
+
+<p>Next actions are to add API documentation and behavior examples, we can&rsquo;t merge this without those things in place.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-80670" class="journal has-notes">
+    <div id="note-26">
+    <h4><a href="/issues/593#note-26" class="journal-link">#26</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2013-01-07" title="01/07/2013 02:52 pm">8 months</a> ago</h4>
+
+    <div class="wiki" id="journal-80670-notes"><p>Jeff,</p>
+
+<p>thanks for following up on both ends. I&rsquo;m still not sure if I&rsquo;m on the right track wrt. variable scoping, but I&rsquo;ll just try and access everything via &ldquo;self.&rdquo; if possible.</p>
+
+<p>I&rsquo;d love to introduce tests, as a matter of fact. I had a hard time getting my head around the whole topic, so the pointers are most appreciated!</p>
+
+<p>API documentation resides in rdoc, right? I shall try and update the pertaining sections.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-80677" class="journal has-notes">
+    <div id="note-27">
+    <h4><a href="/issues/593#note-27" class="journal-link">#27</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-01-07" title="01/07/2013 03:35 pm">8 months</a> ago</h4>
+
+    <div class="wiki" id="journal-80677-notes"><p>Felix Frank wrote:</p>
+
+<blockquote><p>Jeff,</p>
+
+<p>thanks for following up on both ends. I&rsquo;m still not sure if I&rsquo;m on the right track wrt. variable scoping, but I&rsquo;ll just try and access everything via &ldquo;self.&rdquo; if possible.</p></blockquote>
+
+<p>In these examples the methods you&rsquo;ve added are class methods and not instance methods.  This should help understand how the scope comes into place.  This tutorial seems to be a pretty good description of the various scope considerations in Ruby: <a href="http://marakana.com/bookshelf/ruby_tutorial/scope.html">http://marakana.com/bookshelf/ruby_tutorial/scope.html</a></p>
+
+<blockquote><p>I&rsquo;d love to introduce tests, as a matter of fact. I had a hard time getting my head around the whole topic, so the pointers are most appreciated!</p></blockquote>
+
+<p>Sure thing, please start with those files I mentioned and see if you can add some examples to the existing example groups contained in those files.  As you run into questions I&rsquo;ll be happy to review the code if you have it pushed to a topic branch or something.</p>
+
+<blockquote><p>API documentation resides in rdoc, right? I shall try and update the pertaining sections.</p></blockquote>
+
+<p>We&rsquo;re actually using YARD for API documentation, not rdoc.  Since you&rsquo;re adding a method that parse file providers are meant to override please include the @api public keyword.  A list of YARD tags is available at: <a href="http://rubydoc.info/docs/yard/file/docs/Tags.md">http://rubydoc.info/docs/yard/file/docs/Tags.md</a>  Finally, you might want to look at some of the recent commits to Facter and Puppet from Henrik and Patrick for some recent examples of patches that add YARD documentation to the codebase.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-80699" class="journal has-notes">
+    <div id="note-28">
+    <h4><a href="/issues/593#note-28" class="journal-link">#28</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2013-01-08" title="01/08/2013 09:25 am">8 months</a> ago</h4>
+
+    <div class="wiki" id="journal-80699-notes"><p>Great, thanks again. I shall follow up outside this bug.</p>
+
+<p>As an aside on topic, this bug does not appear to affect newer cron versions. Affected header:</p>
+
+<pre>
+# DO NOT EDIT THIS FILE - edit the master and reinstall.
+# (- installed on Tue May 22 11:53:15 2012)
+# (Cron version V5.0 -- $Id: crontab.c,v 1.12 2004/01/23 18:56:42 vixie Exp $)
+</pre>
+
+
+<p>Unaffected (as in Debian sid):</p>
+
+<pre>
+# DO NOT EDIT THIS FILE - edit the master and reinstall.
+# (- installed on Tue Jan  8 18:08:51 2013)
+# (Cron version -- $Id: crontab.c,v 2.13 1994/01/17 03:20:37 vixie Exp $)
+</pre>
+
+
+<p>That being said, the above example is from SLES11 SP2, which is still a supported platform, so it still warrants fixing IMO.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-83340" class="journal has-details">
+    <div id="note-29">
+    <h4><a href="/issues/593#note-29" class="journal-link">#29</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/5d6e14c36040d17e0ae22f281b997ad2?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2645" class="user active">Adrien Thebo</a> <a href="/projects/puppet/activity?from=2013-02-15" title="02/15/2013 10:33 am">6 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Tests Insufficient</i> to <i>In Topic Branch Pending Review</i></li>
+       <li><strong>Target version</strong> set to <i>3.x</i></li>
+       <li><strong>Branch</strong> set to <i>https://github.com/puppetlabs/puppet/pull/1479</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-83346" class="journal has-notes has-details">
+    <div id="note-30">
+    <h4><a href="/issues/593#note-30" class="journal-link">#30</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/5d6e14c36040d17e0ae22f281b997ad2?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2645" class="user active">Adrien Thebo</a> <a href="/projects/puppet/activity?from=2013-02-15" title="02/15/2013 11:48 am">6 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>In Topic Branch Pending Review</i> to <i>Merged - Pending Release</i></li>
+       <li><strong>Target version</strong> changed from <i>3.x</i> to <i>3.2.0</i></li>
+    </ul>
+    <div class="wiki" id="journal-83346-notes"><p>Merged into master as a3bee25.</p>
+
+<p>This should be released in 3.2.0.</p>
+
+<p>Thanks again for the contribution!</p>
+
+<p>-Adrien</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-89458" class="journal has-notes has-details">
+    <div id="note-31">
+    <h4><a href="/issues/593#note-31" class="journal-link">#31</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/aafd0d5beaa872e15092084e9bab49c9?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3206" class="user active">Matthaus Owens</a> <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:16 pm">4 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Merged - Pending Release</i> to <i>Closed</i></li>
+    </ul>
+    <div class="wiki" id="journal-89458-notes"><p>Released in Puppet 3.2.0-rc1</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-89513" class="journal has-notes">
+    <div id="note-32">
+    <h4><a href="/issues/593#note-32" class="journal-link">#32</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/aafd0d5beaa872e15092084e9bab49c9?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3206" class="user active">Matthaus Owens</a> <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:18 pm">4 months</a> ago</h4>
+
+    <div class="wiki" id="journal-89513-notes"><p>Released in Puppet 3.2.0-rc1</p>
+</div>
+    </div>
+  </div>
+  
+
+
+</div>
+
+
+<div style="clear: both;"></div>
+<div class="contextual">
+
+
+<span class="issue-593-watcher"></span>
+
+
+</div>
+
+
+<div style="clear: both;"></div>
+
+<p class="other-formats">Also available in:  <span><a href="/issues/593.atom" class="atom" rel="nofollow">Atom</a></span>
+  <span><a href="/issues/593.pdf" class="pdf" rel="nofollow">PDF</a></span>
+</p>
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+contextMenuInit('/issues/context_menu')
+//]]>
+</script>
+
+        
+        <div style="clear:both;"></div>
+    </div>
+</div>
+</div>
+
+<div id="ajax-indicator" style="display:none;"><span>Loading...</span></div>
+<div id="ajax-modal" style="display:none;"></div>
+
+<div id="footer">
+  <div class="bgl"><div class="bgr">
+    Powered by <a href="http://www.redmine.org/">Redmine</a> &copy; 2006-2012 Jean-Philippe Lang
+  </div></div>
+</div>
+</div>
+</div>
+<script src="/javascripts/leadcapture.js?1328214688" type="text/javascript"></script>
+
+<!-- BEGIN: MARKETO TRACKING -->
+    <script src="https://munchkin.marketo.net/munchkin.js
+type="text/javascript"></script>
+<script>mktoMunchkin("307-QLA-991");</script>
+ <!-- END: MARKETO TRACKING --> <!-- Begin Google Analytics Asynch-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1537572-5']);
+  _gaq.push(['_setDomainName', 'puppetlabs.com']);
+  _gaq.push(['_addIgnoredRef', 'puppetlabs.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  <!-- End Google Analytics -->
+
+</body>
+</html>

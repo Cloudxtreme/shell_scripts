@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>g10 Code - SFSV</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2012-04-23 13:29:14 CEST"/>
+<meta name="author" content="Werner Koch"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<link rel="stylesheet" href="g10.css" type="text/css" />
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+<div id="header">&nbsp;</div>
+<div id="leftColumn">
+  <div id="navigation">
+  <ul>
+    <li><a href="index.html"   >home</a></li>
+    <li><a href="about.html"   >about us</a></li>
+    <li><a href="support.html" >support</a></li>
+    <li><a href="p-card.html"  >smartcard</a></li>
+    <li><a href="p-geam.html"  >GEAM</a></li>
+    <li><a href="p-sfsv.html"  >SFSV</a></li>
+    <li><a href="steed.html"   >STEED</a></li>
+    <li><a href="sitemap.html" >sitemap</a></li>
+    <li><a href="contact.html" >contact</a></li>
+    <li><a href="p-sfsv.de.html"><img src="graphics/de.png"/
+           alt="deutsch" width="16" height="11"></a></li>
+  </ul>
+  </div>
+</div>
+</div>
+
+<div id="content">
+
+
+
+<p id="kicker">SFSV</p>
+
+
+<div id="outline-container-1" class="outline-1">
+<h1 id="sec-1">Small Footprint Signature Verification (SFSV)</h1>
+<div class="outline-text-1" id="text-1">
+
+<p>Today embedded devices are running more and more critical software and
+thus need to be protected against malicious attempts to sneak in
+unwanted features (malware, backdoors).  In general the software
+running on the devices takes care of protecting itself; there are
+however two scenarious where it is easy to let the device execute
+arbitary commands:
+</p>
+<ul>
+<li>To fix flaws in the software or to add new features an Internet
+   connected devices provides a way to update its software online.
+</li>
+<li>The device always loads its software from a server on power-up
+   through a simple boot loader.
+</li>
+</ul>
+
+
+<p>
+In both scenarios the new software gets retrieved via FTP or TFTP from
+a hardwired site.  There are several ways for an attacker to fake the
+addresses and thus trick the device into getting unauthorized software
+updates.
+</p>
+<p>
+There is a simple countermeasure against this by digitally signing
+files used for an update.  On the downside the required verification
+software takes away a lot of precious space.  When using a simple boot
+loader it is usually not possible to run standard software like <a href="http://gnupg.org">GnuPG</a>
+to do the verification because the required operating system has not
+already been loaded.  In the first scenario extra RAM is required to
+download the new software and run the verification on it before
+actually replacing the running software.
+</p>
+<p>
+SFSV is a solution to this.  It is software optimized to run digital
+signature verification with a very small memory footprint (around 18k
+text size on a PPC chip).  Obviously the verification takes longer than
+with code optimized for speed &mdash; for a boot loder this tradeoff is
+acceptable because a verification is only once during boot or software
+update.  Spending a few hundred milliseconds for integrity checks is
+after all better than risking a compromise.
+</p>
+<p>
+In its standard configuration, the SFSV software is available as code
+to verify the signature on ELF files. The signature itself has been
+embedded in the ELF file using tools coming with SFSV.  Usage of SFSV
+in a boot loader is pretty easy: Use the provided makekeys tool to
+create a C language header file with the public key to be used for
+signature verification, integrate the sources into the build system of
+the boot loader, add a call to the verification function after loading
+the image file into memory and build as usual.
+</p>
+<p>
+For digitally signing images with the released software, the
+elfsigtool is to be used.  There is no need to change the build
+process of the actual image as the elfsigtool is able to embed a
+signature into any ELF file.
+</p>
+<p>
+SFSV is written in C and portable across most platforms.  Other
+versions of the software to better fit into the architecture of the
+system or for non ELF platforms are available on request.
+</p>
+<p>
+SFSV is available under the terms of the GNU General Public License or
+alternatively on to be negotiated terms so that it can be used with
+your proprietary code.
+</p>
+
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<div id="cpyright">
+  Copyright 2011 g10 Code GmbH.  Verbatim copying and
+  distribution is permitted in any medium, provided this notice is
+  preserved.
+</div>
+</div>
+</body>
+</html>

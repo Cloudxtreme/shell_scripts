@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- Edit only through cvs -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>The Arla project, Red Hat and Fedora Core</title>
+</head>
+<body>
+
+<h2>The Arla project, Red Hat and Fedora Core RPMs</h2>
+
+<p>
+Arla is available as a set of RPMs for the various Red Hat operating
+systems. These are tested with Fedora Core 6 and Red Hat Enterprise
+Linux 4 on x86, but please try them with other distributions like
+older FC and RHEL releases. Reports about success or problems using
+these RPMs with non-Intel Fedora(-derived) distributions are also
+welcome.
+</p>
+
+<p>
+Please note that Arla
+binary RPMs may not be provided, so you may need to recompile the source RPM
+yourself.
+</p>
+
+<h3>Installation</h3>
+
+<p>
+  The Arla FTP repository contains the relevant Heimdal and Arla <a
+  href="ftp://ftp.stacken.kth.se/pub/arla/distributions/fedora/6/i386/arla/SRPMS/">source</a>
+  and <a
+  href="ftp://ftp.stacken.kth.se/pub/arla/distributions/fedora/6/i386/arla/RPMS/">binary</a>
+  RPMs. It's actually a <a href="ftp://ftp.stacken.kth.se/pub/arla/distributions/fedora/6/i386/arla/krbafs.repo">yum repository</a>. The packages are signed with <a href="http://pgp.mit.edu:11371/pks/lookup?op=get&search=0xF90A189D">Alexander Boström (Unsafe Stacken key) <abo@stacken.kth.se></a>.
+</p>
+
+<h4>Heimdal</h4>
+
+<p>
+  Install Heimdal. There are binary RPMs for Fedora Core 6 (i386) and a source RPM</a>
+  for other distributions.
+</p>
+
+<p>
+  To compile from source, download the .src.rpm and type:
+</p>
+
+<pre>
+  rpmbuild --rebuild heimdal-???.src.rpm
+</pre>
+
+<p>Then install the resulting RPMs.</p>
+
+<h4>Arla</h4>
+
+<p>
+  Compile and install the Arla source RPM. To compile, type:
+</p>
+
+<pre>
+  rpmbuild --rebuild arla-???.src.rpm
+  rpmbuild --rebuild nnpfs-kmod-???.src.rpm --define "kversion $(uname -r)" --target=`uname -m`
+</pre>
+
+<p>
+  Install the resulting packages, put the name of your AFS cell in
+  <tt>/etc/arla/ThisCell</tt>, make sure <tt>/etc/arla/CellServDB</tt>
+  is up-to-date and type:
+</p>
+
+<pre>
+  /sbin/service arla start
+</pre>
+
+<p>
+  To start Arla at every boot, type:
+</p>
+
+<pre>
+  /sbin/chkconfig arla on
+</pre>
+
+<p> or use <tt>system-config-services</tt>.
+</p>
+
+</body>
+</html>

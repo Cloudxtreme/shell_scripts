@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [NNTP] Command to list wanted groups for transit peers
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:ietf-nntp%40lists.eyrie.org?Subject=Re%3A%20%5BNNTP%5D%20Command%20to%20list%20wanted%20groups%20for%20transit%20peers&In-Reply-To=%3C50C4992C.7000700%40trigofacile.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="006231.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[NNTP] Command to list wanted groups for transit peers</H1>
+    <B>Julien &#201;LIE</B> 
+    <A HREF="mailto:ietf-nntp%40lists.eyrie.org?Subject=Re%3A%20%5BNNTP%5D%20Command%20to%20list%20wanted%20groups%20for%20transit%20peers&In-Reply-To=%3C50C4992C.7000700%40trigofacile.com%3E"
+       TITLE="[NNTP] Command to list wanted groups for transit peers">julien at trigofacile.com
+       </A><BR>
+    <I>Sun Dec  9 05:59:08 PST 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="006231.html">[NNTP] Advertise maximum article size in CAPABILITIES
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6230">[ date ]</a>
+              <a href="thread.html#6230">[ thread ]</a>
+              <a href="subject.html#6230">[ subject ]</a>
+              <a href="author.html#6230">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi River,
+
+I do not know whether you have advanced a bit on that topic since last year.
+Anyway, here are a few links...
+
+
+&gt;<i> So, most (at least non-binary) peering arrangements include a list of
+</I>&gt;<i> groups the server wants to accept.  Usually this is configured by hand,
+</I>&gt;<i> but there are automated out-of-band methods to do it automatically (e.g.
+</I>&gt;<i> GUP, the Group Update Protocol).
+</I>
+Though not the same, but could be used in a similar way, a draft
+for Dynamic Feed Adjustment was published a decade ago:
+    <A HREF="http://www.eyrie.org/~eagle/nntp/drafts/draft-court-dynfeed-01.txt">http://www.eyrie.org/~eagle/nntp/drafts/draft-court-dynfeed-01.txt</A>
+
+
+&gt;<i> I think a better way to do it would be a new command, which would list
+</I>&gt;<i> the groups the server wants to accept as a wildmat.  For instance:
+</I>&gt;<i> 
+</I>&gt;<i> S: 200 Server ready.
+</I>&gt;<i> C: CAPABILITIES
+</I>&gt;<i> S: 101 Capabilities list follows.
+</I>&gt;<i> S: WANTGROUPS
+</I>&gt;<i> S: ...
+</I>&gt;<i> S: .
+</I>&gt;<i> C: WANTGROUPS
+</I>&gt;<i> S: 2xx List of groups follows.
+</I>&gt;<i> S: *
+</I>&gt;<i> S: @alt.sex.*
+</I>&gt;<i> S: @*.bina*
+</I>&gt;<i> S: de.bina*
+</I>&gt;<i> S: !uk.test
+</I>&gt;<i> S: .
+</I>
+It would also need adding the maximum article size or things like that,
+possibly related to each line returned by the command.
+
+
+&gt;<i> This would be an &quot;extended&quot; wildmat like INN uses; I don't think @ is
+</I>&gt;<i> available in the RFC 3977 wildmats.
+</I>&gt;<i>
+</I>&gt;<i> Thoughts?
+</I>
+It could also be a new keyword to the LIST command.
+
+In case it could help, here is a thread we had in December 2009
+in news.software.nntp:
+
+    <A HREF="https://groups.google.com/forum/?hl=fr&amp;fromgroups=#!topic/news.software.nntp/fgX4tUk0tGM">https://groups.google.com/forum/?hl=fr&amp;fromgroups=#!topic/news.software.nntp/fgX4tUk0tGM</A>
+
+&quot;Proposal for a standardized LIST MOTD command&quot;
+Message-ID: &lt;he74ps$58i$<A HREF="http://lists.eyrie.org/mailman/listinfo/ietf-nntp">1 at news.trigofacile.com</A>&gt;
+Message-ID: &lt;hh4vs5$o2$<A HREF="http://lists.eyrie.org/mailman/listinfo/ietf-nntp">1 at speranza.aioe.org</A>&gt;
+...
+
+
+
+[Paolo Amori]
+LIST MOTD (without argument)
+
+should/must include several data about the server (ie. Tech Contact, Legal 
+Contact (the was requested me by the italian police: how can i find the one 
+who maintains an NNTP site using *only* the server itself?), Max Article 
+Size (and other newsfeeds flags), Web site). They should be shown in a 
+standardized way in order to allow people to easily understand them. 
+It could also be used as a standardized way show peering data (but a 
+standard doesn't exist at the moment)
+
+i'm thinking about somewhat like this
+
+
+------
+Path:                aioe.org
+Primary-Host:        nntp.aioe.org
+Backup-Host:        news.aioe.org
+Accept-From:        news-out.aioe.org
+Send-To:                news-in.aioe.org
+Tech-Contact:        <A HREF="http://lists.eyrie.org/mailman/listinfo/ietf-nntp">use... at aioe.org</A>
+Abuse-Contact:        <A HREF="http://lists.eyrie.org/mailman/listinfo/ietf-nntp">ab... at aioe.org</A>
+Support-Group:          <A HREF="news://aioe.news.helpdesk">news://aioe.news.helpdesk</A>
+Legal-Contact:        **************** (in order to avoid spam here)
+Location:                Holland, EU
+Documentation:        <A HREF="http://www.aioe.org/">http://www.aioe.org/</A>
+Max-Article-Size:        32768
+Groups:                All except binaries (or an uwildmat string)
+------
+
+LIST MOTD &lt;GROUP&gt;
+
+should include the manifesto of each group (they'are collected so it should 
+be easy to find them, i suppose)
+
+
+
+
+imho, it's a need.
+I've about 40 peers, each one with different peering data. Sometimes, data 
+are subjected to changes. There's no common places where peering data can be 
+found and many news server don't show these data in their web sites. 
+A way to know which parameters are requested by each peer is useful and has 
+the advantage to avoid 'third party' configuration errors.
+
+btw, i *strongly* need a standardized way to show which is my legal contact 
+(the email address that police *must* use for court orders and legal 
+requests). It can be shown inside 'HELP' or 'LIST' output but it's needed an 
+official paper that says to use *that* address for such requests.
+
+
+
+
+&gt;<i> Is an RFC considered as an official paper for police?
+</I>yes. I've made the same answer to them in an interview room, after three 
+hours wait.
+
+&gt;<i> Should ask the question to a policeman :-)
+</I>it should be a great idea. Interpol said me that an official statement is 
+needed, policeman were convince themselves that newsgroups are 'google 
+groups' and so they wanted from me 'apache logs'.
+
+&gt;<i> Well, maybe you need another address than the one for abuse requests...
+</I>yes, of course.
+Abuse desk is a common email mailbox. Legal contact goes to my mobile phone 
+or laptop.
+
+
+
+
+
+[Jeffrey M. Vinocur]
+=&gt; This would require support for nnrpd virtualhosts, FYI.
+
+
+
+
+-- 
+Julien &#201;LIE
+
+&#171; The hardest thing is to go to sleep at night, when there are so many
+  urgent things needing to be done.  A huge gap exists between what we
+  know is possible with today's machines and what we have so far been
+  able to finish. &#187;  (Donald Knuth)
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="006231.html">[NNTP] Advertise maximum article size in CAPABILITIES
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6230">[ date ]</a>
+              <a href="thread.html#6230">[ thread ]</a>
+              <a href="subject.html#6230">[ subject ]</a>
+              <a href="author.html#6230">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="http://lists.eyrie.org/mailman/listinfo/ietf-nntp">More information about the ietf-nntp
+mailing list</a><br>
+</body></html>

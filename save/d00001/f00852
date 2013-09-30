@@ -1,0 +1,121 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.45
+     from nwf on 12 January 1997 -->
+
+<TITLE>NetBSD/amiga-Networking-FAQ - p_NIS</TITLE>
+</HEAD>
+<BODY>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_34.html">previous</A>, <A HREF="nwf_36.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_32.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+<HR>
+
+
+<H3><A NAME="SEC35" HREF="nwf_toc.html#SEC35">3.4.3 Network Information Service (NIS)</A></H3>
+
+<P>
+Setting up a machine as a NIS-client, you need to know the NIS-domain's
+name, into which the machine is about to belong. This domainname has
+nothing to do with the machine's DNS-domainname, it's just a unique
+identifier for all the machines in the same NIS-domain to know them they
+belong together (and to a certain server).
+
+</P>
+<P>
+Do the following steps to setup a machine as NIS client:
+
+</P>
+
+<OL>
+<LI>Domainname:
+
+First, put the NIS-domain's name in <TT>`/etc/defaultdomain'</TT>.
+
+
+<PRE>
+echo our.nis.domain &#62;/etc/defaultdomain
+</PRE>
+
+<LI><TT>`/etc/passwd'</TT> (and friends):
+
+Put a line in the password file with the login-name consisting of a
+single <CODE>+</CODE> and all the other fields empty. 
+
+
+<PRE>
++:::::::::
+</PRE>
+
+This line tells the programs reading <TT>`/etc/passwd'</TT> to look for more
+entries using NIS.  (Use <CODE>vipw</CODE> to edit, as usual. No editing of
+<TT>`/etc/passwd'</TT> by hand!)
+
+<LI><TT>`/etc/group'</TT>:
+
+Also, to enable programs scanning through <TT>`/etc/group'</TT> for getting
+the NIS' <TT>`group'</TT>-file, add the following line to <TT>`/etc/group'</TT>:
+
+
+<PRE>
++:::
+</PRE>
+
+<LI><TT>`/etc/resolv.conf'</TT>:
+
+Add a line saying "<CODE>lookup yp</CODE>" to <TT>`/etc/resolv.conf'</TT>, if you
+want to use DNS too (for hosts not in the <CODE>hosts</CODE> NIS-map, make the
+line look like "<CODE>lookup yp dns</CODE>". Please see <CODE>resolv.conf</CODE>(5) for a
+more detailled description.
+
+<LI><TT>`/etc/rc'</TT>:
+
+You'll have to uncommet a few lines in <TT>`/etc/rc'</TT>, please refer to
+section <A HREF="nwf_38.html#SEC38">3.5.2 <TT>`/etc/rc'</TT></A>.
+
+<LI><TT>`/var/yp'</TT>:
+
+Create the directory <TT>`/var/yp'</TT>:
+
+
+<PRE>
+# mkdir /var/yp
+</PRE>
+
+<LI>Reboot:
+
+Restart your system to take all the changes into effect and to start the
+NIS-client daemon.
+
+<LI>Check!
+
+Try if everything is ok:
+
+
+<UL>
+<LI>See if you're connected to the right (or any) NIS server:
+
+
+<PRE>
+ypwhich
+</PRE>
+
+<LI>Try to get the NIS-server's <TT>`passwd'</TT>- and <TT>`group'</TT>-file:
+
+
+<PRE>
+ypcat passwd
+ypcat group
+</PRE>
+
+<LI>If all this works well, try to see if your system also scans the
+
+NIS-<TT>`passwd'</TT> properly, not only the local <TT>`/etc/passwd'</TT>. Do
+this by logging in as a user only kept in the NIS-<TT>`passwd'</TT> and not
+in <TT>`/etc/passwd'</TT>. 
+</UL>
+
+</OL>
+
+<HR>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_34.html">previous</A>, <A HREF="nwf_36.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_32.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+</BODY>
+</HTML>

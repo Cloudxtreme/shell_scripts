@@ -1,0 +1,131 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.45
+     from nwf on 12 January 1997 -->
+
+<TITLE>NetBSD/amiga-Networking-FAQ - SLIP-dip</TITLE>
+</HEAD>
+<BODY>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_28.html">previous</A>, <A HREF="nwf_30.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_25.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+<HR>
+
+
+<H4><A NAME="SEC29" HREF="nwf_toc.html#SEC29">3.2.3.4 Easy SLIP setup using <CODE>bsddip</CODE></A></H4>
+
+<P>
+<CODE>bsddip</CODE> is a port of the Linux 'Dial-up IP' program to BSD. It
+acts like a combination of <CODE>pppd</CODE> and <CODE>chat</CODE>, only that it
+then starts connections with the SLIP protocol. Also, the language to do
+the send/expect-chat is different then the one from <CODE>chat</CODE>.
+
+</P>
+<P>
+You can get <CODE>bsddip</CODE> source from
+<A HREF="ftp://ftp.uni-regensburg.de/pub/NetBSD-Amiga/source/bsddip-1.02-src.tar.gz">ftp://ftp.uni-regensburg.de/pub/NetBSD-Amiga/source/bsddip-1.02-src.tar.gz</A>.
+Please see the included documentation there for further details on
+setting up the dial-in process for your provider.
+
+</P>
+<P>
+Here are the necessary steps:
+
+</P>
+
+<OL>
+<LI>Prepare an appropriate dip-script:
+
+The following <CODE>bsddip</CODE>-script does about the same as the
+<CODE>chat</CODE>-script above: dial, log into a provider's modem-server, then
+start SLIP after getting the parameters (IP-numbers, netmask, ...) of
+the connection from the provider:
+
+
+<PRE>
+	port /dev/tty00
+	speed 38400
+	reset
+	init ATX1M0
+        # Insert your provider's number here
+	dial T09419431320
+
+	# Login
+	wait 15 username&#62;
+	if $errlvl != 1 goto error
+	send MYUSERNAME\r
+
+	# Passwort
+	wait 10 assword&#62;
+	if $errlvl != 1 goto error
+	send MYPASSWORD\r
+
+	# Choose SLIP (#21)
+	wait 10 or\suser\sarrow\skeys:
+	if $errlvl != 1 goto error
+	send 21\r
+
+	# Read &#38; digest parameters
+	wait 10 YOURIP
+	if $errlvl != 1 goto error
+	get $locip remote 10
+	wait 10 DESTIP
+	if $errlvl != 1 goto error
+	get $rmtip remote 10
+	wait 10 NETMASK
+	if $errlvl != 1 goto error
+	get $netmask remote 10
+
+	get $mtu 296
+
+	default
+        print Local IP ... $locip
+        print Remote IP .. $rmtip
+        print Netmask .... $netmask
+        print MTU ........ $mtu
+
+	# Start SLIP
+	mode SLIP
+
+	goto end
+
+error:
+	print Error
+	goto end
+end:
+	print Exiting.
+	reset	
+</PRE>
+
+<LI>Start <CODE>bsddip</CODE>:
+
+If you have your dial-in information in the file <TT>`dip-script'</TT>, then
+you just have to give <CODE>bsddip</CODE> a unique identifier, with which to
+identify the connection when closing it down (e.g. <CODE>dipcon</CODE>) via
+the <CODE>-f</CODE>-switch. Here is an example:
+
+
+<PRE>
+bsddip -f dipcon dip-script
+</PRE>
+
+<LI>Do whatevery you want with the connection. There's no need to set
+
+any routes or configure any devices any more, this is all done by
+<CODE>bsddip</CODE>.
+
+<LI>Disconnecting:
+
+To disconnect the SLIP-connection, just invoke <CODE>bsddip</CODE> with the
+<CODE>-k</CODE>-switch and the unique identifier that you gave it when
+starting up the connection (with the <CODE>-f</CODE>-switch):
+
+
+<PRE>
+bsddip -k -f dipcon
+</PRE>
+
+</OL>
+
+<HR>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_28.html">previous</A>, <A HREF="nwf_30.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_25.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+</BODY>
+</HTML>

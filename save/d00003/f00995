@@ -1,0 +1,1299 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><title>Analysis of Multiple Mobile Routers Cooperation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="Analysis of Multiple Mobile Routers Cooperation">
+<meta name="generator" content="xml2rfc v1.29 (http://xml.resource.org/)">
+<style type='text/css'>
+<!--
+    body {
+        font-family: verdana, charcoal, helvetica, arial, sans-serif;
+        margin: 2em;
+        font-size: small ; color: #000000 ; background-color: #ffffff ; }
+    .title { color: #990000; font-size: x-large ;
+        font-weight: bold; text-align: right;
+        font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
+        background-color: transparent; }
+    .filename { color: #666666; font-size: 18px; line-height: 28px;
+        font-weight: bold; text-align: right;
+        font-family: helvetica, arial, sans-serif;
+        background-color: transparent; }
+    td.rfcbug { background-color: #000000 ; width: 30px ; height: 30px ;
+        text-align: justify; vertical-align: middle ; padding-top: 2px ; }
+    td.rfcbug span.RFC { color: #666666; font-weight: bold; text-decoration: none;
+        background-color: #000000 ;
+        font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+        font-size: x-small ; }
+    td.rfcbug span.hotText { color: #ffffff; font-weight: normal; text-decoration: none;
+        text-align: center ;
+        font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+        font-size: x-small ; background-color: #000000; }
+/* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+    div#counter{margin-top: 100px}
+
+    a.info{
+        position:relative; /*this is the key*/
+        z-index:24;
+        text-decoration:none}
+
+    a.info:hover{z-index:25; background-color:#990000 ; color: #ffffff ;}
+
+    a.info span{display: none}
+
+    a.info:hover span.info{ /*the span will display just on :hover state*/
+        display:block;
+        position:absolute;
+        font-size: smaller ;
+        top:2em; left:2em; width:15em;
+        padding: 2px ;
+        border:1px solid #333333;
+        background-color:#eeeeee; color:#990000;
+        text-align: left ;}
+
+     A { font-weight: bold; }
+     A:link { color: #990000; background-color: transparent ; }
+     A:visited { color: #333333; background-color: transparent ; }
+     A:active { color: #333333; background-color: transparent ; }
+
+    p { margin-left: 2em; margin-right: 2em; }
+    p.copyright { font-size: x-small ; }
+    p.toc { font-size: small ; font-weight: bold ; margin-left: 3em ;}
+
+    span.emph { font-style: italic; }
+    span.strong { font-weight: bold; }
+    span.verb, span.vbare { font-family: "Courier New", Courier, monospace ; }
+
+    span.vemph { font-style: italic; font-family: "Courier New", Courier, monospace ; }
+    span.vstrong { font-weight: bold; font-family: "Courier New", Courier, monospace ; }
+    span.vdeluxe { font-weight: bold; font-style: italic; font-family: "Courier New", Courier, monospace ; }
+
+    ol.text { margin-left: 2em; margin-right: 2em; }
+    ul.text { margin-left: 2em; margin-right: 2em; }
+    li { margin-left: 3em;  }
+
+    pre { margin-left: 3em; color: #333333;  background-color: transparent;
+        font-family: "Courier New", Courier, monospace ; font-size: small ;
+        text-align: left;
+        }
+
+    h3 { color: #333333; font-size: medium ;
+        font-family: helvetica, arial, sans-serif ;
+        background-color: transparent; }
+    h4 { font-size: small; font-family: helvetica, arial, sans-serif ; }
+
+    table.bug { width: 30px ; height: 15px ; }
+    td.bug { color: #ffffff ; background-color: #990000 ;
+        text-align: center ; width: 30px ; height: 15px ;
+         }
+    td.bug A.link2 { color: #ffffff ; font-weight: bold;
+        text-decoration: none;
+        font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
+        font-size: x-small ; background-color: transparent }
+
+    td.header { color: #ffffff; font-size: x-small ;
+        font-family: arial, helvetica, sans-serif; vertical-align: top;
+        background-color: #666666 ; width: 33% ; }
+    td.author { font-weight: bold; margin-left: 4em; font-size: x-small ; }
+    td.author-text { font-size: x-small; }
+    table.data { vertical-align: top ; border-collapse: collapse ;
+        border-style: solid solid solid solid ;
+        border-color: black black black black ;
+        font-size: small ; text-align: center ; }
+    table.data th { font-weight: bold ;
+        border-style: solid solid solid solid ;
+        border-color: black black black black ; }
+    table.data td {
+        border-style: solid solid solid solid ;
+        border-color: #333333 #333333 #333333 #333333 ; }
+
+    hr { height: 1px }
+-->
+</style>
+</head>
+<body>
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr><td class="header">NEMO Working Group</td><td class="header">M. Tsukada</td></tr>
+<tr><td class="header">Internet-Draft</td><td class="header">R. Kuntz</td></tr>
+<tr><td class="header">Expires: April 20, 2006</td><td class="header">T. Ernst</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">Keio University / WIDE</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">October 17, 2005</td></tr>
+</table></td></tr></table>
+<div align="right"><span class="title"><br />Analysis of Multiple Mobile Routers Cooperation</span></div>
+<div align="right"><span class="title"><br />draft-tsukada-nemo-mr-cooperation-analysis-00.txt</span></div>
+
+<h3>Status of this Memo</h3>
+<p>
+By submitting this Internet-Draft,
+each author represents that any applicable patent or other IPR claims of which
+he or she is aware have been or will be disclosed,
+and any of which he or she becomes aware will be disclosed,
+in accordance with Section&nbsp;6 of BCP&nbsp;79.</p>
+<p>
+Internet-Drafts are working documents of the Internet Engineering
+Task Force (IETF), its areas, and its working groups.
+Note that other groups may also distribute working documents as
+Internet-Drafts.</p>
+<p>
+Internet-Drafts are draft documents valid for a maximum of six months
+and may be updated, replaced, or obsoleted by other documents at any time.
+It is inappropriate to use Internet-Drafts as reference material or to cite
+them other than as &ldquo;work in progress.&rdquo;</p>
+<p>
+The list of current Internet-Drafts can be accessed at
+<a href='http://www.ietf.org/ietf/1id-abstracts.txt'>http://www.ietf.org/ietf/1id-abstracts.txt</a>.</p>
+<p>
+The list of Internet-Draft Shadow Directories can be accessed at
+<a href='http://www.ietf.org/shadow.html'>http://www.ietf.org/shadow.html</a>.</p>
+<p>
+This Internet-Draft will expire on April 20, 2006.</p>
+
+<h3>Copyright Notice</h3>
+<p>
+Copyright &copy; The Internet Society (2005).</p>
+
+<h3>Abstract</h3>
+
+<p>This document is an analysis of multiple Mobile Routers
+      Cooperation in the context of network mobility support (NEMO) in
+      IPv6. Our objective is to identify when cooperation between MRs
+      is needed and what information must be exchanged.
+      
+</p><a name="toc"></a><br /><hr />
+<h3>Table of Contents</h3>
+<p class="toc">
+<a href="#anchor1">1.</a>&nbsp;
+Introduction<br />
+<a href="#sec:objectives">2.</a>&nbsp;
+Objectives, Motivations and Assumptions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor2">2.1</a>&nbsp;
+Objectives<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor3">2.2</a>&nbsp;
+Sample Scenarios<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor4">2.2.1</a>&nbsp;
+Mobile Network in a Personal Area Network<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor5">2.2.2</a>&nbsp;
+Mobile Network in a Vehicle<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor6">2.3</a>&nbsp;
+Benefits<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#sec:tunnel_type">2.4</a>&nbsp;
+Assumptions<br />
+<a href="#sec:failures">3.</a>&nbsp;
+Points Of Failure<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor7">3.1</a>&nbsp;
+MR Failure (B)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor8">3.2</a>&nbsp;
+HA Failure (D)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor9">3.3</a>&nbsp;
+NEMO Tunnel Failure (C)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor10">3.4</a>&nbsp;
+NEMO-Link Failure (A)<br />
+<a href="#sec:requirements">4.</a>&nbsp;
+Requirements Analysis<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor11">4.1</a>&nbsp;
+NEMO Tunnel Discovery<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor12">4.2</a>&nbsp;
+Ingress Filtering Discovery<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor13">4.3</a>&nbsp;
+MR State Discovery<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor14">4.4</a>&nbsp;
+Link Characteristics Discovery<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor15">4.5</a>&nbsp;
+MNP Relay<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor16">4.6</a>&nbsp;
+Split NEMO Discovery<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor17">4.7</a>&nbsp;
+Policy Discovery<br />
+<a href="#sec:approaches">5.</a>&nbsp;
+Approaches<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor18">5.1</a>&nbsp;
+Mobility Approach<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor19">5.1.1</a>&nbsp;
+Binding Information Sharing<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#sec:condshare">5.1.2</a>&nbsp;
+Link Characteristics Sharing<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor20">5.1.3</a>&nbsp;
+Policy Sharing<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor21">5.2</a>&nbsp;
+Standard approach<br />
+<a href="#anchor22">6.</a>&nbsp;
+Security Consideration<br />
+<a href="#anchor23">7.</a>&nbsp;
+Conclusion<br />
+<a href="#anchor24">8.</a>&nbsp;
+Acknowledgement<br />
+<a href="#rfc.references1">9.</a>&nbsp;
+References<br />
+<a href="#rfc.authors">&#167;</a>&nbsp;
+Authors' Addresses<br />
+<a href="#rfc.copyright">&#167;</a>&nbsp;
+Intellectual Property and Copyright Statements<br />
+</p>
+<br clear="all" />
+
+<a name="anchor1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1"></a><h3>1.&nbsp;Introduction</h3>
+
+<p>
+       Network mobility support is necessary for groups of computers
+       moving together and requiring access to the Internet, such as
+       networks of sensors or access networks deployed in
+       vehicles. NEMO Basic Support (or NEMO in short <a class="info" href="#RFC3963">[2]<span> (</span><span class="info">Devarapalli, V., Wakikawa, R., Petrescu, A., and P. Thubert, &ldquo;Network Mobility (NEMO) Basic Support Protocol,&rdquo; January&nbsp;2005.</span><span>)</span></a>) has been specified to address this need.
+    
+</p>
+<p>In some situations, the mobile network may be multihomed, that
+       is either when a mobile router is multihomed or when several
+       mobile routers are being used to attach the same mobile network
+       to the Internet <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[5]<span> (</span><span class="info">Ng, C., Paik, E., Ernst, T., and M. Bagnulo, &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; July&nbsp;2005.</span><span>)</span></a>.  This brings a
+       number of benefits <a class="info" href="#I-D.ernst-generic-goals-and-benefits">[6]<span> (</span><span class="info">Ernst, T., &ldquo;Goals and Benefits of Multihoming,&rdquo; February&nbsp;2005.</span><span>)</span></a> including for
+       instance the possibility to face the lack of coverage of a
+       particular technology, to increase the Internet connectivity
+       and to choose the best path in terms of delay, bandwidth or
+       price.
+    
+</p>
+<p>
+       In theory, the simultaneous use of multiple Mobile Routers
+       (MRs) improves the overall Internet connectivity offered to the
+       Mobile Network Nodes (MNN) located in the mobile network,
+       because multiple paths to the Internet are available.  However,
+       in practice, it cannot be realized using NEMO basic support
+       only. One of the reasons is that an MR in a mobile network does
+       not know when another Internet connectivity (provided by
+       another MR) is available.
+    
+</p>
+<p>
+       Some of the issues are outlined in <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[5]<span> (</span><span class="info">Ng, C., Paik, E., Ernst, T., and M. Bagnulo, &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; July&nbsp;2005.</span><span>)</span></a> and cooperation
+       between MRs is advocated, but we need to further detail the
+       problem before we can bring a solution for such a cooperation
+       between MRs.
+    
+</p>
+<p>
+       At first we describe in section <a class="info" href="#sec:objectives">Section&nbsp;2<span> (</span><span class="info">Objectives, Motivations and Assumptions</span><span>)</span></a>
+       the motivations and scenarios for using multiple MRs. Then, in
+       <a class="info" href="#sec:failures">Section&nbsp;3<span> (</span><span class="info">Points Of Failure</span><span>)</span></a> we detail the problems or
+       limitations caused by the use of multiple MRs to connect a NEMO
+       to the Internet. From this problem description, we are able to
+       list a number of requirements in <a class="info" href="#sec:requirements">Section&nbsp;4<span> (</span><span class="info">Requirements Analysis</span><span>)</span></a> and finally we discuss in <a class="info" href="#sec:approaches">Section&nbsp;5<span> (</span><span class="info">Approaches</span><span>)</span></a> potential approaches for MR
+       cooperation.
+    
+</p>
+<a name="sec:objectives"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2"></a><h3>2.&nbsp;Objectives, Motivations and Assumptions</h3>
+
+<a name="rfc.section.2.1"></a><h4><a name="anchor2">2.1</a>&nbsp;Objectives</h4>
+
+<p>The objectives of this document are:
+     
+</p>
+<ul class="text">
+<li>To analyze further the cases where multiple MRs are
+          available in the NEMO (cases (n,*,*) as
+          categorized in <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[5]<span> (</span><span class="info">Ng, C., Paik, E., Ernst, T., and M. Bagnulo, &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; July&nbsp;2005.</span><span>)</span></a>).
+       
+</li>
+<li>To pave the way for a comprehensive solution to the issues
+          applying to such a multihomed NEMO configuration.
+       
+</li>
+<li>To clarify the MR cooperation issues and to list the required
+          mechanisms for MR cooperation.
+
+       
+</li>
+<li>To discuss possible approaches.
+
+       
+
+
+       
+</li>
+</ul>
+<a name="rfc.section.2.2"></a><h4><a name="anchor3">2.2</a>&nbsp;Sample Scenarios</h4>
+
+<a name="rfc.section.2.2.1"></a><h4><a name="anchor4">2.2.1</a>&nbsp;Mobile Network in a Personal Area Network</h4>
+
+<p>In a Personal Area Network (PAN), both a mobile phone and a 
+        PDA are acting as MRs and connecting the mobile network to 
+	the Internet (<a class="info" href="#fig:pan_network">Figure&nbsp;1<span> (</span><span class="info">Mobile Network in a Personal Area Network</span><span>)</span></a>). The
+        MRs have different access technologies. A GPRS interface is
+        provided by the mobile phone, and an IEEE802.11g interface is
+        shipped with the PDA. Some MNNs such as a portable game player
+        and a small PC are connected to the PAN. These MNNs may communicate 
+	with Correspondent Nodes (CN) with different needs in terms of cost, 
+	efficiency, bandwidth requirement, delay, etc. For example, a 
+	network game played on the portable game player may require less 
+	delay and higher bandwidth than browsing on the PC. In this case, the 
+	traffic of the network game could use IEEE802.11g access available 
+	on the PDA, whereas the web access could use both GPRS and 
+	IEEE802.11g. The use of multiple MRs simultaneously allows to 
+	increase the bandwidth and to improve the access redundancy for the
+	MNNs located in the mobile network. However, the current NEMO Basic 
+	Support does not provide any solution to share the connectivities 
+	among several MRs. We thus consider that there is a need for MRs 
+	cooperation.
+     
+</p><br /><hr />
+<a name="fig:pan_network"></a>
+<pre>
+
+                   __________________________
+                  /                          \
+                  |        Internet          |
+                  \__________________________/
+                       |                  |
+                     __|__            ____|___
+                   GPRS|       IEEE802.11g|
+                 ______|_____           __|__
+                |mobile phone|         | PDA |
+                |____________|         |_____|
+                ______|___________________|____
+                             __|__    Personal Area Network
+                            | MNN |_
+                            |_____| |
+                              |_____|
+
+</pre>
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;1: Mobile Network in a Personal Area Network&nbsp;</b></font><br /></td></tr></table><hr size="1" shade="0">
+
+<a name="rfc.section.2.2.2"></a><h4><a name="anchor5">2.2.2</a>&nbsp;Mobile Network in a Vehicle</h4>
+
+<p>We are assuming network of sensors and computers deployed in
+          vehicles as shown in <a class="info" href="#fig:vehicle_network">Figure&nbsp;2<span> (</span><span class="info">Mobile Network in a Vehicle</span><span>)</span></a>.
+          There are several MNNs in a vehicle and the vehicle network
+          is connected to the Internet via two in-vehicle MRs.  One is
+          a powerful MR that provides high-bandwidth to the MNN.  As it
+          may consume some energy, it is only switched on when the car
+          is started. When the car is turned off, this MR is switched off.  
+	  The other MR is a low-power, low-cost and low-bandwidth MR 
+	  that is used as a backup while the vehicle is stopped (ie when 
+	  the engine is off) or when the main MR sustains some failures. 
+	  The use of multiple MRs allows to access anytime the sensible 
+	  information of the car. Some cooperation between those MRs 
+	  would allow to ensure that a path is always available from and 
+	  to the MNNs.
+      
+</p><br /><hr />
+<a name="fig:vehicle_network"></a>
+<pre>
+
+                 ______________________________
+                /                              \
+                |          Internet            |
+                \______________________________/
+                    |                       |
+                  __|__                 ____|__
+                GPRS|                     3G|
+              ______|________         ______|________
+             |    Backup     |       |      Main     |
+             | in-vehicle MR |       | in-vehicle MR |
+             |_______________|       |_______________|
+                ____|_______________________|___
+                    __|__               __|__
+                   | MNN |_            | MNN |_
+                   |_____| |           |_____| |
+                     |_____|             |_____|
+
+</pre>
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;2: Mobile Network in a Vehicle&nbsp;</b></font><br /></td></tr></table><hr size="1" shade="0">
+
+<a name="rfc.section.2.3"></a><h4><a name="anchor6">2.3</a>&nbsp;Benefits</h4>
+
+<p>
+        The benefits of Mobile Routers cooperation in the (n,*,*) cases are
+        the same as the multihoming benefits detailed in <a class="info" href="#I-D.ernst-generic-goals-and-benefits">[6]<span> (</span><span class="info">Ernst, T., &ldquo;Goals and Benefits of Multihoming,&rdquo; February&nbsp;2005.</span><span>)</span></a>: 
+
+        </p>
+<ol class="text">
+<li>
+          Permanent and Ubiquitous Access / Redundancy /
+          Fault-Recovery: When a tunnel fails on an MR, MNNs can not
+          communicate with their correspondents, and conversely. If
+          MRs cooperate with each other, communication can be
+          recovered via the other MR relaying the failed one. There are 
+          thus more chances to maintain a permanent connectivity to the
+          Internet.
+
+          
+</li>
+<li> Load Sharing / Load Balancing / Preference Settings
+          / Increased Bandwidth / Bi-casting:
+          When several tunnels are available simultaneously, traffic
+          can be spread among several MRs, either by sharing the
+          communication flows between MRs, or bicasting (n-casting)
+          packets. In addition, and provided enough information about
+          the available paths and their characteristics (link
+          efficiency, cost, etc), packets could be routed according to
+          preferences set up by the users or the applications.
+
+          
+</li>
+</ol><p>
+        
+</p>
+<a name="rfc.section.2.4"></a><h4><a name="sec:tunnel_type">2.4</a>&nbsp;Assumptions</h4>
+
+<p>
+        Following the taxonomy proposed in <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[5]<span> (</span><span class="info">Ng, C., Paik, E., Ernst, T., and M. Bagnulo, &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; July&nbsp;2005.</span><span>)</span></a>, we will
+	concentrate the analysis taking into account all the
+	topologies where multiple MRs are available in the same
+	NEMO. This includes all the (n,*,*) cases, namely:
+	
+	</p>
+<ol class="text">
+<li>(n,1,1): Multiple MRs, Single HA, Single MNP
+</li>
+<li>(n,1,n): Multiple MRs, Single HA, Multiple MNPs
+</li>
+<li>(n,n,1): Multiple MRs, Multiple HAs, Single MNP
+</li>
+<li>(n,n,n): Multiple MRs, Multiple HAs, Multiple MNPs
+</li>
+</ol><p>
+    
+</p>
+<p>
+       We assume that tunnels are set up using NEMO Basic Support and
+       some extensions to support multiple binding registrations, as
+       currently investigated by the Monami6 WG.  Three configurations
+       can be divided when multiple MRs are connecting the same NEMO
+       to the Internet, as shown in <a class="info" href="#fig:mr_binding_types">Figure&nbsp;3<span> (</span><span class="info">Tunnel Topology Type</span><span>)</span></a>. These MRs connecting the same NEMO are 
+       referred to as "neighbor MRs" in some parts of the present document.
+    
+</p>
+<p>In the (n,1,*) case, all (MR,HA) tunnels end up at the same
+       HA. In the (n,n,*) case, either all (MR,HA) tunnels may end up
+       at different HAs in a "pair tunnel" type or tunnels may be
+       established between each MR and several HAs in "mesh like"
+       type.
+    
+</p><br /><hr />
+<a name="fig:mr_binding_types"></a>
+<pre>
+
+                       (n, 1, *) type
+                   _____             _____
+                  | MR1 |-----------|     |
+                  |_____|           |     |
+                   _____            | HA1 |
+                  | MR2 |           |     |
+                  |_____|-----------|_____|
+                                         _____             _____
+      _____             _____           | MR1 |-----------|     |
+     | MR1 |-----------| HA1 |          |_____|--+        | HA1 |
+     |_____|           |_____|                   |  +-----|_____|
+      _____             _____                    |  |      _____
+     | MR2 |           | HA2 |           _____   +--|-----|     |
+     |_____|-----------|_____|          | MR2 |-----+     | HA2 |
+                                        |_____|-----------|_____|
+   (n, n, *) pair tunnel type          (n, n, *) mesh tunnel type
+
+</pre>
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;3: Tunnel Topology Type&nbsp;</b></font><br /></td></tr></table><hr size="1" shade="0">
+
+<p> Nested NEMOs are out of scope of the present study, and we
+        don't make any assumption about the specific NEMO
+        topology. MRs may be connected to one another on a single
+        NEMO-link, but the NEMO could also be made of several
+        NEMO-links, with MRs on independent NEMO-links.
+     
+</p>
+<a name="sec:failures"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3"></a><h3>3.&nbsp;Points Of Failure</h3>
+
+<p>
+       Some of the issues are outlined in <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[5]<span> (</span><span class="info">Ng, C., Paik, E., Ernst, T., and M. Bagnulo, &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; July&nbsp;2005.</span><span>)</span></a> and cooperation
+       between MRs is recommended, but we need to further detail the
+       problem before we can bring a solution for such a cooperation
+       between MRs. We will make this study from a failure point of
+       view, i.e. by investigating the potential points of failure and
+       remedy to act upon these failures.
+    
+     
+</p>
+<p>
+        There are four points of failure that may affect the way
+        multiple MRs are supported. These are illustrated on <a class="info" href="#fig:failure_analysis">Figure&nbsp;4<span> (</span><span class="info">Failure Analysis</span><span>)</span></a>: (A) on the NEMO-link, (B) on
+        the MR, (C) on the (MR,HA) tunnel and (D) on the HA.
+     
+</p><br />
+<br />
+<br />
+<br /><hr />
+<a name="fig:failure_analysis"></a>
+<pre>
+
+      (A)     (B)                   (C)              (D)
+       *       *            _________*_______         *
+       *      _*_          |         *       |       _*_
+       *     | * |===================*==============| * |
+   _   |-----|MR |     MR-HA tunnel  *       |      |HA |    |
+  |_|--|     |_*_|         |_________*_______|      |_*_|----|
+       *       *                     *                *
+   NEMO-link  MRs                Internet            HAs   home link
+
+</pre>
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;4: Failure Analysis&nbsp;</b></font><br /></td></tr></table><hr size="1" shade="0">
+
+<a name="rfc.section.3.1"></a><h4><a name="anchor7">3.1</a>&nbsp;MR Failure (B)</h4>
+
+<p>
+          The failure of the MR could happen when the MR is down or
+          when it is isolated from the other MRs. (e.g. all interfaces
+          are down). As a result, the failed MR becomes unreachable
+          and thus unable to communicate with other MRs and HAs. All
+          tunnels established by this MR would be disrupted (see point
+          (B) on <a class="info" href="#fig:failure_analysis">Figure&nbsp;4<span> (</span><span class="info">Failure Analysis</span><span>)</span></a>). In
+          addition, the failure may affect the MR which was
+          advertising an MNP, which may cause some MNNs to
+          renumber.
+       
+</p>
+<p>
+          A mechanism is needed to detect the failure of the MR and to
+          redirect the traffic over an alternative tunnel (possibly
+          newly established) between another MR and the same or
+          another HA. It may also be necessary to relay the MNP that
+          was advertised by the failed MR.
+
+       
+</p>
+<a name="rfc.section.3.2"></a><h4><a name="anchor8">3.2</a>&nbsp;HA Failure (D)</h4>
+
+<p>
+        The failure of the HA could happen when the HA is down or when
+        it is isolated from the Internet, for instance when the access
+        network where the interface that connects it to the Internet
+        fails or if the fault occurs at the edge of the network. As a
+        result, the HA becomes unreachable (see point (D) on 
+        <a class="info" href="#fig:failure_analysis">Figure&nbsp;4<span> (</span><span class="info">Failure Analysis</span><span>)</span></a>).
+
+
+     
+</p>
+<p>
+        As a result, the failed HA is unable to communicate with MRs
+        and other HAs. The HA can not be used to register the Care-of Addresses,
+        all tunnels established with this HA would be disrupted, and
+        packets could not be redirected from the CNs to the mobile network
+        anymore.  In addition, the MNPs registered by the MRs on this HA become
+        unreachable, and the MRs cannot return home.
+
+     
+</p>
+<p>
+        A mechanism is needed to detect the failure of the HA and to
+        redirect the traffic over an alternative tunnel (possibly
+        newly established) between the same MR and another HA.
+     
+</p>
+<a name="rfc.section.3.3"></a><h4><a name="anchor9">3.3</a>&nbsp;NEMO Tunnel Failure (C)</h4>
+
+<p>
+        Events happening between the MR and its HA (see point (C) on <a class="info" href="#fig:failure_analysis">Figure&nbsp;4<span> (</span><span class="info">Failure Analysis</span><span>)</span></a>) could cause the tunnel to be
+        disrupted: e.g. one egress interface of the MR may fail, the
+        access router may fail, the access network may be disconnected
+        from the Internet, or the home link may fail.
+     
+    
+</p>
+<p> 
+        The MR can not send Binding Updates nor receive incoming
+        packets from the HA through this specific tunnel. However the
+        MR may still be able to communicate with its peer HAs via
+        other paths and other tunnels could established on another
+        egress interface or via the other MR.
+
+      
+     
+</p>
+<p>
+        A mechanism is needed to detect the tunnel failure and to
+        redirect all the traffic over an alternative tunnel (possibly
+	newly established), between the same or another (HA, MR) pair.
+     
+</p>
+<a name="rfc.section.3.4"></a><h4><a name="anchor10">3.4</a>&nbsp;NEMO-Link Failure (A)</h4>
+
+<p>
+        Events happening between two MRs on the same NEMO may cause
+        two MRs to be disconnected: e.g. the ingress interface of an MR
+        may fail, or the link connecting the two MRs may fail (a cable
+        or hub if Ethernet is used, of some radio interferences when a
+        wireless technology is used).
+     
+</p>
+<p>
+
+        Each MR may continue to send Binding Updates to its HA. No
+        established tunnel may be affected but the failure may cause
+        the NEMO to split. As a result, the incoming packets to the
+        mobile network may not reach the MNN the packet is bound
+        to. Also, Multiple MRs connected to this NEMO-Link will not be
+        able to communicate via this link anymore.
+
+     
+</p>
+<p>
+        A mechanism is therefore needed to detect the link failure and to act
+        upon it.
+     
+</p>
+<a name="sec:requirements"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4"></a><h3>4.&nbsp;Requirements Analysis</h3>
+
+<p>Path selection in multihomed NEMO is complex because there are
+        several steps to determine a path. We thus classify the steps
+        for path selection as follows (see <a class="info" href="#fig:path_selection">Figure&nbsp;5<span> (</span><span class="info">Path Selection</span><span>)</span></a>): (A) MNNs select the exit MRs
+        as default routers, (B) the MRs select a path to the HAs, (C)
+        the HAs select a path to the mobile network and (D) the CN
+        select a path to the HAs.
+     
+</p>
+<p>
+        In the face of the failures highlighted previously, the path
+        may need to be redirected from an MR to another. If the failure
+        happens on the HA or the NEMO Tunnel, this redirection may be
+        done in cooperation between the former MR to the new MR. If
+        the failure happens on the MR or the NEMO-link, this
+        redirection may be done by the new MR alone.
+     
+</p>
+<p>
+        The MNNs may send the packets to their default MR or they may
+        have the ability to choose the MR, but in any case, the
+        ultimate choice of the exit bi-directional tunnel falls on MRs
+        hands. This choice could be made based on the source and
+        destination address in the packet, or based on other
+        parameters such as the availability of tunnels. For such
+        selection to be made efficiently, MRs need to share
+        information about the tunnels existing on the other MRs, the
+        state of the MR, and other characteristics.
+     
+</p><br /><hr />
+<a name="fig:path_selection"></a>
+<pre>
+
+    _         _                       _                       _
+   | |  ---&gt; |_|  ---&gt;          &lt;--- |_|               &lt;---  | |
+   | |  (A)   _   (B)            (C)  _                 (D)  | |
+   | |  ---&gt; |_|  ---&gt;          &lt;--- |_|               &lt;---  | |
+   | |        _                       _                      | |
+   |_|  ---&gt; |_|  ---&gt;          &lt;--- |_|               &lt;---  |_|
+
+   MNN       MRs       Internet      HAs     Internet         CN
+
+</pre>
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;5: Path Selection&nbsp;</b></font><br /></td></tr></table><hr size="1" shade="0">
+
+<p>
+        The exchange of information will help each MR to determine the
+        network conditions and available Internet accesses.  As the
+        NEMO and tunnel infrastructures may change over time, it is
+        mandatory that such information be regularly exchanged or that
+        the exchange is triggered by an MR when a change is detected.
+     
+</p>
+<a name="rfc.section.4.1"></a><h4><a name="anchor11">4.1</a>&nbsp;NEMO Tunnel Discovery</h4>
+
+<p>
+        Each MR must be aware of the tunnels established at other MRs
+        with their respective HAs in order to know which paths are
+        available to route packets to the Internet.  Both MRs and HAs
+        should be aware of all NEMO tunnels between MRs and a HA(s)
+        irrespectively of the administrative domain of the HA. A NEMO
+        tunnel discovery mechanism is therefore required.
+     
+</p>
+<p>
+        For example, in <a class="info" href="#fig:tunnel_failure">Figure&nbsp;6<span> (</span><span class="info">NEMO Tunnel Discovery</span><span>)</span></a> below,
+        let's see what tunnels are seen simply using NEMO Basic
+        Support:
+
+     
+</p>
+<ul class="text">
+<li>
+
+          In the (n,1,*) type, HA1 would be aware of tunnel (A) and
+          (B), whereas MR1 would only be aware of tunnel (A) and MR2
+          of tunnel (B). MR1 is unaware of tunnel (B) and MR2 is
+          unaware of tunnel (A).
+ 
+       
+</li>
+<li>
+        
+          In the (n,n,*) pair tunnel type, MR1 and HA1 would be aware
+          of tunnel (C) and MR2 and HA2 would be aware of tunnel (D).
+          However, MR1 and HA1 are unaware of tunnel (D) and MR2
+          and HA2 are unaware of tunnel (C). 
+
+       
+</li>
+<li>
+
+          In the (n,n,*) mesh tunnel type, MR1 would be aware of
+          tunnels (E) and (G) whereas MR2 would be aware of tunnel (F)
+          and (H). MR1 is unaware of tunnel (F) and (H) whereas MR2 is
+          unaware of tunnels (E) and (G).
+
+       
+</li>
+</ul><br /><hr />
+<a name="fig:tunnel_failure"></a>
+<pre>
+
+               (n, 1, *) type
+           _____              _____
+          | MR1 |----(A)-----|     |
+          |_____|            |     |
+           _____             | HA1 |
+          | MR2 |            |     |
+          |_____|----(B)-----|_____|
+                                        (n, n, *) mesh tunnel type
+   (n,n,*) pair tunnel type             _____                 _____
+    _____             _____            | MR1 |---------(E)---|     |
+   | MR1 |----(C)----| HA1 |           |_____|--+            | HA1 |
+   |_____|           |_____|                    |  +---(F)---|_____|
+    _____             _____                     |  |          _____
+   | MR2 |           | HA2 |            _____   +--|---(G)---|     |
+   |_____|----(D)----|_____|           | MR2 |-----+         | HA2 |
+                                       |_____|---------(H)---|_____|
+
+</pre>
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;6: NEMO Tunnel Discovery&nbsp;</b></font><br /></td></tr></table><hr size="1" shade="0">
+
+<p>
+
+        The tunnels which need to be discovered are summarized in the
+        matrix below. Mark [X] stands for a node (MR or HA) that cannot
+        be aware of the tunnel only using NEMO Basic Support.
+
+     
+</p><br /><hr />
+<a name="fig:tunnel_failure_tab"></a>
+<pre>
+
+(n,1,*) type     (n,n,*) pair tunnel type    (n,n,*) mesh tunnel type
++=============+        +=============+        +=====================+
+|     |(A)|(B)|        |     |(C)|(D)|        |     |(E)|(F)|(G)|(H)|
++=============+        +=============+        +=====================+
+| MR1 |   | X |        | MR1 |   | X |        | MR1 | X |   | X |   |
++-----+---+---+        +-----+---+---+        +-----+---+---+---+---+
+| MR2 | X |   |        | MR2 | X |   |        | MR2 |   | X |   | X |
++-----+---+---+        +-----+---+---+        +-----+---+---+---+---+
+| HA1 |   |   |        | HA1 |   | X |        | HA1 | X | X |   |   |
++=============+        +-----+---+---+        +-----+---+---+---+---+
+                       | HA2 | X |   |        | HA2 |   |   | X | X |
+                       +=============+        +=====================+
+
+</pre>
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;7: NEMO Tunnel Discovery Matrix&nbsp;</b></font><br /></td></tr></table><hr size="1" shade="0">
+
+<a name="rfc.section.4.2"></a><h4><a name="anchor12">4.2</a>&nbsp;Ingress Filtering Discovery</h4>
+
+<p> 
+
+        Due to ingress filtering (see <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[5]<span> (</span><span class="info">Ng, C., Paik, E., Ernst, T., and M. Bagnulo, &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; July&nbsp;2005.</span><span>)</span></a>), each MR has to
+        know which address range can be authorized over a specific
+        (MR,HA) tunnel. For doing so, the knowledge of the multihomed
+        NEMO configuration an MR belongs to, i.e. (x,y,z) case, and to
+        know the (MR,HA) tunnel topology type as described in <a class="info" href="#sec:tunnel_type">Section&nbsp;2.4<span> (</span><span class="info">Assumptions</span><span>)</span></a> are necessary.
+
+     
+</p>
+<p>
+        For example, in <a class="info" href="#fig:tunnel_failure">Figure&nbsp;6<span> (</span><span class="info">NEMO Tunnel Discovery</span><span>)</span></a> above,
+        let's see what existing tunnels are valid:
+     
+</p>
+<ul class="text">
+<li>
+           In (n,n,n) pair tunnels type, MR1-HA1 and MR2-HA2 tunnels
+           are available. Sessions between MNN and CN may not be
+           directed from a tunnel to the other without breaking
+           sessions because both tunnels end up at a different HA.
+
+       
+</li>
+<li>
+           In (n,n,n) mesh tunnels type, all possible tunnels,
+           MR1-HA1, MR1-HA2, MR2-HA1 and MR2-HA2 tunnels are
+           available. Sessions between MNN and CNs can be changed from
+           MR1-HA1 tunnel to MR2-HA1 tunnel because both tunnels end
+           up at a same HA, so ingress filtering doesn't
+           occur. However, traffic may not be redirected to MR1-HA2 or
+           MR2-HA2.
+       
+</li>
+</ul>
+<a name="rfc.section.4.3"></a><h4><a name="anchor13">4.3</a>&nbsp;MR State Discovery</h4>
+
+<p>
+	Each MR must be aware of its neighbor MRs' state. In case an MR is down, 
+	this would avoid one MR to attempt cooperation with a failed 
+	neighbor. This would also allow to trigger a relaying mechanism for
+	the failed MR. In case an MR recovers from a failure, this would 
+	allow to return to the initial state of the NEMO, and to stop any
+	relaying mechanisms that was set up before the MR failed.
+
+     
+</p>
+<p>
+	By exchanging crucial information via the NEMO-link, each MR will 
+	be able to discover when a neighbor MR has failed or recovered, 
+	and to take some decisions to setup or stop a relaying mechanism.
+
+     
+</p>
+<p>
+	The MR state discovery mechanism should not assume any
+	specific configuration of the NEMO. It should work either for
+	MRs on the same NEMO-link, or for MRs on distinct NEMO-links
+	as shown on <a class="info" href="#fig:failure_detection_between_different_nemo">Figure&nbsp;8<span> (</span><span class="info">MRs Discovery Between Different NEMO-links</span><span>)</span></a>. However,
+	in the latter case, special care must be taken so that such
+	discovery mechanism does not introduce loops or complexity.
+     
+</p><br /><hr />
+<a name="fig:failure_detection_between_different_nemo"></a>
+<pre>
+
+                MR1               MR2                MR3
+               __|_______________|   |________________|__
+                    NEMO-link1           NEMO2-link2
+
+</pre>
+<table border="0" cellpadding="0" cellspacing="2" align="center"><tr><td align="center"><font face="monaco, MS Sans Serif" size="1"><b>&nbsp;Figure&nbsp;8: MRs Discovery Between Different NEMO-links&nbsp;</b></font><br /></td></tr></table><hr size="1" shade="0">
+
+<a name="rfc.section.4.4"></a><h4><a name="anchor14">4.4</a>&nbsp;Link Characteristics Discovery</h4>
+
+<p>A MR usually connects to the access networks using wireless
+	technologies that may have different characteristics (e.g. 
+	link quality, bandwidth, delay and cost). Sharing some of 
+	such link metrics among the MRs will help 
+	to perform a decision in the path selection mechanism. The 
+	following information can be interesting to select an 
+	access link on an MR:
+	    
+        </p>
+<ul class="text">
+<li>Available bandwidth / Used bandwidth
+</li>
+<li>Expected delay (RTT) to the HA
+</li>
+<li>SNR (Signal to Noise Ratio)
+</li>
+<li>Security mechanisms
+</li>
+</ul><p>
+     
+</p>
+<p>The protocol used to exchange such metrics should be easily
+	extensible as new wireless technologies may bring new
+	interesting link metrics in the future.
+     
+</p>
+<a name="rfc.section.4.5"></a><h4><a name="anchor15">4.5</a>&nbsp;MNP Relay</h4>
+
+<p>
+        A recovery mechanisms is needed to continue advertising an MNP
+        upon a failure happening on an MR, a HA or a NEMO-link which
+        affects the advertisement of an MNP.
+     
+</p>
+<a name="rfc.section.4.6"></a><h4><a name="anchor16">4.6</a>&nbsp;Split NEMO Discovery</h4>
+
+<p>When an MR notices that one of its neighbor MR is unreachable, 
+	   it may be due to a failure or because the NEMO-link has split. 
+           A mechanism is thus necessary to be able to distinguish 
+	   when a split occurs.
+	
+</p>
+<p>The mechanism should also solve the Prefix Ownership issue 
+	   as described in <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[5]<span> (</span><span class="info">Ng, C., Paik, E., Ernst, T., and M. Bagnulo, &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; July&nbsp;2005.</span><span>)</span></a>.
+	
+</p>
+<a name="rfc.section.4.7"></a><h4><a name="anchor17">4.7</a>&nbsp;Policy Discovery</h4>
+
+<p>Policies are used to divide flows among several available paths
+	 according to the flow type, the port number, the destination address 
+	 etc. For the packets sent from the mobile network, multiple MRs need 
+	 to work with the same policies in order to take the same and coherent 
+	 decisions. Thus a mechanism to synchronize policies among the MRs 
+	 is mandatory.
+	 
+</p>
+<p>Policies should be exchanged using a standardized format
+	    among the MRs as they may use different OS or policy
+	    processing tools.  
+	 
+</p>
+<a name="sec:approaches"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5"></a><h3>5.&nbsp;Approaches</h3>
+
+<p>
+      In this section we investigate possible approaches to meet the
+      requirements outlined in the previous section. One approach is
+      to share mobility related information, and another to use
+      standard protocols.
+   
+</p>
+<p>The way to exchange information among neighbor MR may be 
+      different if the MRs are located on the same link or in two 
+      different links (connected via a router or another MR). In the 
+      former case, sending the information to the all-router multicast 
+      address or to the targeted MR's link local address will allow 
+      the MRs to exchange information even if they are not on the same 
+      IP network. In the latter case, a new mechanism to exchange the 
+      information between the networks will be needed.
+   
+</p>
+<a name="rfc.section.5.1"></a><h4><a name="anchor18">5.1</a>&nbsp;Mobility Approach</h4>
+
+<a name="rfc.section.5.1.1"></a><h4><a name="anchor19">5.1.1</a>&nbsp;Binding Information Sharing</h4>
+
+<p>MRs that are in the same mobile network can share among them 
+	    the state of their binding information as well as some other 
+	    important items, namely:
+
+           </p>
+<ul class="text">
+<li>Care-of Address / Prefix Length
+               <br />
+<br />
+
+
+   	       By exchanging their Care-of Address(es) (with the
+	       prefix length), different MRs will able to detect that
+	       they are connecting to same access network. It is
+	       (usually) not interesting that several MRs connect to
+	       same access network regarding to redundancy, bandwidth
+	       or battery purposes.  The MRs may able to turn off the
+	       interfaces that are connected to the same access
+	       network except for one interface.
+             
+</li>
+<li>Home Address / Prefix Length
+               <br />
+<br />
+
+
+	       By exchanging their Home Address(es) (with the prefix 
+	       length), different MRs can know the home link of a specific 
+	       MR, since the Home Address is built from the the MR's home 
+	       link's prefix. 
+             
+</li>
+<li>Mobile Network Prefix / Prefix Length
+               <br />
+<br />
+
+
+ 	         With the MNP and its prefix length, the MRs can know which 
+		 MRs are advertising the same MNP to the NEMO. This could 
+		 help to solve the Prefix Ownership issue (as described in 
+		 <a class="info" href="#I-D.ietf-nemo-multihoming-issues">[5]<span> (</span><span class="info">Ng, C., Paik, E., Ernst, T., and M. Bagnulo, &ldquo;Analysis of Multihoming in Network Mobility Support,&rdquo; July&nbsp;2005.</span><span>)</span></a>) when 
+		 a mobile network where several MRs advertise the same MNP 
+		 splits.
+              
+</li>
+<li>HA address
+               <br />
+<br />
+
+ 	         
+		 With the HA address, MRs can know where a specific tunnel
+	         ends. Thanks to this information, when a communication 
+		 has to be diverted from one tunnel to another, ingress 
+		 filtering can be avoided by choosing efficiently the new 
+		 tunnel.
+             
+</li>
+<li>Ingress interface's link-local address
+               <br />
+<br />
+
+
+	       By exchanging their link local address, MRs on the same
+	       link can communicate directly via the NEMO-link, even
+	       if they are on two different IPv6 networks.
+              
+</li>
+<li>Ingress interface's global address
+               <br />
+<br />
+
+
+	       By exchanging their global address, MRs that are on the
+	       same mobile network but not on the same link may be
+	       able to communicate via the NEMO-link.
+              
+</li>
+<li>Binding Lifetime
+               <br />
+<br />
+
+
+ 	         With the binding lifetime, each MR knows when other's MRs 
+		 binding information have expired and can thus easily 
+		 remove deprecated information.
+             
+</li>
+<li>MR Identification (MR ID)
+               <br />
+<br />
+
+	       
+	       MR should be distinguished by an unique
+	       identifier. This ID must not be duplicated in a same
+	       mobile network.
+             
+</li>
+<li>Tunnel Identification (tunnel ID)
+	       <br />
+<br />
+
+
+               Tunnel Identification is necessary to be able to
+               distinguish the multiple available path on a single
+               MR. This ID must be unique on the same MR. 
+             
+</li>
+</ul><p>
+	
+</p>
+<p>
+	Those information can be maintained with the MR Identification 
+	and the Tunnel Identification as key of the information database. 
+	
+</p>
+<a name="rfc.section.5.1.2"></a><h4><a name="sec:condshare">5.1.2</a>&nbsp;Link Characteristics Sharing</h4>
+
+<p>The parameters exchanged should be bound to the tunnel ID and 
+	    the MR ID.
+	 
+</p>
+<p>
+            <a class="info" href="#I-D.morioka-nemo-mrcoop">[8]<span> (</span><span class="info">Morioka, H., &ldquo;Mobile Router Cooperation Protocol,&rdquo; July&nbsp;2005.</span><span>)</span></a> is a solution that
+            falls into this approach. It attempts to propose a link
+            metric message exchange solution which allows MNNs to
+            select the MR with the best link quality.
+         
+</p>
+<a name="rfc.section.5.1.3"></a><h4><a name="anchor20">5.1.3</a>&nbsp;Policy Sharing</h4>
+
+<p>Each policy exchanged should be bound to a tunnel ID and an 
+	    MR ID.
+	 
+</p>
+<p>The path for incoming packets to the mobile network may be 
+	    selected by the HA. In this document we focus on MRs cooperation,
+	    however it is recommended to share the same solution about policy 
+	    sharing for both the MR-MR and MR-HA cases.
+	 
+</p>
+<a name="rfc.section.5.2"></a><h4><a name="anchor21">5.2</a>&nbsp;Standard approach</h4>
+
+<p>The standard approach would use or extend existing protocols 
+	   to fit the requirements, such as:
+           </p>
+<ul class="text">
+<li>A routing protocol to announce and propagate the available 
+	      path to the Internet inside the NEMO. Metrics such as 
+	      described in <a class="info" href="#sec:condshare">Section&nbsp;5.1.2<span> (</span><span class="info">Link Characteristics Sharing</span><span>)</span></a> could also be 
+	      exchanged in this way.
+	   
+</li>
+<li>Neighbor Discovery to discover the neighbor MRs located in 
+	      the same link.
+           
+</li>
+<li>A prefix delegation mechanism for the MRs to deal with the 
+	      MNPs advertised in the NEMO.
+	   
+</li>
+</ul><p>
+	
+</p>
+<a name="anchor22"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.6"></a><h3>6.&nbsp;Security Consideration</h3>
+
+<p> 
+       Security considerations are out of scope of the present
+       document, since we do not discuss specific solutions.
+      
+</p>
+<a name="anchor23"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.7"></a><h3>7.&nbsp;Conclusion</h3>
+
+<p>
+      In this document, we investigated the issues for NEMO
+      configurations with multiple MRs. We have listed a number of
+      requirements that should be met for MNNs and MRs to choose the
+      most appropriate exit tunnel and to recover from a failure of
+      the MR, the HA, the tunnel itself or the NEMO-link between
+      MRs. We have started to investigate potential approaches and we
+      outline one which is based on the exchange of mobility binding
+      information, and a standard one using existing network routing
+      protocols, router advertisement and prefix delegation
+      mechanisms.
+   
+</p>
+<a name="anchor24"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.8"></a><h3>8.&nbsp;Acknowledgement</h3>
+
+<p>
+	The authors would like to thank the Nautilus6 members for the initial 
+	discussions that has motivated the writing of this draft. 
+	
+</p>
+<a name="rfc.references1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>9.&nbsp;References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="RFC3775">[1]</a></td>
+<td class="author-text">Johnson, D., Perkins, C., and J. Arkko, &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc3775.txt">Mobility Support in IPv6</a>,&rdquo; RFC&nbsp;3775, June&nbsp;2004.</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC3963">[2]</a></td>
+<td class="author-text">Devarapalli, V., Wakikawa, R., Petrescu, A., and P. Thubert, &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc3963.txt">Network Mobility (NEMO) Basic Support Protocol</a>,&rdquo; RFC&nbsp;3963, January&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-nemo-requirements">[3]</a></td>
+<td class="author-text">Ernst, T., &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-ietf-nemo-requirements-04.txt">Network Mobility Support Goals and Requirements</a>,&rdquo; draft-ietf-nemo-requirements-04 (work in progress), February&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-nemo-terminology">[4]</a></td>
+<td class="author-text">Ernst, T. and H. Lach, &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-ietf-nemo-terminology-03.txt">Network Mobility Support Terminology</a>,&rdquo; draft-ietf-nemo-terminology-03 (work in progress), February&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ietf-nemo-multihoming-issues">[5]</a></td>
+<td class="author-text">Ng, C., Paik, E., Ernst, T., and M. Bagnulo, &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-ietf-nemo-multihoming-issues-03.txt">Analysis of Multihoming in Network Mobility Support</a>,&rdquo; draft-ietf-nemo-multihoming-issues-03 (work in progress), July&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.ernst-generic-goals-and-benefits">[6]</a></td>
+<td class="author-text">Ernst, T., &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-ernst-generic-goals-and-benefits-01.txt">Goals and Benefits of Multihoming</a>,&rdquo; draft-ernst-generic-goals-and-benefits-01 (work in progress), February&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.wakikawa-mobileip-multiplecoa">[7]</a></td>
+<td class="author-text">Wakikawa, R., Uehara, K., Ernst, T., and K. Nagami, &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-wakikawa-mobileip-multiplecoa-04.txt">Multiple Care-of Addresses Registration</a>,&rdquo; draft-wakikawa-mobileip-multiplecoa-04 (work in progress), June&nbsp;2005.</td></tr>
+<tr><td class="author-text" valign="top"><a name="I-D.morioka-nemo-mrcoop">[8]</a></td>
+<td class="author-text">Morioka, H., &ldquo;<a href="http://www.ietf.org/internet-drafts/draft-morioka-nemo-mrcoop-00.txt">Mobile Router Cooperation Protocol</a>,&rdquo; draft-morioka-nemo-mrcoop-00 (work in progress), July&nbsp;2005.</td></tr>
+</table>
+
+<a name="rfc.authors"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Authors' Addresses</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Manabu Tsukada</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Keio University / WIDE</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Jun Murai Lab., Keio University.</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">K-square Town Campus, 1488-8 Ogura, Saiwa-Ku</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Kawasaki, Kanagawa  212-0054</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Japan</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+81-44-580-1600</td></tr>
+<tr><td class="author" align="right">Fax:&nbsp;</td>
+<td class="author-text">+81-44-580-1437</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:tu-ka@sfc.wide.ad.jp">tu-ka@sfc.wide.ad.jp</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://www.sfc.wide.ad.jp/~tu-ka/">http://www.sfc.wide.ad.jp/~tu-ka/</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Romain Kuntz</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Keio University / WIDE</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Jun Murai Lab., Keio University.</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">K-square Town Campus, 1488-8 Ogura, Saiwa-Ku</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Kawasaki, Kanagawa  212-0054</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Japan</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+81-44-580-1600</td></tr>
+<tr><td class="author" align="right">Fax:&nbsp;</td>
+<td class="author-text">+81-44-580-1437</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:kuntz@sfc.wide.ad.jp">kuntz@sfc.wide.ad.jp</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://www.sfc.wide.ad.jp/~kuntz/">http://www.sfc.wide.ad.jp/~kuntz/</a></td></tr>
+<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Thierry Ernst</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Keio University / WIDE</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Jun Murai Lab., Keio University.</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">K-square Town Campus, 1488-8 Ogura, Saiwa-Ku</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Kawasaki, Kanagawa  212-0054</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Japan</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+81-44-580-1600</td></tr>
+<tr><td class="author" align="right">Fax:&nbsp;</td>
+<td class="author-text">+81-44-580-1437</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:ernst@sfc.wide.ad.jp">ernst@sfc.wide.ad.jp</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://www.sfc.wide.ad.jp/~ernst/">http://www.sfc.wide.ad.jp/~ernst/</a></td></tr>
+</table>
+<a name="rfc.copyright"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Intellectual Property Statement</h3>
+<p class='copyright'>
+The IETF takes no position regarding the validity or scope of any
+Intellectual Property Rights or other rights that might be claimed
+to pertain to the implementation or use of the technology
+described in this document or the extent to which any license
+under such rights might or might not be available; nor does it
+represent that it has made any independent effort to identify any
+such rights.
+Information on the procedures with respect to
+rights in RFC documents can be found in BCP&nbsp;78 and BCP&nbsp;79.</p>
+<p class='copyright'>
+Copies of IPR disclosures made to the IETF Secretariat and any
+assurances of licenses to be made available,
+or the result of an attempt made to obtain a general license or
+permission for the use of such proprietary rights by implementers or
+users of this specification can be obtained from the IETF on-line IPR
+repository at <a href='http://www.ietf.org/ipr'>http://www.ietf.org/ipr</a>.</p>
+<p class='copyright'>
+The IETF invites any interested party to bring to its attention
+any copyrights,
+patents or patent applications,
+or other
+proprietary rights that may cover technology that may be required
+to implement this standard.
+Please address the information to the IETF at <a href='mailto:ietf-ipr@ietf.org'>ietf-ipr@ietf.org</a>.</p>
+<h3>Disclaimer of Validity</h3>
+<p class='copyright'>
+This document and the information contained herein are provided
+on an &ldquo;AS IS&rdquo; basis and THE CONTRIBUTOR,
+THE ORGANIZATION HE/SHE REPRESENTS OR IS SPONSORED BY (IF ANY),
+THE INTERNET SOCIETY AND THE INTERNET ENGINEERING TASK FORCE DISCLAIM
+ALL WARRANTIES,
+EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE
+INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED
+WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.</p>
+<h3>Copyright Statement</h3>
+<p class='copyright'>
+Copyright &copy; The Internet Society (2005).
+This document is subject to the rights,
+licenses and restrictions contained in BCP&nbsp;78,
+and except as set forth therein,
+the authors retain all their rights.</p>
+<h3>Acknowledgment</h3>
+<p class='copyright'>
+Funding for the RFC Editor function is currently provided by the
+Internet Society.</p>
+</body></html>

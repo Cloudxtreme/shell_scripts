@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Katalog webových stránek systému inPage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Webové stránky snadno pro každého. Kompletní řešení webových stránek s doménou, webhostingem, e-mailem, e-shopem a SEO. Vytvoření a úpravu internetových stránek zvládne každý.">
+    <meta name="keywords" content="webové stránky,webové stránky snadno,inpage,stránky,www stránky,stránky zdarma,internetové stránky,tvorba www stránek,web stránky" />        
+    
+
+    <link rel="shortcut icon" href="/favicon.ico">        
+
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic&subset=latin,latin-ext" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/animate.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/bootstrap-override.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/theme.css?date=2013-08-26" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/fonts.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/colors.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/theme-responsive.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/pricing-table.css" />
+    <link rel="stylesheet" type="text/css" media="screen,projection,tv" href="/css/cs.css" />
+
+        
+    <script type="text/javascript" src="/js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/sliding.js"></script>
+    <script type="text/javascript" src="/js/theme.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("a[href*='http://']:not([href*='" + window.location.hostname + "']), a[href*='https://']:not([href*='" + window.location.hostname + "'])").addClass("link-external");
+        $("a[href*='http://']:not([href*='" + window.location.hostname + "']):has(img)").removeClass("link-external");
+        // side bar
+        $('.bs-docs-sidenav').affix({
+          offset: {
+            //top: 0,
+            //bottom: 500
+          }
+        });
+
+	$('#link-login').click(function() {
+		$('#login-box').toggle();
+		return false;
+	});
+
+	$('#submit-login').click(function() {
+		var domain = $('#domain-login').val();
+		var login = $('#password-login').val();
+
+		if (domain == '') {
+			alert('Zadejte doménu');
+			return false;
+		}
+
+		if (login == '') {
+			alert('Zadejte heslo');
+			return false;
+		}
+
+		var regex = /(www)\.([a-z0-9\-.]+)\.([a-z]{2,5})/;
+
+		if (!regex.test(domain)) {
+			alert('Doména nemá správný tvar');
+			return false;
+		}
+
+		$('#form-login').attr('action', 'http://'+domain+'/admin/login/');
+		$('#form-login').submit();
+
+		return false;
+	});
+
+	$('#close-login').click(function() {
+		$('#login-box').hide();
+		return false;
+	});
+      });
+    </script>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-290875-26']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+  <body data-spy="scroll" data-target=".bs-docs-sidebar" data-offset="100">
+    <script> document.body.className += ' js'</script>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">
+            <img src="/images/logo-cz.png" alt="logo" />
+          </a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right">
+              <li><a data-placement="bottom" title="Úvodní strana služby inPage" href="/">Úvod</a></li>
+              <li><a data-placement="bottom" title="Prohlídka" href="/prohlidka/">Prohlídka</a></li>
+              <li><a data-placement="bottom" title="Ceny a varianty služby inPage" href="/ceny-a-varianty/">Ceny a varianty</a></li>
+              <li class="active"><a data-placement="bottom" title="Ukázky webů vytvořené uživateli služby inPage" href="/reference/">Reference</a></li>
+              <li><a data-placement="bottom" title="Nápověda pro službu inPage" href="/napoveda/">Nápověda</a></li>
+              <li><a data-placement="bottom" title="Kontakt a zákaznická podpora služby inPage" href="/kontakt/">Kontakty</a></li>
+            </ul>
+          </div>
+          <a id="link-login" href="#" title="Přihlášení k účtu">Přihlášení k účtu &raquo;</a>
+          <div id="login-box" style="display: none;">
+            <form id="form-login" method="post" action="">
+              <div>
+                <label for="domain">Doména</label>
+                <input type="text" name="domain" id="domain-login" value="www.">
+              </div>
+              <div>
+                <label for="password">Heslo</label>
+                <input type="password" name="password" id="password-login">
+              </div>
+              <div class="text-right">
+                <input class="btn" id="submit-login" type="submit" value="Přihlásit">
+              </div>
+	      <p style="margin-top: -1.7em;"><a href="/zapomenute-heslo/">Zapomněli jste heslo?</a></p>
+            </form>
+            <a class="close" id="close-login" href="#" title="Zavřít">×</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <section id="top">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <hgroup>
+          <h1>Ukázky použití inPage</h1>
+          <h2>Prohlédněte si povedené weby uživatelů služby inPage a načerpejte inspiraci.</h2>
+        </hgroup>
+      </div>
+    </div>
+  </div>
+</section>
+<hr>
+
+<section class="even">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h2 class="text-center">TOP webové stránky</h2>
+        <ul class="thumbnails portfolio">
+
+                      <li class="span6">
+              <div class="thumbnail">
+                <div class="portfolio-item">
+                  <img  src="/catalog/vizualizace.net.png" alt="" />
+                  <div class="folio-body">
+                    <div class="folio-info">
+                      <h5>3D PROARCH vizualizace - 3D Studio MAX</h5>
+                                              <p>Vizualizace pro architekty a development.</p>
+                                            <small><a href="http://www.vizualizace.net/" title="3D PROARCH vizualizace - 3D Studio MAX" target="_blank">www.vizualizace.net</a></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>                                        
+                      <li class="span3">
+              <div class="thumbnail">
+                <div class="portfolio-item">
+                  <img width="214"  src="/catalog/aaa-consulting.cz.png" alt="" />
+                  <div class="folio-body">
+                    <div class="folio-info">
+                      <h5>AAA Consulting s.r.o. - Specializované ekonomické poradenství</h5>
+                                            <small><a href="http://www.aaa-consulting.cz/" title="AAA Consulting s.r.o. - Specializované ekonomické poradenství" target="_blank">www.aaa-consulting.cz</a></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>                                        
+                      <li class="span3">
+              <div class="thumbnail">
+                <div class="portfolio-item">
+                  <img width="214"  src="/catalog/vizual1.cz.png" alt="" />
+                  <div class="folio-body">
+                    <div class="folio-info">
+                      <h5>architektonické vizualizace, 3d vizualizace staveb</h5>
+                                            <small><a href="http://www.vizual1.cz/" title="architektonické vizualizace, 3d vizualizace staveb" target="_blank">www.vizual1.cz</a></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>                                        
+                      <li class="span3">
+              <div class="thumbnail">
+                <div class="portfolio-item">
+                  <img width="214"  src="/catalog/astroservis.cz.png" alt="" />
+                  <div class="folio-body">
+                    <div class="folio-info">
+                      <h5>Astrologie, psychoterapie a grafologie - Mgr. Jana Najmanová</h5>
+                                            <small><a href="http://www.astroservis.cz/" title="Astrologie, psychoterapie a grafologie - Mgr. Jana Najmanová" target="_blank">www.astroservis.cz</a></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>                                        
+                      <li class="span3">
+              <div class="thumbnail">
+                <div class="portfolio-item">
+                  <img width="214"  src="/catalog/audimpex.cz.png" alt="" />
+                  <div class="folio-body">
+                    <div class="folio-info">
+                      <h5>Audimpex - oficiální zastoupení Vestax</h5>
+                                            <small><a href="http://www.audimpex.cz/" title="Audimpex - oficiální zastoupení Vestax" target="_blank">www.audimpex.cz</a></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>                                        
+                      <li class="span3">
+              <div class="thumbnail">
+                <div class="portfolio-item">
+                  <img width="214"  src="/catalog/aurnia.cz.png" alt="" />
+                  <div class="folio-body">
+                    <div class="folio-info">
+                      <h5>AURNIA - studio interiérového designu</h5>
+                                            <small><a href="http://www.aurnia.cz/" title="AURNIA - studio interiérového designu" target="_blank">www.aurnia.cz</a></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>                                        
+                      <li class="span3">
+              <div class="thumbnail">
+                <div class="portfolio-item">
+                  <img width="214"  src="/catalog/batrsrot.cz.png" alt="" />
+                  <div class="folio-body">
+                    <div class="folio-info">
+                      <h5>BATR šrot a.s. - výkup, zpracování a obchod s kovovým odpadem</h5>
+                                            <small><a href="http://www.batrsrot.cz/" title="BATR šrot a.s. - výkup, zpracování a obchod s kovovým odpadem" target="_blank">www.batrsrot.cz</a></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>                                        
+                      <li class="span3">
+              <div class="thumbnail">
+                <div class="portfolio-item">
+                  <img width="214"  src="/catalog/blog.sslmarket.cz.png" alt="" />
+                  <div class="folio-body">
+                    <div class="folio-info">
+                      <h5>Blog o SSL certifikátech a certifikačních autoritách</h5>
+                                            <small><a href="http://www.blog.sslmarket.cz/" title="Blog o SSL certifikátech a certifikačních autoritách" target="_blank">www.blog.sslmarket.cz</a></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>                                        
+                      <li class="span3">
+              <div class="thumbnail">
+                <div class="portfolio-item">
+                  <img width="214"  src="/catalog/bravo-consulting.cz.png" alt="" />
+                  <div class="folio-body">
+                    <div class="folio-info">
+                      <h5>BRAVO CONSULTING – Poradenství pro firmy a podnikatele</h5>
+                                            <small><a href="http://www.bravo-consulting.cz/" title="BRAVO CONSULTING – Poradenství pro firmy a podnikatele" target="_blank">www.bravo-consulting.cz</a></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>                                        
+                              
+
+        </ul>
+      </div>
+    </div>
+
+          <div class="row">
+        <div class="span12">
+          <div class="pagination pagination-centered">
+            <ul>
+              <li class="disabled">
+                <a href="/reference/1/">&laquo; První</a>
+              </li>
+
+                              <li class="active">
+                  <a href="/reference/1/">1</a>
+                </li>
+                              <li>
+                  <a href="/reference/2/">2</a>
+                </li>
+                              <li>
+                  <a href="/reference/3/">3</a>
+                </li>
+                              <li>
+                  <a href="/reference/4/">4</a>
+                </li>
+                              <li>
+                  <a href="/reference/5/">5</a>
+                </li>
+                              <li>
+                  <a href="/reference/6/">6</a>
+                </li>
+                              <li>
+                  <a href="/reference/7/">7</a>
+                </li>
+                              <li>
+                  <a href="/reference/8/">8</a>
+                </li>
+              
+              <li>
+                <a href="/reference/8/">Poslední &raquo;</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    
+  </div>
+</section>
+
+<hr />
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h2 class="text-center">Katalog webů</h2>
+        <div class="container-fluid">
+          <div class="row-fluid">
+              
+              <div class="span3">
+                <ul>
+                    
+                    <li><a href="/katalog/auto-moto/" title="Auto, moto">Auto, moto</a></li>
+                    
+                    <li><a href="/katalog/cestovani-ubytovani/" title="Cestování, ubytování">Cestování, ubytování</a></li>
+                    
+                    <li><a href="/katalog/deti-hracky/" title="Děti, hračky">Děti, hračky</a></li>
+                    
+                    <li><a href="/katalog/dum-byt-zahrada/" title="Dům, byt, zahrada">Dům, byt, zahrada</a></li>
+                    
+                    <li><a href="/katalog/eshopy-prodej/" title="E-shopy, prodej">E-shopy, prodej</a></li>
+                    
+                    <li><a href="/katalog/elektro-pocitace/" title="Elektro, počítače">Elektro, počítače</a></li>
+                    
+                    <li><a href="/katalog/erotika/" title="Erotika">Erotika</a></li>
+                                  </ul>
+              </div>
+              
+              <div class="span3">
+                <ul>
+                    
+                    <li><a href="/katalog/financni-sluzby-pojisteni/" title="Finanční služby, pojištění">Finanční služby, pojištění</a></li>
+                    
+                    <li><a href="/katalog/internet-komunikace/" title="Internet, komunikace">Internet, komunikace</a></li>
+                    
+                    <li><a href="/katalog/krasa-kosmetika/" title="Krása, kosmetika">Krása, kosmetika</a></li>
+                    
+                    <li><a href="/katalog/kultura-hudba-film/" title="Kultura, hudba, film">Kultura, hudba, film</a></li>
+                    
+                    <li><a href="/katalog/nadace-sdruzeni/" title="Nadace, sdružení">Nadace, sdružení</a></li>
+                    
+                    <li><a href="/katalog/obce-verejna-sprava/" title="Obce, veřejná správa">Obce, veřejná správa</a></li>
+                    
+                    <li><a href="/katalog/osobni-stranky-blogy/" title="Osobní stránky, blogy">Osobní stránky, blogy</a></li>
+                                  </ul>
+              </div>
+              
+              <div class="span3">
+                <ul>
+                    
+                    <li><a href="/katalog/ostatni/" title="Ostatní">Ostatní</a></li>
+                    
+                    <li><a href="/katalog/reality/" title="Reality">Reality</a></li>
+                    
+                    <li><a href="/katalog/restaurace-gastronomie/" title="Restaurace, gastronomie">Restaurace, gastronomie</a></li>
+                    
+                    <li><a href="/katalog/sluzby-maloobchod/" title="Služby, maloobchod">Služby, maloobchod</a></li>
+                    
+                    <li><a href="/katalog/software/" title="Software">Software</a></li>
+                    
+                    <li><a href="/katalog/sport-a-fitness/" title="Sport a fitness">Sport a fitness</a></li>
+                    
+                    <li><a href="/katalog/stavebnictvi/" title="Stavebnictví">Stavebnictví</a></li>
+                                  </ul>
+              </div>
+              
+              <div class="span3">
+                <ul>
+                    
+                    <li><a href="/katalog/velkoobchod/" title="Velkoobchod">Velkoobchod</a></li>
+                    
+                    <li><a href="/katalog/vyroba/" title="Výroba">Výroba</a></li>
+                    
+                    <li><a href="/katalog/vzdelani-skoleni/" title="Vzdělávání, školení">Vzdělávání, školení</a></li>
+                    
+                    <li><a href="/katalog/zabava/" title="Zábava">Zábava</a></li>
+                    
+                    <li><a href="/katalog/zdravi/" title="Zdraví">Zdraví</a></li>
+                    
+                    <li><a href="/katalog/zvirata-fauna-flora/" title="Zvířata, fauna, flóra">Zvířata, fauna, flóra</a></li>
+                                  </ul>
+              </div>
+                      </div>
+        </div>
+        <form action="/vyhledavani/" method="post" class="form-inline">
+          <p class="text-center"><br>
+            <input type="text" name="text" id="text" value="" class="input-xlarge">            <input type="submit" name="sumibt" id="sumibt" value="Hledat" class="btn">                        
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<section class="even">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h2 class="text-center">Partneři</h2>
+        <p>Vytvoření hezkých stránek je někdy lepší svěřit do rukou lidí, kteří mají zkušenosti s tvorbou webových prezentací a inPage. <br>Naši partneři jsou připraveni řešit Vaše požadavky.</p>
+        <p class="text-right"><a href="/partneri/">Vyberte si partnera z vašeho kraje »</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section>
+  <p class="text-center">
+    <a class="btn btn-large btn-info btn-demo" href="/demo/">Vyzkoušet inPage <i class="icon-chevron-right icon-white"></i></a>
+    <a href="/ceny-a-varianty/" class="btn btn-large btn-success btn-order">Objednat inPage<i class="icon-chevron-right icon-white"></i></a>
+  </p>
+</section>
+
+<hr />
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="span3">
+            <h5>Služba inPage</h5>
+            <ul>
+              <li><a href="/">Úvod</a></li>
+              <li><a href="/prohlidka/">Prohlídka</a></li>
+              <li><a href="/ceny-a-varianty/">Ceny a varianty</a></li>
+              <li><a href="/tvorba-webovych-stranek/">Startovací balíčky</a></li>
+              <li><a href="/mapa-webu/">Mapa webu</a></li>
+            </ul>
+          </div>
+          <div class="span3">
+            <h5>Podpora</h5>
+            <ul>
+              <li><a href="http://www.blog.inpage.cz/">Blog inPage</a></li>
+              <li><a href="/napoveda/">Nápověda</a></li>
+              <li><a href="/napoveda/">Kniha zdarma</a></li>
+              <li><a href="/napoveda/">Podpora 24/7</a></li>
+              <li><a href="/kontakt/">Kontakty</a></li>
+            </ul>
+          </div>
+          <div class="span3">
+            <h5>Skupina ZONER</h5>
+            <ul>
+              <li><a href="http://www.regzone.cz/">Domény</a></li>
+              <li><a href="http://www.czechia.com/">Webhosting</a></li>
+              <li><a href="http://www.sslmarket.cz/">SSL certifikáty</a></li>
+              <li><a href="http://www.zoner.cz/">Fotografie</a></li>
+              <li><a href="http://www.zoner.eu/">Zoner</a></li>
+            </ul>
+          </div>
+          <div class="span3">
+            <div class="widget">
+              <h5>inPage na webu</h5>
+              <ul id="list-social">
+                <li><a target="_blank" href="http://www.blog.inpage.cz/" title="Blog inPage"><img src="/images/icons/footer/icon-blog.png" /> Blog inPage</a></li>
+                <li><a target="_blank" href="https://www.facebook.com/inPage.cz" title="inPage na facebooku"><img src="/images/icons/footer/icon-facebook.png" /> Facebook</a></li>
+                <li><a target="_blank" href="https://plus.google.com/110350393407712986015/posts" title="inPage na Google+"><img src="/images/icons/footer/icon-google.png" /> Google+</a></li>
+                <li><a target="_blank" href="https://twitter.com/inpagecz" title="inPage na Twitteru"><img src="/images/icons/footer/icon-twitter.png" /> Twitter</a></li>
+                <li><a target="_blank" href="http://www.blog.inpage.cz/rss.xml" title="RSS feed inPage"><img src="/images/icons/footer/icon-rss.png" /> RSS</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="verybottom">
+        <div class="container">
+          <div class="row" id="logo-zone">
+            <div class="span12">
+              <p class="text-center">
+                <a href="http://www.zoner.eu/" target="_blank"><img src="/images/logo-zoner.png" /></a>
+              </p>
+              <p class="text-center">
+                Službu inPage poskytuje společnost ZONER software, a.s.<br />
+                2007–2013              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <a id="scrolltop" href="#">
+      <span>nahoru</span>
+    </a>
+
+  </body>
+</html>
+
+
+
+
+

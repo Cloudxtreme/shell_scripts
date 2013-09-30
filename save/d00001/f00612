@@ -1,0 +1,118 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.45
+     from nwf on 12 January 1997 -->
+
+<TITLE>NetBSD/amiga-Networking-FAQ - PPP-chat</TITLE>
+</HEAD>
+<BODY>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_26.html">previous</A>, <A HREF="nwf_28.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_25.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+<HR>
+
+
+<H4><A NAME="SEC27" HREF="nwf_toc.html#SEC27">3.2.3.2 Easy PPP setup with <CODE>chat</CODE></A></H4>
+
+<P>
+It's far more easey to let the <CODE>pppd</CODE> do all the setting of
+addresses and routes. Furthermore, it can even do the dialing so that
+you can start up the PPP-connection with a single command.
+
+</P>
+
+<OL>
+<LI>Logging in:
+
+All the logging-in is done via a <CODE>chat</CODE>-script, that does send the
+modem the dial-command, and then log into your terminal server, giving
+it your username and password, and then do the right steps to start the
+PPP connection. As especially the last step is highly dependent on your
+provider's terminal/modem-server, no general rules can be told about
+this here. As an example, I'll use our server who asks for a username
+('<CODE>Username&#62; </CODE>'), a password ('<CODE>Password&#62; </CODE>') and the offer a
+menu from where you can choose to start PPP (among other things). One
+chooses entry #20 from the menu to start PPP on the appropriate prompt
+('<CODE>... use arrow keys:</CODE>').
+
+With this in mind, put the following in <TT>`/etc/ppp/chat'</TT>:
+
+
+<PRE>
+ABORT BUSY
+ABORT 'NO CARRIER'
+'' ATZ OK ATD09419431320
+sername&#62;--sername&#62; MYUSERNAME
+assword&#62; MYPASSWORD
+'or use arrow keys:' 20
+</PRE>
+
+The first two lines tell chat to abort if the line's busy or there's no
+carrier. It then dials the modem-server (please change this for yours!),
+which asks for a username and password, and responds with the
+appropriate values (please change those two, too!), then asks to choose
+a item from the menu by either entering the numer or by using the arrow
+keys. We use item #20 here, and it fires up PPP.
+
+<LI>Configuring the <CODE>pppd</CODE>:
+
+In order to let <CODE>pppd</CODE> do all the address negotiation, setting of
+routes etc., you'll have to tell it to do so. You do this by entering
+the following lines in <TT>`/etc/ppp/options'</TT>:
+
+
+<PRE>
+crtscts
+defaultroute
+netmask 255.255.255.0
+noipdefault
+ipcp-accept-local
+ipcp-accept-remote
+</PRE>
+
+This tells <CODE>pppd</CODE> to use RTC/CTS handshaking, set the system's
+default-route, use the propper netmask and use no default-values for the
+local and remote IP-numbers but rather to accept them from the remote
+end's <CODE>pppd</CODE>.
+
+Please read <CODE>pppd</CODE>'s manpage, as there are a LOT more options, from
+which the one or other might be userful for you.
+
+<LI>Bring up the connection:
+
+As you've the chat-script to to automate the login etc., you just start
+<CODE>pppd</CODE> to do the remaining work:
+
+
+<PRE>
+pppd /dev/tty00 38400 connect "chat -f /etc/ppp/chat"
+</PRE>
+
+This will first do the dial-in etc., then use the values given in
+<TT>`/etc/ppp/options'</TT> to set the local ip-number, fix the routing
+tables and make everything go fine. This command can be issued by every
+user, not only root.
+
+After starting up the connection, you can put an optional shell-script
+in <TT>`/etc/ppp/ip-up'</TT> that does miscellaneous system initialisations,
+such as starting a web-proxy, exchange mail, fix your
+<TT>`/etc/resolv.conf'</TT>, etc.
+
+<LI>Shutting down the connection:
+
+When starting the connection, <CODE>pppd</CODE> writes its pid to
+<TT>`/var/run/ppp0.pid'</TT>. If you want to end the PPP-session, just kill
+it:
+
+
+<PRE>
+kill `cat /var/run/ppp0.pid`
+</PRE>
+
+To undo any changes done by the <TT>`ip-up'</TT> script, you can place
+another shell-script in <TT>`/etc/ppp/ip-down'</TT> to e.g. shut down your
+web proxy, etc.
+</OL>
+
+<HR>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_26.html">previous</A>, <A HREF="nwf_28.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_25.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+</BODY>
+</HTML>

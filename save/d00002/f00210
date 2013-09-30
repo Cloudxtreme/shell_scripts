@@ -1,0 +1,747 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Movable Type Pro 4.34-en" />
+    
+    <link rel="stylesheet" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/styles.css" type="text/css" />
+
+
+    <title>
+
+    Improved IPv6 support in Perl - Living with IPv6
+
+    </title>
+
+
+
+
+    <link rel="prev" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/vint-cerf-wants-you-to-use-ipv.html" title="Vint Cerf wants YOU to use IPv6" />
+    <link rel="next" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/06/congratulations.html" title="Congratulations" />
+
+
+    <!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description
+    rdf:about="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/improved-ipv6-support-in-perl.html"
+    trackback:ping="https://blogs.psu.edu/mt4/mt-tb.cgi/261019"
+    dc:title="Improved IPv6 support in Perl"
+    dc:identifier="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/improved-ipv6-support-in-perl.html"
+    dc:subject="programming"
+    dc:description="I&apos;ve blogged before about the shoddy support for IPv6 in Perl. Last week, Perl 5.14 was released with improved IPv6 support in the core distribution: Improved IPv6 support The Socket module provides new affordances for IPv6, including implementations of the..."
+    dc:creator="Derek Morr"
+    dc:date="2011-05-15T10:33:55-05:00" />
+</rdf:RDF>
+-->
+
+    <script type="text/javascript" src="http://www.personal.psu.edu/dvm105/blogs/ipv6/mt.js"></script>
+
+
+</head>
+<body class="mt-archive-listing mt-entry-archive layout-wtt" onload="individualArchivesOnLoad(commenter_name)">
+    <div id="container">
+        <div id="container-inner">
+            <div id="header">
+                <div id="header-inner">
+                    <div id="header-content">
+
+                        <div id="header-name"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/" accesskey="1">Living with IPv6</a></div>
+                        <div id="header-description">Notes on life with IPv6 enabled.</div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="content">
+                <div id="content-inner">
+                    <div id="alpha">
+                        <div id="alpha-inner">
+
+
+<div id="entry-395463" class="entry-asset asset">
+    <div class="asset-header">
+        <h1 class="asset-name">Improved IPv6 support in Perl</h1>
+        <div class="asset-meta">
+    <span class="byline">
+
+        By <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/">Derek Morr</a> on May 15, 2011 10:33 AM
+
+    </span>
+    <span class="separator">|</span> <a class="permalink" href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/improved-ipv6-support-in-perl.html">Permalink</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/improved-ipv6-support-in-perl.html#comments">Comments (0)</a>
+    | <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/improved-ipv6-support-in-perl.html#trackback">TrackBacks (0)</a>
+</div>
+
+    </div>
+    <div class="asset-content">
+
+        <div class="asset-body">
+            <p>I've <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/07/perl-considered-harmful.html">blogged before</a> about the <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2008/02/ipv6-support-in-programming-li.html">shoddy support for IPv6</a> in Perl. Last week, <a href="http://news.perlfoundation.org/2011/05/perl-514.html">Perl 5.14 was released</a> with improved IPv6 support in the core distribution:</p>
+
+<blockquote>
+<strong>Improved IPv6 support</strong>
+The Socket module provides new affordances for IPv6,
+including implementations of the Socket::getaddrinfo() and
+Socket::getnameinfo() functions, along with related constants and a
+handful of new functions.  See Socket.
+</blockquote>
+
+<p>This change brings the standard getaddrinfo()/getnameinfo() socket calls into the core library. Prior to this, developers had to use <a href="http://search.cpan.org/dist/Socket6/Socket6.pm">a separate module, socket6</a>, to get IPv6-capable socket calls. This change is <em>long</em> overdue. The getaddrinfo() and getnameinfo() calls were <a href="http://tools.ietf.org/html/rfc2133">first defined in RFC 2113</a>, which published in 1997!</p>
+
+<p>In 2011, I can't imagine why anyone would want to write new code in Perl, but I'm glad that the core library finally has IPv6 support. There's still a lot of legacy Perl code out there, and much of it will have to get IPv6 support. This should make that process much easier.</p>
+        </div>
+
+
+    </div>
+    <div class="asset-footer">
+        
+                <div class="entry-categories">
+    <h4 class="entry-categories-header">Categories<span class="delimiter">:</span></h4>
+    <ul class="entry-categories-list">
+        <li class="entry-category"><a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/programming/">programming</a></li>
+    </ul>
+</div>
+
+
+        
+                <div class="entry-tags">
+    <h4 class="entry-tags-header">Tags<span class="delimiter">:</span></h4>
+    <ul class="entry-tags-list">
+        <li class="entry-tag"><a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv6&amp;limit=20&amp;IncludeBlogs=115" rel="tag">ipv6</a><span class="delimiter">,</span></li> <li class="entry-tag"><a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=perl&amp;limit=20&amp;IncludeBlogs=115" rel="tag">perl</a></li>
+    </ul>
+</div>
+
+
+    </div>
+</div>
+
+
+<div id="trackbacks" class="trackbacks">
+    <h2 class="trackbacks-header">0 TrackBacks</h2>
+    <div class="trackbacks-info">
+        <p>Listed below are links to blogs that reference this entry: <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/2011/05/improved-ipv6-support-in-perl.html">Improved IPv6 support in Perl</a>.</p>
+        <p>TrackBack URL for this entry: <span id="trackbacks-link">https://blogs.psu.edu/mt4/mt-tb.cgi/261019</span></p>
+    </div>
+    
+</div>
+
+
+
+<div id="comments" class="comments">
+    
+    
+    
+    <div class="comments-open" id="comments-open">
+    <h2 class="comments-open-header">Leave a comment</h2>
+    <div class="comments-open-content">
+    
+            <div id="comment-form-external-auth">
+                <script type="text/javascript">
+                <!--
+                
+                writeCommenterGreeting(commenter_name, 395463, 115, commenter_id, commenter_url);
+                //-->
+                </script>
+            </div>
+    
+        <form method="post" action="https://blogs.psu.edu/mt4/mt-comments.cgi" name="comments_form" id="comments-form" onsubmit="if (this.bakecookie.checked) rememberMe(this)">
+            <input type="hidden" name="static" value="1" />
+            <input type="hidden" name="entry_id" value="395463" />
+            <input type="hidden" name="__lang" value="en" />
+            <div id="comments-open-data">
+                <div id="comment-form-name">
+                    <label for="comment-author">Name</label>
+                    <input id="comment-author" name="author" size="30" value="" />
+                </div>
+                <div id="comment-form-email">
+                    <label for="comment-email">Email Address</label>
+                    <input id="comment-email" name="email" size="30" value="" />
+                </div>
+                <div id="comment-form-url">
+                    <label for="comment-url">URL</label>
+                    <input id="comment-url" name="url" size="30" value="" />
+                </div>
+                <div id="comment-form-remember-me">
+                    <label for="comment-bake-cookie"><input type="checkbox" id="comment-bake-cookie" name="bakecookie" onclick="if (!this.checked) forgetMe(document.comments_form)" value="1" />
+                        Remember personal info?</label>
+                </div>
+            </div>
+            <div id="comments-open-text">
+                <label for="comment-text">Comments (You may use HTML tags for style)</label>
+                <textarea id="comment-text" name="text" rows="15" cols="50"></textarea>
+            </div>
+            
+            <div id="comments-open-footer">
+                <input type="submit" accesskey="v" name="preview" id="comment-preview" value="Preview" />
+                <input type="submit" accesskey="s" name="post" id="comment-submit" value="Submit" />
+    
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    
+</div>
+
+
+
+</div>
+                    </div>
+
+    
+            
+                    
+                    <div id="beta">
+<div id="beta-inner">
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-9266628-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+
+
+<script type="text/javascript" language="javascript" src="http://entne.jp/labs/blogparts/wolf3/en-us/wolf_c.js"></script><div class="widget-syndicate widget">
+   <div class="widget-content">
+
+
+<!--      <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/index.xml">Subscribe to this blog's feed</a><br />
+      [<a href="http://www.sixapart.com/about/feeds">What is this?</a>] -->
+   
+		<ul class="blog-feeds">
+          <li class="blog feed"><img src="https://blogs.psu.edu/mt4/mt-static/images/status_icons/feed.gif" alt="Subscribe to feed" width="9" height="9" /> <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/index.xml">Subscribe to this blog's feed</a></li>
+
+<li class="blog feed"><img src="https://blogs.psu.edu/mt4/mt-static/images/status_icons/feed.gif" alt="Subscribe to comments feed" width="9" height="9" /> <a href="http://www.personal.psu.edu/dvm105/blogs/ipv6/comments_rss.xml">Subscribe to this blog's comments feed</a></li>
+
+
+
+
+      </ul>
+
+
+
+</div>
+</div>
+<div class="widget-feed widget">
+
+<h3 class="widget-header">Derek's IPv6 pages on del.icio.us</h3>
+<div class="widget-content">
+<ul>
+<li><a href="http://blogs.cisco.com/security/so_long_v4_heres_to_v6_being_secure/">Cisco Blog » Blog Archive » So Long v4! Here’s to v6 Being Secure!</a></li>
+
+<li><a href="http://www.openwall.com/presentations/IPv6/">IPv6: What, Why, How presentation slides</a></li>
+
+<li><a href="http://www.litech.org/tayga/">TAYGA - NAT64 for Linux</a></li>
+
+<li><a href="http://mailman.nanog.org/pipermail/nanog/2011-January/030919.html">NAT-PT or NAT64 in real life</a></li>
+
+<li><a href="http://3g4g.blogspot.com/2010/03/ipv6-transition-in-cellular-networks.html">3G and 4G Wireless Blog: IPv6 transition in cellular networks gaining momentum</a></li>
+</ul>
+</div>
+
+</div>
+<div class="widget-cloud widget">
+    <h3 class="widget-header">Tag Cloud</h3>
+    <div class="widget-content">
+        <ul class="widget-list">
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=3rox&amp;limit=20">3rox</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=6to4&amp;limit=20">6to4</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=airportexpress&amp;limit=20">airportexpress</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=aix&amp;limit=20">aix</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=android&amp;limit=20">android</a>
+                </li>
+            
+                <li class="rank-7 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=apple&amp;limit=20">apple</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=arin&amp;limit=20">arin</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=bgp&amp;limit=20">bgp</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=blogging&amp;limit=20">blogging</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=bugs&amp;limit=20">bugs</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=c&amp;limit=20">c</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=caida&amp;limit=20">caida</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=cellular&amp;limit=20">cellular</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=cifs&amp;limit=20">cifs</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=cisco&amp;limit=20">cisco</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=class%20e&amp;limit=20">class e</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=content&amp;limit=20">content</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=cosign&amp;limit=20">cosign</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=cpe&amp;limit=20">cpe</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=dell&amp;limit=20">dell</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=dhcpv6&amp;limit=20">dhcpv6</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=dhcpv6%2C&amp;limit=20">dhcpv6,</a>
+                </li>
+            
+                <li class="rank-5 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=dns&amp;limit=20">dns</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=dnssec&amp;limit=20">dnssec</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=edu&amp;limit=20">edu</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=eu&amp;limit=20">eu</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=europe&amp;limit=20">europe</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=fios&amp;limit=20">fios</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=firewall&amp;limit=20">firewall</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=freebsd&amp;limit=20">freebsd</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=fugu&amp;limit=20">fugu</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=google&amp;limit=20">google</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=higher_ed&amp;limit=20">higher_ed</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ics&amp;limit=20">ics</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ids&amp;limit=20">ids</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ietf&amp;limit=20">ietf</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=internet2&amp;limit=20">internet2</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ios&amp;limit=20">ios</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=iphone&amp;limit=20">iphone</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv4&amp;limit=20">ipv4</a>
+                </li>
+            
+                <li class="rank-6 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv4_address_exhaustion&amp;limit=20">ipv4_address_exhaustion</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv4_depletion&amp;limit=20">ipv4_depletion</a>
+                </li>
+            
+                <li class="rank-1 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv6&amp;limit=20">ipv6</a>
+                </li>
+            
+                <li class="rank-7 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ipv6%2C&amp;limit=20">ipv6,</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=java&amp;limit=20">java</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=kanren&amp;limit=20">kanren</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=kerberos&amp;limit=20">kerberos</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ldap&amp;limit=20">ldap</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=leopard&amp;limit=20">leopard</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=lte&amp;limit=20">lte</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=mail&amp;limit=20">mail</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=mobile&amp;limit=20">mobile</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=movabletype&amp;limit=20">movabletype</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=nanp&amp;limit=20">nanp</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=nat&amp;limit=20">nat</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=netflix&amp;limit=20">netflix</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=nfs&amp;limit=20">nfs</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=nokia&amp;limit=20">nokia</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ntp&amp;limit=20">ntp</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ntt&amp;limit=20">ntt</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=openldap&amp;limit=20">openldap</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=opensolaris&amp;limit=20">opensolaris</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=os%20x&amp;limit=20">os x</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=osx&amp;limit=20">osx</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=pct&amp;limit=20">pct</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=pear&amp;limit=20">pear</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=penncollege&amp;limit=20">penncollege</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=pennstate&amp;limit=20">pennstate</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=perl&amp;limit=20">perl</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=php&amp;limit=20">php</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ping&amp;limit=20">ping</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=pocketpc&amp;limit=20">pocketpc</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=programming&amp;limit=20">programming</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=proxy&amp;limit=20">proxy</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=psu&amp;limit=20">psu</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=python&amp;limit=20">python</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=radmind&amp;limit=20">radmind</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=reserved%20addresses&amp;limit=20">reserved addresses</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ripe&amp;limit=20">ripe</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=samba&amp;limit=20">samba</a>
+                </li>
+            
+                <li class="rank-8 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=security&amp;limit=20">security</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=smartphone&amp;limit=20">smartphone</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=smtp&amp;limit=20">smtp</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=snort&amp;limit=20">snort</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=social_commentary&amp;limit=20">social_commentary</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=solaris&amp;limit=20">solaris</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=squid&amp;limit=20">squid</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=subethaedit&amp;limit=20">subethaedit</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=t-mobile&amp;limit=20">t-mobile</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=tcpwrappers&amp;limit=20">tcpwrappers</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=telephones&amp;limit=20">telephones</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=ucal&amp;limit=20">ucal</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=v6policy&amp;limit=20">v6policy</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=verizon&amp;limit=20">verizon</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=verizon%2C&amp;limit=20">verizon,</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=vista&amp;limit=20">vista</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=wah&amp;limit=20">wah</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=webaccess&amp;limit=20">webaccess</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=webmail&amp;limit=20">webmail</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=wimax&amp;limit=20">wimax</a>
+                </li>
+            
+                <li class="rank-9 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=windows&amp;limit=20">windows</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=windowsmobile&amp;limit=20">windowsmobile</a>
+                </li>
+            
+                <li class="rank-10 widget-list-item">
+                    <a href="https://blogs.psu.edu/mt4/mt-search.cgi?blog_id=115&amp;tag=wireless&amp;limit=20">wireless</a>
+                </li>
+            
+        </ul>
+    </div>
+</div>
+<div class="widget-creative-commons widget">
+   <div class="widget-content">
+      <a href="http://creativecommons.org/licenses/by-sa/3.0/us/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/us/88x31.png" /></a><br />
+      This weblog is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">Creative Commons License</a>.
+   </div>
+</div>
+
+
+
+
+
+</div>
+</div>
+<div id="gamma">
+<div id="gamma-inner">
+
+
+
+
+
+
+
+<div class="widget-search widget">
+<h3 class="widget-header">Search</h3>
+<div class="widget-content">
+<form method="get" action="https://blogs.psu.edu/mt4/mt-search.cgi">
+<input id="search" name="search" size="20" value="" />
+
+<input type="hidden" name="IncludeBlogs" value="115" />
+
+<input type="submit" value="Search" />
+</form>
+</div>
+</div>
+
+
+
+
+
+</MTElse>
+
+
+
+</div>
+</div>
+
+
+                        
+                
+        
+
+                </div>
+            </div>
+            <div id="footer">
+                <div id="footer-inner">
+                    <div id="footer-content">
+                        <div class="widget-powered widget">
+                            <div class="widget-content">
+                                Powered by <a href="http://www.movabletype.com/">Movable Type Pro</a>
+                            </div>
+                        </div>
+
+                        <div class="widget-creative-commons widget">
+                            <div class="widget-content">
+                                This blog is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/us/">Creative Commons License</a>.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

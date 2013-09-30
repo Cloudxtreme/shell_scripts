@@ -1,0 +1,729 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://gmpg.org/xfn/11">
+
+<title>Posts in Russian</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type='text/css'>
+		.stpulldown-gradient
+		{
+			background: #E1E1E1;
+			background: -moz-linear-gradient(top, #E1E1E1 0%, #A7A7A7 100%); /* firefox */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#E1E1E1), color-stop(100%,#A7A7A7)); /* webkit */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E1E1E1', endColorstr='#A7A7A7',GradientType=0 ); /* ie */
+			background: -o-linear-gradient(top, #E1E1E1 0%,#A7A7A7 100%); /* opera */
+			color: #636363;
+		}
+		#stpulldown .stpulldown-logo
+		{
+			height: 40px;
+			width: 300px;
+			margin-left: 20px;
+			margin-top: 5px;
+			background:url('') no-repeat;
+		}
+</style>
+<link rel="alternate" type="application/rss+xml" title="ICANN Blog &raquo; Русский Category Feed" href="http://blog.icann.org/category/languages/russian/feed/" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://blog.icann.org/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://blog.icann.org/wp-includes/wlwmanifest.xml" /> 
+<script language="javascript" type="text/javascript">
+<!--
+		function collapseThread( theId ) {
+			var comment = document.getElementById(theId);
+			if(!comment)
+			{
+				alert("ERROR:\nThe document structure is different\nfrom what Threaded Comments expects.\nYou are missing the element '"+theId+"'");
+				return;
+			}
+			var theBody = findBody(comment);
+			if(comment.className.indexOf("collapsed") > -1) {
+				comment.className = comment.className.replace(" collapsed", "");;
+			} else {
+				comment.className += " collapsed";
+			}
+		}
+
+		function expandThread( theId ) {
+			var comment = document.getElementById(theId);
+			if(!comment)
+			{
+				alert("ERROR:\nThe document structure is different\nfrom what Threaded Comments expects.\nYou are missing the element '"+theId+"'");
+				return;
+			}
+			var theBody = findBody(comment);
+			if(comment.className.indexOf("collapsed") > -1) {
+				comment.className = comment.className.replace(" collapsed", "");;
+			} 
+		}
+		
+		function findBody(el)
+		{
+			var divs = el.getElementsByTagName("div");
+			var ret;
+			for(var i = 0; i < divs.length; ++i) {
+				if(divs.item(i).className.indexOf("body") > -1)
+					return divs.item(i);
+			}
+			return false;
+		}
+	
+		function onAddComment() {
+			//checkDocumentIntegrity();
+			var el = document.getElementById("commentform");
+			// Future release: Check if form is filled correctly and mark the form fields.
+			el.submit();
+		}
+		
+		function moveAddCommentBelow(theId, threadId, collapse)
+		{
+			expandThread( theId );
+			var addComment = document.getElementById("addcomment");
+			if(!addComment)
+			{
+			  	alert("ERROR:\nThreaded Comments can't find the 'addcomment' div.\nThis is probably because you have changed\nthe comments.php file.\nMake sure there is a tag around the form\nthat has the id 'addcomment'"); 
+				return
+			}
+			var comment = document.getElementById(theId);
+			if(collapse)
+			{
+				for(var i = 0; i < comment.childNodes.length; ++i) {
+					var c = comment.childNodes.item(i);
+					if(typeof(c.className) == "string" && c.className.indexOf("collapsed")<0) {
+						c.className += " collapsed";
+					}
+				}
+			}
+			addComment.parentNode.removeChild(addComment);
+
+			comment.appendChild(addComment);
+			if(comment.className.indexOf("alt")>-1) {
+				addComment.className = addComment.className.replace(" alt", "");					
+			} else {
+				addComment.className += " alt";
+			}
+		        var replyId = document.getElementById("comment_reply_ID");
+			if(replyId == null)
+			{
+				alert("Brians Threaded Comments Error:\nThere is no hidden form field called\n'comment_reply_ID'. This is probably because you\nchanged the comments.php file and forgot\nto include the field. Please take a look\nat the original comments.php and copy the\nform field over.");
+			}
+			replyId.value = threadId;
+			var reRootElement = document.getElementById("reroot");
+			if(reRootElement == null)
+			{
+				alert("Brians Threaded Comments Error:\nThere is no anchor tag called 'reroot' where\nthe comment form starts.\nPlease compare your comments.php to the original\ncomments.php and copy the reroot anchor tag over.");
+			}
+			reRootElement.style.display = "block";
+			var aTags = comment.getElementsByTagName("A");
+			var anc = aTags.item(0).id;
+			//document.location.href = "#"+anc;
+			document.getElementById("comment").focus();
+		}
+
+		function checkDocumentIntegrity()
+		{
+			str = "";
+			
+			str += checkElement("reroot","div tag");
+			str += checkElement("addcomment", "div tag");
+			str += checkElement("comment_reply_ID", "hidden form field");
+			str += checkElement("content", "div tag");
+			str += checkElement("comment", "textfield");
+			str += checkElement("addcommentanchor", "anchor tag");
+			
+			if(str != "")
+			{
+				str = "Brian's Threaded Comments are missing some of the elements that are required for it to function correctly.\nThis is probably the because you have changed the original comments.php that was included with the plugin.\n\nThese are the errors:\n" + str;
+				str += "\nYou should compare your comments.php with the original comments.php and make sure the required elements have not been removed.";
+
+				alert(str);
+			}
+		}
+               
+		function checkElement(theId, elDesc)
+		{
+			var el = document.getElementById(theId);
+			if(!el)
+			{
+				if(elDesc == null)
+					elDesc = "element";
+				return "- The "+elDesc+" with the ID '" +theId + "' is missing\n"; 
+			}
+			else 
+				return "";
+		}
+		
+		function reRoot()
+		{
+			var addComment = document.getElementById("addcomment");			
+			var reRootElement = document.getElementById("reroot");
+			reRootElement.style.display = "none";
+			var content = document.getElementById("content");
+			addComment.parentNode.removeChild(addComment);
+			content.appendChild(addComment);
+			addComment.className = addComment.className.replace(" alt", "");
+			document.location.href = "#addcommentanchor";
+			document.getElementById("comment").focus();				
+			document.getElementById("comment_reply_ID").value = "0";
+		}			
+		
+		function changeCommentSize(d)
+		{
+			var el = document.getElementById("comment");
+			var height = parseInt(el.style.height);
+			if(!height && el.offsetHeight)
+				height = el.offsetHeight;
+			height += d;
+			if(height < 20) 
+				height = 20;
+			el.style.height = height+"px";
+		}		
+-->
+</script>
+<style type="text/css">
+.comment 
+{
+	position: 				relative;
+	margin:					3px;
+	margin-top:				6px;
+/*	border: 				1px solid #666; */
+	padding:				4px 4px 4px 8px;
+	background-color:		#fff;
+}
+
+.odd
+{
+	background-color: #f8f8f8;
+}
+
+.comment div {
+	position: 				relative;
+}
+
+.comment .comment img
+{
+	margin: 				0px;
+}
+
+.comment .collapseicon 
+{
+	width: 					13px;
+	height: 				13px;
+	overflow:				hidden;
+	background-image: 		url(http://blog.icann.org/wp-content/plugins/briansthreadedcomments.php?image=subthread-open.png);
+}
+
+.collapsed .collapseicon 
+{
+	background-image: 		url(http://blog.icann.org/wp-content/plugins/briansthreadedcomments.php?image=subthread.png);
+}
+
+
+.comment .reply {
+	text-align: 			right;
+	font-size: 				80%;
+	padding: 				0px 6px 6px 0px;
+}
+
+.comment
+{
+	border: 	1px solid #ddd;
+	margin-top: 			10px;
+}
+
+input#subscribe
+{
+	width: auto;
+}
+
+.comment .body .content
+{
+	padding:				0px 3px 0px 3px;
+	width: 					100%;	
+	overflow: 				auto; 
+}
+
+.comment .title abbr
+{
+	border: none;
+}
+
+.collapsed .body, .collapsed .comment
+{
+	display:				none;
+}
+/*
+#addcomment small, #addcomment div
+{
+	padding:				3px;
+}
+*/
+#commentform textarea {
+	width: 97%;
+}
+</style>
+<script charset="utf-8" type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher:'7f74c02d-a844-4ef1-9ca4-1df52023c9f3'});var st_type='wordpress3.0.4';</script>
+<meta name="wp_theme" content="Thesis 1.3.1" />
+<meta name="robots" content="all" />
+<meta name="description" content="Posts in Russian" />
+
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/style.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/content.php?font=georgia&amp;size=14&amp;m=1" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/nav.php?size=11" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/header.php?size=36" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/headlines.php?size=22" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/bylines.php?size=10" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/multimedia.php?size=14" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/sidebars.php?size=13" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/footer.php?size=12" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/widths.php?c=3&amp;w=480&amp;o=normal&amp;h=page" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/deprecated.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/custom/custom.css?082613-80835" type="text/css" media="screen, projection" />
+
+<!--[if lte IE 7]>
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/ie7.css" type="text/css" media="screen, projection" />
+<![endif]-->
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="http://blog.icann.org/wp-content/themes/thesis/lib/css/ie6.css" type="text/css" media="screen, projection" />
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="ICANN Blog RSS Feed" href="http://blog.icann.org/feed/" />
+<link rel="pingback" href="http://blog.icann.org/xmlrpc.php" />	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+
+<body class="custom Русский">
+
+<div id="container">
+<div id="page">
+<ul id="tabs">
+<li><a href="http://blog.icann.org" title="Home" rel="nofollow">Home</a></li>
+<li class="page_item page-item-2"><a href="http://blog.icann.org/about/">About</a></li>
+<li class="page_item page-item-49"><a href="http://blog.icann.org/comment-policy/">Comment policy</a></li>
+	<li class="cat-item cat-item-15 current-cat-parent"><a href="http://blog.icann.org/category/languages/" title="Blog posts split up according to language">Languages</a>
+<ul class='children'>
+	<li class="cat-item cat-item-29"><a href="http://blog.icann.org/category/languages/for-blog-posts-in-english/" title="For blog posts in the English language">English</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://blog.icann.org/category/languages/espanol/" title="Mensajes publicados en Español">Español</a>
+</li>
+	<li class="cat-item cat-item-16"><a href="http://blog.icann.org/category/languages/francais/" title="View all posts filed under Français">Français</a>
+</li>
+	<li class="cat-item cat-item-31 current-cat"><a href="http://blog.icann.org/category/languages/russian/" title="Posts in Russian">Русский</a>
+</li>
+	<li class="cat-item cat-item-25"><a href="http://blog.icann.org/category/languages/arabic/" title="Arabic">العربية</a>
+</li>
+	<li class="cat-item cat-item-38"><a href="http://blog.icann.org/category/languages/chinese/" title="View all posts filed under 中文">中文</a>
+</li>
+</ul>
+</li>
+		<li class="rss"><a href="http://blog.icann.org/feed/" title="ICANN Blog RSS Feed" rel="nofollow">Subscribe</a></li>
+</ul>
+	<div id="header">
+ <a href="http://blog.icann.org/"><img src="http://www.icann.org/images/gradlogo_bow.jpg" style="border: 0;
+float: left; margin-top: -12px; margin-right: 12px; margin-bottom: -12px; margin-left: -10px;"/></a><p id="logo"><a href="http://blog.icann.org">ICANN Blog</a></p><h1 id="tagline">Internet Corporation for Assigned Names and Numbers</h1>	</div>
+	<div id="content_box">
+		<div id="content" class="hfeed">
+
+			<div id="archive_info">
+				<p>From the category archives:</p>
+				<h1>Русский</h1>
+			</div>
+			<div class="post_box hentry top">
+				<div class="headline_area">
+					<h2 class="entry-title"><a href="http://blog.icann.org/2013/08/icann-to-participate-in-central-and-east-european-registarregistry-conference/" rel="bookmark" title="Permanent Link to ICANN to Participate in Central and East European Registar/Registry Conference">ICANN to Participate in Central and East European Registar/Registry Conference</a></h2>
+					<p class="headline_meta">by <span class="author vcard fn">ICANN Blog</span> on <abbr class="published" title="2013-08-22">August 22, 2013</abbr></p>
+				</div>
+				<div class="format_text entry-content">
+<p>In two weeks, Central and East European registries and registrars will get together in Greece at their 6th annual meeting. We thought you might be interested in reading this article (in Russian) explaining what the regional meeting is all about, who participates and why. We republish this with the kind agreement of nic.ua. Ольга Александрова, [&hellip;]</p>
+<p><span class='st_facebook_buttons' st_title='ICANN to Participate in Central and East European Registar/Registry Conference' st_url='http://blog.icann.org/2013/08/icann-to-participate-in-central-and-east-european-registarregistry-conference/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='ICANN to Participate in Central and East European Registar/Registry Conference' st_url='http://blog.icann.org/2013/08/icann-to-participate-in-central-and-east-european-registarregistry-conference/' displayText='Twitter'></span><span class='st_email_buttons' st_title='ICANN to Participate in Central and East European Registar/Registry Conference' st_url='http://blog.icann.org/2013/08/icann-to-participate-in-central-and-east-european-registarregistry-conference/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='ICANN to Participate in Central and East European Registar/Registry Conference' st_url='http://blog.icann.org/2013/08/icann-to-participate-in-central-and-east-european-registarregistry-conference/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='ICANN to Participate in Central and East European Registar/Registry Conference' st_url='http://blog.icann.org/2013/08/icann-to-participate-in-central-and-east-european-registarregistry-conference/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='ICANN to Participate in Central and East European Registar/Registry Conference' st_url='http://blog.icann.org/2013/08/icann-to-participate-in-central-and-east-european-registarregistry-conference/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='ICANN to Participate in Central and East European Registar/Registry Conference' st_url='http://blog.icann.org/2013/08/icann-to-participate-in-central-and-east-european-registarregistry-conference/' displayText='Pinterest'></span></p>					<p class="to_comments"><span class="bracket">{</span> <a href="http://blog.icann.org/2013/08/icann-to-participate-in-central-and-east-european-registarregistry-conference/#comments" rel="nofollow"><span>0</span> comments</a> <span class="bracket">}</span></p>
+				</div>
+			</div>
+
+			<div class="post_box hentry">
+				<div class="headline_area">
+					<h2 class="entry-title"><a href="http://blog.icann.org/2012/08/%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b5-rzm-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d0%bd%d1%8f%d0%b5%d1%82%d1%81%d1%8f-%d0%be%d0%b4%d0%b8%d0%bd-%d0%b3%d0%be%d0%b4/" rel="bookmark" title="Permanent Link to Системе RZM исполняется один год!">Системе RZM исполняется один год!</a></h2>
+					<p class="headline_meta">by <span class="author vcard fn">Nadia Sokolova</span> on <abbr class="published" title="2012-08-03">August 3, 2012</abbr></p>
+				</div>
+				<div class="format_text entry-content">
+<p>Немногим более года тому назад, 21 июля 2011 г., ICANN, Verisign и NTIA ввели в эксплуатацию систему автоматизации рабочего процесса управления корневой зоной (Root Zone Management &mdash; RZM). Эта система предоставляет операторам доменов верхнего уровня (ДВУ) более гибкие возможности обновлении делегированных им ДВУ: операторы могут входить в систему через веб-браузер и подавать запросы на внесение [&hellip;]</p>
+<p><span class='st_facebook_buttons' st_title='Системе RZM исполняется один год!' st_url='http://blog.icann.org/2012/08/%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b5-rzm-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d0%bd%d1%8f%d0%b5%d1%82%d1%81%d1%8f-%d0%be%d0%b4%d0%b8%d0%bd-%d0%b3%d0%be%d0%b4/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='Системе RZM исполняется один год!' st_url='http://blog.icann.org/2012/08/%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b5-rzm-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d0%bd%d1%8f%d0%b5%d1%82%d1%81%d1%8f-%d0%be%d0%b4%d0%b8%d0%bd-%d0%b3%d0%be%d0%b4/' displayText='Twitter'></span><span class='st_email_buttons' st_title='Системе RZM исполняется один год!' st_url='http://blog.icann.org/2012/08/%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b5-rzm-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d0%bd%d1%8f%d0%b5%d1%82%d1%81%d1%8f-%d0%be%d0%b4%d0%b8%d0%bd-%d0%b3%d0%be%d0%b4/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='Системе RZM исполняется один год!' st_url='http://blog.icann.org/2012/08/%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b5-rzm-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d0%bd%d1%8f%d0%b5%d1%82%d1%81%d1%8f-%d0%be%d0%b4%d0%b8%d0%bd-%d0%b3%d0%be%d0%b4/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='Системе RZM исполняется один год!' st_url='http://blog.icann.org/2012/08/%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b5-rzm-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d0%bd%d1%8f%d0%b5%d1%82%d1%81%d1%8f-%d0%be%d0%b4%d0%b8%d0%bd-%d0%b3%d0%be%d0%b4/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='Системе RZM исполняется один год!' st_url='http://blog.icann.org/2012/08/%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b5-rzm-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d0%bd%d1%8f%d0%b5%d1%82%d1%81%d1%8f-%d0%be%d0%b4%d0%b8%d0%bd-%d0%b3%d0%be%d0%b4/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='Системе RZM исполняется один год!' st_url='http://blog.icann.org/2012/08/%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b5-rzm-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d0%bd%d1%8f%d0%b5%d1%82%d1%81%d1%8f-%d0%be%d0%b4%d0%b8%d0%bd-%d0%b3%d0%be%d0%b4/' displayText='Pinterest'></span></p>					<p class="to_comments"><span class="bracket">{</span> <a href="http://blog.icann.org/2012/08/%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b5-rzm-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d0%bd%d1%8f%d0%b5%d1%82%d1%81%d1%8f-%d0%be%d0%b4%d0%b8%d0%bd-%d0%b3%d0%be%d0%b4/#comments" rel="nofollow"><span>1</span> comment</a> <span class="bracket">}</span></p>
+				</div>
+			</div>
+
+			<div class="post_box hentry">
+				<div class="headline_area">
+					<h2 class="entry-title"><a href="http://blog.icann.org/2012/08/%d0%bd%d0%b0%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%b5%d1%81%d1%83%d0%b5%d1%82-%d0%b2%d0%b0%d1%88%d0%b5-%d0%bc%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5-%d0%be-%d1%80%d0%be%d0%bb%d0%b8-%d0%b8-%d1%81%d1%84%d0%b5/" rel="bookmark" title="Permanent Link to Нас интересует ваше мнение о роли и сфере компетенции ICANN в обеспечении БСО">Нас интересует ваше мнение о роли и сфере компетенции ICANN в обеспечении БСО</a></h2>
+					<p class="headline_meta">by <span class="author vcard fn">Patrick Jones</span> on <abbr class="published" title="2012-08-02">August 2, 2012</abbr></p>
+				</div>
+				<div class="format_text entry-content">
+<p>В середине мая ICANN опубликовала проект заявления о своей роли и сфере компетенции в обеспечении безопасности, стабильности и отказоустойчивости уникальных идентификаторов Интернета. После конференции ICANN в Праге период общественного обсуждения был продлен до 31 августа 2012 г. Хотя поступило несколько комментариев, нам хотелось бы узнать мнение более широкого спектра участников сообщества об этом проекте заявления. [&hellip;]</p>
+<p><span class='st_facebook_buttons' st_title='Нас интересует ваше мнение о роли и сфере компетенции ICANN в обеспечении БСО' st_url='http://blog.icann.org/2012/08/%d0%bd%d0%b0%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%b5%d1%81%d1%83%d0%b5%d1%82-%d0%b2%d0%b0%d1%88%d0%b5-%d0%bc%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5-%d0%be-%d1%80%d0%be%d0%bb%d0%b8-%d0%b8-%d1%81%d1%84%d0%b5/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='Нас интересует ваше мнение о роли и сфере компетенции ICANN в обеспечении БСО' st_url='http://blog.icann.org/2012/08/%d0%bd%d0%b0%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%b5%d1%81%d1%83%d0%b5%d1%82-%d0%b2%d0%b0%d1%88%d0%b5-%d0%bc%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5-%d0%be-%d1%80%d0%be%d0%bb%d0%b8-%d0%b8-%d1%81%d1%84%d0%b5/' displayText='Twitter'></span><span class='st_email_buttons' st_title='Нас интересует ваше мнение о роли и сфере компетенции ICANN в обеспечении БСО' st_url='http://blog.icann.org/2012/08/%d0%bd%d0%b0%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%b5%d1%81%d1%83%d0%b5%d1%82-%d0%b2%d0%b0%d1%88%d0%b5-%d0%bc%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5-%d0%be-%d1%80%d0%be%d0%bb%d0%b8-%d0%b8-%d1%81%d1%84%d0%b5/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='Нас интересует ваше мнение о роли и сфере компетенции ICANN в обеспечении БСО' st_url='http://blog.icann.org/2012/08/%d0%bd%d0%b0%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%b5%d1%81%d1%83%d0%b5%d1%82-%d0%b2%d0%b0%d1%88%d0%b5-%d0%bc%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5-%d0%be-%d1%80%d0%be%d0%bb%d0%b8-%d0%b8-%d1%81%d1%84%d0%b5/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='Нас интересует ваше мнение о роли и сфере компетенции ICANN в обеспечении БСО' st_url='http://blog.icann.org/2012/08/%d0%bd%d0%b0%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%b5%d1%81%d1%83%d0%b5%d1%82-%d0%b2%d0%b0%d1%88%d0%b5-%d0%bc%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5-%d0%be-%d1%80%d0%be%d0%bb%d0%b8-%d0%b8-%d1%81%d1%84%d0%b5/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='Нас интересует ваше мнение о роли и сфере компетенции ICANN в обеспечении БСО' st_url='http://blog.icann.org/2012/08/%d0%bd%d0%b0%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%b5%d1%81%d1%83%d0%b5%d1%82-%d0%b2%d0%b0%d1%88%d0%b5-%d0%bc%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5-%d0%be-%d1%80%d0%be%d0%bb%d0%b8-%d0%b8-%d1%81%d1%84%d0%b5/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='Нас интересует ваше мнение о роли и сфере компетенции ICANN в обеспечении БСО' st_url='http://blog.icann.org/2012/08/%d0%bd%d0%b0%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%b5%d1%81%d1%83%d0%b5%d1%82-%d0%b2%d0%b0%d1%88%d0%b5-%d0%bc%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5-%d0%be-%d1%80%d0%be%d0%bb%d0%b8-%d0%b8-%d1%81%d1%84%d0%b5/' displayText='Pinterest'></span></p>					<p class="to_comments"><span class="bracket">{</span> <a href="http://blog.icann.org/2012/08/%d0%bd%d0%b0%d1%81-%d0%b8%d0%bd%d1%82%d0%b5%d1%80%d0%b5%d1%81%d1%83%d0%b5%d1%82-%d0%b2%d0%b0%d1%88%d0%b5-%d0%bc%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5-%d0%be-%d1%80%d0%be%d0%bb%d0%b8-%d0%b8-%d1%81%d1%84%d0%b5/#comments" rel="nofollow"><span>0</span> comments</a> <span class="bracket">}</span></p>
+				</div>
+			</div>
+
+			<div class="post_box hentry">
+				<div class="headline_area">
+					<h2 class="entry-title"><a href="http://blog.icann.org/2012/06/%d0%bf%d1%80%d0%be%d1%89%d0%b0%d0%bd%d0%b8%d0%b5-%d1%81-%d0%b4%d1%80%d1%83%d0%b7%d1%8c%d1%8f%d0%bc%d0%b8/" rel="bookmark" title="Permanent Link to Прощание с друзьями">Прощание с друзьями</a></h2>
+					<p class="headline_meta">by <span class="author vcard fn">Rod Beckstrom</span> on <abbr class="published" title="2012-06-30">June 30, 2012</abbr></p>
+				</div>
+				<div class="format_text entry-content">
+<p>Сегодня, 1 июля 2012 года, я передаю кресло генерального директора ICANN CEO Акраму Аталлаху (Akram Atallah), который пришел к нам на должность директора по операциям два года назад. Мы очень рады приветствовать Акрама в этой должности, которую он будет занимать до прихода осенью Фади Шехаде (Fadi Chehadé). Для меня было огромной честью занимать должность президента [&hellip;]</p>
+<p><span class='st_facebook_buttons' st_title='Прощание с друзьями' st_url='http://blog.icann.org/2012/06/%d0%bf%d1%80%d0%be%d1%89%d0%b0%d0%bd%d0%b8%d0%b5-%d1%81-%d0%b4%d1%80%d1%83%d0%b7%d1%8c%d1%8f%d0%bc%d0%b8/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='Прощание с друзьями' st_url='http://blog.icann.org/2012/06/%d0%bf%d1%80%d0%be%d1%89%d0%b0%d0%bd%d0%b8%d0%b5-%d1%81-%d0%b4%d1%80%d1%83%d0%b7%d1%8c%d1%8f%d0%bc%d0%b8/' displayText='Twitter'></span><span class='st_email_buttons' st_title='Прощание с друзьями' st_url='http://blog.icann.org/2012/06/%d0%bf%d1%80%d0%be%d1%89%d0%b0%d0%bd%d0%b8%d0%b5-%d1%81-%d0%b4%d1%80%d1%83%d0%b7%d1%8c%d1%8f%d0%bc%d0%b8/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='Прощание с друзьями' st_url='http://blog.icann.org/2012/06/%d0%bf%d1%80%d0%be%d1%89%d0%b0%d0%bd%d0%b8%d0%b5-%d1%81-%d0%b4%d1%80%d1%83%d0%b7%d1%8c%d1%8f%d0%bc%d0%b8/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='Прощание с друзьями' st_url='http://blog.icann.org/2012/06/%d0%bf%d1%80%d0%be%d1%89%d0%b0%d0%bd%d0%b8%d0%b5-%d1%81-%d0%b4%d1%80%d1%83%d0%b7%d1%8c%d1%8f%d0%bc%d0%b8/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='Прощание с друзьями' st_url='http://blog.icann.org/2012/06/%d0%bf%d1%80%d0%be%d1%89%d0%b0%d0%bd%d0%b8%d0%b5-%d1%81-%d0%b4%d1%80%d1%83%d0%b7%d1%8c%d1%8f%d0%bc%d0%b8/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='Прощание с друзьями' st_url='http://blog.icann.org/2012/06/%d0%bf%d1%80%d0%be%d1%89%d0%b0%d0%bd%d0%b8%d0%b5-%d1%81-%d0%b4%d1%80%d1%83%d0%b7%d1%8c%d1%8f%d0%bc%d0%b8/' displayText='Pinterest'></span></p>					<p class="to_comments"><span class="bracket">{</span> <a href="http://blog.icann.org/2012/06/%d0%bf%d1%80%d0%be%d1%89%d0%b0%d0%bd%d0%b8%d0%b5-%d1%81-%d0%b4%d1%80%d1%83%d0%b7%d1%8c%d1%8f%d0%bc%d0%b8/#comments" rel="nofollow"><span>0</span> comments</a> <span class="bracket">}</span></p>
+				</div>
+			</div>
+
+			<div class="post_box hentry">
+				<div class="headline_area">
+					<h2 class="entry-title"><a href="http://blog.icann.org/2012/06/ipv6-%d0%be%d1%81%d1%82%d0%b0%d0%b5%d1%82%d1%81%d1%8f-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%b2%d0%bd%d0%b8%d0%bc%d0%b0%d0%bd%d0%b8%d1%8f/" rel="bookmark" title="Permanent Link to IPv6 остается в центре внимания">IPv6 остается в центре внимания</a></h2>
+					<p class="headline_meta">by <span class="author vcard fn">ICANN Blog</span> on <abbr class="published" title="2012-06-18">June 18, 2012</abbr></p>
+				</div>
+				<div class="format_text entry-content">
+<p>Это публикация приглашенного автора Алекса Поулика (Axel Pawlik), управляющего директора RIPE NCC. RIPE NCC &mdash; это региональный реестр Интернета (РРИ) Европы, Ближнего Востока и части Центральной Азии. По ощущениям многих из нас в техническом сообществе, разговоры о необходимости внедрения IPv6 ведутся уже многие годы. RIPE NCC &ndash; региональный реестр Интернета (РРИ) Европы, Ближнего Востока и [&hellip;]</p>
+<p><span class='st_facebook_buttons' st_title='IPv6 остается в центре внимания' st_url='http://blog.icann.org/2012/06/ipv6-%d0%be%d1%81%d1%82%d0%b0%d0%b5%d1%82%d1%81%d1%8f-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%b2%d0%bd%d0%b8%d0%bc%d0%b0%d0%bd%d0%b8%d1%8f/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='IPv6 остается в центре внимания' st_url='http://blog.icann.org/2012/06/ipv6-%d0%be%d1%81%d1%82%d0%b0%d0%b5%d1%82%d1%81%d1%8f-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%b2%d0%bd%d0%b8%d0%bc%d0%b0%d0%bd%d0%b8%d1%8f/' displayText='Twitter'></span><span class='st_email_buttons' st_title='IPv6 остается в центре внимания' st_url='http://blog.icann.org/2012/06/ipv6-%d0%be%d1%81%d1%82%d0%b0%d0%b5%d1%82%d1%81%d1%8f-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%b2%d0%bd%d0%b8%d0%bc%d0%b0%d0%bd%d0%b8%d1%8f/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='IPv6 остается в центре внимания' st_url='http://blog.icann.org/2012/06/ipv6-%d0%be%d1%81%d1%82%d0%b0%d0%b5%d1%82%d1%81%d1%8f-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%b2%d0%bd%d0%b8%d0%bc%d0%b0%d0%bd%d0%b8%d1%8f/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='IPv6 остается в центре внимания' st_url='http://blog.icann.org/2012/06/ipv6-%d0%be%d1%81%d1%82%d0%b0%d0%b5%d1%82%d1%81%d1%8f-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%b2%d0%bd%d0%b8%d0%bc%d0%b0%d0%bd%d0%b8%d1%8f/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='IPv6 остается в центре внимания' st_url='http://blog.icann.org/2012/06/ipv6-%d0%be%d1%81%d1%82%d0%b0%d0%b5%d1%82%d1%81%d1%8f-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%b2%d0%bd%d0%b8%d0%bc%d0%b0%d0%bd%d0%b8%d1%8f/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='IPv6 остается в центре внимания' st_url='http://blog.icann.org/2012/06/ipv6-%d0%be%d1%81%d1%82%d0%b0%d0%b5%d1%82%d1%81%d1%8f-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%b2%d0%bd%d0%b8%d0%bc%d0%b0%d0%bd%d0%b8%d1%8f/' displayText='Pinterest'></span></p>					<p class="to_comments"><span class="bracket">{</span> <a href="http://blog.icann.org/2012/06/ipv6-%d0%be%d1%81%d1%82%d0%b0%d0%b5%d1%82%d1%81%d1%8f-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%b2%d0%bd%d0%b8%d0%bc%d0%b0%d0%bd%d0%b8%d1%8f/#comments" rel="nofollow"><span>0</span> comments</a> <span class="bracket">}</span></p>
+				</div>
+			</div>
+
+			<div class="post_box hentry">
+				<div class="headline_area">
+					<h2 class="entry-title"><a href="http://blog.icann.org/2012/06/%d0%bf%d0%be%d0%bb%d0%bd%d0%be%d0%b5-%d1%80%d0%b0%d0%b7%d0%b2%d0%b5%d1%80%d1%82%d1%8b%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-ipv6/" rel="bookmark" title="Permanent Link to Полное развертывание IPv6">Полное развертывание IPv6</a></h2>
+					<p class="headline_meta">by <span class="author vcard fn">ICANN Blog</span> on <abbr class="published" title="2012-06-11">June 11, 2012</abbr></p>
+				</div>
+				<div class="format_text entry-content">
+<p>В прошлом мы говорили о процессе подготовки критически важной инфраструктуры Интернета к использованию IPv6. В 2004 году первые связующие элементы IPv6 были добавлены в корневую зону DNS для доменов .JP и .KR, однако если в наши дни взглянуть на часть корневой зоны &ndash; ту часть, которая относится к нДВУ из списка ISO-3166-1, &ndash; можно увидеть, [&hellip;]</p>
+<p><span class='st_facebook_buttons' st_title='Полное развертывание IPv6' st_url='http://blog.icann.org/2012/06/%d0%bf%d0%be%d0%bb%d0%bd%d0%be%d0%b5-%d1%80%d0%b0%d0%b7%d0%b2%d0%b5%d1%80%d1%82%d1%8b%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-ipv6/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='Полное развертывание IPv6' st_url='http://blog.icann.org/2012/06/%d0%bf%d0%be%d0%bb%d0%bd%d0%be%d0%b5-%d1%80%d0%b0%d0%b7%d0%b2%d0%b5%d1%80%d1%82%d1%8b%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-ipv6/' displayText='Twitter'></span><span class='st_email_buttons' st_title='Полное развертывание IPv6' st_url='http://blog.icann.org/2012/06/%d0%bf%d0%be%d0%bb%d0%bd%d0%be%d0%b5-%d1%80%d0%b0%d0%b7%d0%b2%d0%b5%d1%80%d1%82%d1%8b%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-ipv6/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='Полное развертывание IPv6' st_url='http://blog.icann.org/2012/06/%d0%bf%d0%be%d0%bb%d0%bd%d0%be%d0%b5-%d1%80%d0%b0%d0%b7%d0%b2%d0%b5%d1%80%d1%82%d1%8b%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-ipv6/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='Полное развертывание IPv6' st_url='http://blog.icann.org/2012/06/%d0%bf%d0%be%d0%bb%d0%bd%d0%be%d0%b5-%d1%80%d0%b0%d0%b7%d0%b2%d0%b5%d1%80%d1%82%d1%8b%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-ipv6/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='Полное развертывание IPv6' st_url='http://blog.icann.org/2012/06/%d0%bf%d0%be%d0%bb%d0%bd%d0%be%d0%b5-%d1%80%d0%b0%d0%b7%d0%b2%d0%b5%d1%80%d1%82%d1%8b%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-ipv6/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='Полное развертывание IPv6' st_url='http://blog.icann.org/2012/06/%d0%bf%d0%be%d0%bb%d0%bd%d0%be%d0%b5-%d1%80%d0%b0%d0%b7%d0%b2%d0%b5%d1%80%d1%82%d1%8b%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-ipv6/' displayText='Pinterest'></span></p>					<p class="to_comments"><span class="bracket">{</span> <a href="http://blog.icann.org/2012/06/%d0%bf%d0%be%d0%bb%d0%bd%d0%be%d0%b5-%d1%80%d0%b0%d0%b7%d0%b2%d0%b5%d1%80%d1%82%d1%8b%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-ipv6/#comments" rel="nofollow"><span>0</span> comments</a> <span class="bracket">}</span></p>
+				</div>
+			</div>
+
+			<div class="post_box hentry">
+				<div class="headline_area">
+					<h2 class="entry-title"><a href="http://blog.icann.org/2012/06/%d0%bd%d0%be%d0%b2%d1%8b%d0%b9-%d0%b4%d0%b8%d0%b7%d0%b0%d0%b9%d0%bd-%d0%b2%d0%b5%d0%b1-%d1%81%d0%b0%d0%b9%d1%82%d0%b0-%d0%be%d0%bf%d1%80%d0%b8/" rel="bookmark" title="Permanent Link to Новый дизайн веб-сайта ОПРИ">Новый дизайн веб-сайта ОПРИ</a></h2>
+					<p class="headline_meta">by <span class="author vcard fn">David Olive</span> on <abbr class="published" title="2012-06-06">June 6, 2012</abbr></p>
+				</div>
+				<div class="format_text entry-content">
+<p>Думаю, что уже многие обратили внимание на новый дизайн веб-сайта ОПРИ по адресу http://gnso.icann.org. Новый сайт начал работу 24 мая. Помимо общих косметических изменений и дизайна, основная особенность нового сайта &mdash; это обновленная структура навигации, облегчающая поиск нужного содержимого в зависимости от интересов пользователя. В дополнение к новому содержимому в базовой информации о структуре и [&hellip;]</p>
+<p><span class='st_facebook_buttons' st_title='Новый дизайн веб-сайта ОПРИ' st_url='http://blog.icann.org/2012/06/%d0%bd%d0%be%d0%b2%d1%8b%d0%b9-%d0%b4%d0%b8%d0%b7%d0%b0%d0%b9%d0%bd-%d0%b2%d0%b5%d0%b1-%d1%81%d0%b0%d0%b9%d1%82%d0%b0-%d0%be%d0%bf%d1%80%d0%b8/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='Новый дизайн веб-сайта ОПРИ' st_url='http://blog.icann.org/2012/06/%d0%bd%d0%be%d0%b2%d1%8b%d0%b9-%d0%b4%d0%b8%d0%b7%d0%b0%d0%b9%d0%bd-%d0%b2%d0%b5%d0%b1-%d1%81%d0%b0%d0%b9%d1%82%d0%b0-%d0%be%d0%bf%d1%80%d0%b8/' displayText='Twitter'></span><span class='st_email_buttons' st_title='Новый дизайн веб-сайта ОПРИ' st_url='http://blog.icann.org/2012/06/%d0%bd%d0%be%d0%b2%d1%8b%d0%b9-%d0%b4%d0%b8%d0%b7%d0%b0%d0%b9%d0%bd-%d0%b2%d0%b5%d0%b1-%d1%81%d0%b0%d0%b9%d1%82%d0%b0-%d0%be%d0%bf%d1%80%d0%b8/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='Новый дизайн веб-сайта ОПРИ' st_url='http://blog.icann.org/2012/06/%d0%bd%d0%be%d0%b2%d1%8b%d0%b9-%d0%b4%d0%b8%d0%b7%d0%b0%d0%b9%d0%bd-%d0%b2%d0%b5%d0%b1-%d1%81%d0%b0%d0%b9%d1%82%d0%b0-%d0%be%d0%bf%d1%80%d0%b8/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='Новый дизайн веб-сайта ОПРИ' st_url='http://blog.icann.org/2012/06/%d0%bd%d0%be%d0%b2%d1%8b%d0%b9-%d0%b4%d0%b8%d0%b7%d0%b0%d0%b9%d0%bd-%d0%b2%d0%b5%d0%b1-%d1%81%d0%b0%d0%b9%d1%82%d0%b0-%d0%be%d0%bf%d1%80%d0%b8/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='Новый дизайн веб-сайта ОПРИ' st_url='http://blog.icann.org/2012/06/%d0%bd%d0%be%d0%b2%d1%8b%d0%b9-%d0%b4%d0%b8%d0%b7%d0%b0%d0%b9%d0%bd-%d0%b2%d0%b5%d0%b1-%d1%81%d0%b0%d0%b9%d1%82%d0%b0-%d0%be%d0%bf%d1%80%d0%b8/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='Новый дизайн веб-сайта ОПРИ' st_url='http://blog.icann.org/2012/06/%d0%bd%d0%be%d0%b2%d1%8b%d0%b9-%d0%b4%d0%b8%d0%b7%d0%b0%d0%b9%d0%bd-%d0%b2%d0%b5%d0%b1-%d1%81%d0%b0%d0%b9%d1%82%d0%b0-%d0%be%d0%bf%d1%80%d0%b8/' displayText='Pinterest'></span></p>					<p class="to_comments"><span class="bracket">{</span> <a href="http://blog.icann.org/2012/06/%d0%bd%d0%be%d0%b2%d1%8b%d0%b9-%d0%b4%d0%b8%d0%b7%d0%b0%d0%b9%d0%bd-%d0%b2%d0%b5%d0%b1-%d1%81%d0%b0%d0%b9%d1%82%d0%b0-%d0%be%d0%bf%d1%80%d0%b8/#comments" rel="nofollow"><span>0</span> comments</a> <span class="bracket">}</span></p>
+				</div>
+			</div>
+
+			<div class="post_box hentry">
+				<div class="headline_area">
+					<h2 class="entry-title"><a href="http://blog.icann.org/2012/05/%d1%81%d0%b5%d0%bc%d0%b8%d0%bd%d0%b0%d1%80-%d0%bf%d0%be-%d0%bf%d0%be%d0%bb%d0%b8%d1%82%d0%b8%d0%ba%d0%b5-lactld-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%bc%d0%b8%d1%80%d0%b0/" rel="bookmark" title="Permanent Link to Семинар по политике LACTLD в центре мира">Семинар по политике LACTLD в центре мира</a></h2>
+					<p class="headline_meta">by <span class="author vcard fn">Rodrigo de la Parra</span> on <abbr class="published" title="2012-05-30">May 30, 2012</abbr></p>
+				</div>
+				<div class="format_text entry-content">
+<p>Ранее в этом месяце в городе Кито, Эквадор, мне предложили выступить с презентацией на семинаре по вопросам политики, проводимом организацией ДВУ Латинской Америки и Карибского бассейна (LACTLD). В центре повестки дня этого семинара находились аспекты кибербезопасности, управления Интернетом и интеллектуальной собственности, а также их возможное влияние на сообщество нДВУ. Состоялось множество полезных дискуссий и презентаций, [&hellip;]</p>
+<p><span class='st_facebook_buttons' st_title='Семинар по политике LACTLD в центре мира' st_url='http://blog.icann.org/2012/05/%d1%81%d0%b5%d0%bc%d0%b8%d0%bd%d0%b0%d1%80-%d0%bf%d0%be-%d0%bf%d0%be%d0%bb%d0%b8%d1%82%d0%b8%d0%ba%d0%b5-lactld-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%bc%d0%b8%d1%80%d0%b0/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='Семинар по политике LACTLD в центре мира' st_url='http://blog.icann.org/2012/05/%d1%81%d0%b5%d0%bc%d0%b8%d0%bd%d0%b0%d1%80-%d0%bf%d0%be-%d0%bf%d0%be%d0%bb%d0%b8%d1%82%d0%b8%d0%ba%d0%b5-lactld-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%bc%d0%b8%d1%80%d0%b0/' displayText='Twitter'></span><span class='st_email_buttons' st_title='Семинар по политике LACTLD в центре мира' st_url='http://blog.icann.org/2012/05/%d1%81%d0%b5%d0%bc%d0%b8%d0%bd%d0%b0%d1%80-%d0%bf%d0%be-%d0%bf%d0%be%d0%bb%d0%b8%d1%82%d0%b8%d0%ba%d0%b5-lactld-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%bc%d0%b8%d1%80%d0%b0/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='Семинар по политике LACTLD в центре мира' st_url='http://blog.icann.org/2012/05/%d1%81%d0%b5%d0%bc%d0%b8%d0%bd%d0%b0%d1%80-%d0%bf%d0%be-%d0%bf%d0%be%d0%bb%d0%b8%d1%82%d0%b8%d0%ba%d0%b5-lactld-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%bc%d0%b8%d1%80%d0%b0/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='Семинар по политике LACTLD в центре мира' st_url='http://blog.icann.org/2012/05/%d1%81%d0%b5%d0%bc%d0%b8%d0%bd%d0%b0%d1%80-%d0%bf%d0%be-%d0%bf%d0%be%d0%bb%d0%b8%d1%82%d0%b8%d0%ba%d0%b5-lactld-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%bc%d0%b8%d1%80%d0%b0/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='Семинар по политике LACTLD в центре мира' st_url='http://blog.icann.org/2012/05/%d1%81%d0%b5%d0%bc%d0%b8%d0%bd%d0%b0%d1%80-%d0%bf%d0%be-%d0%bf%d0%be%d0%bb%d0%b8%d1%82%d0%b8%d0%ba%d0%b5-lactld-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%bc%d0%b8%d1%80%d0%b0/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='Семинар по политике LACTLD в центре мира' st_url='http://blog.icann.org/2012/05/%d1%81%d0%b5%d0%bc%d0%b8%d0%bd%d0%b0%d1%80-%d0%bf%d0%be-%d0%bf%d0%be%d0%bb%d0%b8%d1%82%d0%b8%d0%ba%d0%b5-lactld-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%bc%d0%b8%d1%80%d0%b0/' displayText='Pinterest'></span></p>					<p class="to_comments"><span class="bracket">{</span> <a href="http://blog.icann.org/2012/05/%d1%81%d0%b5%d0%bc%d0%b8%d0%bd%d0%b0%d1%80-%d0%bf%d0%be-%d0%bf%d0%be%d0%bb%d0%b8%d1%82%d0%b8%d0%ba%d0%b5-lactld-%d0%b2-%d1%86%d0%b5%d0%bd%d1%82%d1%80%d0%b5-%d0%bc%d0%b8%d1%80%d0%b0/#comments" rel="nofollow"><span>0</span> comments</a> <span class="bracket">}</span></p>
+				</div>
+			</div>
+
+			<div class="post_box hentry">
+				<div class="headline_area">
+					<h2 class="entry-title"><a href="http://blog.icann.org/2012/05/%d0%bd%d0%be%d0%b2%d0%b0%d1%8f-%d0%b8%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%be-%d0%b2%d1%81%d1%82%d1%80%d0%b5%d1%87%d0%b5-%d1%80%d0%b5%d0%b5%d1%81%d1%82%d1%80%d0%be%d0%b2-%d0%b8/" rel="bookmark" title="Permanent Link to Новая информация о встрече реестров и регистраторов Северной Америки в Лос Анджелесе">Новая информация о встрече реестров и регистраторов Северной Америки в Лос Анджелесе</a></h2>
+					<p class="headline_meta">by <span class="author vcard fn">Karla Valente</span> on <abbr class="published" title="2012-05-22">May 22, 2012</abbr></p>
+				</div>
+				<div class="format_text entry-content">
+<p>ICANN делает доступными презентации и регистрации заседаний реестров и регистраторов Северной Америки, состоявшихся в Лос-Анджелесе 17-18 мая 2012 г. Хотя данное мероприятие было ориентировано на региональных аккредитованных ICANN регистраторов и реестров рДВУ, в нем также приняло участие множество наблюдателей. Почти 80 участников смогли присутствовать лично, и еще примерно 30 приняли участие в данной встрече удаленно. [&hellip;]</p>
+<p><span class='st_facebook_buttons' st_title='Новая информация о встрече реестров и регистраторов Северной Америки в Лос Анджелесе' st_url='http://blog.icann.org/2012/05/%d0%bd%d0%be%d0%b2%d0%b0%d1%8f-%d0%b8%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%be-%d0%b2%d1%81%d1%82%d1%80%d0%b5%d1%87%d0%b5-%d1%80%d0%b5%d0%b5%d1%81%d1%82%d1%80%d0%be%d0%b2-%d0%b8/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='Новая информация о встрече реестров и регистраторов Северной Америки в Лос Анджелесе' st_url='http://blog.icann.org/2012/05/%d0%bd%d0%be%d0%b2%d0%b0%d1%8f-%d0%b8%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%be-%d0%b2%d1%81%d1%82%d1%80%d0%b5%d1%87%d0%b5-%d1%80%d0%b5%d0%b5%d1%81%d1%82%d1%80%d0%be%d0%b2-%d0%b8/' displayText='Twitter'></span><span class='st_email_buttons' st_title='Новая информация о встрече реестров и регистраторов Северной Америки в Лос Анджелесе' st_url='http://blog.icann.org/2012/05/%d0%bd%d0%be%d0%b2%d0%b0%d1%8f-%d0%b8%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%be-%d0%b2%d1%81%d1%82%d1%80%d0%b5%d1%87%d0%b5-%d1%80%d0%b5%d0%b5%d1%81%d1%82%d1%80%d0%be%d0%b2-%d0%b8/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='Новая информация о встрече реестров и регистраторов Северной Америки в Лос Анджелесе' st_url='http://blog.icann.org/2012/05/%d0%bd%d0%be%d0%b2%d0%b0%d1%8f-%d0%b8%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%be-%d0%b2%d1%81%d1%82%d1%80%d0%b5%d1%87%d0%b5-%d1%80%d0%b5%d0%b5%d1%81%d1%82%d1%80%d0%be%d0%b2-%d0%b8/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='Новая информация о встрече реестров и регистраторов Северной Америки в Лос Анджелесе' st_url='http://blog.icann.org/2012/05/%d0%bd%d0%be%d0%b2%d0%b0%d1%8f-%d0%b8%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%be-%d0%b2%d1%81%d1%82%d1%80%d0%b5%d1%87%d0%b5-%d1%80%d0%b5%d0%b5%d1%81%d1%82%d1%80%d0%be%d0%b2-%d0%b8/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='Новая информация о встрече реестров и регистраторов Северной Америки в Лос Анджелесе' st_url='http://blog.icann.org/2012/05/%d0%bd%d0%be%d0%b2%d0%b0%d1%8f-%d0%b8%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%be-%d0%b2%d1%81%d1%82%d1%80%d0%b5%d1%87%d0%b5-%d1%80%d0%b5%d0%b5%d1%81%d1%82%d1%80%d0%be%d0%b2-%d0%b8/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='Новая информация о встрече реестров и регистраторов Северной Америки в Лос Анджелесе' st_url='http://blog.icann.org/2012/05/%d0%bd%d0%be%d0%b2%d0%b0%d1%8f-%d0%b8%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%be-%d0%b2%d1%81%d1%82%d1%80%d0%b5%d1%87%d0%b5-%d1%80%d0%b5%d0%b5%d1%81%d1%82%d1%80%d0%be%d0%b2-%d0%b8/' displayText='Pinterest'></span></p>					<p class="to_comments"><span class="bracket">{</span> <a href="http://blog.icann.org/2012/05/%d0%bd%d0%be%d0%b2%d0%b0%d1%8f-%d0%b8%d0%bd%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-%d0%be-%d0%b2%d1%81%d1%82%d1%80%d0%b5%d1%87%d0%b5-%d1%80%d0%b5%d0%b5%d1%81%d1%82%d1%80%d0%be%d0%b2-%d0%b8/#comments" rel="nofollow"><span>0</span> comments</a> <span class="bracket">}</span></p>
+				</div>
+			</div>
+
+			<div class="post_box hentry">
+				<div class="headline_area">
+					<h2 class="entry-title"><a href="http://blog.icann.org/2012/05/icann-%d1%83%d0%b4%d0%be%d1%81%d1%82%d0%be%d0%b5%d0%bd%d0%b0-%d0%bd%d0%b0%d0%b3%d1%80%d0%b0%d0%b4%d1%8b-arab-world/" rel="bookmark" title="Permanent Link to ICANN удостоена награды Arab World">ICANN удостоена награды Arab World</a></h2>
+					<p class="headline_meta">by <span class="author vcard fn">Baher Esmat</span> on <abbr class="published" title="2012-05-22">May 22, 2012</abbr></p>
+				</div>
+				<div class="format_text entry-content">
+<p>В ходе недавнего визита в Кувейт для получения одной из высших наград в области информационных технологий в арабском мире президент и исполнительный директор ICANN Род Бэкстром (Rod Beckstrom), вице-президент ICANN по взаимоотношениям с Европейским регионом Найджел Хиксон (Nigel Hickson) и региональный менеджер ICANN на Ближнем Востоке Бахер Эсмат (Baher Esmat) встретились с его высочеством наследным [&hellip;]</p>
+<p><span class='st_facebook_buttons' st_title='ICANN удостоена награды Arab World' st_url='http://blog.icann.org/2012/05/icann-%d1%83%d0%b4%d0%be%d1%81%d1%82%d0%be%d0%b5%d0%bd%d0%b0-%d0%bd%d0%b0%d0%b3%d1%80%d0%b0%d0%b4%d1%8b-arab-world/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='ICANN удостоена награды Arab World' st_url='http://blog.icann.org/2012/05/icann-%d1%83%d0%b4%d0%be%d1%81%d1%82%d0%be%d0%b5%d0%bd%d0%b0-%d0%bd%d0%b0%d0%b3%d1%80%d0%b0%d0%b4%d1%8b-arab-world/' displayText='Twitter'></span><span class='st_email_buttons' st_title='ICANN удостоена награды Arab World' st_url='http://blog.icann.org/2012/05/icann-%d1%83%d0%b4%d0%be%d1%81%d1%82%d0%be%d0%b5%d0%bd%d0%b0-%d0%bd%d0%b0%d0%b3%d1%80%d0%b0%d0%b4%d1%8b-arab-world/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='ICANN удостоена награды Arab World' st_url='http://blog.icann.org/2012/05/icann-%d1%83%d0%b4%d0%be%d1%81%d1%82%d0%be%d0%b5%d0%bd%d0%b0-%d0%bd%d0%b0%d0%b3%d1%80%d0%b0%d0%b4%d1%8b-arab-world/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='ICANN удостоена награды Arab World' st_url='http://blog.icann.org/2012/05/icann-%d1%83%d0%b4%d0%be%d1%81%d1%82%d0%be%d0%b5%d0%bd%d0%b0-%d0%bd%d0%b0%d0%b3%d1%80%d0%b0%d0%b4%d1%8b-arab-world/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='ICANN удостоена награды Arab World' st_url='http://blog.icann.org/2012/05/icann-%d1%83%d0%b4%d0%be%d1%81%d1%82%d0%be%d0%b5%d0%bd%d0%b0-%d0%bd%d0%b0%d0%b3%d1%80%d0%b0%d0%b4%d1%8b-arab-world/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='ICANN удостоена награды Arab World' st_url='http://blog.icann.org/2012/05/icann-%d1%83%d0%b4%d0%be%d1%81%d1%82%d0%be%d0%b5%d0%bd%d0%b0-%d0%bd%d0%b0%d0%b3%d1%80%d0%b0%d0%b4%d1%8b-arab-world/' displayText='Pinterest'></span></p>					<p class="to_comments"><span class="bracket">{</span> <a href="http://blog.icann.org/2012/05/icann-%d1%83%d0%b4%d0%be%d1%81%d1%82%d0%be%d0%b5%d0%bd%d0%b0-%d0%bd%d0%b0%d0%b3%d1%80%d0%b0%d0%b4%d1%8b-arab-world/#comments" rel="nofollow"><span>0</span> comments</a> <span class="bracket">}</span></p>
+				</div>
+			</div>
+
+			<div class="prev_next">
+				<p class="previous"><a href="http://blog.icann.org/category/languages/russian/page/2/" >&larr; Older Entries</a></p>
+			</div>
+
+		</div>
+
+		<div id="sidebars">
+			<div id="multimedia_box">
+				<div id="video_box">
+<p><div style="display:none"> </div>
+<script language="JavaScript" type="text/javascript" src="http://sadmin.brightcove.com/js/BrightcoveExperiences.js"></script>
+<object id="myExperience1035724325001" class="BrightcoveExperience">
+	<param name="bgcolor" value="#FFFFFF" />
+	<param name="width" value="425" />
+	<param name="height" value="238" />
+	<param name="playerID" value="753904046001" />
+	<param name="playerKey" value="AQ~~,AAAABAC4nQE~,ssuCjFQd_8rhco3ondeZtA15hxPYgWJJ" />
+	<param name="isVid" value="true" />
+	<param name="isUI" value="true" />
+	<param name="dynamicStreaming" value="true" />
+	<param name="@videoPlayer" value="1035724325001" />
+	<param name="secureConnections" value="true" />
+</object>
+<script type="text/javascript">brightcove.createExperiences();</script></p>
+				</div>
+			</div>
+			<div id="sidebar_1" class="sidebar">
+				<ul class="sidebar_list">
+<li class="widget thesis_widget_search">
+<form method="get" class="search_form" action="http://blog.icann.org/">
+	<p>
+		<input class="text_input" type="text" value="To search, type and hit enter" name="s" id="s" onfocus="if (this.value == 'To search, type and hit enter') {this.value = '';}" onblur="if (this.value == '') {this.value = 'To search, type and hit enter';}" />
+		<input type="hidden" id="searchsubmit" value="Search" />
+	</p>
+</form>
+</li>
+		<li class="widget widget_recent_entries">		<h3>Recent Posts</h3>		<ul>
+					<li>
+				<a href="http://blog.icann.org/2013/08/icann-to-participate-in-central-and-east-european-registarregistry-conference/" title="ICANN to Participate in Central and East European Registar/Registry Conference">ICANN to Participate in Central and East European Registar/Registry Conference</a>
+						</li>
+					<li>
+				<a href="http://blog.icann.org/2013/08/honoring-africas-dns-industry-leaders/" title="Honoring Africa&#8217;s DNS Industry Leaders">Honoring Africa&#8217;s DNS Industry Leaders</a>
+						</li>
+					<li>
+				<a href="http://blog.icann.org/2013/08/volunteers-needed-for-task-force-on-arabic-script-idns/" title="Volunteers Needed for Task Force on Arabic Script IDNs">Volunteers Needed for Task Force on Arabic Script IDNs</a>
+						</li>
+					<li>
+				<a href="http://blog.icann.org/2013/08/a-better-new-gtld-program/" title="A Better New gTLD Program … With A Little Help From Our Friends">A Better New gTLD Program … With A Little Help From Our Friends</a>
+						</li>
+					<li>
+				<a href="http://blog.icann.org/2013/07/middle-east-strategy-implementation-is-underway/" title="Middle East Strategy Implementation is Underway">Middle East Strategy Implementation is Underway</a>
+						</li>
+				</ul>
+		</li><li class="widget widget_most_popular_posts">
+<h3>Most Popular Posts</h3>
+<ul>	<li><a href="http://blog.icann.org/2007/03/kevin-stop-the-nonsense-take-the-logo-down-and-give-us-the-data/">Kevin, Stop The Nonsense: Take the Logo Down and Give us the Data</a></li>
+	<li><a href="http://blog.icann.org/2007/03/registerfly-update-march-13-2007/">RegisterFly update: March 13, 2007</a></li>
+	<li><a href="http://blog.icann.org/2007/03/termination-of-registerfly-registrar-accreditation-agreement/">Termination of RegisterFly Registrar Accreditation Agreement</a></li>
+	<li><a href="http://blog.icann.org/2007/05/registerfly-update-16-may/">RegisterFly update: 16 May</a></li>
+	<li><a href="http://blog.icann.org/2007/05/registerfly-update-29-may-2007-godaddy-takes-over-names-from-registerfly/">RegisterFly Update 29 May 2007:  GoDaddy Takes Over Names From RegisterFly</a></li>
+</ul>
+</li>
+<li class="widget widget_categories"><h3>Categories</h3>		<ul>
+	<li class="cat-item cat-item-5"><a href="http://blog.icann.org/category/annual-report/" title="Information on and discussion of the Annual Report">Annual Report</a> (3)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://blog.icann.org/category/cctlds/" title="View all posts filed under ccTLDs">ccTLDs</a> (37)
+</li>
+	<li class="cat-item cat-item-18"><a href="http://blog.icann.org/category/compliance/" title="Contractual Compliance Program">Compliance</a> (17)
+</li>
+	<li class="cat-item cat-item-30"><a href="http://blog.icann.org/category/cyber-security/" title="View all posts filed under Cyber Security">Cyber Security</a> (31)
+</li>
+	<li class="cat-item cat-item-48"><a href="http://blog.icann.org/category/dns/" title="DNS">DNS</a> (58)
+<ul class='children'>
+	<li class="cat-item cat-item-226"><a href="http://blog.icann.org/category/dns/dnssec-dns/" title="DNSSEC">DNSSEC</a> (12)
+</li>
+	<li class="cat-item cat-item-227"><a href="http://blog.icann.org/category/dns/l-root-dns/" title="L-Root">L-Root</a> (14)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-253"><a href="http://blog.icann.org/category/finance/" title="View all posts filed under Finance">Finance</a> (8)
+</li>
+	<li class="cat-item cat-item-10"><a href="http://blog.icann.org/category/global-partnerships/" title="The Global Partnership Program">Global Partnerships</a> (56)
+<ul class='children'>
+	<li class="cat-item cat-item-43"><a href="http://blog.icann.org/category/global-partnerships/asia-pacific/" title="Asia-Pacific">Asia-Pacific</a> (9)
+</li>
+	<li class="cat-item cat-item-11"><a href="http://blog.icann.org/category/global-partnerships/europe/" title="Region: Europe">Europe</a> (3)
+</li>
+	<li class="cat-item cat-item-148"><a href="http://blog.icann.org/category/global-partnerships/latin-america/" title="View all posts filed under Latin America">Latin America</a> (9)
+</li>
+	<li class="cat-item cat-item-12"><a href="http://blog.icann.org/category/global-partnerships/from-armenia-to-uzbekistan/" title="Region: Armenia, Azerbaijan, Belarus, Georgia, Kazakhstan, Kyrgyzstan, Moldova, Russia, Tajikistan, Turkmenistan, Ukraine, Uzbekistan
+">Russia and CIS</a> (21)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-6"><a href="http://blog.icann.org/category/iana/" title="View all posts filed under IANA">IANA</a> (43)
+<ul class='children'>
+	<li class="cat-item cat-item-22"><a href="http://blog.icann.org/category/iana/announcement/" title="Announcement about IANA-related topics">Announcement</a> (6)
+</li>
+	<li class="cat-item cat-item-21"><a href="http://blog.icann.org/category/iana/commentary/" title="Commentary about IANA-related topics">Commentary</a> (21)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://blog.icann.org/category/icann/" title="View all posts filed under ICANN">ICANN</a> (578)
+<ul class='children'>
+	<li class="cat-item cat-item-19"><a href="http://blog.icann.org/category/icann/alac/" title="The At Large Advisory Committee">ALAC</a> (14)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-9"><a href="http://blog.icann.org/category/idns/" title="View all posts filed under IDNs">IDNs</a> (58)
+</li>
+	<li class="cat-item cat-item-97"><a href="http://blog.icann.org/category/issues/" title="View all posts filed under Issues">Issues</a> (133)
+<ul class='children'>
+	<li class="cat-item cat-item-217"><a href="http://blog.icann.org/category/issues/fast-track-issues/" title="View all posts filed under Fast Track">Fast Track</a> (20)
+</li>
+	<li class="cat-item cat-item-138"><a href="http://blog.icann.org/category/issues/gtlds/" title="View all posts filed under gTLDs">gTLDs</a> (82)
+</li>
+	<li class="cat-item cat-item-98"><a href="http://blog.icann.org/category/issues/ipv6-issues/" title="View all posts filed under IPv6">IPv6</a> (31)
+</li>
+	<li class="cat-item cat-item-61"><a href="http://blog.icann.org/category/issues/whois/" title="View all posts filed under Whois">Whois</a> (1)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-15 current-cat-parent"><a href="http://blog.icann.org/category/languages/" title="Blog posts split up according to language">Languages</a> (746)
+<ul class='children'>
+	<li class="cat-item cat-item-34"><a href="http://blog.icann.org/category/languages/deutsch/" title="View all posts filed under Deutsch">Deutsch</a> (2)
+</li>
+	<li class="cat-item cat-item-29"><a href="http://blog.icann.org/category/languages/for-blog-posts-in-english/" title="For blog posts in the English language">English</a> (468)
+</li>
+	<li class="cat-item cat-item-14"><a href="http://blog.icann.org/category/languages/espanol/" title="Mensajes publicados en Español">Español</a> (63)
+</li>
+	<li class="cat-item cat-item-16"><a href="http://blog.icann.org/category/languages/francais/" title="View all posts filed under Français">Français</a> (66)
+</li>
+	<li class="cat-item cat-item-17"><a href="http://blog.icann.org/category/languages/italiano/" title="View all posts filed under Italiano">Italiano</a> (2)
+</li>
+	<li class="cat-item cat-item-35"><a href="http://blog.icann.org/category/languages/portugues/" title="View all posts filed under Português">Português</a> (3)
+</li>
+	<li class="cat-item cat-item-31 current-cat"><a href="http://blog.icann.org/category/languages/russian/" title="Posts in Russian">Русский</a> (58)
+</li>
+	<li class="cat-item cat-item-25"><a href="http://blog.icann.org/category/languages/arabic/" title="Arabic">العربية</a> (56)
+</li>
+	<li class="cat-item cat-item-38"><a href="http://blog.icann.org/category/languages/chinese/" title="View all posts filed under 中文">中文</a> (48)
+</li>
+	<li class="cat-item cat-item-33"><a href="http://blog.icann.org/category/languages/japanese/" title="View all posts filed under 日本語">日本語</a> (2)
+</li>
+	<li class="cat-item cat-item-36"><a href="http://blog.icann.org/category/languages/korean/" title="View all posts filed under 한국어">한국어</a> (3)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-32"><a href="http://blog.icann.org/category/meeting/" title="View all posts filed under Meeting">Meeting</a> (126)
+</li>
+	<li class="cat-item cat-item-85"><a href="http://blog.icann.org/category/nomcom/" title="View all posts filed under NomCom">NomCom</a> (6)
+</li>
+	<li class="cat-item cat-item-13"><a href="http://blog.icann.org/category/participation/" title="Posts covering the broader issues of participation within ICANN ">Participation</a> (187)
+<ul class='children'>
+	<li class="cat-item cat-item-205"><a href="http://blog.icann.org/category/participation/photographs-participation/" title="View all posts filed under photographs">photographs</a> (3)
+</li>
+	<li class="cat-item cat-item-235"><a href="http://blog.icann.org/category/participation/remote/" title="View all posts filed under Remote">Remote</a> (2)
+</li>
+	<li class="cat-item cat-item-142"><a href="http://blog.icann.org/category/participation/video-participation/" title="View all posts filed under video">video</a> (5)
+</li>
+	<li class="cat-item cat-item-186"><a href="http://blog.icann.org/category/participation/website-participation/" title="View all posts filed under website">website</a> (16)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-28"><a href="http://blog.icann.org/category/podcasts/" title="Podcasts">Podcasts</a> (6)
+</li>
+	<li class="cat-item cat-item-8"><a href="http://blog.icann.org/category/policy/" title="View all posts filed under Policy">Policy</a> (43)
+</li>
+	<li class="cat-item cat-item-41"><a href="http://blog.icann.org/category/registrars/" title="registrars">Registrars</a> (30)
+</li>
+	<li class="cat-item cat-item-40"><a href="http://blog.icann.org/category/registries/" title="registries">Registries</a> (47)
+</li>
+	<li class="cat-item cat-item-20"><a href="http://blog.icann.org/category/technical/" title="Issues dealing with technical aspects">Technical</a> (28)
+</li>
+		</ul>
+</li>				</ul>
+			</div>
+			<div id="sidebar_2" class="sidebar">
+				<ul class="sidebar_list">
+<li class="widget widget_text">			<div class="textwidget"><script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 10,
+  interval: 6000,
+  width: 'auto',
+  height: 300,
+  theme: {
+    shell: {
+      background: '#accfcd',
+      color: '#ffffff'
+    },
+    tweets: {
+      background: '#00364d',
+      color: '#ffffff',
+      links: '#a9a3d4'
+    }
+  },
+  features: {
+    scrollbar: true,
+    loop: false,
+    live: false,
+    hashtags: true,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('icann').start();
+</script></div>
+		</li><li class="widget widget_tag_cloud"><h3>Tags</h3><div class="tagcloud"><a href='http://blog.icann.org/tag/acs/' class='tag-link-83' title='4 topics' style='font-size: 8pt;'>ACs</a>
+<a href='http://blog.icann.org/tag/acso/' class='tag-link-156' title='5 topics' style='font-size: 9.2173913043478pt;'>ACSO</a>
+<a href='http://blog.icann.org/tag/alac/' class='tag-link-19' title='13 topics' style='font-size: 14.847826086957pt;'>ALAC</a>
+<a href='http://blog.icann.org/tag/applicant-guidebook/' class='tag-link-65' title='9 topics' style='font-size: 12.565217391304pt;'>Applicant Guidebook</a>
+<a href='http://blog.icann.org/tag/board/' class='tag-link-86' title='12 topics' style='font-size: 14.239130434783pt;'>Board</a>
+<a href='http://blog.icann.org/tag/briefing-note/' class='tag-link-93' title='4 topics' style='font-size: 8pt;'>briefing note</a>
+<a href='http://blog.icann.org/tag/cairo/' class='tag-link-50' title='13 topics' style='font-size: 14.847826086957pt;'>cairo</a>
+<a href='http://blog.icann.org/tag/ccnso/' class='tag-link-87' title='12 topics' style='font-size: 14.239130434783pt;'>ccNSO</a>
+<a href='http://blog.icann.org/tag/cctld/' class='tag-link-101' title='23 topics' style='font-size: 18.347826086957pt;'>ccTLD</a>
+<a href='http://blog.icann.org/tag/cerf/' class='tag-link-67' title='4 topics' style='font-size: 8pt;'>Cerf</a>
+<a href='http://blog.icann.org/tag/delhi/' class='tag-link-120' title='8 topics' style='font-size: 11.804347826087pt;'>Delhi</a>
+<a href='http://blog.icann.org/tag/dns/' class='tag-link-48' title='14 topics' style='font-size: 15.304347826087pt;'>DNS</a>
+<a href='http://blog.icann.org/tag/dnssec/' class='tag-link-55' title='5 topics' style='font-size: 9.2173913043478pt;'>dnssec</a>
+<a href='http://blog.icann.org/tag/fast-track/' class='tag-link-94' title='22 topics' style='font-size: 18.04347826087pt;'>Fast Track</a>
+<a href='http://blog.icann.org/tag/gnso/' class='tag-link-62' title='17 topics' style='font-size: 16.521739130435pt;'>GNSO</a>
+<a href='http://blog.icann.org/tag/gtld/' class='tag-link-45' title='23 topics' style='font-size: 18.347826086957pt;'>gtld</a>
+<a href='http://blog.icann.org/tag/icann/' class='tag-link-1' title='19 topics' style='font-size: 17.130434782609pt;'>ICANN</a>
+<a href='http://blog.icann.org/tag/idn/' class='tag-link-56' title='41 topics' style='font-size: 22pt;'>IDN</a>
+<a href='http://blog.icann.org/tag/idns/' class='tag-link-9' title='5 topics' style='font-size: 9.2173913043478pt;'>IDNs</a>
+<a href='http://blog.icann.org/tag/iic/' class='tag-link-60' title='9 topics' style='font-size: 12.565217391304pt;'>IIC</a>
+<a href='http://blog.icann.org/tag/ipv4/' class='tag-link-73' title='8 topics' style='font-size: 11.804347826087pt;'>IPv4</a>
+<a href='http://blog.icann.org/tag/ipv6/' class='tag-link-44' title='12 topics' style='font-size: 14.239130434783pt;'>ipv6</a>
+<a href='http://blog.icann.org/tag/isp/' class='tag-link-51' title='4 topics' style='font-size: 8pt;'>isp</a>
+<a href='http://blog.icann.org/tag/jpa/' class='tag-link-107' title='12 topics' style='font-size: 14.239130434783pt;'>JPA</a>
+<a href='http://blog.icann.org/tag/magazine/' class='tag-link-90' title='4 topics' style='font-size: 8pt;'>magazine</a>
+<a href='http://blog.icann.org/tag/meeting/' class='tag-link-32' title='6 topics' style='font-size: 10.282608695652pt;'>Meeting</a>
+<a href='http://blog.icann.org/tag/mexico-city/' class='tag-link-144' title='9 topics' style='font-size: 12.565217391304pt;'>Mexico City</a>
+<a href='http://blog.icann.org/tag/new-gtlds/' class='tag-link-152' title='5 topics' style='font-size: 9.2173913043478pt;'>new gTLDs</a>
+<a href='http://blog.icann.org/tag/nomcom/' class='tag-link-85' title='9 topics' style='font-size: 12.565217391304pt;'>NomCom</a>
+<a href='http://blog.icann.org/tag/paris/' class='tag-link-92' title='9 topics' style='font-size: 12.565217391304pt;'>Paris</a>
+<a href='http://blog.icann.org/tag/participation/' class='tag-link-13' title='21 topics' style='font-size: 17.739130434783pt;'>Participation</a>
+<a href='http://blog.icann.org/tag/policy/' class='tag-link-8' title='4 topics' style='font-size: 8pt;'>Policy</a>
+<a href='http://blog.icann.org/tag/public-comment/' class='tag-link-91' title='11 topics' style='font-size: 13.782608695652pt;'>public comment</a>
+<a href='http://blog.icann.org/tag/public-forum/' class='tag-link-134' title='7 topics' style='font-size: 11.04347826087pt;'>public forum</a>
+<a href='http://blog.icann.org/tag/question-box/' class='tag-link-155' title='8 topics' style='font-size: 11.804347826087pt;'>question box</a>
+<a href='http://blog.icann.org/tag/raa/' class='tag-link-78' title='4 topics' style='font-size: 8pt;'>RAA</a>
+<a href='http://blog.icann.org/tag/registrars/' class='tag-link-41' title='14 topics' style='font-size: 15.304347826087pt;'>Registrars</a>
+<a href='http://blog.icann.org/tag/registries/' class='tag-link-40' title='17 topics' style='font-size: 16.521739130435pt;'>Registries</a>
+<a href='http://blog.icann.org/tag/seoul/' class='tag-link-77' title='6 topics' style='font-size: 10.282608695652pt;'>Seoul</a>
+<a href='http://blog.icann.org/tag/sos/' class='tag-link-82' title='4 topics' style='font-size: 8pt;'>SOs</a>
+<a href='http://blog.icann.org/tag/sydney/' class='tag-link-183' title='20 topics' style='font-size: 17.434782608696pt;'>Sydney</a>
+<a href='http://blog.icann.org/tag/translation/' class='tag-link-88' title='16 topics' style='font-size: 16.065217391304pt;'>translation</a>
+<a href='http://blog.icann.org/tag/video/' class='tag-link-104' title='4 topics' style='font-size: 8pt;'>video</a>
+<a href='http://blog.icann.org/tag/website/' class='tag-link-81' title='5 topics' style='font-size: 9.2173913043478pt;'>website</a>
+<a href='http://blog.icann.org/tag/wiki/' class='tag-link-108' title='5 topics' style='font-size: 9.2173913043478pt;'>wiki</a></div>
+</li><li class="widget widget_recent_comments"><h3>Recent Comments</h3><ul id="recentcomments"><li class="recentcomments">gulag on <a href="http://blog.icann.org/2010/12/icann-doesn%e2%80%99t-take-down-websites/comment-page-1/#comment-29879">ICANN Doesn’t Take Down Websites</a></li><li class="recentcomments">Vladislav on <a href="http://blog.icann.org/2013/04/do-more-to-prevent-dns-ddos-attacks/comment-page-1/#comment-29539">Do More to Prevent DNS DDoS Attacks</a></li><li class="recentcomments"><a href='http://benjaminkerensa.com' rel='external nofollow' class='url'>Benjamin Kerensa</a> on <a href="http://blog.icann.org/2013/04/single-source-of-whois-related-agreement-provisions-and-policies/comment-page-1/#comment-29463">Single Source of Whois-Related Agreement Provisions and Policies</a></li><li class="recentcomments">Abir on <a href="http://blog.icann.org/2013/03/arab-multi-stakeholder-internet-governance-meeting-wraps-up-in-dubai/comment-page-1/#comment-29345">Arab Multi-stakeholder Internet Governance Meeting Wraps Up in Dubai</a></li><li class="recentcomments"><a href='http://pisanty.blogspot.com' rel='external nofollow' class='url'>Alejandro Pisanty</a> on <a href="http://blog.icann.org/2013/04/changes-to-the-public-forum/comment-page-1/#comment-29319">Changes to the Public Forum</a></li></ul></li><li class="widget widget_links"><h3>Blogroll</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.iana.org" title="Internet Assigned Numbers Authority">IANA</a></li>
+<li><a href="http://www.icann.org" rel="me" title="Internet Corporation for Assigned Names and Numbers">ICANN</a></li>
+<li><a href="http://omblog.icann.org/" title="ICANN Office of the Ombudsman Web Log">Ombudsman Blog</a></li>
+<li><a href="http://www.icann.org/en/public-comment/" title="A rundown of those issues out for public comment" target="_blank">Public comment</a></li>
+
+	</ul>
+</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<p>Get smart with the <a href="http://diythemes.com/thesis/">Thesis WordPress Theme</a> from DIY Themes.</p>
+	</div>
+</div>
+</div>
+<!--[if lte IE 7]>
+<div id="ie_clear"></div>
+<![endif]-->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6608869-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</body>
+</html>

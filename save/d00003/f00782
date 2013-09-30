@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html;
+charset=ISO-8859-1">
+<meta name="generator" content="/usr/bin/vi">
+<meta name="description" content="Details on a bug in the rename
+system call in Mac OS X">
+<meta name="keywords" content="syscall, system call, unix, rename,
+flaw, broken, error, bug, atomic, atomicity, apple, mac os x, macosx,
+leopard, symlink">
+<meta name="author" content="Paul 'WEiRD' de Weerd, 2008, 2009, 2010, 2011">
+<meta name="revised" content="Sun Apr  8 16:11:47 CEST 2011 / PdW">
+<meta name="first published" content="Fri Mar 14 08:47:22 CET 2008">
+<title>rename(2) on Mac OS X not atomic</title>
+<style type="text/css" media="screen">
+<!--
+  pre, .quote {
+    background-color: #DEDEDE;
+  }
+  html {
+    background-color: #DEDEDE;
+    background-image: url(http://www.weirdnet.nl/images/html.gif);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top left;
+  }
+  .column {
+    text-align: justify;
+    background-color: white;
+    color: black;
+    width:600px;
+    border: 1px solid black;
+    margin: 1em;
+    padding: 1.5em;
+  }
+  .quote {
+    text-align: left;
+  }
+  h2, tt, pre {
+    color: blue;
+  }
+  h2 {
+    height: 100px;
+    min-height: 100px;
+    background: url( ../images/logo_w.png ) top right no-repeat;
+  } 
+  pre, .quote {
+    border: 1px solid black;
+    padding: 1em;
+  }
+-->
+</style>
+</head>
+<body>
+<center>
+<div class="column">
+<h2>
+On how rename is broken in Mac OS X
+</h2>
+<i>[Please see the latest update at the <a href="#21sep2011">bottom of
+this page</a>]</i>
+<h3>Introduction</h3>
+<p>
+From rename(2), on my Mac OS X Leopard (10.5.2) laptop :
+<p>
+<tt>
+The <b>rename</b>() system call guarantees that an instance of
+<u>new</u> will always exist, even if the system should crash in the
+middle of the operation.
+</tt>
+<p>
+Basically, what apple is saying here is that the rename system call is
+<em>atomic</em> : there should never be a time where
+<tt><u>new</u></tt> doesn't exist for the duration of the execution of
+the system call, and that after rename completes, the operation is
+either completed succesfully or failed (eg. because the filesystem is
+read-only). For more details on how <tt>rename()</tt> is supposed to
+work, please read
+<a href="http://opengroup.org/onlinepubs/007908799/xsh/rename.html">
+the SU specification</a>. In this document I will empirically prove
+that <tt>rename()</tt> is not atomic in Mac OS X.
+<h3>Details and test method</h3>
+<p>
+Let's see how the above works out if we're renaming symbolic links. It
+should provide us with the means to "relink" atomically, something
+<tt>ln&nbsp;-sfh</tt> doesn't provide as this simply deletes the
+target (if it exists) and creates a new symlink in its place. Atomic
+relinking can be useful in several situations, and the canonical way
+to do this on unix systems is by using the <tt>rename()</tt> system
+call : first create a symlink to the new destination with a temporary
+filename, then rename that temporary filename to the intended name.
+Something like the following :
+<p>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+int
+main () {
+	symlink("DESTINATION", "templink");
+	rename("templink", "LINK");
+	return 0;
+}
+</pre>
+<p>
+There is an easy way to empirically prove that <tt>rename()</tt> is
+<b>not</b> atomic on Leopard 10.5.2. All you have to do is create a
+link to a directory, replace that link with a link to another
+directory and in the mean time <tt>touch(1)</tt> a file in the
+directory the link points to. If you do this often enough, you'll run
+into occasions where you get an error message from touch, complaining
+that there's "No such file or directory". Let's give this a shot.
+<p>
+In one shell, type the following :
+<pre>
+mkdir -p /tmp/test/{A,B}
+cd /tmp/test
+cat &lt;&lt;EOF &gt; linkit.c
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+int
+main () {
+        while (1) {
+                symlink("A", "templink");
+                rename("templink", "link");
+                symlink("B", "templink");
+                rename("templink", "link");
+        }
+}
+EOF
+cc -o linkit linkit.c
+./linkit
+</pre>
+<p>
+What we have just done is write, compile and start a program that
+continuously points a symlink called "link" first to directory A and
+then to directory B and back to A, to B, to A, etc. Now, we need to
+touch a file in the directory that symlink "link" points to.
+<p>
+In a second shell, run the following command :
+<pre>
+while :; do touch /tmp/test/link/C; done
+</pre>
+<h3>Result and conclusions</h3>
+<p>
+This should continuously touch either /tmp/test/A/C or /tmp/test/B/C,
+depending on where the link points. Now, if <tt>rename()</tt> is
+atomic, this will always succeed. However, after some runtime, you
+will get the following error message :
+<p>
+<tt>touch: /tmp/test/link/C: No such file or directory</tt>
+<p>
+We can only get this error message if there is no symbolic link called
+'link', or if the link points to a non-existent directory. This goes
+against the principle of atomicity, so therefor we must conclude that
+<tt>rename()</tt> <em>is not atomic on Mac OS X</em>. My best guess is
+that the OS simply takes a shortcut in this case and does a delete
+first and then quickly follows up with the actual renaming, similar to
+the <tt>ln&nbsp;-sfh</tt> way of doing it, so without taking the
+necessary precautions to guarantee atomicity. During my tests, I even
+got the error message '<tt>touch: /tmp/test/link/C: Is a
+directory</tt>', something I can offer no explanation for since C
+should either be a file (if link points to A or B) or the path to C
+(link) doesn't exist. And besides, touching a directory shouldn't
+fail, so it's a weird error for touch to give. In order to get this
+fixed I have filed a bug report with apple, its BugID is 5799661.
+<p>
+Running this same procedure on a Linux, a FreeBSD and an OpenBSD
+machine gives no such error messages. This is to be expected if
+<tt>rename()</tt> is indeed atomic but <em>does not prove it !</em>
+<hr>
+<p>
+<h4>Update August 26, 2008:</h4>
+<p>
+I have received an acknowledgement from Apple on my bug report. Here's
+a quick quote from their e-mail :
+<p>
+<div class="quote"><tt>
+This is a follow up to Bug ID# 5799661. After further investigation it
+has been determined that this is a known issue, which is currently
+being investigated by engineering. This issue has been filed in our
+bug database under the original Bug ID# 5398777. The original bug
+number being used to track this duplicate issue can be found in the
+State column, in this format: Duplicate/OrigBug#.
+</tt></div>
+<p>
+Unfortunately, this also means that I have lost all visibility into
+the state of this bug. Since my Bug ID is closed as 'Duplicate' and I
+have no access to bugs I did not file, I will have to wait for new Mac
+OS X versions to see if this problem is fixed.
+<p>
+<h4>Update September 17, 2008:</h4>
+<p>
+Today Mac OS X Software Update informed me that there was an update
+for Leopard. Unfortunately, upgrading to 10.5.5 makes no difference,
+the issue is still there. That's the third upgrade since I reported
+this issue that does not fix it.
+<p>
+<h4>Update January 4, 2009:</h4>
+<p>
+After updating to Mac OS X 10.5.6 some time ago, I decided to try
+again. Issue still there, nothing new here. Maybe (just maybe) it'll
+be fixed in <a href="http://www.apple.com/macosx/snowleopard/">Snow
+Leopard</a> (Mac OS X 10.6), so I'll try again once that's released
+(should be somewhere mid '09). So no more updates for minor versions
+until then (except, of course, if a minor version fixes this problem).
+<p>
+<h4>Update September 4, 2009:</h4>
+<p>
+Snow Leopard arrived. It was hard to actually acquire a copy (way to
+go, Apple), but eventually I managed. There are hardly any new
+features visible to the user, so maybe they fixed their bugs this
+release ? Sadly, no. Mac OS X 10.6 still suffers from the same
+problem. I seem to get a similar amount of "No such file or directory"
+errors and after some more runtime, I also get the "Is a directory"
+error. Guess that if I want this issue fixed, I'll have to wait for
+Mac OS XI (or would that be Mac OS Y ?).
+<p>
+<h4>Update January 8, 2010:</h4>
+<p>
+I just received an e-mail from an Apple employee who was very kind to
+inform me that the original bug (5398777) was resolved in Snow Leopard
+but the issue I reported was not fixed. As I mentioned in the August
+26th, 2008 update, I have no access to bug reports that are not my own
+so I was not aware of this fix. My original issue has been reopened as
+7519910.
+<p>
+Unfortunately, that means I still do not have any visibility on
+Apple's progress in fixing this issue, but I do believe it is now on
+their radar again. So, hopefully, this will be solved in the not too
+distant future :)
+<p>
+Thanks to that friendly Apple guy for taking the time to inform me of
+this update.
+<p>
+<h4>Update November 13, 2010:</h4>
+<p>
+After the upgrade to 10.6.5 I thought I'd check again. It's been more
+than 2.5 years since I reported this to Apple, but it's still broken.
+I do seem to get less "Is a directory" errors (but I do still get
+them).
+<p>
+I should probably give up any remaining hope I had left in me for a
+fix, the issue does not seem important enough for Apple to warrant a
+fix. Knowing myself, I will keep trying with every new release...
+<p>
+<h4><a name="21sep2011">Update September 21, 2011:</a></h4>
+<p>
+Although I haven't yet upgraded to Lion myself, I've now received two
+reports that Apple's latest offering actually fixes their bug.  Note
+that, as stated in the initial writeup, a lack of errors reported from
+the test procedure does not conclusively prove the operation is now
+atomic, the chance of running into this issue under normal conditions
+is at least greatly decreased.
+<p>
+So, it took them 3 years, but aparently it was worth the wait.  Thanks
+to Apple for (finally) resolving the issue and thanks to Job and Ben
+for reporting their results from their Lion machines.  Let's close
+this chapter now :)
+<hr>
+<table cellspacing=0 border=0 width="100%" summary="footer">
+<tr>
+<td align="left" valign="bottom">
+&copy; 2008, 2009, 2010, 2011 <a href="http://www.weirdnet.nl/CV/">Paul 'WEiRD' de
+Weerd</a>
+</td>
+<td align="right">
+<a href="http://www.openbsd.org/"><img border="0"
+src="../images/openbsd_pb.gif" alt="Powered by OpenBSD" width="150"
+height="40"></a>
+</td>
+</tr>
+</table>
+</div>
+</center>
+</body>
+</html>

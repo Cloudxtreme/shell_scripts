@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>How to get CVS source and apply patches</title>
+<LINK REL=stylesheet HREF="../gnuplot.css" TEXT="text/css">
+</head>
+
+<body>
+<h2>How to download source code for the development version of gnuplot</h2>
+
+Source code for the development version of gnuplot is kept on 
+<a href="http://www.sourceforge.net/projects/gnuplot">SourceForge</a>.
+However, the best way to get the complete set of source is to install
+the cvs tools on your own machine and use them to access the SourceForge
+site.
+
+<h3>Creating a copy of the CVS source tree on your local machine</h3>
+This will create a subdirectory named <b>./gnuplot</b>, and copy the
+cvs source tree into it.
+<br>
+<b>csh version</b>
+<pre>
+setenv CVS_RSH ssh
+setenv CVSROOT ':pserver:anonymous@gnuplot.cvs.sourceforge.net:/cvsroot/gnuplot'
+cvs login
+        (hit &lt;cr&gt; - no password needed for anonymous)
+cvs -z3 checkout gnuplot
+</pre>
+<br>
+<b>bash version</b>
+<pre>
+export CVS_RSH=ssh
+export CVSROOT=:pserver:anonymous@gnuplot.cvs.sourceforge.net:/cvsroot/gnuplot
+cvs login
+
+cvs -z3 checkout gnuplot
+</pre>
+	
+<h3>If you just want to build the current version without patching</h3>
+If you don't have any patches to apply, at this point you can build
+the current CVS version using the following sequence of commands:
+<pre>
+cd ./gnuplot
+./prepare
+./configure
+make
+</pre>
+If you want to explore the possible configuration options, you can get
+a list by typing
+<pre>
+./configure --help
+</pre>
+By default the CVS version has all options turned on, but you might want
+to specify some particular prefered external libraries.  The only extra
+option I use myself is:
+<pre>
+./configure --with-readline=gnu
+</pre>
+
+<h3>Applying the patches</h3>
+Download the patches you want. I will assume you are getting patches from
+this site, but you may also want to look at the much longer
+<a href="http://sourceforge.net/tracker/?group_id=2055&atid=302055">
+list of submitted patches at SourceForge</a>. 
+I recommend renaming your local copy of the source directory before patching,
+so that later on you can update your copy of the CVS source without 
+overwriting or colliding with your local patched copy. 
+To apply the patches and reconfigure the patched source for your local setup:
+<pre>
+mv ./gnuplot ./gnuplot-patched
+cd ./gnuplot-patched
+patch -p1 < ../patch1.patch
+patch -p1 < ../patch2.patch
+./prepare
+./configure --help      (to see the configuration options)
+./configure --enable-datastrings --enable-histograms
+make
+</pre>
+
+The downloaded patches are not always a perfect match to the current
+CVS code, because the code keeps getting updated (that's the whole point!).
+So you may see warning messages from the <b>patch</b> commands.
+You can ignore most of these, but if you see messages like: <pre>
+2 out of 5 hunks FAILED -- saving rejects to file src/unset.c.rej
+</pre>
+then you have a problem and will have to fix this particular file by
+hand.  If you want to test patch compatibility before actually applying
+it, you can use the command <pre>
+patch -p1 --dry-run < ../patch1.patch</pre>
+
+
+
+
+
+<br clear=all>
+<hr>
+<i>Ethan A Merritt<br>15 Feb 2005</i>
+
+</body>
+</html>

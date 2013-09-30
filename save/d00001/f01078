@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Bug #15561: Fix for CVE-2012-3867 is too restrictive - Puppet - Puppet Labs</title>
+<meta name="description" content="Redmine" />
+<meta name="keywords" content="issue,bug,tracker" />
+<meta content="authenticity_token" name="csrf-param" />
+<meta content="GnBw5VuYWQDufwKUtvIQiozSa2m+tA2U/oa77LiyZH4=" name="csrf-token" />
+<link rel='shortcut icon' href='/favicon.ico?1363307366' />
+<link href="/stylesheets/jquery/jquery-ui-1.8.21.css?1357934870" media="all" rel="stylesheet" type="text/css" />
+<link href="/themes/puppetlabs_redmine_theme/stylesheets/application.css?1358972821" media="all" rel="stylesheet" type="text/css" />
+
+<script src="/javascripts/jquery-1.7.2-ui-1.8.21-ujs-2.0.3.js?1357934870" type="text/javascript"></script>
+<script src="/javascripts/application.js?1357934870" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+$(window).load(function(){ warnLeavingUnsaved('The current page contains unsaved text that will be lost if you leave this page.'); });
+//]]>
+</script>
+
+<link href="/plugin_assets/redmine_vote/stylesheets/stylesheet.css?1358364479" media="screen" rel="stylesheet" type="text/css" />
+<!-- page specific tags -->
+    <link href="http://projects.puppetlabs.com/issues/15561.atom" rel="alternate" title="Puppet - Bug #15561: Fix for CVE-2012-3867 is too restrictive" type="application/atom+xml" />
+<script src="/javascripts/context_menu.js?1357934869" type="text/javascript"></script><link href="/stylesheets/context_menu.css?1357934869" media="screen" rel="stylesheet" type="text/css" /></head>
+<body class="theme-Puppetlabs redmine theme controller-issues action-show">
+<div id="wrapper">
+<div id="wrapper2">
+<div id="wrapper3">
+<div id="top-menu">
+    <div id="account">
+        <ul><li><a href="/login" class="login">Sign in</a></li>
+<li><a href="/account/register" class="register">Register</a></li></ul>    </div>
+    
+    <ul><li><a href="http://puppetlabs.com" class="puppetlabs">Puppet Labs Site</a></li>
+<li><a href="http://docs.puppetlabs.com" class="documentation">Documentation</a></li>
+<li><a href="http://www.puppetlabs.com/resources/customer-support" class="support">Support</a></li>
+<li><a href="http://www.puppetlabs.com/company/#contact" class="contact">Contact Us</a></li>
+<li><a href="http://www.puppetlabs.com/resources/downloads" class="download">Download</a></li>
+<li><a href="/" class="home">Home</a></li>
+<li><a href="/projects" class="projects">Projects</a></li>
+<li><a href="http://www.redmine.org/guide" class="help">Help</a></li></ul></div>
+
+<div id="header">
+    <div id="quick-search">
+        <form accept-charset="UTF-8" action="/projects/puppet/search" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+        <input name="issues" type="hidden" value="1" />
+        <label for='q'>
+          <a href="/projects/puppet/search" accesskey="4">Search</a>:
+        </label>
+        <input accesskey="f" class="small" id="q" name="q" size="20" type="text" />
+</form>        
+    </div>
+
+    <h1>Puppet</h1>
+
+    <div id="main-menu">
+        <ul><li><a href="/projects/puppet" class="overview">Overview</a></li>
+<li><a href="/projects/puppet/activity" class="activity">Activity</a></li>
+<li><a href="/projects/puppet/roadmap" class="roadmap">Roadmap</a></li>
+<li><a href="/projects/puppet/issues" class="issues selected">Issues</a></li>
+<li><a href="/projects/puppet/wiki" class="wiki">Wiki</a></li></ul>
+    </div>
+</div>
+
+<div id="main" class="">
+    <div id="sidebar">
+          <h3>Issues</h3>
+<a href="/projects/puppet/issues?set_filter=1">View all issues</a><br />
+<a href="/projects/puppet/issues/report">Summary</a><br />
+
+
+
+
+<h3>Custom queries</h3><a href="/projects/puppet/issues?query_id=272" class="query">Accepted but Unowned - Patches Welcome!</a><br /><a href="/projects/puppet/issues?query_id=95" class="query">All tickets</a><br /><a href="/projects/puppet/issues?query_id=289" class="query">Backlog Query</a><br /><a href="/projects/puppet/issues?query_id=98" class="query">Open cron issues</a><br /><a href="/projects/puppet/issues?query_id=304" class="query">Platform Report - 2 Week Activity</a><br /><a href="/projects/puppet/issues?query_id=199" class="query">Puppet Solaris issues</a><br /><a href="/projects/puppet/issues?query_id=107" class="query">Ruby 1.9 Issues</a><br /><a href="/projects/puppet/issues?query_id=145" class="query">Support Customer Tickets</a><br /><a href="/projects/puppet/issues?query_id=177" class="query">Support Tickets</a><br /><a href="/projects/puppet/issues?query_id=262" class="query">Telly Deprecations</a><br /><a href="/projects/puppet/issues?query_id=176" class="query">Tickets - Assigned to Me</a><br /><a href="/projects/puppet/issues?query_id=131" class="query">Tickets - Authored by Me</a><br /><a href="/projects/puppet/issues?query_id=173" class="query">Tickets - By Priority</a><br /><a href="/projects/puppet/issues?query_id=64" class="query">Tickets - In Topic Branch Pending Review</a><br /><a href="/projects/puppet/issues?query_id=147" class="query">Tickets - Top by votes</a><br /><a href="/projects/puppet/issues?query_id=29" class="query">Tickets - Unassigned to a target release</a><br /><a href="/projects/puppet/issues?query_id=19" class="query">Tickets - Unreviewed</a><br /><a href="/projects/puppet/issues?query_id=198" class="query">Tickets - unreviewed and outside SLA</a><br /><a href="/projects/puppet/issues?query_id=208" class="query">Tickets - waiting for action</a><br /><a href="/projects/puppet/issues?query_id=201" class="query">Tickets with simple fixes</a>
+
+
+
+    <div id="watchers">
+      
+<h3>Watchers (19)</h3>
+
+<ul><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/78" class="user active">Jeff McCune</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/7f7fe07c6402a15a4888c3ba00efca45?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/693" class="user active">eric sorenson</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b4179f71ae0944ce8a9a38e37dd537e3?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/1246" class="user active">Matt Wise</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/f14203dee7593a809ed518bad2f3be9e?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/5403" class="user active">Ben Jones</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/fbaa1de605fb0c646dde6e0bac761d22?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/4303" class="user active">Moses Mendoza</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/627c627941f84e1360488e2709ad7898?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/5640" class="user active">Nicola V</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/eaf041cb45cf235526eff4f6cde0a515?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/5730" class="user active">Peter Matulis</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/3b42a05d54fd89b4b0d33dc2694fd538?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/3515" class="user active">Steve Traylen</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/429f194236d9b105e77b0896885928b8?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/3484" class="user active">Jan van Eldik</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/ed30324c9ee1fdda5b1325a6ca369e29?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/5845" class="user active">Luis Fernandez</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/e528998e05998cd5bcaece6e2c815252?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/5848" class="user active">Greg Walters</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/84169be73cbdc58baed527b25d774b2b?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/5353" class="user active">Kevin Sumner</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/388fcd3f0f4fbc68faf1d22fa49c0e3a?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/2239" class="user active">Nathan Campi</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/3065" class="user active">Dustin Mitchell</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/6fbf7ff688108557ab14576980d33012?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/1921" class="user active">Jascha Lee</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/749d26c9dab99477bf44e264b0181b9e?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/6130" class="user active">adam stokes</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/c9510c2b9031fa5d6a9535cd264c1fb1?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/2252" class="user active">Yuri Arabadji</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/25956d2107975aee516a35beb2eda52c?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/6564" class="user active">Rob Hendelman</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/c6791ad5c4ab816452541396190513f0?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/6563" class="user active">Poul H. Sørensen</a></li></ul>
+
+    </div>
+
+        
+    </div>
+
+    <div id="content">
+        
+        <div class="contextual">
+
+
+<span class="issue-15561-watcher"></span>
+
+
+</div>
+
+
+<h2>Bug #15561</h2>
+
+<div class="issue status-5 priority-6 priority-high2 closed details">
+
+  <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=50&amp;default=" ssl="false" title="" />
+
+<div class="subject">
+<div><h3>Fix for CVE-2012-3867 is too restrictive</h3></div>
+</div>
+        <p class="author">
+        Added by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2012-07-17" title="07/17/2012 07:09 am">about 1 year</a> ago.
+        Updated <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:19 pm">4 months</a> ago.
+        </p>
+
+<table class="attributes">
+<tr><th class="status">Status:</th><td class="status">Closed</td><th class="start-date">Start date:</th><td class="start-date">07/17/2012</td></tr><tr><th class="priority">Priority:</th><td class="priority">Urgent</td><th class="due-date">Due date:</th><td class="due-date"></td></tr><tr><th class="assigned-to">Assignee:</th><td class="assigned-to">-</td><th class="progress">% Done:</th><td class="progress"><table class="progress" style="width: 80px;"><tr><td class="todo" style="width: 100%;"></td></tr></table><p class="pourcent">0%</p></td></tr><tr><th class="category">Category:</th><td class="category">SSL</td><th></th><td></td></tr><tr><th class="fixed-version">Target version:</th><td class="fixed-version"><a href="/versions/371">3.2.0</a></td><th></th><td></td></tr>
+<tr>
+	<th>Affected Puppet version:</th><td>2.7.18</td>
+	<th>Branch:</th><td>https://github.com/puppetlabs/puppet/pull/1556</td>
+</tr>
+<tr>
+	<th>Keywords:</th><td>certificate</td>
+</tr>
+
+    <tr><td><b>
+
+
+
+
+    </td></tr>
+
+</table>
+
+<hr />
+<div class="description">
+  <div class="contextual">
+  
+  </div>
+
+  <p><strong>Description</strong></p>
+  <div class="wiki">
+  <p>The fix for CVE-2012-3867 involves checking certificate subjects for &ldquo;weird&rdquo; characters.  From my read of the CVE entry, this is to filter out characters that would cause the name to display in a manner visually indistinguishable from a valid hostname.</p>
+
+<p>However, the check is too restrictive:</p>
+
+<p>Could not retrieve catalog from remote server: Certname &ldquo;puppetagain base ca/emailaddress=release@mozilla.com/ou=release engineering/o=mozilla, inc.&rdquo; must not contain unprintable or non-ASCII characters</p>
+
+<p>In particular, / is a very common character in subjects, and should be allowed.  Puppet is seeing this subject on my base CA &ndash; I&rsquo;m using certificate chaining.</p>
+
+<p>The fix is one character, so I haven&rsquo;t included a patch, but I&rsquo;m happy to make a pull req if necessary.</p>
+
+<p>Another fix would be to only verify certificate subjects for the leaf certificate, and not any of the certs in its signing chain, but that seems less secure.</p>
+
+<p>It&rsquo;s also worth noting that the regex is overly broad, since it downcases the string, then accepts A-Z among other characters.</p>
+
+  </div>
+</div>
+
+
+
+
+
+<hr />
+<div id="relations">
+<div class="contextual">
+</div>
+
+<p><strong>Related issues</strong></p>
+
+<form>
+<table class="list issues">
+<tr class="issue hascontextmenu" id="relation-3974">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="18958" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/18958" class="issue status-8 priority-4 priority-default">Bug #18958</a>: Puppet&#x27;s built-in PKI is problematic
+</td>
+<td class="status">Accepted</td>
+<td class="start_date"></td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+<tr class="issue hascontextmenu" id="relation-4038">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="17879" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/17879" class="issue status-7 priority-5 priority-high3 closed">Bug #17879</a>: extract cert name properly from subject DN
+</td>
+<td class="status">Duplicate</td>
+<td class="start_date"></td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+<tr class="issue hascontextmenu" id="relation-4165">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="3120" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/3120" class="issue status-5 priority-4 priority-default closed">Bug #3120</a>: &#x27;localcacert&#x27; doesn&#x27;t behave as described
+</td>
+<td class="status">Closed</td>
+<td class="start_date">01/27/2010</td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+<tr class="issue hascontextmenu" id="relation-4166">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="3143" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/3143" class="issue status-5 priority-5 priority-high3 closed">Feature #3143</a>: Fully support multiple CAs and CA trust chains in Puppet
+</td>
+<td class="status">Closed</td>
+<td class="start_date">02/03/2010</td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+<tr class="issue hascontextmenu" id="relation-4178">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="20027" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/20027" class="issue status-5 priority-4 priority-default closed">Bug #20027</a>: Puppet ssl_client_ca_auth setting does not behave as docu...
+</td>
+<td class="status">Closed</td>
+<td class="start_date"></td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+<tr class="issue hascontextmenu" id="relation-4358">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="20742" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/20742" class="issue status-18 priority-4 priority-default closed">Bug #20742</a>: unauthenticated clients unable to communicate with puppet...
+</td>
+<td class="status">Merged - Pending Release</td>
+<td class="start_date"></td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+<tr class="issue hascontextmenu" id="relation-4645">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="14852" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/14852" class="issue status-5 priority-4 priority-default closed">Bug #14852</a>: Puppet should correctly parse CN when DN contains an emai...
+</td>
+<td class="status">Closed</td>
+<td class="start_date">06/06/2012</td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+<tr class="issue hascontextmenu" id="relation-4060">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="19487" /></td>
+<td class="subject">Duplicated by 
+    Puppet - 
+    <a href="/issues/19487" class="issue status-7 priority-4 priority-default closed">Bug #19487</a>: Puppet thinks most external CA certs are invalid
+</td>
+<td class="status">Duplicate</td>
+<td class="start_date"></td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+</table>
+</form>
+
+<form accept-charset="UTF-8" action="/issues/15561/relations" class="new_relation" data-remote="true" id="new-relation-form" method="post" style="display: none;"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="GnBw5VuYWQDufwKUtvIQiozSa2m+tA2U/oa77LiyZH4=" /></div>
+
+
+<p><select id="relation_relation_type" name="relation[relation_type]" onchange="setPredecessorFieldsVisibility();"><option value="relates">Related to</option>
+<option value="duplicates">Duplicates</option>
+<option value="duplicated">Duplicated by</option>
+<option value="blocks">Blocks</option>
+<option value="blocked">Blocked by</option>
+<option value="precedes">Precedes</option>
+<option value="follows">Follows</option>
+<option value="copied_to">Copied to</option>
+<option value="copied_from">Copied from</option></select>
+Issue #<input id="relation_issue_to_id" name="relation[issue_to_id]" size="10" type="text" />
+<span id="predecessor_fields" style="display:none;">
+Delay: <input id="relation_delay" name="relation[delay]" size="3" type="text" /> days
+</span>
+<input name="commit" type="submit" value="Add" />
+<a href="#" onclick="$(&quot;#new-relation-form&quot;).hide();; return false;">Cancel</a>
+</p>
+
+<script type="text/javascript">
+//<![CDATA[
+observeAutocompleteField('relation_issue_to_id', '/issues/auto_complete?project_id=puppet&scope=all')
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setPredecessorFieldsVisibility();
+//]]>
+</script>
+
+</form>
+</div>
+
+</div>
+
+
+<div id="history">
+<h3>History</h3>
+  <div id="change-67238" class="journal has-notes has-details">
+    <div id="note-1">
+    <h4><a href="/issues/15561#note-1" class="journal-link">#1</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2012-07-18" title="07/18/2012 08:54 am">about 1 year</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Category</strong> set to <i>SSL</i></li>
+       <li><strong>Status</strong> changed from <i>Unreviewed</i> to <i>Accepted</i></li>
+       <li><strong>Target version</strong> set to <i>2.7.x</i></li>
+       <li><strong>Affected Puppet version</strong> set to <i>2.7.18</i></li>
+       <li><strong>Keywords</strong> set to <i>certificate</i></li>
+    </ul>
+    <div class="wiki" id="journal-67238-notes"><p><a href="https://github.com/puppetlabs/puppet/commit/bd2820ec6ee8a45f57fcc57f79dddde0062cdca7#commitcomment-1598592">Github discussion</a></p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-67424" class="journal has-notes">
+    <div id="note-2">
+    <h4><a href="/issues/15561#note-2" class="journal-link">#2</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/da2198bce4793d1a0dd7ceffa9677763?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/5437" class="user active">Wojtek B</a> <a href="/projects/puppet/activity?from=2012-07-20" title="07/20/2012 04:06 am">about 1 year</a> ago</h4>
+
+    <div class="wiki" id="journal-67424-notes"><p>Impact data as requested:
+After upgrading to 2.7.13 &ndash;> 2.7.18 (versions in debian testing) no SSL connections are possible between agents and masters.</p>
+
+<p>It seems that only setups with externally signed certificates are affected. Our puppet-only sub-setup works fine.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-67515" class="journal has-notes">
+    <div id="note-3">
+    <h4><a href="/issues/15561#note-3" class="journal-link">#3</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b4179f71ae0944ce8a9a38e37dd537e3?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1246" class="user active">Matt Wise</a> <a href="/projects/puppet/activity?from=2012-07-23" title="07/23/2012 01:02 pm">about 1 year</a> ago</h4>
+
+    <div class="wiki" id="journal-67515-notes"><p>This bug just bit us as well for a few hours&hellip; This is definitely a bug, its entirely normal to have &lsquo;/&rsquo; characters in a certificate name.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69858" class="journal has-notes">
+    <div id="note-4">
+    <h4><a href="/issues/15561#note-4" class="journal-link">#4</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/627c627941f84e1360488e2709ad7898?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/5640" class="user active">Nicola V</a> <a href="/projects/puppet/activity?from=2012-08-27" title="08/27/2012 03:48 am">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-69858-notes"><p>Wojtek B wrote:</p>
+
+<blockquote><p>Impact data as requested:
+After upgrading to 2.7.13 &ndash;> 2.7.18 (versions in debian testing) no SSL connections are possible between agents and masters.</p>
+
+<p>It seems that only setups with externally signed certificates are affected. Our puppet-only sub-setup works fine.</p></blockquote>
+
+<p>Hi,
+I&rsquo;m noticing this issue on version 2.7.11 as well. This version is the one currently shipped with ubuntu 12.04.1.
+Anyone having this issue on 12.04?</p>
+
+<p>Thanks.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69860" class="journal has-notes">
+    <div id="note-5">
+    <h4><a href="/issues/15561#note-5" class="journal-link">#5</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2012-08-27" title="08/27/2012 04:53 am">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-69860-notes"><p>Nicola, at a guess, Ubuntu backported the &ldquo;security fix&rdquo; for CVE-2012-3867 into 2.7.11.  So you can help out by ensuring that they also backport the fix to the fix, when it&rsquo;s ready :)</p>
+
+<p>I was hoping this would be fixed in 2.7.19 &ndash; having to black out more than one version in my system is going to be annoying.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69861" class="journal has-notes">
+    <div id="note-6">
+    <h4><a href="/issues/15561#note-6" class="journal-link">#6</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/627c627941f84e1360488e2709ad7898?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/5640" class="user active">Nicola V</a> <a href="/projects/puppet/activity?from=2012-08-27" title="08/27/2012 05:01 am">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-69861-notes"><p>Dustin Mitchell wrote:</p>
+
+<blockquote><p>Nicola, at a guess, Ubuntu backported the &ldquo;security fix&rdquo; for CVE-2012-3867 into 2.7.11.  So you can help out by ensuring that they also backport the fix to the fix, when it&rsquo;s ready :)</p>
+
+<p>I was hoping this would be fixed in 2.7.19 &ndash; having to black out more than one version in my system is going to be annoying.</p></blockquote>
+
+<p>Hi Dustin, I&rsquo;d say this might well be the case. We have a support contract with Canonical, I&rsquo;ll notify them about this issue and refer to this ticket :)</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69862" class="journal has-notes">
+    <div id="note-7">
+    <h4><a href="/issues/15561#note-7" class="journal-link">#7</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/f14203dee7593a809ed518bad2f3be9e?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/5403" class="user active">Ben Jones</a> <a href="/projects/puppet/activity?from=2012-08-27" title="08/27/2012 05:06 am">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-69862-notes"><p>+1 for hoping this was going to be fixed in 2.7.19. This bit us just as we were migrating to use our own CA.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-70328" class="journal has-details">
+    <div id="note-8">
+    <h4><a href="/issues/15561#note-8" class="journal-link">#8</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2012-08-31" title="08/31/2012 03:12 pm">12 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Accepted</i> to <i>In Topic Branch Pending Review</i></li>
+       <li><strong>Assignee</strong> set to <i>Dustin Mitchell</i></li>
+       <li><strong>Branch</strong> set to <i>https://github.com/puppetlabs/puppet/pull/1101</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-70431" class="journal has-notes">
+    <div id="note-9">
+    <h4><a href="/issues/15561#note-9" class="journal-link">#9</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2012-09-04" title="09/04/2012 02:24 pm">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-70431-notes"><p>(bringing the convo back here from the pull req)</p>
+
+<p>dpittman:</p>
+
+<blockquote><p>@jeffmccune is the last person I know who looked at this, but because of some horrible internal deficiencies allowing / will actually break various parts of the certificate handling. Which is kind of awful.</p></blockquote>
+
+<p>dustin:</p>
+
+<blockquote><p>They work in 2.7.17..</p></blockquote>
+
+<p>dpittman</p>
+
+<blockquote><p>They <em>partially</em> work in 2.7.17: you can load the certificate, but you can&rsquo;t enumerate it. Which leads to some issues at times.</p></blockquote>
+
+<p>This bug is presently blocking me from upgrading past 2.7.17, which is disconcerting since 2.7.18 is a security-fix release.  So if it&rsquo;s hard to go forward and fix the /-handling problems, can we at least go back to how it was in 2.7.17?</p>
+
+<p>Alternately, can you point me to some more information about the problems stemming from the /, and I&rsquo;ll see if I can find a fix?</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-74053" class="journal has-notes has-details">
+    <div id="note-10">
+    <h4><a href="/issues/15561#note-10" class="journal-link">#10</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2012-10-18" title="10/18/2012 09:06 am">10 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>In Topic Branch Pending Review</i> to <i>Accepted</i></li>
+       <li><strong>Assignee</strong> deleted (<del><i>Dustin Mitchell</i></del>)</li>
+    </ul>
+    <div class="wiki" id="journal-74053-notes"><p>Here&rsquo;s the update I posted to the pull request:</p>
+
+<p>@daniel-pittman Thank you for the update, this saves some duplicate effort.</p>
+
+<p>@battlemidget I&rsquo;m going to go ahead and close this pull request and update the corresponding issue <a href="https://projects.puppetlabs.com/issues/15561"><a href="/issues/15561" class="issue status-5 priority-6 priority-high2 closed" title="Fix for CVE-2012-3867 is too restrictive (Closed)">#15561</a></a>.  This isn&rsquo;t to say that we won&rsquo;t fix this issue or that we don&rsquo;t consider 15561 a valid and accepted bug.  We do and we will.  I&rsquo;m closing this with this update in an effort to get this out of limbo and make it clear that 15561 is more about fixing the core issue in the certificate indirections than it is about changing the regular expression for the CN.</p>
+
+<p>On a side note, I&rsquo;m really sorry this issue has sat dormant for so long.  I really you appreciate taking the time to speak up and ping us about the issues that are affecting you.</p>
+
+<p>Hope this helps.
+-Jeff</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-77812" class="journal has-notes">
+    <div id="note-11">
+    <h4><a href="/issues/15561#note-11" class="journal-link">#11</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/749d26c9dab99477bf44e264b0181b9e?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6130" class="user active">adam stokes</a> <a href="/projects/puppet/activity?from=2012-11-29" title="11/29/2012 01:37 pm">9 months</a> ago</h4>
+
+    <div class="wiki" id="journal-77812-notes"><p>Hi,</p>
+
+<p>Curious if we could get an update on this particular issues progress? I realize there are a lot of factors involved so any information you can give would be very appreciated.</p>
+
+<p>Thanks
+Adam</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-78244" class="journal has-notes has-details">
+    <div id="note-12">
+    <h4><a href="/issues/15561#note-12" class="journal-link">#12</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b4179f71ae0944ce8a9a38e37dd537e3?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1246" class="user active">Matt Wise</a> <a href="/projects/puppet/activity?from=2012-12-05" title="12/05/2012 10:37 am">9 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Priority</strong> changed from <i>Normal</i> to <i>Urgent</i></li>
+    </ul>
+    <div class="wiki" id="journal-78244-notes"><p>Jeff,
+  This bug is still sitting open and affects all versions of Puppet after 2.7.18. Here I am trying to upgrade to 3.0.1, and I find the bug still exists. This has been sitting for 5 months now. Not fixing a bug as serious as this (that is, that it blocks upgrades to any newer version of Puppet) after this long does not instill confidence for businesses that are using this tool to manage their infrastructures.</p>
+
+<p>  When will this be fixed? We are really not happy being so far behind on our Puppet versions, especially given the security fixes that have gone into Puppet in the last few months.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-78251" class="journal has-notes">
+    <div id="note-13">
+    <h4><a href="/issues/15561#note-13" class="journal-link">#13</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2012-12-05" title="12/05/2012 11:29 am">9 months</a> ago</h4>
+
+    <div class="wiki" id="journal-78251-notes"><p>Matt Wise wrote:</p>
+
+<blockquote><p>Jeff,
+  This bug is still sitting open and affects all versions of Puppet after 2.7.18. Here I am trying to upgrade to 3.0.1, and I find the bug still exists. This has been sitting for 5 months now. Not fixing a bug as serious as this (that is, that it blocks upgrades to any newer version of Puppet) after this long does not instill confidence for businesses that are using this tool to manage their infrastructures.</p></blockquote>
+
+<p>I&rsquo;m really sorry you can&rsquo;t upgrade to Puppet 3, the fact that this bug is still open really bothers me too.  I wish I had a better answer for you but not much has changed since I closed the pull request.</p>
+
+<p>Here&rsquo;s where we&rsquo;re at; Unfortunately, we can&rsquo;t simply allow /&rsquo;s in certificate names because doing so without also making substantial changes to the way the indirection subsystem works would re-open CVE-2012-3867  Daniel confirmed this in the pull request discussion:</p>
+
+<blockquote><p>To be clear, my review was &ldquo;-1, this is not acceptable to merge without substantial changes&rdquo;.
+The changes are to address, as Jeff notes, the internal assumptions in Puppet (in lib/puppet/indirector/{file,cert<em>/</em>,key/*}.rb) that the CN and the filename on disk match in any meaningful way.
+That includes making sure that, eg, &ldquo;search&rdquo; operations still work, etc.</p></blockquote>
+
+<p>This means this isn&rsquo;t a matter of simply changing the regular expression.  If we do change just the regular expression without also addressing the core issues in the indirector subsystem, then we&rsquo;re back to a gaping security hole.</p>
+
+<blockquote><p>  When will this be fixed? We are really not happy being so far behind on our Puppet versions, especially given the security fixes that have gone into Puppet in the last few months.</p></blockquote>
+
+<p>As much as I&rsquo;d like to, I cannot provide you with any new information about when this will be fixed.  There are no plans to make substantial changes to the indirector subsystem that I am aware of.  I wish I had something better to tell you regarding this issue.</p>
+
+<p>Perhaps Eric will have some ideas regarding how best to get this issue prioritized higher than it currently is, but honestly I just don&rsquo;t think it&rsquo;s affecting as many users as some of the other fundamental issues we&rsquo;re currently wrestling with.  Settings and code loading affect nearly every Puppet user for example.  As far as I know this issue is primarily affecting users who have an external CA, which is a much smaller population.</p>
+
+<p>Knowing that this issue is a blocker for you upgrading to Puppet 3.0 is valuable impact data.  Do you have a sense of how many sites are unable to upgrade to Puppet 3 because of this issue?</p>
+
+<p>Sorry I don&rsquo;t have better news for you at this time&hellip;</p>
+
+<p>-Jeff</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-78255" class="journal has-notes">
+    <div id="note-14">
+    <h4><a href="/issues/15561#note-14" class="journal-link">#14</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b4179f71ae0944ce8a9a38e37dd537e3?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1246" class="user active">Matt Wise</a> <a href="/projects/puppet/activity?from=2012-12-05" title="12/05/2012 11:41 am">9 months</a> ago</h4>
+
+    <div class="wiki" id="journal-78255-notes"><p>Jeff,
+  This should impact anybody trying to upgrade from Puppet 2.7.14 to a newer version who has created their own SSL certificate for the Puppet servers, rather than relying on the internal mechanism to dynamically generate a &lsquo;generic&rsquo; cert. A specific example of our failure message on the Puppet clients:</p>
+
+<p>Error: Could not send report: Certname &ldquo;/c=us/st=california/l=san francisco/o=nextdoor.com/ou=operationsnextdoor.com puppet master root ca/emailaddress=ops@nextdoor.com&rdquo; must not contain unprintable or non-ASCII characters</p>
+
+<p>  Here is the actual header information for our puppet server CA file:</p>
+
+<p>Certificate:</p>
+
+<pre><code>Data:
+    Version: 3 (0x2)
+    Serial Number: 16725167120499163912 (0xe81bbae1e2654308)
+Signature Algorithm: sha1WithRSAEncryption
+    Issuer: C=US, ST=California, L=San Francisco, O=Nextdoor.com, OU=Operations, CN=Nextdoor.com Puppet Master Root CA/emailAddress=ops@nextdoor.com
+    Validity
+        Not Before: Nov 15 21:01:14 2011 GMT
+        Not After : xxx
+    Subject: C=US, ST=California, L=San Francisco, O=Nextdoor.com, OU=Operations, CN=Nextdoor.com Puppet Master Root CA/emailAddress=ops@nextdoor.com
+</code></pre>
+
+<p>and here&rsquo;s a copy of the header from an individual puppet server (we have several, that all generate their key from the single CA that we&rsquo;ve internally created)</p>
+
+<p>Certificate:</p>
+
+<pre><code>Data:
+    Version: 3 (0x2)
+    Serial Number: 18287165440 (0x442000000)
+Signature Algorithm: sha1WithRSAEncryption
+    Issuer: C=US, ST=California, L=San Francisco, O=Nextdoor.com, OU=Operations, CN=Nextdoor.com Puppet Master Root CA/emailAddress=ops@nextdoor.com
+    Validity
+        Not Before: Dec  4 17:10:17 2012 GMT
+        Not After : xxx
+    Subject: CN=test-puppet-uswest2-i-12345678.xyz.nextdoor.com
+    Subject Public Key Info:
+</code></pre>
+
+<p>We&rsquo;ve done really nothing unique here &hellip; we created the SSL CA and filled out the information appropriately in a way that most certs do, including email addresses. The CN just happens to include a / in it because thats how the openssl command created it.</p>
+
+<p>The only option for us at this point would be to systematically wipe out our entire Puppet CA, regenerate it, and then re-generate and re-sign Puppet certs on every single system in our infrastructure. This is a huge task for us.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-78272" class="journal has-notes">
+    <div id="note-15">
+    <h4><a href="/issues/15561#note-15" class="journal-link">#15</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2012-12-05" title="12/05/2012 03:35 pm">9 months</a> ago</h4>
+
+    <div class="wiki" id="journal-78272-notes"><p>I&rsquo;m reconsidering my desire to use certificate chainging, since puppetlabs doesn&rsquo;t support it (really, SSL is barely supported at all).  But I don&rsquo;t think I&rsquo;ll be able to get to the point of having cert names that fit this pattern.</p>
+
+<p>I&rsquo;ll probably end up forking puppet and building RPMs, DMGs, etc. with these and other patches included, with a big warning to be cautious of the security implications.  Would that be helpful?  It&rsquo;s no less secure than running 2.7.17 forever!</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-78476" class="journal has-notes">
+    <div id="note-16">
+    <h4><a href="/issues/15561#note-16" class="journal-link">#16</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/c9510c2b9031fa5d6a9535cd264c1fb1?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2252" class="user active">Yuri Arabadji</a> <a href="/projects/puppet/activity?from=2012-12-07" title="12/07/2012 12:09 pm">9 months</a> ago</h4>
+
+    <div class="wiki" id="journal-78476-notes"><p>What if you apply patch from <a href="/issues/17879" class="issue status-7 priority-5 priority-high3 closed" title="extract cert name properly from subject DN (Duplicate)">#17879</a>? Thanks.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-78510" class="journal has-notes">
+    <div id="note-17">
+    <h4><a href="/issues/15561#note-17" class="journal-link">#17</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2012-12-08" title="12/07/2012 10:18 pm">9 months</a> ago</h4>
+
+    <div class="wiki" id="journal-78510-notes"><p>Yuri Arabadji wrote:</p>
+
+<blockquote><p>What if you apply patch from <a href="/issues/17879" class="issue status-7 priority-5 priority-high3 closed" title="extract cert name properly from subject DN (Duplicate)">#17879</a>? Thanks.</p></blockquote>
+
+<p>I updated that ticket with more information.  I don&rsquo;t understand how that patch addresses this issue.</p>
+
+<p>-Jeff</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-78650" class="journal has-notes">
+    <div id="note-18">
+    <h4><a href="/issues/15561#note-18" class="journal-link">#18</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b272b4aa3ec9d41cb310723cf10e33f4?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6187" class="user active">Scott Bryant</a> <a href="/projects/puppet/activity?from=2012-12-12" title="12/11/2012 07:55 pm">9 months</a> ago</h4>
+
+    <div class="wiki" id="journal-78650-notes"><p>Just adding in on this, hoping this is in the right place..</p>
+
+<p>Having the following issue with creating the certs using puppet.</p>
+
+<p>Info: Creating a new SSL key for xxxxxx.soe.local
+Error: Could not request certificate: Certname &ldquo;/c=&mdash;/st=somestate/l=somecity/o=someorganization/ou=someorganizationalunitxxxxxx.soe.local/emailaddress=root@xxxxxx.soe.local&rdquo; must not contain unprintable or non-ASCII characters
+Exiting; failed to retrieve certificate and waitforcert is disabled</p>
+
+<p>This is a generic base install from the 3.0.1 rpms. So no certs created anywhere. wondering if its similar.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-79353" class="journal has-notes">
+    <div id="note-19">
+    <h4><a href="/issues/15561#note-19" class="journal-link">#19</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/c9510c2b9031fa5d6a9535cd264c1fb1?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2252" class="user active">Yuri Arabadji</a> <a href="/projects/puppet/activity?from=2012-12-21" title="12/21/2012 02:10 pm">8 months</a> ago</h4>
+
+    <div class="wiki" id="journal-79353-notes"><p>Scott, you should try my patch and see if that helps. Both on master and agent. The problem is in CN extraction, which is very poorly coded.
+PL didn&rsquo;t test when puppet is fed with certs from external CA.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-80050" class="journal has-notes">
+    <div id="note-20">
+    <h4><a href="/issues/15561#note-20" class="journal-link">#20</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-01-03" title="01/03/2013 02:07 pm">8 months</a> ago</h4>
+
+    <div class="wiki" id="journal-80050-notes"><p>OpenSSL <em>requires</em> a slash in the subject:</p>
+
+<pre><code>[root@relabs07 ssl-master]#  openssl req  -new -newkey rsa:2048 -keyout ca/ca_key.pem    -days 3650 -x509 -out ca/ca_crt.pem    -subj 'foo'
+Generating a 2048 bit RSA private key
+..............................................................................+++
+...........................................................................................................................................................................................................................................................+++
+writing new private key to 'ca/ca_key.pem'
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:
+-----
+Subject does not start with '/'.
+problems making Certificate Request
+</code></pre>
+
+<p>so, .. yeah.  I&rsquo;m working on a version of 3.0.2 with https://github.com/puppetlabs/puppet/pull/1101 patched in, since that seems the only way to make this work.</p>
+
+<p>Yuri, can you explain a bit more how your patch works, and make a pull request for it, attached here?</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-80541" class="journal has-notes has-details">
+    <div id="note-21">
+    <h4><a href="/issues/15561#note-21" class="journal-link">#21</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/36ccf398adbe1a4264d57b32917b990c?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/4316" class="user active">Andrew Parker</a> <a href="/projects/puppet/activity?from=2013-01-04" title="01/04/2013 03:53 pm">8 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> deleted (<del><i>2.7.x</i></del>)</li>
+    </ul>
+    <div class="wiki" id="journal-80541-notes"><p>As the 2.7.x line is winding down, I am removing the target at 2.7.x from tickets in the system. The 2.7 line should only receive fixes for major problems (crashes, for instance) or security problems.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-82704" class="journal has-notes">
+    <div id="note-22">
+    <h4><a href="/issues/15561#note-22" class="journal-link">#22</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/749d26c9dab99477bf44e264b0181b9e?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6130" class="user active">adam stokes</a> <a href="/projects/puppet/activity?from=2013-02-07" title="02/06/2013 05:04 pm">7 months</a> ago</h4>
+
+    <div class="wiki" id="journal-82704-notes"><p>Andrew Parker wrote:</p>
+
+<blockquote><p>As the 2.7.x line is winding down, I am removing the target at 2.7.x from tickets in the system. The 2.7 line should only receive fixes for major problems (crashes, for instance) or security problems.</p></blockquote>
+
+<p>How is this not considered a major problem? I would say from the amount of corporations using this product who are on distributions like Ubuntu LTS and even RHEL I still see this as a huge problem that should be addressed.</p>
+
+<p>Please re-add the 2.7.x tag and more importantly provide a fix.</p>
+
+<p>Thank you for your time
+Adam</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-82706" class="journal has-notes">
+    <div id="note-23">
+    <h4><a href="/issues/15561#note-23" class="journal-link">#23</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-02-07" title="02/06/2013 05:44 pm">7 months</a> ago</h4>
+
+    <div class="wiki" id="journal-82706-notes"><p>Tag or not, this is unlikely to get fixed.  It&rsquo;s still present in 3.0.2, anyway.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-82724" class="journal has-notes">
+    <div id="note-24">
+    <h4><a href="/issues/15561#note-24" class="journal-link">#24</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/627c627941f84e1360488e2709ad7898?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/5640" class="user active">Nicola V</a> <a href="/projects/puppet/activity?from=2013-02-07" title="02/07/2013 12:38 am">7 months</a> ago</h4>
+
+    <div class="wiki" id="journal-82724-notes"><p>adam stokes wrote:</p>
+
+<blockquote><p>How is this not considered a major problem? I would say from the amount of corporations using this product who are on distributions like Ubuntu LTS and even RHEL I still see this as a huge problem that should be addressed.</p>
+
+<p>Please re-add the 2.7.x tag and more importantly provide a fix.</p></blockquote>
+
+<p>I second that. We just started the migration to Ubuntu 12.04 and our current fix consists in downgrading to the 2.6.x series during the late-command stage in the preseed. This is more of a hack then a fix.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-82730" class="journal has-notes">
+    <div id="note-25">
+    <h4><a href="/issues/15561#note-25" class="journal-link">#25</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/749d26c9dab99477bf44e264b0181b9e?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6130" class="user active">adam stokes</a> <a href="/projects/puppet/activity?from=2013-02-07" title="02/07/2013 07:20 am">7 months</a> ago</h4>
+
+    <div class="wiki" id="journal-82730-notes"><p>Nicola V wrote:</p>
+
+<blockquote><p>adam stokes wrote:</p>
+
+<blockquote><p>How is this not considered a major problem? I would say from the amount of corporations using this product who are on distributions like Ubuntu LTS and even RHEL I still see this as a huge problem that should be addressed.</p>
+
+<p>Please re-add the 2.7.x tag and more importantly provide a fix.</p></blockquote>
+
+<p>I second that. We just started the migration to Ubuntu 12.04 and our current fix consists in downgrading to the 2.6.x series during the late-command stage in the preseed. This is more of a hack then a fix.</p></blockquote>
+
+<p>Here is our bug report for this case if you wish to subscribe to that as well:</p>
+
+<p>http://launchpad.net/bugs/1068145</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-83401" class="journal has-notes">
+    <div id="note-26">
+    <h4><a href="/issues/15561#note-26" class="journal-link">#26</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/627c627941f84e1360488e2709ad7898?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/5640" class="user active">Nicola V</a> <a href="/projects/puppet/activity?from=2013-02-18" title="02/18/2013 02:18 am">6 months</a> ago</h4>
+
+    <div class="wiki" id="journal-83401-notes"><p>adam stokes wrote:</p>
+
+<blockquote><p>Here is our bug report for this case if you wish to subscribe to that as well:</p>
+
+<p>http://launchpad.net/bugs/1068145</p></blockquote>
+
+<p>Hi Adam,
+yes, apparently that ticket is describing the issue we have. It looks like the bug report has been opened after we requested support to Canonical (the cn of that cert is ours).</p>
+
+<p>I&rsquo;m kindly asking if there&rsquo;s any eta for the fix, even in major version 3.x. We can plan an upgrade to 3.x but we&rsquo;d like to be sure of the version containing the fix.</p>
+
+<p>Thanks.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-83664" class="journal has-notes">
+    <div id="note-27">
+    <h4><a href="/issues/15561#note-27" class="journal-link">#27</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/87ded3206ccdc40e24169e8bfe7a074e?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1828" class="user active">Jason Hancock</a> <a href="/projects/puppet/activity?from=2013-02-21" title="02/21/2013 09:45 am">6 months</a> ago</h4>
+
+    <div class="wiki" id="journal-83664-notes"><p>You can also run into this bug when using the http report processor submitting to an https reporturl where the certificate has a &lsquo;/&rsquo; in it.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-83680" class="journal has-notes">
+    <div id="note-28">
+    <h4><a href="/issues/15561#note-28" class="journal-link">#28</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/c9510c2b9031fa5d6a9535cd264c1fb1?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2252" class="user active">Yuri Arabadji</a> <a href="/projects/puppet/activity?from=2013-02-21" title="02/21/2013 12:30 pm">6 months</a> ago</h4>
+
+    <div class="wiki" id="journal-83680-notes"><p>okay, what if you try <a href="https://github.com/puppetlabs/puppet/pull/1490">https://github.com/puppetlabs/puppet/pull/1490</a> ? tnx.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-83690" class="journal has-notes">
+    <div id="note-29">
+    <h4><a href="/issues/15561#note-29" class="journal-link">#29</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-02-21" title="02/21/2013 02:30 pm">6 months</a> ago</h4>
+
+    <div class="wiki" id="journal-83690-notes"><p>Yuri Arabadji wrote:</p>
+
+<blockquote><p>okay, what if you try <a href="https://github.com/puppetlabs/puppet/pull/1490">https://github.com/puppetlabs/puppet/pull/1490</a> ? tnx.</p></blockquote>
+
+<p>Unfortunately this change does not sufficiently address the root cause of the problem, and as a result risks regression of CVE-2012-3867.  Please see the comments I posted on Github for more information and next steps to proceed.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-83939" class="journal has-notes">
+    <div id="note-30">
+    <h4><a href="/issues/15561#note-30" class="journal-link">#30</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/25956d2107975aee516a35beb2eda52c?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6564" class="user active">Rob Hendelman</a> <a href="/projects/puppet/activity?from=2013-02-25" title="02/25/2013 12:10 pm">6 months</a> ago</h4>
+
+    <div class="wiki" id="journal-83939-notes"><p>This is affecting us here as well.  I&rsquo;m trying to setup the puppet server to submit reports to our puppet report server via apache2+passenger with ssl &amp; I&rsquo;m getting &ldquo;Report processor failed: Certname &rdquo;$certname_with_slashes_in_it" must not contain unprinable or non-ascii characters.</p>
+
+<p>Outside of giving up having ssl communiactions between these boxes (for submitting reports), does anyone know of a workaround?  I&rsquo;m using version 3.1.0-1puppetlabs1 on the puppet server &amp; the reporting server.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-83979" class="journal has-notes">
+    <div id="note-31">
+    <h4><a href="/issues/15561#note-31" class="journal-link">#31</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-02-26" title="02/25/2013 05:05 pm">6 months</a> ago</h4>
+
+    <div class="wiki" id="journal-83979-notes"><p>The best workaround I&rsquo;ve found is to just back out the patch.  It&rsquo;s relatively small and easy to apply, although it does mean rolling your own packages.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87161" class="journal has-notes">
+    <div id="note-32">
+    <h4><a href="/issues/15561#note-32" class="journal-link">#32</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/c6791ad5c4ab816452541396190513f0?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6563" class="user active">Poul H. Sørensen</a> <a href="/projects/puppet/activity?from=2013-03-18" title="03/18/2013 12:05 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87161-notes"><p>We just got bit by this, when we tried to use officially signed certificates ourselves.</p>
+
+<p>I think that this issue actual consists of (at least) two problems.</p>
+
+<p>I have full understanding for the problems that occur due to using the certname as (part of) filename, but I think that the problems that arise from this, is important to solve (in a not too distant release).</p>
+
+<ul>
+<li>
+problem &#8470;1:<br/>
+  Puppet support for signing using own (non-puppet) certificates.
+  This is needed when using several seperate puppet-cert servers, and moving the puppet client from one cert-server to another.
+  I guess that there also exists other situations, where one may wan to use own certificates. 
+</li>
+<li>
+problem &#8470;2:<br/>
+  Puppet support for IDN's (Internationalized domain names) (default value of puppetcert is FQDN).
+</li>
+</ul>
+
+
+
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87194" class="journal has-notes">
+    <div id="note-33">
+    <h4><a href="/issues/15561#note-33" class="journal-link">#33</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-03-19" title="03/18/2013 08:51 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87194-notes"><p>I&rsquo;m going to try to describe, overall, what a solution for No 1 would look like.  Hopefully we can get this fixed.</p>
+
+<p>I need to figure out whether I was incorrect in comment 20 &ndash; I think it <em>is</em> possible to set up a certificate without a &lsquo;/&rsquo; character, but I may be confusing subject and DN.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87201" class="journal has-notes">
+    <div id="note-34">
+    <h4><a href="/issues/15561#note-34" class="journal-link">#34</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/c6791ad5c4ab816452541396190513f0?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6563" class="user active">Poul H. Sørensen</a> <a href="/projects/puppet/activity?from=2013-03-19" title="03/19/2013 04:17 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87201-notes"><p>Certificates that are signed by an Certificate Authority is likely to contain a &lsquo;/&rsquo;</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87546" class="journal has-notes has-details">
+    <div id="note-35">
+    <h4><a href="/issues/15561#note-35" class="journal-link">#35</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-03-25" title="03/25/2013 12:05 pm">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Accepted</i> to <i>In Topic Branch Pending Review</i></li>
+       <li><strong>Branch</strong> changed from <i>https://github.com/puppetlabs/puppet/pull/1101</i> to <i>https://github.com/puppetlabs/puppet/pull/1556</i></li>
+    </ul>
+    <div class="wiki" id="journal-87546-notes"><p>On some deeper inspection, there are problems with how Puppet parses the subject of certs.  In particular, in trying to extract just the CN, it extracts the CN and all following text.  The restrictions put in place for this CVE are fine for a CN, but are too restrictive for the whole subject.</p>
+
+<p>https://github.com/puppetlabs/puppet/pull/1556 fixes the CN extraction.  With this fix, my test script at https://gist.github.com/djmitche/5233972 passes.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87633" class="journal has-notes has-details">
+    <div id="note-36">
+    <h4><a href="/issues/15561#note-36" class="journal-link">#36</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-03-27" title="03/27/2013 10:51 am">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> set to <i>3.2.0</i></li>
+    </ul>
+    <div class="wiki" id="journal-87633-notes"><p>Hopefully my understanding from the last few days is correct that this is targeted for 3.2.0 now.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87645" class="journal has-notes">
+    <div id="note-37">
+    <h4><a href="/issues/15561#note-37" class="journal-link">#37</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-03-27" title="03/27/2013 02:13 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87645-notes"><p>Dustin Mitchell wrote:</p>
+
+<blockquote><p>Hopefully my understanding from the last few days is correct that this is targeted for 3.2.0 now.</p></blockquote>
+
+<p>That&rsquo;s correct, we&rsquo;re hoping to get this fixed up in Puppet 3.2.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87660" class="journal has-notes has-details">
+    <div id="note-38">
+    <h4><a href="/issues/15561#note-38" class="journal-link">#38</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-03-27" title="03/27/2013 04:31 pm">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>In Topic Branch Pending Review</i> to <i>Merged - Pending Release</i></li>
+    </ul>
+    <div class="wiki" id="journal-87660-notes"><p>summary: Merged into master as <a href="https://github.com/puppetlabs/puppet/commit/4bfad67">4bfad67</a>.  This should be released in Puppet 3.2.  Thanks again for the contribution!</p>
+
+<p>@all watchers</p>
+
+<p>Could you please grab a copy of the master branch and try out the new behavior?  If it&rsquo;s a PITA for you to run Puppet from source in this manner, I&rsquo;d be happy to build an RPM for people to try out, but I&rsquo;d prefer to do it only for EL 6 if possible.</p>
+
+<p>Please comment here if you&rsquo;re able to try out the pre-release version of this patch in order to help us verify we&rsquo;ve fixed this issue for the most common cases.</p>
+
+<p>Thanks,
+-Jeff</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87766" class="journal has-notes">
+    <div id="note-39">
+    <h4><a href="/issues/15561#note-39" class="journal-link">#39</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-03-29" title="03/29/2013 01:47 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87766-notes"><a name="Preview-RPMs"></a>
+<h2  id="Preview+RPMs">Preview RPMs<a href="#Preview-RPMs" class="wiki-anchor">&para;</a></h2>
+
+<p>I&rsquo;ve published Enterprise Linux 6 packages from our master branch at <a href="http://git.io/tWBvcA">http://git.io/tWBvcA</a>.</p>
+
+<p>These packages may have dependencies from the Puppet Labs release repository, which can be configured using yum install <a href="http://yum.puppetlabs.com/el/6Server/products/i386/puppetlabs-release-6-6.noarch.rpm">http://yum.puppetlabs.com/el/6Server/products/i386/puppetlabs-release-6-6.noarch.rpm</a>.</p>
+
+<p>Please try these packages out if you have a chance and let us know if the change resolves your issue or not.</p>
+
+<p>Thanks,
+-Jeff</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87767" class="journal has-notes">
+    <div id="note-40">
+    <h4><a href="/issues/15561#note-40" class="journal-link">#40</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-03-29" title="03/29/2013 01:50 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87767-notes"><p>A copy of the markdown for posterity.</p>
+
+<a name="Pre-release-RPMrsquos"></a>
+<h1  id="Pre-release+RPM's">Pre-release RPM&rsquo;s<a href="#Pre-release-RPMrsquos" class="wiki-anchor">&para;</a></h1>
+
+<p>Please try these packages and let us know if they resolve <a href="https://projects.puppetlabs.com/issues/15561">Puppet Labs Ticket <a href="/issues/15561" class="issue status-5 priority-6 priority-high2 closed" title="Fix for CVE-2012-3867 is too restrictive (Closed)">#15561</a></a></p>
+
+<ul>
+<li><a href="http://links.puppetlabs.com/puppet-3.1.1-20130329git7541bae.1.el6.noarch.rpm">puppet-3.1.1-20130329git7541bae.1.el6.noarch.rpm</a></li>
+<li><a href="http://links.puppetlabs.com/puppet-server-3.1.1-20130329git7541bae.1.el6.noarch.rpm">puppet-server-3.1.1-20130329git7541bae.1.el6.noarch.rpm</a></li>
+</ul>
+
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87812" class="journal has-notes">
+    <div id="note-41">
+    <h4><a href="/issues/15561#note-41" class="journal-link">#41</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/87ded3206ccdc40e24169e8bfe7a074e?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1828" class="user active">Jason Hancock</a> <a href="/projects/puppet/activity?from=2013-03-30" title="03/30/2013 04:05 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87812-notes"><p>My use case was that when submitting a report with the http report processor to an ssl-enabled url, it would break despite using a valid purchased ssl certificate.</p>
+
+<p>First, I made sure that it was still failing on 3.1.1:</p>
+
+<pre>
+$ rpm -qa | grep puppet-server
+puppet-server-3.1.1-1.el6.noarch
+</pre>
+
+
+<p>And then from my log file:</p>
+
+<pre>
+2013-03-30T22:55:40.014912+00:00 puppet puppet-master[2974]: Compiled catalog for 85029c04-81f5-4ee5-ab6d-a9d82944f8fe.cs1null in environment production in 0.14 seconds
+2013-03-30T22:55:45.694997+00:00 puppet puppet-master[2974]: Report processor failed: Certname "/c=us/st=ut/l=salt lake city/o=the usertrust network/ou=http://www.usertrust.comutn - datacorp sgc" must not contain unprintable or non-ASCII characters
+</pre>
+
+
+<p>Then I upgraded to the packages you posted, bounced the puppetmaster, and re-ran my test.</p>
+
+<pre>
+$ rpm -qa | grep puppet-server
+puppet-server-3.1.1-20130329git7541bae.1.el6.noarch
+</pre>
+
+
+<p>A different error message showed up in my logs:</p>
+
+<pre>
+2013-03-30T22:59:25.547990+00:00 puppet puppet-master[3532]: Starting Puppet master version 3.1.1
+2013-03-30T22:59:26.912290+00:00 puppet puppet-master[3588]: Report processor failed: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed: [unable to get local issuer certificate for /C=US/ST=UT/L=Salt Lake City/O=The USERTRUST Network/OU=http://www.usertrust.com/CN=UTN - DATACorp SGC]
+</pre>
+
+
+
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87813" class="journal has-notes">
+    <div id="note-42">
+    <h4><a href="/issues/15561#note-42" class="journal-link">#42</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-03-31" title="03/30/2013 08:38 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87813-notes"><p>Jason, that&rsquo;s a very different use-case.  Did that work in 2.7.17?  It looks like what&rsquo;s happening is that the master is trying to verify the reports URL&rsquo;s SSL certificate, and is not finding a root CA certificate that it knows about.  I assume that the certificate named in the error message (CN=UTN &ndash; DATACorp SGC) is the root?  Is that certificate configured into your master somehow?  If not, I don&rsquo;t think this will work (puppet doesn&rsquo;t, and shouldn&rsquo;t, ship with the list of trusted CAs that web browsers do).  If so, how have you configured it?</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87818" class="journal has-notes">
+    <div id="note-43">
+    <h4><a href="/issues/15561#note-43" class="journal-link">#43</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/87ded3206ccdc40e24169e8bfe7a074e?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1828" class="user active">Jason Hancock</a> <a href="/projects/puppet/activity?from=2013-03-31" title="03/31/2013 10:28 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87818-notes"><p>It doesn&rsquo;t work in 2.7.x because I believe submitting reports to an SSL enabled reporturl wasn&rsquo;t supported until Puppet 3.0.</p>
+
+<p>I haven&rsquo;t done any special configuration for the certificate on the puppetmaster as the http report processor documentation (http://docs.puppetlabs.com/references/latest/report.html#http) didn&rsquo;t specify that I had to do any sort of configuration on the master aside from setting the reporturl. I simply purchased the cert from Namecheap and configured apache on my webserver that is receiving the reports to use it.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87819" class="journal has-notes">
+    <div id="note-44">
+    <h4><a href="/issues/15561#note-44" class="journal-link">#44</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-03-31" title="03/31/2013 10:48 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87819-notes"><p>OK, then I think that&rsquo;s either a misconfiguration (not including the namecheap CA cert in the puppet configuration, although if that&rsquo;s required it should be documented) or a different bug (puppet uses its internal list of CAs rather than the default from libcurl or something like that when submitting reports via HTTPS).  It happened that your use-case showed the error message described in this ticket first, before it got to the &ldquo;unable to get local issuer certificate&rdquo; error, which is the real problem for you.</p>
+
+<p>@Jeff, how do you think validation of such HTTPS servers should be handled?</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87820" class="journal has-notes">
+    <div id="note-45">
+    <h4><a href="/issues/15561#note-45" class="journal-link">#45</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-03-31" title="03/31/2013 11:30 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87820-notes"><p>On Sun, Mar 31, 2013 at 10:48 AM,  wrote:</p>
+
+<blockquote><p>  Issue <a href="/issues/15561" class="issue status-5 priority-6 priority-high2 closed" title="Fix for CVE-2012-3867 is too restrictive (Closed)">#15561</a> has been updated by Dustin Mitchell.</p>
+
+<p>@Jeff, how do you think validation of such HTTPS servers should be handled?</p>
+
+<p>Is there a specific reason you need the server certificate signed by a CA
+other than the Puppet CA used with all of the other certificates?  I&rsquo;m
+trying to understand the use case a bit more.</p></blockquote>
+
+<p>Looking at the code, our http report processor uses the Puppet http client
+classes, which means that only the Puppet CA&rsquo;s will be trusted.  The Puppet
+HTTP classes don&rsquo;t trust the public root authorities by default.</p>
+
+<p>Here&rsquo;s how I recommend working around this, in order of preference.
+ Either; use a server certificate issued by the Puppet CA if possible, or
+copy the <a href="https://github.com/puppetlabs/puppet/blob/master/lib/puppet/reports/http.rb#L19">http</a>
+report processor and replace Puppet
+::Network::HttpPool with Net::HTTP or something equivalent that trusts the
+public CA&rsquo;s.</p>
+
+<p>I don&rsquo;t think we should fix this in Puppet core because it really seems
+like this should be a custom report processor if the Puppet CA is not being
+used to issue the report server certificate.</p>
+
+<p>-Jeff</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87821" class="journal has-notes">
+    <div id="note-46">
+    <h4><a href="/issues/15561#note-46" class="journal-link">#46</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-03-31" title="03/31/2013 11:33 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87821-notes"><p>OK, the docs should be updated to indicate that limitation, then (and it&rsquo;s not so bad to work around with <code>ssl_client_ca_auth</code>).  Jason, do you mind opening a new Redmine ticket for that documentation change?  If you can also make a pull request to fix it, that would of course be awesome, but I can take care of it otherwise.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87836" class="journal has-notes">
+    <div id="note-47">
+    <h4><a href="/issues/15561#note-47" class="journal-link">#47</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-04-01" title="04/01/2013 08:43 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87836-notes"><p>I tested again with my shell script (https://gist.github.com/djmitche/5233972) and it worked just fine, so +1 from me :)</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87847" class="journal has-notes">
+    <div id="note-48">
+    <h4><a href="/issues/15561#note-48" class="journal-link">#48</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/b8821b14d1d075afb0bb9c3cfa6a5c59?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3065" class="user active">Dustin Mitchell</a> <a href="/projects/puppet/activity?from=2013-04-01" title="04/01/2013 10:18 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87847-notes"><p>For the record (and since Jeff McCune and I talked about this), I can also verify that Puppet minds the extendedKeyUsage fields of a certificate.</p>
+
+<p>This means that certs for masters can be signed with extendedKeyUsage = serverAuth, and agents with clientAuth.  Then agent certs aren&rsquo;t usable to impersonate a puppet master.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87848" class="journal has-notes">
+    <div id="note-49">
+    <h4><a href="/issues/15561#note-49" class="journal-link">#49</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-04-01" title="04/01/2013 10:26 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87848-notes"><p>Dustin Mitchell wrote:</p>
+
+<blockquote><p>I tested again with my shell script (https://gist.github.com/djmitche/5233972) and it worked just fine, so +1 from me :)</p></blockquote>
+
+<p>Excellent!  I also took your shell script and made it into an automated acceptance test, so hopefully we don&rsquo;t regress on this issue again.</p>
+
+<p>The acceptance tests configures Puppet in the manner you specified when we worked together last week.  There are email addresses in the subject of the CA certificate and in one test case for the client certificate.</p>
+
+<p>The acceptance test is at <a href="https://github.com/puppetlabs/puppet/pull/1572">https://github.com/puppetlabs/puppet/pull/1572</a></p>
+
+<p>-Jeff</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87894" class="journal has-notes">
+    <div id="note-50">
+    <h4><a href="/issues/15561#note-50" class="journal-link">#50</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/f14203dee7593a809ed518bad2f3be9e?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/5403" class="user active">Ben Jones</a> <a href="/projects/puppet/activity?from=2013-04-02" title="04/02/2013 08:34 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87894-notes"><p>The patched version works for our use case (inhouse chained CA).</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-88101" class="journal has-notes">
+    <div id="note-51">
+    <h4><a href="/issues/15561#note-51" class="journal-link">#51</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-04-04" title="04/04/2013 04:20 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-88101-notes"><p>Acceptance tests that cover Dustin&rsquo;s use case with Apache + Passenger have been committed to master in 8762b7a.</p>
+
+<p>Thanks for trying out the pre-release RPM&rsquo;s.  We&rsquo;re hoping to get an RC of Puppet 3.2 released in the next few weeks.</p>
+
+<p>-Jeff</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-89476" class="journal has-notes has-details">
+    <div id="note-52">
+    <h4><a href="/issues/15561#note-52" class="journal-link">#52</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/aafd0d5beaa872e15092084e9bab49c9?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3206" class="user active">Matthaus Owens</a> <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:17 pm">4 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Merged - Pending Release</i> to <i>Closed</i></li>
+    </ul>
+    <div class="wiki" id="journal-89476-notes"><p>Released in Puppet 3.2.0-rc1</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-89540" class="journal has-notes">
+    <div id="note-53">
+    <h4><a href="/issues/15561#note-53" class="journal-link">#53</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/aafd0d5beaa872e15092084e9bab49c9?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3206" class="user active">Matthaus Owens</a> <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:19 pm">4 months</a> ago</h4>
+
+    <div class="wiki" id="journal-89540-notes"><p>Released in Puppet 3.2.0-rc1</p>
+</div>
+    </div>
+  </div>
+  
+
+
+</div>
+
+
+<div style="clear: both;"></div>
+<div class="contextual">
+
+
+<span class="issue-15561-watcher"></span>
+
+
+</div>
+
+
+<div style="clear: both;"></div>
+
+<p class="other-formats">Also available in:  <span><a href="/issues/15561.atom" class="atom" rel="nofollow">Atom</a></span>
+  <span><a href="/issues/15561.pdf" class="pdf" rel="nofollow">PDF</a></span>
+</p>
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+contextMenuInit('/issues/context_menu')
+//]]>
+</script>
+
+        
+        <div style="clear:both;"></div>
+    </div>
+</div>
+</div>
+
+<div id="ajax-indicator" style="display:none;"><span>Loading...</span></div>
+<div id="ajax-modal" style="display:none;"></div>
+
+<div id="footer">
+  <div class="bgl"><div class="bgr">
+    Powered by <a href="http://www.redmine.org/">Redmine</a> &copy; 2006-2012 Jean-Philippe Lang
+  </div></div>
+</div>
+</div>
+</div>
+<script src="/javascripts/leadcapture.js?1328214688" type="text/javascript"></script>
+
+<!-- BEGIN: MARKETO TRACKING -->
+    <script src="https://munchkin.marketo.net/munchkin.js
+type="text/javascript"></script>
+<script>mktoMunchkin("307-QLA-991");</script>
+ <!-- END: MARKETO TRACKING --> <!-- Begin Google Analytics Asynch-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1537572-5']);
+  _gaq.push(['_setDomainName', 'puppetlabs.com']);
+  _gaq.push(['_addIgnoredRef', 'puppetlabs.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  <!-- End Google Analytics -->
+
+</body>
+</html>

@@ -1,0 +1,456 @@
+<html>
+<head>
+<title>FreeBSD SysVR4 Emulation</title>
+</head>
+<body bgcolor="#ffffff">
+<center>
+<table border=0 cols=2>
+<tr>
+<td><img src="svr4.gif"></td>
+<td align=center>
+  <h1>FreeBSD SysVR4 Emulation</h1></h1>
+  <i>Mark Newton,
+     <a href="mailto:newton@atdot.dotat.org">newton@atdot.dotat.org</a>
+     </i>
+</td>
+</tr>
+</table>
+</center>
+<hr>
+<p>
+
+<h2>Contents</h2>
+<ul>
+  <li><a href="#news"><b>News</b></a></li>
+  <li><a href="#desc">Description</a></li>
+  <li><a href="#todo">To-Do</a></li>
+  <li><a href="#faq">Mini-FAQ</a></li>
+  <li><a href="#install">Installation</a></li>
+  <li><a href="#download">Download</a></li>
+  <li><a href="#links">Links</a></li>
+</ul>
+<p>
+
+<a name="desc"><h2>Description</h2></a>
+This page describes an SysVR4 emulator for <a href="http://www.freebsd.org">FreeBSD</a>.  It is currently
+capable of running (or walking, in some cases) a wide-ish variety of
+SysV executabls taken from Solaris/x86 2.5.1 and 2.6 systems.  I have
+reason to believe that it will also run SCO UnixWare and SCO OpenServer
+binaries.
+<p>
+The emulator has been produced by a process of distillation, starting 
+with the Linux and iBCS2 emulators from FreeBSD and the SVR4 emulator
+from NetBSD.  HUGE thanks to Christos Zoulas and Todd Vierling for
+the NetBSD stuff, and David Greenman and Soren Schmidt for the FreeBSD
+stuff.  I haven't so much written this stuff as integrated and debugged
+it, and couldn't have done it without the efforts of those individuals.
+<p>
+The emulator has some limitations, and needs a lot of work.  The most 
+most pressing items at the top of my to-do list are presented below;
+if you are interested in lending a hand, it'd probably be best to start
+with those.
+<p>
+If you use it, please provide feedback.  If something doesn't work, 
+ktrace output describing the failure would also be appreciated
+(although I'll get very rude if you bombard my mailbox with 50Mbyte
+ktrace.out files, so please be considerate).
+<p>
+I've tested the emulator with a variety of hand-rolled test programs 
+and actual utilities from the Solaris 2.5.1 CD.  The most complicated
+shell-based program which runs is "vi".  Networking programs such as
+"telnet" and "ftp" work fine too, which means the SysVR4 STREAMS 
+emulation is at least pretending to be functional. 
+<p>
+<a name="news">
+<h2>News</h2>
+<i>1999-Jan-30:</i>  Committed the rest of the emulator to FreeBSD 4.0-CURRENT.
+  Blaz Zupan kindly sent me info about a glitch he had with it shortly
+  thereafter:  The emulator will fail to load with an "Exec format error"
+  if your kernel hasn't been compiled with <tt>options KTRACE</tt>.  Since
+  you'd be mad to attempt to debug an emulator without <tt>options KTRACE</tt>
+  anyway, I don't see that this is a huge problem at present (although we'll
+  have to fix it eventually).<p>
+<i>1999-Jan-28:</i>  Committed the <a href="segpatch">LDT patch</a> as a 
+  lead-up to committing the whole emulator.  Also cleaned up a crapload
+  of warnings.  There are still other cosmetic nits and major functionality
+  botches, but it's better now than it was.  <i>svr4_sys_getdents64()</i> and
+  <i>poll()</i> are still broken, incidentally.<p>
+<i>1999-Jan-11:</i>  I've merged most of Christos Zoulas' changes to the NetBSD
+SysVR4 emulator into this one so that it can be relatively functional with
+Solaris 2.6 libraries.  Changes involved unstaticizing <i>dosetrlimit()</i>
+in <i>sys/kern/kern_resource.c</i>, which is taken care of by the updated
+<a href="svr4patch">installation patch</a>.  Despite the update, <i>svr4_sys_poll()</i>
+and <i>svr4_sys_getdents64()</i> syscalls don't seem to be working as expected,
+so more work needs to be done here.  NetBSD's <i>VOP_READDIR</i> and
+native <i>poll()</i> syscalls are different enough from FreeBSD's that 
+they can't JustWork(tm).<br>
+Lots of <tt>#if defined(NOTYET)</tt> stuff was removed too -- Solaris 2.6 
+libraries need a reasonable number of 64-bit system calls to work, so I've
+had to bring 'em in.  DNS name resolution doesn't work at present, but I 
+think that's related to the <i>svr4_sys_poll()</i> problem outlined above.
+<p>
+<i>1999-Jan-06:</i>  The emulator is now a KLD ready for ELF 3.0.x (rather than an LKM, the
+FreeBSD 2.2.x kernel loadable object format).  See the <a href="#download">download</a>
+section to get it.  You'll need to re-fetch the <i>svr4.tar.gz</i> source module if you have an earlier version of the emulator already installed.
+<p>
+<a name="download">
+<h2>Downloading</h2>
+<b>IGNORE THIS SECTION IF YOU'RE RUNNING 4.0-CURRENT.  ALTERNATIVELY, IF YOU'RE
+NOT RUNNING -CURRENT THE CODE BELOW MAY NOT NECSSARILY WORK ANYMORE WITHOUT
+A BIT OF MAINTENANCE, SO ONLY ATTEMPT TO INSTALL THE EMULATOR IF YOU KNOW WHAT
+YOU'RE DOING.</b>
+<p>
+
+The <a href="ftp://slash.dotat.org/pub/freebsd-svr4">distribution</a> is broken into three parts.  You'll need all
+three parts if you expect to get this bucket of bolts working:
+
+<ul>
+    <li><a href="http://www.freebsd.org/~newton/freebsd-svr4/streams.tar.gz">streams.tar.gz</a><br>
+      A kernel pseudo-device which provides services needed for 
+      STREAMS-based networking  (unpack in /usr/src)<br>
+      <i>Alternate download site <a href="ftp://slash.dotat.org/pub/freebsd-svr4/streams.tar.gz">here</a></i></li>
+<p>
+    <li><a href="http://www.freebsd.org/~newton/freebsd-svr4/svr4.tar.gz">svr4.tar.gz</a><br>
+      The bulk of the emulator:  Source code for the svr4_mod LKM
+      which emulates a couple of hundred SysVR4 system calls.  Includes
+      a dozen or so .h files which are needed by the streams driver.
+      (unpack in /usr/src)<br>
+      <i>Alternate download site <a href="ftp://slash.dotat.org/pub/freebsd-svr4/svr4.tar.gz">here</a></i>
+      </li>
+<p>
+    <li><a href="http://www.freebsd.org/~newton/freebsd-svr4/compat_svr4.tar.gz">compat_svr4.tar.gz</a><br>
+      Things you should put into /compat/svr4 to expect the emulator
+      to work.  (unpack in /compat)<br>
+      <i>Alternate download site <a href="ftp://slash.dotat.org/pub/freebsd-svr4/compat_svr4.tar.gz">here</a></i><br>
+      Even more alternate:  if you have a Solaris 2.6 or Solaris 7 CD-ROM
+      you'll really want <a href="http://slash.dotat.org/~newton/freebsd-svr4/compat_sol26.tar.gz">this</a> or <a href="http://www.freebsd.org/~newton/freebsd-svr4/compat_sol26.tar.gz">this</a>, not the <i>compat_svr4.tar.gz</i> file mentioned above.
+      </li>
+</ul>
+<p>
+
+Each distribution contains a README file in some semi-obvious location;
+The README files document
+things you'll need to do to make that sub-part do its thing (for
+instance, things you'll need to change in your kernel source tree to
+make the "streams" pseudo-device driver work).  That information is
+reproduced below in the <a href="#install">INSTALLATION</a> section.
+
+<p>
+To make the emulator work you'll need a SysVR4 CD-ROM.  I've been
+using Solaris CDs for testing, but there shouldn't be anything preventing
+SCO binaries from running (crosses fingers -- I've only tried a small
+subset of SCO binaries because SCO's habit of putting billions of symlinks
+all over the filesystem makes it all too hard to do large-scale testing
+at this point).  SCO and Sun both give
+their x86 versions away for free for educational or private individual
+use, so it shouldn't be all that difficult to come across them.  See
+<a href="http://www.sco.com">http://www.sco.com</a> and <a href="http://www.sun.com">http://www.sun.com</a> to find out how to get 
+free copies of licenses and cheap installation media.
+<p>
+If you have everything working, you should be able to run the "hello"
+program provided in /usr/src/sys/modules/svr4.
+<p>
+Developers are extremely welcome, and actively encouraged.  I've set
+up a majordomo mailing list to discuss the technical issues of SVR4
+emulation;  You can put yourself onto it by sending email to
+<a href="mailto:majordomo@atdot.dotat.org">majordomo@atdot.dotat.org</a> with the text "subscribe freebsd-svr4" in
+the BODY of the message.
+<p>
+Eventually this distribution will get rolled into the -current CVS repository.
+That'll make installing it sooo much easier!
+<p>
+
+
+
+<a name="todo"><h2>To-Do list</h2></a>
+Current priorities are listed below, in what I think is their order of
+importance (YMMV, though).
+<p>
+<ol>
+
+<li> Solaris 2.6<br>
+    I'm told that 2.6 executables used to fail utterly with Bus Error signals 
+    shortly after startup.  Sun changed the <a href="sol2.6.html">syscall
+    conventions</a></i> used by Solaris between 2.5.1 and 2.6.  We've dealt
+    with that problem by patching FreeBSD's LDT table, but other Solaris
+    2.6 changes in userland exercise bugs in the emulator (so hostname
+    resolution doesn't work right and <i>poll()</i> acts bogusly).
+    <i>getdents64()</i> doesn't work right either - test prints reveal 
+    that the emulator copies dirent structures into process address 
+    space <i>once</i>, but many filenames show up <i>twice!</i> Bizarre.
+    Oh well, at least <tt>filemgr</tt> runs now...<br>
+    <b>NOTE:  </b>  X windows clients do work, you just can't use <tt>:0.0</tt>
+    as your <tt>$DISPLAY</tt>.  Change it to <tt>unix:0.0</tt>;  Solaris wants
+    to use a named pipe to talk to the X server if you use <tt>:0.0</tt>, but
+    XFree86 provides a socket (which can't be <i>open()</i>'ed).  If you use
+    <tt>unix:0.0</tt> the Solaris libX11 will use the socket.
+    </li>
+<p>
+<li>USER_LDT<br>
+    Currently disabled with <tt>#ifdef (NOTYET)</tt> bits.  Needs to
+    be fixed so we can see if Wabi will work...</li>
+<p>
+<li> Signals.<br>
+    Signals seem to work pretty well:  I've tested alternate signal stacks,
+    catching and ignoring signals, etc.  Part of the implementation of
+    svr4_sys_context() required redesign of the sendsig() routine and
+    the sigcode() assembly code, however, and that can probably do with
+    some verification.  That's the most recent bit of work I've done on
+    it, so it's the bit that has had the least amount of testing.  It
+    seems to work for most cases (i.e.: all the ones I've tried), though.</li>
+<p>
+<li>Backporting<br>
+    There should be no reason why a single source tree can't compile
+on NetBSD and FreeBSD.  I've done something a bit dumb by making my
+code diverge from Christos', and to repent I really should fold my 
+differences back into the NetBSD codebase.
+<p>
+I have some ideas on how to make that simple, but I'll need time.  If
+anyone thinks they can assist, let me know.  It should be a relatively
+light weight project technically speaking, and could be an ideal way for
+someone who hasn't hacked kernels before to make a contribution.<p></li>
+<li>  Slightly more exhaustive testing than I've done.<br>
+    Related to (2) above.
+    <p>
+
+    My development methodology has been something like, "xxx doesn't work.
+    Find out what services xxx needs.  Emulate them.  xxx works now, therefore
+    those services must be emulated correctly."
+    While the first three steps are ok, the fourth represents a false
+    conclusion.  More extensive testing than I've carried out really needs
+    to be done.  Call me lazy :-)
+<p>
+    In most cases I'm building on a fantastic foundation provided by
+    Christos Zoulas from the NetBSD Project (this is really just a FreeBSD
+    port of his code).  In some cases, however (parts of signal delivery,
+    the LKM framework, etc) there is code I've written which has been 
+    tested somewhat less rigourously.</li><p>
+
+<li>SysV shared memory<br>
+	Interface BSD's SysV shared memory emulation with SysVR4 system calls</li><p>
+<li>LKM streams pseudo-device<br>
+    Daniel O'Connor <doconnor@gsoft.com.au> informs me that it's simple,
+    so I'll let him do it. :-)  It's built-in to the kernel at the moment,
+    which means you need a customized kernel to run SysVR4 binaries.</li><p>
+
+<li>"Getting the tabs right."<br>
+    Can't offend the <i>style(9)</i> gods, can we? :-p (hi, Bruce!)</li>
+    <p>
+
+<li>  ???<br>
+    Probably lots of other crap.  SysV is wierd compared to BSD, after all.</li>
+    <p>
+</ol>
+<center>
+<h1>THIS SOFTWARE WILL NOT BUILD CLEANLY!!</H1>
+<p>
+<h1>THIS SOFTWARE WILL NOT BUILD CLEANLY!!</H1>
+<p>
+<h1>THIS SOFTWARE WILL NOT BUILD CLEANLY!!</H1>
+<p>
+                    You'll need to make other changes<br>
+                    to your kernel source code before<br>
+                  it'll work.  See "<a href="#install">INSTALLATION</a>" below<br>
+                        for more information.<p></center>
+
+
+<a name="faq"><h2>Mini-FAQ</h2></a>
+
+<b>  If it doesn't build at all</b><br>
+If it complains about undefined symbols, they're probably declared static
+in the kernel sources.  Grep through /sys/kern/* and /sys/sys/* for the
+symbols involved, and change static definitions to non-static.  Rebuild
+your kernel, recompile the emulator, and see if it works.
+
+<p>
+<b> "All the SysVR4 programs I try say, `ELF binary type not known'"</b><br>
+A peculiarity of the FreeBSD ELF subsystem is that ELF programs need to
+be "branded".  Use the following command:<p>
+<code>
+     brandelf -f -t SVR4 program
+</code><p>
+[ substitute the pathname of your SysV program in place of "program" ]
+<p>
+yes, that means you can't run things straight off a SysV CD-ROM.  Cope.
+<p>
+
+<b> "X11 clients hang or tell me they can't open server :0.0"</b><br>
+    X windows clients do work, you just can't use <tt>:0.0</tt>
+    as your <tt>$DISPLAY</tt>.  Change it to <tt>unix:0.0</tt>;  Solaris wants
+    to use a named pipe to talk to the X server if you use <tt>:0.0</tt>, but
+    XFree86 provides a socket (which can't be <i>open()</i>'ed).  If you use
+    <tt>unix:0.0</tt> the Solaris libX11 will use the socket.
+    <br>
+    Unfortunately the aforementioned <i>poll()</i> bug means TCP connections
+    to X servers hang.  Let's just fix <i>poll()</i>, ok?
+<p>
+
+<b>"Crudbox 3.1 from Foobar Enterprises doesn't work!"</b><br>
+Tell the mailing list you're working on it;  Modify the emulator to make it work; Submit
+patches to me.<p>
+I don't have huge numbers of SysVR4 apps, so I can't test everything.
+At this stage I expect people who submit bug reports to be able to send
+'em in with patches.  Sorry if this sounds harsh, but if I spend 24 hours
+per day working on everyone else's bugs I'll end up like <a href="mailto:mike@smith.net.au">Mike Smith</a> :-)<p>
+
+<b> kdump(1) doesn't seem to be reporting the right system calls</b><br>
+That's because ktrace(1) is seeing FreeBSD syscall numbers when you
+ktrace a SysV executable.  To find out what the SysV executable is
+<i>really</i> doing, grep for the syscall name provided by ktrace in the
+file /sys/kern/syscalls.c.  That'll give you the system call number.
+Then grep for that number in /sys/svr4/syscalls.master -- that'll
+tell you the SysV system call that was <i>really</i> running.
+<p>
+Example:  kdump tells you that a Solaris/x86 program has executed
+getrusage(0x28113000,0x1ea8).  If you grep for "getrusage" in
+/sys/kern/syscalls.c, you get:<p><code>
+        "getrusage",                    /* 117 = getrusage */</code><p>
+So grep for 117 in /sys/svr4/syscalls.master:<p><code>
+117     NOPROTO SVR4    { int munmap(void *addr, int len); }</code><p>
+... which tells you that the Solaris program was really running an 
+"munmap" system call.
+<p>
+It sucks, but I've spent so much time on the emulator itself that
+I haven't finished porting linux_ktrace.  I've done most of it;  if
+anyone wants to take the bits I've done and finish them off, <a href="mailto:newton@atdot.dotat.org">let me
+know</a>.
+<p>
+<ul><i>
+   [ idea for the future:  perhaps kdump should know how to
+     grovel through kmem to find a syscall_names struct for
+     each emulator so that you don't need to build a new version
+     of it for each OS you support... after all, if the names
+     are in the LKM that provides the emulation, it seems senseless
+     to duplicate 'em in a kdump utility.  I've had some more <a href="kdump.html">thoughts</a> on this. ]</i>
+</ul>
+
+<p>
+<a name="install"><h2>Installation</h2></a>
+
+<b>Most of this is already done if you're running 4.0-CURRENT.</b>  If 
+<tt>uname -r</tt> reports <tt>4.0-CURRENT</tt> you should only carry out
+the steps marked <font color="red">4.0</font>.<p>
+
+Extract svr4.tar.gz and streams.tar.gz into /usr/src.  Then follow
+the steps below.  They take about half an hour to run through (including
+kernel building), and only need to be done once.
+<p>
+You can simplify your task by taking <a href="svr4patch">this patch</a>, which
+was generated against 3.0-RELEASE.  It promotes static symbols to 
+global scope and edits <i>/sys/conf/files</i> as described below,
+and ends up modifying <i>/sys/kern/kern_exit.c</i>, </sys/kern/sys_socket.c</i>,
+<i>/sys/sys/socketvar.h</i> and <i>/sys/conf/files</i> to do its work
+(so you'll need write permission on those files and should expect them to
+change as a result of running the patch).  You can
+install it by running <tt>patch -p < svr4patch</tt> in <i>/sys</i>.
+<p>
+If you don't trust foreign patches and want to do things by hand, see 
+below.
+<ol>
+
+<li>  Some static symbols need to be "promoted" to global scope so that
+    they can be used by the emulator LKM.<p>
+
+    The symbols concerned are listed below, along with the files they
+    belong to.  Edit each of the files and "unstaticize" the appropriate
+    symbols.
+
+<p><center><table border=1><tr><th>Symbol</th><th>Source File</th></tr>
+<tr><td>    M_ZOMBIE</td>                   <td>sys/kern/kern_exit.c</td></tr>
+<tr><td>    soo_read()</td>                 <td>sys/kern/sys_socket.c</td></tr>
+<tr><td>    soo_write()</td>                <td>sys/kern/sys_socket.c</td></tr>
+<tr><td>    soo_close()</td>                <td>sys/kern/sys_socket.c</td></tr>
+<tr><td>    dosetrlimit()</td>		    <td>sys/kern/kern_resource.c</td></tr>
+</table></center><p>
+    Note that function call declarations need to be declared non-static
+    both in their prototypes <i>and</i> the actual definition of the function.
+
+<p>
+    It's easier and quicker than it sounds.</li><p>
+
+<li>  Modify /sys/sys/socketvar.h.  Add a new field to the end of
+    struct socket like so:
+    <p><code>
+       void *so_emuldata;         /* private data for emulators */
+       </code><p>
+    (it should go just underneath "so_gen_t so_gencnt")</li><p>
+
+<li>  Modify /sys/conf/files.  Add a line which says:
+<p><code>
+     dev/streams/streams.c   optional streams device-driver</code></li><p>
+
+<li>Modify /sys/i386/conf/majors.i386.  Add a line which says:<p><code>
+     103 streams         SysV STREAMS network driver</code><p></li>
+
+<li>Install <a href="segpatch">this patch</a> by executing
+     <tt>patch -p < segpatch</tt> in <i>/usr/src</i>.  The patch will
+     modify <i>sys/i386/include/segments.h</i> and
+     <i>sys/i386/i386/machdep.c</i>, and will have the effect of changing
+     <tt>LUDATA_SEL</tt> from 4 to 5, adding <tt>LSOL26CALLS_SEL</tt> as LDT entry 4, and
+     modifying the <tt>ldt_segs</tt> table to insert a new blank entry
+     for <tt>LSOL26CALLS_SEL</tt>.  This patch is required to allow executables
+     from Solaris 2.6 and Solaris 7 to run on the emulator, and is a fix
+     for the problem described <a href="sol2.6.html">here</a>.<p></li>
+
+<li>Modify your kernel config file.  Add a line which says:<p><code>
+     pseudo-device streams 1</code><p></li>
+
+<li>Build a new kernel.  Boot from it.  Look depressed, because you
+    now (kinda) support streams, and they're <b>REALLY</b> ugly.</li><p>
+
+<li>Run the following commands:<p><code>
+
+    freebsd% cd /sys/modules/svr4<br>
+    freebsd% make depend<br>
+    freebsd% make</code><p>
+
+    Expect it to compile with quite a few warnings at this stage (anyone who
+    wants to fix them and submit patches is welcome to do so).<p></li>
+
+<li>As root:<p><code>
+
+    freebsd# make install<br>
+    freebsd# kldload /modules/svr4.ko</code><p>
+    <font color="red">4.0</font> Type <tt>svr4</tt> instead of the 
+    commands above to load the emulator.  To make it automatically load
+    at boot time, set the <tt>svr4_enable</tt> flag to <tt>YES</tt> in
+    <t>rc.conf</i><p></li>
+
+<li><font color="red">4.0</font> Extract compat_svr4.tar.gz into /compat.  It'll create /compat/svr4
+    right alongside /compat/linux.  Execute the following as root:<p><code>
+
+    freebsd# cd /compat/svr4/dev<br>
+    freebsd# sh SVR4_MAKEDEV all</code><p>
+    
+    The tar archive contains symlinks which expect you to have a Solaris
+    for Intel CD-ROM mounted on /cdrom -- If that's what you actually
+    have, congratulations, installation is completed and you can start
+    seeing what applications you can actually run.  If you only have v2.6
+    or v7 media, stay with us, we're working to improve support for that (2.5.1
+    and earlier is presently more "capable").
+<p>
+    If you have some other OS CD, remove the symlinks and install
+    that OS's /usr/lib, /lib, and so on within the /compat/svr4 heirarchy.
+    Make sure you run the SVR4_MAKEDEV script as shown above, though,
+    otherwise code which tries to do networking or UNIX-domain sockets
+    won't work.<p></li>
+<li><font color="red">4.0</font> Optionally set the <tt>kern.fallback_elf_brand</tt> sysctl to the value
+    <tt>SVR4</tt>.<p>
+    This will remove the need to brand executables, because it will make the 
+    kernel assume that unbranded executables belong to the SVR4 emulator.
+<p>
+    If you get "ELF binary type not known" messages, see the <a href="#faq">mini-FAQ</a>
+    above.
+<p></li>
+</ol>
+<p>
+<a name="links"><h1>Links</h1>
+<ul>
+ <li><i><a href="http://www.debian.org/Packages/stable/otherosfs/ibcs-base.html">http://www.debian.org/Packages/stable/otherosfs/ibcs-base.html</a></i><br>
+ Debian SysVR4 compatibility</li>
+ <li><i><a href="http://www.sun.com/developers/tools/solaris/index.html">http://www.sun.com/developers/tools/solaris/index.html</a></i><br>
+ Sun's Free Solaris programme</li>
+</ul>
+<hr>
+<i><a href="/~newton/">Mark's Home Page</a></i>
+<html>

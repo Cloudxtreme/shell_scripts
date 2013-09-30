@@ -1,0 +1,673 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>
+      Traffic Analysis Research 
+    </title><link href="/c2supportfiles/caida-min.css" type="text/css" rel="stylesheet"><link href="/c2supportfiles/print-min.css" media="print" type="text/css" rel="stylesheet"><link href="/favicon.ico" type="image/x-icon" rel="shortcut icon"><link href="/apple-touch-icon-144x144.png" sizes="144x144" type="image/png" rel="apple-touch-icon"><link href="/apple-touch-icon-114x114.png" sizes="114x114" type="image/png" rel="apple-touch-icon"><link href="/apple-touch-icon-72x72.png" sizes="72x72" type="image/png" rel="apple-touch-icon"><link href="/apple-touch-icon.png" type="image/png" rel="apple-touch-icon"><style>
+.moreinfo { text-indent: 2em; }
+p.indent {  padding-left: 30px; }
+  </style><style media="screen, projection" type="text/css">
+/*\*//*/
+@import "/c2supportfiles/TJK_vertmenu_ie5mac-min.css";
+/**/
+</style><script src="/c2supportfiles/TJK_vertmenu-min.js" type="text/javascript"></script><!--[if lt IE 7]>
+<noscript>
+<style type="text/css" media="screen">
+@import "/c2supportfiles/TJK_vertmenu_noscript-min.css";
+</style>
+</noscript>
+<script defer src="/c2supportfiles/pngfix_ie6-min.js" type="text/javascript"></script>
+<![endif]--><script src="/c2supportfiles/ripe_ipv6_clientresolver.js" type="text/javascript"></script></head><body bgcolor="white" text="black" link="blue" alink="red" vlink="#770077">
+<div id="root">
+<a tabindex="-1" href="#content" id="contentskiplink">Skip to Content</a>
+<div id="caidabluebar">
+<div id="caidaglobe">
+<img height="132" width="141" alt="[CAIDA - Cooperative Association for Internet Data Analysis logo]" src="/images/caida_globe_faded.png"></div>
+<div id="caidatextlogo">
+<a tabindex="-1" href="/home/"><img src="/images/caida_whitewords.png" alt="[CAIDA]" border="0" width="88" height="47" title="Go to CAIDA home page"></a>
+</div>
+<div id="caidatextfull">
+<div title="CAIDA: Providing tools and analyses promoting the engineering and maintenance of a robust, scalable global Internet infrastructure">The Cooperative Association for Internet Data Analysis</div>
+</div>
+<div id="pageheader_sidebox">
+<div id="pageheader_searchbox">
+<form title="Search CAIDA with Google" id="cse-search-box" action="http://www.google.com/cse">
+<div>
+<input value="016962320605053137706:730jehqayws" name="cx" type="hidden"><input value="UTF-8" name="ie" type="hidden"><input id="searchfield" size="16" name="q" type="text"><input id="searchbutton" value="Search" name="sa" type="submit">
+</div>
+</form>
+<script src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en" type="text/javascript"></script>
+</div>
+<b class="searchrc3"></b><b class="searchrc2"></b><b class="searchrc1"></b><b class="searchrc0"></b>
+<div id="pageheader_linklist">
+<div>
+<a title="Make a Tax-deductible Donation to CAIDA" href="/home/donate/">DONATE</a>
+</div>
+<div>
+<a title="Contact and Visitor Information Page" href="/home/contactinfo/">CONTACT US</a>
+</div>
+</div>
+</div>
+</div>
+<div id="outercontent">
+<div id="tabnavbar">
+<ul id="TJK_dropDownMenu">
+<li>
+<a title="CAIDA Home Page" href="/home/">HOME</a>
+<ul>
+<li>
+<a title="About CAIDA" href="/home/about/">About</a>
+</li>
+<li>
+<a title="A summary of CAIDA's research goals and plans" href="/home/about/progplan/progplan2010/">Program Plan</a>
+</li>
+<li>
+<a title="A report on CAIDA research initiatives, project progress and results, etc." href="/home/about/annualreports/2012/">Annual Report</a>
+</li>
+<li>
+<a title="Becoming a CAIDA member" href="/home/about/joining/">Joining CAIDA</a>
+</li>
+<li>
+<a title="Staff members list" href="/home/staff/">Staff</a>
+</li>
+<li>
+<a title="Job postings at CAIDA" href="/home/jobs/">Jobs</a>
+</li>
+<li>
+<a title="Data Stewardship Agreements" href="/home/legal/">Legal Agreements</a>
+</li>
+<li>
+<a title="How to use specific CAIDA resources" href="/home/how-to/">How-To</a>
+</li>
+<li>
+<a title="CAIDA Blog: According to the Best Available Data" href="http://blog.caida.org/">Blog</a>
+</li>
+</ul>
+</li>
+<li class="selectedtab">
+<a title="Research at CAIDA" href="/research/">RESEARCH</a>
+<ul>
+<li>
+<a title="Results of research on Internet routing" href="/research/routing/">Routing</a>
+</li>
+<li>
+<a title="Results of research on Internet topology" href="/research/topology/">Topology</a>
+</li>
+<li>
+<a title="Results of research on the security of Internet infrastructure and analysis of malicious activities" href="/research/security/">Security</a>
+</li>
+<li>
+<a title="Results from Internet traffic analysis research" href="/research/traffic-analysis/">Traffic Analysis</a>
+</li>
+<li>
+<a title="Research related to Internet economics and policy" href="/research/policy/">Economics and Policy</a>
+</li>
+<li>
+<a title="Research activities on techniques for visualizing the Internet" href="/research/visualization/">Visualization</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="Data Collection at CAIDA" href="/data/">DATA</a>
+<ul>
+<li>
+<a title="Data overview chart and Access to CAIDA datasets and related request forms" href="/data/overview/">Overview</a>
+</li>
+<li>
+<a title="Promotion of Data Sharing at CAIDA" href="/data/sharing/">Data Sharing</a>
+</li>
+<li>
+<a title="Distribution Statistics for CAIDA Online Datasets" href="/data/about/">Distribution Statistics</a>
+</li>
+<li>
+<a title="How to document a data collection" href="/data/how-to/how-to_document_data.xml">How-to</a>
+</li>
+<li>
+<a title="Frequently Asked Questions about CAIDA Data usage" href="/data/data-usage-faq.xml">Data Usage FAQ</a>
+</li>
+<li>
+<a title="Publications by non-CAIDA researchers using CAIDA data" href="/data/publications/bydate/">Papers using CAIDA Data</a>
+</li>
+<li>
+<a title="Acceptable Use Agreement (AUA)" href="/data/../home/legal/aua/">Acceptable Use Agreement</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Tools and Software" href="/tools/">TOOLS</a>
+<ul>
+<li>
+<a title="CAIDA supported tools" href="/tools/./">Overview</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Publications" href="/publications/">PUBLICATIONS</a>
+<ul>
+<li>
+<a title="Papers and technical reports by CAIDA personnel and collaborators" href="/publications/papers/">Papers</a>
+</li>
+<li>
+<a title="Presentation slides by CAIDA personnel and collaborators" href="/publications/presentations/bydate/">Presentations</a>
+</li>
+<li>
+<a title="CAIDA Blog: According to the Best Available Data" href="http://blog.caida.org/">Blog</a>
+</li>
+<li>
+<a title="Visualizations to help illustrate the results of CAIDA research" href="/publications/visualizations/">Visualizations</a>
+</li>
+<li>
+<a title="Animated images and videos of visualized Internet data" href="/publications/animations/">- Animations</a>
+</li>
+<li>
+<a title="Poster-sized prints illustrating and describing CAIDA visualizations" href="/publications/posters/">- Posters</a>
+</li>
+<li>
+<a title="Annotated bibliography of non-CAIDA networking papers" href="/publications/bib/networking/">Networking Bibliography</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Workshops" href="/workshops/">WORKSHOPS</a>
+<ul>
+<li>
+<a title="Show all recent CAIDA Workshops" href="/workshops/./">Overview</a>
+</li>
+<li>
+<a title="Cyber-security Research Ethics Dialog &amp; Strategy (CREDS) Workshops series" href="/workshops/creds/">CREDS</a>
+</li>
+<li>
+<a title="Internet Statistics and Metrics Analysis (ISMA) Workshops series, including the Workshops on Active Internet Measurements (AIMS)" href="/workshops/isma/">ISMA / AIMS</a>
+</li>
+<li>
+<a title="International Workshop on Darkspace and UnSolicited Traffic Analysis (DUST) Workshops series" href="/workshops/dust/1205">DUST</a>
+</li>
+<li>
+<a title="UCSD Complex Network Seminar (DANCES) series" href="/workshops/dances/">DANCES</a>
+</li>
+<li>
+<a title="Workshop on Internet Economics (WIE) series" href="/workshops/wie/">WIE</a>
+</li>
+<li>
+<a title="Workshop collaborations with WIDE (Japan) and CASFI (South Korea)" href="/workshops/wide-casfi/">CAIDA-WIDE-CASFI</a>
+</li>
+<li>
+<a title="Related workshops held in collaboration between CAIDA and other groups" href="/workshops/collaborative/">Collaborative</a>
+</li>
+<li>
+<a title="Archive of past CAIDA workshops" href="/workshops/archive/">Archive</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="Projects and Infrastructure" href="/projects/">PROJECTS</a>
+<ul>
+<li>
+<a title="Macroscopic Topology project" href="/projects/macroscopic/">Macroscopic Topology</a>
+</li>
+<li>
+<a title="Cybersecurity project" href="/projects/cybersecurity/">Cybersecurity</a>
+</li>
+<li>
+<a title="Protected Repository for the Defense of Infrastructure Against Cyber Threats project" href="/projects/predict/">PREDICT</a>
+</li>
+<li>
+<a title="Archipelago Measurement Infrastructure" href="/projects/ark/">Ark</a>
+</li>
+<li>
+<a title="The UCSD Network Telescope project" href="/projects/network_telescope/">Network Telescope</a>
+</li>
+<li>
+<a title="Internet Measurement Data Catalog" href="/projects/trends/imdc/">IMDC (DatCat)</a>
+</li>
+<li>
+<a title="The Named Data Networking (NDN) project" href="/projects/ndn-fia/">NDN</a>
+</li>
+<li>
+<a title="The IPv6 Evolution project" href="/projects/ipv6_evolution/">IPv6 Evolution</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Funding" href="/funding/">FUNDING</a>
+<ul>
+<li>
+<a title="Cartographic Capabilities for Critical Cyberinfrastructure, project summary and proposal" href="/funding/c4/">Cartographic Capabilities</a>
+</li>
+<li>
+<a title="Internet Laboratory for Empirical Network Science, project summary and proposal" href="/funding/ilens/">iLENS</a>
+</li>
+<li>
+<a title="Exploring the evolution of IPv6: topology, performance, and traffic, project summary and proposal" href="/funding/nets-ipv6/">IPv6</a>
+</li>
+<li>
+<a title="Detection and analysis of large-scale Internet infrastructure outages project summary and proposal" href="/funding/dals-satc/">DALS</a>
+</li>
+<li>
+<a title="Universal Laws of Structural Dynamics of Large Scale Graphs  project description and proposal" href="/funding/ulsd-darpa/">Dynamic Graphs</a>
+</li>
+<li>
+<a title="Discovering Hyperbolic Metric Spaces Hidden Beaneath the Internet and Other Complex Networks project description and proposal" href="/funding/netse/">Routing</a>
+</li>
+<li>
+<a title="Named Data Networking project description and proposal" href="/funding/ndn-fia/">Named Data Networking</a>
+</li>
+<li>
+<a title="The Economics of Transit and Peering Interconnections in the Internet project description and proposal" href="/funding/netse-econ/">Economics</a>
+</li>
+<li>
+<a title="Telescope: A Real-time Lens into Dark Address Space of the Internet, project summary and proposal" href="/funding/cri-telescope/">Telescope</a>
+</li>
+<li>
+<a title="Sustainable data-handling and analysis methodologies for the IRNC networks, project summary and proposal" href="/funding/irnc/">IRNC-SP</a>
+</li>
+<li>
+<a title="DatCat: Metadata Management Software Tools to Support Cybersecurity Research and Development of Sustainable Cyberinfrastructure, project summary and proposal" href="/funding/sdci-datcat/">DatCat</a>
+</li>
+<li>
+<a title="Supporting Research and Development of Security Technologies through Network and Security Data Collection, project summary and description" href="/funding/predict/">PREDICT</a>
+</li>
+<li>
+<a title="A summary of CAIDA's research goals and plans" href="/funding/../home/about/progplan/progplan2010/">Program Plan</a>
+</li>
+</ul>
+</li>
+</ul>
+<div style="clear:both"></div>
+</div>
+<div id="crumbnavbar">
+<span class="bold"><a href="http://www.caida.org/">www.caida.org</a>
+            &gt; </span><a href="/research/">research</a> : traffic-analysis</div>
+</div>
+<div id="content">
+<span id="pagetitle">
+      Traffic Analysis Research 
+    </span>
+<div id="summarybox">
+<img height="10" width="10" alt="" class="ul" src="/images/grc_ul.png"><img height="10" width="10" alt="" class="ur" src="/images/grc_ll.png"><img height="10" width="10" alt="" class="ll" src="/images/grc_ur.png"><img height="10" width="10" alt="" class="lr" src="/images/grc_lr.png"><div class="middle">
+CAIDA researchers conduct regular measurements of Internet traffic
+at various networks, develop analysis tools, and analyze available traffic samples
+in order to get insights into the workload composition, properties,
+and evolution. We promote sharing the data and tools with other researchers.
+    <div style="clear: both"></div>
+</div>
+</div>
+<div>
+<div align="center">
+<font face="Helvetica,Arial,sans-serif" size="+1"><b>
+      |<span>  </span><a href="#Ongoing">Ongoing Research</a><span>  </span><span>  </span><a href="#Publications">Publications</a><span>  </span><span>  </span><a href="#Previous">Previous Research</a><span>  </span>|
+      </b></font>
+</div>
+<ul>
+<li>
+<a href="#Ongoing">Ongoing Research
+      <ul>
+<li>
+<a href="#traffic_classification">Internet traffic classification</a>
+</li>
+<li>
+<a href="#interdomain_traffic_matrix">
+	   Statistical characterization of the interdomain traffic matrix</a>
+</li>
+<li>
+<a href="#iatmon">One-way traffic monitoring</a>
+</li>
+</ul>
+  
+</a>
+</li>
+<li>
+<a href="#MeasurementProjects">Measurement Projects
+      <ul>
+<li>
+<a href="#realtime_traffic_monitoring">Realtime traffic monitoring</a>
+</li>
+<li>
+<a href="#trace_collection">Traffic trace collection</a>
+</li>
+<li>
+<a href="#trace_statistics">Statistics of collected traffic traces</a>
+</li>
+<li>
+<a href="#one-way_collection">One-way traffic collection</a>
+</li>
+</ul>
+  
+</a>
+</li>
+<li>
+<a href="#Publications">Publications</a>
+</li>
+<li>
+<a href="#Previous">Previous Research
+           <ul>
+<li>
+<a href="#asymmetry">Routing asymmetry (2010)</a>
+</li>
+<li>
+<a href="#traffic_paper_taxonomy">Taxonomy of Internet traffic
+classification papers (1994-2009)</a>
+</li>
+<li>
+<a href="#tcp-udp-ratio">Analyzing UDP usage in Internet traffic (2009)</a>
+</li>
+<li>
+<a href="#traffic_classification_pub">Internet traffic 
+classification methods (2008)</a>
+</li>
+<li>
+<a href="#packet_size_distribution">Packet size distribution 
+comparison between Internet links in 1998 and 2008</a>
+</li>
+<li>
+<a href="#arin-heatmaps">Measuring the use of IPv4 address space utilization (2008)</a>
+</li>
+<li>
+<a href="#fingerprinting">Remote physical device fingerprinting (2005)</a>
+</li>
+<li>
+<a href="#pam-spectroscopy">Spectroscopy of traceroute delays (2005)</a>
+</li>
+</ul>
+  
+</a>
+</li>
+</ul>
+<hr>
+<h2>
+<a name="Ongoing" id="Ongoing">Ongoing Research</a>
+</h2>
+<p class="indent">
+  
+
+</p>
+<h3 class="headerlink">
+<a href="/publications/papers/2012/issues_future_directions_traffic_classification/" name="traffic_classification" id="traffic_classification">
+Internet traffic classification</a>
+</h3>
+<p class="indent">
+  
+While traffic classification techniques are improving in accuracy and 
+efficiency, traffic classification remains an open problem in Internet
+research due to the continued proliferation of different Internet application
+behaviors, further aggravated by growing incentives to disguise some 
+applications to avoid filtering or blocking. In the paper <a href="/publications/papers/2012/issues_future_directions_traffic_classification/">Issues and future directions in traffic classification</a> 
+we provide an overview of both the evolution of traffic classification
+techniques and constraints to their development, highlighting key differences
+across existing approaches and techniques. We propose different strategies and
+actions aimed at the persistently unsolved challenges in the field over the 
+last decade.
+</p>
+<h3 class="headerlink">
+<a href="/publications/papers/2012/towards_statistical_characterization/" name="interdomain_traffic_matrix" id="interdomain_traffic_matrix">
+Statistical Characterization of the interdomain traffic matrix</a>
+</h3>
+<p class="indent">
+  
+In the paper 
+<a href="/publications/papers/2012/towards_statistical_characterization/">Towards a Statistical Characterization of the Interdomain Traffic Matrix</a>
+we examine spatial properties of the Interdomain Traffic Matrix
+(ITM) using passive flow data collected at a Europe-wide measurement 
+infrastructure deployed at the GEANT backbone network. This network is
+the largest academic/research backbone in Europe connecting hundreds 
+of universities and research organizations to the global Internet.
+Although we directly measure the ITM elements that are routed via the GEANT
+network, our goal is not to accurately measure each entry of ITM, but
+to infer its statistical properties from the observable elements.
+We believe that such properties can yield a better understanding
+of the nature of ITM and can be used to generate synthetic, but realistic 
+ITMs for simulation and modeling purposes.
+</p>
+<h3 class="headerlink">
+<a href="/publications/papers/2012/one_way_traffic_iatmon/" name="iatmon" id="iatmon">
+One-way traffic monitoring</a>
+</h3>
+<p class="indent">
+
+Researchers observe one-way (unsolicited) Internet traffic arriving at
+<a href="/projects/network_telescope/">network telescopes</a> and
+analyze it to study malicious activity on the Internet. Such traffic is now so
+pervasive and diverse that using it to identify new events requires examining
+more than raw packet, byte, or port counts. Seeking a better understanding of
+current and emerging one-way traffic behavior, we developed and implemented a
+freely available measurement and analysis tool 
+<span class="italic"><a href="/tools/measurement/iatmon/">iatmon</a></span>
+that differentiates among categories of unsolicited traffic. The tool uses 14
+source types and 10 inter-arrival-time groups to separate observed one-way
+traffic into a matrix of 140 type-and-group subsets. This taxonomy allows us to
+determine which source subsets were active during any hour, and to track subset
+behaviour over weeks or months as the characteristics of one-way traffic evolve.
+In the paper <a href="/publications/papers/2012/one_way_traffic_iatmon/">One-way Traffic Monitoring with iatmon</a> we applied <span class="italic">iatmon</span> to
+analyze changes in one-way traffic collected by the UCSD network telescope over
+the first half of 2011. 
+</p>
+<h2>
+<a name="MeasurementProjects" id="MeasurementProjects">Measurement Projects</a>
+</h2>
+<p class="indent">
+
+
+</p>
+<h3 class="headerlink">
+<a href="/data/realtime/" name="realtime_traffic_monitoring" id="realtime_traffic_monitoring">Realtime traffic monitoring</a>
+</h3>
+<p class="indent">
+
+We monitor optical networks using an optical splitter which diverts a small 
+fraction of the light from the optical fiber to the monitor device. CAIDA 
+researchers maintain a few <a href="/data/realtime/">realtime traffic monitors</a>. The <a href="/tools/measurement/coralreef/">CoralReef</a> report generator produces graphs and tables of derived 
+statistics, including composition of the observed traffic by protocols, 
+application, and hosts measured in packet, bytes and flow tuples.
+</p>
+<h3>
+<a name="trace_collection" id="trace_collection">Traffic trace collection</a>
+</h3>
+<p class="indent">
+
+CAIDA maintains Internet data collection monitors equipped with Endace
+network cards at two Equinix datacenters. The monitor in Chicago, IL is
+connected to a backbone link of a Tier1 ISP between Chicago, IL and Seattle, WA.
+The monitor in San Jose, CA, is connected to a backbone link of a Tier1 ISP
+between San Jose, CA and Los Angeles, CA. We attempt to collect a one-hour
+traffic trace at each of the monitors once a month. The 
+<a href="/data/passive/passive_2012_dataset.xml">anonymized packet headers</a> are available to academic researchers and CAIDA members
+by request. 
+</p>
+<h3 class="headerlink">
+<a href="/data/passive/trace_stats/" name="trace_statistics" id="trace_statistics">Statistics of collected traffic traces</a>
+</h3>
+<p class="indent">
+
+
+<a href="/data/passive/trace_stats/">Aggregated statistical information</a> is available for all collected traffic traces.
+Metadata for each trace include: the monitor that captured the trace, year and
+month of collection, start and stop time of trace (UTC), graphical display of
+the trace composition by protocol, application and country, numbers of IPv4 and
+IPv6 packets, transmission rate (in packets per second and in bits per second),
+link load (as fraction of the nominal maximum load), average packet size (in 
+bytes), and a graph of the packet size distribution.
+</p>
+<h3>
+<a name="one-way_collection" id="one-way_collection">One-way traffic collection</a>
+</h3>
+<p class="indent">
+
+
+<a href="/projects/network_telescope/">The UCSD Network Telescope</a>
+is a passive traffic monitoring system built on a globally routed, but lightly
+utilized /8 network. It continously collects unsolicited one-way traffic
+arising from various security-related events, such as scanning of address 
+space by hackers looking for vulnerable targets, backscatter from 
+denial-of-service attacks using random spoofed source addresses, the automated
+spread of worms and viruses, and misconfigurations (e.g., mistyping an IP address). 
+CAIDA personnel maintain and evolve the telescope instrumentation to support
+collection, curation, archiving, and analysis of the data, as well as sharing
+the data access with vetted security researchers.  
+</p>
+<hr>
+<h2>
+<a name="Publications" id="Publications">Publications</a>
+</h2>
+<p>
+  
+Publications regarding traffic analysis can be found under the Measurement Methodology category, but not all listed papers pertain specifically to traffic analysis.
+</p><ul>
+<li>
+<a href="/publications/papers/byKeyword/18.xml">Papers - Measurement Methodology</a>
+</li>
+<li>
+<a href="/publications/papers/byKeyword/11.xml">Papers - Caching</a>
+</li>
+<li>
+<a href="/publications/presentations/bytopic/index.xml#measurement%20methodology">Presentations</a>
+</li>
+</ul>
+
+
+
+<hr>
+<h2>
+<a name="Previous" id="Previous">Previous Research</a>
+</h2>
+<p class="indent">
+
+
+</p>
+<h3 class="headerlink">
+<a href="asymmetry/" name="asymmetry" id="asymmetry">Routing Asymmetry (2010)</a>
+</h3>
+<p class="indent">
+  
+Many people assumed routing symmetry in traffic on Internet links, that is, they
+assumed that they would see both directions of a conversation flow across the same 
+physical link. In fact, except at network edges, there exists in Internet 
+traffic a <a href="asymmetry/">routing asymmetry</a> which, if
+ignored, would impair or invalidate the results of tools and models. 
+</p>
+<h3 class="headerlink">
+<a href="classification-overview" name="traffic_paper_taxonomy" id="traffic_paper_taxonomy">Taxonomy of Internet traffic classification 
+papers (1994-2009)</a>
+</h3>
+<p class="indent">
+  
+Internet traffic classification papers tend to try to work with whatever traffic
+samples a researcher can find, with no systematic integration of results. To 
+fill this gap, we created a 
+<a href="classification-overview/">structured taxonomy of traffic classification papers</a> published from 1994 to 2009. Our taxonomy
+summarizes the relevant attributes from these papers, including data sets and
+methods used, goals, and basic empirical findings.
+</p>
+<h3 class="headerlink">
+<a href="tcpudpratio/" name="tcp-udp-ratio" id="tcp-udp-ratio">Analyzing UDP usage in Internet traffic (2009)</a>
+</h3>
+<p class="indent">
+  
+Although it was still an accepted assumption that most Internet traffic was
+transmitted via the TCP protocol, we expected the rise of new streaming 
+applications and new P2P protocols to increase the usage of UDP as a transport
+protocol. Performing an <a href="tcpudpratio/">analysis on UDP usage in Internet traffic</a>, we found that most UDP flows used random high ports
+and carried few packets with little content, consistent with its use as a
+signaling protocol for increasingly popular P2P applications. 
+</p>
+<h3 class="headerlink">
+<a href="/publications/papers/2008/classification_demystified/" name="traffic_classification_pub" id="traffic_classification_pub">Traffic 
+classification methods (2008)</a>
+</h3>
+<p class="indent">
+  
+Using seven traces with payload collected in Japan, Korea, and US, we conducted
+a thorough evaluation of three approaches to traffic classification: based on
+transport layer ports, host behavior, and flow features. The diverse geographic
+locations, link characteristics and application mix in these data allowed us to
+compare the approaches under a wide variety of conditions. 
+In the paper <a href="/publications/papers/2008/classification_demystified/">Internet Traffic Classification Demystified: Myths, Caveats, and the Best Practices</a> we analyzed the 
+advantages and limitations of each approach, evaluated methods to overcome the
+limitations, and extracted insights and recommendations for both the research
+and practical applications of various traffic classification methods. Our 
+software, classifiers, and data are available to researchers interested in
+validating or extending this work.
+</p>
+<h3 class="headerlink">
+<a href="pkt_size_distribution/graphs.xml" name="packet_size_distribution" id="packet_size_distribution">Packet Size Distribution 
+Comparison between Internet Links in 1998 and 2008</a>
+</h3>
+<p class="indent">
+  
+To elucidate long-term evolutionary changes in the characteristics of the
+Internet traffic, we analyzed and compared the 
+<a href="pkt_size_distribution/graphs.xml">distributions of packet sizes</a> observed at various network links in 1998 and in 2008.
+</p>
+<div style="width:200px;" class="sidebox dropshadow float-right">
+  
+<a href="arin-heatmaps/"><img src="arin-heatmaps/map.eqchi04-2008-iptraffic-cidr24-label-resize.jpg" width="200">Measuring the use of IPv4 address space utilization</a>
+
+</div>
+<h3 class="headerlink">
+<a href="arin-heatmaps/" name="arin-heatmaps" id="arin-heatmaps">Measuring the use of IPv4 address space utilization (2008)</a>
+</h3>
+<p class="indent">
+  
+To visualize and measure the use of <a href="arin-heatmaps/">IPv4 Internet address space as observed in traffic</a> from a few core (OC192)
+U.S. backbone samples, we created heatmaps that used intensity of color (heat)
+to show the use of addresses belonging to the same network. 
+</p>
+<h3 class="headerlink">
+<a href="/publications/papers/2005/fingerprinting/" name="fingerprinting" id="fingerprinting"> Remote physical device fingerprinting (2005)</a>
+</h3>
+<p class="indent">
+  
+In the paper <a href="/publications/papers/2005/fingerprinting/">Remote physical device fingerprinting</a> we introduced the area of 
+fingerprinting a physical device, as opposed to an operating system or class of
+devices, remotely, and without the fingerprinted device's known cooperation. We
+accomplished this goal by exploiting small, microscopic deviations in device 
+hardware: clock skews. Our techniques reported consistent measurements when the
+measurer is thousands of miles, multiple hops, and tens of milliseconds away 
+from the fingerprinted device, and when the fingerprinted device was connected
+to the Internet from different locations and via different access technologies.
+Further, one can apply our passive and semi-passive techniques when the 
+fingerprinted device is behind a NAT or firewall, and also when the device's 
+system time is maintained via NTP or SNTP. One can use our techniques to obtain
+information about whether two devices on the Internet, possibly shifted in time
+or IP addresses, are actually the same physical device. Example applications 
+include: computer forensics; tracking, with some probability, a physical device
+as it connects to the Internet from different public access points; counting 
+the number of devices behind a NAT even when the devices use constant or random
+IP IDs; remotely probing a block of addresses to determine if the addresses 
+correspond to virtual hosts, e.g., as part of a virtual honeynet; and 
+unanonymizing anonymized network traces.
+</p>
+<h3 class="headerlink">
+<a href="/publications/papers/2005/pam-spectroscopy/" name="pam-spectroscopy" id="pam-spectroscopy"> Spectroscopy of traceroute delays (2005)</a>
+</h3>
+<p class="indent">
+  
+In the paper <a href="/publications/papers/2005/pam-spectroscopy/">Spectroscopy of Traceroute Delays</a>, we analyzed delays of traceroute
+probes, i.e. packets that elicited ICMP TimeExceeded messages, for a full range
+of probe sizes up to 9000 bytes as observed on unloaded high-end routers. Our
+motivation was to use traceroute RTTs for mapping of router and ISP 
+Point-of-Presence nodes, including potentially gleaning information on equipment
+models, link technologies, capacities, latencies, and spatial positions. To our
+knowledge it was the first study examining the detailed statistics of ICMP 
+response generation in a reliable testbed setting. We found that ICMP delays 
+were not a linear function of packet size and that ICMP generation rate was not
+equal to the capacity of the interface on which probes were received. The primary
+causes of these violations appeared to be internal segmentation of packets into
+cells and limiting of ICMP packet rates and bit rates inside a router. 
+
+Our findings suggested possibilities of developing new techniques for bandwidth
+estimation and router fingerprinting. 
+</p>
+</div>
+</div>
+<div id="footer">
+<div style="text-align:center">
+<a href="http://www.caida.org/">Cooperative Association for Internet Data Analysis</a>
+       |   Based at the <a href="http://www.sdsc.edu/">University of California's San Diego Supercomputer Center</a>
+</div>
+<div style="position:absolute; bottom:0.5em; right:1em;" class="noprint" id="privacynotice">
+<a href="/home/legal/privacy/">Privacy</a>
+</div>
+</div>
+<div id="pageinfo">
+       Last Modified: Mon Jul-15-2013 14:0:14 PDT<br>
+<div class="printonly">  Page URL: http://www.caida.org/research/traffic-analysis/index.xml</div>
+</div>
+</div>
+</body></html>

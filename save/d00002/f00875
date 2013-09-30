@@ -1,0 +1,50 @@
+#!/bin/bash -e
+
+VERBOSE=1
+LOCAL_V6_ADDR='::1/64'
+
+TUNNEL_IF='sit0'
+RELAY='192.88.99.1'
+
+case "$1" in
+    start)
+	if [ -z "$LOCAL4" ]; then
+	    if [ -z "$LOCAL_IF" ]; then
+	 	LOCAL_IF=$(ip -o route show \
+			|sed -nre '/^default /s/^default .*dev ([^ ]+).*/\1/p')
+	    fi
+	    LOCAL4=$(ip -o addr show $LOCAL_IF | grep ' inet ' \
+		    | grep -v ' secondary ' | head -n 1 \
+	    	    | sed -e 's/.*inet \([^ ]*\) .*/\1/' -e 's/\/.*//')
+	    if [ -z "$LOCAL4" ]; then
+		echo "Cannot find the IP address assigned to $LOCAL_IF"
+		exit 1
+	     fi
+	fi
+	
+	SUBNET=$(printf "%x%02x:%x%02x" $(echo $LOCAL4 | sed -e 's/\./ /g'))
+	LOCAL6NET="2002:${SUBNET}"
+	LOCAL6="${LOCAL6NET}${LOCAL_V6_ADDR}"
+
+	if [ "$VERBOSE" ]; then
+	    echo "Local v4 address: $LOCAL4"
+	    echo "Local v6 address: $LOCAL6"
+	    echo "6to4 relay address: $RELAY"
+	fi
+
+	ip link  set $TUNNEL_IF  up
+	ip addr  add $LOCAL6  dev $TUNNEL_IF
+	ip route add 2000::/3  via ::$RELAY
+	ip route add $LOCAL6NET  dev lo 2> /dev/null || true
+	;;
+    stop)
+	ip link  set $TUNNEL_IF  down
+	;;
+    *)
+	echo "Usage: $0 {start|stop}"
+	exit 1
+	;;
+esac
+
+exit 0
+

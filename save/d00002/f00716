@@ -1,0 +1,132 @@
+<!-- MHonArc v2.6.16 -->
+<!--X-Subject: (usagi&#45;users 04085) Re: mip6d portability issues -->
+<!--X-From-R13: Xbmfrs Ybinpf <wbmfrs.xbinpfNuhjvpb.uh> -->
+<!--X-Date: Sun, 16 Nov 2008 01:11:43 +0900 -->
+<!--X-Message-Id: 491EF4A6.2020601@huwico.hu -->
+<!--X-Content-Type: text/plain -->
+<!--X-Reference: 491397C4.7090808@huwico.hu -->
+<!--X-Reference: 479D68F2&#45;42D2&#45;4EEC&#45;9C79&#45;D5EE054BA47B@lsiit.u&#45;strasbg.fr -->
+<!--X-Head-End-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML//EN">
+<HTML>
+<HEAD>
+<TITLE>(usagi-users 04085) Re: mip6d portability issues</TITLE>
+</HEAD>
+<BODY>
+<!--X-Body-Begin-->
+<!--X-User-Header-->
+<!--X-User-Header-End-->
+<!--X-TopPNI-->
+<hr>
+[<a href="msg04080.html">Date Prev</a>][<a href="msg04082.html">Date Next</a>][<a href="msg04079.html">Thread Prev</a>][<a href="msg04082.html">Thread Next</a>][<a href="index.html#04081">Date Index</a>][<a href="thrd41.html#04081">Thread Index</a>]
+<!--X-TopPNI-End-->
+<!--X-MsgBody-->
+<!--X-Subject-Header-Begin-->
+<h1>(usagi-users 04085) Re: mip6d portability issues</h1>
+<hr>
+<!--X-Subject-Header-End-->
+<!--X-Head-of-Message-->
+<ul>
+<li><em>To</em>: usagi-users@xxxxxxxxxxxxxxxxx</li>
+<li><em>Subject</em>: (usagi-users 04085) Re: mip6d portability issues</li>
+<li><em>From</em>: Jozsef Kovacs &lt;jozsef.kovacs@xxxxxxxxx&gt;</li>
+<li><em>Date</em>: Sat, 15 Nov 2008 17:11:18 +0100</li>
+<li><em>In-reply-to</em>: &lt;479D68F2-42D2-4EEC-9C79-D5EE054BA47B@xxxxxxxxxxxxxxxxxx&gt;</li>
+<li><em>References</em>: &lt;491397C4.7090808@xxxxxxxxx&gt; &lt;479D68F2-42D2-4EEC-9C79-D5EE054BA47B@xxxxxxxxxxxxxxxxxx&gt;</li>
+<li><em>Reply-to</em>: usagi-users@xxxxxxxxxxxxxxxxx</li>
+<li><em>User-agent</em>: Thunderbird 2.0.0.17 (Windows/20080914)</li>
+</ul>
+<!--X-Head-of-Message-End-->
+<!--X-Head-Body-Sep-Begin-->
+<hr>
+<!--X-Head-Body-Sep-End-->
+<!--X-Body-of-Message-->
+<pre style="margin: 0em;">
+Hi Romain,
+
+</pre><tt>I simply replaced the sizeof part to a predefined size. It's ugly, but I 
+</tt><tt>didn't want to modify the headers as they are part of *libc and not 
+</tt><tt>mip6d. None of the structs in netinet/* are packed. I think the correct 
+</tt><tt>fix would be to stop checking data taken from the network against struct 
+</tt><tt>sizes assuming they will have the correct size.
+</tt><pre style="margin: 0em;">
+
+Regards,
+Jozsef
+Romain KUNTZ wrote:
+</pre><blockquote style="border-left: #5555EE solid 0.2em; margin: 0em; padding-left: 0.85em"><pre style="margin: 0em;">
+Hi Jozsef,
+
+On 2008/11/07, at 2:20, Jozsef Kovacs wrote:
+</pre><blockquote style="border-left: #5555EE solid 0.2em; margin: 0em; padding-left: 0.85em"><tt>nd_opt_hdr is not a packed struct (defined in netinet/icmp6.h) and 
+</tt><tt>it's not guaranteed that the length of the struct (two uint8_t 
+</tt><tt>fields) will be 2 bytes on every architecture, thereby dropping a 
+</tt><tt>completely valid RA packet. In my case on an arm device the size of 
+</tt><tt>the struct was 4bytes.
+</tt></blockquote><pre style="margin: 0em;">
+
+</pre><tt>We think this is a header file bug: structures should be packed in 
+</tt><tt>order to avoid such issues. We will investigate that on our side in 
+</tt><tt>order to check if a change in the header file is possible. That would 
+</tt><tt>avoid to implement workarounds in the userland code.
+</tt><pre style="margin: 0em;">
+
+</pre><blockquote style="border-left: #5555EE solid 0.2em; margin: 0em; padding-left: 0.85em"><tt>By fixing this the daemon worked correctly, but there still might be 
+</tt><tt>some hidden bugs caused by sizeof(struct) checks.
+</tt></blockquote><pre style="margin: 0em;">
+
+</pre><tt>Do you mean that you have just added a &quot;packed&quot; attribute to the 
+</tt><tt>structure in the header file? Or modified the userland code? Please 
+</tt><tt>send us a patch of your fix if you don't mind.
+</tt><pre style="margin: 0em;">
+
+Regards,
+</pre></blockquote><pre style="margin: 0em;">
+
+</pre>
+<!--X-Body-of-Message-End-->
+<!--X-MsgBody-End-->
+<!--X-Follow-Ups-->
+<hr>
+<ul><li><strong>Follow-Ups</strong>:
+<ul>
+<li><strong><a name="04082" href="msg04082.html">(usagi-users 04086) Re: mip6d portability issues</a></strong>
+<ul><li><em>From:</em> Romain KUNTZ</li></ul></li>
+</ul></li></ul>
+<!--X-Follow-Ups-End-->
+<!--X-References-->
+<ul><li><strong>References</strong>:
+<ul>
+<li><strong><a name="04078" href="msg04078.html">(usagi-users 04082) mip6d portability issues</a></strong>
+<ul><li><em>From:</em> Jozsef Kovacs</li></ul></li>
+<li><strong><a name="04079" href="msg04079.html">(usagi-users 04083) Re: mip6d portability issues</a></strong>
+<ul><li><em>From:</em> Romain KUNTZ</li></ul></li>
+</ul></li></ul>
+<!--X-References-End-->
+<!--X-BotPNI-->
+<ul>
+<li>Prev by Date:
+<strong><a href="msg04080.html">(usagi-users 04084) UMIP website</a></strong>
+</li>
+<li>Next by Date:
+<strong><a href="msg04082.html">(usagi-users 04086) Re: mip6d portability issues</a></strong>
+</li>
+<li>Previous by thread:
+<strong><a href="msg04079.html">(usagi-users 04083) Re: mip6d portability issues</a></strong>
+</li>
+<li>Next by thread:
+<strong><a href="msg04082.html">(usagi-users 04086) Re: mip6d portability issues</a></strong>
+</li>
+<li>Index(es):
+<ul>
+<li><a href="index.html#04081"><strong>Date</strong></a></li>
+<li><a href="thrd41.html#04081"><strong>Thread</strong></a></li>
+</ul>
+</li>
+</ul>
+
+<!--X-BotPNI-End-->
+<!--X-User-Footer-->
+<!--X-User-Footer-End-->
+</body>
+</html>

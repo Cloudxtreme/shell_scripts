@@ -1,0 +1,1764 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>The Tally Ho!</title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-type" content="text/html;charset=iso-8859-1" />
+</head>
+<body>
+
+<div class="news">
+<div class="pagetitle">The Tally Ho!</div>
+<br/>
+
+<!-- Netgear ReadyNAS 102 - Hardware specs, initial work on mainline kernel support -->
+<br/>
+<div class="npt"><font class="npd">May 27 2013 / 22:30 CEST
+    / </font>Netgear ReadyNAS 102 as grsec-enabled server</div> 
+
+<p> After spending some time on <a href="../NAS/index.html">adding
+    support for NETGEAR ReadyNAS Duo v2 in mainline kernel and
+    documenting how to make a small Debian-based server out of it</a>,
+    I decided to get a NETGEAR ReadyNAS 102 and spend some time on
+    it. </p>
+
+<p>This recently released model is a an update of the Duo v2 and is
+    for that reason very similar on many aspects. But what is interesting 
+    with the RN102 is the switch from an 1.6GHz ARMv5TE-based SoC
+    (Marvell Kirkwood 88F6282) to a 1.2GHz ARMv7-based SoC (Marvell
+    Armada 370). This means the processor has support for NX, which
+    makes the platform a perfect low-power (&lt; 10W) low-cost (got
+    mine for 140&euro;) target for a grsec-enabled server. </p>
+
+<p> For those interested, I dedicated <a href="../NAS2/index.html">a
+  page about hardware specs, progress on adding support for the
+  platform in mainline kernel, debian installl and more.</a> </p>
+
+<!-- Netgear ReadyNAS Duo v2 support now in mainline kernel -->
+<br/>
+<div class="npt"><font class="npd">May 27 2013 / 21:52 CEST
+    / </font>Netgear ReadyNAS Duo v2 support now in mainline kernel </div> 
+
+<p> My patches
+  for <a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=f236f5aabe8ebd7824590ae82d701402ead237e7">Netgear ReadyNAS Duo v2 support is now sitting
+  upstream in linus repo</a>. It will be available in 3.10 kernel which should be
+  released in few weeks from now (at the moment, 3.10-rc3 is available on
+  kernel.org if you want to test). </p>
+
+<p> The only missing bit of support is the GMT G762 PWM fan
+  controller, which controls the fan rotation speed. I am
+  <a href="http://thread.gmane.org/gmane.linux.ports.arm.kernel/232229">currently
+  working on pushing a driver for the G762 upstream</a>. Once done, it
+  will be available for the Duo v2 and other NAS which rely on it
+  (.e.g. LaCie ones). </p>
+
+<!-- Netgear ReadyNAS Duo v2 - Hardware specs, mainline kernel (3.8) and Debian install -->
+<br/>
+<div class="npt"><font class="npd">Mar 14 2013 / 22:32 CET
+    / </font>Netgear ReadyNAS Duo v2</div> 
+
+<p> I spent some time on a 100&euro; NAS I recently bought (Netgear
+    ReadyNAS Duo v2) to make it run mainline kernel and current Debian
+    sid. This 2-bay device is powered by a 1.6GHz Marvell Kirkwood
+    88F6282 (ARMv5TE) SoC and comes w/ 256MB of RAM, a Gbit ethernet
+    port and 2 USB 3.0 ports. Performance-wise, with two 3To WD30EFRX
+    disks and no specific optimization, you get 100MB/s for a file
+    served by an Apache from and ext4 over LVM over RAID1
+    partition. Obviously, I will push kernel patches upstream soon.</p>
+
+<p> For those interested, I dedicated <a href="../NAS/index.html">a
+  page about hardware specs, kernel stuff, debian install and
+  more.</a> </p>  
+
+<!-- English translation of SSTIC Challenge solution -->
+<br/>
+<div class="npt"><font class="npd">Nov  25 2010 / 21:41 CEST
+    / </font>English translation of SSTIC Challenge Solution</div> 
+
+<p> I wrote an <a href="http://static.sstic.org/challenge2010/ebalard_en.pdf">english
+    translation of my solution to SSTIC 2010 Challenge</a>. 
+
+<!-- LAN-GTJ/U2A USB 2.0 to Gigabit Ethernet adapter on Linux -->
+<br/>
+<div class="npt"><font class="npd">Nov  23 2010 / 21:39 CEST
+    / </font>LAN-GTJ/U2A USB 2.0 to Gigabit Ethernet adapter
+    on Linux</div> 
+
+<p><a href="http://my.geekstory.net/">Guillaume</a> was kind enough
+  to bring me back from Japan
+  a <a href="http://www.pro.logitec.co.jp/pro/g/gLAN-GTJU2A/">Logitec
+  LAN-GTJ/U2A USB Gigabit Ethernet adapter</a>. </p>
+
+<pre>
+$ sudo lsusb -vvv
+Bus 002 Device 003: ID 0789:0160 Logitec Corp. 
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               <span><font color="red">2.00</font></span>
+  bDeviceClass          255 Vendor Specific Class
+  bDeviceSubClass       255 Vendor Specific Subclass
+  bDeviceProtocol         0 
+  bMaxPacketSize0        64
+  idVendor           0x0789 Logitec Corp.
+  idProduct          0x0160 
+  bcdDevice            0.01
+  iManufacturer           1 <span><font color="red">Logitec Corp.</font></span>   
+  iProduct                2 <span><font color="red">GTJU2A</font></span>
+  iSerial                 3 070306
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength           39
+    bNumInterfaces          1
+    bConfigurationValue     1
+    iConfiguration          4 0
+    bmAttributes         0x80
+      (Bus Powered)
+    MaxPower              450mA
+    Interface Descriptor:
+...
+</pre>
+
+<p> Even if drivers are not yet available in the Linux kernel and the
+  manufacturer (Logitec) does not provide Linux drivers for the
+  device, this is not really an issue: the GTJ/U2A is mainly a shell
+  for an <a href="http://www.asix.com.tw/products.php?op=pItemdetail&amp;PItemID=84">ASIX AX88178</a> (USB2.0 to 10/100/1000M Gigabit Ethernet
+  Controller). And Asix provides Linux drivers for all kernel versions
+  since 2.6.14. They are
+  available <a href="http://www.asix.com.tw/download.php?sub=driverdetail&amp;PItemID=84">on
+  the AX88178 Drivers page</a>. Current version of Linux driver
+  is <a href="http://www.asix.com.tw/FrootAttach/driver/AX88772B_772A_760_772_178_LINUX2.6.35_Driver_v3.5.0_Source.tar.bz2">v3.5.0</a>.</p>
+
+<p>The driver compiles and loads perfectly in current kernel (2.6.36)
+  but the device is not recognized once plugged. This is because the
+  USB vendor (0x0789) and product (0x0160) identifiers are not
+  referenced in the code. The patch below corrects that:</p>
+
+<pre>
+--- asix.c      2010-09-15 10:49:20.000000000 +0200
++++ asix_gtju2a.c       2010-11-23 21:34:52.000000000 +0100
+@@ -767,7 +767,6 @@
+ static int ax8817x_ioctl (struct net_device *net, struct ifreq *rq, int cmd)
+ {
+        struct usbnet *dev = netdev_priv(net);
+-printk ("ax8817x_ioctl\n");
+        return generic_mii_ioctl(&amp;dev-&gt;mii, if_mii(rq), cmd, NULL);
+ }
+ 
+@@ -3275,6 +3274,10 @@
+        USB_DEVICE (0x0b95, 0x1780),
+        .driver_info =  (unsigned long) &amp;ax88178_info,
+ }, {
++       // Logitec LAN-GTJ/U2A
++       USB_DEVICE (0x0789, 0x0160),
++       .driver_info =  (unsigned long) &amp;ax88178_info,
++}, {
+        // 88178 for billianton linksys
+        USB_DEVICE (0x077b, 0x2226),
+        .driver_info =  (unsigned long) &amp;ax88178_info,
+</pre>
+
+<p>Once applied, compiled and installed as described below ...</p>
+
+<pre>
+$ tar xjvf AX88772B_772A_760_772_178_LINUX2.6.35_Driver_v3.5.0_Source.tar.bz2
+asix.c
+asix.h
+Makefile
+readme
+
+$ patch -i previous.patch
+$ make
+make -C /lib/modules/2.6.36/build SUBDIRS=/tmp modules
+make[1]: Entering directory `/usr/src/linux-2.6.36'
+  CC [M]  /tmp/asix.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/asix.mod.o
+  LD [M]  /tmp/asix.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.36'
+
+$ sudo make install
+su -c "cp -v asix.ko /lib/modules/2.6.36/kernel/drivers/net/usb &amp;&amp; /sbin/depmod -a"
+`asix.ko' -&gt; `/lib/modules/2.6.36/kernel/drivers/net/usb/asix.ko'
+</pre>
+
+<p>... here is what the device is capable of:</p>
+
+<pre>
+$ sudo mii-tool eth1
+eth1: negotiated <span><font color="red">1000baseT-FD</font></span> flow-control, link ok
+
+$ time dd if=/dev/zero bs=1G count=10 | nc -u 192.168.0.1 1234
+10+0 records in
+10+0 records out
+10737418240 bytes (11 GB) copied, 352.199 s, <span><font color="red">30.5 MB/s</font></span>
+</pre>
+
+<!-- Update of umip, racoon-umip, ipsec-tools-umip, m6ts, and m6tc packages -->
+<br/>
+<div class="npt"><font class="npd">Sep  19 2010 / 17:56 CEST / </font>New umip, racoon-umip, m6tc and m6ts packages available</div>
+
+<p> I have just uploaded new versions of MIPv6-related Debian packages
+  on <a href="http://umip.org/debian/">umip.org repository</a> (note:
+  <a href="http://natisbad.org/debian-umip/">the mirror on
+  natisbad.org</a> is an identical copy): <b>umip</b>, <b>racoon-umip</b>,
+ <b>ipsec-tools-umip</b> and the <font color="red">newly added</font> <b>m6ts</b>
+ and <b>m6tc</b> packages.</p>
+
+<!-- m6t screencast -->
+<br/>
+<div class="npt"><font class="npd">Sep  5 2010 / 14:18 CEST / </font>m6t screencast</div>
+
+<p> If you want to see <b>m6t</b> in action, there is now
+  a <a href="../m6t/m6t_screencast.avi">commented screencast</a> 
+  (16MB, 1280x800, XviD/MP3) on <a href="../m6t/index.html"><b>m6t</b> page</a>.</p>
+
+<!-- m6t published -->
+<br/>
+<div class="npt"><font class="npd">Sep  1 2010 / 17:54 CEST / </font>m6t</div>
+
+<p> MIPv6 <font color="red"><b>did not</b></font> work from IPv4 only
+  networks: nothing was initially provisioned in the specification to
+  support movement of MN to IPv4-only networks. An official solution
+  (<a href="http://tools.ietf.org/hmtl/rfc5555">DSMIPv6</a>) has been
+  developed to address that issue. It requires IPv4/NAT-awareness by
+  the MIPv6 module, IKE module and IPsec stack. It is complex and
+  monolithic (not modular). </p>
+
+<p> I wrote a short draft (current version has 13 pages) to support
+  <a href="http://tools.ietf.org/html/draft-ebalard-mext-m6t">"MIPv6
+  from IPv4-only networks"</a>. The protocol is called <b>m6t</b>.</p>
+
+<p> For test purpose, I also developed a (proof of concept)
+  implementation (GPLv2 license) of the protocol (client and tunnel
+  GW) for Linux. Code (tarball and debian packages) and documentation
+  (how it works, comparison w/ DSMIPv6 and Teredo, ...) are available
+  on the new <a href="../m6t/index.html"><b>m6t</b> page</a>. </p>  
+
+<p> <b>It interoperates transparently and out of the box with unmodified
+versions of <a href="http://umip.org">UMIP</a></b>. If you intend to have
+  multiple IPv4 interfaces up and running at the same time, you may
+  be interested by previous entry below,
+  i.e. <a href="../dyn-net/index.html">Dynamic IPv4 network
+    configuration on Linux</a></p>
+
+<!-- Dynamic network configuration on Linux -->
+<br/><div class="npt"><font class="npd">Sep  1 2010 / 17:29 CEST / </font>
+ Dynamic IPv4 network configuration on Linux </div>
+
+<p> My laptop has always at least 2 interfaces up and running
+  simultaneously. When IPv6 is available, this is fine
+  because <a href="http://umip.org">UMIP</a> handles that by using the 
+  most efficient interface. But supporting dynamic IPv4 configuration
+  for multiple interfaces (changing wifi networks, multiple interfaces
+  up at the same time, multiple default routes, ...) require some
+  configuration. I wrote a page describing what I now use,
+  i.e. about <a href="../dyn-net/index.html">Dynamic network
+  configuration on Linux</a>. If you have better solutions (not
+  involving NetworkManager), don't hesitate to drop me an email.
+</p>
+
+<!-- 2.6.34 MIPv6 regression -->
+<br/><div class="npt"><font class="npd">Jul 13 2010 / 20:10 CEST / </font>
+ MIPv6 regression in 2.6.34 and 2.6.34.1 kernels </div>
+
+<p> While upgrading my MIPv6 Mobile Node (my main laptop) to latest
+  kernel (2.6.34), I noticed a regression which breaks MIPv6
+  supports. The regression was introduced by commit f4f914b5
+  (net: ipv6 bind to device issue) after 2.6.34-rc5. </p>
+
+<p> Once <a href="http://thread.gmane.org/gmane.linux.network/162165">reported
+  on netdev</a>, a fix was proposed by Brian Haley, and then applied by David
+  Miller to his net-2.6 tree. It is now sitting in Linus tree (commit
+  6057fd78: IPv6: fix Mobile IPv6 regression).</p>
+
+<p> The fix has also been pushed to the stable team. It did not make
+  it for 2.6.34.1 (i.e. that version has the regression) but will be
+  in 2.6.34.2. If you need the patch for your 2.6.34 or 2.6.34.1, the
+  commit in Linus tree (6057fd78) will apply fine and fix the
+  regression.</p>  
+
+<!-- IRO, RH2, HAO -->
+<br/><div class="npt"><font class="npd">Jun 18 2010 / 23:57 CEST / </font>
+ Removal of RH2 and HAO from MIPv6 traffic </div>
+
+<p> MIPv6 signaling traffic uses Home Address Option (carried in a
+    Destination Option Header) and Type 2 Routing Header. Those
+    elements found in BU and BA packets carry the HoA of the MN in an
+    explicit fashion. But they are in fact useless and can be
+    removed (at least when IPsec is used). </p>
+
+<p> If you are interested by the details, I have just dedicated
+    a page to the topic <a href="../IRO/index.html">here</a>. </p>
+
+<!-- Challenge SSTIC Android ZIP crypto Pohlig Hellman ? -->
+<br/><div class="npt"><font class="npd">Jun 14 2010 / 21:29 CEST / </font>
+ Solution of SSTIC 2010 Challenge </div>
+
+<p> <a href="../slides/sstic2010_challenge_solution.pdf">My solution
+    to SSTIC 2010 Challenge</a> (in french) is
+    available <a href="http://communaute.sstic.org/ChallengeSSTIC2010">on
+    the challenge's page</a>. I encourage the interested reader to
+    take a look at the other documents published on the site. Among
+    others: </p>
+  
+<ul>
+  <li> Phil's one for the most elegant brute-force method (IMHO) </li>
+  <li> JB and Gabriel's one for the most efficient crypto solution </li>
+  <li> Florian's one for an impressive application extraction method.</li>
+</ul>
+
+<p> Mathieu also posted an interesting solution <a href="http://pentester.fr/blog/index.php?post/2010/06/03/Challenge-SSTIC-2010-in-a-nutshell">here</a>. </p>
+
+<!-- Current linux-omoap kernel on Nokia N900? -->
+<br/><div class="npt"><font class="npd">Apr 18 2010 / 21:19 CEST / </font>
+ Current linux-omap kernel on Nokia N900? </div>
+
+<p> I started looking
+  at <a href="../N900/n900-current-linux-omap-kernel.html">what is
+  needed to get current linux-omap kernel running on Nokia N900</a>. This
+  is a work in progress; do not expect much yet but do not hesitate to
+  tell if you can help! </p>
+
+<!-- 2.6.28.10 grsec on Nokia N900 -->
+<br/><div class="npt"><font class="npd">Mar  7 2010 / 14:20 CET / </font>
+ grsecurity-patched 2.6.28.10-omap1 kernel on Nokia N900 </div>
+
+<p> I added an entry on
+  the <a href="../N900/n900-custom-kernel.html">N900 custom kernel  
+  page</a> describing how to build and install a
+  2.6.28.10-omap1-<font color="red">grsec</font> kernel on your
+  N900: </p>
+
+<pre>
+oslo:~# uname -a
+Linux oslo 2.6.28.10-omap1-grsec #1 PREEMPT Sun Mar 7 01:20:47 CET 2010 armv7l
+</pre>
+
+<p> Nothing complicated, but at least it is kind of documented now.
+</p>
+
+<!-- 2.6.28.10 on Nokia N900 -->
+<br/><div class="npt"><font class="npd">Mar  6 2010 / 23:19 CET / </font>
+ 2.6.28.10-omap1 kernel on Nokia N900 </div>
+
+<p> The <a href="../N900/n900-custom-kernel.html">N900 custom kernel
+  page</a> now contains an entry describing how to build and install
+  2.6.28.<font color="red">10</font>-omap1 kernel on your N900.
+</p>
+
+<!-- N900 repository -->
+<br/><div class="npt"><font class="npd">Mar  5 2010 / 23:00 CET / </font>
+ N900 repository </div>
+
+<p> I have set up <a href="../debian-n900/">a N900 repository</a>. It
+  is currently populated
+  with <a href="../N900/n900-apps-emacs-23.1.93.html">emacs
+  23.1.93</a>, <a href="../N900/n900-apps-umip.html">umip</a>  and
+  racoon-umip. If you want to give it a try, you can either
+  use <a href="../debian-n900/natisbad.org.install">this link</a> or 
+  add the repository manually (Application manager &gt; Application
+  catalogs &gt; New) using following parameters: </p> 
+
+<ul>
+<li> Name: <b> natisbad.org </b> </li>
+<li> Web Address: <b> http://natisbad.org/debian-n900</b> </li>
+<li> Distribution: <b> fremantle </b> </li>
+<li> Components: <b> main </b> </li>
+</ul>
+
+<p> If you want to pass it to <b>apt-key</b>, the repository key
+  is <a href="../debian-n900/n900-debian-repo.key">here</a> with its
+  <a href="../debian-n900/n900-debian-repo.key.sig">signature</a>: </p> 
+
+<pre>
+n900# wget -q http://natisbad.org/debian-n900/n900-debian-repo.key
+n900# wget -q http://natisbad.org/debian-n900/n900-debian-repo.key.sig
+n900# gpg --verify n900-debian-repo.key.sig
+gpg: Signature made Wed 03 Mar 2010 10:57:03 AM CET using RSA key ID A7AE341B
+gpg: Good signature from "Arnaud Ebalard &lt;arno@natisbad.org&gt;"
+n900# apt-key add n900-debian-repo.key
+OK
+</pre>
+
+<!-- Emacs 23.1.93 on N900 -->
+<br/><div class="npt"><font class="npd">Feb 28 2010 / 17:38 CET / </font>
+ Emacs 23.1.93 on N900 </div>
+
+<p> I finally found some time to spend on building and packaging the
+  latest version of Emacs (23.1.93) for the N900.</p> 
+
+<p>I had previously written about doing things properly for Emacs 22.2
+  (<a href="../N900/apps-n900-emacs-22.2.html">here</a>) but had some
+  qemu issues while doing the same for Emacs 23.1. </p>
+
+<p> I gave Emacs 23.1.93 a try and things worked flawlessly. More
+  details are available <a href="../N900/apps-n900-emacs-23.1.93.html">here</a>.</p>
+
+<!-- Bug#485963: fixed in apt 0.7.25.1 -->
+<br/><div class="npt"><font class="npd">Feb 27 2010 / 15:45 CET / </font>
+ Bug#485963: fixed in apt 0.7.25.1 </div>
+
+<p> A few weeks ago, I received an email from Debian Bug Tracking
+  System indicating that Bug#485963 had been fixed in apt 0.7.25.1:</p>
+
+<pre>
+This is an automatic notification regarding your Bug report
+which was filed against the apt package:
+
+#485963: APT https method has no option for checking CRL
+
+It has been closed by Michael Vogt &lt;mvo@debian.org&gt;.
+</pre>
+
+<p>If you are running an up-to-date Debian unstable and use
+  apt-transport-https (additional modules for apt which provides the
+  ability to connect to https mirrors) you might be interested by the
+  following. </p>
+
+<p> In June 2009, I submitted patches
+    for <a href="http://permalink.gmane.org/gmane.linux.debian.apt.devel/14771">APT 
+    https method improvements</a></p> 
+<ul>
+  <li> Support for Client Authentication</li>
+  <li> Support for CRL and Issuer check</li>
+  <li> Associated documentation</li>
+</ul>
+
+<p> Client Authentication patch has been merged upstream shortly after
+  submission.</p>
+
+<p> The CRL and Issuer check patch was made possible by patches
+  developed by  Axel and I for libcurl
+  (see <a href="http://permalink.gmane.org/gmane.comp.web.curl.library/19221">this
+  post</a>) and merged upstream by curl maintainers. But that updated
+  version was not available in Debian packages at the time of APT patches
+  submission. Some time spent and Debian libcurl package now has our
+  patches. APT has been updated as expected. No need to repeat here
+  what is now available on your system: </p>
+
+<pre>
+arno@small$ zless /usr/share/doc/apt/examples/apt-https-method-example.conf.gz
+...
+</pre>
+
+<!-- GPG Key update -->
+<br/><div class="npt"><font class="npd">Jan  4 2010 / 18:24 CET / </font>
+ GPG key update </div>
+
+<p>
+  <a href="http://pgp.mit.edu:11371/pks/lookup?op=get&amp;search=0x47EB85FEB99AAB85FD0946F30255957c047A5026">
+  My old 1024-bit DSA-based GPG key (0x47A5026)</a> was about to expire. So I
+  decided to go for a fresh stronger one (4096-bit RSA). Here
+  is its
+  fp: <a href="http://pgp.mit.edu:11371/pks/lookup?op=get&amp;search=0xD3A5B68A839B38A5815A781BB77C0748A7AE341B">D3A5
+  B68A 839B 38A5 815A 781B B77C 0748 A7AE 341B</a>   </p>
+
+<!-- ssize_t, gcc, signedness, -Wall -Wextra, cast -->
+<br/><div class="npt"><font class="npd">Jan  3 2010 / 16:49 CET / </font>
+ gcc and you </div>
+
+<p> Below are few lines of C similar to some code I recently
+  encountered while debugging an application: </p> 
+
+<pre>
+$ cat test.c
+#include &lt;unistd.h&gt;
+
+int main(int argc, char *argv[]) {
+        ssize_t len;
+        char buf[4];
+
+        len = read(0, buf, sizeof(buf));
+        if (len &lt; sizeof(buf))
+                return 1;
+
+        return 0;
+}
+</pre>
+
+<p>Once compiled and run, it reads data from standard input:</p>
+
+<pre>
+$ gcc -Wall -pedantic test.c
+$ echo -n "aaaa" | ./a.out ; echo $?
+0
+$ echo -n "aaa" | ./a.out ; echo $?
+1
+</pre>
+
+<p> A description for the program could be: <i>It returns 0 if there
+  was at least 4 bytes received. It returns 1 if there was less than 4
+  bytes received or upon <b>read()</b> error.</i> </p>
+
+<p> But the program is in fact buggy and for that reason, its
+  behaviour does not match previous description.  Can you see
+  why? </p>  
+
+<p> Here is an excerpt of <b>read()</b> man page, in case you wonder
+  if you have missed something about <b>read()</b> behavior.</p> 
+
+<pre>
+READ(2)                    Linux Programmer's Manual                   READ(2)
+
+
+
+NAME
+       read - read from a file descriptor
+
+SYNOPSIS
+       #include &lt;unistd.h&gt;
+
+       ssize_t read(int fd, void *buf, size_t count);
+
+DESCRIPTION
+       read()  attempts to read up to count bytes from file descriptor
+       fd into the buffer starting at buf.
+
+       If count is zero, read() returns zero and has  no  other
+       results. If count is greater than SSIZE_MAX, the result is
+       unspecified.
+
+RETURN VALUE
+       On success, the number of bytes read is returned (zero
+       indicates end of file) [...]. On error, -1 is returned, , and
+       errno is set appropriately.
+...
+
+ERRORS
+
+...
+
+       EBADF  fd is not a valid file descriptor or is not open for
+              reading. 
+</pre>
+
+<p> </p>
+
+<p> Still no clue? Here is a hint: check more carefully what happens
+  if <b>read()</b> fails for some reason. In fact, let's make it fail
+  for real: </p>
+
+<pre>
+$ sh -c "./a.out 0&lt;&amp;-" ; echo $?
+0
+</pre>
+
+<p> As you can see, the return value of our test program is
+  0 when 1 was expected. In previous command, <b>&lt;&amp;-</b> is
+  used to tell the shell to close standard output. The result is
+  that <b>read()</b> fails with a return value of -1. <b>strace</b>
+  can be used to verify that. </p> 
+
+<pre>
+$ strace -f sh -c "./a.out 0&lt;&amp;-"
+
+...
+
+[pid 26641] mprotect(0xb7735000, 8192, PROT_READ) = 0
+[pid 26641] mprotect(0xb777b000, 4096, PROT_READ) = 0
+[pid 26641] munmap(0xb773b000, 133666)  = 0
+[pid 26641] read(0, 0xbfadb67b, 1)      = <span><font color="red">-1 EBADF (Bad file descriptor)</font></span>
+[pid 26641] exit_group(0)               = ?
+Process 26640 resumed
+Process 26641 detached
+&lt;... wait4 resumed&gt; [{WIFEXITED(s) &amp;&amp; WEXITSTATUS(s) == 0}], 0, NULL) = 26641
+--- SIGCHLD (Child exited) @ 0 (0) ---
+dup2(10, 0)                             = 0
+close(10)                               = 0
+exit_group(0)                           = ?
+</pre>
+
+<p> The problem is that <b>read()</b> returns a <b>ssize_t</b>
+ (i.e. a signed int), in order to support positive values when
+ something was indeed read and negative values upon error. Of course,
+ you already know that because you read the man page.</p> 
+
+<p> But the comparison which follows <b>read()</b> call is between a
+ size_t (the return value of sizeof() call, i.e. an unsigned int) and
+ a ssize_t (signed one). You have now guessed what has happened:
+ automatic type conversion has resulted in the conversion
+ by <b>gcc</b> of our signed int (-1) into an unsigned int
+ (4294967295 on my 32-bit little-endian system). </p>
+
+<p> Section 2.7 (Types Conversions)
+  of <a href="http://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628">K&amp;R2</a>
+  (worth reading) has the following about such lossy
+  conversions: <i>Expressions that might lose information, like
+  assigning a longer integer type to a shorter, or a floating-point
+  type to an integer, may draw a warning, but they are not
+  illegal.</i> Sounds like fun. Additionally, </p>
+
+<p> I guess some readers may have scrolled up in order to verify
+  compilation flags (<b>-Wall -pedantic</b> were used) and are now
+  wondering why <b>gcc</b> did not issue a warning during
+  compilation. Well, warning for comparisons between signed and
+  unsigned expressions that may lead to incorrect results due to
+  conversion are issued when <b>-Wsign-compare</b> is used:</p> 
+
+<pre>
+$ gcc -Wall -pedantic -Wsign-compare test.c 
+test.c: In function 'main':
+test.c:8: warning: comparison between signed and unsigned integer expressions
+</pre>
+
+<p> To be clear, <b>-Wsign-compare</b> is not enabled
+  by <b>-Wall</b>. It is enabled by -Wextra with additional options
+  you might be interested in taking a look at. Below is an excerpt
+  of <b>gcc</b> man page:</p> 
+
+<!-- man gcc -->
+<pre>
+$ man gcc
+...
+
+   -Wsign-compare
+       Warn when a comparison between signed and unsigned values could
+       produce an incorrect result when the signed value is converted
+       to unsigned.  This warning is also enabled by -Wextra; to get
+       the other warnings of -Wextra without this warning, use -Wextra
+       -Wno-sign-compare.
+...
+
+   -Wall
+       This enables all the warnings about constructions that some
+       users consider questionable, and that are easy to avoid (or
+       modify to prevent the warning), even in conjunction with
+       macros.  This also enables some language-specific warnings
+       described in C++ Dialect Options and Objective-C and
+       Objective-C++ Dialect Options. 
+
+       <span><font color="red">Note that some warning flags are not implied by -Wall.
+       Some of them warn about constructions that users generally
+       do not consider questionable, but which occasionally you
+       might wish to check for; others warn about constructions
+       that are necessary or hard to avoid in some cases, and
+       there is no simple way to modify the code to suppress the
+       warning. Some of them are enabled by -Wextra but many of
+       them must be enabled individually.</font></span>
+
+...
+
+   -Wextra
+       This enables some extra warning flags that are not enabled by
+       -Wall. (This option used to be called -W.  The older name is
+       still supported, but the newer name is more descriptive.)
+
+       -Wclobbered -Wempty-body -Wignored-qualifiers
+       -Wmissing-field-initializers -Wmissing-parameter-type (C only)
+       -Wold-style-declaration (C only)  -Woverride-init <span><font color="red">-Wsign-compare</font></span>
+       -Wtype-limits -Wuninitialized (only with -O1 and above)
+       -Wunused-parameter (only with -Wunused or -Wall) 
+
+       The option -Wextra also prints warning messages for the following cases:
+
+       - A pointer is compared against integer zero with &lt;, &lt;=, &gt;, or &gt;=.
+
+       ...
+
+...
+</pre>
+
+<p> If you are interested by further reading on such issues, I would
+  suggest taking a look at Chapter 6 (C language issues)
+  of <a href="http://www.amazon.com/gp/product/0321444426?ie=UTF8&amp;tag=taossa-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0321444426">"The
+  Art of Software Security Assessment"</a> (great book). </p> 
+
+<p> Thanks to <a href="http://chdir.org/~nico/blog/">Nico</a> and
+  Sarah for the interesting discussions and pointers on the
+  topic. </p>
+
+<!-- Scapy extensions page added: PK_KEY, cert, scapy6 -->
+<br/><div class="npt"><font class="npd">Jan  1 2010 / 20:14 CET / </font>
+ Page on Scapy extensions </div>
+
+<p> I have written <a href="../scapy/index.html">a page
+  discussing Scapy extensions</a> I have developed and their
+  status. At the moment, it provides information on:</p>
+
+<ul>
+<li><b><a href="../scapy/index.html#pfkey">PF_KEY extension</a></b>:
+    if you are interested in monitoring the PF_KEY exchanges between
+    userland daemons and kernel IPsec stack with Scapy. </li>
+<li><b><a href="../scapy/index.html#cert">X.509 Certificate, CRL and
+      Key extension</a></b>: playing with X.509 certificates, CRL and
+      keys. The extension can also be used in a standalone fashion. </li>
+<li><b><a href="../scapy/index.html#scapy6">Scapy6</a></b>:
+  considering the number of hits on the site from people looking for
+  information on Scapy6, I thought it was worth stating explicity that
+  the development performed
+  with <a href="http://my.geekstory.net/">Guillaume</a> to add IPv6
+  support to Scapy has been merged upstream.</li>
+</ul>
+
+<p> I will try and add soon some additional entries there about the
+  following: </p>
+<ul>
+<li> a SEND (<a href="http://tools.ietf.org/html/rfc3971">RFC 3971</a>,
+  <a href="http://tools.ietf.org/html/rfc3972">RFC 3972</a>) extension for Scapy.</li>
+<li> an extension
+  providing <a href="http://tools.ietf.org/html/rfc4861">Neighbor
+  Discovery</a> attack tools for Scapy. </li>
+</ul>
+
+<!-- Emacs 22.2 and keyboard remapping for Nokia N900 -->
+<br/><div class="npt"><font class="npd">Dec 14 2009 / 22:32 CET / </font>
+ Emacs 22.2 and keyboard remapping for Nokia N900 </div>
+
+<p> I have added some new entries on my <a href="../N900/index.html">N900
+    page</a> discussing: </p>  
+<ul>
+<li> <a href="../N900/n900-apps-emacs-22.2.html">Emacs 22.2 on the N900</a> </li>
+<li> <a href="../N900/n900-keyboard-remapping.html">N900 keyboard remapping</a> </li>
+</ul>
+
+<!-- Work on N900 -->
+<br/><div class="npt"><font class="npd">Dec  5 2009 / 16:12 CET / </font>
+ Work on N900 </div>
+
+<p> After having spent some time on the N770, worked
+  on <a href="../N810/index.html">installing a full debian and a
+  recent kernel on my N810</a>, I have just bought last week 
+  the recently released Nokia N900 to work on IPv6 mobility aspects
+  for the device.</p>
+
+<p> As this involves playing with the kernel, the distribution and
+  the hardware available on the device, I have started putting some
+  notes and links on a <a href="../N900/index.html">dedicated
+  page</a>.</p>
+
+<p> At the moment, it provides information on how the kernel can be
+  updated to support additional options (in my case, MIPv6 and
+  IPsec/IKE-related options). </p>
+
+<!-- Wifi Network in Thalys -->
+<br/><div class="npt"><font class="npd">Aug 22 2009 / 10:02 CEST / </font>
+ MIPv6 in Thalys </div>
+
+<p> Going from Paris to Amsterdam is only 4 hours using Thalys
+  train. And if you happen to travel in Comfort 1 (it is sometimes
+  cheaper than Comfort 2) you also get:</p>
+<ul>
+<li> Free of charge wifi access to Internet, </li>
+<li> Power for your laptop ... </li>
+<li> ... and also breakfast. </li>
+</ul>
+
+<p> The Internet access is IPv4 only but Teredo traffic is not
+  filtered, which allows you to get IPv6 connectivity and that way use
+  MIPv6. </p>
+
+<p>Nonetheless, if you happen to do that, even if your private
+  IPv4 address remains stable during the journey, you should be aware
+  that your NAT gateway will change at some points. For that reason,
+  you may have to restart your Teredo service when you lose
+  connectivity, in order for the Teredo qualification procedure (which
+  results in the detection of the NAT GW IP address and in the
+  creation of your IPv6 address, among other things) to be redone.</p> 
+
+<p> That been said, the network works perfectly fine. </p>
+
+<!-- Dell E4300 openct opensc broadcom USH bcm5880 -->
+<br/><div class="npt"><font class="npd">Aug 18 2009 / 07:30 CEST / </font>
+ Dell E4300 SmartCard Reader (BCM5880 aka Broadcom USH)</div>
+
+<p> If you have a Dell E4300 (or any other Dell laptop with a Broadcom
+  USH) running Linux, I
+  updated <a href="http://natisbad.org/E4300/index.html">my page
+  dedicated to the E4300</a> with some additional information. This
+  includes patches and firmware upgrades notes to get the SmartCard
+  reader to work with a Cryptoflex E-Gate 32K.</p>
+
+<p> I hope that helps. </p>
+
+<!-- N810 howto Debian linux-omap -->
+<br/><div class="npt"><font class="npd">Jun 28 2009 / 17:49 CEST / </font>
+ Debian and recent linux kernel (2.6.30-rc8-omap1) on N810 </div>
+
+<p> If you are interested by installing a Debian and a recent linux
+  kernel (2.6.30-rc8-omap1) on your N810 as a replacement for Maemo
+  and its 2.6.21 kernel, I have
+  gathered <a href="http://natisbad.org/N810/index.html">some notes on
+  the topic</a>.</p> 
+
+<p> This is a work in progress, so be gentle! </p>
+
+<!-- FreeRADIUS EAP-TLS broken in 2.1.0, 2.1.1, 2.1.2 and 2.1.3 -->
+<br/><div class="npt"><font class="npd">Jan 31 2009 / 01:09 CET / </font>
+ EAP-TLS support is broken in FreeRADIUS
+  2.1.0 to 2.1.3 </div>
+
+<p> For those among you who use FreeRADIUS for AAA service in a 802.1X
+  setup (wired, WPA/WPA2), you should be aware that  EAP-TLS support
+  is broken since 2.1.0, i.e. September 4 2008. This means 2.1.0,
+  2.1.1, 2.1.2 and 2.1.3 are broken. </p>
+
+<p> Simply put, a removed test in the code in those versions prevents
+  FreeRADIUS to send last messages of the TLS exchange to the client
+  (TLS Change Cipher Spec and TLS Finished). Even though, the server
+  still sends the final RADIUS Access Accept message to the NAS
+  (including the EAP Success message for the peer). The TLS exchange
+  being incomplete from the client standpoint, it simply fails. </p> 
+
+<p> I first reported the issue on the list and ended up git-bisecting
+  it. This led me to commit b51a3a82edb797f5d0a2758bd1a38359d6f66803,
+  which was only expected to "Clean up debug &amp;&amp; log
+  messages".</p> 
+
+<p> I posted the patch below which fixes the issue. It should apply
+  cleanly if you need to patch one of the broken versions. It has been
+  merged upstream and 2.1.4 should be ok.</p>
+
+<pre>
+Signed-off-by: Arnaud Ebalard &lt;arno@natisbad.org&gt;
+Tested-by: Axel Tillequin &lt;axel.tillequin@gmail.com&gt;
+---
+ src/modules/rlm_eap/libeap/eap_tls.c |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/src/modules/rlm_eap/libeap/eap_tls.c b/src/modules/rlm_eap/libeap/eap_tls.c
+index cd95bec..42edbed 100644
+--- a/src/modules/rlm_eap/libeap/eap_tls.c
++++ b/src/modules/rlm_eap/libeap/eap_tls.c
+@@ -330,7 +330,8 @@ static eaptls_status_t eaptls_ack_handler(EAP_HANDLER *handler)
+ 		return EAPTLS_FAIL;
+ 
+ 	case handshake:
+-		if (tls_session->info.handshake_type == finished) {
++		if ((tls_session->info.handshake_type == finished) &amp;&amp;
++		    (tls_session->dirty_out.used == 0)) {
+ 			RDEBUG2("ACK handshake is finished");
+ 
+ 			/* 
+-- 
+1.5.6.5
+</pre>
+
+<p>If you are interested, the whole thread on freeradius-devel mailing list is
+  available <a href="http://thread.gmane.org/gmane.comp.freeradius.devel/4928">here</a>.</p> 
+
+<!-- Linux Kernel 2.6.27.13 enhanced MIGRATE -->
+<br/><div class="npt"><font class="npd">Jan 31 2009 / 01:02 CET / </font>
+ Enhanced MIGRATE patched tarballs for Linux
+  2.6.27.13 kernel now available </div>
+
+<p> Linux 2.6.27.13 kernel has been released by the -stable team. The
+  associated enhanced MIGRATE patched tarballs are 
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The  
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<p> Note that those patched 2.6.27.13 tarballs are intended for those
+  who cannot switch to 2.6.28 series (MIGRATE patches have been merged
+  upstream).</p> 
+
+<!-- ipsec-tools racoon umip MIPv6 enhanced MIGRATE -->
+<br/><div class="npt"><font class="npd">Jan  4 2009 / 22:51 CET / </font>
+ Updated racoon-umip and umip packages available </div>
+
+<p> I have just uploaded new versions of ipsec-tools-umip (0.7-12),
+  racoon-umip (0.7-12) and umip (0.4-11) packages.</p>
+
+<p> Those include fixes, enhancements and new features: they result
+  from time spent testing the code on a large testbed. Some
+  experiments involved more than 100 Mobile Nodes handled by a single
+  Home Agent.</p> 
+
+<p> The instruction to set things up are still
+  available <a href="http://natisbad.org/MIPv6/">here</a>. </p>
+
+<p> Also note that I have updated the mercurial versioned quilt set
+  available <a href="http://hg.natisbad.org/migrate2_patches_kernel/">here</a>
+  for 2.6.28: at the moment, it mainly contains a simple fix to deal
+  with the fact that internal kernel code does not currently like
+  when a MIGRATE message is received for a larval SA. I will push the
+  fix on netdev as soon I am sure not migrating larval SA is the path
+  to follow.</p> 
+
+<!-- Linux Kernel 2.6.27.10 enhanced MIGRATE larval bug fix -->
+<br/><div class="npt"><font class="npd">Dec 20 2008 / 13:41 PST / </font>
+ Enhanced MIGRATE patched tarballs for Linux
+  2.6.27.10 kernel now available </div>
+
+<p> Linux 2.6.27.10
+  kernel <a href="http://permalink.gmane.org/gmane.linux.kernel.announce/554">has
+  been released</a> by the -stable team. Among the fixes, there is an
+  IPsec-related fix:</p>
+<pre>
+commit 123cd635a810bea55c41f09c09e4d6dc1f493876
+Author: Alexey Dobriyan &lt;adobriyan@gmail.com&gt;
+Date:   Fri Oct 31 16:41:26 2008 -0700
+
+    key: fix setkey(8) policy set breakage
+    
+    commit 920da6923cf03c8a78fbaffa408f8ab37f6abfc1 upstream.
+</pre>
+
+<p> The associated enhanced MIGRATE patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The
+  instructions for setting things up (kernel, umip, racoon) can still 
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<!-- Linux Kernel 2.6.27.9 enhanced MIGRATE -->
+<br/><div class="npt"><font class="npd">Dec 13 2008 / 17:01 PST / </font>
+ Enhanced MIGRATE patched tarballs for Linux
+  2.6.27.9 kernel now available </div>
+
+<p> Linux 2.6.27.9
+  kernel <a href="http://article.gmane.org/gmane.linux.kernel/768748">has
+  been released</a> by the -stable team. The associated
+  enhanced MIGRATE patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The  
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<p> Like for previous stable release, there are a huge number of fixes
+  in that release (more than 80). You are strongly encouraged to upgrade! </p>
+
+<p>Thanks to San Francisco's Apple Store for the connectivity used to
+  upload those tarballs.</p> 
+
+<!-- Linux Kernel 2.6.27.8 enhanced MIGRATE -->
+<br/><div class="npt"><font class="npd">Dec  6 2008 / 23:50 PST / </font>
+ Enhanced MIGRATE patched tarballs for Linux
+  2.6.27.8 kernel now available </div>
+
+<p> Linux 2.6.27.8
+  kernel <a href="http://article.gmane.org/gmane.linux.kernel/765972">has
+  been released</a> by the -stable team. The associated
+  enhanced MIGRATE patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The  
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<p> Considering the number of fixes (103 commits in
+  the <a href="http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.8">Changelog</a> 
+  !!!), you are strongly encouraged to upgrade. </p>
+
+<!-- racoon ipsec-tools MIGRATE KMADDRESS MIPv6 IKE IPsec support -->
+<br/><div class="npt"><font class="npd">Dec  4 2008 / 22:49 PST / </font>
+ MIGRATE support now available upstream in racoon </div>
+
+<p> I am pleased to announce that Timo Ter&auml;s has just commited
+  upstream 
+  the <a href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">MIGRATE/KMADDRESS</a>
+  support I have developped for racoon:</p> 
+
+<pre>
+$ cat Changelog
+2008-12-05  Timo Teras  &lt;timo.teras@iki.fi&gt;
+        From Arnaud Ebalard &lt;arno@natisbad.org&gt;:
+        * src/libipsec/{key_debug.c|libpfkey.h|pfkey.c}: library functions
+          for SADB_X_EXT_KMADDRESS and updated SADB_X_MIGRATE support
+        * src/racoon/{handler.c|handler.h|ipsec_doi.c|isakmp.c|
+          isakmp_quick.c|pfkey.c|policy.c|policy.h}: support Mobile IPv6
+          per draft-ebalard-mext-pfkey-enhanced-migrate (minor fixes to
+          the patch by me)
+...
+</pre>
+
+<p> The size of the patch (> 2000 lines) explains the time its
+  integration has taken. I will soon
+  update <a href="http://natisbad.org/MIPv6/">the howto</a> to
+  reflect the upstream merge. </p>
+
+<p>Timo, thanks again for your work.</p>
+
+<!-- strongSwan MIGRATE KMADDRESS MIPv6 IKE IPsec support -->
+<br/><div class="npt"><font class="npd">Dec  4 2008 / 20:49 PST / </font>
+ MIGRATE support now available in strongSwan </div>
+
+<p> Andreas Steffen has
+  developed <a href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">MIGRATE/KMADDRESS</a>
+  support for Charon, the IKEv2 daemon
+  of <a href="http://www.strongswan.org">strongSwan</a>. No backport
+  is expected for Pluto, the IKEv1 daemon.</p>
+
+<p>It is available in the recently released 4.2.9 version. Below is
+  an excerpt of the changelog:</p>
+
+<pre>
+  Mobile IPv6 support
+  -------------------
+
+  Basic Mobile IPv6 support has been introduced, securing Binding Update
+  messages as well as tunneled traffic between Mobile Node and Home
+  Agent. The installpolicy=no option allows peaceful cooperation with
+  a dominant mip6d daemon and the new type=transport_proxy implements
+  the special MIPv6 IPsec transport proxy mode where the IKEv2 daemon
+  uses the Care-of-Address but the IPsec SA is set up for the Home
+  Address.
+
+  http://wiki.strongswan.org/wiki/MobileIPv6
+
+  Fully supports migration of Mobile IPv6 connections making use of the
+  KMADDRESS field contained in XFRM_MSG_MIGRATE messages sent by the
+  mip6d daemon via the Linux 2.6.28 (or appropriately patched) kernel.
+</pre>
+
+<p>I will try and find some time to give it a try and add some
+  configuration information in
+  the <a href="http://natisbad.org/MIPv6/">howto</a>.</p> 
+
+<!-- Linux Kernel 2.6.27.7 MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Nov 30 2008 / 17:56 PST / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.27.7 kernel</div>
+
+<p> (For a while now) MIGRATEv2-patched Linux 2.6.27.7 kernel tarball
+  is available <a href="http://natisbad.org/kernel-umip/">here</a>. The  
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<!-- umip 0.4-10 debian packages -->
+<br/><div class="npt"><font class="npd">Nov 30 2008 / 17:55 PST / </font>
+ Updated umip (0.4-9) and ipsec-tools-umip/racoon-umip debian packages </div>
+
+<p> I have just uploaded a new release of UMIP (0.4-10) Debian packages
+   (i386 and ppc) including an updated NEPL patch and a fix for memory
+   corruption on HA. </p>
+
+<!-- umip 0.4-9 2.6.28 compilation fix 
+     racoon-umip ipsec-tools-umip 0.7-9 debian packages -->
+<br/><div class="npt"><font class="npd">Nov 30 2008 / 01:19 PST / </font>
+ Updated umip (0.4-9) and ipsec-tools-umip/racoon-umip debian packages </div>
+
+<p> I have just uploaded a new release of UMIP (0.4-9) Debian packages
+   (i386 and ppc) including additional patches. Those patches are
+   still available as
+   a <a href="http://hg.natisbad.org/migrate2_patches_umip_nemo">quilt 
+   set versioned via mercurial</a>. </p>
+
+<p> Among the recent changes I have included a patch that fix a
+  compilation issue with 2.6.28 kernel series. Another patch fixes a
+  bug that occurs on HA when providing multiple times the same
+  interface (which is likely to happen when you deal with many MNs and
+  split configuration for those MN between multiple files). </p>
+
+<p> I have also released new versions of ipsec-tools-umip and
+  racoon-umip (0.7-9) Debian packages (i386 and ppc), based on latest 
+  CVS release (2008-11-27). The patches are
+  available <a href="http://hg.natisbad.org/migrate2_patches_ipsec-tools/">here</a></p>
+
+<p> The instructions for setting things up (kernel, umip, racoon) can 
+   still be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<!-- MIPv6 IPsec Route Optimization -->
+<br/><div class="npt"><font class="npd">Nov 17 2008 / 15:40 PST / </font>
+ IPsec Route Optimization (IRO) for MIPv6 </div>
+
+<p> A few hours ago, I have submitted my IETF draft on MIPv6 IPsec
+  Route Optimization mechanism (IRO). It is
+  now <a href="http://tools.ietf.org/html/draft-ebalard-mext-ipsec-ro-00">available
+  from IETF servers</a>. </p>
+
+<p> I also (cross)posted about the submission
+  on <a href="http://thread.gmane.org/gmane.ietf.mip6/8379">mext</a>,
+  ipsecme and mobopts mailing lists in order to get some feedback.</p>
+
+<!-- UMIP 0.4-8 debian packages proxy_ndp -->
+<br/><div class="npt"><font class="npd">Nov 14 2008 / 11:37 CET / </font>
+ Updated umip debian packages (0.4-8) </div>
+
+<p> I have just uploaded a new release of UMIP (0.4-8) Debian packages
+   (i386 and ppc) including additional patches. Those patches are
+   still available as
+   a <a href="http://hg.natisbad.org/migrate2_patches_umip_nemo">quilt 
+   set versioned via mercurial</a>. The instructions for setting things
+   up (kernel, umip, racoon) can still be
+   found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p> 
+
+<p> Among the recent changes I have included a patch that removes the
+  need for the administrator of the HA to manually set
+  /proc/sys/net/ipv6/conf/XXX/proxy_ndp (with XXX the interfaces
+  referenced in the configuration file). This was not documented in
+  the howto and should be done by UMIP anyway. </p>
+
+<!-- Linux Kernel 2.6.27.6 MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Nov 14 2008 / 11:35 CET / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.27.6 kernel </div>
+
+<p> Linux 2.6.27.6
+  kernel <a href="http://article.gmane.org/gmane.linux.kernel/757074">has
+  been released</a> by the -stable team. The associated
+  MIGRATEv2-patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The  
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<!-- Linux Kernel 2.6.27.5 MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Nov 12 2008 / 17:01 CET / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.27.5 kernel </div>
+
+<p> Linux 2.6.27.5
+  kernel <a href="http://article.gmane.org/gmane.linux.kernel/754801">has
+  been released</a> by the -stable team. The associated
+  MIGRATEv2-patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The  
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<!-- MIPv6 IPsec Route Optimization -->
+<br/><div class="npt"><font class="npd">Nov  3 2008 / 22:02 CET / </font>
+ IPsec Route Optimization (IRO) for MIPv6 </div>
+
+<p> MIPv6 provides a Route Optimization procedure which allows
+  direct communications (not routed via the HA, i.e. following natural
+  routing path) to happen between a MN and a CN (or two MN). </p>
+
+<p> This procedure is complicated, does not provide protection of
+  data traffic and is based on low hypothesis with respect to the
+  credentials shared by the two entities.</p>
+
+<p> Considering different hypothesis, more in sync with IPsec
+  environments (availability of PKI and ability to establish IKE
+  negotiations between peers), I have written an IETF draft which I
+  intend to post (and implement) at some point.</p>
+
+<p> In IPsec environments (protection of signaling and data traffic
+  using IPsec/IKE), proposed solution is expected to offer the
+  following advantages:</p>   
+
+<ul>
+   <li> Complete removal of RH2 and HAO, resulting in simplified packet
+      handling on both sides and possibly better compatibility with
+      filtering implemented in the network.</li>
+   <li> Per packet MTU gains between 24 and 48 bytes in comparison with
+      equivalent uses of IPsec in standard RO context.</li>
+   <li> In MN-CN case, non-disclosure of MN's HoA on its foreign link</li>
+   <li>Improved and more generic proof of address ownership mechanism.</li>
+   <li>Safe by default behavior avoiding direct unprotected traffic
+      flows</li>
+   <li> Protected MN-CN binding using IKE-negotiated IPsec SAs.</li>
+   <li> Complete transparency for IKE (negotiation, rekeying, movement,
+      ...) and other upper layers.</li>
+   <li> Compatibility with both tunnel and transport mode IPsec protection 
+      between peers</li>
+   <li> No additionnal changes to IPsec or IKE protocols and limited
+      changes to MIPv6 via four simple messages and an option resulting
+      in simple and generic integration within IPsec and Mobile IPv6
+      stacks</li>
+</ul>
+
+<p> Anyway, it is
+  available <a href="http://hg.natisbad.org/iro-draft">here</a>. You
+  can clone the mercurial repository using the following command:</p>
+
+<pre>
+      $ hg clone http://hg.natisbad.org/iro-draft
+</pre>
+
+<p> Comments are welcome but keep in mind it is still a work in
+  progress and has currently a fairly raw shape, so please be
+  gentle.</p>
+
+<!-- Enhanced MIGRATE BUG kernel KMADDRESS -->
+<br/><div class="npt"><font class="npd">Nov  3 2008 / 21:38 CET / </font>
+ [BUG,PATCH] XFRM: copy_to_user_kmaddress() reports local
+ address twice </div>
+
+<p> Some time ago, I posted patches on netdev providing KMADDRESS
+  support for Linux kernel. This was accepted and will be in
+  2.6.28. But ...</p> 
+
+<p> While adding support for MIGRATE/KMADDRESS in strongSwan, Andreas
+  Steffen noticed that XFRMA_KMADDRESS attribute passed to userland
+  contains the local address twice (remote provides local address
+  instead of remote one).</p>
+
+<p> This is a bug in copy_to_user_kmaddress() which affects only key
+  managers that use native XFRM interface. Key managers that use
+  PF_KEY (like racoon) are not affected, which is probably the reason
+  I never noticed the bug. For the record, the bug was in the initial
+  changeset I posted which added support for KMADDRESS
+  (commit 13c1d18931ebb5cf407cb348ef2cd6284d68902d).</p>
+
+<p>This
+  morning, <a href="http://permalink.gmane.org/gmane.linux.network/110194">I
+  posted a one line patch on netdev</a>,
+  which <a href="http://permalink.gmane.org/gmane.linux.network/110197">David
+  Miller applied 3 minutes later</a>. I like that kind of timing ;-)</p>
+
+<p> Note that I have also updated 2.6.27.4 tarballs (-02). Those are
+  available <a href="http://natisbad.org/kernel-umip/">at the usual 
+  location</a>.</p>
+
+<!-- Linux Kernel 2.6.27.4 MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Oct 29 2008 / 19:21 CET / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.27.4 kernel </div>
+
+<p> Linux 2.6.27.4
+  kernel <a href="http://article.gmane.org/gmane.linux.kernel/749391">has
+  been released</a> by the -stable team. The associated
+  MIGRATEv2-patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The  
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+
+<!-- Linux Kernel 2.6.26.7 2.6.27.3 MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Oct 23 2008 / 21:06 CEST / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.26.7 and 2.6.27.3 kernel now available </div>
+
+<p>
+  Linux <a href="http://article.gmane.org/gmane.linux.kernel/748041">2.6.26.7</a>
+  and <a href="http://article.gmane.org/gmane.linux.kernel/748038">2.6.27.3</a>
+  kernels have been released by the -stable team. The associated
+  MIGRATEv2-patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The   
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<!-- MIGRATEv2 MIPv6 IPsec ipsec-tools racoon SADB_X_MIGRATE 
+     SADB_X_EXT_KMADDRESS patch  -->
+<br/><div class="npt"><font class="npd">Oct 23 2008 / 18:03 CEST / </font>
+ MIGRATE/KMADDRESS patches posted for
+  inclusion in ipsec-tools </div>
+
+<p>
+  I <a href="http://permalink.gmane.org/gmane.network.ipsec.tools.devel/1349">posted
+  on ipsec-tools-devel</a> the whole set of patches I have 
+  written to add support for enhanced MIGRATE (i.e. SADB_X_MIGRATE and
+  SADB_X_EXT_KMADDRESS) in <a href="http://ipsec-tools.sourceforge.net/">racoon</a>, as specified in
+  <a href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">draft-ebalard-mext-pfkey-enhanced-migrate-00</a>. </p>
+  
+<p>Considering the amount of code, I expect the inclusion to take
+  quite some time. I will post here when it is completed.</p>
+
+<!-- Linux Kernel 2.6.27 MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Oct 10 2008 / 09:23 CEST / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.27 kernel now available </div>
+
+<p> Linux 2.6.27
+  kernel <a href="http://article.gmane.org/gmane.linux.kernel/742570">has
+  been released</a> by Linus. The associated
+  MIGRATEv2-patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The  
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<!-- Linux Kernel 2.6.26.6 MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Oct  9 2008 / 12:49 CEST / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.26.6 kernel now available </div>
+
+<p> Linux 2.6.26.6
+  kernel <a href="http://article.gmane.org/gmane.linux.kernel/742149">has
+  been released</a> by the -stable team. The associated
+  MIGRATEv2-patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The  
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<!-- Linux Kernel 2.6.27-rc9 MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Oct  7 2008 / 09:56 CEST / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.27-rc9 kernel now available </div>
+
+<p> Linux 2.6.27-rc9
+  kernel <a href="http://thread.gmane.org/gmane.linux.kernel/741169">has
+  been released</a> by Linus. The associated MIGRATEv2-patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The 
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<!-- Debian apt apt-transport-https https certificate -->
+<br/><div class="npt"><font class="npd">Oct  7 2008 / 08:30 CEST / </font>
+ apt 0.7.15+b1 available in Debian unstable </div>
+
+<p> I posted some monthes ago (in June) about patches I wrote (w/ Axel)
+  for APT https method providing:</p>
+
+<ul>
+<li> per-mirror settings, </li>
+<li> decent documentation, </li>
+<li> correct certificate check by default, </li>
+<li> CRL support, </li>
+<li> Issuer check </li>
+</ul>
+
+<p> Just released apt-transport-https (0.7.15+b1) includes the
+  patches for the first 3 previous items:</p>
+
+<pre>
+$ zless /usr/share/doc/apt-transport-https/changelog.gz
+
+...
+
+  * merge patch that enforces stricter https server certificate
+    checking (thanks to Arnaud Ebalard, closes: #485960)
+  * allow per-mirror specific https settings
+    (thanks to Arnaud Ebalard, closes: #485965)
+  * add doc/examples/apt-https-method-example.cof
+    (thanks to Arnaud Ebalard, closes: #485964)
+
+...
+
+</pre>
+
+<p> The remaining patches for CRL support and issuer checks require
+  the most recent version of libcurl (7.19.0), not available yet in
+  Debian. I will post here when apt is updated to support those
+  features.</p>
+
+<!-- MIGRATE kernel patches SADB_X_EXT_KMADDRESS xfrm_user_kmaddress
+     IPsec IKE MIPv6 N810 -->
+<br/><div class="npt"><font class="npd">Oct  6 2008 / 08:20 CEST / </font>
+ MIGRATE enhancements in net-next-2.6 </div>
+
+<p> The MIGRATE enhancement patch I posted on
+  netdev <a href="http://article.gmane.org/gmane.linux.network/107711">has
+  just being applied to net-next-2.6</a> by David Miller. This will
+  make 2.6.28 kernel fully compliant with what is
+  in <a href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">enhanced 
+  MIGRATE draft</a>.</p>
+
+<p> Patched tarballs for 2.6.27-rc* series and 2.6.27 will still be
+  available <a href="http://natisbad.org/kernel-umip/">at the usual
+  location</a>.</p>
+
+<p> Now that the draft is available and the associated kernel part of
+  the work has been completed, integration of the userland patches
+  (ipsec-tools and UMIP) is the only remaining part and the next item
+  on my todo list. </p>
+
+<p> Unrelated (or not): Nokia people (maemo developers) are currently
+  pushing an impressive number of patches for inclusion in 2.6.28
+  (phonet stack, SSI, omap3 code, ...). It looks like the future big
+  brother of the N810 will have a more open source support and will
+  possibly run a more recent kernel (2.6.28 omap ?). My guess is that
+  having MIPv6/IPsec/IKE on it will possibly be just trivial in that
+  case.</p>
+
+<!-- Linux Kernel bug IPv6 XFRM blackhole -->
+<br/><div class="npt"><font class="npd">Oct  6 2008 / 08:10 CEST / </font>
+ XFRM,IPv6: initialize
+  ip6_dst_blackhole_ops.kmem_cachep </div>
+
+<p> My (one line) patch correcting a bug in
+  ip6_dst_blackhole_ops.kmem_cachep
+  init <a href="http://thread.gmane.org/gmane.linux.network/107294">has
+  been applied to net-2.6</a>, pushed back to linus-tree (i.e. will be
+  in 2.6.27-rc9) and queued for inclusion in -stable (2.6.26.6
+  hopefully). </p>
+
+<!-- starttls gnus emacs joke SSL TLS -->
+<br/><div class="npt"><font class="npd">Sep 22 2008 / 13:31 CEST / </font>
+ starttls is a joke. </div>
+
+<p> I posted <a
+    href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=499774">a
+    bug report against Debian starttls package</a>. I flagged it as
+    critical and still think it deserves that severity level. The
+    maintainer provided some lame comments and changed the security
+    level to wishlist. I am puzzled, to say the least. </p>
+
+<!-- Linux Kernel 2.6.27-rc7 MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Sep 22 2008 / 12:00 CEST / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.27-rc7 kernels now available </div>
+
+<p> Linux 2.6.27-rc7 kernel <a href="http://thread.gmane.org/gmane.linux.kernel/">has
+    been released</a> by Linus. The associated MIGRATEv2-patched tarball is
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The 
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p> 
+
+<!-- Linux Kernel 2.6.26.5 2.6.27-rc6 MIGRATEv2 ipsec-tools -->
+<br/><div class="npt"><font class="npd">Sep 18 2008 / 20:21 CEST / </font>
+ MIGRATEv2-patched tarballs for 2.6.26.5
+  and 2.6.27-rc6. </div>
+
+<p> Linux 2.6.26.5 kernel has been released by the -stable
+  team. 2.6.27-rc6 has also been published by Linus. The associated
+  MIGRATEv2-patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>.</p>
+
+<p> I have also updated MIGRATEv2 patches for latest CVS version of
+  racoon. Updated Debian packages of ipsec-tools-umip and racoon-umip
+  for i386 and ppc are available from the mirror.</p>
+
+<p> The instructions for setting things up (kernel, umip, racoon) can
+  still be
+  found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p>
+
+<!-- MIGRATE, enhancement, I-D, MEXT, draft, draft-ebalard-mext-pfkey-enhanced-migrate -->
+<br/><div class="npt"><font class="npd">Aug 18 2008 / 11:40 CEST / </font>
+ Submission of draft-ebalard-mext-pfkey-enhanced-migrate-00 </div>
+
+<p> I have just submitted an individual IETF Internet Draft
+  (co-authored with Sebastien Decugis) describing the enhancements to
+  MIGRATE design associated with the set of patches I
+  maintain <a href="http://natisbad.org/MIPv6/index.html">here</a> for
+  Linux Kernel, UMIP and racoon.</p>
+
+<p> The document (including HTML/TXT versions) is available <a
+  href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">here</a>.</p>
+
+<!-- forwarding, MR, MIPv6, NEMO -->
+<br/><div class="npt"><font class="npd">Aug 10 2008 / 23:46 CEST / </font>
+ Routing configuration notes for MR added on MIPv6/IPsec/IKE page </div>
+
+<p> I have added some notes at the end of MR-related part
+  on <a href="../MIPv6/index.html">MIPv6 page</a> dedicated to the
+  routing configuration on the MR. </p> 
+
+<!-- Linux Kernel 2.6.26.2 2.6.27-rc2 MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Aug  8 2008 / 11:37 CEST / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.26.2 and 2.6.27-rc2 kernels available </div>
+
+<p> Linux 2.6.26.2
+  kernel <a href="http://thread.gmane.org/gmane.linux.kernel/717651">has
+    been released</a> by the -stable
+  team. <a href="http://article.gmane.org/gmane.linux.kernel/717308">2.6.27-rc2
+  has also been published</a> by Linus. The associated
+  MIGRATEv2-patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The 
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p> 
+
+<!-- Linux Kernel 2.6.26.1 stable MIGRATEv2 -->
+<br/><div class="npt"><font class="npd">Aug  2 2008 / 14:25 CEST / </font>
+ MIGRATEv2-patched tarballs for Linux
+  2.6.26.1 Kernel now available </div>
+
+<p> Linux 2.6.26.1
+  kernel <a href="http://thread.gmane.org/gmane.linux.kernel/715477">has
+    been released</a> by the -stable team. The associated
+  MIGRATEv2-patched tarballs are
+  available <a href="http://natisbad.org/kernel-umip/">here</a>. The
+  instructions for setting things up (kernel, umip, racoon) can still
+  be found <a href="http://natisbad.org/MIPv6/index.html">here</a>.</p> 
+
+<!-- OpenSSL, IKE, RSA_sign(), RSA_private_encrypt(), PKCS11,
+     libp11, PKCS11_private_encrypt(), PKCS11_sign(), opensc -->
+<br/><div class="npt"><font class="npd">Aug  2 2008 / 13:56 CEST / </font>
+ Libp11 0.2.4 now supports OpenSSL
+  RSA_private_encrypt()</div>
+
+<p> The patch I submitted to OpenSC developers providing an
+  implementation for PKCS11_private_encrypt() (required to be able to
+  use OpenSSL RSA_private_encrypt() w/ tokens) has
+  been <a href="http://thread.gmane.org/gmane.comp.encryption.opensc.devel/7357">applied
+  to libp11 trunk</a>.</p>
+
+<p> One concern was that there has been no new stable release of
+  libp11 for a while (0.2.3 was one year old, in fact) and developers
+  did not expect one in a near future but
+  ... a <a href="http://thread.gmane.org/gmane.comp.encryption.opensc.announce/19"> 
+  Security vulnerability against OpenSC</a> the day after resulted in
+  new stable releases for all parts of the project (OpenCT, OpenSC,
+  Libp11, Pam_P11, Engine_PKCS11) cleared that concern: libp11 0.2.4
+  has the feature. </p>
+
+<p> I then
+  filled <a href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=493186">a
+    bug report</a> (wishlist severity) to have the Debian package
+  updated to the new version.</p>
+
+<!-- OpenSSL, IKE, RSA_sign(), RSA_private_encrypt(), PKCS11,
+     libp11, PKCS11_private_encrypt(), PKCS11_sign(), opensc -->
+<br/><div class="npt"><font class="npd">Jul 26 2008 / 16:59 CEST / </font>
+ OpenSSL RSA_private_encrypt() vs libp11
+  PKCS11_private_encrypt() in IKE context </div>  
+
+<p> Two weeks ago, I wrote about the inability to use OpenSSL
+  RSA_sign() in IKE context because:</p>
+
+<ul>
+<li> the function accepts only a limited types of hash algorithms
+  (so that it can associate a specific digest info before padding and
+  private key encryption operations), </li>  
+<li> among those hashes, the SSL/TLS hash (NID_md5_sha1) is the only
+  one with an empty digest info value, but RSA_sign() has specific
+  checks for this case to verify the length of the data to be signed
+  (36 bytes). </li> 
+<li> supporting IKEv1 signature via RSA_sign() would require adding a
+  specific hash type which adds no digest info (like SSL/TLS one) and
+  does not perform length check (unlike SSL/TLS one).</li>
+</ul>
+
+<p> As suggested by Stephen Henson on openssl-dev ML, the solution is
+  to use RSA_private_encrypt() low-level signature function. As a
+  side note, this is in fact what RSA_sign() does internally: after
+  having added the digest information before the hash value, it
+  simply make a call to RSA_private_encrypt() to have the padding and
+  RSA private key encryption done. </p>
+
+<p> When using a RSA key from a file (PEM/DER), this works just
+  fine. </p> 
+
+<p> Now, when using OpenSC PKCS#11 module via OpenSSL dynamic engine
+  interface, this cannot work (yet). The reason is that current
+  implementation of PKCS11_private_encrypt() found in libp11 
+  (p11_ops.c file) is an empty shell:</p>
+
+<pre>
+int
+PKCS11_private_encrypt(int flen, const unsigned char *from, unsigned char *to,
+                   const PKCS11_KEY * rsa, int padding)
+{
+        /* PKCS11 calls go here */
+        PKCS11err(PKCS11_F_PKCS11_RSA_ENCRYPT, PKCS11_NOT_SUPPORTED);
+        return -1;
+}
+</pre>
+
+<p> To solve the issue, I have submitted a patch that provides an
+  implementation for PKCS11_private_encrypt() (so that OpenSSL's
+  RSA_private_encrypt() also works with dynamic engines based on
+  OpenSC PKCS#11 module). The patch also avoid code duplication by
+  having PKCS11_sign() use PKCS11_private_encrypt(). </p>
+
+<p> The post (including the patch) on opensc-devel ML
+  is <a href="http://thread.gmane.org/gmane.comp.encryption.opensc.devel/7355">here</a>.</p>
+
+<!-- MIPv6, IKE, racoon, MIGRATE, mext, IPsec -->
+<br/><div class="npt"><font class="npd">Jul 24 2008 / 09:37 CEST / </font>
+ Deploying IPsec/IKE-protected MIPv6 under Linux </div>
+
+<p> I have written a detailed howto that describes the deployment of
+  IPsec/IKE-protected MIPv6 under Linux. This covers both the
+  theoretical (design, associated reference documents and their
+  status) and practical aspects (patches, build, configuration,
+  packages) of the topic. The setup is based on racoon and umip. </p>
+
+<p> Everything is <a href="../MIPv6/index.html">here</a>.</p>
+
+<p> I made some announcements on various mailing lists:</p>
+
+<ul>
+<li> <a href="http://thread.gmane.org/gmane.network.ipsec.tools.devel/1127">
+    usagi-users ML, ipsec-tools-devel ML </a> </li>
+<li> <a href="http://thread.gmane.org/gmane.ietf.ipsec/8091"> IETF
+    IPsec WG ML, IETF MEXT WG ML </a></li>
+</ul>
+
+<p> If you have questions, bug reports or ideas, do not hesitate to drop <a href="../about/index.html">me</a> a mail.</p>
+
+<!-- OpenSSL, IKE, RSA_sign(), hash, signature, engines -->
+<br/><div class="npt"><font class="npd">Jul 13 2008 / 14:41 CEST / </font>
+ If you intend to use OpenSSL RSA_sign() in IKE context, ...</div>
+
+<p> While playing with OpenSSL engine code to add smartcard support
+  to racoon, I discovered the following issue that currently prevents 
+  RSA_sign() to be used in IKE context.</p> 
+
+<p> RSA_sign() provides PKCS#1 signature: to sum up the step of
+  events, it takes a buffer and its length (holding the digest of a
+  message), adds an OID providing digest information before the hash
+  (based on the type of hash used, the first parameter of the
+  function), pads the result to RSA modulus length and then private
+  encrypts the result. Function prototype is the following:</p>
+
+<pre>
+#include &lt;openssl/rsa.h&gt;
+
+int RSA_sign(int type, const unsigned char *m, unsigned int m_len,
+             unsigned char *sigret, unsigned int *siglen, RSA *rsa);
+</pre>
+
+<p> The 'type' argument is of particular interest in the rest of the
+  discussion. The man page describes it that way:</p>
+
+<pre>
+type denotes the message digest algorithm that was used to generate m.
+It usually is one of NID_sha1, NID_ripemd160 and NID_md5 [...] If type
+is NID_md5_sha1, an SSL signature (MD5 and SHA1 message digests with
+PKCS #1 padding and no algorithm identifier) is created.
+</pre>
+
+<p> Now, below is an excerpt of Section 5.1 of RFC 2409, which
+  describes how RSA signature should be performed:</p>
+
+<pre>
+Since the hash algorithm used is already known there is no need to
+encode its OID into the signature. In addition, there is no binding
+between the OIDs used for RSA signatures in PKCS #1 and those used in
+this document. Therefore, RSA signatures MUST be encoded as a private
+key encryption in PKCS #1 format and not as a signature in PKCS #1
+format (which includes the OID of the hash algorithm).
+</pre>
+
+<p> Basically, this is the same needs as for SSL/TLS (NID_md5_sha1 for
+  type argument), where no OID is added before the 36 byte
+  concatenation of MD5 and SHA1 hashes: the hashes are simply padded
+  and private key encrypted.</p>
+
+<p> OpenSSL code (and also libp11 OpenSSL abstraction layer for
+  RSA_sign() if you use tokens) has specific a length check (36 bytes)
+  of provided hash if you use NID_md5_sha1. </p> 
+
+<p> Hence
+  the <a href="http://thread.gmane.org/gmane.comp.encryption.openssl.devel/14102">
+  post on openssl-dev</a>.</p>
+
+<p>n.b.: and no, using RSA_private_encrypt() is not a solution
+  because this would require to flag associated keys on token
+  as encryption capable. </p> 
+
+<!-- openldap, gnutls, TLS, SASL external, CRL, slapd -->
+<br/><div class="npt"><font class="npd">25 Jun 2008 / 11:15 CEST / </font>
+ If you use OpenLDAP with GnuTLS backend
+  for TLS support, ...</div> 
+
+<p> While playing with OpenLDAP and setting up TLS authentication via
+  SASL EXTERNAL mechanism, I found a bug in libldap CRL support
+  (GnuTLS backend only) that prevented the daemon to start. Clients
+  with CRL support activated are also impacted.</p>
+
+<p> The bug was in libldap code, more specifically in GnuTLS-specific
+  part of the code (in ldap_int_tls_init_ctx() in
+  librairies/libldap/tls.c) : gnutls_certificate_set_x509_crl_file()
+  was expected to return 0 when everything went fine, where it in fact
+  returns the number of CRL found in the given file. Caller did not
+  like that non null value, resulting in failure.</p>
+
+<p> You can find more details in
+  the <a href="http://www.openldap.org/its/index.cgi/Software%20Bugs?id=5577#themesg">bug
+  report</a> I posted. This was quickly (OpenLDAP developers are very
+  reactive) <a href="http://www.openldap.org/devel/cvsweb.cgi/libraries/libldap/tls.c.diff?r1=1.159&amp;r2=1.160&amp;hideattic=1&amp;sortbydate=0">commited</a>
+  to HEAD</p> 
+
+<p> While pushing the bug report, I was wondering how it was possible
+  that this bug was still sitting there: it should have been
+  discovered a long time ago. The answer to this question is certainly
+  that real deployments of OpenLDAP that make use of TLS use OpenSSL
+  backend, and not GnuTLS. For non-technical reasons, Debian links
+  libldap against GnuTLS library. </p>
+
+<p> BTW, there is an interesting thread on the
+ topic  <a href="http://thread.gmane.org/gmane.network.openldap.devel/6100"> 
+ here</a>, which may lead you to maintain your own version of libldap
+ package, linked against libssl...
+ </p> 
+
+
+<!-- Debian, APT, https, apt-transport-https, CRL, issuer check, OpenSSL, NSS, GnuTLS -->
+<br/><div class="npt"><font class="npd">Jun 20 2008 / 15:42 CEST / </font>
+ If you use APT https method ...</div>
+
+<p> APT is the debian package management utility. It nativaley
+  supports different methods to access Debian repositories: ftp, http,
+  file, cdrom, ...</p>
+
+<p> An additional package - namely apt-transport-https - adds support
+  for another method: https. Because the content of mirrors can/should
+  be protected by apt-secure (GPG signature of lists of packages
+  hashes) even for custom non-official repositories, the interest of
+  https might not be obvious. Nonetheless, if you need to </p>
+
+<ul>
+<li> limit access to your repository (and its content) to specific
+  users based on their credentials: TLS client authentication with
+  X.509 certificate is weel suited for that purpose.</li> 
+<li> provide different views of a same repository to clients based on
+  their credentials: all clients basically use the same https URL but
+  the server gives them access to different repositories based on
+  their credentials (their certificate). Deploying specific group/user
+  specific configurations is then easy. </li>  
+</ul> 
+
+<p> then, https is a simple and efficient solution.</p>
+
+<p> I will not cover the Apache part of the setup here but if you are
+  interested, drop me a mail. After this introduction, let's go
+  directly to the point: Debian APT https method.</p>
+
+<p> Some facts on apt-transport-https package:</p>
+
+<ul>
+<li> It depends on libcurl3-gnutls: Debian does not provide
+  libcurl-openssl </li> 
+<li> It comes with no documentation at all: user basically has to
+  dig in the sources of the package (methodes/https.cc) to find the
+  available options, what kind of argument they accept and what their
+  default values are.</li>
+<li> Some default values are simply insane: server certificate
+  verification is deactivated by default and hostname verification is
+  activated by default (respectively the common verifypeer and
+  verifyhost checks if you are familiar with SSL libraries). </li> 
+<li> There is no support for CRL checks: libcurl (all flavours) do
+  not support CRL checks (it didn't but keep reading)</li>
+<li> It does not allow per-repository settings</li>
+<li> It does not allow checking server certificate issuer (useful in
+  multi-level PKI environments)</li>
+</ul>
+
+<p> Hummm, it does not look good. Well, Axel and I spent some time to
+  improve the picture. We wrote two sets of patches: </p>  
+
+<ul>
+<li> <b>One for cURL:</b> it adds support for CRL and issuer checks
+  for the 3 mains flavours of SSL/TLS backend (OpenSSL, GnuTLS,
+  NSS). You can find the initial post and the resulting
+  thread <a href="http://thread.gmane.org/gmane.comp.web.curl.library/19221">here</a>.
+  Sadly, the feature freeze preceeding the release of next stable
+  version prevented the patches to be in 7.18.2 but they have been
+  commited to CVS by Daniel Stenberg and will be in 7.19.0 (next
+  stable version) around August.
+</li>  
+<li> <b>One for APT:</b> it makes all TLS settings available on a
+  per-repository basis, make the default behavior secure (verifypeer
+  enabled), adds CRL check, adds certficate issuer check, improves
+  client authentication parameters and documents all
+  options. After <a href="http://thread.gmane.org/gmane.linux.debian.apt.devel/14771">a
+  first post</a> of patches with a request for comments on Debian APT
+  development mailing list that got no reply after a week, I decided
+  to fill some bug reports (pointing to the set of patches): 
+
+  <ul>
+    <li><a href="http://permalink.gmane.org/gmane.linux.debian.apt.devel/14807">#485960</a> (normal)  : APT https method does not verify peer certificate by default</li>
+    <li><a href="http://permalink.gmane.org/gmane.linux.debian.apt.devel/14808">#485963</a> (wishlist): APT https method has no option for checking CRL</li>
+    <li><a href="http://permalink.gmane.org/gmane.linux.debian.apt.devel/14810">#485964</a> (wishlist): APT https method lacks example/doc</li>
+    <li><a href="http://permalink.gmane.org/gmane.linux.debian.apt.devel/14809">#485965</a> (wishlist): APT https method does not allow per mirror setting</li>
+  </ul>
+
+  Getting no reply after almost another week, I sent a mail to APT
+  developers/maintainers (asking APT support status) and got a reply
+  from Michael Vogt, who then answered my first post with some
+  comments (link above).
+</li>
+</ul>
+
+<p> At the time of writing, cURL patches are in project's CVS and will
+  be in 7.19.0 which should be released in August. It will then
+  quickly be available under Debian unstable which will allow me
+  (after some tests) to bug again APT maintainers for inclusion of the
+  patches. I'll made a post on this page as soon as there is some
+  progress (probably at the beginning of September). </p>
+
+<!-- Linux Kernel, nfnetlink_queue, skb_copy_expand, 2.6.25.4, 2.6.25.5 -->
+<br/><div class="npt"><font class="npd">May 18 2008 / 19:41 CEST / </font>
+ Mangling packets using
+  nfnetlink_queue on Linux kernels 2.6.24.4 to 2.6.25.3 ... </div>
+
+<p> While playing with a nfnetlink_queue updated version of NTT Docomo
+SEND daemon (vanilla version is based on ipqueue), I discovered a bug
+introduced in 2.6.24.4 (yes, by a -stable set of patches) that
+prevents <b>enlarged</b> reinjected packets to be sent. I posted a
+patch on netdev that made its way to Linus tree (2.6.26-rc1 and later
+  are ok) and was pushed by -stable team in 2.6.25.4. </p>
+
+<p> <a href="http://thread.gmane.org/gmane.linux.network/92426">Here</a>
+  is the resend on netdev
+  (<a href="http://thread.gmane.org/gmane.linux.network/92265">first
+  post</a> slipped through), with the explanations and the patch
+  (should apply w/o problem on all kernels that have the bug). Then,
+  the patch was pushed to Linus tree,
+  <a href="http://thread.gmane.org/gmane.linux.network/92645">here</a>. It was
+  then <a href="http://thread.gmane.org/gmane.linux.kernel/680866/">released</a>
+  by the -stable team as part of the set of patches for 2.6.25.4</p> 
+</div>
+
+</body>
+</html>

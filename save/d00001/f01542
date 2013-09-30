@@ -1,0 +1,746 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>MIPv6 from IPv4-only networks (m6t protocol)</title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-type" content="text/html;charset=iso-8859-1" />
+</head>
+<body>
+
+<div class="content">
+
+<div class="pagetitle">m6t</div><br/>
+
+<!-- Introduction -->
+<div class="npt"> Introduction </div> <br/>
+
+<p>This page is dedicated to <b>m6t</b> protocol and
+its Linux implementations: <b>m6tc</b> (client) and <b>m6ts</b>
+  (server/gateway). The goal of <b>m6t</b> is to allow the operation
+  of <a href="http://tools.ietf.org/html/rfc3775">MIPv6</a> Mobile
+  Nodes (MN) from IPv4-only networks. For MN, it serves as a simple
+  alternative to <a href="http://tools.ietf.org/html/rfc5555">DSMIPv6</a>
+  or <a href="http://tools.ietf.org/html/rfc4380">Teredo</a>. </p>
+
+<!-- Demo -->
+<br/> <div class="npt"> Demonstration </div> <br/>
+
+<p> Before you get bored by the explanations, I made
+  a screencast of <b>m6t</b> running on my laptop (a MIPv6 Mobile Node
+  running UMIP). If you want to see it offline or your browser lacks
+  flash support, the original video (16MB, 1280x800, XViD/MP3) is 
+  available <a href="m6t_screencast.avi">here</a>. Otherwise, simply
+  start the one below (in fullscreen mode to get the details). I also
+  think it is a good idea to read the comments under the video to
+  understand what happens. </p> 
+
+<object width="600" height="475"><param name="movie" value="http://www.youtube.com/v/VPDW3n6SpxM?fs=1&amp;hl=en_US&amp;hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/VPDW3n6SpxM?fs=1&amp;hl=en_US&amp;hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="475"></embed></object>
+
+<p> Both MIPv6 signaling and data traffic between the
+  laptop and its Home Agent are protected using IPsec and IKE
+  (racoon). Dynamic updates of IPsec and IKE states upon movement are
+  performed
+  via <a href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate">MIGRATE</a> </p>
+
+<p> For the demonstration, the laptop has IPv4 connectivity via
+ ethernet (<b>eth0</b>), wifi (<b>wlan0</b>) and
+ 3G (<b>wwan0</b>) <a href="../dyn-net/index.html"><font color="red">simultaneously</font></a>. 3 instances of <b>m6t</b> client are running, one for
+ each interface
+ (<b>m6t_eth0</b>, <b>m6t_wlan0</b>, <b>m6t_wwan0</b>). UMIP is
+ configured to use only <b>m6t</b> interfaces, i.e. will never use
+ IPv6 connectivity even if its available on one of the physical
+ interfaces. </p>
+
+<p>Then, in the demo, we start the download of a large
+ file over IPv6. This is used to monitor current bandwidth. We also 
+ start a continuous ping6 to a host located behind our HA. The ping6
+ is used to monitor latency of current connection to our HA. 3 tcpdump
+ are also started on the 3 physical interfaces
+ (<b>eth0</b>, <b>wlan0</b> and <b>wwan0</b>) with an <b>"ip6"</b>
+ filter to show that no IPv6 traffic is directly exchanged via
+ physical interfaces: at every moment, MIPv6 traffic leaves the host
+ only via one of the <b>m6t</b> interfaces. </p> 
+
+<p> Then, we start shutting down and restarting interfaces to see what
+ happens ... The <b>bmon</b> instance running in the main window
+ gives a somewhat visual feedback of the result.</p>
+
+<!-- Overview of m6t protocol -->
+<br/> <div class="npt"> Overview of m6t protocol </div> <br/>
+
+<p> Latest version of <b>m6t</b> specification is
+  available <a href="http://tools.ietf.org/html/draft-ebalard-mext-m6t">here</a>. If
+  you have the time to read the details and make comment either by
+  email or
+  on <a href="https://datatracker.ietf.org/wg/mext/charter/">IETF mext
+  WG mailing list</a>, do not hesitate! But if you only have time for a
+  short and graphical introduction to the protocol, keep
+  scrolling.</p>
+
+<h3>Understanding <b>m6t</b> in 5 sentences ...</h3>
+
+<ol>
+<li> On a MN connected to an IPv4 network, <b>m6t</b> provides an interface
+  configured with an IPv6 address which can transparently be used CoA
+  by MIPv6 stack (and IPsec and IKE modules). </li> 
+<li> <b>m6t</b> component encapsulates IPv6 packets generated locally
+  (i.e. with CoA as source) over UDP and IPv4 to a remote <b>m6t</b>
+  component located at the IPv4 edge of the MN's Home Agent's
+  site (tunnel gateway).</li>
+<li> <b>m6t</b> component on the tunnel gateway decapsulates
+  UDP-carried IPv6 packets and route them to the Home Agent after
+  having recorded the association between the MN's IPv6 address and
+  the IPv4 source of the packet (IPv4 address and UDP source
+  port). </li> 
+<li> Upon reply of the MN's Home Agent with a packet with the CoA of
+  the MN set as destination address, the recorded information is used to
+  UDP-encapsulate the packet to the MN's remote IPv4 site (usually NAT
+  gateway address and mapped UDP port).</li>
+<li> After delivery to <b>m6t</b> component on the MN over UDP, the
+  IPv6 packet is decapsulated and presented locally on <b>m6t</b> tunnel
+  interface (i.e. delivered to MIPv6 stack).</li>
+</ol>
+
+<h3>Graphical overview</h3>
+
+<p> The following picture provides the location of <b>m6t</b>
+  components: </p>
+
+<img src="m6t-overview.png" alt="m6t overview" title="m6t overview"/>
+
+<p>The green part is associated with pure IPv6 (untainted with IPv4 or
+  NAT) elements. The blue part is associated with IPv4 elements. The
+  location of <b>m6t</b> components is depicted: </p>
+<ul>
+    <li> on the MIPv6 Mobile Node (MN), as an interface
+  between <font color="red">unmodified</font> IPv6 stack, MIPv6, IPsec
+  and IKE components on one side and the IPv4 stack on the other
+      side.</li>
+    <li> on a dual-stack router at the edge of the IPv6 site hosting
+      the MN's Home Agent (HA), as an interface
+      between <font color="red">unmodified</font> IPv6 and IPv4
+      stacks.</li> 
+</ul>
+
+<p> In both cases, <b>m6t</b> does the interface between
+  standard <font color="red">unmodified</font> IPv6 and IPv4 
+  components. </p> 
+
+<p> On the following picture, the path followed by the IPv6 traffic
+  exchanged by the MIPv6 MN (stuck in the IPv4 foreign network) with
+  Google is depicted. It presents the various encapsulations applied
+  to MN's IPv6 traffic. At the moment, just consider that MIPv6 module
+  is provided with a CoA by <b>m6t</b> component. Details are given
+  later: </p>
+
+<ul>
+  <li> The MIPv6 module uses the IPv6 CoA provided by <b>m6t</b>
+  component (configured on a tunnel interface, for instance). It
+  works as usual: both signaling and data traffic (encapsulating
+  IPv6 traffic from the HoA) is passed to the tunnel interface with
+  the CoA as source. </li>
+  <li> The <b>m6t</b> component handles traffic received from
+  the IPv6 stack in general. In practice, on the Mobile Node, this
+  traffic is MIPv6 (signaling or data) traffic sent from the CoA to
+  the HA. It encapsulates it over UDP and IPv4 to the
+  remote <b>m6t</b> tunnel gateway at the edge of its site.  </li> 
+</ul>
+
+
+<img src="m6t-overview-path.png" alt="m6t path overview"
+     title="m6t path overview"/>
+
+<p>When leaving the IPv4 stack of the MN, the packets have the
+  following format:</p>
+
+<pre>
+  ESP(IPv6(src=HoA, dst=www.google.com)/TCP())/
+  IPv6(src=CoA, dst=HA)/
+  UDP(sport=*, dport=M6TGWPORT)/
+  IPv4(src=*, dst=M6TGW@)
+</pre>
+
+<p> We considered MIPv6 data traffic is IPsec ESP-protected. The CoA provided
+  by <b>m6t</b> is selected randomly in a prefix provided by
+  configuration. This is discussed later. UDP source port is either
+  random or static based on <b>m6t</b> component's configuration. UDP
+  destination port and IPv4 destination address are provided
+  by <b>m6t</b> configuration. IPv4 source address is an IPv4 address
+  configured on the interface connected to the IPv4 network; in most
+  cases, a private IPv4 address obtained by DHCP.
+</p>
+
+<p>In the IPv4 Internet (i.e. after processing by the NAT gateway),
+  the packets have the following format:</p>
+
+<pre>
+  ESP(IPv6(src=HoA, dst=2a00:1450:4007:800::68)/TCP())/
+  IPv6(src=CoA, dst=HA)/
+  UDP(sport=<span style="color: red">**</span>, dport=M6TGWPORT)/
+  IPv4(src=<span style="color: red">NATGW@</span>, dst=M6TGW@)
+</pre>
+
+<p> Even if unlikely, the source port of the traffic may have been
+  mangled by the NAT GW. Additionally, the source address of the
+  packet is the one of the NAT GW.</p>
+
+<p> After handling by the <b>m6t</b> component on the tunnel gateway
+  at the IPv4 edge of MN's HA IPv6 site, the format of the packet
+  as delivered to the HA is the following:</p>
+
+<pre>
+  ESP(IPv6(src=HoA, dst=2a00:1450:4007:800::68)/TCP())/
+  IPv6(src=CoA, dst=HA)/
+</pre>
+
+<p> After handling by the IPsec and MIPv6 stack on the HA, the packet
+  routed by the HA to the final destination (www.google.com IPv6
+  address) has following format:</p>
+
+<pre>
+  IPv6(src=HoA, dst=2a00:1450:4007:800::68)/TCP()
+</pre>
+
+<!-- Comparison with DSMIPv6 and Teredo -->
+<br/><div class="npt"> Comparison with DSMIPv6 and
+  Teredo </div> <br/>
+
+<p> In this section, the three main solutions
+  (<b>Teredo</b>, <b>DSMIPv6</b> and <b>m6t</b>) to support MIPv6
+  operation from IPv4 networks are compared. If you see other points
+  of comparison not already listed here or if you disagree on some
+  point, drop me an email. </p>
+
+<table border="0" cellspacing="1" width="100%">
+<tr>
+<th width="15%"> </th>
+<th width="25%" align="center" bgcolor="black"><font color="white">Teredo</font></th>
+<th width="35%" align="center" bgcolor="black"><font color="white">DSMIPv6</font></th>
+<th width="25%" align="center" bgcolor="black"><font color="white">m6t</font></th> 
+</tr>
+<tr>
+<td align="center" bgcolor="black"><b><font color="white">Spec.</font></b> </td>
+<td align="center"
+    bgcolor="black"> <a href="http://tools.ietf.org/html/rfc4380">RFC4380</a> </td> 
+<td align="center"
+    bgcolor="black"> <a href="http://tools.ietf.org/html/rfc5555">RFC5555</a> </td> 
+<td align="center"
+    bgcolor="black"> <a href="http://tools.ietf.org/html/draft-ebalard-mext-m6t">draft-ebalard-mext-m6t</a> </td> 
+</tr>
+<tr>
+<td align="center"
+    bgcolor="black"> <b><font color="white">Spec. status</font></b> </td> 
+<td align="center" bgcolor="green"> Standards Track RFC </td>
+<td align="center" bgcolor="green"> Standards Track RFC </td>
+<td align="center" bgcolor="orange"> Informational draft </td>
+</tr>
+<tr>
+<td align="center"
+    bgcolor="black"> <b><font color="white">Encap.</font></b> </td> 
+<td align="center" bgcolor="green"> UDP </td>
+<td align="center" bgcolor="green"> IP-in-IP, UDP </td>
+<td align="center" bgcolor="green"> UDP </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white">selectable
+      port</font></b> </td> 
+<td align="center" bgcolor="red"> no </td>
+<td align="center" bgcolor="red"> no </td>
+<td align="center" bgcolor="green"> yes </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white">
+      MTU </font></b></td> 
+<td align="center" bgcolor="orange"> 1280 bytes </td>
+<td align="center" bgcolor="green"> 1472 bytes </td>
+<td align="center" bgcolor="green"> 1472 bytes </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white"> Real per packet
+      loss (w/o ESP)</font></b></td> 
+<td align="center" bgcolor="orange"> 68 bytes (IPv4/UDP/IPv6)</td>
+<td align="center" bgcolor="green"> 28 (IPv4/UDP) </td>
+<td align="center" bgcolor="orange"> 68 bytes (IPv4/UDP/IPv6)</td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white">Additional
+      latency</font></b> </td> 
+<td align="center" bgcolor="red"> Qualification procedure </td>
+<td align="center" bgcolor="green"> none </td>
+<td align="center" bgcolor="green"> none </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white">Additional
+      traffic</font></b> </td> 
+<td align="center" bgcolor="red"> yes, for qualification and to maintain NAT states
+  with Server and peers </td>
+<td align="center" bgcolor="green"> yes, to maintain NAT states with HA </td>
+<td align="center" bgcolor="green"> yes, to maintain NAT states with tunnel GW </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white"> IPv4
+      connectivity </font></b></td> 
+<td align="center" bgcolor="red"> no  </td>
+<td align="center" bgcolor="green"> yes </td>
+<td align="center" bgcolor="red"> no  </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white"> IPv4
+      stability </font></b></td> 
+<td align="center" bgcolor="red"> no  </td>
+<td align="center" bgcolor="green"> yes </td>
+<td align="center" bgcolor="red"> no  </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white">Comp. w/
+      RO</font></b> </td> 
+<td align="center" bgcolor="green"> yes (theoretically) </td>
+<td align="center" bgcolor="red"> no </td>
+<td align="center" bgcolor="red"> no </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white">
+      Auto. sunset </font></b></td> 
+<td align="center" bgcolor="green"> yes  </td>
+<td align="center" bgcolor="red"> no </td>
+<td align="center" bgcolor="green"> yes  </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white"> Impact on
+      MIPv6 </font></b></td> 
+<td align="center" bgcolor="green"> none, i.e. transparent </td>
+<td align="center" bgcolor="red"> high, including IPv4 and NAT
+  awareness. </td> 
+<td align="center" bgcolor="green"> none, i.e. transparent </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white"> Impact on
+      IPsec/IKE </font></b></td> 
+<td align="center" bgcolor="green"> none, i.e. transparent  </td>
+<td align="center" bgcolor="red"> high, IPv4 and NAT-T support and
+  additional interfacing effort between MIPv6, IPsec and IKE or
+  complete merge. </td> 
+<td align="center" bgcolor="green"> none, i.e. transparent </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white"> Overall
+      transparency </font></b></td> 
+<td align="center" bgcolor="orange"> good  </td>
+<td align="center" bgcolor="red"> bad </td>
+<td align="center" bgcolor="green"> excellent </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white">
+      Modularity </font></b></td> 
+<td align="center" bgcolor="orange"> good  </td>
+<td align="center" bgcolor="red"> bad </td>
+<td align="center" bgcolor="green"> excellent </td>
+</tr>
+<tr>
+<td align="center" bgcolor="black"> <b><font color="white">
+      Implementation </font></b></td> 
+<td align="center" bgcolor="green"> Windows, Linux, BSD </td>
+<td align="center" bgcolor="red"> Patches for UMIP (<b>Supported</b>: HoAv4
+  and CoAv4, static IPsec. <b>Not supported</b>: networks w/ NAT,
+  interactions with IKE and dynamic updates (e.g. MIGRATE)).</td>
+<td align="center" bgcolor="orange"> Linux </td>
+</tr>
+</table>
+
+<p> As a summary, Teredo is capable of providing a MN IPv6
+  connectivity to its HA but also to setup RO with its Correspondent
+  Nodes (at a cost). But this  versatility and its reliance on
+  additional external helpers (servers and relays) add complexity to
+  the protocol, additional traffic and initial latency. </p>
+
+<p> DSMIPv6 has some unique features: IPv4 connectivity and IPv4
+  address stability. Developed as a direct extension of MIPv6, the
+  result is additional complexity, lack of modularity and no
+  "automatic sunset". The interfacing with IPsec and IKE is a
+  guaranteed headache: the inclusion of IPv4 and NAT problems in MIPv6 
+  protocol solution space leads to that situation.</p>
+
+<p> As for <b>m6t</b>, the simplicity of the protocol, its unique goal
+  (providing connectivity between a MN and its HA) limit its abilities
+  (no RO support, no IPv4 support) but make it efficient on the other
+  important aspects: modularity, transparency, efficiency. </p>
+
+
+<!-- m6tc client implementation -->
+<br/><div class="npt"> A simple m6t client for
+  Linux: <font color="red"><b>m6tc</b></font> </div> <br/>
+
+<h3> Sources and packages </h3>
+
+<p> I have developed a simple <b>m6t</b> client for Linux as a proof of concept.
+  It is written in Python and relies on in-kernel tun support for
+  providing an IPv6 interface to the system. Before providing some
+  details on what it does and how it works, below are some info on
+  how to access and install the package on Debian:</p>
+
+<pre>
+# cat &gt; /etc/apt/sources.list.d/umip.list                                      <b># add repo</b>
+deb     http://umip.org/debian/ unstable main contrib non-free
+deb-src http://umip.org/debian/ unstable main contrib non-free
+^d
+
+# wget -q http://umip.org/debian/umip-unofficial-debian-mirror.key             <b># grab key</b>
+# wget -q http://umip.org/debian/umip-unofficial-debian-mirror.key.asc         <b># grab key sig</b>
+# gpg --verify umip-unofficial-debian-mirror.key.asc                           <b># verify key</b>
+gpg: Signature made Sun 27 Jun 2010 11:03:09 PM CEST using RSA key ID A7AE341B
+gpg: Good signature from "Arnaud Ebalard &lt;arno@natisbad.org&gt;"
+
+# apt-key add umip-unofficial-debian-mirror.key                                <b># install key</b>
+OK
+
+# apt-get update                                                               <b># update</b>
+# apt-get install m6tc                                                         <b># install m6tc</b>
+</pre>
+
+<p> The latest version of the sources are
+  available <a href="http://umip.org/debian/pool/main/m/m6t/">here</a>. </p>
+
+<p> The gzipped tar file is a standard python package with a
+  setup.py. It provides both <b>m6tc</b> and <b>m6ts</b> and also
+  contains the debian folder.</p>
+
+<h3> The way it works </h3>
+
+<p> Now, before discussing the configuration, let's give some words
+  on how the implementation works. </p>
+
+<p> <b>m6tc</b> client is usually associated by configuration to a
+  given physical interface (e.g. eth0, wlan0, wwan0, ppp0, ...). Using
+  Netlink, it monitors the status of the interface (link status) and the
+  availability of an address on that interface. When the interface is
+  usable (i.e. link status is UP and RUNNING and the interface is
+  configured with an IPv4 address), it binds a UDP socket on that
+  address (port is selected randomly by default if none is forced by
+  configuration) and create an IPv6 tunnel interface (using in-kernel
+  tun support). It creates a random IPv6 address in the /80 prefix
+  provided in MN's configuration file (usually a ULA prefix). The
+  address is configured on the tunnel interface and a default
+  route is installed on the system via the tunnel interface. </p>
+
+<p> As an example, below is what a call to <b>ifconfig</b> returns on
+  my laptop for the tunnel interface associated with <b>eth0</b>
+  and <b>wlan0</b>:</p> 
+
+<pre>
+$ sudo ifconfig
+...
+
+m6t_eth0  Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  
+          inet6 addr: fdee::f4ea:d78b:4467/128 Scope:Global
+          UP POINTOPOINT RUNNING NOARP PROMISC MULTICAST  MTU:1472  Metric:1
+          RX packets:356208 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:320310 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:284162008 (270.9 MiB)  TX bytes:131268559 (125.1 MiB)
+
+m6t_wlan0 Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  
+          inet6 addr: fdee::10a3:6d63:7adb/128 Scope:Global
+          UP POINTOPOINT RUNNING NOARP PROMISC MULTICAST  MTU:1472  Metric:1
+          RX packets:53894 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:45392 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:42439392 (40.4 MiB)  TX bytes:10355136 (9.8 MiB)
+
+...
+</pre>
+
+<p> When packets are received on an <b>m6t</b> tunnel interface, they
+  are sent over UDP to the remote <b>m6t</b> tunnel gateway using the
+  associated UDP socket.</p>
+
+<p> Now, for UMIP (Linux MIPv6 daemon) to use those interfaces, a
+  simple modification of its configuration is needed. Below is an
+  excerpt of my current configuration, in which I have declared 3
+  additional <b>m6t</b> interfaces, associated respectively
+  with <b>eth0</b>, <b>wlan0</b> and <b>wwan0</b> (I run 3 instances
+  of <b>m6tc</b>). With that configuration (note the preferences
+  below; the lower the value, the higher the preference), UMIP uses
+  those interfaces when native IPv6 is not available via Ethernet or
+  WiFi. </p>
+
+<pre>
+$ cat /etc/mip6d.conf
+
+...
+
+# Native IPv6 via Ethernet
+Interface "eth0" {
+        MnIfPreference 1;
+}
+
+# Native IPv6 via WiFi
+Interface "wlan0" {
+        MnIfPreference 2;
+}
+
+# m6t tunnel interface via Ethernet
+Interface "m6t_eth0" {
+          MnIfPreference 3;
+          Tunnel enabled;
+}
+
+# m6t tunnel interface via WiFi
+Interface "m6t_wlan0" {
+          MnIfPreference 4;
+          Tunnel enabled;
+}
+
+# m6t tunnel interface via 3G
+Interface "m6t_wwan0" {
+          MnIfPreference 5;
+          Tunnel enabled;
+}
+
+...
+
+</pre>
+
+<p> When the link status of a tracked physical interface changes
+  (carrier loss, link is administratively set down) or the address is
+  removed, the associated <b>m6t</b> tunnel interface is set
+  down (address removed and set administratively down). If it was the
+  one used by UMIP to get connectivity to its HA (i.e. for its CoA),
+  it switches to another interface (native if available, <b>m6t</b>
+  tunnel interface otherwise). </p>
+
+<p> When link and address are available again on the physical
+  interface, the <b>m6t</b> tunnel interface is configured with a new
+  random address and set up.</p> 
+
+<h3> Configuration </h3>
+
+<p> First, you should read the man page provided by the package for
+  the client: <b>man 1 m6tc</b>. It provides the specific details about
+  the few parameters the client accepts. Note that the client does not
+  use any configuration file and only accepts parameters on the
+  command line. </p> 
+
+<p> On Debian, an init script (<b>/etc/init.d/m6tc</b>) is used to
+  start the service. It sources a shell script excerpt which you need
+  to create (<b>/etc/m6t.conf</b>). An example of configuration file
+  is available in <b>/usr/share/doc/m6tc/examples/m6tc.conf</b>. You
+  can copy it to <b>/etc/m6tc.conf</b> and then modify the required
+  parameters to fit your needs. The parameters are documented
+  in <b>man 5 m6tc.conf</b>. A typical configuration will look like
+  the following:</p>
+
+<pre>
+$ cat /etc/m6tc.conf
+INTERFACE="eth0"
+BINDPORT="500"
+PREFIX="fdee::/80"
+GATEWAY="1.1.1.1:500"
+</pre>
+
+<p> Then, if you want the init script to start the <b>m6tc</b>
+  daemon, you need to change the content
+  of <b>/etc/idefault/m6tc</b> from:</p>
+
+<pre>
+$ cat /etc/default/m6tc
+ENABLED="no"
+</pre>
+
+to 
+
+<pre>
+$ cat /etc/default/m6tc
+ENABLED="yes"
+</pre>
+
+<p> Once this is done, you can start the service:</p>
+
+<pre>
+$ sudo /etc/init.d/m6tc start
+Starting m6t client instance (m6tc-eth0) ... done (PID 32378).
+</pre>
+
+<p> If the associated physical interface (<b>eth0</b> in our case) is
+  UP and RUNNING, and has an IPv4 address, ifconfig should display
+  something like thise:</p>
+
+<pre>
+$ sudo ifconfig m6t_eth0
+m6t_eth0  Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  
+          inet6 addr: fdee::f4ea:d78b:4467/128 Scope:Global
+          UP POINTOPOINT RUNNING NOARP PROMISC MULTICAST  MTU:1472  Metric:1
+          RX packets:357076 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:321016 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:284542408 (271.3 MiB)  TX bytes:131443255 (125.3 MiB)
+</pre>
+
+<p> Here are some additional points worth mentioning
+  about <b>m6tc</b> implementation.</p> 
+
+<ul>
+  <li> The implementation is only a Proof of Concept, to experiment
+  during the specification of the draft.</li>
+  <li> Current version has been put online soon so that you can
+  experiment and provide feedback: consider it as having alpha or beta
+  quality. </li>
+  <li> Even if it written in an interpreted language
+  (Python), <font color="red">it currently runs as
+  root</font>. This may change in the future.</li>
+  <li> Netlink module is handmade.</li>
+  <li> AFAICT, PMTUD works.</li>
+  <li> Default MTU is 1472 but this may change in the future</li>
+  <li> Maintenance of NAT states (i.e. bubble emission and reception)
+  still needs some work. </li>
+  <li> You need a recent version of Python on your system (at least
+  2.5).</li> 
+</ul>
+
+<p><i>n.b.: if you want to run multiple instances of the service in
+    order to support multiple interfaces, the best way to do that on
+    Debian is to create custom init scripts
+    (say <b>/etc/init.d/m6tc_wlan0</b>) with dedicated configuration
+    file (say <b>/etc/m6tc.wlan0.conf</b>) and default file
+    (<b>/etc/default/m6tc.wlan0</b>)</i> </p>
+
+<!-- m6ts tunnel gateway implementation -->
+<br/><div class="npt"> A simple m6t server (tunnel gateway) for
+  Linux: <font color="red"><b>m6ts</b></font> </div>  <br/>
+
+<p> Now that you have configured the client, you probably need some
+  remote end in front of your HA to terminate the tunnels from your MN,
+  i.e. to UDP-decapsulate/encapsulate IPv6 packets with the HA. This
+  is what <b>m6ts</b> provides: a simple <b>m6t</b> tunnel gateway
+  implementation for Linux. </p>
+
+<h3> Sources and packages </h3>
+
+<p> Like <b>m6tc</b>, <b>m6ts</b> is a proof of
+  concept. Is is written in Python and relies on in-kernel tun support
+  for providing an IPv6 interface to the system. Before providing some
+  details on what it does and how it works, below are some info on
+  how to access and install the package on Debian. If you have already
+  done the steps for installing the client, you only need to do
+  the final <b>apt-get install m6ts</b>.</p>
+
+<pre>
+# cat &gt; /etc/apt/sources.list.d/umip.list                                      <b># add repo</b>
+deb     http://umip.org/debian/ unstable main contrib non-free
+deb-src http://umip.org/debian/ unstable main contrib non-free
+^d
+
+# wget -q http://umip.org/debian/umip-unofficial-debian-mirror.key             <b># grab key</b>
+# wget -q http://umip.org/debian/umip-unofficial-debian-mirror.key.asc         <b># grab key sig</b>
+# gpg --verify umip-unofficial-debian-mirror.key.asc                           <b># verify key</b>
+gpg: Signature made Sun 27 Jun 2010 11:03:09 PM CEST using RSA key ID A7AE341B
+gpg: Good signature from "Arnaud Ebalard &lt;arno@natisbad.org&gt;"
+
+# apt-key add umip-unofficial-debian-mirror.key                                <b># install key</b>
+OK
+
+# apt-get update                                                               <b># update</b>
+# apt-get install m6ts                                                         <b># install m6ts</b>
+</pre>
+
+<p> The latest version of the sources are
+  available <a href="http://umip.org/debian-umip/pool/main/m/m6t/">here</a>. </p>
+
+<p> The gzipped tar file is a standard python package with a
+  setup.py. It provides both <b>m6tc</b> and <b>m6ts</b> and also
+  contains the debian folder.</p>
+
+<h3> The way it works </h3>
+
+<p> Now, before discussing the configuration, let's give some words
+  on how the implementation works.</p>
+
+<p> <b>m6ts</b> binds a UDP
+  socket on an IPv4 address (usually public for access from remote
+  IPv4 sites but there is no limitation on that aspec) and port
+  (selectable!), waiting for incoming <b>m6t</b> traffic
+  from <b>m6t</b> client running on MN. It extracts UDP-encapsulated
+  IPv6 traffic, performs some check on the source (configured prefix)
+  and destination (configured Home Agent address) and reinject it via
+  a tun interface in the IPv6 stack for routing to the HA. During the
+  processing, <b>m6ts</b> also records IPv4 parameters (IPv4 source
+  address of the UDP packet and also UDP source port) associated with
+  the IPv6 address of the MN (found in the encapsualated
+  packet). Obviously, <b>m6ts</b> also works in the reverse
+  direction, i.e. forwards packets received from the HA to the MN,
+  using previously recorded IPv4 parameters. </p> 
+
+<p> <b>m6ts</b> can be deployed directly on the HA or on a separate
+  device with a public IPv4 address at the edge of your network. Mine
+  is running on a separate device. </p>
+
+<h3> Configuration </h3>
+
+<p> On Debian, <b>m6ts</b> is configured in a similar way
+  as <b>m6tc</b>. You just have to follow the steps described
+  above for <b>m6tc</b>, but by replacing 'c' by 's' in most cases
+  for the names of the files. </p>
+
+<pre>
+$ sudo cp /usr/share/doc/m6tc/examples/m6ts.conf /etc/m6ts.conf
+$ emacs -nw /etc/m6ts.conf                                        # modify using man 5 m6ts.conf
+$ sudo sed -i s/no/yes/ /etc/default/m6ts
+$ sudo /etc/init.d/m6ts start
+</pre>
+
+<p> <b>m6ts</b> is basically subject to the same list of limitations
+  and cautions as the ones given for <b>m6tc</b> sooner on this
+  page. </p>
+
+<!-- Conclusion -->
+<br/><div class="npt"> Conclusion </div> <br/>
+
+<p> <b>m6tc</b> (<b>m6t</b> client) and <b>m6ts</b> (<b>m6t</b> tunnel
+  gateway) implementations provide a simple way for UMIP users to test
+  the protocol. Their initial purpose is as proofs of concepts and
+  test playgrounds to
+  improve <a href="http://tools.ietf.org/html/draft-ebalard-mext-m6t"><b>m6t</b>
+  specification</a>. </p>  
+
+<p> If you have questions or find bugs in the implementation, don't
+  hesitate to drop me an email. Do not hesitate to do the same if you
+  have comments or questions on the draft.</p> 
+
+<p> <b>Happy tunneling!</b> </p>
+
+<!-- FAQ -->
+<br/><div class="npt"> FAQ </div><br/>
+
+<p> If you have questions, drop me an email and I will try and answer
+  them. If it can help others, I will try and make the solution
+  available here in this FAQ. </p>
+
+<!-- How do I create a prefix for my MN? -->
+<p><b>[+]&nbsp;<u><i>How do I create a prefix for my MN?</i></u></b>&nbsp;
+a simple solution is to use an Unique Local
+prefix (<a href="http://tools.ietf.org/html/rfc4193">RFC4193</a>).
+Scapy has a function (in6_getLocalUniquePrefix()) that does just
+that. Once you have a /48 prefix, just select a 16 bits subnet
+ID. All MN will be configured with /80 prefixes in that /64 prefix. In
+order to provide each MN a unique /80 prefix (i.e. have no collisions
+between MN), append a unique 16 bit value (incremental is ok) value
+to the /64 prefix for each MN.</p>
+
+<!-- Can m6t help if I need stable IPv4 connectivity? -->
+<p><b>[+]&nbsp;<u><i>Can m6t help if I need stable IPv4 connectivity?</i></u></b>&nbsp;
+No. If this is a requirement, the only way to go is to implement and
+use DSMIPv6 on your MN and HA. An alternative solution might be to use
+NAT64.
+</p>
+
+<!-- How can I make my IPv4 network configuration more dynamic? -->
+<p><b>[+]&nbsp;<u><i>How do you config/reconfig of multiple IPv4 interfaces?</i></u></b>&nbsp;
+I wrote a page dedicated to <a href="../dyn-net/index.html">Dynamic
+network configuration on Linux</a>. It describes how to support
+multiple IPv4 interfaces up and running at the same time with
+multiple default routes, ... This describes what I currently use on my
+MN. 
+</p>
+
+</div>
+</body>
+</html>

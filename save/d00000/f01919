@@ -1,0 +1,261 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #47553:
+awk segfault: NULL dereference                                                                                                  
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #47553</h1>
+
+<pre>
+From cheusov@tut.by  Sun Feb 10 22:26:45 2013
+Return-Path: &lt;cheusov@tut.by&gt;
+Received: from mail.netbsd.org (mail.netbsd.org [149.20.53.66])
+	by www.NetBSD.org (Postfix) with ESMTP id 69F3363E5A2
+	for &lt;gnats-bugs@gnats.netbsd.org&gt;; Sun, 10 Feb 2013 22:26:45 +0000 (UTC)
+Message-Id: &lt;871ucng608.fsf@asrock.chizhovka.net&gt;
+Date: Mon, 11 Feb 2013 01:26:31 +0300
+From: cheusov@tut.by
+To: gnats-bugs@gnats.NetBSD.org
+Subject: awk segfault: NULL dereference
+X-Send-Pr-Version: 3.95
+
+
+<b>&gt;Number:</b>         47553
+<b>&gt;Category:</b>       bin
+<b>&gt;Synopsis:</b>       awk segfault: NULL dereference
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       serious
+<b>&gt;Priority:</b>       medium
+<b>&gt;Responsible:</b>    cheusov
+<b>&gt;State:</b>          closed
+<b>&gt;Class:</b>          sw-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Sun Feb 10 22:30:00 +0000 2013
+<b>&gt;Closed-Date:</b>    Sat Feb 23 00:18:26 +0000 2013
+<b>&gt;Last-Modified:</b>  Thu Mar 14 16:00:31 +0000 2013
+<b>&gt;Originator:</b>     Aleksey Cheusov
+<b>&gt;Release:</b>        NetBSD 6.0_STABLE
+<b>&gt;Organization:</b>
+<b>&gt;Environment:</b>
+System: NetBSD asrock.chizhovka.net 6.0_STABLE NetBSD 6.0_STABLE (GENERIC) #2: Sat Feb 9 16:41:02 FET 2013 cheusov@asrock.chizhovka.net:/srv/obj/sys/arch/amd64/compile/GENERIC amd64
+Architecture: x86_64
+Machine: amd64
+<b>&gt;Description:</b>
+strdup is given a NULL pointer.
+Seen on awk from HEAD and netbsd-6.
+
+
+core file and awk executable for NetBSD/x86-64 is here
+http://mova.org/~cheusov/priv/awk_sigsegv.tar.bz2
+
+
+#0  0x00007f7ff74db104 in strdup () from /usr/lib/libc.so.12
+#1  0x000000000041602c in tostring (s=0x0) at /home/cheusov/prjs/nbawk/bin/../dist/tran.c:441
+#2  0x0000000000415b09 in setsval (vp=0x7f7ff73dc280, s=0x0) at /home/cheusov/prjs/nbawk/bin/../dist/tran.c:361
+#3  0x0000000000411d99 in instat (a=0x7f7ff6f5a5c8, n=288) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:1478
+#4  0x000000000040d5ab in execute (u=0x7f7ff6f5a3d0) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:166
+#5  0x0000000000411995 in ifstat (a=0x7f7ff6f5ab98, n=301) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:1394
+#6  0x000000000040d5ab in execute (u=0x7f7ff6f0a3a0) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:166
+#7  0x000000000040dcf7 in call (a=0x7f7ff6fb9b78, n=333) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:289
+#8  0x000000000040d5ab in execute (u=0x7f7ff6fb9b60) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:166
+#9  0x0000000000411a45 in whilestat (a=0x7f7ff6fb9ba8, n=342) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:1411
+#10 0x000000000040d5ab in execute (u=0x7f7ff6fb9b90) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:166
+#11 0x0000000000411995 in ifstat (a=0x7f7ff6fb9d28, n=301) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:1394
+#12 0x000000000040d5ab in execute (u=0x7f7ff7b44800) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:166
+#13 0x000000000040d689 in program (a=0x7f7ff6fdfb18, n=258) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:189
+#14 0x000000000040d5ab in execute (u=0x7f7ff6fdfb00) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:166
+#15 0x000000000040d497 in run (a=0x7f7ff6fdfb00) at /home/cheusov/prjs/nbawk/bin/../dist/run.c:141
+#16 0x000000000040c915 in main (argc=5, argv=0x7f7fffffca90) at /home/cheusov/prjs/nbawk/bin/../dist/main.c:235
+<b>&gt;How-To-Repeat:</b>
+original script and input data is rather big.
+I hope core file is enough.
+<b>&gt;Fix:</b>
+        &lt;how to correct or work around the problem, if known (multiple lines)&gt;
+
+
+<b>&gt;Release-Note:</b>
+
+
+<b>&gt;Audit-Trail:</b>
+From: &quot;Christos Zoulas&quot; &lt;christos@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47553 CVS commit: src/external/historical/nawk/dist
+Date: Sun, 10 Feb 2013 19:32:09 -0500
+
+
+ Module Name:	src
+ Committed By:	christos
+ Date:		Mon Feb 11 00:32:08 UTC 2013
+
+ 
+ Modified Files:
+ 	src/external/historical/nawk/dist: tran.c
+
+ 
+ Log Message:
+ PR/47553: Aleksev Cheusov: awk segfault: NULL dereference.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.7 -r1.8 src/external/historical/nawk/dist/tran.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+State-Changed-From-To: open-&gt;feedback
+State-Changed-By: wiz@NetBSD.org
+State-Changed-When: Mon, 11 Feb 2013 11:55:20 +0000
+State-Changed-Why:
+christos committed a fix -- ok now?
+
+
+
+
+Responsible-Changed-From-To: bin-bug-people-&gt;cheusov
+Responsible-Changed-By: cheusov@NetBSD.org
+Responsible-Changed-When: Mon, 11 Feb 2013 17:20:16 +0000
+Responsible-Changed-Why:
+Christos applied a workaround that fixes crash
+but I'm not sure my script works correctly.
+At least I see a difference between awk and gawk|mawk.
+I'll analyse it as soon as I have time.
+
+
+
+
+State-Changed-From-To: feedback-&gt;closed
+State-Changed-By: cheusov@NetBSD.org
+State-Changed-When: Sat, 23 Feb 2013 00:18:26 +0000
+State-Changed-Why:
+Fixed. Thanks Christos!
+
+
+
+
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47553 CVS commit: [netbsd-6] src/external/historical/nawk/dist
+Date: Thu, 14 Mar 2013 15:54:59 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Thu Mar 14 15:54:58 UTC 2013
+
+ 
+ Modified Files:
+ 	src/external/historical/nawk/dist [netbsd-6]: tran.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by cheusov in ticket #836):
+ 	external/historical/nawk/dist/tran.c: revision 1.8
+ PR/47553: Aleksev Cheusov: awk segfault: NULL dereference.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.5 -r1.5.6.1 src/external/historical/nawk/dist/tran.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47553 CVS commit: [netbsd-6-0] src/external/historical/nawk/dist
+Date: Thu, 14 Mar 2013 15:55:11 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Thu Mar 14 15:55:11 UTC 2013
+
+ 
+ Modified Files:
+ 	src/external/historical/nawk/dist [netbsd-6-0]: tran.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by cheusov in ticket #836):
+ 	external/historical/nawk/dist/tran.c: revision 1.8
+ PR/47553: Aleksev Cheusov: awk segfault: NULL dereference.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.5 -r1.5.12.1 src/external/historical/nawk/dist/tran.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+<b>&gt;Unformatted:</b>
+
+ 
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

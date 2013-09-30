@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html
+    class="desktop"
+>
+<head>
+  <meta name="author" content="FF" />
+  <meta name="email" content="webmaster@freebsdfoundation.org" />
+
+  <title>August 9, 2011: FreeBSD Foundation Newsletter, August 9, 2011</title>
+
+  <link href="/assets/application-82486c20e5a94a0db04f127d7359e57f.css" media="all" rel="stylesheet" type="text/css" />
+  <script src="/assets/application-718341339c4d19656146e71535d388a7.js" type="text/javascript"></script>
+  <meta content="authenticity_token" name="csrf-param" />
+<meta content="6EQJe/sP7/mAa5IAhN3ymhjBk5FOi/LNPd9EPDp3R9s=" name="csrf-token" />
+
+  
+
+
+  <link href="/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+</head>
+<body>
+
+  <div id="headerline"></div>
+
+<div id="container">
+
+<div id="header">
+  <div id="logo">
+    <a href="/">
+      <img src="/assets/logo_freebsdfoundation.png"
+           alt="The FreeBSD Foundation" />
+    </a>
+  </div>
+
+  <div id="donate">
+    <div class="rb">
+      <div class="rb_ct">
+        <div class="rb_ct2">
+          <a href="/donate">Donate to the Foundation</a>
+        </div>
+      </div>
+      <div class="rb_bt rb_bgimg_red">
+        <div class="rb_bt2 rb_bgimg_red"></div>
+      </div>
+      <div class="rb_cw rb_bg_red"></div>
+      <div class="rb_bb rb_bgimg_red">
+        <div class="rb_bb2 rb_bgimg_red"></div>
+      </div>
+    </div>
+
+    <div id="donors" style="text-align: left;">
+      <a href="/donate/sponsors">View donors list</a><br /><br />
+      <!--
+        <a href="/subscribe">Subscribe to Mailing List</a><br /><br />
+      -->
+    </div>
+  </div>
+</div>
+
+<div id="nav">
+  <div class="rb">
+    <div class="rb_ct">
+      <div class="rb_ct2">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/press">News</a></li>
+          <li><a href="/activities">Activities</a></li>
+          <li><a href="/donate">Donations</a></li>
+
+          <li><a href="/documents">Documents</a></li>
+          <li><a href="/testimonials">Testimonials</a></li>
+          <li><a href="http://freebsdfoundation.blogspot.com/">Blog</a></li>      
+          <li><a href="/faqs">FAQs</a></li>
+          <li><a href="/java">Java Info</a></li>
+          <li class="last-child"><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="rb_bt rb_bgimg_grey">
+      <div class="rb_bt2 rb_bgimg_grey"></div>
+    </div>
+    <div class="rb_cw rb_bg_grey"></div>
+    <div class="rb_bb rb_bgimg_grey">
+      <div class="rb_bb2 rb_bgimg_grey"></div>
+    </div>
+  </div>
+</div>
+
+
+<div id="contentcontainer">
+
+  <div id="sidewrap">
+    <div id="sidenav">
+        <ul>
+    <li><a href="/press/#2012">2012</a></li>
+    <li><a href="/press/#2011">2011</a></li>
+    <li><a href="/press/#2010">2010</a></li>
+    <li><a href="/press/#2009">2009</a></li>
+    <li><a href="/press/#2008">2008</a></li>
+    <li><a href="/press/#2007">2007</a></li>
+  </ul>
+
+    </div>
+    
+  </div>
+
+<div id="contentwrap">
+<div id="content">
+
+
+
+
+<h1>FreeBSD Foundation Newsletter, August 9, 2011</h1>
+
+<P>In this Edition:
+<ul>
+<li><a href="#Letter">Letter From the President</a></li>
+<li><a href="#Fundraising">Fundraising Update</a></li>
+
+<li><a href="#Projects">Development Project Updates</a></li>
+<ul>
+<li><a href="#Project1">IPv6 support in FreeBSD and PC-BSD</a></li>
+<li><a href="#Project2">Implementing support of GEM, KMS, and DRI for Intel Drivers</a></li>
+<li><a href="#Project3">Resource Containers Project</a></li>
+<li><a href="#Project4">Feed-Forward Clock Synchronization Algorithms Project</a></li>
+<li><a href="#Project5">Five New TCP Project</a></li>
+</ul>
+
+<li><a href="#libcxxrt">libcxxrt C++ Runtime Available Under BSD License</a></li>
+
+<!-- Conferences and Travel Grants -->
+<li><a href="#Conferences">Conference Updates</a></li>
+<ul>
+<li><a href="#AsiaBSDCon">AsiaBSDCon 2011</a></li>
+<li><a href="#BSDCan">BSDCan 2011</a></li>
+
+
+</ul>
+
+<li><a href="#Grants">2011 Grant and Travel Grant Recipients</a></li>
+
+<!-- Testimonials -->
+<li><a href="#Testimonial">NYI Testimonial</a></li>
+
+<li><a href="#Foundation Update">Foundation Update</a></li>
+
+<li><a href="#Financials">Financials</a></li>
+</ul>
+
+<h2><a name="Letter">Letter From the President</a></h2>
+
+<h3><a name="Letter">Test Driven FreeBSD</a></h3>
+<p>
+As a software architect, I'm constantly asked to scope new features
+or projects, and to estimate the cost to complete them.  Without
+doing all the work up front, making accurate estimates is hard, but
+in most cases it is possible to come up with a number that differs
+at most 20% from the accounted cost at the end of a project.  But
+there have been many times I've fallen far from that mark.  The
+biggest culprit of these errors for me has been in assuming that a
+stated feature of a component I plan to rely on operates as advertised.
+</p>
+
+<p>
+The classic approach to improving estimates is to perform sufficient
+exploratory testing and prototyping to reduce risk.  But when your
+product includes an OS (or three, as is the case with the product
+I work on for Spectra Logic) and software from dozens of third parties,
+you simply don't have time to test everything in advance.  Based on
+past experience you must identify those components you believe have
+the highest chance of failure, test them, and hope the others don't
+burn you later in the development cycle.
+</p>
+
+<p>
+When dealing with Open Source components, how do you estimate
+this risk?  You can explore the online community surrounding that
+software in search of trouble spots.  A survey of the revision
+control history and source code may give an indication of how well
+it is designed.  If you've already used the software before, that
+may also give you confidence that it will work again.  Unfortunately,
+none of these strategies are a true replacement for testing.
+</p>
+
+<p>
+"Even for a component I've used before?" you ask?  The problem with
+new product development is that you rarely use the exact version
+of the exact same software in exactly the same way as you did in
+the past.  Software that you've used and tested certainly has lower
+risk than something completely untested.  But the more complicated
+the software or the product you are trying to build, the greater
+the chance that a previously undetected defect or regression will
+rear its head.
+</p>
+
+<p>
+Let me site a concrete example from my own work on a FreeBSD based
+disk product.  Like all disk systems that offer some redundancy, 
+disk soft and hard errors must be tested.  Our test suite passed
+with flying colors early in our development phase, but that was not
+our experience after bringing in what appeared to be a set of benign
+updates from the FreeBSD stable branch.  Pulling a disk from our
+array almost always resulted in a deadlock.  With a FreeBSD revision
+just a few months newer, the problem went away.
+</p>
+
+<p>
+The amazing thing we learned after tracking down the root cause of
+this failure was that both those who introduced the problem and
+those who resolved it, were completely unaware that the problem
+existed.  The innocent introduction of some sysctl nodes in the
+FreeBSD disk driver caused a deadlock with the GEOM layer's topology
+reporting code.  If both a topology request and disk departure
+happened to coincide, deadlock.  The fix, decoupling sysctl requests
+from sysctl node removal, was made for unrelated reasons.  In complex
+software systems, the connections between components can be hard
+to visualize, making the true risk of a change almost impossible
+to estimate.
+</p>
+
+<p>
+So if testing is the only solution, how can an integrator of Open
+Source software mitigate risk without devoting a large percentage
+of their resources to testing?  There are two answers to this
+question: develop an automated test suite that streamlines your
+validation procedures, or choose components from Open Source projects
+that already perform this kind of testing.  Only by building up
+a large body of tests and augmenting it whenever a defect slips
+through, can you manage the risk inherent to complex software
+systems.
+</p>
+
+<p>
+Since its inception, FreeBSD has promoted the best practices of
+software development.  However, we seem to have missed the trend
+toward "Test Driven Development" of software.  Code reviews, tools
+like witness, strategic placement of invariant checks within the
+code, and the amazing exploratory testing efforts of members of our
+community like Peter Holm have made FreeBSD very reliable.  But
+they do not guard against regressions or provide the same confidence
+of correctness as a high quality suite of automated tests.
+</p>
+
+<p>
+Talking with others at the vendor summit during this year's BSDCan,
+it's clear that many FreeBSD consumers already rely on automated
+testing to prove correctness of their products.  Some of these
+test suites likely validate generic FreeBSD functionality, but
+there is currently no shared testing framework in FreeBSD that
+would allow both the shared burden of test development, and the
+shared benefit of having FreeBSD defects detected by our community
+within hours of their introduction.  Transitioning FreeBSD to
+a test driven methodology would dramatically increase the value
+proposition of our OS.
+</p>
+
+<p>
+How do we get there?  Others have shown the way forward: the Automated
+Test Framework and userspace kernel support found in NetBSD, hooks
+for trapping device driver accesses developed for Linux in 2003,
+and a vast body of literature on test driven methodologies.  The
+FreeBSD Foundation stands ready to provide the resources needed to
+start this transition for FreeBSD.  If you are interested in working
+on a unified test framework for FreeBSD, or developing tests for
+subsystems in FreeBSD, please consider sending us a grant proposal.
+</p>
+
+<p>Justin T. Gibbs
+<p>President and Founder
+<p>The FreeBSD Foundation
+
+<p>
+<a href="#">Back to top</a>
+</p><hr/>
+
+
+<h2><a name="Fundraising">Fundraising Update</a></h2>
+<p>
+We are so thankful of the support we receive from so many
+individuals and companies who value FreeBSD. As of this publication,
+we have raised $153,000 towards our annual fund raising goal of $400,000.
+This is a tremendous improvement over last year, where we had only
+met 15% of our goal by the mid-year mark!  We're optimistic about
+hitting our donation target in the remaining 5 months of the year,
+but, we do have a lot of work ahead of us to reach this goal!
+</p>
+
+<p>
+In this newsletter we have highlighted many aspects of the FreeBSD
+Foundation's work, including funded development projects, sponsorship
+of conferences and developer travel, and investments in project
+infrastructure.  These articles begin to paint a picture of
+how support for the FreeBSD Foundation, translates into support
+for FreeBSD.  But many of our activities are less visible.
+</p>
+
+<ul>
+<li>
+Investing in the FreeBSD Foundation provides protection to the
+Project's logo, trademarks, and other intellectual property.
+</li>
+
+<li>
+Investing in the FreeBSD Foundation allows us to
+<a href="#Projects">create</a>
+and
+<a href="#libcxxrt">license</a>
+critical software infrastructure under the BSD license.
+</li>
+
+<li>
+Investing in the FreeBSD Foundation gives the FreeBSD Project access
+to legal advice.
+</li>
+</ul>
+
+<p>
+These are just a few examples of how we spend our money.
+Know that <a href="/donate/">
+donating to the FreeBSD Foundation</a> is the most cost effective way
+you can ensure the future of FreeBSD.  With your help, we look forward
+to not only meeting our fundraising goal, but increasing our investment
+in FreeBSD for 2012 and beyond!
+</p>
+<p>
+<a href="#">Back to top</a>
+</p>
+</hr>
+
+<h2><a name="Projects">Development Project Updates</a></h2>
+<h3><a name="Project1">IPv6 support in FreeBSD and PC-BSD</a></h3>
+
+<p>
+The Internet Protocol version 6 (IPv6) is the next generation
+Internet Protocol.  FreeBSD has supported IPv6 as an optionally
+configured feature since the 4.0 release with the KAME-based reference
+implementation.
+</p>
+
+<p>
+With this work on the IPv6-only kernel, FreeBSD can now run IPv6
+without the need for the formerly implied dependency on IPv4.
+Taking this exciting work from a research project, to being available
+in FreeBSD 9.0, will allow further IPv6-only validation work to happen;
+not only for FreeBSD, but also for other open source, commercial, and
+research software.
+</p>
+
+<p>
+Having an IPv6-only desktop system with PC-BSD and the IPv6-only
+server platform with FreeBSD will facilitate finding bugs, invalid
+or confusing error messages, and broken or nonexistent IPv6 support
+in the system.  Many of these faults would otherwise go unnoticed
+due to the previous fallback on IPv4 networking.  In the long term,
+this will improve the overall maturity of the IPv6 implementation
+of FreeBSD and motivate other folks throughout the industry to
+improve their applications for IPv6-readiness.
+</p>
+
+<p>
+I'd like to thank the FreeBSD Foundation and iXsystems for sponsoring
+this project, and foreseeing the importance of IPv6 in the coming years.
+</p>
+<p><i>contributed by Bj&#246;rn Zeeb</i></p>
+<p>
+<a href="#">Back to top</a>
+</p>
+
+<h3><a name="Project2">Implementing support of GEM, KMS, and DRI for Intel Drivers</a></h3>
+<p>
+I have used FreeBSD as my primary desktop for more then 10 years. Recently,
+I noticed that the future of FreeBSD on the desktop seemed dim, even for
+devoted users such as myself. The reason is the lack of support for
+off-the-shelf GPUs in my beloved OS. Although my Sony VAIO Z820
+works perfectly with UMS and DRI1 drivers, the next generation of the Intel
+platform can only work with the VESA driver. Systems based on this
+technology have slow graphics performance and often fail to use
+the native resolution of LCD panels, not to mention have no support
+for hardware-accelerated 2D or OpenGL. Can you say, "DRI1 interfaces
+are messy?"
+</p>
+
+<p>
+Despite the Xorg crowd ignoring everything but Linux, the only
+really hard part of getting Intel graphics running on FreeBSD is
+getting the kernel bits in place. The Intel kernel driver consists of two
+relatively independent parts. The first is GEM: a manager of GPU memory,
+or rather remapping of system RAM into the GPU address space, and
+directing command execution. GEM ensures that the CPU and GPU have a
+consistent view of the memory, taking care of non-coherent caches.
+</p>
+
+<p>
+The second part is mode-setting, which provides a way to enumerate the
+connectors, get the capabilities of the monitors attached to them, and
+properly configure the transmitters to drive the video and audio
+streams.
+</p>
+
+<p>
+Knowing a little about our virtual memory subsystem, I considered
+porting GEM for some time before the Foundation-sponsored project
+started. But, the amount of required work and commitment of time needed to
+port ~20KLOC of code put a bar on the work. In the end, I spent 5
+months porting and debugging GEM and KMS to get it to the state where
+the X server can be started. Without the support of the FreeBSD Foundation,
+I would not have been able to perform the porting.
+</p>
+
+<p>
+An interesting experience during this time was the constant flood of
+emails with proposals to 'test' the code. I anticipated that people
+would like to get 'early' access to the unwritten code, but there were so
+many requests that I felt it was more important for me to 
+spend my time on the work rather than spending it responding to emails.
+</p>
+
+<p>
+On my Core i5 600, I have kernel-modesetting working over the
+HDMI-connected monitor. The ever-important ioquake3 and uhexen2, as well as
+mplayer, also work. I expect to have a patch suitable for wider public
+testing by mid-August. I believe that several more months will be
+required after that date to have a relatively stable driver, ready for
+general public use.
+</p>
+
+<p>
+Anyway, a lot of work still needs to be done to make the driver ready for
+everyday use, but at least now I know which kind of platforms to look
+for when buying a new laptop.
+</p>
+
+<p><i>contributed by Kostik Belousov</i></p>
+<p>
+<a href="#">Back to top</a>
+</p>
+
+<h3><a name="Project3">Resource Containers Project</a></h3>
+<p>
+The goal of the RCTL project, previously known as Resource Containers,
+was to provide system administrators with a mechanism to limit
+per-jail resource consumption.  In the end, it turned out to be
+much more than that: it allows system administrators to query current
+resource usage, and to manipulate rules describing per-user, per-login
+class, and per-jail resource limits.  RCTL allows system administrators
+to choose various actions when resource limits are reached - it can
+not only just deny the allocation, but also send a signal (e.g.
+killing the offending process), log a warning to the syslog, or
+even trigger a devd(8) action that restarts a problematic daemon or
+jail.  In this regard, it's somewhat similar to Solaris resource
+management (prctl(1) et al).
+</p>
+
+<p>
+In addition to the core functionality, the concept of login class
+has been added to the kernel.  Previously, login classes existed
+only in userspace and were used, among other things, to set traditional
+UNIX per-process resource limits (setrlimit(2)) during login.  Now,
+the kernel is aware of the login class of the process; this makes
+it possible to limit resource usage for the whole login classes,
+not just for individual processes or users assigned to that login
+class.  This makes login classes somewhat similar in purpose to
+Solaris projects.
+</p>
+
+<p>
+Almost all of the code has already been merged into CURRENT and
+will appear in 9.0-RELEASE.  In order to use it, the kernel needs
+to be rebuilt with "options RACCT" and "options RCTL."  Remaining
+work, in particular adding %CPU and I/O rate limiting, probably
+won't be ready for 9.0.
+</p>
+
+<p><i>contributed by Edward Tomasz Napiera&#322;a</i></p>
+<p>
+<a href="#">Back to top</a>
+</p>
+
+<h3><a name="Project4">Feed-Forward Clock Synchronization Algorithms Project</a></h3>
+<p>
+For many years, the ntpd synchronization daemon and the Network
+Time Protocol (NTP) have been the reference solution to synchronize
+computer clocks inexpensively on FreeBSD.  Today, applications need
+access to more and more accurate, but also reliable, time. The ntpd
+daemon has shown its limits, with complex code, performance ranging
+from very good to very bad, and no objective bound on its clock
+error. The instability of ntpd is mainly due to the feed-back nature
+of its interaction with the kernel: inaccurate timestamps created
+by the system clock are fed to the ntpd daemon and lead to potentially
+erratic clock error.
+</p>
+
+<p>
+Because it does not couple kernel and synchronisation daemon time,
+a feed-forward approach is inherently robust and allows near-optimal
+performance to be reached. This project aims at extending the FreeBSD
+kernel timing system to support feed-forward synchronisation daemons
+such as the RADclock. This new synchronisation system will allow
+both feed-back and feed-forward approaches to run on one system and
+give users the possibility to select the one more suited to their
+needs.
+</p>
+
+<p>
+In addition, the feed-forward approach provides various new features
+such as faster timestamping, a new difference clock to measure time
+intervals with GPS-like accuracy and extremely high robustness,
+useful specialised flavours of "wall-clock" time, an ability to
+`replay' the clock offline based on stored raw timestamps (counter
+values), and accurate timing for virtual machines and live VM
+migration.
+</p>
+
+<p>
+The FreeBSD Foundation is sponsoring Julien Ridoux and Darryl Veitch
+at the University of Melbourne to bring the feed-forward support
+to FreeBSD. The project is nearing completion and the code should
+be available for testing by August 2011.
+</p>
+
+<p><a href="http://wiki.freebsd.org/201005DevSummit">http://wiki.freebsd.org/201005DevSummit</a></p>
+<p><a href="http://www.synclab.org/radclock">http://www.synclab.org/radclock</a></p>
+<p><i>contributed by Julien Ridoux and Darryl Veitch</i></p>
+
+<p>
+<a href="#">Back to top</a>
+</p>
+
+<h3><a name="Project5">Five New TCP Project</a></h3>
+
+<p>
+TCP is a crucial part of any modern operating system. FreeBSD's
+standard "NewReno" congestion control (CC) is not able to fully
+utilize the high capacity links available today. A range of newer
+CC algorithms have emerged (and continue to emerge) from the
+networking research community over the past 15+ years. These include
+traditional loss-based algorithms (where packet losses indicate
+network congestion) and delay-based algorithms (where changes in
+Round Trip Time, RTT, are used to infer network congestion).
+</p>
+
+<p>
+However, to date FreeBSD's TCP stack has not had an easy-to-use
+mechanism for introducing new CC algorithms. In recent years the
+Centre for Advanced Internet Architectures (CAIA) at Swinburne
+University of Technology has (with the support of the Cisco University
+Research Program Fund at Community Foundation Silicon Valley) been
+developing a range of extensions to the FreeBSD TCP stack. These
+included a modular framework for adding new CC algorithms and new
+modular implementations of the existing NewReno algorithm, four
+other algorithms from the literature (H-TCP, CUBIC, Vegas and HD)
+and a novel algorithm developed at CAIA (CHD). In mid-2010 the
+FreeBSD Foundation funded CAIA to complete, tidy up and commit a
+number of these key enhancements to the FreeBSD TCP stack. Click
+here to
+<a href="/announcements#Swinburne">read more</a>
+</p>
+<p><i>contributed by Grenville Armitage</i></p>
+<p>
+<a href="#">Back to top</a>
+</p>
+
+<h3><a name="libcxxrt">libcxxrt C++ Runtime Available Under BSD License</a></h3>
+<p>
+The FreeBSD Foundation and the NetBSD Foundation have acquired 
+a non-exclusive copyright license to the libcxxrt C++ runtime 
+software from PathScale, a leader in high performance Fortran, C 
+and C++ compiler products for AMD64, Intel64 and MIPS.  This 
+software is an implementation of the C++ Application Binary 
+Interface originally developed for Itanium and now used 
+for the x86 family by BSD operating systems.  Libcxxrt will 
+be available under the 2-clause 
+BSD license.    
+</p>
+
+<p>
+This implementation is a full replacement for the GNU 
+libsupc++ library for platforms that use the Itanium 
+C++ ABI, including i386 and x86-64, and will replace 
+portions of the C++ stack previously only available 
+under the GPL. It provides implementations of the 
+dynamic features of C++, including dynamic casting, 
+exception handling, and thread-safe static initializers, 
+and will continue the gradual replacement of GNU toolchain 
+and runtime components, furthering the aim of a purely 
+BSD-licensed system. 
+</p>
+
+<p>
+"This work complements other work done in the community 
+and is a further step in letting us adopt alternative 
+toolchains in FreeBSD," said Robert Watson, a FreeBSD 
+committer and Director at the FreeBSD Foundation. 
+</p>
+
+<p>
+"There are already a number of STL implementations with 
+other licenses, but libcxxrt is the missing link for a 
+BSD licensed C++ compiler and the C++ runtime," said 
+NetBSD developer Joerg Sonnenberger.
+</p>
+
+<p>
+"It's great to work with the BSD community and help 
+provide these core parts of the toolchain," said Christopher 
+Bergstr&#246;m, CTO at PathScale. "This is a first step to PathScale 
+offering first class support for both NetBSD and FreeBSD."
+</p>
+<p>
+<a href="#">Back to top</a>
+</p>
+<hr/>
+
+<!-- Conferences and Travel Grants -->
+<h2><a name="Conferences">Conference Updates</a></h2>
+<h3><a name="AsiaBSDCon">AsiaBSDCon 2011</a></h3>
+
+<b>What is AsiaBSDCon?</b></br>
+
+<p>
+AsiaBSDCon is an international conference for users and developers on
+BSD-derived operating systems.  This conference started in 2004, and
+it has been held in Japan on a yearly basis since 2007.  It consists
+of tutorials, paper sessions, small meetings, and a banquet.
+</p>
+
+<p>
+The primary goal of AsiaBSDCon is to collect the best technical
+papers and presentations available to ensure that the latest
+developments in our open source community are shared with the widest
+possible audience. The average number of attendees for this conference
+is 100, and the number of tutorials and papers are 4 and 16
+every year, respectively.  The official language is English.  In
+general, a talk in the conference has a paper corresponding to it,
+and a printed proceedings which contains all of the papers is
+distributed in advance, as is the common practice in academia, to help
+people understand the topics.
+</p>
+
+<b>How does FreeBSD benefit from AsiaBSDCon?</b></br>
+
+<p>
+A lot of FreeBSD developers attended AsiaBSDCon and actively
+discussed their on-going projects.  Over 20 technical papers on
+FreeBSD and/or by active FreeBSD developers were presented.  The
+papers in PDF and videos of them can be found at the official 
+<a href="http://asiabsdcon.org/">web site</a>.
+</p>
+
+<p>
+Although we already have several long-established BSD conferences
+including BSDCan in Canada and EuroBSDCon in the European region, few
+people living in Asian countries attend them because of the
+distance, cost, and language issue.  While many developers in the Asian
+region are not so visible for this reason, they have worked on
+interesting problems due to unique characteristics in terms of
+information technology such as internationalization and IPv6 by using
+FreeBSD.  BSD developers from all over Asia, Europe, and North America
+attend every year.  One of the goals of AsiaBSDCon is to provide an
+opportunity for face-to-face communication among such people, and it
+has been successful so far.</p>
+
+<p>
+This conference has roughly been recognized as "an annual BSD
+conference in Japan" and a good place to mingle with such Asian
+developers.  Tokyo is also an attractive tourist destination; excellent
+Japanese food, high-speed Internet access, Akihabara Electric Town for
+digital gadget geeks---a mixture of Eastern traditional culture and
+advanced technology.
+</p>
+
+<b>Sponsorship</b></br>
+
+<p>
+AsiaBSDCon has been fortunate to be sponsored
+by several organizations.  The FreeBSD Foundation is one of the
+primary sponsors of AsiaBSDCon for many years.  Internet Initiative Japan,
+S2 Factory, iXsystems, USENIX, and Sakura Internet have been supporting us
+for a long time.
+</p>
+
+<p>
+A rough breakdown of the budget is the following: 50% for speakers'
+travel expenses, 25% for venue and meals, and another 25% for
+proceedings and goods.  Our income from the sponsorship covers around
+70% of the whole budget every year.
+</p>
+
+<b>AsiaBSDCon 2011 and March 11th Earthquake</b></br>
+
+<p>
+In the afternoon on March 11, 2011 a big earthquake hit the northern area
+of Japan.  As reported worldwide, a tsunami caused by it struck
+Fukushima Prefecture and, as of July, the death toll reached over 15,000.
+Although Japan is well known for its earthquakes, the damage caused by this
+one was well beyond the imaginations of the Japanese people.
+Below is a story of AsiaBSDCon 2011 from the chairperson's perspective.
+</p>
+
+<p><i>
+AsiaBSDCon 2011 was planned to be held March 17-20.  The earthquake
+hit just one week before.  The venue was in central Tokyo and damage
+around that area was quite small---this was probably contrary to
+all expectations.  The earthquake was big, but the magnitude was
+not one that made the average Japanese panic immediately.  I was
+in my office at that time and felt the shock, neither my office,
+building, nor road around had collapsed.  While some of the public
+transportation facilities in Tokyo area became suspended for a
+while, because it needed to be checked for possible trouble, there
+was no other serious damage than that in the area.  The primary
+trouble at that time was traffic congestion due to the suspension
+and difficulty in returning home.  Actually I had to stay in my
+office the whole day.  One positive piece of news was that there
+weren't any BSD community members who were victims of the earthquake
+and tsunami.
+</p>
+
+<p>
+It was a difficult decision to go ahead with the conference, but
+with the small amount of damage in Tokyo, we decided to go ahead
+as planned.  The on-line registration was almost closed, and
+preparation of the printed proceedings was already done.  We reached
+the point of no return regarding these preparations.
+</p>
+
+<p>
+I contacted the speakers and most of them let us know their plans
+had not changed.  However, three days after the decision, we received
+a report on the problems with the Fukushima nuclear power plant and
+the possibility of rolling blackouts.  Most of speakers were not
+able to come to Japan because of strong travel warnings from their
+governments, organizations, and/or families.  I could totally
+understand their concerns.  What I could do at that time was to
+gather more information about the on-going situation.
+</p>
+
+<p>
+Three days before the conference, I received notice from several
+of the speakers that they could not come to Japan, because of the
+uncertainty about the safety.  Some of them had landed already, but
+still had to return home.
+</p>
+
+<p>
+I reorganized the conference schedule and decided to cancel all of
+the tutorials.  I started to experiment with different video
+conferencing software because some of the speakers who couldn't
+attend, offered their talks via video conferencing.  It was certainly
+an attractive option for us, but I was not sure how well it would
+work.  We only had 48 hours to go.  What software should we use?
+What was the best option for their time differences as well as our
+time table?  It was a very busy day.
+</p>
+
+<p>
+At the conference, we had one keynote speech and seven talks.  For
+FreeBSD-related topics, PC-BSD's PBI package management by Kris
+Moore, system management with ZFS by Brooks Davis, Lua scripting
+by Ivan Voras, and PTPd time synchronizing system by George
+Neville-Neil were presented.  There were around 60 attendees and
+10% came from overseas.  Although we had to cancel most of talks,
+and had a smaller number of attendees than usual, we still enjoyed
+meeting face-to-face.
+</p>
+
+<p>
+I would like to give a big "thank you" to all of the attendees and
+people who supported AsiaBSDCon this year.
+</i></p>
+
+<b>Future Conferences</b></br>
+
+<p>
+The situation now in Japan is far better than it was in March, so
+we're moving forward and preparing for AsiaBSDCon 2012. Please
+consider submitting your paper and coming to Japan. If you are
+worried about difficulties with the language don't worry, especially
+if you aren't having a problem reading this article. Japan is filled
+with English signage and the organizing staff is here to help.  We
+are sure you will have a wonderful experience here!
+</p>
+
+<p>
+Official web site: <a href="http://asiabsdcon.org/">http://asiabsdcon.org/</a></br>
+Contact: secretary@asiabsdcon.org
+</p>
+
+<p><i>contributed by Hiroki Sato</i></p>
+
+<p>
+<a href="#">Back to top</a>
+</p>
+<h3><a name="BSDCan">BSDCan 2011</a></h3>
+
+<p>
+BSDCan is a technical conference for people working on, and with,
+4.4BSD based operating systems and related projects.  Since our
+start in 2004, we have kept the conference format simple, and have
+adhered to the core conference functions.  We believe the primary
+purpose of a conference is to meet, learn, and discuss.  We believe
+that good relationships go a long way towards cooperation within,
+and between, projects.  With this in mind, we try to maximize the
+opportunities for attendees to meet their peers, and discuss their
+work and interests.  To give people plenty of time to talk and
+mingle, most sessions have a 30 minute break after each talk.  This
+break also benefits the speaker, so they have plenty of time to
+setup.   We also provide lunch at the venue because we feel that
+this time fosters even more discussions.
+</P>
+
+<p>
+Since the start, BSDCan has provided a venue for all projects to
+gather, talk about their projects, collaborate on work, and make
+plans for future work.  Each year, after the conference, we see
+references such as "as discussed at BSDCan," or "based on work
+presented at BSDCan."  It gives us much satisfaction that we can
+contribute in this way.
+</p>
+
+<p>
+Conferences are expensive to attend.  Travel and accommodation costs
+are way up there.  While we strive to keep registration costs down
+for the attendee, there is nothing we can do about travel costs.
+Not all speakers can pay their own way to conferences.  For those
+that cannot, we try to help.  The grants from the FreeBSD Foundation
+go a long way to ensuring that we can help.
+</p>
+
+<p>
+BSDCan has helped organize a FreeBSD Dev Summit for several years;
+getting larger every year.  It is clearly a popular feature of the
+conference.  At BSDCan 2011, we had a new track: Public FreeBSD Dev
+Summit.
+</p>
+
+<p>
+One of the most memorable moments at BSDCan 2011 happened after one
+of the sessions.  I witnessed many developers from several projects
+standing at the front of the hall.  They were talking about common
+code, and how to better coordinate their work.  I overheard them
+making plans for improvement.  This wasn't a first, but it is
+definitely something that seems to happen more readily in person,
+than on mailing lists.
+</p>
+
+<p>
+BSDCan is proud that its actions can contribute to all projects and
+hope this continues in the years to come.
+</p>
+<p><i>contributed by Dan Langille</i></p>
+<p>
+<a href="#">Back to top</a>
+</p>
+<hr/>
+
+<h2><a name="Grants">2011 Grant and Travel Grant Recipients</a></h2>
+<p>
+Every year we sponsor FreeBSD related conferences, projects, and
+developer travel.  We believe that BSD-centered and FreeBSD-specific
+conferences play critical roles in expanding the FreeBSD user
+community and supporting collaborative development. Our grants may
+be for something as little as performance software to large projects
+like Network Stack Virtualization.
+</p>
+
+<p>
+To find out how to apply for a travel grant, please visit
+<a href="/documents/TravelRequestForm.pdf">
+http://www.freebsdfoundation.org/documents/TravelRequestForm.pdf</a>.
+To get information on how to apply for a grant, please visit
+<a href="/documents/GrantRequestForm.pdf">
+http://www.freebsdfoundation.org/documents/GrantRequestForm.pdf</a>.
+</p>
+
+<p>
+Here is a list of projects, developers, and conferences we have
+sponsored for 2011.
+</p>
+
+<p>
+2011 Conference Grant Recipients:
+</p>
+
+<ul>
+<li>AsiaBSDCon 2011 Conference</li>
+<li>BSDCan 2011 Conference</li>
+<li>EuroBSDCon 2011 Conference</li>
+</ul>
+
+<p>
+2011 Project Grant Recipients:
+</p>
+<ul>
+<li>Swinburne University - Five New TCP Congestion Control Algorithms Project</li>
+<li>Edward Tomasz Napierala - Resource Containers</li>
+<li>Konstantin Bilousov - GEM, KMS, and DRI for Intel Drivers</li>
+<li>Bjoern Zeeb - IPv6 Day Project </li>
+<li>University of Melbourne - Feed-Forward Clock Synchronization Algorithms Project</ul>
+
+<p>
+2011 Travel Grant Recipients:
+</p>
+<ul>
+<li>FOSDEM - Brooks Davis
+<li>BSDCan - Thomas Abthorpe, Sergio Ligregni, Simon Nielson, Julien Laffaye, Daichi Goto, Attilio Rao</li>
+<li>Other - Mark Linimon</li>
+
+</ul>
+
+<p>
+<a href="#">Back to top</a>
+</p>
+<hr/>
+
+<!-- Spotlight -->
+<h2><a name="">NYI Testimonial</a></h2>
+<p>
+NYI is a data center provider that uses FreeBSD for all of its
+internal and customer-facing solutions for colocation and dedicated
+servers, cloud computing and managed services. Our  initial choice
+of technology included commercial Unix systems tied to proprietary
+hardware. However, the cost and portability of FreeBSD were determining
+factors in our changing platforms early in our company's existence.
+</p>
+
+<p>
+Since then, we have enjoyed the functionality and reliability of
+FreeBSD.  We rely on it for networking duties like routers, VPNs,
+firewalls and traffic shapers, as well as web applications like
+shared hosting, backend interfaces, load balancers and proxies. We
+particularly appreciate the community support and centralized
+documentation, which means that we do not have to hunt down bits
+and pieces of information, like we would with other projects.
+</p>
+<i>-Phillip Koblence, VP Operations, NYI</i>,
+<a href="http://www.NYI.net">www.nyi.net</a>
+
+<h2><a name="#Foundation Update">Foundation Update</a></h2>
+<p>
+We're pleased announce the addition of Ed Maste to our Board of
+Directors.  Ed has been involved with FreeBSD since 2003. And, has
+been a committer since 2005. Ed leads the OS team at Sandvine and
+is responsible for a number of developers who bring enhancements
+from FreeBSD into Sandvine's OS and contribute their own changes
+back to FreeBSD.
+</p>
+<p>
+Ed replaces Paul Saab as a director on the board. Paul had been
+with the foundation since 2007.  We would like to thank Paul for
+all of his contributions to the foundation and Project over the
+four years he was on our board.
+</p>
+
+<h2><a name="Financials">Financials</a></h2>
+<p>
+Our
+<a href="/documents/2011 Q1-Q3 Profit Loss.pdf"> 2011 Q1-Q3 Profit/Loss</a>
+and
+<a href="/documents/2011 Q1-Q3 Balance Sheet.pdf">2011 Q1-Q3 Balance Sheet</a>
+are posted on our website.
+</p>
+
+<p>
+<a href="#">Back to top</a>
+</p>
+
+
+</div> <!-- /content -->
+</div> <!-- /contentwrap -->
+</div> <!-- /contentcontainer -->
+
+  <div id="footer">Copyright &copy; 2001-2013 The FreeBSD Foundation.</div>
+
+
+</div> <!-- /container -->
+
+</body>
+</html>

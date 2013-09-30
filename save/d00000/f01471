@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta http-equiv="Content-Style-Type" content="text/css" />
+ <meta name="MSSmartTagsPreventParsing" content="TRUE" />
+ <link rel="stylesheet" type="text/css" href="vstyle.css" />
+ <link rel="apple-touch-icon" href="pics/blumenkohl.png" />
+ <!--[if IE]>
+ <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+ <![endif]-->
+ <link rel="icon" type="image/png" href="favicon.png" />
+ <link rel="canonical" href="https://www.mirbsd.org/projects.htm" />
+ <meta name="author" content="Thorsten Glaser" />
+ <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited. Unmodified redistribution with no endorsement permitted." />
+ <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
+ <meta name="licence" content="see the source files in CVSWEB for details" />
+ <title>MirOS: Project Ideas</title>
+ <meta name="robots" content="index, follow" />
+ <!--
+  This is copyrighted material. For the full licence text, see the file
+  LICENCE in the current directory. In no event may text from this page
+  be simply copied into another work covered by an unfree (or otherwise
+  mismatching) licence, such as the GNU Free Documentation License.
+ -->
+</head><body>
+<h1><img src="hashed/35D19665.png" alt="Project Ideas" /></h1>
+<div class="trailing">
+<div class="index">
+ <ul class="lv1">
+<li class="dummy"><a href="main.htm">Main</a><ul class="lv2">
+<li class="dummy"><a href="wlog-10.htm">Weblog</a> for #10</li>
+<li class="dummy dummy"><a href="tags.htm">Tag Cloud</a></li>
+<li class="dummy dummy"><a href="news.htm">Old News</a> &amp;
+ <a href="oldnews.htm#owlog">WLog</a></li>
+</ul></li>
+<li class="dummy"><a href="about.htm">About</a></li>
+<!-- these are not in a usable state
+<li class="dummy"><a href="docs.htm">Documentation</a></li>
+<li class="dummy dummy"><a href="faq.htm">FAQ</a></li>
+-->
+<li class="spacer dummy"><a href="getting.htm">Download</a></li>
+<li class="dummy"><a href="rss.htm">RSS &amp; Mailing Lists</a></li>
+<li class="dummy"><a href="irc.htm">IRC</a></li>
+<li class="dummy"><a href="wtf.htm" title="WTF‽">Acronyms</a></li>
+<li class="markindex"><a href="projects.htm">Project Ideas</a></li>
+<li class="dummy"><a href="danke.htm">Donate</a></li>
+<li class="dummy"><a href="man.htm">Manpages</a><ul class="lv2">
+<li><a href="htman/i386/">i386</a></li>
+<li><a href="htman/sparc/">sparc</a></li>
+</ul></li>
+<li class="dummy"><a href="ports.htm">MirPorts</a> Framework</li>
+<li class="dummy"><a href="pkgsrc.htm">pkgsrc®</a> integration</li>
+<li class="dummy">Subprojects<ul class="lv2">
+<li class="dummy"><a href="jupp.htm">jupp</a> Editor</li>
+<li class="dummy"><a href="kwalletcli.htm">KWalletCLI</a></li>
+<!-- li class="dummy"><a href="makefs.htm">makefs</a></li -->
+<li class="dummy"><a href="mksh.htm">mksh</a> Shell</li>
+</ul></li>
+ </ul>
+</div>
+<div class="content">
+<p>The following project ideas can be submitted to the MirOS Project
+ by everybody who feels like having the necessary skills.
+ To avoid duplicate work, we suggest the applicant to <a
+ href="mailto:miros-discuss@mirbsd.org">contact</a> us first.</p>
+
+<p>Submissions ought to be made under the <a href="MirOS-Licence">MirOS
+ Licence</a>, but any other licence which is equivalent to the UCB/BSD
+ licence is OK. We suggest to not add advertising clauses, though.</p>
+
+<h2>List of ideas</h2>
+
+<p><b>Fix annoying bugs in nroff,&nbsp;</b> especially these which prevent it
+ from outputting correctly formatted manual pages when not built with -O1 or
+ -fno-omit-frame-pointer on gcc 3.4-stable snapshots (even on Debian).
+ If the code is also cleaned up a bit, chances are it will make into
+ stock OpenBSD at least for plain nroff support. Also, ask Brian Kerninghan
+ for a licence for ditroff, start hacking on it instead (tg@ has got the
+ sources, they just lack a licence and copyright marker).</p>
+
+<p class="boxhead">The first bug you should look at is even exposed when using -O1:</p>
+<div class="boxtext">
+ On a side note: does anyone who is experienced in C
+ and gdb (I'm not familiar with the latter...) want to
+ fix the bugs in src/usr.bin/oldroff/nroff/ which make
+ it show
+<pre>The options that operate on the names of files or archive members
+(-c,-i, -n, -s, -u, -v, -D, -G, -T, -U, -Y, and -Z) interact as follows.</pre>
+in the <a href="htman/i386/man1/pax.htm" class="manlink">pax(1)</a> manual page, instead of (hand-edited)
+<pre>The options that operate on the names of files or archive members (-c,
+-i, -n, -s, -u, -v, -D, -G, -T, -U, -Y, and -Z) interact as follows.</pre>
+or, depending on the line length,
+<pre>The options that operate on the names of files or archive members
+(-c, -i, -n, -s, -u, -v, -D, -G, -T, -U, -Y, and -Z) interact as follows.</pre>
+ This is .Po and .Pc, all others (.Qo/.Qc and so on) are
+ broken the same way, and it gets worse if you build nroff
+ with -O2/-Os instead of -O1 (-funit-at-a-time also exhibits
+ the bug, but this time I'm convinced it's a bug in nroff).
+</div>
+<p class="boxfoot">(from an eMail)</p>
+
+<p>Estimated effort: Time - medium; Skill - low</p>
+
+<p><b>Port MirOS BSD to the Xen machine virtualisation technique.&nbsp;</b>
+ This can probably be done by looking at the NetBSD code and giving credit
+ where due. Domain U and Xen 2.0 support is a must; Domain 0 support
+ would be an additional bonus.</p>
+
+<p>We would like to not need src/sys/arch/xen, rather keep it integrated
+ in src/sys/arch/i386, except for the Xen-specific device drivers,
+ which can go to src/sys/arch/i386/xen/ (DomU drivers).</p>
+
+<p>Estimated effort: Time - high; Skill - medium</p>
+
+<p><b>Port FFS snapshots support to MirOS BSD.&nbsp;</b> In addition to that,
+ port at least one of UBC (unified buffer cache) or UFS2 support. Again, this
+ can be made quite easily by looking at how NetBSD has done it; in
+ addition, Ted Unangst of OpenBSD has published some experimental diffs
+ to the OpenBSD mailing lists.</p>
+
+<p>Estimated effort: Time - medium; Skill - medium (high if UBC)</p>
+
+<p><b>Add support for IPv4 mapped IPv6 addresses to MirOS BSD,&nbsp;</b>
+ controllable with a sysctl (net.inet6.ip6.v6only), so that, if the sysctl is
+ set to 0, a daemon listening on (say) [::]:53 will receive IPv4-transport
+ (on the wire) packets as IPv6-mapped (in the protocol stack) connections
+ and is able to process them without having to listen to [0.0.0.0]:53 as
+ well. Keep care that these IPv4-mapped IPv6 packets are never seen on
+ the wire, and that IPv4-mapped packets seen on the wire are always
+ discarded, for security reasons.</p>
+
+<p>Estimated effort: Time - medium; Skill - medium</p>
+
+<p><b>Communicate with upstream and send back diffs.&nbsp;</b> This is urgent
+ for XFree86&reg;, high priority for GNU binutils; low priority for all
+ other stuff (probably not interesting for gcc at all). The project
+ assignee will have to make himself familiar with the MirOS-local
+ diffs first &ndash; not always an easy task because we inherited a
+ lot of them from OpenBSD. (Optionally, add support for cross-building
+ to OpenBSD targets first.)</p>
+
+<p>Estimated effort: Time - medium to high; Skill - low but specialised</p>
+
+<p><b>Merge improvements from NetBSD&reg;&nbsp;</b> &ndash; especially in the
+ following fields: <a href="htman/i386/man1/make.htm" class="manlink">make(1)</a>; binutils and gcc (so we can cross-build
+ to all or almost all NetBSD&reg; targets); ...</p>
+
+<p>Estimated effort: Time - medium to high; Skill - medium</p>
+
+<p><b>Remove Perl dependency from the MirPorts Framework</b> – allows
+ e.g. MidnightBSD users to use MirPorts without having to install Perl
+ from mports first. Simplifies maintenance, as developers don’t have
+ to learn Perl. (Possibly add a lang/perl5 port though, to depend on
+ it.) Replace “perl -pi -e "s/foo/bar/g" …” invocations in Makefiles
+ by “print ',g/foo/s//bar/g\nwq' | ed -s …”.</p>
+
+<p>Estimated effort: Time – low; Skill – low + Perl knowledge</p>
+
+<h2>Implementation notes</h2>
+
+<p>Unless we are accepted as a mentoring organisation at Google's
+ &quot;Summer of Code&quot; we are sorry we cannot offer a bounty
+ for completion of these tasks. We are trying, though.</p>
+
+<p>People working on the above projects will be listed there so you
+ can contact them if required.</p>
+</div>
+<div class="footer">
+<p style="display: none;">Do <em>not</em> send any eMail to <a
+ href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
+ href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>, or <a
+ href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a> –
+ it won’t do any good to you.</p>
+<p>• <a
+ href="mailto:miros-discuss@mirbsd.org">eMail</a> contact to The MirOS Project
+ • <a href="imprint.htm">Impressum</a> • This website is (supposed
+ to be) <a href="http://validator.w3.org/check/referer">Valid HTML</a>! •
+</p>
+<p class="rcsdiv">Generated <!-- MBSD_HTSCONV_GENDATE_TAG_30284 --> on <span class="rcsid">2013-06-22 23:26:54</span> by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.71 2013/06/08 16:55:56 tg Exp $</span> from <span class="rcsid">$MirOS: www/src/projects.hts,v 1.9 2013/06/22 23:26:10 tg Exp $</span></p>
+</div></div>
+<div class="heading">
+ <img class="hdrlnks" alt="MirOS Logo"
+  src="pics/logo-grey.png" />
+</div>
+</body></html>

@@ -1,0 +1,853 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="generator" content="Website XSL Stylesheet V2.6.0">
+<link rel="home" href="../." title="Welcome to The NetBSD Project: Of course it runs NetBSD.">
+<link rel="up" href="../." title="Welcome to The NetBSD Project: Of course it runs NetBSD.">
+<link rel="previous" href="../contrib/." title="Contributions to the NetBSD project">
+<link rel="next" href="../docs/Hardware/." title="Hardware Documentation">
+<link rel="first" href="../about/." title="About the NetBSD Project">
+<link rel="last" href="../support/." title="NetBSD support">
+<link rel="stylesheet" href="../global.css" type="text/css">
+    <title>NetBSD Documentation</title>
+  </head>
+<body class="website"><div class="webpage">
+<a name="docs-index"></a><div id="top"><a href="#mainContent" class="doNotDisplay doNotPrint">Skip to main content.</a></div>
+<div id="centralHeader">
+<div id="logo">
+<a href="../"><img alt="[NetBSD Logo]" src="../images/NetBSD-smaller.png"></a><div id="name"><a href="../">
+	  The NetBSD Project
+	</a></div>
+<div id="slogan"><a href="../">
+	  &#8220;Of course it runs NetBSD&#8221;
+	</a></div>
+</div>
+<div id="headerTools">
+<div id="header-cse-search-form">Google custom search</div>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script><script type="text/javascript"> 
+		  google.load('search', '1', {language : 'en'});
+		  google.setOnLoadCallback(function() {
+		    var header_customSearchControl = new google.search.CustomSearchControl('006277936787196004968:mbdhrauy1wm');
+		    header_customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+		    var header_options = new google.search.DrawOptions();
+		    header_options.enableSearchboxOnly("http://google.com/cse?cx=006277936787196004968:mbdhrauy1wm");    
+		    header_customSearchControl.draw('header-cse-search-form', header_options);
+		  }, true);
+		</script>
+</div>
+</div>
+<div id="navBar" role="navigation">
+<span class="doNotDisplay">
+	  Navigation:
+	</span><ul>
+<li><a href="../">
+	  Home</a></li>
+<li>
+<a href="../">
+	  News &amp; Media</a><ul>
+<li><a href="../changes/">
+	    Recent changes</a></li>
+<li><a href="http://blog.NetBSD.org/">
+	    NetBSD blog</a></li>
+<li><a href="../gallery/events.html">
+	    Events</a></li>
+<li><a href="../changes/rss.html">
+	    Feeds</a></li>
+</ul>
+</li>
+<li>
+<a href="../about/">
+	  About</a><ul>
+<li><a href="../about/">
+	    NetBSD</a></li>
+<li><a href="../foundation/">
+	    The NetBSD Foundation</a></li>
+<li><a href="../gallery/">
+	    Advocacy</a></li>
+</ul>
+</li>
+<li>
+<a href="../docs/">
+	  Documentation</a><ul>
+<li><a href="../docs/misc/index.html">
+	    FAQ &amp; HOWTOs</a></li>
+<li><a href="../docs/guide/en/">
+	    The Guide</a></li>
+<li><a href="http://man.NetBSD.org/">
+	    Manual pages</a></li>
+<li><a href="http://wiki.NetBSD.org/">
+	    Wiki</a></li>
+</ul>
+</li>
+<li>
+<a href="../support/">
+	  Support</a><ul>
+<li><a href="../support/send-pr.html">
+	    Problem report guide</a></li>
+<li><a href="../cgi-bin/sendpr.cgi?gndb=netbsd">
+	    Report a bug</a></li>
+<li><a href="../support/query-pr.html">
+	    Query bug database</a></li>
+<li><a href="../support/security/">
+	    Security</a></li>
+</ul>
+</li>
+<li>
+<a href="../community/">
+	  Community</a><ul>
+<li><a href="http://onetbsd.org/">
+	    Blogs</a></li>
+<li><a href="../mailinglists/">
+	    Mailing lists</a></li>
+<li><a href="http://mail-index.NetBSD.org/">
+	    List archives</a></li>
+</ul>
+</li>
+<li>
+<a href="../developers/">
+	  Developers</a><ul>
+<li><a href="http://cvsweb.NetBSD.org/">
+	    Browse source</a></li>
+<li><a href="http://nxr.NetBSD.org/">
+	    Cross-reference</a></li>
+<li><a href="http://releng.NetBSD.org/">
+	    Release engineering</a></li>
+<li><a href="http://wiki.NetBSD.org/projects/">
+	    Projects list</a></li>
+</ul>
+</li>
+<li>
+<a href="../ports/">
+	  Ports</a><ul>
+<li><a href="../ports/history.html">
+	    History</a></li>
+<li><a href="../ports/emulators.html">
+	    Emulators</a></li>
+</ul>
+</li>
+<li>
+<a href="http://www.pkgsrc.org/">
+	  Packages</a><ul>
+<li><a href="http://www.pkgsrc.se/">
+	    Browse packages</a></li>
+<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+	    Release engineering</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="content"><div class="fullWidth"><div class="rowOfBoxes">
+<h1>NetBSD Documentation</h1>
+<table border="0" id="toc-table">
+    <tr>
+      <td align="left" valign="bottom">
+        <a class="ulink" href="../about/disclaimer.html#bsd-daemon" target="_top">
+          <img align="middle" src="../images/BSD-daemon.jpg" border="0" width="146" height="129" alt="BSD daemon">
+        </a>
+      </td>
+      <td align="left">
+        <p>
+          </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+              <a class="ulink" href="#documentation-portfaqs" target="_top">Port specific
+              FAQs</a>
+            </li>
+<li class="listitem">
+              <a class="ulink" href="#guides" target="_top">Guides</a>
+            </li>
+<li class="listitem">
+              <a class="ulink" href="#documentation-manual-pages" target="_top">Manual
+              Pages</a>
+            </li>
+<li class="listitem">
+              <a class="ulink" href="#documentation-howtos" target="_top">FAQs and
+                HOWTOs</a>
+            </li>
+<li class="listitem">
+              <a class="ulink" href="#documentation-external-resources" target="_top">External
+              Resources</a>
+            </li>
+</ul></div>
+<p>
+        </p>
+      </td>
+    </tr>
+  </table>
+<div class="sect1">
+<div class="titlepage"></div>
+<p>
+This site provides links to the official NetBSD documentation and also
+links to various external documents. It's impossible to list  every
+single article or tutorial about NetBSD, but please
+<a class="ulink" href="http://www.NetBSD.org/cgi-bin/feedback.cgi" target="_top">
+contact us</a> if you think that a resource should be added.
+</p>
+
+
+
+</div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="documentation-portfaqs"></a>Port specific FAQs</h2></div></div></div>
+    
+
+    <p>These FAQs help with various hardware platform specific
+    issues.</p>
+
+    <div class="informaltable">
+<a name="documentation-table-portfaqs"></a>
+      <table border="1">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><a class="ulink" href="../ports/acorn32/faq.html" target="_top">acorn32</a></td>
+<td><a class="ulink" href="../ports/alpha/faq.html" target="_top">alpha</a></td>
+<td><a class="ulink" href="../ports/atari/faq.html" target="_top">atari</a></td>
+<td><a class="ulink" href="../ports/cats/faq.html" target="_top">cats</a></td>
+<td><a class="ulink" href="../ports/cobalt/faq.html" target="_top">cobalt</a></td>
+<td><a class="ulink" href="../ports/dreamcast/faq.html" target="_top">dreamcast</a></td>
+<td><a class="ulink" href="../ports/evbarm/faq.html" target="_top">evbarm</a></td>
+<td><a class="ulink" href="../ports/hp300/faq.html" target="_top">hp300</a></td>
+<td><a class="ulink" href="../ports/hp700/faq.html" target="_top">hp700</a></td>
+<td><a class="ulink" href="../ports/hpcmips/faq.html" target="_top">hpcmips</a></td>
+<td><a class="ulink" href="../ports/i386/faq.html" target="_top">i386</a></td>
+</tr>
+<tr>
+<td><a class="ulink" href="../ports/ia64/faq.html" target="_top">ia64</a></td>
+<td><a class="ulink" href="../ports/mac68k/faq/" target="_top">mac68k</a></td>
+<td><a class="ulink" href="../ports/macppc/faq.html" target="_top">macppc</a></td>
+<td><a class="ulink" href="../ports/mipsco/faq.html" target="_top">mipsco</a></td>
+<td><a class="ulink" href="../ports/mvme68k/faq.html" target="_top">mvme68k</a></td>
+<td><a class="ulink" href="../ports/mvmeppc/faq.html" target="_top">mvmeppc</a></td>
+<td><a class="ulink" href="../ports/news68k/faq.html" target="_top">news68k</a></td>
+<td><a class="ulink" href="../ports/next68k/faq.html" target="_top">next68k</a></td>
+<td><a class="ulink" href="../ports/pc532/faq.html" target="_top">pc532</a></td>
+<td><a class="ulink" href="../ports/playstation2/faq.html" target="_top">playstation2</a></td>
+<td><a class="ulink" href="../ports/pmax/faq.html" target="_top">pmax</a></td>
+</tr>
+<tr>
+<td><a class="ulink" href="../ports/sgimips/faq.html" target="_top">sgimips</a></td>
+<td><a class="ulink" href="../ports/sh3/faq.html" target="_top">sh3</a></td>
+<td><a class="ulink" href="../ports/shark/faq.html" target="_top">shark</a></td>
+<td><a class="ulink" href="../ports/sparc/faq.html" target="_top">sparc</a></td>
+<td><a class="ulink" href="../ports/sparc64/faq.html" target="_top">sparc64</a></td>
+<td><a class="ulink" href="../ports/sun2/faq.html" target="_top">sun2</a></td>
+<td><a class="ulink" href="../ports/sun3/faq.html" target="_top">sun3</a></td>
+<td><a class="ulink" href="http://vaxine.bitcon.no/" target="_top">vax</a></td>
+<td><a class="ulink" href="../ports/zaurus/faq.html" target="_top">zaurus</a></td>
+<td class="auto-generated"> </td>
+<td class="auto-generated"> </td>
+</tr>
+</tbody>
+</table>
+    </div>
+  </div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="guides"></a>Guides</h2></div></div></div>
+    
+
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+<p>
+<a class="ulink" href="guide/en/index.html" target="_top">The NetBSD Guide</a> -
+all  information about the installation and  administration of
+the NetBSD operating system
+(<a class="ulink" href="guide/en/netbsd.html" target="_top">single HTML document</a>).
+Available formats for download:
+<a class="ulink" href="guide/download/netbsd-en.ps.gz" target="_top">PostScript</a> and
+<a class="ulink" href="guide/download/netbsd-en.pdf.gz" target="_top">PDF</a>
+</p>
+</li>
+<li class="listitem">
+<p>
+<a class="ulink" href="internals/en/index.html" target="_top">NetBSD Internals</a>
+- aimed at contributors who wish to develop extensions or want
+to improve NetBSD's existing code. Available formats for download:
+<a class="ulink" href="internals/download/netbsd-internals-en.ps.gz" target="_top">PostScript
+</a> and <a class="ulink" href="internals/download/netbsd-internals-en.pdf.gz" target="_top">
+PDF</a>
+</p>
+</li>
+<li class="listitem">
+<p>
+<a class="ulink" href="pkgsrc/index.html" target="_top">The pkgsrc guide</a> - for users
+and developers of pkgsrc, the centralized package build and management
+system .
+Available formats for download:
+<a class="ulink" href="pkgsrc/pkgsrc.ps" target="_top">PostScript</a> and
+<a class="ulink" href="pkgsrc/pkgsrc.pdf" target="_top">PDF</a>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="documentation-manual-pages"></a>NetBSD Manual Pages</h2></div></div></div>
+  
+  <p>
+  The manual pages describe the system commands, functions and drivers -
+  the most important documentation for users.
+  </p>
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+      <a class="ulink" href="http://man.NetBSD.org/man/+ANY+NetBSD-current" target="_top">
+        NetBSD-current</a>
+    </li>
+<li class="listitem">
+      <a class="ulink" href="http://man.NetBSD.org/man/+ANY+NetBSD-5.1" target="_top">NetBSD 5.1</a>
+    </li>
+<li class="listitem">
+      <a class="ulink" href="http://man.NetBSD.org/man/+ANY+NetBSD-5.0" target="_top">NetBSD 5.0</a>
+    </li>
+<li class="listitem">
+      <a class="ulink" href="http://man.NetBSD.org/man/+ANY+NetBSD-4.0" target="_top">
+        NetBSD 4.0</a>
+    </li>
+</ul></div>
+  <p>Also,
+    <a class="ulink" href="http://www.freebsd.org/" target="_top">FreeBSD</a>
+    offers a nice
+    <a class="ulink" href="http://www.freebsd.org/cgi/man.cgi?manpath=NetBSD" target="_top">
+      alternative interface</a>
+    to NetBSD Manual Pages.</p>
+</div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="documentation-howtos"></a>FAQs and HOWTOs</h2></div></div></div>
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="basic"></a>Basic NetBSD questions</h3></div></div></div>
+  
+  <p>
+  A collection  of <a class="ulink" href="misc/index.html" target="_top">basic questions</a> about
+  NetBSD
+  </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">User configuration</li>
+<li class="listitem">General questions about NetBSD</li>
+<li class="listitem">Common (and less common) problems</li>
+<li class="listitem">Other questions</li>
+</ul></div>
+<p>
+</p>
+</div>
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="building"></a>Building, Installing and Updating</h3></div></div></div>
+
+
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+    <a class="ulink" href="current/index.html" target="_top">Tracking NetBSD-current</a>
+  </li>
+<li class="listitem">
+    <a class="ulink" href="updating.html" target="_top">Updating a stable NetBSD
+      release</a>
+  </li>
+<li class="listitem">
+    <a class="ulink" href="http://www.NetBSD.org/docs/guide/en/chap-build.html" target="_top">
+      Cross-building Explained: Cross compilation on NetBSD</a>
+  </li>
+</ul></div>
+
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+<span class="emphasis"><em>External documents</em></span>:
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; ">
+<li class="listitem">
+  <a class="ulink" href="http://www.bsdnewsletter.com/2003/09/Features102.html" target="_top">
+  Building tiny systems with embedded NetBSD</a>
+  </li>
+<li class="listitem">
+    <a class="ulink" href="http://www.onlamp.com/pub/a/bsd/2003/06/05/Big_Scary_Daemons.html" target="_top">
+    Palmtop NetBSD</a> (Installing on a HP Jornada 728)
+  </li>
+<li class="listitem">
+    <a class="ulink" href="http://www.onlamp.com/pub/a/bsd/2003/09/25/Big_Scary_Daemons.html" target="_top">
+   Expanding Small NetBSD Systems</a>
+  </li>
+<li class="listitem">
+    <a class="ulink" href="http://www.feyrer.de/NetBSD/xdev.html" target="_top">
+     Cross-Development with NetBSD</a>
+  </li>
+</ul></div>
+
+</li></ul></div>
+</div>
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="disks"></a>Disks and Filesystems</h3></div></div></div>
+  
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+      <a class="ulink" href="misc/index.html#adding-a-disk" target="_top">
+        Adding a disk to an existing system</a>
+    </li>
+<li class="listitem">
+      <a class="ulink" href="bootcd.html" target="_top">Creating a bootable NetBSD CD-ROM</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="misc/index.html#memory-swap" target="_top">
+     Memory/Swap Configuration</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="misc/index.html#cgd-swap" target="_top">
+    Encrypted swap with cgd</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="misc/index.html#softdeps" target="_top">
+    Use and benefits of soft updates</a> (softdeps) on FFS, the
+    default NetBSD filesystem
+    </li>
+<li class="listitem">
+      <a class="ulink" href="misc/index.html#moving-usr" target="_top">
+      Moving /usr from root to a different partition</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="misc/index.html#read-only-to-read-write" target="_top">
+    Mounting a 'read-only' filesystem read/write
+    </a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="misc/index.html#using-fsck" target="_top">
+    Safe use of fsck</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="misc/index.html#kernfs" target="_top">
+    What are /kern and /proc (kernfs, procfs)?</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="misc/index.html#rebuilding-dev" target="_top">
+    Rebuilding /dev</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="misc/index.html#setup-ccd" target="_top">
+    Setting up a striped (ccd) drive</a>
+    </li>
+<li class="listitem">
+     <a class="ulink" href="puffs/" target="_top">
+     Filesystems in User-Space: puffs, refuse, FUSE, and more</a>
+    </li>
+<li class="listitem">
+     <a class="ulink" href="encrypted-iscsi.html" target="_top">
+     Encrypted iSCSI devices on NetBSD</a>
+    </li>
+</ul></div>
+
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+      <span class="emphasis"><em>External documents</em></span>:
+      <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">
+          <a class="ulink" href="http://www.unixboard.de/wiki/index.php?title=NetBSD_-_encrypted_filesystem_with_cfs" target="_top">
+            Encrypted filesystem with cfs</a>
+        </li></ul></div>
+    </li></ul></div>
+</div>
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="emulation"></a>Emulation and Virtualization</h3></div></div></div>
+
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+<a class="ulink" href="vmware.html" target="_top">Running VMWare on NetBSD</a>
+(dated document for NetBSD 1.6)
+</li>
+<li class="listitem">
+ <a class="ulink" href="../ports/xen/howto.html" target="_top"> NetBSD/xen Howto</a> -
+ NetBSD as domain0 and domainU with Xen2 and Xen3. Including how to
+ install Linux as domainU.
+</li>
+</ul></div>
+</div>
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="hardware"></a>Hardware</h3></div></div></div>
+  
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+    <a class="ulink" href="Hardware/index.html" target="_top">Hardware Documentation
+    Library</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="power-mgmt/index.html" target="_top">Power Management for
+     Laptops</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="misc/#connecting-a-ups" target="_top">
+     Connecting a UPS to a NetBSD system</a>
+    </li>
+</ul></div>
+</div>
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="infrastructure"></a>Infrastructure</h3></div></div></div>
+
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+  <a class="ulink" href="mirror.html" target="_top"> NetBSD Mirror FAQ</a>
+  </li></ul></div>
+</div>
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="kernel"></a>Kernel</h3></div></div></div>
+  
+  
+  <p>
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+        <a class="ulink" href="kernel/index.html" target="_top">Kernel FAQ</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="kernel/programming.html" target="_top">Kernel Programming FAQ</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="kernel/profiling/" target="_top">Kernel Profiling HOWTO</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="kernel/uvm.html" target="_top">NetBSD UVM FAQ</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="kernel/kgdb.html" target="_top">Debugging the NetBSD kernel
+          with GDB HOWTO</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="kernel/elf-notes.html" target="_top">Vendor-specific ELF Note Elements
+        </a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="kernel/vfork.html" target="_top">Why implement traditional vfork()</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="kernel/ddwg.html" target="_top">NetBSD Device Driver Writing Guide
+        </a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="http://benediktmeurer.de/2002/11/27/introduction-to-netbsd-loadable-kernel-modules/" target="_top">
+          Introduction to NetBSD loadable kernel modules</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="kernel/pseudo/index.html" target="_top">Writing a pseudo device</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="http://www.freebsd.org/doc/en_US.ISO8859-1/books/design-44bsd/index.html" target="_top">
+          Design Overview of the 4.4BSD kernel</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="kernel/non-exec.html" target="_top">Information about non-executable
+          mappings</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="kernel/porting_netbsd_arm_soc.html" target="_top">Porting NetBSD
+          to a new ARM SoC</a>
+      </li>
+<li class="listitem">
+	<a class="ulink" href="rump/index.html" target="_top">Kernel Code as a Userspace Library:
+	  rump</a>
+      </li>
+</ul></div>
+<p>
+  </p>
+</div>
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="networking"></a>Networking</h3></div></div></div>
+  
+
+<p>
+  </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+  <a class="ulink" href="network/index.html" target="_top">Basic NetBSD Networking</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="guide/en/chap-inetd.html" target="_top">The Internet Super Server
+  </a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="http://www.muine.org/~hoang/dns.html" target="_top">DNS and
+   BIND on NetBSD</a>
+   </li>
+<li class="listitem">
+  <a class="ulink" href="network/nsps/index.html" target="_top">NetBSD Security Processes and
+  Services</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="network/wavelan.html" target="_top">Wireless networking
+   using the Lucent WaveLAN</a>
+   </li>
+<li class="listitem">
+  <a class="ulink" href="network/netboot/index.html" target="_top">HOWTO Netboot a diskless
+  machine</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="network/dhcp.html" target="_top">HOWTO setup DHCP clients
+  and servers</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="network/isdn/index.html" target="_top">Steps to connect via ISDN</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="network/gprs.html" target="_top">Steps to connect via GPRS / CDPD</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="http://www.feyrer.de/NetBSD/NWF/" target="_top">
+   NetBSD/amiga Guide to Networking FAQ</a>
+   </li>
+<li class="listitem">
+  <a class="ulink" href="network/ipv6/index.html" target="_top">IPv6 Networking FAQ</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="network/ipsec/index.html" target="_top">IPsec FAQ</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="network/ipsec/rasvpn.html" target="_top">RASVPN HowTo -
+  building a user remote access VPN gateway using IPsec</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="http://www.macbsd.com/macbsd/howto/" target="_top">
+  NetBSD/mac68k PPP, cross compiling, and other HOWTOs</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="http://www.obfuscation.org/ipf/" target="_top">IP Filter
+  (Firewall) resources, including HOW-TOs and FAQs</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="network/pf.html" target="_top">Packet Filter (pf) FAQ</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="http://www.csl.sony.co.jp/~kjc/software/TIPS.txt" target="_top">
+    ALTQ Tips</a>
+  </li>
+</ul></div>
+<p>
+</p>
+</div>
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="printing"></a>Printing and Scanning</h3></div></div></div>
+
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+  See <a class="ulink" href="misc/index.html#printing-scanning" target="_top">
+  this section</a> for help with various printing tasks or for
+  setting up a scanner. Scanners are not supported by the NetBSD base
+  system. It is necessary to install and configure additional software.
+  </li></ul></div>
+
+</div>
+
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="security"></a>Security</h3></div></div></div>
+
+
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+  <span class="emphasis"><em>External documents</em></span>:
+    <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; ">
+<li class="listitem">
+      <a class="ulink" href="http://net-tex.dnsalias.org/~stefan/nt/unix/aide-en.html" target="_top">
+      Installing and configuring AIDE for NetBSD</a>
+      </li>
+<li class="listitem">
+    <a class="ulink" href="http://www.onlamp.com/pub/a/bsd/2003/01/23/chroot.html" target="_top">
+    Securing Systems with chroot</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="http://www.onlamp.com/pub/a/bsd/2003/02/13/chroot.html" target="_top">
+    chrooted ntpd in NetBSD</a>
+    </li>
+<li class="listitem">
+    <a class="ulink" href="http://www.onlamp.com/pub/a/bsd/2003/01/30/Big_Scary_Daemons.html" target="_top">
+    Systrace Policies</a>
+    </li>
+</ul></div>
+
+  </li></ul></div>
+</div>
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="software"></a>Software and pkgsrc</h3></div></div></div>
+  
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+   <a class="ulink" href="pkgsrc/index.html" target="_top">The pkgsrc guide</a>
+   </li>
+<li class="listitem">
+      <a class="ulink" href="software/index.html" target="_top">Adding/compiling software on
+        NetBSD</a> (including packages &amp; pkgsrc)
+    </li>
+</ul></div>
+
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+  <span class="emphasis"><em>External documents</em></span>:
+    <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">
+    <a class="ulink" href="http://www.theillien.com/Sys_Admin_v12/html/v12/i05/a6.htm" target="_top">
+    Managing Third-Party Software Installation with pkgsrc</a>
+    </li></ul></div>
+
+  </li></ul></div>
+</div>
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="system"></a>System and Userland</h3></div></div></div>
+
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+  <a class="ulink" href="compat.html" target="_top">Binary emulation in NetBSD</a>
+  </li>
+<li class="listitem">
+  <a class="ulink" href="elf.html" target="_top">ELF and NetBSD</a>
+  </li>
+</ul></div>
+</div>
+
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="X11"></a>X Window System</h3></div></div></div>
+  
+  <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+ <span class="emphasis"><em>X Window</em></span> or <span class="emphasis"><em>X11</em></span> is the
+ graphical display system used on NetBSD. Depending on your platform,
+ either the X.Org or XFree86 implementation is the default on NetBSD,
+ and X.Org can always be used from pkgsrc  as an alternative.
+ <a class="ulink" href="x/" target="_top">This HOWTO</a>  about X11 helps with specific
+ configuration issues.
+  </li></ul></div>
+</div>
+
+</div>
+<div class="sect1">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="documentation-external-resources"></a>External Resources</h2></div></div></div>
+    
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="tutorials"></a>Tutorials, articles and books</h3></div></div></div>
+  
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+ <p>
+ A collection of published technical and non-technical articles can be
+ found <a class="ulink" href="../gallery/articles.html" target="_top">here</a>.
+ Presentations about NetBSD are listed
+ <a class="ulink" href="../gallery/presentations/index.html" target="_top">
+ on this page</a>.
+  </p>
+ </li>
+<li class="listitem">
+ <p>
+ <a class="ulink" href="../gallery/research.html" target="_top">
+ Research carried out using NetBSD</a> and
+<a class="ulink" href="research/" target="_top">Research of interest to NetBSD</a>
+</p>
+</li>
+<li class="listitem">
+<p>
+<a class="ulink" href="books.html" target="_top">Recommended reading</a> - informative and
+useful books
+</p>
+</li>
+</ul></div>
+</div>
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="documentation-other-systems"></a>Documentation for BSD and other Unix Systems</h3></div></div></div>
+    
+    <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+        <a class="ulink" href="http://www.unix.org/online.html" target="_top">
+        Single UNIX Specification</a>
+      </li>
+<li class="listitem">
+      <a class="ulink" href="bsd/" target="_top">Historic BSD Information</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="http://www.freebsd.org/docs.html" target="_top">
+        FreeBSD</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="http://techpubs.sgi.com/" target="_top">IRIX, UNICOS, and
+        some NT/Linux</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="http://www.oracle.com/technetwork/documentation/solaris-11-192991.html" target="_top">Solaris 11</a>
+      </li>
+<li class="listitem">SCO
+      <a class="ulink" href="http://www.sco.com/support/docs/openserver/" target="_top">
+      Openserver 6</a>
+      and
+      <a class="ulink" href="http://www.sco.com/support/docs/unixware/" target="_top">
+      UnixWare 7</a>
+      documentation</li>
+<li class="listitem">
+      <a class="ulink" href="http://h30097.www3.hp.com/docs/pub_page/doc_list.html" target="_top">
+      Tru64 Unix</a>
+      (Used to be Digital Unix)</li>
+<li class="listitem">
+      <a class="ulink" href="http://lxr.linux.no/linux/" target="_top">Linux Source
+      Tree</a>
+      (cross-referenced)</li>
+<li class="listitem">
+      <a class="ulink" href="http://fxr.watson.org/" target="_top">FreeBSD/NetBSD/OpenBSD
+      (and Linux) Source Tree</a>
+      (cross-referenced)</li>
+<li class="listitem">
+        <a class="ulink" href="http://publib.boulder.ibm.com/infocenter/aix/v6r1/index.jsp" target="_top">
+        AIX</a>
+      </li>
+<li class="listitem">
+        <a class="ulink" href="http://www.gnu.org/manual/manual.html" target="_top">GNU</a>
+      </li>
+</ul></div>
+  </div>
+</div>
+</div></div></div>
+<div class="navfoot"></div>
+<div id="footer"><div id="footerContent"><center>
+<span class="footfeed"><a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">
+	  Contact</a> |
+      </span><span class="footcopy"><a href="../about/disclaimer.html">
+      Disclaimer</a> |
+
+      <span class="copyright">Copyright © 1994-2013 The NetBSD Foundation, Inc. </span>ALL RIGHTS RESERVED.<br>NetBSD<sup>®</sup> is a registered trademark of The NetBSD
+	Foundation, Inc.</span>
+</center></div></div>
+</div></body>
+</html>

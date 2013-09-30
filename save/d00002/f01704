@@ -1,0 +1,477 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <TITLE>Performance Evaluation of Data Transmission</TITLE>
+</HEAD>
+<BODY LINK="#0000FF" VLINK="#800080">
+<!-- $Id: index.htm,v 1.4 2000/03/20 10:44:22 say Exp $ -->
+
+<CENTER><B><FONT SIZE=+3>Performance Evaluation of Data Transmission</FONT></B></CENTER>
+
+<CENTER><B><FONT SIZE=+3>using IPSec over IPv6 Networks</FONT></B></CENTER>
+
+<BR><BR>
+
+<CENTER><B>Seiji Ariga</B> (say@sfc.wide.ad.jp, Keio University, Japan),</CENTER>
+
+<CENTER><B>Kengo Nagahashi</B> (kenken@sfc.wide.ad.jp, Keio University,
+Japan),</CENTER>
+
+<CENTER><B>Masaki Minami</B> (minamim@isl.rdc.toshiba.co.jp, Toshiba Corporation,
+Japan),</CENTER>
+
+<CENTER><B>Hiroshi Esaki</B> (hiroshi@wide.ad.jp, The University of Tokyo,
+Japan),</CENTER>
+
+<CENTER><B>Jun Murai</B> (jun@wide.ad.jp, Keio University, Japan)</CENTER>
+
+<CENTER>&nbsp;</CENTER>
+
+<CENTER><B><U>Abstract</U></B></CENTER>
+
+
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This paper evaluates the performance
+of data transmission using the ordinary PC both for large sized data transmission
+and for the actual application. As an actual application, this paper picks
+up the DV (Digital Video) transmission. This is because the Digital Video
+will be a common and widely used application media in the emerging internet.
+Also, the video contents requires the secured and reliable data transmission.
+For large sized data, when we apply the authentication (AH) and encryption
+(ESP), the throughput degrades to 1/9 comparing with the throughput without
+AH nor ESP. With AH and ESP, we obtains about 10 Mbps for UDP data transmission
+and about 6 Mbps for a simple TCP transmission. As for the DV transmission,
+the end-to-end throughput was again about 10Mbps. With 10 Mbps end-to-end
+throughput, the 1/10 of video information can be successfully transferred
+from the source node to the destination node to obtain a sufficient quality
+of DV transmission.
+
+<P><B><U>1. Introduction</U></B>
+
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; As the Internet moves forward
+into the next century, the Internet transits to an information infrastructure
+for everyone from the information infrastructure only for scientists or
+professionals. The next generation Internet has to achieve the scalable
+and reliable data transmission. The IPv6 (IP version 6) [4] and IPSec (IP
+Security) [1] is a core protocol suite for it. IPv6 has a 128bit address
+space that is enough to cover all worldwide networks and equipment, and
+IPSec technology provides a essential functions for reliable and secured
+data exchange over the Internet.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The purpose of this paper
+is a performance evaluation of data transmission with the IPSec over IPv6
+networks using an ordinary PC platform. People wants to perform a high
+speed multimedia communications, such as high quality video communications,
+with a low cost PC platform. Also, when we go to the production level of
+multimedia services over the Internet, we have to apply the authentication
+and encryption to protect themselves and the information exchanged among
+them.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This paper evaluates the
+performance of data transmission using the ordinary PC both for large sized
+data transmission and for the actual application. As the actual application,
+this paper picks up the DV (Digital Video) transmission, since the secured
+and reliable DV applications will be commonly used by the most of the people
+in the next generation Internet.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For large sized data, when
+we apply the authentication (AH) [2] and encryption (ESP) [3], the throughput
+degrades to 1/9 comparing with the throughput without AH nor ESP. With
+AH and ESP, we obtains about 10 Mbps for UDP data transmission and about
+6 Mbps for TCP transmission. Also, the throughout was compared with the
+data transmission with IPv4. The degradation of throughput at the end system,
+due to the use of IPv6 instead of IPv4, was significantly small.
+
+<P>The performance evaluation in this paper shows ;
+<UL>
+<LI>
+Even with an ordinary PC platform, we can perform the secure and reliable
+DV quality multimedia data transmission using the AH and ESP over IPv6
+network</LI>
+</UL>
+
+<UL>
+<LI>
+The performance degradation or improvement of data transmission throughput
+due to the introduction of IPv6 is not significant for end system</LI>
+</UL>
+
+<P>Section 2 discusses the rough overview of IPSec, section 3 describes
+the performance evaluation of bulk data transmission over TCP and UDP.
+Section 4 describes the performance evaluation of DV data transmission
+with applying the IPSec. Finally, section 5 gives a brief conclusion.
+<BR>
+
+<P><B><U>2. IPSec (IP Security)</U></B>
+
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RFC 2401 [1] describes the
+architecture framework of IPSec (IP Security). IPSec protocol suite provides
+the functional suite for secured and reliable data exchange over the Internet.
+IPSec has the following two functions, i.e., Authentication and Encryption.
+<BR>&nbsp;
+
+<UL>
+<LI>Authentication</LI>
+<BR>The authentication is a user validation of the communication peer.
+In order to validate (authenticate) the user, IPSec defines the AH (Authentication
+Header) in RFC2402 [2]. AH field contains the digital signature calculated
+by the sender node. The receiver node validates the digital signature in
+the received AH field. When the AH contains the valid digital signature,
+the received packet is correctly delivered to the corresponding application
+module. On the other hand, when the AH does not contains the valid digital
+signature, the received packet is discarded. With the AH, the receiver
+can receive the packets only from the authenticated node/user.
+<BR>&nbsp;
+<LI>Encryption</LI>
+<BR>The encryption is to allow to be able to read a data by only person(s)
+who has (have) the correct encryption key. In order to encrypt the user
+data in the IP packet, IPSec defined the ESP (Encapsulating Security Payload)
+in RFC2403 [3]. ESP field contains the encryption parameters to identify
+the encryption scheme between the communicating peer nodes. The payload
+of IP packet contains an ESP header, that has the encryption parameter,
+and the encrypted user data. In other word, the encrypted user data is
+encapsulated into the container, whose header is an IP header and an ESP
+header.
+</UL>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Both for IPv4 and for IPv6, the IPSec is independent from type of data
+transmission medium. Also, the application does not care whether the IPSec
+is applied to or not. For IPv6, IPSec is defined as a mandatory option,
+i.e., every node has to have the IPSec function.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; We have a concerning with
+regard to the performance of IPSec. As well known, the required processing
+for security functions are not light, rather would be large. When the execution
+of security function (i.e., IPSec) requires very large processing power,
+we could not obtain an enough throughput for many applications. Or, we
+have to implement the special hardware to handle those security functions.
+When the ordinary PC platform can provide enough processing power to handle
+the IPSec for major applications, we can deploy the secured and reliable
+information infrastructure, cost effectively. Now, therefore, the purpose
+of this paper is performance evaluation of IPSec with ordinary PC platform.
+
+<P><B><U>3. Performance Evaluation of Bulk Data Transmission</U></B>
+
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this section, we evaluate
+the performance of bulk data transmission. The performance is evaluated
+with the STREAM data transmission and with the REQUEST/RESONSE data transmission.
+Regarding the transport protocol, both TCP and UDP are applied to.
+
+<P><B>3.1 Evaluation System</B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The end-to-end throughput
+was evaluated using the netperf (<A HREF="http://www.netperf.org/">http://www.netperf.org/</A>)
+with the KAME IPv6 protocol stack. The patch for to use netperf 2.1pl3
+with KAME IPv6 stack is available through the following ftp directory.
+<BR>&nbsp;
+<UL><A HREF="ftp://ftp.kame.net/pub/kame/misc/netperf-21pl3-19990824.diff.gz">ftp://ftp/kame.net/pub/kame/misc/netperf-21pl3-19990824.diff.gz</A>.</UL>
+Figure 1 shows the system configuration of evaluation system. The end host
+are connected through the two routers. All nodes have the fast Ethernet
+interfaces. The followings are the specification of hosts and routers.
+
+<UL>
+<LI>Host</LI>
+    <UL>
+    CPU : Intel Pentium II 450 MHz
+    <BR>Memory : 128MB
+    <BR>NIC : Intel EtherExpress Pro 100
+    <BR>OS : FreeBSD 2.2.8 with KAME 19990908-stable
+    <BR>&nbsp;
+    </UL>
+<LI>Router</LI>
+    <UL>
+    CPU : Intel Pentium III 500MHz
+    <BR>Memory : 256MB
+    <BR>NIC : Intel EtherExpress Pro 100
+    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEC 21040 PCI
+    Ethernet
+    <BR>OS : FreeBSD 2.2.8 with KAME 19990908-stable
+    </UL>
+</UL>
+
+<CENTER><IMG SRC="FIG01.jpg" HEIGHT=264 WIDTH=523></CENTER>
+
+<CENTER>Figure 1. Evaluation System</CENTER>
+
+<P>The end-to-end throughput is evaluated in the following cases.
+<UL>
+<LI>without IPSec</LI>
+<LI>Only with AH (Authentication Header)<BR>
+    (HMAC-SHA1 160 bits)</LI>
+<LI>Only with ESP (Encapsulated Security Payload)<BR>
+    (3DES-CBC 192bits)</LI>
+<LI>Both with AH and ESP</LI>
+</UL>
+For all cases, the performance is evaluated, in the cases of using IPv6
+and using IPv4.&nbsp; Also, the performance is evaluated with TCP and UDP
+transmission with two modes. One is STREAM data transmission, and the other
+is REQUEST/RESPONSE data transmission.&nbsp; Sender host executes netserver,
+and the receiver host executes netperf. The data is transmitted for 60
+minutes.
+
+<P><B>3.2 Evaluation Results</B>
+
+<P><B>3.2.1 TCP STREAM</B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Figure 2 shows the end-to-end
+throughput using IPv4, and figure 3 shows that using IPv6. Here, the MTU
+size is 4,096 Bytes, the socket size is 57,344 Bytes and is 32,768 Bytes.
+<BR>&nbsp;
+<UL>
+<UL>TCP_STREAM.1 : socket buffer size = 57,344 Bytes
+<BR>TCP_STREAM.2 : socket buffer size = 32,769 Bytes</UL>
+</UL>
+
+<CENTER><IMG SRC="FIG02.jpg" HEIGHT=156 WIDTH=325><IMG SRC="FIG03.jpg" HEIGHT=156 WIDTH=325></CENTER>
+
+<CENTER>Figure 2. IPv4 TCP STREAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Figure 3. IPv6 TCP STREAM</CENTER>
+
+
+<P>The end-to-end throughput is degraded by the processing of IPSec. With
+the AH, the end-to-end throughput degrades to about 1/2 With the ESP, the
+end-to-end throughput degrades to about 1/4. With both the AH and the ESP,
+the end-to-end throughput is slightly less than with only ESP.
+
+<P>Regarding the IP version, the end-to-end throughput with IPv6 is almost
+the same as that with IPv4.
+
+<P>&nbsp;
+<BR><B>3.2.2 UDP STREAM</B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Figure 4 shows the end-to-end
+throughput using IPv4, and figure 5 shows that using IPv6. Here, the MTU
+size is 4,096 Bytes and is 1,024 bytes, and the socket size is 32,768 Bytes.
+<BR>&nbsp;
+<UL>
+<UL>UDP_STREAM.1 : MTU size = 4,096 Bytes
+<BR>UDP_STREAM.2 : MTU size = 1,024 Bytes</UL>
+</UL>
+
+<CENTER><IMG SRC="FIG04.jpg" HEIGHT=176 WIDTH=325><IMG SRC="FIG05.jpg" HEIGHT=176 WIDTH=325></CENTER>
+
+<CENTER>Figure 4 . IPv4 UDP STREAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Figure 5. IPv6 UDP STREAM</CENTER>
+
+
+<P>The end-to-end throughput is degraded by the processing of IPSec. With
+the AH, the end-to-end throughput degrades to about 1/3. With the ESP,
+the end-to-end throughput degrades to about 1/9. With both the AH and the
+ESP, the end-to-end throughput is slightly less than with only ESP. Also,
+when the MTU size is larger, the end-to-end throughput is slightly improved.&nbsp;
+Again, regarding the IP version, the end-to-end throughput with IPv6 is
+almost the same as that with IPv4.
+
+<P><B>3.2.3 REQUEST/RESPONSE</B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Figure 6 shows the end-to-end
+throughput using IPv4, and figure 7 shows that using IPv6.
+<BR>&nbsp;
+<UL>
+<UL>TCP_RR&nbsp;&nbsp;&nbsp; : Request message = 1 Byte, Response message
+= 1 Byte
+<BR>UDP_RR.1 : Request message = 1 Byte, Response message = 1 Byte
+<BR>UDP_RR.2 : Request message = 516 Byte, Response message = 4 Byte</UL>
+</UL>
+
+<CENTER><IMG SRC="FIG06.jpg" HEIGHT=176 WIDTH=325><IMG SRC="FIG07.jpg" HEIGHT=176 WIDTH=325></CENTER>
+
+<CENTER>Figure 6 . IPv4 Request/Response&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Figure 7. IPv6 Request/Response</CENTER>
+
+
+<P>
+<BR>With TCP_RR and UDP_RR.1, the throughput with ESP is larger than the
+throughput with AH.&nbsp; With UDP_RR.2
+<BR>(i.e., large message size), the throughput with ESP is smaller than
+the throughput with AH.&nbsp; And, again, regarding the IP version, the
+end-to-end throughput with IPv6 is almost the same as that with IPv4.
+
+<P><B>3.2.4 Discussion</B>
+
+<P><B>3.2.4.1 STREAM Data Transmission</B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; By the AH and ESP processing
+at the end hosts, the end-to-end throughput degrades, when we use the IPSec.&nbsp;
+AH performs the hash function, and ESP performs encryption.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Without applying the IPSec,
+the end-to-end throughput over TCP is less than the end-to-end throughput
+over UDP. This is because the TCP requires larger processing than the UDP
+does.&nbsp; However, when we use the IPSec, the end-to-end throughput over
+TCP and over UDP is almost the same.&nbsp; This is the simple proof, that
+the processing for IPSec is far larger then that for TCP and UDP.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; When we compare the end-to-end
+throughput with AH and with ESP, the throughput with AH is about twice
+larger than that with ESP.&nbsp; This is because, with STREAM data transmission,
+the packet size is large enough than the header length
+<BR>(basic IP header field and AH field), and the required processing for
+ESP is far larger than that for AH.&nbsp;&nbsp; As shown in figures 4 and
+5, when the MTU size becomes larger, the end-to-end throughput degrades.&nbsp;
+The degradation with ESP is smaller than with AH, since the AH uses IP
+packet header field and the ESP uses a whole of payload in IP packet.&nbsp;
+Also, since the processing for ESP is large enough than that for AH, the
+performance degradation from only ESP system to ESP/AH system is not large.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In summary, for large sized
+data (i.e., STREAM data transmission), when we apply the authentication
+(AH)&nbsp; and encryption (ESP), the throughput degrades to 1/9 comparing
+with the throughput without AH nor ESP.&nbsp; With AH and ESP, we obtains
+about 10 Mbps for UDP data transmission and about 6 Mbps for TCP transmission.&nbsp;
+Also, the throughout was compared with the data transmission with IPv4.
+The degradation of throughput at the end system, due to the use of IPv6
+instead of IPv4, was significantly small.
+
+<P><B>3.2.4.2 REQUEST/RESPONSE Data Transmission&nbsp;</B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; With the REQUEST/RESPONSE
+data transmission, the end-to-end throughput degradation by applying the
+IPSec is less than that with the STREAM data transmission.&nbsp; This is
+because the processing overhead for request messages is not significantly
+small, compared to the processing overhead for IPSec, and because the packet
+size is not large.
+
+<P><B><U>4. Performance Evaluation of DV Data Transmission</U></B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this section, we
+evaluate the end-to-end DV data transmission over IPv6 network.&nbsp; The
+reason why we pick up the DV transmission is that the DV will be a common
+and widely used application media in the emerging internet.&nbsp; Also,
+the video contents requires the secured and reliable data transmission.
+
+<P><B>4.1 Evaluation System</B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Figure 8 shows
+the system configuration of evaluation system. The end host are connected
+through the three routers and wide area high speed ATM links.&nbsp; Nodes
+have the fast Ethernet interfaces and the ATM interfaces.&nbsp; The followings
+are the specification of hosts and routers.&nbsp; In order to send and
+receive the DV data, we use the DVTS developed by Keio University [6].
+<UL>
+<LI>
+Sender Host</LI>
+
+<UL>CPU : Intel Pentium II 400 MHz
+<BR>Memory : 64MB
+<BR>NIC : Intel EtherExpress Pro 100
+<BR>OS : FreeBSD 3.2 with KAME 19990810-stable
+<BR>Sender software : DVTS-0.0.9
+<BR>&nbsp;</UL>
+
+<LI>
+Receiver Host</LI>
+
+<UL>CPU : Intel Pentium II 450 MHz
+<BR>Memory : 128MB
+<BR>NIC : Intel EtherExpress Pro 100
+<BR>OS : FreeBSD 3.2 with KAME 19990810-stable
+<BR>Sender software : DVTS-0.0.9
+<BR>&nbsp;</UL>
+
+<LI>
+Router</LI>
+
+<UL>CPU : Intel Pentium III 500MHz
+<BR>Memory : 256MB
+<BR>NIC : Intel EtherExpress Pro 100
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEC 21040 PCI
+Ethernet
+<BR>OS : FreeBSD 2.2.8 with KAME 19990908-stable</UL>
+</UL>
+
+<UL>
+<LI>
+ATM Link</LI>
+
+<UL>Bandwidth : 155 Mbps
+<BR>&nbsp;</UL>
+</UL>
+<CENTER> 
+&nbsp;<IMG SRC="FIG08.jpg" HEIGHT=204 WIDTH=613>
+<BR>Figure 8. System configuration for DV data transmission
+</CENTER> 
+
+<P>The end-to-end throughput is evaluated in the following cases.
+<UL>
+<LI>
+NONE : without IPSec</LI>
+
+<LI>
+AH1 : only with AH (Authentication Header) using&nbsp; HMAC-SHA1 160bits</LI>
+
+<LI>
+AH2 : only with AH using KEYED-SHA1 160bits</LI>
+
+<LI>
+ESP1 : only with ESP (Encapsulated Security Payload) using 3DES-CBC 192bits</LI>
+
+<LI>
+ESP2 : only with ESP using BLOWFISH-CBC 192bits</LI>
+
+<LI>
+AH/ESP 1 : both with AH1 and ESP1</LI>
+
+<LI>
+AH/ESP 2 : both with AH2 and ESP2</LI>
+</UL>
+In the evaluation system, the ATM link does not have an enough bandwidth
+to transmit the full rate DV data.&nbsp; Therefore, we did not use the
+full rate DV transmission in the evaluation.
+
+<P><B>4.2 Evaluation Results</B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Figures 9 and 10 shows the
+end-to-end throughput using the experimental network shown in figure 8.
+<CENTER> 
+<P><IMG SRC="FIG09.jpg" HEIGHT=301 WIDTH=485>
+<BR>Figure 9. Performance of DV data transmission using IPSec (packets)
+
+<P><IMG SRC="FIG10.jpg" HEIGHT=301 WIDTH=485>
+<BR>Figure10. Performance of DV data transmission using IPSec (MBytes)
+<BR>&nbsp;
+</CENTER> 
+
+<P>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; As for the DV transmission,
+the end-to-end throughput was about 7 Mbps to 17 Mbps with
+IPSec.&nbsp; With 10 Mbps, we can not transmit the full rate quality
+of DV data.&nbsp; However, we can transfer the DV data with reducing
+the sending frame rate.&nbsp; The DVTS, that is DV transmission and
+receiving software module, can control the frame rate sent out from
+the sender node.&nbsp;&nbsp; With the evaluation result, the 1/10 of
+video frames are transferred from the source node to the destination
+node, so as to the required bandwidth is around 10Mbps.&nbsp; Even
+with 1/10 of video frame rate, we can not obtain a fine quality of
+video transmission.&nbsp; However, we can obtain a sufficient video
+quality for many applications, such as video conferencing, with this
+reduced frame rate.<BR>
+</P>
+<P>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The result above shows that
+the existing ordinary PC platform could handle the high quality video
+transmission using the DV technology, without any special hardware
+assistance.&nbsp; This is even when we apply the IPsec technology to
+provide the secured and reliable multimedia communication over the
+Internet.&nbsp;&nbsp; The current ordinary PC platform can not handle
+the plain DV data with the full frame rate while applying the IPSec
+functions.&nbsp; However, due to the fast technological improvement
+for the PC components (e.g., CPU), it would be expected the ordinary
+PC platform can handle the full frame rate DV data without any special
+hardware.
+</P>
+
+<BR>&nbsp;
+<BR><B><U>5. Conclusion</U></B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This paper evaluates the
+performance of data transmission using the ordinary PC both for large sized
+data transmission and for the actual application over the IPv6 network,
+when we apply the IPSec.&nbsp; As an actual application, we pick up the
+DV (Digital Video) transmission.&nbsp; For large sized data,&nbsp; we obtains
+about 10 Mbps for UDP data transmission and about 6 Mbps for a simple TCP
+transmission.&nbsp; As for the DV transmission, the end-to-end throughput
+was again about 10Mbps. With 10 Mbps end-to-end throughput, the 1/10 of
+video information can be successfully transferred from the source node
+to the destination node to obtain a sufficient quality of DV transmission.&nbsp;
+This result shows that we could deploy the cost effective multimedia Internet,
+using the ordinary PCs.
+
+<P><B><U>References</U></B>
+
+<P>[1] S.Kent, R.Atkinson, "Security Architecture for the Internet Protocol",
+IETF RFC2401, November 1998.
+<BR>[2] S.Kent, R.Atkinson, "IP Authentication Header", IETF RFC2402, November
+1998.
+<BR>[3] S.Kent, R.Atkinson, "IP Encapsulation Security Payload (ESP)",
+IETF RFC2403, November 1998.
+<BR>[4] S.Deering, R.Hinden, "Internet Protocol version 6 Specification",
+IETF RFC2460, November 1998.
+<BR>[5] J.Postel, "Internet Protocol", IETF RFC791, September, 1981.
+<BR>[6] DVTS, <a href="http://www.sfc.wide.ad.jp/DVTS/">http://www.sfc.wide.ad.jp/DVTS/</a>
+<BR>&nbsp;</FONT>
+
+</BODY>
+</HTML>

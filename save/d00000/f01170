@@ -1,0 +1,800 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<!-- B -->
+<html>
+<head>
+
+<title>Smithsonian Education - Educators</title>
+
+<meta name="Description" content="Standards based lesson plans, activities, and teaching tools on art, history, science, and technology.  Field trips, professional development, and access to Smithsonian museum collections and research.">
+
+<meta name="Keywords" content="assignments, aviation, art, astronauts, architecture, archaeology, apollo 11, anthropology, african, activities, advanced, benjamin franklin, bugs, curriculum, children, coin, coins, currency, collecting, classroom, colonial, culture, educator, education, educational, guide,  research, resources, home school, schooling, hope diamond, kids, literacy, lesson plan, plans, learning, library, minerals, moon, money, museum, field trip, festivals, stamps, folklife, free, trips, teachers night, professional development, planets, publications, reading, resource, interactive, k-12, teacher, teachers, online, design, technology, language, students, database,  portraits, presidents, pollination, animals, primary source, ocean, oceans, science, history, elementary, secondary, high school, writing, buzz aldrin, neil armstrong, michael collins">
+<script language="javascript" src="/js_css/educators.js"></script>
+<script language="javascript" src="/js_css/global.js"></script>
+<script language="javascript" src="/inc/stemmer.js"></script>
+<SCRIPT LANGUAGE="JavaScript">
+		function validateMe()
+		{
+			invalidFields = "";
+			invalid = 0;
+		
+			if(document.standards.state.value == "0"){
+				invalidFields = invalidFields + "- State\n";
+				invalid++;
+			}
+			
+			if(document.standards.grade.value == "0"){
+				invalidFields = invalidFields + "- Grade Level\n";
+				invalid++;
+			}
+			if(document.standards.subject.value == "0"){
+				invalidFields = invalidFields + "- Subject\n";
+				invalid++;
+			}
+			if(invalid == 0){
+				return true;
+			}
+			else{
+				alert("Please provide the following information to complete your search:\n\n" + invalidFields);
+				return false;
+			}
+		}	
+		</SCRIPT>
+<script language="javascript">
+
+
+category_0_off = new Image;
+category_0_off.src = '/images/educators/main_page/si_edu_nv_art_off.gif';
+category_0_over = new Image;
+category_0_over.src = '/images/educators/main_page/si_edu_nv_art_over.gif';
+
+category_1_off = new Image;
+category_1_off.src = '/images/educators/main_page/si_edu_nv_science_off.gif';
+category_1_over = new Image;
+category_1_over.src = '/images/educators/main_page/si_edu_nv_science_over.gif';
+
+category_2_off = new Image;
+category_2_off.src = '/images/educators/main_page/si_edu_nv_history_off.gif';
+category_2_over = new Image;
+category_2_over.src = '/images/educators/main_page/si_edu_nv_history_over.gif';
+
+category_3_off = new Image;
+category_3_off.src = '/images/educators/main_page/si_edu_nv_language_off.gif';
+category_3_over = new Image;
+category_3_over.src = '/images/educators/main_page/si_edu_nv_language_over.gif';
+
+
+function setUpPage() {
+globalNav_on = 'ed_main_button';
+
+
+if (globalNav_on != '') {
+	hilite(globalNav_on, 1);
+}
+if (mainNav_on != '') {
+	hiliteNavMain(mainNav_on, 1);
+}
+if (tier1Nav_on != '') {
+	hiliteNavLeft(tier1Nav_on, 1, 1, 1);
+}
+if (tier2Nav_on != '') {
+	hiliteNavLeft(tier2Nav_on, 1, 2, 1);
+}
+if (subPageNav_on != '') {
+	hiliteNavSub(subPageNav_on, 1);
+}
+document.forms[0].elements['KEYWORD'].value = '';
+} // /setUpPage()
+
+
+
+function valKeywords(tester) {
+//alert('valKeywords: '+tester.length);
+
+if(tester.length > 1) {
+//alert('testing for ifs ands ors buts');
+	for(var aa=0; aa<tester.length; aa++) {
+	//alert('aa: ' +aa + ' - ' + tester[aa]);
+	if((aa+1)<tester.length) {
+		if( (	(tester[aa].toLowerCase() == 'and') ||
+				(tester[aa] == '+')  ||
+				(tester[aa].toLowerCase() == 'or')
+			) ||
+			(	(tester[aa+1].toLowerCase() == 'and') ||
+				(tester[aa+1] == '+')  ||
+				(tester[aa+1].toLowerCase() == 'or')
+			)
+		) {
+			//alert('found ifs and or buts');	
+			//if only one keyword with "and/or/+" delete 'and/or/plus
+			if((tester.length == 2) &&
+				((tester[1].toLowerCase() == 'and') ||
+				(tester[1] == '+')  ||
+				(tester[1].toLowerCase() == 'or'))
+				) {
+				tester[1] = '';
+			}//end if
+			else if((
+				(tester[0].toLowerCase() == 'and') ||
+				(tester[0] == '+')  ||
+				(tester[0].toLowerCase() == 'or'))
+				) {
+				tester[0] = '';
+			}//end if
+		} //end if
+		else{
+			//alert('no ifs and or buts');
+			tester.splice(aa+1,0,'or');
+		} //end else
+	} // end if
+	} //end for
+}// end if
+
+var myKeys='';	
+for (bb=0; bb<tester.length; bb++){
+	myKeys = myKeys +  tester[bb]  + ' ';
+}
+	document.forms[0].elements['KEYWORD'].value = myKeys
+return tester;
+}
+
+function Stem() {
+if((document.forms[0].elements['KEYWORD'].value.indexOf('"') == -1)) {
+// if there are no quotes in the Keywords
+	var space = ' ';
+	var tmpTester = document.forms[0].elements['KEYWORD'].value.split(space);
+	// split the keywords on space and build array of words
+
+var tmpKeyword = '';
+if(tmpTester[0] != '') {
+ var tester = valKeywords(tmpTester);
+}
+else tester = tmpTester[0];
+
+//alert('tester.length: ' +tester.length);
+for(var z=0; z<tester.length; z++) {
+	//alert('z: ' +z);
+	if( (tester[z] == 'and') ||
+		(tester[z] == '+')  ||
+		(tester[z] == 'or')
+	) {
+		//tmpKeyword = tmpKeyword + tester[z];
+	}
+	else {
+		var tmpTester = tester[z].toLowerCase();
+ 		var tmpStem= porterAlgorithm(tmpTester);
+		if(tmpTester != tmpStem) {
+			//alert(tmpStem);
+			tmpKeyword = tmpKeyword + ' or "' + tmpStem + '*"';
+			//alert(tmpKeyword);
+		}
+	}
+	//alert('next tester' + (z +1));
+}
+document.forms[0].elements['KEYWORD'].value = document.forms[0].elements['KEYWORD'].value + tmpKeyword;
+}// end quoted text if
+
+document.forms[0].action = "/db/search/detail.aspx";
+document.forms[0].submit();
+}
+</script>
+<script src="/js_css/educators_promo.js" type="text/javascript"></script>
+<script language="javascript">
+var SCEMSPromo1 = '';
+var SCEMSPromo2 = '';
+
+var maxMEDPromo = (randPromoMED.length);
+
+var defaultMEDPromo1 = '';
+defaultMEDPromo1 = 
+
+
+'<table width="190" cellspacing="0" cellpadding="0"><tr><td width="190" align="left" valign="top"><a href="http://www.smithsonianeducation.org/educators/resource_library/women_resources.html"><img src="/images/global/promos/medium/promos_med_whm06.jpg" border="0" alt="Womens History Teaching Resource" /></a></td></tr></table>'
+
+
+
+;
+
+var defaultMEDPromo2 = '';
+defaultMEDPromo2 = 
+
+
+'<table width="190" cellspacing="0" cellpadding="0"><tr><td width="190" align="left" valign="top"><a href="/heritage_month/Heritage0905.pdf"><img src="/images/global/promos/medium/hhm_med_pr_blubrd.jpg" border="0" alt="Hispanic Heritage Teaching Resources" /></a></td></tr></table>'
+
+
+
+;
+
+function writeMEDPromo() {
+	SCEMSPromo1 = '';
+	var randMEDAccess = Math.floor(((Math.random()*1000000)%maxMEDPromo));
+	//alert(maxMEDPromo + ' - ' + randMEDAccess);
+	SCEMSPromo1 += randPromoMED[randMEDAccess];
+	if ( (parseInt(randMEDAccess) + 1) == maxMEDPromo ) {
+		randMEDAccess = -1;
+	}
+	if (maxMEDPromo == 1) {
+		SCEMSPromo2 += defaultMEDPromo2; 
+	}
+	else {
+		SCEMSPromo2 += randPromoMED[parseInt(randMEDAccess) +1];
+	}
+}
+
+if ((maxMEDPromo > 0)) {
+	writeMEDPromo();
+}
+
+else if ((maxMEDPromo == 0)) {
+	SCEMSPromo1 += defaultMEDPromo1;
+	SCEMSPromo2 += defaultMEDPromo2; 
+}
+
+</script>
+</head>
+
+<body leftmargin=0 topmargin=0 marginwidth="0" marginheight="0" onLoad="setUpPage();">
+
+
+<!-- header -->
+<table width="766" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td width="16" align="left" class="logoBG"><a href="/educators/index.html"><img src="/images/global/header/si_tab_educators.gif" width=16 height=70 border=0 alt="Educators"></a></td>
+	<td width="295" align="left" valign="middle" class="logoBG"><a href="/index.html"><img src="/images/global/si_logo.gif" width=295 height=70 border=0 alt="Smithsonian Education"></a></td>
+	<td width="243" class="logoBG"><img src="/images/global/spacer.gif" width=243 height=21 border=0 alt=""></td>
+	<td width="212" align="right" valign="top" class="logoBG"><img src="/images/global/spacer.gif" width=212 height=28 border=0 alt=""><br><a href="/educators/index.html" onmouseover="imgRoll('ed_main_button', 1);" onmouseout="imgRoll('ed_main_button', 0);" ><img src="/images/global/si_nv_educators_off.gif" width=72 height=24 border=0 alt="Educators" name="ed_main_button"></a><img src="/images/global/si_pipe.gif" width=1 height=24 border=0 alt="|"><a href="/families/index.html" onmouseover="imgRoll('fm_main_button', 1);" onmouseout="imgRoll('fm_main_button', 0);"><img src="/images/global/si_nv_families_off.gif" width=62 height=24 border=0 alt="Families" name="fm_main_button"></a><img src="/images/global/si_pipe.gif" width=1 height=24 border=0 alt="|"><a href="/students/index.html" onmouseover="imgRoll('st_main_button', 1);" onmouseout="imgRoll('st_main_button', 0);"><img src="/images/global/si_nv_students_off.gif" width=66 height=24 border=0 alt="Students" name="st_main_button"></a><img src="/images/global/spacer.gif" width=10 height=1 border=0 alt=""></td>
+</tr>
+</table>
+<!-- / header -->
+
+<!-- global nav -->
+<table width="766" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<td width="16" class="navMainLeft"><img src="/images/global/spacer.gif" width=16 height=21 border=0 alt=""></td>
+	<td width="740" align="left" valign="middle" nowrap class="navMainBG"><img src="/images/global/spacer.gif" width=1 height=21 border=0 alt="" align="middle">&nbsp;&nbsp;
+
+
+
+
+	
+<a href="/educators/index.html" onmouseover="changeNavMain('mainNav_0Link', true)" onmouseout="changeNavMain('mainNav_0Link', false)" class="navMainText" name="mainNav_0Link" id="mainNav_0Link" title="Smithsonian Education Home Page for Educators">For Educators</a>
+
+	<span class="navMainPipe">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+		
+<a href="/educators/field_trips/field_trips.html" onmouseover="changeNavMain('mainNav_1Link', true)" onmouseout="changeNavMain('mainNav_1Link', false)" class="navMainText" name="mainNav_1Link" id="mainNav_1Link" title="Information on Visiting the Smithsonian with Students">Field Trips</a>
+
+	<span class="navMainPipe">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+		
+<a href="/educators/professional_development/professional_development.html" onmouseover="changeNavMain('mainNav_2Link', true)" onmouseout="changeNavMain('mainNav_2Link', false)" class="navMainText" name="mainNav_2Link" id="mainNav_2Link" title="Workshops, Seminars, and Events for Educators">Professional Development</a>
+
+	<span class="navMainPipe">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+		
+<a href="/educators/lesson_plans/lesson_plans.html" onmouseover="changeNavMain('mainNav_3Link', true)" onmouseout="changeNavMain('mainNav_3Link', false)" class="navMainText" name="mainNav_3Link" id="mainNav_3Link" title="Smithsonian Lesson Plans for Educators">Lesson Plans</a>
+
+	<span class="navMainPipe">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+		
+<a href="/educators/resource_library/resource_library.asp" onmouseover="changeNavMain('mainNav_4Link', true)" onmouseout="changeNavMain('mainNav_4Link', false)" class="navMainText" name="mainNav_4Link" id="mainNav_4Link" title="Smithsonian Publications and Resources for Educators">Resource Library</a>
+
+	<span class="navMainPipe">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+		
+<a href="/educators/events/online_events.html" onmouseover="changeNavMain('mainNav_5Link', true)" onmouseout="changeNavMain('mainNav_5Link', false)" class="navMainText" name="mainNav_5Link" id="mainNav_5Link" title="Smithsonian Online Events for Educators and Students">Online Events</a>
+
+</td>
+</tr>
+<tr>
+	<td width="766" height="4" colspan="2" valign="top" class="navMainUnderline"><img src="/images/global/spacer.gif" width=766 height=4 border=0 alt=""></td>
+</tr>
+</table>
+<!-- / global nav -->
+
+<!-- banner -->
+<table width="766" border="0" cellspacing="0" cellpadding="0">
+<tr>	
+	<td width="16"><img src="/images/educators/main_page/si_edu_banner_txt.gif" width=16 height=118 border=0 alt="Prepare - Plan - Teach"></td>
+	<td width="558"><img src="/images/educators/main_page/si_edu_banner_tree.jpg" width=558 height=118 border=0 alt="Educators - Prepare - Plan - Teach"></td>
+	<td width="2"><img src="/images/global/spacer.gif" width=2 height=118 border=0 alt=""></td>
+	<td width="190">
+	<!-- top med promo -->
+<script language="javascript">
+if (SCEMSPromo1 != '') {	
+	document.write(SCEMSPromo1);
+}
+</script>
+	</td>
+</tr>
+<tr>
+	<td colspan="4" width="766"><img src="/images/global/spacer.gif" width=766 height=2 border=0 alt=""></td>
+</tr>
+</table>
+<!-- / banner -->
+
+<!-- master content table -->
+<table width="766" border="0" cellspacing="0" cellpadding="0">
+<tr>	
+	<td width="190"><img src="/images/educators/main_page/si_edu_ti_lesson.gif" width=190 height=21 border=0 alt="Lesson Plans"></td>
+	<td width="2"><img src="/images/global/spacer.gif" width=2 height=1 border=0 alt=""></td>
+	<td width="382"><img src="/images/educators/main_page/si_edu_ti_double.gif" width=382 height=21 border=0 alt="Find Resources"></td>
+	<td width="2"><img src="/images/global/spacer.gif" width=2 height=1 border=0 alt=""></td>
+	<td width="190"><img src="/images/educators/main_page/si_edu_ti_new.gif" width=190 height=21 border=0 alt="What's New"></td>
+</tr>
+<tr>
+	<td colspan="5" width="766"><img src="/images/global/spacer.gif" width=766 height=1 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="190" rowspan="2" align="left" valign="top" class="navLeftBG">
+<!-- col one -->
+<table width="190" border="0" cellspacing="0" cellpadding="0">
+
+<tr>
+	<td width="190"><a href="/educators/lesson_plans/art_design.html" onMouseOver="imgRoll('category_0', 1);" onMouseOut="imgRoll('category_0', 0);"><img src="/images/educators/main_page/si_edu_nv_art_off.gif" border=0 alt="Art and Design" name="category_0" id="category_0"></a></td>
+</tr>
+<tr>
+	<td width="190" class="navLeftUnderlineSmWhite"><img src="/images/global/spacer.gif" width=190 height=1 border=0 alt=""></td>
+</tr>
+
+<tr>
+	<td width="190"><a href="/educators/lesson_plans/science_technology.html" onMouseOver="imgRoll('category_1', 1);" onMouseOut="imgRoll('category_1', 0);"><img src="/images/educators/main_page/si_edu_nv_science_off.gif" border=0 alt="Science and Technology" name="category_1" id="category_1"></a></td>
+</tr>
+<tr>
+	<td width="190" class="navLeftUnderlineSmWhite"><img src="/images/global/spacer.gif" width=190 height=1 border=0 alt=""></td>
+</tr>
+
+<tr>
+	<td width="190"><a href="/educators/lesson_plans/history_culture.html" onMouseOver="imgRoll('category_2', 1);" onMouseOut="imgRoll('category_2', 0);"><img src="/images/educators/main_page/si_edu_nv_history_off.gif" border=0 alt="History and Culture" name="category_2" id="category_2"></a></td>
+</tr>
+<tr>
+	<td width="190" class="navLeftUnderlineSmWhite"><img src="/images/global/spacer.gif" width=190 height=1 border=0 alt=""></td>
+</tr>
+
+<tr>
+	<td width="190"><a href="/educators/lesson_plans/language_arts.html" onMouseOver="imgRoll('category_3', 1);" onMouseOut="imgRoll('category_3', 0);"><img src="/images/educators/main_page/si_edu_nv_language_off.gif" border=0 alt="Language Arts" name="category_3" id="category_3"></a></td>
+</tr>
+<tr>
+	<td width="190" class="navLeftUnderlineSmWhite"><img src="/images/global/spacer.gif" width=190 height=1 border=0 alt=""></td>
+</tr>
+
+<tr>
+	<td width="190" class="navLeftUnderlineSmWhite"><img src="/images/global/spacer.gif" width=190 height=1 border=0 alt=""></td>
+</tr>
+<tr>
+	<td align="left" width="190"><!-- botttom promo -->
+<script language="javascript">
+if (SCEMSPromo2 != '') {	
+	document.write(SCEMSPromo2);
+}
+</script>
+	</td>
+</tr>
+</table>
+<!-- / col one -->
+</td>	
+	<td width="2"><img src="/images/global/spacer.gif" width=2 height=1 border=0 alt=""></td>
+	<td width="382" align="left" valign="top" class="boxText">
+<!-- col two and three-->	
+<table width="382" border="0" cellspacing="0" cellpadding="0">
+
+<tr>
+	<td width="9" rowspan="2" class="boxText2"><img src="/images/global/spacer.gif" width=9 height=1 border=0 alt=""></td>
+	<td width="177" class="boxText2"><img src="/images/global/spacer.gif" width=177 height=9 border=0 alt=""></td>
+	<td width="11" rowspan="2" background="/images/educators/global/si_edu_dblsearch_spacer.gif"><img src="/images/educators/global/si_edu_dblsearch_spacer.gif" width=11 height=1 border=0 alt=""></td>
+	<td width="176" class="boxText3"><img src="/images/global/spacer.gif" width=176 height=9 border=0 alt=""></td>
+	<td width="9" rowspan="2" class="boxText3"><img src="/images/global/spacer.gif" width=9 height=1 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="177" valign="top" aling="left" class="boxText2">
+<!-- box left -->
+<table width="177" border="0" cellspacing="0" cellpadding="0" class="boxText2">
+<FORM NAME="Search" ACTION="javascript:Stem()" METHOD="GET" class="pulldownMain">
+<input type="hidden" name="museumid" value="-1">
+<input type="hidden" name="supplierid" value="-1">
+<input type="hidden" name="pamphletcategoryid" value="-1">
+<input type="hidden" name="statusid" value="-1">
+<input type="hidden" name="mediaid" value="-1">
+<!--<input type="hidden" name="contenttype" value="-1">-->
+<!--<tr>
+	<td width="13" class="boxText" style="width:13px;"><input type="checkbox" name="contenttype" value="6" class="normal"></td>
+	<td width="164" valign="middle" class="boxText">&nbsp;IdeaLabs</td>
+</tr>-->
+<tr>
+  <td colspan="2" class="boxText2" style="width:177px;">Use this search to access more than 2,000 resources. Enter a word or phrase  <strong>in quotes</strong> for best results.</td>
+  </tr>
+
+<tr>
+	<td width="177" colspan="2" class="boxText2"><img src="/images/global/spacer.gif" width=177 height=9 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="176" colspan="2" valign="top" class="boxText2">Enter Search Term(s)<br><img src="/images/global/spacer.gif" width=2 height=4 border=0 alt=""><br><input name="KEYWORD" type="text" class="boxText" style="width: 160px; background-color: rgb(255, 255, 255);" size="15"></td>
+</tr>
+<tr><!-- style="width:160px; font-family:Verdana,Arial,Helvetica; font-size:xx-small; font-weight:normal; font-style:normal; text-decoration:none; color:#000000;"-->
+	<td width="177" colspan="2" class="boxText2"><img src="/images/global/spacer.gif" width=2 height=5 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="177" colspan="2" class="boxText2">Select Grade<br><img src="/images/global/spacer.gif" width=2 height=4 border=0 alt=""><br>
+	<select name="gradeid" class="pulldownMain">
+	<OPTION VALUE='-1' class="pulldownMain">All Grades</OPTION>
+	<OPTION VALUE='1' class="pulldownMain">PreK&#150;3</OPTION>
+	<OPTION VALUE='2' class="pulldownMain">4&#150;8</OPTION>
+	<OPTION VALUE='3' class="pulldownMain">9&#150;12</OPTION>
+	<OPTION VALUE='6' class="pulldownMain">General audience</OPTION>
+	</select></td>
+</tr>
+<tr>
+	<td width="177" colspan="2" class="boxText2"><img src="/images/global/spacer.gif" width=2 height=5 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="177" colspan="2" class="boxText2">Select <a href="/educators/resource_library/subjects.html">Subject</a><br><img src="/images/global/spacer.gif" width=2 height=4 border=0 alt=""><br>
+	<select name="categoryid" class="pulldownMain" width="170">
+<OPTION value="-1" selected>All Subjects</OPTION>
+<OPTION VALUE='51' >Art & Music</OPTION>
+<OPTION VALUE='52' >- Architecture</OPTION>
+<OPTION VALUE='53' >- Artists</OPTION>
+<OPTION VALUE='54' >- Design</OPTION>
+<OPTION VALUE='55' >- Music</OPTION>
+<OPTION VALUE='56' >- Theater & Film</OPTION>
+<OPTION VALUE='57' >- Visual Arts</OPTION>
+<OPTION VALUE='58' >Language Arts & Literature</OPTION>
+<OPTION VALUE='59' >Math</OPTION>
+<OPTION VALUE='60' >Science</OPTION>
+<OPTION VALUE='61' >- Archaeology</OPTION>
+<OPTION VALUE='62' >- Earth Science</OPTION>
+<OPTION VALUE='63' >- Environmental Change</OPTION>
+<OPTION VALUE='64' >- Life Sciences</OPTION>
+<OPTION VALUE='65' >-- Animals/Zoology</OPTION>
+<OPTION VALUE='66' >-- Botany</OPTION>
+<OPTION VALUE='67' >-- Ecosystems</OPTION>
+<OPTION VALUE='68' >-- Human Anatomy</OPTION>
+<OPTION VALUE='69' >-- Medicine & Health</OPTION>
+<OPTION VALUE='70' >- Physical Sciences</OPTION>
+<OPTION VALUE='71' >- Space & Flight</OPTION>
+<OPTION VALUE='72' >- Technology & Engineering</OPTION>
+<OPTION VALUE='73' >Social Sciences</OPTION>
+<OPTION VALUE='74' >- Cultural Anthropology</OPTION>
+<OPTION VALUE='75' >- Economics</OPTION>
+<OPTION VALUE='76' >- Folkways</OPTION>
+<OPTION VALUE='77' >- Geography</OPTION>
+<OPTION VALUE='78' >- Religion</OPTION>
+<OPTION VALUE='79' >- Psychology</OPTION>
+<OPTION VALUE='80' >World Studies</OPTION>
+<OPTION VALUE='81' >- Africa</OPTION>
+<OPTION VALUE='82' >- The Americas</OPTION>
+<OPTION VALUE='83' >- Antarctica</OPTION>
+<OPTION VALUE='84' >- Asia</OPTION>
+<OPTION VALUE='85' >- Australia</OPTION>
+<OPTION VALUE='86' >- Europe</OPTION>
+<OPTION VALUE='87' >American History</OPTION>
+<OPTION VALUE='88' >- Business & Careers</OPTION>
+<OPTION VALUE='89' >- Civil Rights</OPTION>
+<OPTION VALUE='90' >- Heritage Groups</OPTION>
+<OPTION VALUE='91' >-- African Americans</OPTION>
+<OPTION VALUE='92' >-- Asian Pacific Americans</OPTION>
+<OPTION VALUE='93' >-- Hispanic Americans</OPTION>
+<OPTION VALUE='94' >-- Native Americans</OPTION>
+<OPTION VALUE='95' >-- Women's History</OPTION>
+<OPTION VALUE='96' >- Famous People</OPTION>
+<OPTION VALUE='97' >-- Artists & Writers</OPTION>
+<OPTION VALUE='98' >-- Athletes and Entertainers</OPTION>
+<OPTION VALUE='99' >-- Explorers</OPTION>
+<OPTION VALUE='100' >-- Inventors</OPTION>
+<OPTION VALUE='101' >-- Leaders</OPTION>
+<OPTION VALUE='102' >-- Scientists</OPTION>
+<OPTION VALUE='103' >-- Other</OPTION>
+<OPTION VALUE='104' >- Government & Law</OPTION>
+<OPTION VALUE='105' >- Immigration & Migration</OPTION>
+<OPTION VALUE='106' >- States & Regions</OPTION>
+<OPTION VALUE='107' >- Transportation</OPTION>
+<OPTION VALUE='108' >- Wars</OPTION>
+<OPTION VALUE='109' >-- American Revolution</OPTION>
+<OPTION VALUE='110' >-- Civil War</OPTION>
+<OPTION VALUE='111' >-- World War I</OPTION>
+<OPTION VALUE='112' >-- World War II</OPTION>
+<OPTION VALUE='113' >-- Other Wars</OPTION>
+<OPTION VALUE='114' >- Time Periods</OPTION>
+<OPTION VALUE='115' >-- Three Worlds Meet</OPTION>
+<OPTION VALUE='116' >-- Colonization</OPTION>
+<OPTION VALUE='117' >-- Revolution</OPTION>
+<OPTION VALUE='118' >-- Expansion</OPTION>
+<OPTION VALUE='119' >-- Civil War & Reconstruction</OPTION>
+<OPTION VALUE='120' >-- Modern America</OPTION>
+<OPTION VALUE='121' >-- World Wars</OPTION>
+<OPTION VALUE='122' >-- Contemporary America</OPTION>
+</select></td>
+</tr>
+<tr>
+	<td width="177" colspan="2" class="boxText2"><img src="/images/global/spacer.gif" width=2 height=10 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="176" colspan="2" align="left" class="boxText2"><a href="javascript:Stem()"><img src="/images/educators/main_page/si_edu_search_search.gif" width=54 height=18 border=0 alt="Search"></a></td>
+</tr>
+</FORM>
+
+</table>
+<!-- / box left -->
+	</td>
+	<td valign="top" align="left" width="176" class="boxText3">
+<!-- box right -->
+<table width="176" border="0" cellspacing="0" cellpadding="0"  class="boxText3">
+<form name="standards" action="/educators/resource_library/standards_of_learning.asp" onSubmit="return validateMe()">
+<tr>
+  <td colspan="2" class="boxText3">Use this search to find  Smithsonian educational resources that are aligned to national, common core, or state standards.</td>
+</tr>
+<tr>
+	<td width="176" colspan="2" class="boxText3"><img src="/images/global/spacer.gif" width=176 height=9 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="176" colspan="2" valign="top" class="boxText3">Select Standards<br><img src="/images/global/spacer.gif" width=2 height=4 border=0 alt=""><br>
+<select name="state" class="pulldownMain">
+<option value="0" selected> </option>
+<option value="NAT">National Standards</option>
+<option value="CCK12">Common Core State Standards K-12</option>
+<option value="0" selected> </option>
+<option value="AL">Alabama Standards</option>
+<option value="ALCCS">Alabama Mathematics Common Core Standards</option>
+<option value="AK">Alaska Standards</option>
+<option value="AZ">Arizona Standards</option>
+<option value="AZCCS">Arizona Mathematics Common Core Standards</option>
+<option value="AR">Arkansas Standards</option>
+<option value="ARCCS">Arkansas Common Core Standards</option>
+<option value="CA">California Standards</option>
+<option value="CACCS">California Common Core Standards</option>
+<option value="CO">Colorado Standards</option>
+<option value="CT">Connecticut Standards</option>
+<option value="CTCCS">Connecticut Common Core Standards</option>
+<option value="DE">Delaware Standards</option>
+<option value="DECCS">Delaware Common Core Standards</option>
+<option value="FL">Florida Standards</option>
+<option value="GA">Georgia Standards</option>
+<option value="HI">Hawaii Standards</option>
+<option value="ID">Idaho Standards</option>
+<option value="IDCCS">Idaho Common Core Standards</option>
+<option value="IL">Illinois Standards</option>
+<option value="ILCCS">Illinois Common Core Standards</option>
+<option value="IN">Indiana Standards</option>
+<option value="INCCS">Indiana Common Core Standards</option>
+<option value="IA">Iowa Standards</option>
+<option value="KS">Kansas Standards</option>
+<option value="KY">Kentucky Standards</option>
+<option value="KYCCS">Kentucky Common Core Standards</option>
+<option value="LA">Louisiana Standards</option>
+<option value="ME">Maine Standards</option>
+<option value="MD">Maryland Standards</option>
+<option value="MA">Massachusetts Standards</option>
+<option value="MI">Michigan Standards</option>
+<option value="MN">Minnesota Standards</option>
+<option value="MNCCS">Minnesota Common Core Standards</option>
+<option value="MS">Mississippi Standards</option>
+<option value="MO">Missouri Standards</option>
+<option value="MT">Montana Standards</option>
+<option value="NE">Nebraska Standards</option>
+<option value="NV">Nevada Standards</option>
+<option value="NH">New Hampshire Standards</option>
+<option value="NJ">New Jersey Standards</option>
+<option value="NJCCS">New Jersey Common Core Standards</option>
+<option value="NM">New Mexico Standards</option>
+<option value="NY">New York Standards</option>
+<option value="NYCCS">New York Common Core Standards</option>
+<option value="NC">North Carolina Standards</option>
+<option value="NCCCS">North Carolina Common Core Standards</option>
+<option value="ND">North Dakota Standards</option>
+<option value="OH">Ohio Standards</option>
+<option value="OK">Oklahoma Standards</option>
+<option value="OR">Oregon Standards</option>
+<option value="PA">Pennsylvania Standards</option>
+<option value="RI">Rhode Island Standards</option>
+<option value="SC">South Carolina Standards</option>
+<option value="SD">South Dakota Standards</option>
+<option value="TN">Tennessee Standards</option>
+<option value="TX">Texas Standards</option>
+<option value="UT">Utah Standards</option>
+<option value="VT">Vermont Standards</option>
+<option value="VA">Virginia Standards</option>
+<option value="DC">Washington DC Standards</option>
+<option value="DCCCS">Washington DC Common Core Standards</option>
+<option value="WA">Washington Standards</option>
+<option value="WV">West Virginia Standards</option>
+<option value="WI">Wisconsin Standards</option>
+<option value="WICCS">Wisconsin Common Core Standards</option>
+<option value="WY">Wyoming Standards</option>
+</select>
+	 </td>
+</tr>
+<tr>
+	<td width="176" colspan="2" class="boxText3"><img src="/images/global/spacer.gif" width=2 height=5 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="176" colspan="2" valign="top" class="boxText3">Select Grade<br><img src="/images/global/spacer.gif" width=2 height=4 border=0 alt=""><br>
+<select name="grade" class="pulldownMain">
+<option value="0" selected> </option>
+<option value="K">K</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+</select>
+	 </td>
+</tr>
+<tr>
+	<td width="176" colspan="2" class="boxText3"><img src="/images/global/spacer.gif" width=2 height=5 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="176" colspan="2" valign="top" class="boxText3">Select Subject<br><img src="/images/global/spacer.gif" width=2 height=4 border=0 alt=""><br>
+<select name="subject" class="pulldownMain">
+<option value="0" selected> </option>
+<option>Arts Education</option>
+<option>Career / Vocational</option>
+<option>English Language Learners</option>
+<option>Health and PE</option>
+<option>Language Arts</option>
+<option>Library / Technology</option>
+<option>Mathematics</option>
+<option>Science</option>
+<option>Social Studies</option>
+<option>Special Needs</option>
+<option>World Languages</option>
+</select>
+	 </td>
+</tr>
+<tr>
+	<td width="177" colspan="2" class="boxText3"><img src="/images/global/spacer.gif" width=2 height=10 border=0 alt=""></td>
+</tr>
+<tr>
+	<td>
+	  <input type="image" name="Submit" src="/images/educators/main_page/si_edu_search_standards.gif" width="54" height="18">
+	</td>
+</tr>
+</form>
+<tr>
+	<td width="177" colspan="2" class="boxText3"><img src="/images/global/spacer.gif" width=2 height=2 border=0 alt=""></td>
+</tr>
+<tr>
+  <td colspan="2" class="boxText3" style="width:177px;"><div align="right"><a href="/educators/resource_library/resource_library.asp">Advanced Search <span class="underline">>></span></a></div></td>
+  </tr>
+  <tr>
+	<td width="177" colspan="2" class="boxText3"><img src="/images/global/spacer.gif" width=2 height=4 border=0 alt=""></td>
+</tr>
+</table>
+<!-- / box right -->
+	</td>
+</tr>
+<tr>
+	<td colspan="5" valign="top" align="left"><img src="/images/educators/main_page/si_edu_findit_bottom.gif" width=382 height=11 border=0 alt=""></td>
+</tr>
+
+</table>
+<!-- / col two and three --></td>
+	<td width="2"><img src="/images/global/spacer.gif" width=2 height=1 border=0 alt=""></td>
+	<td width="190" rowspan="2" align="left" valign="top" class="pubTD">
+<!-- col four -->
+<table width="190" border="0" cellspacing="0" cellpadding="0">
+
+<tr>
+	<td width="190" colspan="3" align="left">
+	
+<table width="190" cellspacing="0" cellpadding="0" border="0">
+<tr>
+	<td width="190" align="left" valign="top"><a href="http://smithsonianquests.org/"><img src="/images/global/promos/small/si_sm_promo_quests.gif" border="0" alt="Smithsonian Quests" /></a></td>
+</tr>
+</table>
+
+	</td>
+</tr>
+
+<tr>
+	<td width="190" colspan="3"><img src="/images/global/spacer.gif" width=190 height=8 border=0 alt=""></td>
+</tr>
+
+
+
+<tr>
+	<td width="8" class="pubText"><img src="/images/global/spacer.gif" width=8 height=1 border=0 alt=""></td>
+	<td width="174" class="pubText"><a href="http://smithsonianeducationconferences.org/sessions/thinking-about-biodiversity/"><span>Online Conferences:  SI Quests</span><br>In the Face of Extinction: Thinking about the Biodiversity <span class="underline">&gt;&gt;</span></a></td>
+	<td width="8"><img src="/images/global/spacer.gif" width=8 height=1 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="138" class="pubText" colspan="3"><img src="/images/global/spacer.gif" width=1 height=8 border=0 alt=""></td>
+</tr>
+
+
+<tr>
+	<td width="8" class="pubText"><img src="/images/global/spacer.gif" width=8 height=1 border=0 alt=""></td>
+	<td width="174" class="pubText"><a href="http://en.community.epals.com/smithsonian_on_epals/p/inventionchallenge2012winners.aspx"><span>Invent it Winners!</span><br>Congratulations to the winners of the 2012 Invent It Challenge.<span class="underline">&gt;&gt;</span></a></td>
+	<td width="8"><img src="/images/global/spacer.gif" width=8 height=1 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="138" class="pubText" colspan="3"><img src="/images/global/spacer.gif" width=1 height=8 border=0 alt=""></td>
+</tr>
+
+
+<tr>
+	<td width="8" class="pubText"><img src="/images/global/spacer.gif" width=8 height=1 border=0 alt=""></td>
+	<td width="174" class="pubText"><a href="http://smithsonianeducation.org/scientist/index.html"><span>Scientists @ the Smithsonian</span><br>Watch videos of scientists at work.<span class="underline">&gt;&gt;</span></a></td>
+	<td width="8"><img src="/images/global/spacer.gif" width=8 height=1 border=0 alt=""></td>
+</tr>
+<tr>
+	<td width="138" class="pubText" colspan="3"><img src="/images/global/spacer.gif" width=1 height=8 border=0 alt=""></td>
+</tr>
+
+
+</table>
+<!-- / col four -->
+	</td>
+</tr>
+</table>
+
+<!-- / master content table -->
+
+<!-- footer -->
+<table width="766" border="0" cellspacing="0" cellpadding="0">	
+<tr>
+	<td width="766" colspan="2" align="left" valign="top"><img src="/images/global/spacer.gif" width=766 height=12 border=0 alt=""></td>
+</tr>	
+<tr>
+	<td width="766" colspan="2" align="left" valign="top"><img src="/images/global/footer/si_mn_endline.gif " width=766 height=1 border=0 alt=""><br><img src="/images/global/spacer.gif" width=766 height=2 border=0 alt=""></td>
+</tr>	
+<tr>
+	<td width="477" align="left" valign="top"><img src="/images/global/footer/si_mn_nv_logo_footer.gif" width=477 height=39 border=0 alt="Smithsonian Center for Education and Museum Studies &copy;2003 Smithsonian Institution."></td>
+	
+	<td width="289" align="right" valign="top"> 
+      <div align="right"><a href="/tools/about.html"><img src="/images/global/footer/si_gl_nv_about_v2.gif" width=47 height=24 alt="About Us" border=0></a><a href="/tools/contact.asp"><img src="/images/global/footer/si_gl_nv_contact.gif" width=41 height=24 alt="Contact" border=0></a><a href="/tools/sitemap.html"><img src="/images/global/footer/si_gl_nv_sitemap.gif" width=46 height=24 alt="Site Map" border=0></a><a href="http://si.edu/Termsofuse"><img src="/images/global/footer/si_gl_nv_usage.gif" width=62 height=24 alt="Terms of Use" border=0></a><a href="http://si.edu/Privacy"><img src="/images/global/footer/si_gl_nv_privacy_v2.gif" width=41 height=24 alt="Privacy Policy" border=0></a><a href="/tools/subscribe.asp"><img src="/images/global/footer/si_gl_nv_subscribe.gif" width=52 height=24 alt="Subscribe" border=0></a><br>
+        <a href="http://www.smithsonian.org/" target="NewWindow"><img src="/images/global/footer/si_mn_nv_si.gif" width=112 height=15 alt="Smithsonian Institution" border=0></a><a href="http://www.smithsonian.org/websites_a_z/" target="NewWindow"><img src="/images/global/footer/si_mn_nv_websites.gif" width=70 height=15 alt="Websites A-Z" border=0></a><a href="http://www.smithsonianstore.com/" target="NewWindow"><img src="/images/global/footer/si_mn_nv_shop.gif" width=32 height=15 alt="Shop" border=0></a></div>
+    </td>
+</tr>	
+</table>
+
+<!-- ForeSee Audience Survey -->
+<script type="text/javascript">cpp_value="SCEMS";</script>
+<script type="text/javascript" src="http://www.si.edu/fsrscripts/triggerParams.js"></script>
+<script type="text/javascript" src="http://www.si.edu/fsrscripts/stdLauncher.js"></script>
+<!-- End ForeSee Audience Survey -->
+
+<!-- START OF SmartSource Data Collector TAG -->
+<!-- Copyright (c) 1996-2013 Webtrends Inc.  All rights reserved. -->
+<!-- Version: 9.4.0 -->
+<!-- Tag Builder Version: 4.1  -->
+<!-- Created: 3/15/2013 8:58:48 PM -->
+<script src="/js_css/webtrends.js" type="text/javascript"></script>
+<!-- ----------------------------------------------------------------------------------- -->
+<!-- Warning: The two script blocks below must remain inline. Moving them to an external -->
+<!-- JavaScript include file can cause serious problems with cross-domain tracking.      -->
+<!-- ----------------------------------------------------------------------------------- -->
+<script type="text/javascript">
+//
+var _tag=new WebTrends();
+_tag.dcsGetId();
+//
+</script>
+<script type="text/javascript">
+//
+_tag.dcsCustom=function(){
+// Add custom parameters here.
+//_tag.DCSext.param_name=param_value;
+}
+_tag.dcsCollect();
+//
+</script>
+<noscript>
+<div><img alt="DCSIMG" id="DCSIMG" width="1" height="1" src="//logs1.smithsonian.museum/dcsj54rrkbdzpxfo4jp7li3mh_9u3x/njs.gif?dcsuri=/nojavascript&amp;WT.js=No&amp;WT.tv=9.4.0&amp;dcssip=smithsonianeducation.org"/></div>
+</noscript>
+<!-- END OF SmartSource Data Collector TAG --><!-- / footer -->
+
+<!-- begin google analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-15983249-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- end google analytics -->
+</body>
+</html>
+

@@ -1,0 +1,210 @@
+<html> <head>
+<title>My work on BSD/OS</title>
+</head>
+
+<body bgcolor="#ffffff" fgcolor="#000000">
+<h1>My works on BSD/OS</h1>
+
+<em>--- Necessity is mother of 'Hack'</em>
+
+<p>
+LAST UPDATE: $Date: 1999/12/18 15:04:11 $
+<p>
+
+<h2>Some information and tips</h2>
+
+<ul>
+  <li> <a href="../bsd-networkdriver.html">Introduction to BSD/OS network
+       driver (In Japanese)</a>
+  <li> <a href="netscape301-jp-on-bsdi31.html">Using Japanese Letter on Netscape 3.01</a>
+  <li> <a href="netscape47-on-bsdi31.html">Japanese Netscape 4.7 on BSD/OS</a>
+  <li> <a href="../pda/palm-on-unix.html">Using Palm Pilot with BSD/OS.</a>
+  <li> Using Image Scanner on BSD/OS.
+</ul>
+
+<hr>
+
+<h2>My /etc/pccard.conf</h2>
+
+<a href="pccard.conf">This is my /etc/pccard.conf</a>
+
+<hr>
+
+<h2>I need USB!</h2>
+
+Ofcourse everyone knows, USB is cool. Currently, I am working
+on USB driver on BSD/OS. Actually, it's a porting of NetBSD's
+driver.
+<p>
+
+<hr>
+
+<h2>I need 16bit PCM on my notebook!</h2>
+
+Chandra, my notebook, has ESS sound chip. But native
+BSD/OS can detect this chip only as SoundBlaster Pro.
+It can only play 8bit PCM. It isn't comfortable especially
+to play SMF by TiMidity and MP3.<br>
+
+Currently, NetBSD and FreeBSD can use ESS Chip in native 16 bit mode.
+Now I am working to port this driver to BSD/OS.  And as the next step,
+I will port Luigi Rizzo's snd driver to BSD/OS if time permits.  <p>
+
+<hr>
+
+<h2>I need WirelessLAN!</h2>
+
+Now IEEE802.11 based wireless LAN card is available. And its driver
+for FreeBSD is also available at
+<a href="http://www.cas.trans-nt.com/~cas/ux/">here</a>.  The driver is
+ported to BSD/OS by <a href="http://www.itojun.org">itojun</a>.
+I am debugging the driver now.
+<p>
+
+CURRENT STATUS:<br>
+No interrupts rise. It's funny. Why?
+<p>
+
+<hr>
+
+<h2>I need MIDI!</h2>
+
+Some SoundBlaster as known as VIBRA16 need special initialization
+to enable MIDI port. I've desired MIDI port on VIBRA16 chip.
+The patch is delivered from newer version of Voxware.<p>
+
+[It was a hack at 1997]<p>
+
+<a href="sb16_midi.c.for_vibra.diff">Here's a patch for BSD/OS 3.1 </a>
+
+<p>
+
+To apply this patch, follow this steps.
+<ul>
+  <li> % cd /sys/i386/isa/sound
+  <li> % patch < ${SOMEWHERE}/sb16_midi.c.for_vibra.diff
+  <li> reconfigure your kernel
+</ul>
+
+TECHNICAL NOTES:<br>
+Vibra16 chip requires initialization of assignment of I/O
+address for MIDI interface. 0x300 and 0x330 are selectable.
+Selecting the I/O address, certain value should be  set to mixer
+register.<p>
+
+<pre>
+unsigned char   bits = sb_getmixer (0x84) &amp; ~0x06;
+....
+case 0x300:
+  sb_setmixer (0x84, bits | 0x04);
+  break;
+case 0x330:
+  sb_setmixer (0x84, bits | 0x00);
+  break;
+</pre>
+
+
+<hr>
+
+<h2>I need MIDI more!</h2>
+
+Roland SCP-55 is a PCMCIA MIDI card that is compatible with
+GS standard. I developed device driver for this card.
+Using this driver and UART SMF player such ad midiplay,
+you can play SMF.
+
+But unfortunately, this patch doesn't work well.
+If you initialize the card on Windows and boot BSD/OS,
+the card will work slightly better. But not perfect.
+Volume control seems getting crazy. <p>
+
+[It was a hack at 1996]<p>
+
+Here's a tarball for BSD/OS 3.1
+
+<p>
+
+Installation is to be the following steps:
+
+<p>
+
+TECHNICAL NOTES:<br> SCP-55 is basically compatible with UART MIDI
+device.  Once the card is attached, it acts as same as MPU-401 UART
+mode.  Some special registers for mixer are added.
+Probably special initialization is needed, but I have
+no information about that. That is why this driver doesn't
+work perfectly.
+
+<p>
+
+<hr>
+<h2>I need joysticks!</h2>
+
+It is quite easy to implement generic joystick driver on BSD/OS.
+<p>
+
+[It was a hack at 1998 (actully one night hack)]<p>
+
+<a href="joystick_bsdos3.tar.gz">Here's a tarball for BSD/OS 3.1</a>
+
+<p>
+Please see 00README included the tarball for more details.
+
+<p>
+<hr>
+
+<h2>I need ATAPI-PD drives!</h2>
+
+ATAPI PD drives are large and cheap strorage devices. They
+are very useful for me.<p>
+
+[It was a hack at 1998]<p>
+
+<a href="atapi_pd.980515.diff">Here's a patch for BSD/OS 3.1</a>
+
+<p>
+
+To apply this patch, follow this steps.
+
+<ul>
+  <li> % cd /sys
+  <li> % patch -p1 < ${SOMEWHERE}/atapi_pd.980515.diff
+  <li> reconfigure your kernel
+</ul>
+
+TECHNICAL NOTES:<br>
+
+ATAPI packet format is similar to that of SCSI.
+As far as the ATAPI specification, the field where LUN places
+in SCSI packet is defined as 'not-used'. But ATAPI-PD drives
+use this field to change CD-ROM and PD. 
+ATAPI-PD driver must do the followings:
+<ul>
+  <li> Probe the ATAPI-PD drive using drive name.
+  <li> Attach two devices, CD-ROM and PD.
+  <li> When to read or write, fill the LUN field appropriately
+       corresponding to device minor number.
+</ul>
+
+As far as BSD/OS, ATAPI removable drives are operated under SCSI
+emulation. Therefore, modifying the driver was not so difficult.<p>
+
+But, in my patch, SCSI-LUN is filled just before sending packets.  It
+is not smart, I think. SCSI-LUN should be set at more appropriate
+place.  Please do not forget that this patch is very ad-hoc.  <p>
+
+If your ATAPI-PD drive isn't recognized, please add the name of drive
+to wdpi_special_list[] at /sys/i386/isa/wdpi.c.<p>
+
+<hr>
+
+<h2>I need 'shutdown -x'</h2>
+
+Obsolete.
+
+<hr>
+<address><a href="mailto:kimoto@ohnolab.org">Masahiko Kimoto &lt;kimoto@ohnolab.org&gt;</a></address>
+<!-- hhmts start -->
+Last modified: Sat Dec 18 23:47:48 1999
+<!-- hhmts end -->
+</body> </html>

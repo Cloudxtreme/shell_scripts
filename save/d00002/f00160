@@ -1,0 +1,1317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Debian and upstream kernel on NETGEAR ReadyNAS Duo v2</title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+</head>
+<body>
+
+<div class="content">
+
+<p><font size="1pt" color="red"> Disclaimer: the information provided on this
+  page is given as is, i.e. without warranty that you will not break
+  your system following it. Additionally, do not expect to get support
+  and warranty from NETGEAR if this happens.</font></p> 
+
+
+<div class="pagetitle">Debian and upstream kernel on NETGEAR ReadyNAS
+  Duo v2</div><br/>
+
+<p>This page documents some efforts to get a recent kernel and latest
+  Debian system running on NETGEAR ReadyNAS Duo v2, instead of the 
+original (Marvell/NETGEAR-patched 2.6.31.8) kernel and custom system.
+The final goal is to have kernel patches pushed upstream; check
+Changelog and Todo list below to see current status and
+  progresses. </p>
+
+<p><font color="red">If you are looking for a server with an ARMv7
+    processor (i.e. with NX bit support), I recently bought a
+    NETGEAR ReadyNAS 102 (update of Duo v2) and did the same work to get a
+    recent kernel and Debian running on
+    it. <a href="../NAS2/index.html">I started a page dedicated to
+    that work.</a> </font></p>
+
+<p> If you have comments, corrections, additional information I
+  missed or problems w/ this page, do not hesitate to
+  drop <a href="../about/">me</a> a mail. Note that everything (from
+  hardware specs to debian and kernel install) has been kept on a
+  single page to have all the information available in a single
+  location and be able to make a PDF out of it. </p>
+
+<p> Today (Tue Feb 19 2013), 3.8 kernel was released and after some
+  minor updates from my development kernel (a 3.7.6), here is what I
+  now have on <b>hal</b>.</p> 
+
+<!-- <pre> -->
+<!-- bootm 0x1200000 -->
+<!-- ## Booting image at 01200000 ... -->
+<!--    Image Name:   Linux-3.8.0.duov2 -->
+<!--    Created:      2013-02-19  22:02:02 UTC -->
+<!--    Image Type:   ARM Linux Kernel Image (uncompressed) -->
+<!--    Data Size:    3650448 Bytes =  3.5 MB -->
+<!--    Load Address: 00008000 -->
+<!--    Entry Point:  00008000 -->
+<!--    Verifying Checksum ... OK -->
+<!-- OK -->
+
+<!-- Starting kernel ... -->
+
+<!-- Uncompressing Linux... done, booting the kernel. -->
+<!-- [    0.000000] Booting Linux on physical CPU 0x0 -->
+<!-- [    0.000000] Linux version 3.8.0.duov2 (arno@small) (gcc version 4.7.2 (Debian -->
+<!--  4.7.2-5) ) #2 Fri Feb 19 23:01:59 CET 2013 -->
+<!-- [    0.000000] bootconsole [earlycon0] enabled -->
+
+<!--  ... SNIP ... -->
+
+<!-- INIT: version 2.88 booting -->
+<!-- [info] Using makefile-style concurrent boot in runlevel S. -->
+
+<!--  ... SNIP ... -->
+
+<!-- Debian GNU/Linux 7.0 hal ttyS0 -->
+<!-- </pre> -->
+
+<pre>
+<b>root@hal:~# uname -a</b>
+Linux hal 3.8.0.duov2 #1 Tue Feb 19 20:25:45 CET 2013 armv5tel GNU/Linux
+<b>root@hal:~# cat /etc/issue</b>
+Debian GNU/Linux 7.0 \n \l
+</pre>
+
+<!-- Main Table of Contents -->
+<h1> Main Table of Contents </h1>
+
+<ul>
+<li> <a href="#changelog">Changelog for this page </a> </li>
+<li> <a href="#todo-list">Work in progress, i.e. TODO list</a> </li>
+<li> <a href="#hw"><font color="red">Hardware specs and software support</font> </a> </li>
+<li> <a href="#paxgrsec"> Notes on PaX/grsec support </a> </li>
+<li> <a href="#debkern"><font color="red">Step by step Debian and 3.8.3 kernel install</font></a> </li>
+</ul>
+
+
+<a name="changelog"></a>
+<h3> Changelog i.e. work done </h3>
+
+<ul>
+<li> <u>April 2013:</u> made a local copy of a more detailed
+  specification for GMT G762 PWM fan controller. </li>
+<li> <u>March 2013:</u> documentation for serial pins layout
+  (VCC,TX,RX,GND) and console access. Working USB 3.0 ports on 3.8
+  kernel (added initialization code in board setup file). Documented
+  step by step install of Debian and 3.8.3 kernel. Split of
+  kernel patches (readynas support, defconfig, G762 driver, thermal
+  driver and CESA DMA) to prepare publication. Some notes on PaX/grsec
+  (in)abilities for the device. LED and buttons are no supported.
+  Patch pushed upstream for comments. </li>
+<li> <u>February 2013:</u> publication of this page w/ detailed
+  hardware specs including pictures and datasheets when available, and
+  additional information on support status. Full conversion to
+  falttened device tree (FDT). Support of SoC temperature sensor. </li>
+<li> <u>January 2013:</u> started working on Marvell/NETGEAR-patched
+  2.6.31.8 kernel to extract patches and gather information on
+  hardware. First boot of a custom 3.7.6 kernel.</li>
+</ul>
+
+<a name="todo-list"></a>
+<h3> Todo list i.e. work in progress </h3>
+
+<ul>
+<li> <s>Work on buttons</s> </li>
+<li> <s>Work on LED</s> </li>
+<li> Fix halt process (at the moment, it reboots) </li>
+<li> <s>Work on temperature sensors</s> </li>
+<li> <s>Work on DT version</s> </li>
+<li> <s>Split patches</s> </li>
+<li> Document method to recover NETGEAR-specific patches </li>
+<li> <s>Work on mpp config</s> </li>
+<li> <s>Push a first set of patches upstream for comment</s> </li>
+<li> Work on userland (sensors config for temperature and fan) </li>
+<li> <s>Document Debian install from scratch</s> </li>
+<li> Build a list of unsupported hardware parts </li>
+<li> <s>Document grsec/PaX limitations (ARMv5 lacks NX support)</s></li>
+<li> Give a summary of network/system performance </li>
+<li> <s> Write initial doc for XOR and cryptographic (CESA) engines </s> </li>
+<li> <s> Add info on serial pins (VCC, RX, TX and GROUND) </s> </li>
+<li> Check if we can get to see ATMEL AT25F512B-SSH content by
+  enabling CONFIG_EEPROM_AT25</li>
+<li> <s> Fix missing USB 3.0 (rear) ports init code </s> </li>
+<li> Update/clean LaCie G762 driver for publication and perform DT conversion </li>
+<li> Improve css for this page </li>
+<li> HTML/CSS validator for this page </li>
+</ul>
+
+
+<a name="hw"></a>
+<!-- Hardware specs and software support  -->
+<h1> Hardware specs and software support </h1>
+
+<h2> Table of Contents </h2>
+
+<p>If you are in a hurry looking for a specific info, you can use this
+table of contents to directly access information on a specific
+hardware part of the system or get an overview of what a NETGEAR
+ReadyNAS Duo v2 is made of.</p>
+
+<ul>
+<li> <a href="#hw-soc">Marvell SoC 88F6282 ARMv5TE @1.6Ghz </a> </li>
+<li> <a href="#hw-ram">256 MB RAM via 2x128 Hynix DDR3 @1333Mhz </a> </li>
+<li> <a href="#hw-nand">128 MB Hynix NAND Flash </a> </li>
+<li> <a href="#hw-serial"> Serial interface via 16550A UART </a> </li>
+<li> <a href="#hw-fan">Protechnic Electric Co MG9212YB-25 Fan </a> </li>
+<li> <a href="#hw-fan-controller"> GMT G762 PWM Fan Controller </a> </li>
+<li> <a href="#hw-ricoh-RS5C372A"> Ricoh RS5C372A I<sup>2</sup>C bus RTC </a> </li>
+<li> <a href="#hw-NEC-D720200AF1"> NEC/RENESAS <i>&micro;</i>PD720200 USB3.0/xHCI
+   host controller </a> </li>
+<li> <a href="#hw-nuvoton-3012S"> Nuvoton 3012S </a> </li>
+<li> <a href="#hw-temperature-sensor"> SoC Temperature sensor </a> </li>
+<li> <a href="#hw-marvell-88E1318"> Marvell 88E1318 Gigabit Ethernet PHY </a> </li>
+<li> <a href="#hw-atmel-AT25F512B-SSH">ATMEL 512 Bit SPI Flash </a> </li>
+<li> <a href="#hw-cr2032"> CR2032 battery </a> </li>
+<li> <a href="#hw-FDS-4435BZ"> FDS 4435BZ </a> </li>
+<li> <a href="#hw-FDS-8984"> FDS 8984 </a> </li>
+<li> <a href="#hw-JTAG"> JTAG provision </a> </li>
+<li> <a href="#hw-marvell-G47B"> Marvell G47B </a> </li>
+<li> <a href="#hw-richtek-RT8105"> Richtek RT8105 </a> </li>
+<li> <a href="#hw-TI-TPS6251"> Texas instruments TPS6251 </a> </li>
+<li> <a href="#hw-leds-buttons"> Leds and buttons </a> </li>
+<li> <a href="#hw-crypto-engine"> Marvell Cryptograpic Engine and Security
+    Accelerator (CESA)</a> </li>
+<li> <a href="#hw-dma-xor"> DMA/XOR engine </a> </li>
+</ul>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hardware-specs"></a>
+<h2> Hardware specs </h2>
+
+<p> This section is dedicated to the hardware specs of the NETGEAR
+  ReadyNAS Duo v2. It is based on visual inspection of Duo v2 main
+  board and two daughter boards, completed with reading of NETGEAR
+  2.6.31.8 kernel sources and publicly available (read
+  Google-gathered) information .</p> 
+
+<p> When available, additional information and software handling
+  details are given for each hardware part. For instance, if you are
+  looking for informations related to the fan controller, simply click
+  the link above to get the details of what is used and how support is
+  provided. </p>
+
+<p> Each picture available on this page is a thumbnail of a larger
+  picture. The larger one can be accessed by clicking the
+  thumbnail. </p>
+
+
+<p> The picture below provides an overview of NETGEAR ReadyNAS Duo v2
+  main board. At the rear of the board, from left to right on the
+  picture are connectors for two daughter boards, respectively
+  supporting the SATA connectors for the first (DUO V3 BP BOARD V3.0),
+  and the two USB 3.0 ports, the RJ45 connector, the reset button, the
+  serial pins, and the power connector for the main fan for the second
+  (DUO V3 IO BOARD V3.2). </p> 
+
+<p> If you wonder why the NAS is called Duo v2 (v1 was its SPARC-based
+  ancestor) but the board are marked DUO V3 (sources also have that
+  mention), ... I do not have an answer. </p>
+
+<p> On the main board, the various buttons and LEDs are located near
+  the front USB 2.0 port. The Marvell SoC is located at the center of
+  the board, mask by its heat sink. </p>  
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_PCB_front2.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_PCB_front2_thumb.jpg"
+     alt="NETGEAR ReadyNAS Duo v2 main board"
+     title="NETGEAR ReadyNAS Duo v2 main board"/>
+</a>
+
+<p> The two pictures below respectively present the front and back
+  of the first daughter board (DUO V3 BP BOARD V3.0), for connection
+  of SATA disks. </p>
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_daughter_disks_board_front.jpg"><img width="300px" src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_daughter_disks_board_front_thumb.jpg" alt="Front of first daughter board, with SATA plugs for disks" title="Front of first daughter board, with SATA plugs for disks"/></a><a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_daughter_disks_board_back_2.jpg"><img width="300px" src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_daughter_disks_board_back_2_thumb.jpg" alt="Back of first daughter board" title="Back of first daughter board"/></a>
+
+<p> The two pictures below respectively present the front and back
+  of the second daughter board (DUO V3 IO BOARD V3.2), for connection
+  of SATA disks. </p> 
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_daughter_serial_usb_ethernet_board_3.jpg"><img width="300px" src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_daughter_serial_usb_ethernet_board_3_thumb.jpg" alt="Front of second daughter board " title=""/></a><a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_daughter_serial_usb_ethernet_board_3.jpg"><img width="300px" src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_daughter_serial_usb_ethernet_board_back_thumb.jpg" alt="" title=""/></a>
+
+<p>The following picture provides a view of the two daughter boards at
+  their original location at the rear of the device (main board has
+  been removed). </p>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_internal_view_mainboard_removed.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_internal_view_mainboard_removed_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-soc"></a>
+<h3> SoC </h3>
+
+<p> The ReadyNAS Duo v2 runs a Marvell 82F6282 SoC
+  (aka <a href="http://www.marvell.com/embedded-processors/armada-300/">ARMADA
+  300</a>)
+  from <a href="http://www.marvell.com/embedded-processors/kirkwood/">Kirkwood</a>
+  family. This SoC integrates a single core ARMv5TE-compatible CPU
+  running at 1.6GHz (Marvell also has 1.8 and 2GHz versions). If you
+  want to read on the subject, here are some locally cached
+  documents: </p>
+<ul>
+  <li> <a href="refs/Marvell/88f6282-3_pb.pdf">Marvell 88F6282 SoC</a> </li>
+  <li> <a href="refs/Marvell/armada_310.pdf">Marvell ARMADA 300/310 SoCs</a></li>
+</ul>
+
+<pre>
+<b>root@hal:~# cat /proc/cpuinfo </b>
+Processor       : Feroceon 88FR131 rev 1 (v5l)
+BogoMIPS        : 1599.07
+Features        : swp half thumb fastmult edsp 
+CPU implementer : 0x56
+CPU architecture: 5TE
+CPU variant     : 0x2
+CPU part        : 0x131
+CPU revision    : 1
+
+Hardware        : Feroceon-KW
+Revision        : 0000
+Serial          : 0000000000000000
+</pre>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-ram"></a>
+<h3> Hynix H5TQ1G83DFR-H9C </h3>
+
+<p> Two 128MB DDR3 1333 <a href="refs/Consumer_H5TQ1G6(8)3DFR(Rev1.7).pdf">Hynix 
+    H5TQ1G83DFR-H9C</a> chips are connected to the SoC. As you may
+    have noticed, those chips are soldered on the board, i.e. not
+    upgradable. Local copies of <a href="refs/Hynix-DDR3-RAM-specs/">Hynix H5TQ1G83DFR
+    specs</a> are available. </p>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_hynix_H5TQ1G83DFR_5.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_hynix_H5TQ1G83DFR_5_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-nand"></a>
+<h3> Hynix H27U1G8F2BTR </h3>
+
+<p>The ReadyNAS Duo comes with 128MB of NAND flash. The chip is
+  a <a href="refs/Hynix_NAND_128Mo_H27U1G8F2BT.pdf">Hynix
+    H27U1G8F2BTR</a>. If you want to get more details,
+  the <a href="refs/Hynix_NAND_flash_part_number_decoding.pdf"> Hynix
+  NAND flash part number decoding document</a> is woth reading.</p>
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_hynix_H27U1G8F2BTR.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_hynix_H27U1G8F2BTR_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-fan"></a>
+<h3> Protechnic Electric Co MG9212YB-25 Fan </h3>
+
+<p>The ReadyNAS cooling is performed by a 92mmx92mmx25mm <a href="refs/Protechnic_Electric_CO_-_MG9212YB-25.pdf"> Protechnic Electric CO MG9212YB-25 Fan</a>. This fan is connected to the second daughter board. </p>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_Protechnic_Electric_Co_MG9212YB-25_fan_2.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_Protechnic_Electric_Co_MG9212YB-25_fan_2_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-fan-controller"></a>
+<h3> GMT G762 Fan controller </h3>
+
+<p>Previous FAN is controlled by a <a href="refs/GMT_G762.pdf">G762
+  Fan controller</a> from Global Mixed-mode Technology Inc. The G762
+  has many similarities with
+  the <a href="refs/G760A_fanspeed_controller.pdf">G760a</a>, for
+  which support is available in upstream kernel. For those interested
+  by the details of the device, I keep a local copy of a more
+  <a href="refs/GMT_EDS-762_763-080710-0.2.pdf">detailed datasheet for
+  the G762/G763 fan controller</a> than the one available on GMT site.</p>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_GMT_G762.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_GMT_G762_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<p> A driver for G762 has been developed by LaCie for some of its
+  NASes based on existing G760a driver code. Even though the driver is
+  published under a GPLv2 license, it is currently not available in
+  upstream kernel. Nonetheless, with minor adaptations, it integrates
+  perfectly in current 3.8 kernel tree and allows me to control the
+  rotation of the fan: </p>
+
+<pre>
+<b>root@hal:~# uname -a</b>
+Linux hal 3.8.0.duov2 #1 Tue Feb 19 10:25:45 CET 2013 armv5tel GNU/Linux
+
+<b>root@hal:~# dmesg | grep g762</b>
+[    8.103594] g762 0-003e: found a platform specific fan speed array
+[    8.109964] g762 0-003e: device successfully initialized
+</pre>
+
+<p>After having installed <b>lm-sensors package</b>, we get:</p>
+
+<pre>
+<b>root@hal:~# sensors</b>
+g762-i2c-0-3e
+Adapter: mv64xxx_i2c adapter
+fan1:        2730 RPM  (div = 1)
+
+kirkwood_thermal-virtual-0
+Adapter: Virtual device
+temp1:        +29.7&#176;C
+
+<b>root@hal:~# sensors -u</b>
+g762-i2c-0-3e
+Adapter: mv64xxx_i2c adapter
+fan1:
+  fan1_input: 2730.000
+  fan1_alarm: 0.000
+  fan1_div: 1.000
+
+kirkwood_thermal-virtual-0
+Adapter: Virtual device
+temp1:
+  temp1_input: 29.747
+</pre>
+
+<p>The good thing is that the fan controller is seen and (what seems
+  to be) a valid rotation speed is reported. As can be read in the
+  documentation of the Duo v2 FAN, its max rotation speed is 3200. </p>
+
+<pre>
+<b>root@hal:/sys/bus/i2c# ls drivers</b>
+dummy  g762  rtc-rs5c372
+
+<b>root@hal:/sys/bus/i2c/devices/0-003e# ls</b>
+driver      fan1_div    fan1_target  modalias  pwm1         pwm1_mode  uevent
+fan1_alarm  fan1_input  hwmon        name      pwm1_enable  subsystem
+</pre>
+
+<p>By playing with <b>fan1_input</b> et <b>fan1_target</b>, we can
+  indeed modify the speed of the fan and collect its value:</p>
+
+<pre>
+root@hal:/sys/bus/i2c/devices/0-003e# echo 2700 > fan1_target 
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+2700
+root@hal:/sys/bus/i2c/devices/0-003e# echo 1500 > fan1_target 
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+2433
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+2048
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+2048
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+1780
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+1780
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+1606
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+1606
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+1480
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+1480
+root@hal:/sys/bus/i2c/devices/0-003e# cat fan1_input 
+1507
+</pre>
+
+<p>As can be seen above, the speed progressively stabilizes to the
+  expected value.</p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-ricoh-RS5C372A"></a>
+<h3> RICOH RS5C372A </h3>
+
+<p> The RTC of the system is provided by an I<sup>2</sup>C-connected
+  <a href="refs/Ricoh_RS5c372a-e.pdf">Ricoh RS5C372A</a>. Support for
+  that chip is avilable in upstream kernel and is working fine. </p>
+
+<!-- The chip can also be programmed -->
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_RICOH_RS5C372A.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_RICOH_RS5C372A_thumb.jpg"
+     alt="Ricoh RS5C372A I2C bus RTC"
+     title="Ricoh RS5C372A I2C bus RTC"/>
+</a>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-NEC-D720200AF1"></a>
+<h3> NEC <i>&micro;</i>PD720200 (D720200AF1) </h3>
+
+<p> The two USB3.0 ports on the rear of the NAS are provided by a
+  <a href="refs/NEC-UPD720200.pdf">NEC/RENESAS (Renesas bought NEC in
+  2010) <i>&micro;</i>PD720200 USB 3.0 Host Controller</a>, connected
+  on PCIe bus. </p> 
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_D720200AF1_2.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_D720200AF1_2_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<p>Support for the chip is available in upstream kernel. Here is
+  what <b>lspci -v</b> reports on a 3.8 kernel with the driver
+  enabled:</p> 
+
+<pre>
+00:01.0 USB controller: NEC Corp. uPD720200 USB 3.0 Host Controller (rev 04) (prog-if 30 [XHCI])
+        Flags: bus master, fast devsel, latency 0, IRQ 9
+        Memory at e0000000 (64-bit, non-prefetchable) [size=8K]
+        Capabilities: [50] Power Management version 3
+        Capabilities: [70] MSI: Enable- Count=1/8 Maskable- 64bit+
+        Capabilities: [90] MSI-X: Enable- Count=8 Masked-
+        Capabilities: [a0] Express Endpoint, MSI 00
+        Capabilities: [100] Advanced Error Reporting
+        Capabilities: [140] Device Serial Number ff-ff-ff-ff-ff-ff-ff-ff
+        Capabilities: [150] Latency Tolerance Reporting
+        Kernel driver in use: xhci_hcd
+</pre>
+
+<p> Nonetheless, just enabling the config knob in the kernel is not
+  sufficient: in that case plugging a simple USB key on one of the
+  two rear ports of the device gives no result (nothing shows up in
+  kernel logs), even though the controller is recognized (<b>lspci</b>
+  presents the controller). Some initialization code is needed in
+  board setup fiel for the port to work. As of today (March 2,
+  2013), USB 3.0 ports now work as expected. </p>  
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-temperature-sensor"></a>
+<h3> Temperature sensor </h3>
+
+<p> Marvell 88F6282 SoC includes a temperature sensor. In Marvell
+  5.1.3 LSP (patches against linux 2.6.31.8 kernel on which NETGEAR
+  kernel is based), a sensor driver is present to support the
+  feature (/arch/arm/mach-feroceon-kw/hwmon.c, 189 lines). It provides
+  a sysfs access to the temperature of the SoC.</p>
+
+<p>It is nonetheless disabled in Netgear kernel (i.e.
+  CONFIG_SENSORS_FEROCEON_KW is not set) and the userland on Duo v2
+  relies only on two other sensors to access the temperature on the
+  enclosure: the ones included in the disks and available
+  via <b>smartctl</b>.</p>  
+
+<p> I was about to port the drivers to 3.8 kernel when I noticed the
+  submission of thermal sensor support for Kirkwood SoCs for upstream
+  kernel by Nobuhiro Iwamatsu. Its set of patches
+  has <a href="http://thread.gmane.org/gmane.linux.power-management.general/30750/focus=30840"> 
+  recently (2013-02-08) been applied to thermal -next tree</a>. In the
+  end,
+  the <a href="http://git.kernel.org/?p=linux/kernel/git/rzhang/linux.git;a=patch;h=7060aa36645c51d1205ef0e0cbf7b564f1f52f36">patch</a>
+  should be availble in 3.9 kernel.</p> 
+
+<p> Once enabled (CONFIG_KIRKWOOD_THERMAL), the inclusion of
+  <b>kirkwood-6282.dtsi</b> in NETGEAR readynas dts file,
+  automatically provides the following information to describe how the
+  SoC temperature sensor is supported (register, driver, status):</p>
+
+<pre>
+    thermal@10078 {
+            compatible = "marvell,kirkwood-thermal";
+            reg = &lt;0x10078 0x4&gt;;
+            status = "okay";
+    };
+</pre>
+
+<p> After a reboot on the new kernel, here is what is now available
+  on the system:</p>
+
+<pre>
+root@hal:~# cd /sys/class/thermal/
+root@hal:/sys/class/thermal# ls 
+thermal_zone0
+root@hal:/sys/class/thermal# cd thermal_zone0
+root@hal:/sys/class/thermal/thermal_zone0# ls
+passive  policy  subsystem  temp  type  uevent
+root@hal:/sys/class/thermal/thermal_zone0# ls -l 
+total 0
+-rw-r--r-- 1 root root 4096 Feb 26 23:21 passive
+-rw-r--r-- 1 root root 4096 Feb 26 23:21 policy
+lrwxrwxrwx 1 root root    0 Feb 26 23:21 subsystem -> ../../../../class/thermal
+-r--r--r-- 1 root root 4096 Feb 26 23:21 temp
+-r--r--r-- 1 root root 4096 Feb 26 23:21 type
+-rw-r--r-- 1 root root 4096 Feb 26 23:21 uevent
+
+<b>root@hal:/sys/class/thermal/thermal_zone0# cat type </b>
+kirkwood_thermal
+
+<b>root@hal:/sys/class/thermal/thermal_zone0# cat temp </b>
+28928
+</pre>
+
+<p> The final value provided by <b>temp</b> key is the SoC temperature
+  in milli degrees Celsius (i.e. 28.928 &#176;C). <b>sensors</b> command
+  from <b>lm-sensors</b> package provides simple access to the value:</p>
+
+<pre>
+<b>root@hal:~# sensors</b>
+g762-i2c-0-3e
+Adapter: mv64xxx_i2c adapter
+fan1:        2730 RPM  (div = 1)
+
+kirkwood_thermal-virtual-0
+Adapter: Virtual device
+temp1:        +29.7&#176;C
+</pre>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-marvell-88E1318"></a>
+<h3> Marvell 88E1318 </h3>
+
+<p> The SoC includes two Gigabit Ethernet MAC but no PHY. The gigabit
+  PHY of the system is provided by
+  a <a href="refs/Marvell/Alaska_88E1310_S_1318_S-001_product_brief.pdf">Marvell 
+    Alaska 88E1318</a>.</p> 
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_Marvell_88E1318_2.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_Marvell_88E1318_2_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-nuvoton-3012S"></a>
+<h3> Nuvoton 3012S </h3>
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_nuvoton_3012S_2.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_nuvoton_3012S_2_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<p>Local copy of <a href="refs/Nuvoton_NCT3012S.pdf"> Nuvoton NCT3012S datasheet </a>.</p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-atmel-AT25F512B-SSH"></a>
+<h3> ATMEL AT25F512B-SSH </h3>
+
+<p> <a href="refs/ATMEL_AT25F512B-SSH.pdf">ATMEL AT25F512B</a> chip is
+  a 512 Kilobit SPI flash. <font color="red"> Check if
+  CONFIG_EEPROM_AT25 provides in current kernel allows us to get
+  access ot the content of the chip, i.e. if is is accessible. We
+  will also need additional info as described in
+  Documentation/devicetree/bindings/misc/at25.txt. Not sure the flash
+  is directly accessible. </font></p> 
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_ATMEL_AT25F512B-SSH_2.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_ATMEL_AT25F512B-SSH_2_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-cr2032"></a>
+<h3> CR2032 Battery</h3>
+
+<p> The system includes
+  a <a href="http://en.wikipedia.org/wiki/CR2032_battery">3V CR2032
+    battery</a> to maintain the <a href="">system clock</a> when the
+  NAS is not connected on AC power. </p>
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_CR2032_battery_2.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_CR2032_battery_2_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-serial"></a>
+<h3> Serial interface / Console </h3>
+
+<p> Marvell SoC directly embbeds two UARTs. In the NAS, one is rooted
+  up to the second daughter board and associated pins are directly
+  available under a simple sticker at the rear of the device. Note
+  that <font color="red">the serial port is a 3.3V one</font>.</p>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_daughter_serial_usb_ethernet_board_3_txrxgnd.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_daughter_serial_usb_ethernet_board_3_txrxgnd_thumb.jpg"
+     alt="Front of second daughter board"
+     title=""/>
+</a> 
+
+<p> With a multimeter, it's easy to detect which pin on the board is
+  TX, RX, GND and 3.3V VCC: </p>
+
+<ul>
+  <li>GND: using the ohmmeter function, with the NAS unplugged, with
+  a test probe on the enclosure, it's easy to detect which pin is the
+  ground (GND). This is the only one for which there is continuity,
+  i.e. the one on the right. </li>
+  <li>VCC: with the power plug on and one test probe on the ground pin
+  (or enclosure), the multimeter can be used as a voltmeter to detect
+  which pin is the VCC and its voltage. This is the one on the left,
+  with a 3.3V level.</li>
+  <li>RX and TX: using a 3.3V USB serial dongle as the one presented
+  below, it's easy to detect which PIN is the RX and which one is the
+  TX on the board, simply by booting the device while listening
+  with <b>screen</b> on the serial interface (<b>/dev/ttyUSB0</b>). </li>
+</ul>
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_usb-serial.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_usb-serial_thumb.jpg"
+     alt="3.3V-capable USB-serial dongle"
+     title=""/>
+</a> 
+
+<p>Once you have a proper access to the console (i.e. TX and RX
+  working), you can see U-boot loading and interrupt it (3 second
+  timeslot) to get access to U-boot console: </p>
+
+<pre>
+         __  __                      _ _
+        |  \/  | __ _ _ ____   _____| | |
+        | |\/| |/ _` | '__\ \ / / _ \ | |
+        | |  | | (_| | |   \ V /  __/ | |
+        |_|  |_|\__,_|_|    \_/ \___|_|_|
+ _   _     ____              _
+| | | |   | __ )  ___   ___ | |_ 
+| | | |___|  _ \ / _ \ / _ \| __| 
+| |_| |___| |_) | (_) | (_) | |_ 
+ \___/    |____/ \___/ \___/ \__| 
+ ** MARVELL BOARD: DB-88F6282A-BP LE 
+
+U-Boot 1.1.4 (Feb  6 2012 - 14:40:46) Marvell version: 3.4.27
+Netgear version: Uboot-1_1_4-NetgearDUOV3-V1008
+
+U-Boot code: 00600000 -> 0067FFF0  BSS: -> 006D0120
+
+Soc: MV88F1155 Rev 1 (DDR3)
+CPU running @ 1600Mhz L2 running @ 533Mhz
+SysClock = 533Mhz , TClock = 200Mhz 
+
+DRAM unknown CAL  tRP = 8 tRAS = 20 tRCD=8
+DRAM CS[0] base 0x00000000   size 256MB 
+DRAM Total size 256MB  16bit width
+Addresses 8M - 0M are saved for the U-Boot usage.
+Mem malloc Initialization (8M - 7M): Done
+NAND:128 MB
+Flash:  0 kB
+
+CPU : Marvell Feroceon (Rev 1)
+
+Streaming disabled 
+Write allocate disabled
+
+
+USB 0: host mode
+PEX 0: PCI Express Root Complex Interface
+PEX interface detected Link X1
+Switch On !
+
+Net:   egiga0 [PRIME]
+Hit any key to stop autoboot:  0 
+Marvell>> 
+</pre>
+
+<p> Some additional random notes on serial/console: </p>
+
+<ul>
+<li> Do not use a common 12V serial port to connect to the serial
+  line to avoid destroying it. </li>
+<li> You do not need to connect VCC pin. </li>
+<li> Even tough I could see the output of the boot process via the
+  serial console, I had no luck writing to the serial line (or
+  interrupting the boot) w/ <b>minicom</b> and quickly switched 
+  to <b>screen</b> (<b>screen /dev/ttyUSB0 115200</b>). </li>
+<li> RX and TX pins from the board need to be connected to TXD and RXD
+  pins on the dongle respectively. </li>
+</ul>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-FDS-4435BZ"></a>
+<h3> Fairchild FDS 4435BZ </h3>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_FDS_4435BZ_2.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_FDS_4435BZ_2_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+
+<p>Local copy of <a href="refs/FDS4435BZ_F085.pdf"> Fairchild FDS 4435BZ datasheet</a>.
+   Local copy of <a href="refs/FDS4435BZ.pdf"> Fairchild FDS 4435BZ datasheet</a>. </p>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-FDS-8984"></a>
+<h3> Fairchild FDS 8984 </h3>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_FDS_8984_2.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_FDS_8984_2_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<p>Local copy of <a href="refs/FDS8984.pdf"> Fairchild FDS 8984 datasheet</a>.</p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-JTAG"></a>
+<h3> JTAG access ??? </h3>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_J1_and_J7_provisions.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_J1_and_J7_provisions_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-marvell-G47B"></a>
+<h3> Marvell G47B </h3>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_Marvell_G47B.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_Marvell_G47B_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-richtek-RT8105"></a>
+<h3> Richtek RT8105 </h3>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_Richtek_RT8105.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_Richtek_RT8105_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<p>Local copy of <a href="refs/Richtek_DS8105-03.pdf"> Richtek DS8105 datasheet</a>.
+   Local copy of <a href="refs/Richtek_RT8105.pdf"> Richtek RT8105 datasheet</a>.</p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-TI-TPS6251"></a>
+<h3> Texas Instruments - TPS65251 </h3>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_TI_TPS65251_3.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_TI_TPS65251_3_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<p>Local copy of <a href="refs/tps65251.pdf"> TPS 65251 datasheet</a>.</p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-leds-buttons"></a>
+<h3> LEDs and Buttons </h3>
+
+
+<a href="pics/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_leds_and_buttons_on_mainboard.jpg">
+<img src="pics/thumbs/NETGEAR_ReadyNAS_Duo_v2_RND2000-200EUS_leds_and_buttons_on_mainboard_thumb.jpg"
+     alt=""
+     title=""/>
+</a>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-crypto-engine"></a>
+<h3> Marvell Cryptograpic Engine and Security
+    Accelerator (CESA) </h3>
+
+<!--  -->
+
+<p> Linux Kernel supports Marvell Cryptographic Engine and Security
+  Accelerator
+  (drivers/crypto/mv_cesa.{c,h}, <a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=ff7b04796d9866327ea76e1393f1e902ef032f84">commit
+  85a7f0ac</a>). DT support has
+  been <a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=f37fbd36c5f9fe716ddf783415a67de03fb0dc3d">recently
+  added</a> (see <b>kirkwood.dtsi</b>). </p>
+
+<p> The hardware engine supports:</p>
+<ul>
+  <li><b>AES</b> encryption algorithm (ECB and CBC modes with key
+  lengths of 128, 192 and 256 bits)</li>
+  <li><b>SHA1</b> hash algorithm</li>
+  <li><b>HMAC-SHA1</b> mac algorithm</li>
+</ul>
+
+<p> Nonetheless, at time of writing, current kernel code does not
+  support DMA, and even thoug
+  some <a href="http://thread.gmane.org/gmane.linux.kernel.cryptoapi/7162">initial discussions</a> have taken place. </p>
+
+<p> <font color="red">See how it works and test it,
+    performance-wise. See how it is accessible. What about TDMA
+    support?</font> </p>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<a name="hw-dma-xor"></a>
+<h3> DMA/XOR engine </h3>
+
+<p> Marvell SoC such as Orion and Kirkwood support DMA XOR (and
+  memcpy(), memset()) operations. Those can be useful to decrease CPU
+  utilization in RAID setup. Here is the commit message associated
+  with the introduction of the feature in Linux Kernel.</p>
+
+<pre>
+<a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=ff7b04796d9866327ea76e1393f1e902ef032f84">commit ff7b04796d9866327ea76e1393f1e902ef032f84</a>
+Author: Saeed Bishara &lt;saeed@marvell.com&gt;
+Date:   Tue Jul 8 11:58:36 2008 -0700
+
+    dmaengine: DMA engine driver for Marvell XOR engine
+    
+    The XOR engine found in Marvell's SoCs and system controllers
+    provides XOR and DMA operation, iSCSI CRC32C calculation, memory
+    initialization, and memory ECC error cleanup operation support.
+    
+    This driver implements the DMA engine API and supports the following
+    capabilities:
+    - memcpy
+    - xor
+    - memset
+    
+    The XOR engine can be used by DMA engine clients implemented in the
+    kernel, one of those clients is the RAID module.  In that case, I
+    observed 20% improvement in the raid5 write throughput, and 40%
+    decrease in the CPU utilization when doing array construction, those
+    results obtained on an 5182 running at 500Mhz.
+    
+    When enabling the NET DMA client, the performance decreased, so
+    meanwhile it is recommended to keep this client off.
+    
+    Signed-off-by: Saeed Bishara &lt;saeed@marvell.com&gt;
+    Signed-off-by: Lennert Buytenhek &lt;buytenh@marvell.com&gt;
+    Signed-off-by: Nicolas Pitre &lt;nico@marvell.com&gt;
+    Acked-by: Maciej Sosnowski &lt;maciej.sosnowski@intel.com&gt;
+    Signed-off-by: Dan Williams &lt;dan.j.williams@intel.com&gt;
+</pre>
+
+<p>Note that the feature is also available for DT-converted SoC, as
+  kikwood.dtsi file now has the required definition (since <a href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=c896ed0f">commit c896ed0f</a>)</p> 
+
+
+<a name="paxgrsec"></a>
+<!-- Notes on PaX/grsec support -->
+<h1> Notes on PaX/grsec support </h1>
+
+<p> If you intend to use the NAS as a server, you will probably
+  configure and run a grsec kernel on it and may be interested by
+  additional details on the topic. <b>Bottom line: the processor
+  being an ARMv5, it does not provide NX support (available from
+  ARMv6): this means that some useful protection mechanisms
+  provided by grsec patch will not be available (e.g. MPROTECT).</b> </p>
+
+<p>I spent some time configuring and testing a PaX/grsec-enabled 3.7.6
+  kernel for the NAS and diffing what is lost compared the same kind
+  of setup on x86_64 platform. Pipacs was kind enough to provide some
+  answers on how ARM support may evolve i.e. explain which
+  x86_64-available feature which are currently missing on ARM may be
+  supported at some point. <b> Bottom line: pax/grsec support on ARM
+  is expected to progressively match the level of "features"
+  available on x86/x86_64 <font color="red">but</font> on an
+  ARMv5TE-based device, NX-dependent protection mechanisms will never
+  be available</b>. </p>
+
+<p> In more details:</p>
+
+<ul>
+<li><b>GRKERNEXEC_RWXMAP_LOG (Denied RWX mmap/mprotect logging)</b>:
+  depends on MPROTECT which depends on NX which is not available on
+  ARMv5. </li> 
+<li><b>PAX_KERNEXEC (enforce non-executable kernel pages)</b>: this
+  option is not yet available on ARMv5 and would require some porting
+  effort. </li> 
+<li><b>PAX_MEMORY_STACKLEAK (Sanitize kernel stack)</b>: not
+  available yet on ARM but feasible, i.e. may be available in the
+  future.</li>
+
+<li><b>PAX_MEMORY_UDEREF (Prevent invalid userland pointer
+  dereference) </b>: already available on ARMv6+ since 3.8
+  kernel. Might be available at some point for ARMv5. </li>
+
+<li><b>PAX_PAGEEXEC ( Paging based non-executable pages)</b>: will not
+  be available on ARMv5. </li> 
+<li><b>PAX_NOEXEC (Enforce non-executable pages)</b>: depends
+  on <b>PAX_PAGEXEC</b>, so will not be available on ARMv5.</li> 
+<li><b>PAX_MPROTECT (Restrict mprotect())</b>: same as previous.</li>
+<li><b>PAX_MPROTECT_COMPAT)</b>: same as previous.</li>
+
+<li><b>PAX_RANDKSTACK (Randomize kernel stack base)</b>: doable on
+  ARM but currently not worth the 
+  effort.</li>
+<li><b>PAX_REFCOUNT (Prevent various kernel object reference counter
+  overflows)</b>: already exists for ARMv6+ and feasible on older ARM
+  but not yet implemented. </li> 
+<li><b>PAX_SIZE_OVERFLOW (Prevent various integer overflows in
+  function size parameters)</b>: arch independent but nonetheless 
+  require some ARM specific function. May get available at some point . </li>
+</ul>
+
+<p> Additionally, if you are interested by the topic, you should read
+ <a href="https://forums.grsecurity.net/viewtopic.php?f=7&amp;t=3292&amp;sid=95ab0101a549cc503172fc654227799e">Recent ARM security improvements</a> article on Spender's blog. </p>
+
+<a name="debkern"></a>
+<!-- Debian and 3.8.3 kernel install from scratch -->
+<h1> Step by step Debian and 3.8.3 kernel install </h1>
+
+<p> This section documents in details a step by step install of a
+  custom 3.8.3 kernel and a complete Debian. To start the
+  install, you simply need to have a console access to the device
+  and a way to pass the kernel, either via tftp (used below) or
+  USB.</p> 
+
+<p> Let's first install <b>tftpd</b> on our laptop to serve the
+  kernel image (uImage) and Debian installer (uInitrd), and allow
+  incoming tftp connection from the NAS: </p>
+
+<pre>
+$ sudo ip addr add 192.168.58.135/24 dev eth0 
+$ sudo apt-get install openbsd-inetd atftpd
+$ sudo /etc/init.d/openbsd-inetd
+$ sudo iptables -A INPUT -i eth0 -p udp --dport 69 -j ACCEPT
+</pre>
+
+<p> Let's now grab our kernel and a Debian armel installer and put
+  those in atftpd folder:</p>
+
+<pre>
+$ cd /tmp
+$ BASE=http://ftp.fr.debian.org/debian/dists/squeeze
+$ wget ${BASE}/main/installer-armel/current/images/kirkwood/netboot/marvell/guruplug/uInitrd
+$ wget <a href="http://natisbad.org/NAS/uImage-3.8.3">http://natisbad.org/NAS/uImage-3.8.3</a>                             <a href="http://natisbad.org/NAS/uImage-3.8.3.sign">[associated GPG sig]</a>
+$ sudo cp uImage-3.8.3 /srv/tftp/uImage
+$ sudo cp uInitrd /srv/tftp/
+</pre>
+
+<p>Then, we get access to the console and then plug the power cord
+without powering the device. The following appears:<p>
+
+<pre>
+$ screen /dev/ttyUSB0 115200
+
+         __  __                      _ _
+        |  \/  | __ _ _ ____   _____| | |
+        | |\/| |/ _` | '__\ \ / / _ \ | |
+        | |  | | (_| | |   \ V /  __/ | |
+        |_|  |_|\__,_|_|    \_/ \___|_|_|
+ _   _     ____              _
+| | | |   | __ )  ___   ___ | |_ 
+| | | |___|  _ \ / _ \ / _ \| __| 
+| |_| |___| |_) | (_) | (_) | |_ 
+ \___/    |____/ \___/ \___/ \__| 
+ ** MARVELL BOARD: DB-88F6282A-BP LE 
+
+U-Boot 1.1.4 (Feb  6 2012 - 14:40:46) Marvell version: 3.4.27
+Netgear version: Uboot-1_1_4-NetgearDUOV3-V1008
+
+U-Boot code: 00600000 -&gt; 0067FFF0  BSS: -&gt; 006D0120
+
+Soc: MV88F1155 Rev 1 (DDR3)
+CPU running @ 1600Mhz L2 running @ 533Mhz
+SysClock = 533Mhz , TClock = 200Mhz 
+
+DRAM unknown CAL  tRP = 8 tRAS = 20 tRCD=8
+DRAM CS[0] base 0x00000000   size 256MB 
+DRAM Total size 256MB  16bit width
+Addresses 8M - 0M are saved for the U-Boot usage.
+Mem malloc Initialization (8M - 7M): Done
+NAND:128 MB
+Flash:  0 kB
+
+CPU : Marvell Feroceon (Rev 1)
+
+Streaming disabled 
+Write allocate disabled
+
+
+USB 0: host mode
+PEX 0: PCI Express Root Complex Interface
+PEX interface detected Link X1
+Plug On and Power down, Please Switch On !
+</pre>
+
+<p>We can then power up the device. This will present a 3 seconds
+  countdown which allow us to interrupt the boot process and access
+  u-boot, simply by hitting a key. Let's do just that.</p>
+
+<pre>
+Net:   egiga0 [PRIME]
+Hit any key to stop autoboot:  0
+
+Marvell&gt;&gt;
+</pre>
+
+<p>For the record, let's just print current u-boot environment </p>
+
+<pre>
+Marvell&gt;&gt; printenv
+baudrate=115200
+loads_echo=0
+ipaddr=192.168.58.21
+serverip=192.168.58.135
+rootpath=/mnt/ARM_FS/
+netmask=255.255.255.0
+run_diag=no
+console=console=ttyS0,115200
+CASset=min
+ethprime=egiga0
+bootargs_root=root=/dev/nfs rw
+bootargs_end=:::DB88FXX81:eth0:none
+image_name=uImage
+standalone=fsload 0x2000000 $(image_name);setenv bootargs $(console) root=/dev/mtdblock0 rw \
+           ip=$(ipaddr):$(serverip)$(bootargs_end) $(mvPhoneConfig); bootm 0x2000000;
+ethmtu=1500
+mvPhoneConfig=mv_phone_config=dev0:fxs,dev1:fxs
+mvNetConfig=mv_net_config=(00:11:88:0f:62:81,0:1:2:3),mtu=1500
+usb0Mode=host
+yuk_ethaddr=00:00:00:EE:51:81
+nandEcc=1bit
+netretry=no
+rcvrip=169.254.100.100
+loadaddr=0x02000000
+autoload=no
+ethaddr=2c:b0:5d:be:c8:d6
+bootcmd=nand read.e 0x1200000 0x200000 0x600000;nand read.e 0x2000000 0x800000 0x1000000; \ 
+        bootm 0x1200000 0x2000000
+ethact=egiga0
+arcNumber=4919
+stdin=serial
+stdout=serial
+stderr=serial
+mainlineLinux=yes
+enaMonExt=no
+enaCpuStream=no
+enaWrAllo=no
+pexMode=RC
+disL2Cache=no
+setL2CacheWT=yes
+disL2Prefetch=yes
+enaICPref=yes
+enaDCPref=yes
+sata_dma_mode=yes
+netbsd_en=no
+vxworks_en=no
+bootdelay=3
+disaMvPnp=no
+enaAutoRecovery=yes
+pcieTune=no
+bootargs=console=ttyS0,115200 reason=normal mtdparts= &lt;SNIP&gt;... 
+Environment size: 1794/131068 bytes
+</pre>
+
+<p> As you can see, the environment contains the expected address of
+  the tftp server (serverip parameter) and the NAS IP address
+  (ipaddr): </p> 
+
+<pre>
+...
+
+Net:   egiga0 [PRIME]
+Hit any key to stop autoboot:  0 
+Marvell&gt;&gt; printenv
+...
+ipaddr=192.168.58.21
+serverip=192.168.58.135
+...
+</pre>
+
+<p> Let's now load kernel image (uImage) in memory at address 0x1200000 </p>
+
+<pre>
+Marvell&gt;&gt; tftpboot 1200000 uImage
+Using egiga0 device
+TFTP from server 192.168.58.135; our IP address is 192.168.58.21
+Filename 'uImage'.
+Load address: 0x1200000
+Loading: #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #
+done
+Bytes transferred = 3662635 (37e32b hex)
+</pre>
+
+<p> Let's put uInitrd a bit further at address 2000000:</p>
+
+<pre>
+Marvell&gt;&gt; tftpboot 2000000 uInitrd
+Using egiga0 device
+TFTP from server 192.168.58.135; our IP address is 192.168.58.21
+Filename 'uInitrd'.
+Load address: 0x2000000
+Loading: #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         #####################################
+done
+Bytes transferred = 3181036 (3089ec hex)
+</pre>
+
+<p> Let's modify the bootargs variable. </p>
+
+<pre>
+Marvell&gt;&gt; set bootargs console=ttyS0,115200 earlyprintk
+</pre>
+
+<p> Note that we <b>do not save</b> the environment before booting
+  the kernel and Debian installer </p>
+
+<pre>
+Marvell&gt;&gt; bootm 0x1200000 0x2000000
+</pre>
+
+<p> You should now see the kernel boot information and then the
+  debian installer. At that point, we are at home and continue the
+  system installation process as if we were on a common system. </p>
+
+<p>As a side note, the 3.8.3 kernel obviously has ext4, RAID and LVM
+  support enabled. Don't hesitate to use those (ext4 over LVM over
+  RAID), you should see no specific impact on the performance: with
+  two WD30EFRX disks, <b>w/o any specifc optimization</b>, an Apache
+  is capable of serving files at 108MB/s.</p>
+
+<p> Once Debian install is over, you can reboot the NAS and use the
+  process above to boot again the kernel and the Debian installer.
+  This time, the idea is to get up to the partition manager so that
+  all your partitions (raid, lvm, ext4) are set up and mounted. By
+  executing a shell, we will create an initramfs and then install the
+  kernel and this initramfs (as a replacement of NETGEAR ones on the
+  NAND flash). So, from the Debian installer shell: </p>
+
+<pre>
+# cd /
+# mkdir tgt
+# mount /dev/mapper/vgr-lvr /tgt
+# cd tgt
+# mount -o bind /proc proc/
+# mount -o bind /dev proc/dev
+# mount -o bind /dev/pts proc/dev/pts
+# mount -o bind /sys proc/sys 
+# chroot tgt /bin/bash
+</pre>
+
+<p> Let's install initramfs tools, build one ...</p>
+
+<pre>
+# apt-get install initramfs-tools
+# mkinitramfs -o /tmp/initramfs-3.8.3 -r /dev/mapper/vgr-lvr -v 
+</pre>
+
+<p>... , and make it understandable by u-boot: </p>
+
+<pre>
+# sudo apt-get install uboot-mkimage
+# mkimage -A arm -O linux -T ramdisk -C none -a 0x00000000 -e 0x00000000 \
+          -n initramfs -d /tmp/initramfs-3.8.3  /tmp/uInitramfs
+</pre>
+
+<p> At that point, we can either copy our uImage and uInitramfs to
+  the NAND flash of the device or copy them to a USB key or even
+  install those on the disk. Note that this last option is only
+  available if your disks are small enough to not require a GUID
+  Partition Table (GPT) partition (i.e. less that 2TB). Otherwise,
+  u-boot will not be able to access the content of an ext2 or fat
+  partition on the disk. Regarding the uInitramfs, it is needed in
+  our case because the kernel is unable to directly autodetect recent
+  RAID partition (if metadata is not v0.90).</p>  
+
+<p> Let's document the NAND flash way. Flash layout is the following: </p>
+
+<pre>
+root@hal:~# cat /proc/mtd 
+dev:    size   erasesize  name
+mtd0: 00180000 00020000 "u-boot"
+mtd1: 001a0000 00020000 "u-boot-env"
+mtd2: 00800000 00020000 "uImage"
+mtd3: 01800000 00020000 "minirootfs"
+mtd4: 06800000 00020000 "jffs2"
+</pre>
+
+<p>So, we have 8MB available for kernel (ours is less than 4MB) and
+  24MB for our initramfs, respectively in /dev/mtd2 and
+  /dev/mtd3. Let's install the tools ... </p>
+
+<pre>
+# apt-get install mtd-utils
+</pre>
+
+<p> ... and install uImage ... </p>
+
+<pre>
+# flash_erase /dev/mtd2 0 0
+# nandwrite -p /dev/mtd2 /boot/uImage
+# dd if=/dev/mtd2 of=/tmp/o bs=`wc -c /boot/uImage | cut -d' ' -f1` count=1
+1+0 records in
+1+0 records out
+3664035 bytes (3.7 MB) copied, 0.736338 s, 5.0 MB/s
+# sha256sum /tmp/o /boot/uImage
+2ac3393ded6de2d37e6441260e1498ccdb1836a71552481e87d4a90eb9f84a37  /tmp/o
+2ac3393ded6de2d37e6441260e1498ccdb1836a71552481e87d4a90eb9f84a37  /boot/uImage
+</pre>
+
+<p> ... and then install uInitramfs ... </p> 
+<pre>
+# flash_erase /dev/mtd3 0 0
+# nandwrite -p /dev/mtd3 /boot/uInitramfs
+# dd if=/dev/mtd3 of=/tmp/o bs=`wc -c /boot/uInitramfs | cut -d' ' -f1` count=1
+1+0 records in
+1+0 records out
+2768752 bytes (2.8 MB) copied, 0.596774 s, 4.6 MB/s
+# sha256sum /tmp/o /boot/uInitramfs
+cdeb51f851b3967868fd52f2642283756ee42757690ba9596fc7a9f35ea9ea37  /tmp/o
+cdeb51f851b3967868fd52f2642283756ee42757690ba9596fc7a9f35ea9ea37  /boot/uInitramfs
+</pre>
+
+<p>We can now reboot and once again interrupt the boot process to
+  access u-boot in order to setup a final environment. In our case,
+  as we installed the uImage and uInitramfs, we only need to modify
+  the bootargs variable and use <b>savenev</b> to write u-boot
+  configuration to nand: </p> 
+
+<pre>
+Marvell&gt;&gt; setenv bootargs root=/dev/mapper/vgr-lvr console=ttyS0,115200 earlyprintk rootdelay=10
+Marvell&gt;&gt; saveenv
+Marvell&gt;&gt; boot
+</pre>
+
+<p> If you decide to go the USB way or install the uImage and
+  uInitrd, you will have to modify root parameter and potentially
+  other elements.</p>
+
+</div>
+</body>
+</html>

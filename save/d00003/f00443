@@ -1,0 +1,1271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Issues - Bufferbloat</title>
+<meta name="description" content="Redmine" />
+<meta name="keywords" content="issue,bug,tracker" />
+<link rel='shortcut icon' href='/favicon.ico?1285288428' />
+<link href="/stylesheets/application.css?1295801430" media="all" rel="stylesheet" type="text/css" />
+
+<script src="/javascripts/prototype.js?1295534114" type="text/javascript"></script>
+<script src="/javascripts/effects.js?1295534114" type="text/javascript"></script>
+<script src="/javascripts/dragdrop.js?1295534114" type="text/javascript"></script>
+<script src="/javascripts/controls.js?1295534114" type="text/javascript"></script>
+<script src="/javascripts/application.js?1295534114" type="text/javascript"></script>
+
+<link href="/stylesheets/jstoolbar.css?1295534114" media="screen" rel="stylesheet" type="text/css" />
+<!--[if IE]>
+    <style type="text/css">
+      * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
+      body {behavior: url(/stylesheets/csshover.htc?1295534114);}
+    </style>
+<![endif]-->
+
+<!-- page specific tags -->
+
+<script src="/javascripts/select_list_move.js?1295534114" type="text/javascript"></script>
+
+    <link href="http://www.bufferbloat.net/issues.atom?query_id=" rel="alternate" title="Issues" type="application/atom+xml" />
+    <link href="http://www.bufferbloat.net/issues/changes?format=atom&amp;query_id=" rel="alternate" title="Details of all changes" type="application/atom+xml" />
+<script src="/javascripts/context_menu.js?1295534114" type="text/javascript"></script><link href="/stylesheets/context_menu.css?1295534114" media="screen" rel="stylesheet" type="text/css" /></head>
+<body class="controller-issues action-index">
+<div id="wrapper">
+<div id="wrapper2">
+<div id="top-menu">
+    <div id="account">
+        <ul><li><a href="/login" class="login">Sign in</a></li>
+<li><a href="/account/register" class="register">Register</a></li></ul>    </div>
+    
+    <ul><li><a href="/" class="home">Home</a></li>
+<li><a href="/projects" class="projects">Projects</a></li>
+<li><a href="http://www.redmine.org/guide" class="help">Help</a></li></ul></div>
+      
+<div id="header">
+    <div id="quick-search">
+        <form action="/search" method="get">
+        <input name="issues" type="hidden" value="1" />
+        <a href="/search" accesskey="4">Search</a>:
+        <input accesskey="f" class="small" id="q" name="q" size="20" type="text" />
+        </form>
+        
+    </div>
+    
+    <h1>Bufferbloat</h1>
+    
+    
+</div>
+
+<div class="" id="main">
+    <div id="sidebar">        
+        
+    <h3>Issues</h3>
+<a href="/issues?set_filter=1">View all issues</a><br />
+
+
+
+
+	<a href="/issues/calendar">Calendar</a><br />
+
+
+	<a href="/issues/gantt">Gantt</a><br />
+
+
+
+<h3>Custom queries</h3>
+
+<a href="/issues?query_id=5">2wks of closed bugs</a><br />
+<a href="/issues?query_id=1">ByAssignee</a><br />
+<a href="/issues?query_id=2">ByPriority</a><br />
+
+
+
+        
+    </div>
+    
+    <div id="content">
+				
+        <div class="contextual">
+
+</div>
+
+<h2>Issues</h2>
+
+
+<form action="/queries/new" id="query_form" method="post"><div style="margin:0;padding:0;display:inline"><input name="authenticity_token" type="hidden" value="rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=" /></div>
+    
+		<div id="query_form_content" class="hide-when-print">
+    <fieldset id="filters" class="collapsible ">
+    	<legend onclick="toggleFieldset(this);">Filters</legend>
+    	<div style="">
+    		<script type="text/javascript">
+//<![CDATA[
+function add_filter() {
+    select = $('add_filter_select');
+    field = select.value
+    Element.show('tr_' +  field);
+    check_box = $('cb_' + field);
+    check_box.checked = true;
+    toggle_filter(field);
+    select.selectedIndex = 0;
+    
+    for (i=0; i<select.options.length; i++) {
+        if (select.options[i].value == field) {
+            select.options[i].disabled = true;
+        }    
+    }
+}
+
+function toggle_filter(field) {
+    check_box = $('cb_' + field);
+    
+    if (check_box.checked) {
+        Element.show("operators_" + field);
+        toggle_operator(field);
+    } else {
+        Element.hide("operators_" + field);
+        Element.hide("div_values_" + field);
+  }
+}
+
+function toggle_operator(field) {
+  operator = $("operators_" + field);
+  switch (operator.value) {
+    case "!*":
+    case "*":
+    case "t":
+    case "w":
+    case "o":
+    case "c":
+      Element.hide("div_values_" + field);
+      break;
+    default:
+      Element.show("div_values_" + field);
+      break;
+  }
+}
+
+function toggle_multi_select(field) {
+    select = $('values_' + field);
+    if (select.multiple == true) {
+        select.multiple = false;
+    } else {
+        select.multiple = true;
+    }
+}
+
+function apply_filters_observer() {
+  $$("#query_form input[type=text]").invoke("observe", "keypress", function(e){
+    if(e.keyCode == Event.KEY_RETURN) {
+      new Ajax.Updater('content', '/issues?set_filter=1', {asynchronous:true, evalScripts:true, onComplete:function(request){e.stop(); apply_filters_observer()}, parameters:Form.serialize('query_form') + '&authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')})
+    }
+  });
+}
+Event.observe(document,"dom:loaded", apply_filters_observer);
+//]]>
+</script>
+
+<table width="100%">
+<tr>
+<td>
+<table>
+
+    
+    <tr  id="tr_status_id" class="filter">
+    <td style="width:200px;">
+        <input checked="checked" id="cb_status_id" name="fields[]" onclick="toggle_filter('status_id');" type="checkbox" value="status_id" />
+        <label for="cb_status_id">Status</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_status_id" name="operators[status_id]" onchange="toggle_operator('status_id');" style="vertical-align: top;"><option value="o" selected="selected">open</option>
+<option value="=">is</option>
+<option value="!">is not</option>
+<option value="c">closed</option>
+<option value="*">all</option></select>
+    </td>
+    <td>    
+    <div id="div_values_status_id" style="display:none;">
+    
+        <select  name="values[status_id][]" id="values_status_id" class="select-small" style="vertical-align: top;">
+        <option value="1">New</option>
+<option value="2">In Progress</option>
+<option value="7">Testing</option>
+<option value="8">QA</option>
+<option value="3">Resolved</option>
+<option value="4">Feedback</option>
+<option value="5">Closed</option>
+<option value="6">Rejected</option>
+<option value="9">VERIFIED</option>        
+        </select>
+        <a href="#" onclick="toggle_multi_select('status_id');; return false;" style="vertical-align: bottom;"><img alt="Bullet_toggle_plus" src="/images/bullet_toggle_plus.png?1295534114" /></a>
+    
+    </div>
+    <script type="text/javascript">toggle_filter('status_id');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_project_id" class="filter">
+    <td style="width:200px;">
+        <input id="cb_project_id" name="fields[]" onclick="toggle_filter('project_id');" type="checkbox" value="project_id" />
+        <label for="cb_project_id">Project</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_project_id" name="operators[project_id]" onchange="toggle_operator('project_id');" style="vertical-align: top;"><option value="=">is</option>
+<option value="!">is not</option></select>
+    </td>
+    <td>    
+    <div id="div_values_project_id" style="display:none;">
+    
+        <select  name="values[project_id][]" id="values_project_id" class="select-small" style="vertical-align: top;">
+        <option value="3">Bloat</option>
+<option value="13">-- Cerowrt</option>
+<option value="16">-- codel</option>        
+        </select>
+        <a href="#" onclick="toggle_multi_select('project_id');; return false;" style="vertical-align: bottom;"><img alt="Bullet_toggle_plus" src="/images/bullet_toggle_plus.png?1295534114" /></a>
+    
+    </div>
+    <script type="text/javascript">toggle_filter('project_id');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_tracker_id" class="filter">
+    <td style="width:200px;">
+        <input id="cb_tracker_id" name="fields[]" onclick="toggle_filter('tracker_id');" type="checkbox" value="tracker_id" />
+        <label for="cb_tracker_id">Tracker</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_tracker_id" name="operators[tracker_id]" onchange="toggle_operator('tracker_id');" style="vertical-align: top;"><option value="=">is</option>
+<option value="!">is not</option></select>
+    </td>
+    <td>    
+    <div id="div_values_tracker_id" style="display:none;">
+    
+        <select  name="values[tracker_id][]" id="values_tracker_id" class="select-small" style="vertical-align: top;">
+        <option value="1">Bug</option>
+<option value="2">Feature</option>
+<option value="3">Support</option>        
+        </select>
+        <a href="#" onclick="toggle_multi_select('tracker_id');; return false;" style="vertical-align: bottom;"><img alt="Bullet_toggle_plus" src="/images/bullet_toggle_plus.png?1295534114" /></a>
+    
+    </div>
+    <script type="text/javascript">toggle_filter('tracker_id');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_priority_id" class="filter">
+    <td style="width:200px;">
+        <input id="cb_priority_id" name="fields[]" onclick="toggle_filter('priority_id');" type="checkbox" value="priority_id" />
+        <label for="cb_priority_id">Priority</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_priority_id" name="operators[priority_id]" onchange="toggle_operator('priority_id');" style="vertical-align: top;"><option value="=">is</option>
+<option value="!">is not</option></select>
+    </td>
+    <td>    
+    <div id="div_values_priority_id" style="display:none;">
+    
+        <select  name="values[priority_id][]" id="values_priority_id" class="select-small" style="vertical-align: top;">
+        <option value="3">Low</option>
+<option value="4">Normal</option>
+<option value="5">High</option>
+<option value="6">Urgent</option>
+<option value="7">Immediate</option>        
+        </select>
+        <a href="#" onclick="toggle_multi_select('priority_id');; return false;" style="vertical-align: bottom;"><img alt="Bullet_toggle_plus" src="/images/bullet_toggle_plus.png?1295534114" /></a>
+    
+    </div>
+    <script type="text/javascript">toggle_filter('priority_id');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_assigned_to_id" class="filter">
+    <td style="width:200px;">
+        <input id="cb_assigned_to_id" name="fields[]" onclick="toggle_filter('assigned_to_id');" type="checkbox" value="assigned_to_id" />
+        <label for="cb_assigned_to_id">Assignee</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_assigned_to_id" name="operators[assigned_to_id]" onchange="toggle_operator('assigned_to_id');" style="vertical-align: top;"><option value="=">is</option>
+<option value="!">is not</option>
+<option value="!*">none</option>
+<option value="*">all</option></select>
+    </td>
+    <td>    
+    <div id="div_values_assigned_to_id" style="display:none;">
+    
+        <select  name="values[assigned_to_id][]" id="values_assigned_to_id" class="select-small" style="vertical-align: top;">
+        <option value="88">Aaron Brooks</option>
+<option value="147">abdul hakeem</option>
+<option value="80">Abhishek Jain</option>
+<option value="184">ahlem reggani</option>
+<option value="168">Aidan Williams</option>
+<option value="39">Alan Silva</option>
+<option value="50">Alex Burr</option>
+<option value="512">alex martin</option>
+<option value="245">Alexander Dupuy</option>
+<option value="287">Alistair Woodman</option>
+<option value="142">Andrew McGregor</option>
+<option value="92">Antonio Pescape'</option>
+<option value="138">ARJUN BISTA</option>
+<option value="180">Bill McGonigle</option>
+<option value="552">Bill Rainey</option>
+<option value="8">Bloat Bot</option>
+<option value="185">Bobby Dull</option>
+<option value="14">Brian Clapper</option>
+<option value="53">Brian Poole</option>
+<option value="33">Brian Watters</option>
+<option value="78">Bruce Atherton</option>
+<option value="56">Charles Lee</option>
+<option value="166">Chatchong Ariyawong</option>
+<option value="132">Chih Ming Lin</option>
+<option value="40">Chris E</option>
+<option value="43">Chris Friesen</option>
+<option value="203">Christopher Bortz</option>
+<option value="195">clark david</option>
+<option value="514">Colin Henson</option>
+<option value="62">Colin Ranni</option>
+<option value="98">Colin Wright</option>
+<option value="36">Craig Guessford</option>
+<option value="114">Cris R.</option>
+<option value="154">Curtis Blackburn</option>
+<option value="81">Daniel Genin</option>
+<option value="94">Daniel Wolf</option>
+<option value="3">Dave Täht</option>
+<option value="109">David Brown</option>
+<option value="5">David Taht</option>
+<option value="506">Davis McPherson</option>
+<option value="628">Denis Ovsienko</option>
+<option value="172">Dhanraj M</option>
+<option value="17">Don Marti</option>
+<option value="45">Ed Goforth</option>
+<option value="161">Ellis Rubio</option>
+<option value="215">Emmanuel Galanos</option>
+<option value="15">Eric Raymond</option>
+<option value="64">Erik Auerswald</option>
+<option value="87">Evan Hunt</option>
+<option value="182">Fabian Schneider</option>
+<option value="110">Felipe Contreras</option>
+<option value="29">Felix Fietkau</option>
+<option value="20">Forbes Hirsch</option>
+<option value="104">Frank Horowitz</option>
+<option value="679">Gabriel Ohai</option>
+<option value="177">Geoff Collyer</option>
+<option value="103">George Bonser</option>
+<option value="75">George Burdell</option>
+<option value="738">Gokul Bhat</option>
+<option value="41">Gordon Cichon</option>
+<option value="167">Gregory P Smith</option>
+<option value="79">Harald Kleppe</option>
+<option value="141">Hector Ordorica</option>
+<option value="31">Henrique de Moraes Holschuh</option>
+<option value="190">Holger Winkelmann</option>
+<option value="18">Horst H. von Brand</option>
+<option value="77">Hrushikesh Mehendale</option>
+<option value="134">hugo zepeda</option>
+<option value="123">Hyojoon Kim</option>
+<option value="101">Irving Reid</option>
+<option value="67">Isaac Konikoff</option>
+<option value="130">Ivan Barrera</option>
+<option value="118">J G</option>
+<option value="176">jack uack</option>
+<option value="119">Jacob W</option>
+<option value="117">jacopo cesareo</option>
+<option value="158">James Cassell</option>
+<option value="57">James Cloos</option>
+<option value="187">James Reisert</option>
+<option value="54">Jan Pedro Tumusok</option>
+<option value="140">Jan Willem Rotteveel</option>
+<option value="91">Jay Moran</option>
+<option value="99">jed lane</option>
+<option value="42">Jeremy Nelson</option>
+<option value="25">Jesper Dangaard Brouer</option>
+<option value="174">Jesse Krembs</option>
+<option value="6">Jim Gettys</option>
+<option value="113">Jo-Philipp Wich</option>
+<option value="85">Joe Hamelin</option>
+<option value="170">Joe Oldendick</option>
+<option value="28">John Linville</option>
+<option value="517">John Thomas</option>
+<option value="65">Jon Masters</option>
+<option value="107">Jonathan Morton</option>
+<option value="23">Josh Anderson</option>
+<option value="106">Juliusz Chroboczek</option>
+<option value="72">Justin McCann</option>
+<option value="95">Justin Wagner</option>
+<option value="725">Kamal Mostafa</option>
+<option value="163">Kathleen Nichols</option>
+<option value="131">Ken Landau</option>
+<option value="136">Kenada Nitzu</option>
+<option value="108">Kenyon Ralph</option>
+<option value="330">Ketan Kulkarni</option>
+<option value="59">Kim Hawtin</option>
+<option value="150">Koen Holtman</option>
+<option value="122">Kyriakos Zarifis</option>
+<option value="165">Leo Bicknell</option>
+<option value="30">Leon Koh</option>
+<option value="26">Luca Dionisi</option>
+<option value="143">Luis Rodriguez</option>
+<option value="585">Luke H</option>
+<option value="44">M C</option>
+<option value="575">Maciej Soltysiak</option>
+<option value="7">mail bot</option>
+<option value="179">Marc Franco</option>
+<option value="164">Marc Manthey</option>
+<option value="151">Marcos Antonio Rosa</option>
+<option value="157">Mark Constable</option>
+<option value="129">Marlon Dutra</option>
+<option value="96">Marshini Chetty</option>
+<option value="47">Mathieu Rene</option>
+<option value="128">Matt Urbanski</option>
+<option value="737">Matthew Goldstein</option>
+<option value="156">Michael Graff</option>
+<option value="145">Michael Richardson</option>
+<option value="86">Michael Van Milligan</option>
+<option value="189">Naeem Khademi</option>
+<option value="126">Nazanin Magharei</option>
+<option value="188">NEO MAX</option>
+<option value="49">Nick Feamster</option>
+<option value="200">Noel Grandin</option>
+<option value="181">Ondra Salaba</option>
+<option value="66">Otto Solares Cabrera</option>
+<option value="175">Petri Rosenström</option>
+<option value="51">pierpaolo giacomin</option>
+<option value="656">Pádraig Brady</option>
+<option value="196">rajendar chintala</option>
+<option value="116">Renata Teixeira</option>
+<option value="194">Rene Hollan</option>
+<option value="213">Rich Brown</option>
+<option value="16">Rich Simons</option>
+<option value="24">Richard Pitt</option>
+<option value="27">Richard Scheffenegger</option>
+<option value="162">Richard Smith</option>
+<option value="146">Rick Graham</option>
+<option value="12">Rob Keiser</option>
+<option value="193">Robert Bradley</option>
+<option value="139">Robert Hannaman</option>
+<option value="11">Robert Oliver</option>
+<option value="21">Rod Nayfield</option>
+<option value="97">Sabri Zaman</option>
+<option value="160">Sam Burnett</option>
+<option value="71">Sam Stickland</option>
+<option value="137">scott berman</option>
+<option value="61">Scott Kamp</option>
+<option value="9">Sean Conner</option>
+<option value="10">Sean Conner</option>
+<option value="696">Sebastian Moeller</option>
+<option value="726">Sedat Dilek</option>
+<option value="22">Shane Turner</option>
+<option value="144">Simon Barber</option>
+<option value="48">Srikanth Sundaresan</option>
+<option value="19">Stephen Hemminger</option>
+<option value="105">Stephen Walker</option>
+<option value="124">Stephen Woodrow</option>
+<option value="35">Steve Lord</option>
+<option value="55">Steven  Bauer</option>
+<option value="46">Steven Ayre</option>
+<option value="76">Steven Briggs</option>
+<option value="549">Ted Percival</option>
+<option value="102">Teddy Hogeborn</option>
+<option value="34">Tianji Li</option>
+<option value="133">Tim Anderson</option>
+<option value="70">Tim Upthegrove</option>
+<option value="1071">Toke Høiland-Jørgensen</option>
+<option value="135">Tony Heredia</option>
+<option value="58">Travis Kemen</option>
+<option value="660">Tres Seaver</option>
+<option value="63">Virgil Champlin</option>
+<option value="794">Vivien Didelot</option>
+<option value="74">Walter de Donato</option>
+<option value="1061">William Allen Simpson</option>
+<option value="84">Wolfgang B Beck</option>
+<option value="120">Xuzi Zhou</option>
+<option value="121">Yiannis Yiakoumis</option>
+<option value="149">Yuri Bene</option>        
+        </select>
+        <a href="#" onclick="toggle_multi_select('assigned_to_id');; return false;" style="vertical-align: bottom;"><img alt="Bullet_toggle_plus" src="/images/bullet_toggle_plus.png?1295534114" /></a>
+    
+    </div>
+    <script type="text/javascript">toggle_filter('assigned_to_id');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_author_id" class="filter">
+    <td style="width:200px;">
+        <input id="cb_author_id" name="fields[]" onclick="toggle_filter('author_id');" type="checkbox" value="author_id" />
+        <label for="cb_author_id">Author</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_author_id" name="operators[author_id]" onchange="toggle_operator('author_id');" style="vertical-align: top;"><option value="=">is</option>
+<option value="!">is not</option></select>
+    </td>
+    <td>    
+    <div id="div_values_author_id" style="display:none;">
+    
+        <select  name="values[author_id][]" id="values_author_id" class="select-small" style="vertical-align: top;">
+        <option value="88">Aaron Brooks</option>
+<option value="147">abdul hakeem</option>
+<option value="80">Abhishek Jain</option>
+<option value="184">ahlem reggani</option>
+<option value="168">Aidan Williams</option>
+<option value="39">Alan Silva</option>
+<option value="50">Alex Burr</option>
+<option value="512">alex martin</option>
+<option value="245">Alexander Dupuy</option>
+<option value="287">Alistair Woodman</option>
+<option value="142">Andrew McGregor</option>
+<option value="92">Antonio Pescape'</option>
+<option value="138">ARJUN BISTA</option>
+<option value="180">Bill McGonigle</option>
+<option value="552">Bill Rainey</option>
+<option value="8">Bloat Bot</option>
+<option value="185">Bobby Dull</option>
+<option value="14">Brian Clapper</option>
+<option value="53">Brian Poole</option>
+<option value="33">Brian Watters</option>
+<option value="78">Bruce Atherton</option>
+<option value="56">Charles Lee</option>
+<option value="166">Chatchong Ariyawong</option>
+<option value="132">Chih Ming Lin</option>
+<option value="40">Chris E</option>
+<option value="43">Chris Friesen</option>
+<option value="203">Christopher Bortz</option>
+<option value="195">clark david</option>
+<option value="514">Colin Henson</option>
+<option value="62">Colin Ranni</option>
+<option value="98">Colin Wright</option>
+<option value="36">Craig Guessford</option>
+<option value="114">Cris R.</option>
+<option value="154">Curtis Blackburn</option>
+<option value="81">Daniel Genin</option>
+<option value="94">Daniel Wolf</option>
+<option value="3">Dave Täht</option>
+<option value="109">David Brown</option>
+<option value="5">David Taht</option>
+<option value="506">Davis McPherson</option>
+<option value="628">Denis Ovsienko</option>
+<option value="172">Dhanraj M</option>
+<option value="17">Don Marti</option>
+<option value="45">Ed Goforth</option>
+<option value="161">Ellis Rubio</option>
+<option value="215">Emmanuel Galanos</option>
+<option value="15">Eric Raymond</option>
+<option value="64">Erik Auerswald</option>
+<option value="87">Evan Hunt</option>
+<option value="182">Fabian Schneider</option>
+<option value="110">Felipe Contreras</option>
+<option value="29">Felix Fietkau</option>
+<option value="20">Forbes Hirsch</option>
+<option value="104">Frank Horowitz</option>
+<option value="679">Gabriel Ohai</option>
+<option value="177">Geoff Collyer</option>
+<option value="103">George Bonser</option>
+<option value="75">George Burdell</option>
+<option value="738">Gokul Bhat</option>
+<option value="41">Gordon Cichon</option>
+<option value="167">Gregory P Smith</option>
+<option value="79">Harald Kleppe</option>
+<option value="141">Hector Ordorica</option>
+<option value="31">Henrique de Moraes Holschuh</option>
+<option value="190">Holger Winkelmann</option>
+<option value="18">Horst H. von Brand</option>
+<option value="77">Hrushikesh Mehendale</option>
+<option value="134">hugo zepeda</option>
+<option value="123">Hyojoon Kim</option>
+<option value="101">Irving Reid</option>
+<option value="67">Isaac Konikoff</option>
+<option value="130">Ivan Barrera</option>
+<option value="118">J G</option>
+<option value="176">jack uack</option>
+<option value="119">Jacob W</option>
+<option value="117">jacopo cesareo</option>
+<option value="158">James Cassell</option>
+<option value="57">James Cloos</option>
+<option value="187">James Reisert</option>
+<option value="54">Jan Pedro Tumusok</option>
+<option value="140">Jan Willem Rotteveel</option>
+<option value="91">Jay Moran</option>
+<option value="99">jed lane</option>
+<option value="42">Jeremy Nelson</option>
+<option value="25">Jesper Dangaard Brouer</option>
+<option value="174">Jesse Krembs</option>
+<option value="6">Jim Gettys</option>
+<option value="113">Jo-Philipp Wich</option>
+<option value="85">Joe Hamelin</option>
+<option value="170">Joe Oldendick</option>
+<option value="28">John Linville</option>
+<option value="517">John Thomas</option>
+<option value="65">Jon Masters</option>
+<option value="107">Jonathan Morton</option>
+<option value="23">Josh Anderson</option>
+<option value="106">Juliusz Chroboczek</option>
+<option value="72">Justin McCann</option>
+<option value="95">Justin Wagner</option>
+<option value="725">Kamal Mostafa</option>
+<option value="163">Kathleen Nichols</option>
+<option value="131">Ken Landau</option>
+<option value="136">Kenada Nitzu</option>
+<option value="108">Kenyon Ralph</option>
+<option value="330">Ketan Kulkarni</option>
+<option value="59">Kim Hawtin</option>
+<option value="150">Koen Holtman</option>
+<option value="122">Kyriakos Zarifis</option>
+<option value="165">Leo Bicknell</option>
+<option value="30">Leon Koh</option>
+<option value="26">Luca Dionisi</option>
+<option value="143">Luis Rodriguez</option>
+<option value="585">Luke H</option>
+<option value="44">M C</option>
+<option value="575">Maciej Soltysiak</option>
+<option value="7">mail bot</option>
+<option value="179">Marc Franco</option>
+<option value="164">Marc Manthey</option>
+<option value="151">Marcos Antonio Rosa</option>
+<option value="157">Mark Constable</option>
+<option value="129">Marlon Dutra</option>
+<option value="96">Marshini Chetty</option>
+<option value="47">Mathieu Rene</option>
+<option value="128">Matt Urbanski</option>
+<option value="737">Matthew Goldstein</option>
+<option value="156">Michael Graff</option>
+<option value="145">Michael Richardson</option>
+<option value="86">Michael Van Milligan</option>
+<option value="189">Naeem Khademi</option>
+<option value="126">Nazanin Magharei</option>
+<option value="188">NEO MAX</option>
+<option value="49">Nick Feamster</option>
+<option value="200">Noel Grandin</option>
+<option value="181">Ondra Salaba</option>
+<option value="66">Otto Solares Cabrera</option>
+<option value="175">Petri Rosenström</option>
+<option value="51">pierpaolo giacomin</option>
+<option value="656">Pádraig Brady</option>
+<option value="196">rajendar chintala</option>
+<option value="116">Renata Teixeira</option>
+<option value="194">Rene Hollan</option>
+<option value="213">Rich Brown</option>
+<option value="16">Rich Simons</option>
+<option value="24">Richard Pitt</option>
+<option value="27">Richard Scheffenegger</option>
+<option value="162">Richard Smith</option>
+<option value="146">Rick Graham</option>
+<option value="12">Rob Keiser</option>
+<option value="193">Robert Bradley</option>
+<option value="139">Robert Hannaman</option>
+<option value="11">Robert Oliver</option>
+<option value="21">Rod Nayfield</option>
+<option value="97">Sabri Zaman</option>
+<option value="160">Sam Burnett</option>
+<option value="71">Sam Stickland</option>
+<option value="137">scott berman</option>
+<option value="61">Scott Kamp</option>
+<option value="9">Sean Conner</option>
+<option value="10">Sean Conner</option>
+<option value="696">Sebastian Moeller</option>
+<option value="726">Sedat Dilek</option>
+<option value="22">Shane Turner</option>
+<option value="144">Simon Barber</option>
+<option value="48">Srikanth Sundaresan</option>
+<option value="19">Stephen Hemminger</option>
+<option value="105">Stephen Walker</option>
+<option value="124">Stephen Woodrow</option>
+<option value="35">Steve Lord</option>
+<option value="55">Steven  Bauer</option>
+<option value="46">Steven Ayre</option>
+<option value="76">Steven Briggs</option>
+<option value="549">Ted Percival</option>
+<option value="102">Teddy Hogeborn</option>
+<option value="34">Tianji Li</option>
+<option value="133">Tim Anderson</option>
+<option value="70">Tim Upthegrove</option>
+<option value="1071">Toke Høiland-Jørgensen</option>
+<option value="135">Tony Heredia</option>
+<option value="58">Travis Kemen</option>
+<option value="660">Tres Seaver</option>
+<option value="63">Virgil Champlin</option>
+<option value="794">Vivien Didelot</option>
+<option value="74">Walter de Donato</option>
+<option value="1061">William Allen Simpson</option>
+<option value="84">Wolfgang B Beck</option>
+<option value="120">Xuzi Zhou</option>
+<option value="121">Yiannis Yiakoumis</option>
+<option value="149">Yuri Bene</option>        
+        </select>
+        <a href="#" onclick="toggle_multi_select('author_id');; return false;" style="vertical-align: bottom;"><img alt="Bullet_toggle_plus" src="/images/bullet_toggle_plus.png?1295534114" /></a>
+    
+    </div>
+    <script type="text/javascript">toggle_filter('author_id');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_member_of_group" class="filter">
+    <td style="width:200px;">
+        <input id="cb_member_of_group" name="fields[]" onclick="toggle_filter('member_of_group');" type="checkbox" value="member_of_group" />
+        <label for="cb_member_of_group">Assignee's group</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_member_of_group" name="operators[member_of_group]" onchange="toggle_operator('member_of_group');" style="vertical-align: top;"><option value="=">is</option>
+<option value="!">is not</option>
+<option value="!*">none</option>
+<option value="*">all</option></select>
+    </td>
+    <td>    
+    <div id="div_values_member_of_group" style="display:none;">
+    
+        <select  name="values[member_of_group][]" id="values_member_of_group" class="select-small" style="vertical-align: top;">
+        <option value="4">Admins</option>
+<option value="13">Testers</option>
+<option value="83">Bismark</option>
+<option value="90">Kernel-Hackers</option>
+<option value="93">GATech</option>
+<option value="155">isc</option>
+<option value="183">lincs</option>
+<option value="698">shakers</option>        
+        </select>
+        <a href="#" onclick="toggle_multi_select('member_of_group');; return false;" style="vertical-align: bottom;"><img alt="Bullet_toggle_plus" src="/images/bullet_toggle_plus.png?1295534114" /></a>
+    
+    </div>
+    <script type="text/javascript">toggle_filter('member_of_group');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_assigned_to_role" class="filter">
+    <td style="width:200px;">
+        <input id="cb_assigned_to_role" name="fields[]" onclick="toggle_filter('assigned_to_role');" type="checkbox" value="assigned_to_role" />
+        <label for="cb_assigned_to_role">Assignee's role</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_assigned_to_role" name="operators[assigned_to_role]" onchange="toggle_operator('assigned_to_role');" style="vertical-align: top;"><option value="=">is</option>
+<option value="!">is not</option>
+<option value="!*">none</option>
+<option value="*">all</option></select>
+    </td>
+    <td>    
+    <div id="div_values_assigned_to_role" style="display:none;">
+    
+        <select  name="values[assigned_to_role][]" id="values_assigned_to_role" class="select-small" style="vertical-align: top;">
+        <option value="3">Manager</option>
+<option value="4">Developer</option>
+<option value="7">Contributor</option>
+<option value="5">Reporter</option>
+<option value="6">Robot</option>
+<option value="8">Artist</option>        
+        </select>
+        <a href="#" onclick="toggle_multi_select('assigned_to_role');; return false;" style="vertical-align: bottom;"><img alt="Bullet_toggle_plus" src="/images/bullet_toggle_plus.png?1295534114" /></a>
+    
+    </div>
+    <script type="text/javascript">toggle_filter('assigned_to_role');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_fixed_version_id" class="filter">
+    <td style="width:200px;">
+        <input id="cb_fixed_version_id" name="fields[]" onclick="toggle_filter('fixed_version_id');" type="checkbox" value="fixed_version_id" />
+        <label for="cb_fixed_version_id">Target version</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_fixed_version_id" name="operators[fixed_version_id]" onchange="toggle_operator('fixed_version_id');" style="vertical-align: top;"><option value="=">is</option>
+<option value="!">is not</option>
+<option value="!*">none</option>
+<option value="*">all</option></select>
+    </td>
+    <td>    
+    <div id="div_values_fixed_version_id" style="display:none;">
+    
+        <select  name="values[fixed_version_id][]" id="values_fixed_version_id" class="select-small" style="vertical-align: top;">
+        <option value="10">Cerowrt - 1st Public Cerowrt release</option>        
+        </select>
+        <a href="#" onclick="toggle_multi_select('fixed_version_id');; return false;" style="vertical-align: bottom;"><img alt="Bullet_toggle_plus" src="/images/bullet_toggle_plus.png?1295534114" /></a>
+    
+    </div>
+    <script type="text/javascript">toggle_filter('fixed_version_id');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_subject" class="filter">
+    <td style="width:200px;">
+        <input id="cb_subject" name="fields[]" onclick="toggle_filter('subject');" type="checkbox" value="subject" />
+        <label for="cb_subject">Subject</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_subject" name="operators[subject]" onchange="toggle_operator('subject');" style="vertical-align: top;"><option value="~">contains</option>
+<option value="!~">doesn't contain</option></select>
+    </td>
+    <td>    
+    <div id="div_values_subject" style="display:none;">
+    
+        <input class="select-small" id="values_subject" name="values[subject][]" size="30" type="text" />
+    
+    </div>
+    <script type="text/javascript">toggle_filter('subject');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_created_on" class="filter">
+    <td style="width:200px;">
+        <input id="cb_created_on" name="fields[]" onclick="toggle_filter('created_on');" type="checkbox" value="created_on" />
+        <label for="cb_created_on">Created</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_created_on" name="operators[created_on]" onchange="toggle_operator('created_on');" style="vertical-align: top;"><option value="&gt;t-">less than days ago</option>
+<option value="&lt;t-">more than days ago</option>
+<option value="t-">days ago</option>
+<option value="t">today</option>
+<option value="w">this week</option></select>
+    </td>
+    <td>    
+    <div id="div_values_created_on" style="display:none;">
+    
+        <input class="select-small" id="values_created_on" name="values[created_on][]" size="3" type="text" /> days
+    
+    </div>
+    <script type="text/javascript">toggle_filter('created_on');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_updated_on" class="filter">
+    <td style="width:200px;">
+        <input id="cb_updated_on" name="fields[]" onclick="toggle_filter('updated_on');" type="checkbox" value="updated_on" />
+        <label for="cb_updated_on">Updated</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_updated_on" name="operators[updated_on]" onchange="toggle_operator('updated_on');" style="vertical-align: top;"><option value="&gt;t-">less than days ago</option>
+<option value="&lt;t-">more than days ago</option>
+<option value="t-">days ago</option>
+<option value="t">today</option>
+<option value="w">this week</option></select>
+    </td>
+    <td>    
+    <div id="div_values_updated_on" style="display:none;">
+    
+        <input class="select-small" id="values_updated_on" name="values[updated_on][]" size="3" type="text" /> days
+    
+    </div>
+    <script type="text/javascript">toggle_filter('updated_on');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_start_date" class="filter">
+    <td style="width:200px;">
+        <input id="cb_start_date" name="fields[]" onclick="toggle_filter('start_date');" type="checkbox" value="start_date" />
+        <label for="cb_start_date">Start date</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_start_date" name="operators[start_date]" onchange="toggle_operator('start_date');" style="vertical-align: top;"><option value="&lt;t+">in less than</option>
+<option value="&gt;t+">in more than</option>
+<option value="t+">in</option>
+<option value="t">today</option>
+<option value="w">this week</option>
+<option value="&gt;t-">less than days ago</option>
+<option value="&lt;t-">more than days ago</option>
+<option value="t-">days ago</option></select>
+    </td>
+    <td>    
+    <div id="div_values_start_date" style="display:none;">
+    
+        <input class="select-small" id="values_start_date" name="values[start_date][]" size="3" type="text" /> days
+    
+    </div>
+    <script type="text/javascript">toggle_filter('start_date');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_due_date" class="filter">
+    <td style="width:200px;">
+        <input id="cb_due_date" name="fields[]" onclick="toggle_filter('due_date');" type="checkbox" value="due_date" />
+        <label for="cb_due_date">Due date</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_due_date" name="operators[due_date]" onchange="toggle_operator('due_date');" style="vertical-align: top;"><option value="&lt;t+">in less than</option>
+<option value="&gt;t+">in more than</option>
+<option value="t+">in</option>
+<option value="t">today</option>
+<option value="w">this week</option>
+<option value="&gt;t-">less than days ago</option>
+<option value="&lt;t-">more than days ago</option>
+<option value="t-">days ago</option></select>
+    </td>
+    <td>    
+    <div id="div_values_due_date" style="display:none;">
+    
+        <input class="select-small" id="values_due_date" name="values[due_date][]" size="3" type="text" /> days
+    
+    </div>
+    <script type="text/javascript">toggle_filter('due_date');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_estimated_hours" class="filter">
+    <td style="width:200px;">
+        <input id="cb_estimated_hours" name="fields[]" onclick="toggle_filter('estimated_hours');" type="checkbox" value="estimated_hours" />
+        <label for="cb_estimated_hours">Estimated time</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_estimated_hours" name="operators[estimated_hours]" onchange="toggle_operator('estimated_hours');" style="vertical-align: top;"><option value="=">is</option>
+<option value="&gt;=">&gt;=</option>
+<option value="&lt;=">&lt;=</option>
+<option value="!*">none</option>
+<option value="*">all</option></select>
+    </td>
+    <td>    
+    <div id="div_values_estimated_hours" style="display:none;">
+    
+        <input class="select-small" id="values_estimated_hours" name="values[estimated_hours][]" size="3" type="text" />
+    
+    </div>
+    <script type="text/javascript">toggle_filter('estimated_hours');</script>
+    </td>
+    </tr>
+
+    
+    <tr style="display:none;" id="tr_done_ratio" class="filter">
+    <td style="width:200px;">
+        <input id="cb_done_ratio" name="fields[]" onclick="toggle_filter('done_ratio');" type="checkbox" value="done_ratio" />
+        <label for="cb_done_ratio">% Done</label>
+    </td>
+    <td style="width:150px;">
+        <select class="select-small" id="operators_done_ratio" name="operators[done_ratio]" onchange="toggle_operator('done_ratio');" style="vertical-align: top;"><option value="=">is</option>
+<option value="&gt;=">&gt;=</option>
+<option value="&lt;=">&lt;=</option>
+<option value="!*">none</option>
+<option value="*">all</option></select>
+    </td>
+    <td>    
+    <div id="div_values_done_ratio" style="display:none;">
+    
+        <input class="select-small" id="values_done_ratio" name="values[done_ratio][]" size="3" type="text" />
+    
+    </div>
+    <script type="text/javascript">toggle_filter('done_ratio');</script>
+    </td>
+    </tr>
+
+</table>
+</td>
+<td class="add-filter">
+<label for="add_filter_select">Add filter</label>:
+<select class="select-small" id="add_filter_select" onchange="add_filter();"><option value=""></option>
+<option value="project_id">Project</option>
+<option value="tracker_id">Tracker</option>
+<option value="priority_id">Priority</option>
+<option value="assigned_to_id">Assignee</option>
+<option value="author_id">Author</option>
+<option value="member_of_group">Assignee's group</option>
+<option value="assigned_to_role">Assignee's role</option>
+<option value="fixed_version_id">Target version</option>
+<option value="subject">Subject</option>
+<option value="created_on">Created</option>
+<option value="updated_on">Updated</option>
+<option value="start_date">Start date</option>
+<option value="due_date">Due date</option>
+<option value="estimated_hours">Estimated time</option>
+<option value="done_ratio">% Done</option></select>
+</td>
+</tr>
+</table>
+<input id="fields_" name="fields[]" type="hidden" value="" />
+
+    	</div>
+    </fieldset>
+    <fieldset class="collapsible collapsed">
+    	<legend onclick="toggleFieldset(this);">Options</legend>
+    	<div style="display: none;">
+    		<table>
+    			<tr>
+    				<td>Columns</td>
+						<td><table style="border-collapse: collapse; border:0;">
+	<tr>
+		<td style="padding-left:0"><select id="available_columns" multiple="multiple" name="available_columns[]" size="10" style="width:150px"><option value="parent">Parent task</option>
+<option value="author">Author</option>
+<option value="category">Category</option>
+<option value="fixed_version">Target version</option>
+<option value="start_date">Start date</option>
+<option value="due_date">Due date</option>
+<option value="estimated_hours">Estimated time</option>
+<option value="done_ratio">% Done</option>
+<option value="created_on">Created</option></select>
+		</td>
+		<td align="center" valign="middle">
+			<input type="button" value="&#8594;"
+			 onclick="moveOptions(this.form.available_columns, this.form.selected_columns);" /><br />
+			<input type="button" value="&#8592;"
+			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);" />
+		</td>
+		<td><select id="selected_columns" multiple="multiple" name="query[column_names][]" size="10" style="width:150px"><option value="project">Project</option>
+<option value="tracker">Tracker</option>
+<option value="status">Status</option>
+<option value="priority">Priority</option>
+<option value="subject">Subject</option>
+<option value="assigned_to">Assignee</option>
+<option value="updated_on">Updated</option></select>
+		</td>
+		<td align="center" valign="middle">
+			<input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);" /><br />
+			<input type="button" value="&#8595;" onclick="moveOptionDown(this.form.selected_columns);" />
+		</td>
+	</tr>
+</table>
+
+
+</td>
+					</tr>
+					<tr>
+						<td>Group results by</td>
+						<td><select id="group_by" name="group_by"><option value="" selected="selected"></option>
+<option value="project">Project</option>
+<option value="tracker">Tracker</option>
+<option value="status">Status</option>
+<option value="priority">Priority</option>
+<option value="assigned_to">Assignee</option>
+<option value="category">Category</option>
+<option value="fixed_version">Target version</option>
+<option value="done_ratio">% Done</option></select></td>
+					</tr>
+				</table>
+			</div>
+		</fieldset>
+		</div>
+    <p class="buttons hide-when-print">
+
+    <a class="icon icon-checked" href="#" onclick="selectAllOptions(&quot;selected_columns&quot;);; new Ajax.Updater('content', '/issues?set_filter=1', {asynchronous:true, evalScripts:true, onComplete:function(request){apply_filters_observer()}, parameters:Form.serialize('query_form') + '&amp;authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">Apply</a>
+                       
+    <a class="icon icon-reload" href="#" onclick="new Ajax.Updater('content', '/issues?set_filter=1', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">Clear</a>
+                       
+    
+    </p>
+</form>
+
+
+
+
+<form action="/issues" method="post"><div style="margin:0;padding:0;display:inline"><input name="authenticity_token" type="hidden" value="rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=" /></div>	
+<input id="back_url" name="back_url" type="hidden" value="/issues" />
+<div class="autoscroll">
+<table class="list issues">
+    <thead><tr>
+        <th class="checkbox hide-when-print"><a href="/issues" onclick="toggleIssuesSelection(Element.up(this, &quot;form&quot;)); return false;" title="Check all/Uncheck all"><img alt="Toggle_check" src="/images/toggle_check.png?1295534114" /></a>
+        </th>
+		<th title="Sort by &quot;#&quot;"><a class="sort desc" href="/issues?sort=id" onclick="new Ajax.Updater('content', '/issues?sort=id', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">#</a></th>
+        
+          <th title="Sort by &quot;Project&quot;"><a href="/issues?sort=project%2Cid%3Adesc" onclick="new Ajax.Updater('content', '/issues?sort=project%2Cid%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">Project</a></th>
+        
+          <th title="Sort by &quot;Tracker&quot;"><a href="/issues?sort=tracker%2Cid%3Adesc" onclick="new Ajax.Updater('content', '/issues?sort=tracker%2Cid%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">Tracker</a></th>
+        
+          <th title="Sort by &quot;Status&quot;"><a href="/issues?sort=status%2Cid%3Adesc" onclick="new Ajax.Updater('content', '/issues?sort=status%2Cid%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">Status</a></th>
+        
+          <th title="Sort by &quot;Priority&quot;"><a href="/issues?sort=priority%3Adesc%2Cid%3Adesc" onclick="new Ajax.Updater('content', '/issues?sort=priority%3Adesc%2Cid%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">Priority</a></th>
+        
+          <th title="Sort by &quot;Subject&quot;"><a href="/issues?sort=subject%2Cid%3Adesc" onclick="new Ajax.Updater('content', '/issues?sort=subject%2Cid%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">Subject</a></th>
+        
+          <th title="Sort by &quot;Assignee&quot;"><a href="/issues?sort=assigned_to%2Cid%3Adesc" onclick="new Ajax.Updater('content', '/issues?sort=assigned_to%2Cid%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">Assignee</a></th>
+        
+          <th title="Sort by &quot;Updated&quot;"><a href="/issues?sort=updated_on%3Adesc%2Cid%3Adesc" onclick="new Ajax.Updater('content', '/issues?sort=updated_on%3Adesc%2Cid%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">Updated</a></th>
+        
+	</tr></thead>
+	
+	<tbody>
+	  
+	<tr id="issue-433" class="hascontextmenu odd issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="433" /></td>
+		<td class="id"><a href="/issues/433">433</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Feature</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/433">Easy wireless extender using ethernet that copes with cerowrt split-networks</a></td><td class="assigned_to"><a href="/users/3">Dave Täht</a></td><td class="updated_on">05/29/2013 05:58 am</td>
+	</tr>
+	  
+	<tr id="issue-431" class="hascontextmenu even issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="431" /></td>
+		<td class="id"><a href="/issues/431">431</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/431">simple_qos.sh breaks pppoe</a></td><td class="assigned_to"></td><td class="updated_on">05/03/2013 06:29 pm</td>
+	</tr>
+	  
+	<tr id="issue-430" class="hascontextmenu odd issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="430" /></td>
+		<td class="id"><a href="/issues/430">430</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/430">Paradoxical effect for apenwarr blip</a></td><td class="assigned_to"></td><td class="updated_on">04/30/2013 07:52 pm</td>
+	</tr>
+	  
+	<tr id="issue-429" class="hascontextmenu even issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="429" /></td>
+		<td class="id"><a href="/issues/429">429</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/429">ppp password shown in plain text</a></td><td class="assigned_to"></td><td class="updated_on">04/21/2013 08:38 pm</td>
+	</tr>
+	  
+	<tr id="issue-426" class="hascontextmenu odd issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="426" /></td>
+		<td class="id"><a href="/issues/426">426</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/426">[PATCH v7 3/3] tcp: input header length, prediction, and timestamp bugs</a></td><td class="assigned_to"></td><td class="updated_on">01/31/2013 09:13 am</td>
+	</tr>
+	  
+	<tr id="issue-425" class="hascontextmenu even issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="425" /></td>
+		<td class="id"><a href="/issues/425">425</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/425">[PATCH v7 2/3] tcp: harmonize tcp_vx_rcv header length assumptions</a></td><td class="assigned_to"></td><td class="updated_on">01/31/2013 09:06 am</td>
+	</tr>
+	  
+	<tr id="issue-424" class="hascontextmenu odd issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="424" /></td>
+		<td class="id"><a href="/issues/424">424</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/424">[PATCH v4 1/3] net: tcp_header_len_th and tcp_option_len_th</a></td><td class="assigned_to"></td><td class="updated_on">01/31/2013 08:55 am</td>
+	</tr>
+	  
+	<tr id="issue-423" class="hascontextmenu even issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="423" /></td>
+		<td class="id"><a href="/issues/423">423</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/423">TCP header, length, options, and timestamp bugs</a></td><td class="assigned_to"></td><td class="updated_on">01/31/2013 09:33 am</td>
+	</tr>
+	  
+	<tr id="issue-418" class="hascontextmenu odd issue status-5 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="418" /></td>
+		<td class="id"><a href="/issues/418">418</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">Resolved</td><td class="priority">Normal</td><td class="subject"><a href="/issues/418">TFO crashes cerowrt 3.7.1-1</a></td><td class="assigned_to"><a href="/users/3">Dave Täht</a></td><td class="updated_on">01/14/2013 01:26 am</td>
+	</tr>
+	  
+	<tr id="issue-417" class="hascontextmenu even issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="417" /></td>
+		<td class="id"><a href="/issues/417">417</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/417">bind-latest-9.9.2-P1 permanently eats 100% of cpu</a></td><td class="assigned_to"></td><td class="updated_on">12/10/2012 12:16 am</td>
+	</tr>
+	  
+	<tr id="issue-414" class="hascontextmenu odd issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="414" /></td>
+		<td class="id"><a href="/issues/414">414</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/414">how to detect a device is a bridge</a></td><td class="assigned_to"></td><td class="updated_on">11/19/2012 12:38 am</td>
+	</tr>
+	  
+	<tr id="issue-412" class="hascontextmenu even issue status-6 priority-3 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="412" /></td>
+		<td class="id"><a href="/issues/412">412</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Feature</td><td class="status">Feedback</td><td class="priority">High</td><td class="subject"><a href="/issues/412">dansguardian is needed....</a></td><td class="assigned_to"><a href="/users/6">Jim Gettys</a></td><td class="updated_on">04/11/2013 04:28 am</td>
+	</tr>
+	  
+	<tr id="issue-409" class="hascontextmenu odd issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="409" /></td>
+		<td class="id"><a href="/issues/409">409</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/409">crash in hostapd on picostation 2HP</a></td><td class="assigned_to"></td><td class="updated_on">09/23/2012 07:12 pm</td>
+	</tr>
+	  
+	<tr id="issue-408" class="hascontextmenu even issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="408" /></td>
+		<td class="id"><a href="/issues/408">408</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/408">Problems after reconfiguring wireless using Luci (was Bug #404)</a></td><td class="assigned_to"><a href="/users/3">Dave Täht</a></td><td class="updated_on">09/08/2012 08:17 pm</td>
+	</tr>
+	  
+	<tr id="issue-406" class="hascontextmenu odd issue status-2 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="406" /></td>
+		<td class="id"><a href="/issues/406">406</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">In Progress</td><td class="priority">Normal</td><td class="subject"><a href="/issues/406">quagga does not propagate default 6to4 route</a></td><td class="assigned_to"><a href="/users/628">Denis Ovsienko</a></td><td class="updated_on">12/03/2012 03:36 am</td>
+	</tr>
+	  
+	<tr id="issue-403" class="hascontextmenu even issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="403" /></td>
+		<td class="id"><a href="/issues/403">403</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/403">bug in /etc/hotplug.d/firewall/10-nat-reflection breaks &quot;NAT loopback&quot;</a></td><td class="assigned_to"><a href="/users/3">Dave Täht</a></td><td class="updated_on">12/24/2012 03:15 am</td>
+	</tr>
+	  
+	<tr id="issue-402" class="hascontextmenu odd issue status-1 priority-4 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="402" /></td>
+		<td class="id"><a href="/issues/402">402</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Urgent</td><td class="subject"><a href="/issues/402">Tail drop behavior on fq_codel on ack-mostly streams</a></td><td class="assigned_to"><a href="/users/3">Dave Täht</a></td><td class="updated_on">08/10/2012 12:33 pm</td>
+	</tr>
+	  
+	<tr id="issue-392" class="hascontextmenu even issue status-1 priority-3 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="392" /></td>
+		<td class="id"><a href="/issues/392">392</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">High</td><td class="subject"><a href="/issues/392">/tmp/log/babled.log grows and grows....</a></td><td class="assigned_to"><a href="/users/5">David Taht</a></td><td class="updated_on">07/12/2012 12:28 pm</td>
+	</tr>
+	  
+	<tr id="issue-389" class="hascontextmenu odd issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="389" /></td>
+		<td class="id"><a href="/issues/389">389</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/389">Fwd: [PATCH] drop_monitor: convert to modular building</a></td><td class="assigned_to"></td><td class="updated_on">05/16/2012 07:41 am</td>
+	</tr>
+	  
+	<tr id="issue-388" class="hascontextmenu even issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="388" /></td>
+		<td class="id"><a href="/issues/388">388</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/388">Fwd: Re: [patch] netfilter: potential NULL dereference in get_inner_hdr()</a></td><td class="assigned_to"></td><td class="updated_on">05/14/2012 12:43 am</td>
+	</tr>
+	  
+	<tr id="issue-387" class="hascontextmenu odd issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="387" /></td>
+		<td class="id"><a href="/issues/387">387</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/387">Fwd: [PATCH] ipv6: fix incorrect ipsec transport mode fragment</a></td><td class="assigned_to"></td><td class="updated_on">05/13/2012 08:22 pm</td>
+	</tr>
+	  
+	<tr id="issue-386" class="hascontextmenu even issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="386" /></td>
+		<td class="id"><a href="/issues/386">386</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/386">QFQ locks up</a></td><td class="assigned_to"></td><td class="updated_on">05/11/2012 01:22 am</td>
+	</tr>
+	  
+	<tr id="issue-385" class="hascontextmenu odd issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="385" /></td>
+		<td class="id"><a href="/issues/385">385</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/385">more traps</a></td><td class="assigned_to"></td><td class="updated_on">05/13/2012 02:32 pm</td>
+	</tr>
+	  
+	<tr id="issue-384" class="hascontextmenu even issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="384" /></td>
+		<td class="id"><a href="/issues/384">384</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/384">Fwd: [PATCH net-next] tcp: be more strict before accepting ECN negociation</a></td><td class="assigned_to"></td><td class="updated_on">05/04/2012 09:08 am</td>
+	</tr>
+	  
+	<tr id="issue-383" class="hascontextmenu odd issue status-1 priority-2 ">
+	  <td class="checkbox hide-when-print"><input name="ids[]" type="checkbox" value="383" /></td>
+		<td class="id"><a href="/issues/383">383</a></td>
+        <td class="project"><a href="/projects/cerowrt">Cerowrt</a></td><td class="tracker">Bug</td><td class="status">New</td><td class="priority">Normal</td><td class="subject"><a href="/issues/383">wget needs https support</a></td><td class="assigned_to"></td><td class="updated_on">05/02/2012 09:01 am</td>
+	</tr>
+		</tbody>
+</table>
+</div>
+</form>
+<p class="pagination">1 <a href="/issues?page=2" onclick="new Ajax.Updater('content', '/issues?page=2', {asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){window.scrollTo(0,0)}, parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">2</a> <a href="/issues?page=3" onclick="new Ajax.Updater('content', '/issues?page=3', {asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){window.scrollTo(0,0)}, parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">3</a>  ... <a href="/issues?page=6" onclick="new Ajax.Updater('content', '/issues?page=6', {asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){window.scrollTo(0,0)}, parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">6</a> <a href="/issues?page=2" onclick="new Ajax.Updater('content', '/issues?page=2', {asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){window.scrollTo(0,0)}, parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">Next &#187;</a> (1-25/140) | Per page: 25, <a href="/issues?per_page=50" onclick="new Ajax.Updater('content', '/issues?per_page=50', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">50</a>, <a href="/issues?per_page=100" onclick="new Ajax.Updater('content', '/issues?per_page=100', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('rmPiJ5txjZjDu9uHNDP28wf2yXdcq8CbfLMpQM6yJUE=')}); return false;">100</a></p>
+
+
+<p class="other-formats">Also available in:
+	<span><a href="/issues.atom" class="atom" rel="nofollow">Atom</a></span>
+	<span><a href="/issues.csv" class="csv" rel="nofollow">CSV</a></span>
+	<span><a href="/issues.pdf" class="pdf" rel="nofollow">PDF</a></span>
+</p>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+new ContextMenu('/issues/context_menu')
+//]]>
+</script>
+
+        
+				<div style="clear:both;"></div>
+    </div>
+</div>
+
+<div id="ajax-indicator" style="display:none;"><span>Loading...</span></div>
+	
+<div id="footer">
+  <div class="bgl"><div class="bgr">
+    Powered by <a href="http://www.redmine.org/">Redmine</a> &copy; 2006-2011 Jean-Philippe Lang
+  </div></div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

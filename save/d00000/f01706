@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Tarsnap - Infrastructure</title>
+<link rel="stylesheet" type="text/css" title="Default style" href="tarsnap.css">
+<link rel="canonical" href="http://www.tarsnap.com/infrastructure.html">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Tarsnap is a secure online backup system for Linux, BSD, OS X, and other UNIX-like operating systems">
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10889726-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    if("http:" == document.location.protocol) {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = 'http://www.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    }
+  })();
+</script>
+</head>
+<body>
+<div class="banner">
+<h1><a href="http://www.tarsnap.com/">Tarsnap</a></h1>
+<p class="tagline">Online backups for the truly paranoid</p>
+<a href="#nav" style="display: none">Navigation menu</a>
+</div>
+<div class="nonbanner">
+<div class="main">
+<div class="onecol">
+  <div class="box">
+    <h3>Amazon Web Services</h3>
+    <div class="boxcontents">
+      <p>
+	The Tarsnap service is built on top of the solid platform provided by
+	<a href="http://aws.amazon.com/">Amazon Web Services</a>.  Data
+	archived via Tarsnap is stored to the
+	<a href="http://aws.amazon.com/s3">Amazon S3</a> storage service
+	(the original version, which can survive the loss of 2 datacenters,
+	not the "reduced redundancy" version which can only survive the loss
+	of a single datacenter) before it is acknowledged by the Tarsnap
+	server to Tarsnap clients, so the probability of Tarsnap data being
+	lost due to hardware failures is extremely low &mdash; somewhere
+	approaching the probability of a nuclear war or meteor hit destroying
+	most of the US.
+      </p>
+      <p>
+	The Tarsnap server resides in the
+	<a href="http://aws.amazon.com/ec2">Amazon EC2</a> compute cloud,
+	and at the present time it is possible &mdash; but quite unlikely
+	&mdash; that a hardware failure would result in the Tarsnap service
+	becoming unavailable until a new EC2 instance can be launched and the
+	Tarsnap server code can be restarted (note that this would make data
+	archived via Tarsnap <i>unavailable</i>, but would not cause it to be
+	permanently lost).  So far such an outage has never occurred; but
+	over time Tarsnap will become more tolerant of failures in order to
+	minimize the probability that such an outage occurs in the future.
+      </p>
+      <p>
+	For more information (including technical details about constructing
+	a log-structured filesystem using S3 as back-end storage, caching
+	metadata in EC2, and bundling writes in order to save on S3
+	per-request costs), see the author's blog post from December 2008,
+	<a href="http://www.daemonology.net/blog/2008-12-14-how-tarsnap-uses-aws.html">How
+	Tarsnap uses Amazon Web Services</a>.
+      </p>
+    </div>
+  </div>
+  <div class="box">
+    <h3>Payment processing: Stripe and PayPal</h3>
+    <div class="boxcontents">
+      <p>
+	Tarsnap uses <a href="https://www.stripe.com">Stripe</a> and
+	<a href="http://www.paypal.com">PayPal</a> for payment processing.
+	Tarsnap users can make payments by directly using credit cards (which
+	are processed via Stripe) or via a Paypal account (using credit cards,
+	bank accounts, or PayPal balances).
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+<div class="leftmargin"><div class="nav" id="nav"><ul class="navtop"><li><a href="index.html">Tarsnap</a><ul><li><a href="news.html">News</a></li><li><a href="about.html">About</a></li><li><a href="legal.html">Legal</a></li><li><a class="current" href="infrastructure.html">Infrastructure</a></li><li><a href="bugbounty.html">Bug Bounty</a></li></ul></li><li><a href="design.html">Design</a></li><li><a href="https://www.tarsnap.com/download.html">Download</a></li><li><a href="documentation.html">Documentation</a></li><li><a href="support.html">Support</a></li><li><a href="https://www.tarsnap.com/account.html">Accounts</a></li></ul></div></div></div>
+</body></html>

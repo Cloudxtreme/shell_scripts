@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs">
+<head>
+<title>API | SSL komunikace pro ovládání domén | TELE3</title>
+<meta http-equiv="Expires" content="-1" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Content-Language" content="cs" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="keywords" content="API, ovládání domén, schémata komunikace, SSL komunikace, automatizace ovládání," />
+<meta name="description" content="API SSL komunikace pro automatizované ovládání domén TELE3" />
+<meta name="resource-type" content="document" />
+<meta name="distribution" content="global" />
+<meta name="Rating" content="General" />
+<meta name="Language" content="Czech" />
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow,snippet,archive" />
+<meta name="author" content="Roman Bližík + soudruh Todor Dimitrov" />
+<meta name="copyright" content="© 2005-2013 TELE3 s.r.o. | všechna práva vyhrazena" />
+<meta name="verify-v1" content="cyfen2dDW23rbqFFRfS7FxhIY2HvJyly1pQjyfbdOqE=" />
+<link href="/style.css" rel="stylesheet" type="text/css" />
+<link href="/favicon.ico" rel="shortcut icon" />
+<link href="http://www.tele3.cz/rss.php" rel="alternate" type="application/rss+xml" title="RSS" />
+<link href="/jqueryslidemenu.css" rel="stylesheet" type="text/css" />
+<!--[if lte IE 7]>
+<style type='text/css'>
+html .jqueryslidemenu{height: 1%;}
+#hlavicka #loginform  { top: 0px; }
+</style>
+<![endif]-->
+<script type='text/javascript' src='/jquery-1.2.6.pack.js'></script>
+<script type='text/javascript' src='/jquery.cycle.all.min.js'></script>
+<script type='text/javascript' src='/jquery.limitkeypress.min.js'></script>
+<script type='text/javascript' src='/jquery.confirm.js'></script>
+<script type='text/javascript' src='/jquery.functions.js'></script>
+<script type='text/javascript' src='/jqueryslidemenu.js'></script>
+<script type='text/javascript' src='/functions.js'></script>
+<script type="text/javascript">if (top != self) {top.location.href = self.location.href;}</script></head>
+<body>
+<div style="text-align: center">
+<div id="obsah">
+<div id="hlavicka">
+<div id="logo">
+<a href='http://www.tele3.cz'><img src='/img/logo.jpg' alt='TELE3 s.r.o.' /></a></div>
+<div id="loginform">
+<form action='https://www.tele3.cz/gologin.php' method='post'><p><input type='hidden' name='__csrf_magic' value="sid:4c1e05eecc9e5f9b079bcf855c834181a8849bc7,1377505088" /></p>
+<p class='white'>
+<input type='hidden' name='lng' value='cz'/>
+</p>
+
+<p class="user">
+Login:<img src='/img/mezlog.gif' alt='' /><br /><input type='text' name='system_login' maxlength='80' value='' style='width: 92px' size='24'/>
+</p>
+
+<p class="psw">
+Heslo:<img src='/img/mezpwd.gif' alt='' /><br /><input type='password' name='system_password' value='' style='width: 92px' size='24'/>
+</p>
+
+<p class="vstup">
+&nbsp;<br /><input type='submit' value='vstupte' class='button'/>
+</p>
+
+</form>
+<div class="orangeline">
+<a class='log' href='zapomenute-heslo.html'>zapomenuté heslo</a> | 
+<a class='log' href='https://www.tele3.cz/registrace-uzivatele.html'>nový uživatel</a>
+</div>
+</div><div id='mojeid'><a href='/mojeid/try.php' class='mojeid'><img src='/img/mojeID-login.png' alt='mojeID' /></a></div></div>
+<div id='myslidemenu' class='jqueryslidemenu'>
+<ul>
+<li><a href='/registrace-domen.html'>&nbsp;Domény&nbsp;&nbsp;</a><ul>
+<li><a href='/registrace-domen.html'>Registrace domén</a></li>
+<li><a href='/prevod-domeny.html'>Převod domény</a></li>
+<li><a href='/kreditni-system.html'>Kreditní systém</a></li>
+<li><a href='/api.html'>Ovládání domén API</a></li>
+<li><a href='/cenik-domen.html'>Ceník domén</a></li>
+<li><a href='/bezpecny-prodej-domeny.html'>Bezpečný prodej</a></li>
+</ul>
+</li>
+<li><a href='/kvalitni-webhosting.html'>&nbsp;&nbsp;Webhosting&nbsp;&nbsp;</a><ul>
+<li><a href='/kvalitni-webhosting.html'>Placený webhosting</a></li>
+<li><a href='/stabilni-webhosting-zdarma.html'>Webhosting zdarma</a></li>
+<li><a href='/multihosting.html'>Multihosting</a></li>
+<li><a href='/seo-hosting.html'>SEO hosting</a></li>
+<li><a href='/ftp-hosting.html'>FTP hosting</a></li>
+<li><a href='/dns-hosting.html'>DNS hosting</a></li>
+</ul>
+</li>
+<li><a href='/server-hosting.html'>&nbsp;&nbsp;Serverhosting&nbsp;&nbsp;</a><ul>
+<li><a href='/server-hosting.html'>Umístění serveru</a></li>
+<li><a href='/pronajem-serveru.html'>Pronájem serveru</a></li>
+<li><a href='/monitoring-serveru.html'>Monitoring serveru</a></li>
+<li><a href='/zalohovani-serveru.html'>Zálohování serveru</a></li>
+<li><a href='/sprava-serveru.html'>Servis a správa serveru</a></li>
+</ul>
+</li>
+<li><a href='/dalsi-sluzby.html'>&nbsp;&nbsp;Ostatní služby&nbsp;&nbsp;</a><ul>
+<li><a href='/reseni-pro-domainery.html'>Řešení pro domainery</a></li>
+<li><a href='/ssl-certifikaty.html'>SSL certifikáty</a></li>
+</ul>
+</li>
+<li><a href='/profil.html'>&nbsp;&nbsp;O společnosti&nbsp;&nbsp;</a><ul>
+<li><a href='/profil.html'>Profil</a></li>
+<li><a href='/reference.html'>Reference</a></li>
+<li><a href='/sponzoring.html'>Sponzoring</a></li>
+<li><a href='/vypis-z-obchodniho-rejstriku.html'>Dokumenty</a><ul>
+<li><a href='/vypis-z-obchodniho-rejstriku.html'>Obchodní rejstřík</a></li>
+<li><a href='/vseobecne-obchodni-podminky.html'>Všeobecné podmínky</a></li>
+<li><a href='/ochrana-osobnich-udaju.html'>Ochrana soukromí</a></li>
+<li><a href='/api.html'>Dokumentace API</a></li>
+</ul>
+</li>
+<li><a href='/volna-mista.html'>Volná místa</a></li>
+<li><a href='/kontakty.html'>Kontaktní informace</a></li>
+</ul>
+</li>
+<li><a href='/kontakty.html'>&nbsp;&nbsp;Kontakty&nbsp;&nbsp;</a></li>
+</ul>
+<br style='clear: left' />
+</div>
+<div id="leva">
+<div class="leva_in">
+<em>API pro domény</em>
+<div class="lm">
+<ul>
+<li><a href="/api.html">Úvodní informace</a></li>
+<li><a href="/api-prehled-prikazu.html">Přehled příkazů API</a></li>
+</ul>
+</div>
+<span class="clearboth">&nbsp;</span>
+</div>
+<div class="leva_in">
+<em>API komunikace</em>
+<div class="lm">
+<ul>
+<li><a href="/api-login.html">login</a></li>
+<li><a href="/api-logout.html">logout</a></li>
+<li><a href="/api-get-usage.html">get_usage</a></li>
+</ul>
+</div>
+<span class="clearboth">&nbsp;</span>
+</div>
+<div class="leva_in">
+<em>API ovládání domén</em>
+<div class="lm">
+<ul>
+<li><a href="/api-list-domains.html">list_domains</a></li>
+<li><a href="/api-register-domain.html">register_domain</a></li>
+<li><a href="/api-update-domain.html">update_domain</a></li>
+<li><a href="/api-transfer-domain.html">transfer_domain</a></li>
+<li><a href="/api-change-owner.html">change_owner</a></li>
+</ul>
+</div>
+<span class="clearboth">&nbsp;</span>
+</div>
+<div class="leva_in">
+<em>API ovládání kontaktů</em>
+<div class="lm">
+<ul>
+<li><a href="/api-list-contacts.html">list_contacts</a></li>
+<li><a href="/api-create-contact.html">create_contact</a></li>
+<li><a href="/api-update-contact.html">update_contact</a></li>
+<li><a href="/api-import-contact.html">import_contact</a></li>
+<li><a href="/api-transfer-contact.html">transfer_contact</a></li>
+</ul>
+</div>
+<span class="clearboth">&nbsp;</span>
+</div>
+<div class="leva_in">
+<em>API ovládání DNS</em>
+<div class="lm">
+<ul>
+<li><a href="/api-list-nssets.html">list_nssets</a></li>
+<li><a href="/api-create-nsset.html">create_nsset</a></li>
+<li><a href="/api-update-nsset.html">update_nsset</a></li>
+<li><a href="/api-import-nsset.html">import_nsset</a></li>
+<li><a href="/api-transfer-nsset.html">transfer_nsset</a></li>
+<li><a href="/api-list-ns.html">list_ns</a></li>
+<li><a href="/api-create-ns.html">create_ns</a></li>
+<li><a href="/api-update-ns.html">update_ns</a></li>
+</ul>
+</div>
+<span class="clearboth">&nbsp;</span>
+</div>
+<div style='height: 10px;'>&nbsp;</div></div>
+<div id="stredni" >
+<div id="stredni_in">
+<h1>API = Application Programming Interface</h1>
+<p class="vlevo">
+<img src="img/api.jpg" alt="API ovládání domén, SSL komunikace" />
+</p>
+<p><strong>API slouží pro automatizaci ovládání a správu domén</strong><br /> <i>(registrace, editace,
+prodloužení, ...)</i> z Vašich vlastních aplikací, například administrace hostingu, automatická fakturace, mobilní aplikace a další.<br /><br /><br />
+</p>
+<p><img src="img/sip02.gif" style="vertical-align: middle;" alt=""/> komunikace API probíhá prostřednictvím <a href="api-prehled-prikazu.html"><strong>XML příkazů</strong></a><br /><br /><img src="img/sip02.gif" style="vertical-align: middle;" alt=""/> každá odpověď obsahuje návratový kód a aktuální výši kreditu</p>
+<hr />
+<p><strong>Limit přístupů</strong> na API je omezen 100x počet vašich domén v daném účtu za kalendářní měsíc.<br/>Praktický <strong>příklad</strong>, pokud máte v účtu <strong>57 domén</strong>, máte pro daný měsíc <strong>5700 přístupů</strong> pro komunikaci.<br/>Aktuální stav využití přístupů získáte příkazem <a href="api-get-usage.html">get_usage</a>.
+</p>
+<hr />
+<h2>Jak objednat ?</h2>
+<p>Nový uživatel musí splňovat <strong>3. základní předpoklady pro aktivaci</strong>:<br/><br/>
+<strong>1.</strong> založený uživatelský účet TELE3 <i>(pokud nemáte, <a href="registrace-uzivatele.html">založíte zde</a>)</i><br/>
+<strong>2.</strong> aktivovaný <a href="kreditni-system.html">kreditní systém</a> <i>(lze aktivovat v menu po přihlášení)</i><br/>
+<strong>3.</strong> minimálně 1x dobitý kredit<br/><br/>
+
+Pokud máte zájem o aktivaci komunikačního rozhraní API, kontaktujte nás přímo z uživatelského účtu<br />a sdělte nám, ze kterých veřejných <strong>IPv4</strong> nebo <strong>IPv6</strong> adres budete ke službě přistupovat.</p>
+<hr /></div>
+</div>
+<span class="clearboth">&nbsp;</span>
+<div id="paticka">
+<div id="left_pata">
+© 2005-2013 <a href='http://www.tele3.cz/'>TELE3</a> | všechna práva vyhrazena | Vaše IP 2001:0:53aa:64c:18ca:5d94:2471:e895</div><div id="right_pata">
+| <a href='/whois.html'>WHOIS</a> | <a href='/vseobecne-obchodni-podminky.html'>Pravidla</a> | <a href='/napoveda.html'>Nápověda</a> | <a href='/rss.xml'>RSS</a></div><div class='ikonoid'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class='hover' src='/img/fio.jpg' alt='přijímáme platby FIO banka' /><img class='hover' src='/img/rb.jpg' alt='přijímáme platby eKonto Raiffeisenbank' /><img class='hover' src='/img/paypal.jpg' alt='online platby PayPal' /><img class='hover' src='/img/visa.jpg' alt='online platby Visa' /><img class='hover' src='/img/mastercard.jpg' alt='online platby MasterCard' /><img class='hover' src='/img/ipv6.jpg' alt='podporujeme protokol IPv6' /><img class='hover' src='/img/dnssec.jpg' alt='zabezpečení domén DNSSEC' /><a href='http://www.suntech.cz' style='border-bottom: 0px' rel='external'><img class='hover' src='/img/suntech.jpg' alt='eshop s výpočetní technikou' /></a><img class='hover' src='/img/ubuntu-server.jpg' alt='Ubuntu server' /><img class='hover' src='/img/cz-nic.jpg' alt='akreditovaný registrátor CZ domény s certifikací' /><img class='hover' src='/img/cisco-ccna.jpg' alt='certifikace Cisco CCNA' /></div></div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,1138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Full Debian and recent kernel (post 2.6.30) on Nokia N810</title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div class="content">
+<div class="pagetitle">Debian and recent linux kernel on N810</div>
+
+<p>&nbsp;</p>
+
+<p> <b> Even if it did not (already) happen to me, there is no guarantee 
+  you will not lose your data and/or your system when trying to do the
+  following. You have been warned. </b></p>
+
+<p>In this howto, we detail the installation and configuration process
+  of a fully functional Debian system on an external 8GB SDHC card (SD
+  cards over 2GB must be SDHC compatible) of a N810. This includes the
+  configuration and compilation of a recent kernel (2.6.30-rc8-omap1,
+  at the moment).</p>
+
+<p> Even if all the steps are provided on this single page, the
+  howto is split into two main parts: system  installation/configuration
+  and kernel configuration/build/installation. I suggest you read the
+  whole howto once before starting the installation of the system. </p>
+
+<p> I make the hypothesis that you are already familiar with your device
+  (enabling R&amp;D mode, becoming root, installing a new kernel using
+  flasher, ...), Debian distribution, and know how to configure and
+  build a kernel.</p>
+
+<p> <b> Except for the kernel part, I
+      used <a href="http://forums.internettablettalk.com/showthread.php?t=25975">this 
+      post</a> as a starting point.</b> </p>
+
+<p>&nbsp;</p>
+
+<h2> Foreword (don't bother, skip directly to next section). </h2>
+
+<p>In December 2007 (when it was released in France), I bought a Nokia
+  N810, for the following reasons ...:</p>
+
+<ul>
+<li> The main hardware lacks of the first version (N770), have
+  gradually been corrected in the latest 2 versions: a faster
+  processor (400MHz TI OMAP 2420 vs. 252MHz TI OMAP 1710), more RAM
+  (128MB vs. 64MB) and more space (2GB vs 128MB) for the N800 and now
+  a keyboard for the N810.</li>
+
+<li> The device is Linux based since its first version and has an
+  associated community (maemo.org), a development environment and some
+  documentation. </li> 
+
+<li> At the moment, french mobile operators still charge you a lot of
+  money for limited data traffic and I have most of the time access to
+  some wifi network where I am (home, work, ...). In the end, the fact
+  that the N810 does not come with 3G is not a real problem for me
+  (all the more since it includes Bluetooth EDR support which allow
+  pairing it with a 3G-enabled phone if you need). </li>
+
+<li> Instead of spending the same amount of money in an iPhone, I
+  decided to support Nokia for their efforts to work with the
+  open source community for their Internet Tablet series. </li> 
+</ul>
+
+<p>... and with the following goals in mind:</p>
+
+<ul>
+<li> Discover the development environment to benefit from that
+  knowledge for future version.</li>
+<li> Have the device run recent versions of Linux Kernel in order to
+  benefit from a decent IPv6 support and start porting my
+  MIPv6/IKE/IPsec developments for the device. </li>  
+<li>eventually switch to the device for the usual
+  email, browsing and reading tasks I currently perform on my
+  main laptop (<b>always acting as an IPsec/IKE Mobile Node</b>). </li>
+</ul>
+
+<h2> N810 file system layout </h2>
+
+<p> Some notes on the layout of the internal flash of the N810,
+  mainly useful to understand kernel size limitations.</p>
+
+<pre>
+cat /proc/partitions 
+major minor  #blocks  name
+
+  31     0        128 mtdblock0
+  31     1        384 mtdblock1
+  31     2       2048 mtdblock2
+  31     3       4224 mtdblock3
+  31     4     255360 mtdblock4
+ 254     0    7862272 mmcblk0
+ 254     1    7269381 mmcblk0p1
+ 254     2     586372 mmcblk0p2
+ 254     8    1966080 mmcblk1
+ 254     9    1966072 mmcblk1p1
+</pre>
+
+<p> As
+  discussed <a href="http://www.mail-archive.com/maemo-developers@maemo.org/msg05490.html">here</a>, 
+  /dev/mtdblock2 contains the compressed kernel image after an initial
+2048 (0x800) bytes header (starting with "NOLO img")</p>
+
+<p>The size of the partition is 0x200000 bytes, i.e. (2097152).</p>
+
+<p>Taking a closer look at the dump, current compressed kernel image
+stored on the fielsystem consumes only 1.5Mbytes. Basically, the
+kernel compressed image cannot be larger than 2Mbytes (0x200000-0x800,
+i.e. 2046KB).</p>
+
+<h2> Partitioning the external card </h2>
+
+<p> Even if you can do the partitioning on your N810 (for instance by
+using sfdisk provided by e2fsprogs package), it is probably easier to
+do that on a real system using a graphical tool, like gparted. </p>
+
+<p> We partition the card in the following way: first partition is a
+  7.5 GB ext3 partition and the remaining available space (500 MB) is
+  used for swap. At the end of the process, the layout of the card
+  looks like the following:</p> 
+
+<pre>
+$ sudo fdisk /dev/mmcblk0
+
+Command (m for help): p
+
+Disk /dev/mmcblk0: 8050 MB, 8050966528 bytes
+255 heads, 63 sectors/track, 978 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0x000be52a
+
+        Device Boot      Start         End      Blocks   Id  System
+/dev/mmcblk0p1               1         914     7341673+  83  Linux
+/dev/mmcblk0p2             915         978      514080   82  Linux swap / Solaris
+</pre>
+
+<p> Now, if you try and directly insert the card in your N810, it will
+  not be mounted automatically. The set of scripts provided by maemo
+  to perform the mount needs to be modified to handle ext3
+  partitions (initially, it supports only fat and ext2 filesystems). </p>
+
+<p> Also note that it is pointless to modify the /etc/fstab on the
+  N810 because it is not used in the mount process of the external
+  card.</p>
+
+<p> The mount of the card is done by  /usr/sbin/osso-mmc-mount.sh. Adding
+ support for ext3 is basically done by extending it in the following
+ way, to load required modules and then call mount with the correct
+ arguments:</p>
+
+<pre>
+--- osso-mmc-mount.sh.orig        2009-06-01 14:06:16.000000000 +0200
++++ osso-mmc-mount.sh     2009-06-01 14:05:56.000000000 +0200
+@@ -48,6 +48,18 @@
+ mmc-mount $PDEV $MP
+ RC=$?
+ if [ $RC != 0 ]; then
++
++  # Let's try ext3 - need to load modules
++  KERNEL_VERSION=`uname -r`
++  if install_module $KERNEL_VERSION mbcache; then
++    if install_module $KERNEL_VERSION jbd; then
++      if install_module $KERNEL_VERSION ext3; then
++        mount -t ext3 -o noatime,data=writeback $PDEV $MP > /dev/null
++        RC=$?
++      fi
++    fi
++  fi
++
+   if [ $RC != 0 ]; then
+     if install_module $KERNEL_VERSION ext2; then
+       mount -t ext2 $PDEV $MP > /dev/null
+</pre>
+
+<p> I found the existence of osso-mmc-mount.sh and the initial idea to
+  extend it <a href="http://www.vinc17.org/maemo/partition.fr.html">here</a></p>
+
+<p> After those changes, inserting the card should allow you to get
+  the following:</p>
+
+<pre>
+# mount | grep ext3
+/dev/mmcblk1p1 on /media/mmc1 type ext3 (rw,noatime,data=writeback)
+</pre>
+
+<h2> Installing a boot menu </h2>
+
+<p> Before starting the installing process, we first handle the
+  installation of a boot menu providing the ability to select the
+  system to boot at startup. In our case, the Debian on our external
+  SDHC card. </p>
+
+<p> This process is straigthforward using the steps provided on
+  <a href="http://fanoush.wz.cz/maemo/#initfs">Fanoush's web
+  site</a>. This simply requires sudo (or another way to get root on
+  your N810) and possibly wget (to grab initfs_flasher and various
+  additional things in the rest of the howto). We do that from a
+  simple terminal on the tablet.</p>  
+
+<p> We first get initfs_flasher:</p> 
+
+<pre>
+$ sudo bash
+# mkdir /tempo
+# cd /tempo
+# wget http://fanoush.wz.cz/maemo/initfs_flasher.tgz
+# tar xzvf initfs_flasher.tgz
+# cd initfs_flasher
+# less README.txt         # read it before doing anything else
+</pre>
+
+<p> Now that you are familiar with the tool (less README.txt,
+  remember?), you are ready to create your own configuration file
+  (based on bootmenu.conf.n8x0.example), in order to boot the 
+  system on the first partition of the ext3 formatted external SDHC
+  card: </p> 
+
+<pre>
+# cat > bootmenu.conf
+# bootmenu customisation file
+#
+# included from bootmenu.sh after default menu is defined
+# you can change some items or redefine menu completely
+
+# timeout for automatic selection when no key is pressed
+# set to -1 for no timeout (not recommended, can drain battery when device reboots unatteded)
+MENU_TIMEOUT=30
+
+# IP address for USB networking
+#USB_IP=192.168.2.15
+
+# dim screen when in menu
+#/usr/sbin/dsmetest -l 1 #for OS2006/7
+#/usr/sbin/dsmetest -l 3 #for OS2008, 1 turns screen completely off
+
+# menu items
+MENU_MIN=1 # first item index
+
+#no need to redefine
+#MENU_1_NAME="Internal flash"
+#MENU_1_ID="flash"
+
+MENU_2_NAME="Internal MMC card, partition 2, ext2"
+MENU_2_ID="mmc2"
+MENU_2_DEVICE="${INT_CARD}p2"
+MENU_2_MODULES="mbcache ext2"
+MENU_2_FSTYPE="ext2"
+MENU_2_FSOPTIONS="noatime"
+[ -d "/sys/block/${INT_CARD}/${MENU_2_DEVICE}" ] || MENU_2_NAME="(${MENU_2_NAME}) N/A"
+
+MENU_3_NAME="Internal MMC card, partition 3, ext2"
+MENU_3_ID="mmc3"
+MENU_3_DEVICE="${INT_CARD}p3"
+MENU_3_MODULES="mbcache ext2"
+MENU_3_FSTYPE="ext2"
+MENU_3_FSOPTIONS="noatime"
+[ -d "/sys/block/${INT_CARD}/${MENU_3_DEVICE}" ] || MENU_3_NAME="(${MENU_3_NAME}) N/A"
+
+MENU_4_NAME="External MMC card, partition 1, ext3"
+MENU_4_ID="mmc12"
+MENU_4_DEVICE="${EXT_CARD}p1"
+MENU_4_MODULES="mbcache jbd ext3"
+MENU_4_FSTYPE="ext3"
+MENU_4_FSOPTIONS="noatime" #",data=writeback"
+[ -d "/sys/block/${EXT_CARD}/${MENU_4_DEVICE}" ] || MENU_4_NAME="(${MENU_4_NAME}) N/A"
+
+MENU_5_NAME="Power off (when not on charger)"
+MENU_5_ID="off"
+
+#last item index, change if you add/remove items
+MENU_MAX=5
+</pre>
+
+<p>Then, we simply call initfs_flash. It will automatically use
+  previously created bootmenu.conf file:</p>
+
+<pre>
+# ./initf_flash
+</pre>
+
+<p> Well, it's not completely over yet. In fact, there is some
+  changes you need to do on the bootmenu.sh script installed via
+  previous procedure in order to deal with the fact that the event
+  input device (/dev/input/eventX) for the N810 keyboard is
+  /dev/input/event2 and not /dev/input/event0 on recent kernels. </p> 
+
+<p> Below are the changes I made to the script on my device: </p>
+
+<pre>
+PRODUCT=`awk '/product/ { print $2 }' /proc/component_version`
+VERSION=`grep 'Linux version 2.6.30' /proc/version`
+
+[ "$EVNAME" = "" ] &amp;&amp; case $PRODUCT in SU-18) EVNAME=event1 ;; RX-34) EVNAME=eve
+nt2 ;; RX-4[48]) EVNAME=event0 ;; esac
+if [ "$VERSION" != "" ]; then
+    EVNAME=event2
+fi
+
+...
+</pre>
+
+<p> In order to make the changes to the script, do the following: </p>
+
+<pre>
+$ sudo bash
+# mount -o rw,remount /mnt/initfs
+# emacs -nw /mnt/initfs/bootmenu.sh         # do the changes
+# mount -o ro,remount /mnt/initfs
+# reboot
+</pre>
+
+<p> Well, it's not completely over yet. We need to handle the
+  following issue in order to be able to interact with the boot
+  menu. Basically, evkey binary segfaults: </p>
+
+<pre>
+root@oslo:/usr/bin# cd /mnt/initfs/usr/bin/
+root@oslo:/mnt/initfs/usr/bin# strace ./evkey -u -t 1000 /dev/input/event2
+execve("./evkey", ["./evkey", "-u", "-t", "1000", "/dev/input/event2"], [/* 19 vars */]) = 0
+ioctl(0, SNDCTL_TMR_TIMEBASE or TCGETS, {B0 -opost -isig -icanon -echo ...}) = 0
+--- SIGSEGV (Segmentation fault) @ 0 (0) ---
++++ killed by SIGSEGV +++
+</pre>
+
+<p> To correct that issue, I grabbed evkey.c file
+  (<a href="https://stage.maemo.org/svn/maemo/projects/haf/tags/bootmenu/2/evkey.c">here</a>),
+  and recompiled it (after removing the useless linux/bitops.h
+  inclusion). Note that I had to create a static binary in order for
+  it to work correctly: </p>
+
+<pre>
+$ gcc -o evkey evkey.c
+$ ldd evkey 
+        libc.so.6 => /lib/libc.so.6 (0x40034000)
+        /lib/ld-linux.so.3 (0x40000000)
+$ gcc -static -o evkey evkey.c
+        not a dynamic executable
+$ mv evkey /mnt/initfs/usr/bin/evkey2
+</pre>
+
+<p> Then, you need to modify bootmenu.sh in order to use evkey2
+    when booting the 2.6.30-rc8 kernel </p>
+
+<h2> Forcing bootmenu to spawn by default during the boot process </h2>
+
+<p> Forcing bootmenu to spawn during the boot process by default,
+  i.e. w/o having to interact with the keyboard: </p>
+
+<pre>
+# chroot /mnt/initfs cal-tool --set-root-device ask
+</pre>
+
+<p> This will be understood by bootmenu so that you do not need to
+  push the menu button to get the menu displayed.</p>
+
+<p> If you need to debug key related issues debugging bootmenu: </p>
+
+<pre>
+$ sudo bash
+# mount -o rw,remount /mnt/initfs
+  modify key_debug in bootmenu.sh
+# mount -o ro,remount /mnt/initfs
+# reboot
+</pre>
+
+
+<h2> Installing debootstrap on the N810 </h2>
+
+<p> In order to install our Debian system, we will use debootstrap. As
+  debootstrap is only a set of scripts and has no specific
+  architecture (processor) dependency; reusing current debian package
+  for instance is fine. The only thing needed is to satisfy the
+  package dependencies, i.e. mainly binutils. The official Maemo
+  packages repository already provides the binutils package, so there
+  is no need to look for complicated solution. For debootsrap, a
+  simple search on Google (keywords "debian debootsrap armel") will
+  almost directly provide you a link to current version of debootstrap
+  package. In the end:  </p>  
+
+<pre>
+# cd /tmp
+# apt-get install binutils
+# wget http://ftp.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.13_all.deb
+# dpkg -i debootstrap_1.0.13_all.deb
+</pre>
+
+<p> After those steps, debootstrap is not yet usable. The reason is
+  that it relies on the availability of md5sum binary on the system,
+  which is usually provided via coreutils package. On the N810,
+  busybox is used as a more simple replacement for coreutils and
+  prevents the installation of the package. Let's cheat a bit by
+  getting current Debian armel coreutils package and extracting
+  md5sum binary from the archive to copy it where it belongs: </p>
+
+<pre>
+ # cd /tmp
+ # wget http://ftp.us.debian.org/debian/pool/main/c/coreutils/coreutils_7.3-1_armel.deb
+ # dpkg-deb -x coreutils_7.3-1_armel.deb coreutils
+ # cd coreutils
+ # find . -name md5sum
+ ./usr/bin/md5sum
+ # cp ./usr/bin/md5sum /usr/bin/md5sum
+</pre>
+
+<p> Obviously, the version grabbed above using wget may not be
+  available anymore on Debian repository. Find out which one is the
+  most recent and use that one.</p>
+
+<h2> Using debootstrap to install Debian </h2>
+
+<p> If you followed previous steps (partitioning, mount scripts update
+  and debootstrap installation), you should now be ready to use
+  debootstrap to install a Debian on the ext3 partition of your
+  external card, directly from Maemo.</p> 
+
+<p> Quite obviously, you need to be connected to the Internet for
+  debootstrap to be able to fetch the packages.</p>
+
+<p> Verify which partition you will use and where it is mounted:</p>
+
+<pre>
+# mount | grep ext3
+/dev/mmcblk1p1 on /media/mmc1 type ext3 (rw,noatime,data=writeback)
+</pre>
+
+<p> Let's now install our Debian sid for armel architecture using a
+  close mdebian mirror. Because adding additional packages with
+  complex dependencies may result in a failed installation, you should
+  definitely not add all the packages you intend to install later
+  using the '--include' option. Instead, just let the base
+  installation complete and do it later. Here is what I used: </p>
+
+<pre>
+ # debootstrap --include="sudo"
+               --verbose 
+               --arch=armel sid /media/mmc1 http://ftp.fr.debian.org/debian/
+  I: Retrieving Release
+  I: Validating Packages
+  I: Resolving dependencies of required packages...
+  I: Resolving dependencies of base packages...
+  I: Found additional required dependencies: libdb4.7 
+  I: Checking component main on http://ftp.fr.debian.org/debian...
+  I: Retrieving adduser
+  I: Validating adduser
+  I: Retrieving apt
+  I: Validating apt
+  ...
+</pre>
+
+<p> This will take a loooooooong time, even if your Internet
+  connection is not limiting, so be patient. </p>
+
+<p> Once the installation has completed, there are additional steps
+  you need to do before rebooting on your freshly installed
+  system. They are listed in the following sections and need to be
+  performed after having mounted some useful filesystem elements and
+  having chrooted into /media/mmc1: </p>
+
+<pre>
+# mount /proc /media/mmc1/proc/
+# mount /sys /media/mmc1/sys
+# mount /dev /media/mmc1/dev
+# mount /dev/pts /media/mmc1/dev/pts/
+# cd /media/mmc1
+# chroot /media/mmc1
+</pre>
+
+<h2> Writing a valid fstab for the newly installed system </h2>
+
+<p> The /etc/fstab of our debian is empty. Let's correct that:</p>
+
+<!-- XXX yes  mmmcblk0. Check why!): -->
+
+<pre>
+# cat > /etc/fstab
+proc            /proc           proc    defaults                        0       0
+/dev/mmcblk0p1  /               ext3    noatime,errors=remount-ro       0       1
+/dev/mmcblk0p2  swap            swap    defaults                        0       0
+
+^d
+</pre>
+
+<h2> Configuring apt to use required repositories </h2>
+
+<p> (In the chroot,) we start by configuring apt: the list of
+  sources, pinning information for all repositories to be handled
+  correctly, additional options (preventing the IMHO annoying use of
+  Pdiffs for updates):  </p> 
+
+<pre>
+# cat > /etc/apt/sources.list
+
+# Debian
+deb     http://ftp.fr.debian.org/debian/ unstable main contrib non-free
+deb-src http://ftp.fr.debian.org/debian/ unstable main contrib non-free
+
+# Mer alpha
+deb http://repository.mer.tspre.org/ alpha contrib main non-free
+deb-src http://repository.mer.tspre.org/ alpha contrib main non-free
+
+#Ubuntu N8x0
+deb http://www.bman.maemobox.org/repository alpha contrib main non-free
+deb-src http://www.bman.maemobox.org/repository alpha contrib main non-free
+
+# Deblet sid
+deb http://packages.tspre.org/ sid main contrib non-free
+deb-src http://packages.tspre.org/ sid main contrib non-free
+
+^d
+</pre>
+
+<pre>
+# cat > /etc/apt/preferences
+
+Package: *
+Pin: release a=unstable,o=Debian,l=Debian
+Pin-Priority: 900
+
+Package: *
+Pin: release a=alpha,l=mer-unstable
+Pin-Priority: 340
+
+Package: *
+Pin: release a=alpha,l=ubuntu-unstable
+Pin-Priority: 339
+
+Package: *
+Pin: release a=sid,l=deblet_unstable
+Pin-Priority: 300
+^d
+</pre>
+
+<pre>
+# cat > /etc/apt/apt.conf
+
+Acquire::Pdiffs "false";
+^d
+</pre>
+
+<p> Sadly, not all of those repositories have their GPG key
+  information available to import it into apt using apt-key. The one
+  on Deblet sid repository is available, so we use it to show the
+  process: </p>
+
+<pre>
+ # cd /tmp/
+ # wget http://packages.tspre.org/repo.key
+ # apt-key add repo.key
+ OK
+</pre>
+
+<p> It is not critical for the rest of the installation but you
+  should be aware that apt will warn you for the packages it is unable
+  to authenticate because associated repositories' keys have not been
+  imported. </p>
+
+<h2> Installing the rest of the system </h2>
+
+<p> Now that apt is configured correctly, let's install the remaining
+  packages. I decided to separate the installation in various command
+  calls in order to comment what we install and why.</p>
+
+<p> After having populated the /etc/apt/sources.list, we need to
+  have apt update the list of packages available from associated
+  repositories: </p>
+
+<pre>
+# apt-get update
+</pre>
+
+<p> bzip2 is needed and there is some chances your Debian system is
+  complaining about locales, so let's correct that:</p>
+
+<pre>
+# apt-get install bzip2 locales
+# dpkg-reconfigure locales
+</pre>
+
+<p> Let's install Xorg:</p>
+
+<pre>
+# apt-get install xserver-xorg-core xserver-xorg-video-omapfb
+</pre>
+
+<p> I am a sawfish/emacs guy. I don't think that gdm is the right
+ solution (many dependencies and long to show up) for such a small
+ devices as the N810 but at least it works fine. At some point I will
+ probably update the howto in order to provide an alternative
+ solution (no display manager but a password protected screen saver
+ ?). Anyway:</p> 
+
+<pre>
+# apt-get install emacs22 emacs22-el gdm sawfish xterm     
+</pre>
+
+<p> Because the console output is not available on the screen during
+  the boot process, I find it useful to install some splash screen in 
+  order to get a progression bar. ubuntu-omap-fb package basically
+  provides that feature</p>
+
+<pre>
+# apt-get install ubuntu-omap-fb-splash
+</pre>
+
+<p> In order to be able to use the WLAN and bluetooth chips (among
+  others), some proprietary firmwares are needed. They have been
+  packaged (Nokia has granted the right to do that AFAIK) and those
+  will be copied to /lib/firmware/ (this is where recent kernels look
+  for those firmware) when installing nokia-n8x0-firmware.</p>
+
+<pre>
+# apt-get install nokia-n8x0-firmware
+</pre>
+
+<p> </p>
+
+<pre>
+# apt-get install dsme-tools
+</pre>
+
+<p> For the touchscreen to be usable, you need to install the
+  following package which provides calibration information
+  (/etc/pointercal) based on the specific hardware of the N810. The
+  file is used by ts_calibrate (provided by libts-bin package) at
+  startup. </p>
+
+<pre>
+# apt-get install nokia-tablets-pointercal
+</pre>
+
+<p> A small app to control the backlight of the screen. It provides a
+  gnome menu entry and a Xsession script for the backlight to be set
+  to the stored value when the user logs in (stored in ~/.brightness):</p>
+
+<pre>
+# apt-get install tablet-backlight
+</pre>
+
+<p> The keyboard of the N810 is quite specific in term of layout. It
+  requires a specific symbols file (rx-44) in order to be usable. This
+  file is available via the following package. Note that a specific
+  section of the howto is dedicated to the complete keyboard
+  configuration:</p> 
+
+<pre>
+# apt-get install nokia-xkb-data
+</pre>
+
+<!--
+<pre>
+# apt-get install xsession-gtkstylus
+</pre>
+
+<pre>
+# apt-get install tablet-user
+</pre>
+-->
+
+<p> The following package will install an init script (to tweak some
+  /proc and /sys values. You need to edit the installed init script
+  and remove/comment the first test of tablet_setup() function to
+  prevent the boot process to be stopped. I intend to provide a
+  replacement for those package, as it is intended for booting an
+  ubunutu using a linuxrc script.</p> 
+<pre>
+# apt-get install nit-bootmenu-compat
+</pre>
+
+<p> We install Xorg touchscreen module and associated tools:</p>
+
+<pre>
+# apt-get install xserver-xorg-input-tslib libts-bin
+</pre>
+
+
+<p> Before the keyboard is fully configured, you may find a virtual
+  keyboard useful:</p>
+
+<pre>
+# apt-get install matchbox-keyboard
+</pre>
+
+<!--
+<pre>
+ # apt-get remove xserver-xorg-input-all xserver-xorg-input-synaptics
+ # apt-get install bash-completion
+</pre>
+-->
+
+<h2> Provide a valid configuration file for Xorg </h2>
+
+<pre>
+# cat > /etc/X11/xorg.conf 
+
+Section "InputDevice"
+        Identifier      "Generic Keyboard"
+        Driver          "kbd"
+        Option          "XkbRules"      "xorg"
+        Option          "XkbModel"      "pc105"
+        Option          "XkbLayout"     "us"
+EndSection
+
+Section "InputDevice"
+        Identifier "tslib"
+        Driver "tslib"
+        Option "ScreenNumber"   "0"
+        Option "Width"          "800"
+        Option "Height"         "480"
+        Option "Rotate"         "NONE"
+        Option "TslibDevice"    "/dev/input/event3"
+        Option "CorePointer"
+EndSection
+
+Section "Device"
+        Identifier      "Configured Video Device"
+#       Option          "UseFBDev"              "true"
+        Driver          "omapfb"
+        Option          "fb" "/dev/fb0"
+EndSection
+
+Section "Monitor"
+        Identifier      "Configured Monitor"
+EndSection
+
+Section "Screen"
+        Identifier      "Default Screen"
+        Monitor         "Configured Monitor"
+EndSection
+
+^d
+</pre>
+
+<h2> Modify /etc/rc.local </h2>
+
+<p> Add the call to "/sbin/fb_update_mode auto" before the "exit
+  0". It should then look like the following: </p>
+
+<pre>
+# cat /etc/rc.local
+ #!/bin/sh -e
+ #
+ # rc.local
+ #
+ # This script is executed at the end of each multiuser runlevel.
+ # Make sure that the script will "exit 0" on success or any other
+ # value on error.
+ #
+ # In order to enable or disable this script just change the
+ execution
+ # bits.
+ #
+ # By default this script does nothing.
+ /sbin/fb_update_mode auto
+ exit 0
+</pre>
+
+<!-- <p> XXX Provide more explanation. See when it is called. </p> -->
+
+
+<h2> Reconfiguring the timezone </h2>
+
+<p> This can be done in the following way: </p>
+
+<pre>
+dpkg-reconfigure tzdata
+</pre>
+
+<h2> Installing a boottime.kmap.gz </h2>
+
+<pre>
+XXX FIXME
+</pre>
+
+<h2> Hardware clock </h2>
+
+<p> modify /etc/init.d/wclock.sh and change HWCLOCKPARS= to
+HWCLOCKPARS="--directisa". Then: </p>
+
+<pre>
+# echo 'HWCLOCKPARS=--directisa' >> /etc/default/rcS
+</pre>
+
+<p> XXX Spend time on that </p>
+
+<h2> Force automatic fixing by fsck </h2>
+
+<p> Change the content of /etc/defaut/rcS to have FSCKFIX=yes</p>
+
+<p>XXX FIXME see if this is really a good idea </p>
+
+
+<h2> bypass /etc/rcS.d/S10checkroot </h2>
+
+<p> XXX I did not had time to investigate the problem specifically
+  but /etc/init.d/checkroot script prevents the boot process to
+  complete for some reason. At the moment, I just commented the call
+  to do_start function. This is a *temporary* workaround. </p>
+
+<h1> Compiling a recent kernel for your N810 </h1>
+
+<h2> Foreword (read it) </h2>
+
+<p> Let's be clear. If you intend to compile a recent kernel (say
+  2.6.30-rc8 as in this howto) for your N810, then there are two
+  things you should know beforehand:</p>
+<ul>
+<li> <b>Forget mainline kernel (at the moment): </b> Texas Instrument
+  (TI) OMAP processors have a specific kernel development community
+  which handles the work to support the various boards and devices
+  using these processors. 
+
+  <p> This community has a specific <a href="">mailing list</a> and an
+  associated <a href="http://git.kernel.org/?p=linux/kernel/git/tmlind/linux-omap-2.6.git;a=summary">git
+  tree</a>. Also take a
+  look <a href="http://www.muru.com/linux/omap/">at this page</a></p>
+</li>
+<li> <b>Forget scratchbox:</b> if you manage to compile a recent
+  linux-omap kernel under scratchbox, don't expect it to boot. The
+  thing is that kernel development kinda follow gcc development (or
+  the reverse if you prefer), meaning that a recent kernel will
+  require a recent version of gcc (to compile and/or boot).
+
+  <p> The right solution is to use a recent version of gcc
+  arm cross-compiler for x86 (gcc-4.X-arm-linux-gnueabi). This is
+  explained below. </p>
+
+</li>
+</ul>
+
+<h2> Installing a recent version of gcc-4.X-arm-linux-gnueabi </h2>
+
+<p> For the reasons explained below, let's first install a recent
+  version of gcc-4.X-arm-linux-gnueabi. If you use Debian as your
+  development environment (I suspect this is also the case under other
+  common distributions), you will quickly notice that there is no  
+  package available providing what you are looking for.</p>
+
+<p>Among other things, the people
+  at <a href="http://www.emdebian.org/">emdebian.org</a> maintain
+  packages of toolchains to build for arm, ia64, m68k, mips, mipsel,
+  powerpc and sparc using gcc-3.3, gcc-3.4, gcc-4.0, gcc-4.1, gcc-4.2
+  and later versions. Take a look
+  at <a href="http://wiki.debian.org/EmdebianToolchain">following
+  page</a> before going further. </p>
+
+<p> After adding the following to the /etc/apt/sources.list on your
+  development box ... </p>
+
+<pre>
+deb http://www.emdebian.org/debian/ unstable main
+</pre>
+
+<p> ... you just need to </p>
+
+<pre>
+$ sudo apt-get install gcc-4.2-arm-linux-gnueabi 
+</pre>
+
+<p> Note that I am using gcc-4.2-arm-linux-gnueabi as I know it does
+  work fine with the 2.6.30-rc8-omap1 version I compile. </p>
+
+<h2> Cloning linux-omap tree </h2>
+
+<p> Now that we have a toolchain to build for arm, let's clone
+  linux-omap tree to get something to compile. </p>
+
+<pre>
+$ git://git.kernel.org/pub/scm/linux/kernel/git/tmlind/linux-omap-2.6.git
+</pre>
+
+<h2> Finding a usable commit </h2>
+
+<p> Well, you just cloned a development tree. You did not expect
+  current tip would work, did you? After trying various versions, I
+  ended up on a post 2.6.30-rc8 commit: <b>151c7a7fc30cceb58e7999adbf3ad5e0c734b4a7</b> </p> 
+
+<pre>
+commit 151c7a7fc30cceb58e7999adbf3ad5e0c734b4a7
+Merge: 944f942 9fa7eb2
+Author: Tony Lindgren &lt;tony@atomide.com&gt;
+Date:   Wed Jun 3 10:05:50 2009 -0700
+
+    Merge current mainline tree into linux-omap tree
+    
+    Merge branches 'master' and 'linus'
+
+commit 944f94235969c15b3012aa4dc832ed3e2f08e4da
+Author: Amit Kucheria &lt;amit.kucheria@verdurent.com&gt;
+Date:   Wed Jun 3 09:53:24 2009 -0700
+
+    twl4030: Add some error checking to twl4030 init
+    
+    Check for return values of i2c read/write operations and size of scripts bei
+    uploaded to TWL4030
+    
+    (Removed the unrelated string changes based on David Brownell's comment)
+    
+    Signed-off-by: Amit Kucheria &lt;amit.kucheria@verdurent.com&gt;
+    Signed-off-by: Tony Lindgren &lt;tony@atomide.com&gt;
+
+commit 9fa7eb283c5cdc2b0f4a8cfe6387ed82e5e9a3d3
+Author: Linus Torvalds &lt;torvalds@linux-foundation.org&gt;
+Date:   Tue Jun 2 20:07:25 2009 -0700
+
+    Linux 2.6.30-rc8
+
+...
+</pre>
+
+<h2> Creating a first kernel configuration (.config) file </h2>
+
+<p> Usually, you would do the following: </p>
+
+<pre>
+CROSS_COMPILE=arm-linux-gnueabi- make n800_defconfig
+</pre>
+
+<p> but this will simply not work. I mean the resulting kernel does
+  not boot on my device. I suspect this is related to the fairly
+  recent addition of CONFIG_ARM_UNWIND option and the fact it is
+  activated by default: </p>
+
+<pre>
+CONFIG_ARM_UNWIND:
+
+This option enables stack unwinding support in the kernel
+using the information automatically generated by the
+compiler. The resulting kernel image is slightly bigger but
+the performance is not affected. Currently, this feature
+only works with EABI compilers. If unsure say Y.
+
+Symbol: ARM_UNWIND [=n]
+Prompt: Enable stack unwinding support
+  Defined at arch/arm/Kconfig.debug:18
+  Depends on: AEABI &amp;&amp; EXPERIMENTAL
+  Location:
+    -> Kernel hacking
+</pre>
+
+<p>I use <a href="config-2.6.30-rc8-omap1">this config</a> for my
+2.6.30-rc8. It has ext3, WLAN and everything needed for MIPv6
+(including IPsec) compiled statically. The device boots and you can
+use it as a starting point to build you own kernel.</p>
+
+<h2> Compiling your the kernel </h2>
+
+<p> Type the following after having created a kernel configuration and
+  wait for some minutes:</p> 
+
+<pre>
+CROSS_COMPILE=arm-linux-gnueabi- make
+</pre>
+
+<p> The compressed kernel image is now available at
+  arch/arm/boot/zImage. </p>
+
+<h2> Flashing your device with your new kernel </h2>
+
+<p> You first need to download a recent version of flasher tool on
+  <a href="http://tablets-dev.nokia.com/d3.php">that page</a>. I use
+  flasher-3.0. Once you have downloaded and made it available in your
+  PATH, you are ready to flash your device:</p>
+
+<ul>
+<li> Switch off the device. </li>
+<li> Be sure it is on battery (w/ enough battery). </li>
+<li> connect the USB cable to your PC using the USB cable. </li>
+<li> Type the following in a terminal to flash (-f) the kernel (-k)
+  with supplied image and then reboot (-R): </li>
+</ul>
+
+<pre>
+$ sudo flasher-3.0 -k arch/arm/boot/zImage  -f -R
+flasher v0.8.7 (Oct 17 2006)
+
+Suitable USB device not found, waiting
+
+</pre>
+
+<ul>
+<li> Hold down the menu button while pressing the power button.</li>
+<li> Unplug the USB cable. </li>
+</ul>
+
+<h2> Linux 2.6.30-rc8 keyboard issue patch </h2>
+
+<p> This is
+  discussed <a href="http://thread.gmane.org/gmane.linux.ports.arm.omap/20583">here</a>
+  and the patch below was
+  posted <a href="http://permalink.gmane.org/gmane.linux.ports.arm.omap/20582">here</a>.</p>
+
+<pre>
+Index: linux-omap-2.6/arch/arm/mach-omap2/board-n800.c
+===================================================================
+--- linux-omap-2.6.orig/arch/arm/mach-omap2/board-n800.c	2009-06-13 12:17:40.000000000 +0200
++++ linux-omap-2.6/arch/arm/mach-omap2/board-n800.c	2009-06-13 12:18:17.000000000 +0200
+@@ -117,7 +117,7 @@
+ 	.repeat		= 0, /* Repeat is handled in userspace for now. */
+ 	.keymap		= rx44_keymap,
+ 	.size_x		= 8,
+-	.size_y		= 8,
++	.size_y		= 12,
+ 	.debounce_time	= 12,
+ 	.active_time	= 500,
+ 
+</pre>
+
+<h2> Handling keyboard layout</h2>
+
+<p> Recent version of Xorg (at least under recent version of Debian)
+  do not listen anymore to what you put in your /etc/X11/xorg.conf
+  regarding your keyboard configuration.</p>
+
+<p> In fact, by default, with recent version of Xorg, keyboard layouts
+  and variants are overridden by hal. But in fact, real default is for
+  Xorg to use the keyboard information provided by console-setup
+  package, i.e. by the options configured in
+  /etc/default/console-setup. </p>
+
+<p> I put the following in mine, in order to use the french
+  (<b>fr</b>) variant found in
+  /usr/share/X11/xkb/symbols/<b>nokia_vndr/rx-44</b>.</p>
+
+<pre>
+  .
+  .
+  .
+
+  # The following variables describe your keyboard and can have the same
+  # values as the XkbModel, XkbLayout, XkbVariant and XkbOptions options
+  # in /etc/X11/xorg.conf.
+  XKBMODEL="pc105"
+  XKBLAYOUT="nokia_vndr/rx-44"
+  XKBVARIANT="fr"
+  XKBOPTIONS="lv3:ralt_switch"
+</pre>
+
+<p> Note that rx-44 file has been installed here via the installation
+  of xkb-data package.</p>
+
+<p> After a reboot, previous values should appear in your
+  /var/log/Xorg.0.log:</p> 
+
+<pre>
+...
+(II) Internal keyboard: Configuring as keyboard
+(II) XINPUT: Adding extended input device "Internal keyboard" (type: KEYBOARD)
+(**) Option "xkb_rules" "evdev"
+(**) Option "xkb_model" "pc105"
+(**) Option "xkb_layout" "nokia_vndr/rx-44"
+(**) Option "xkb_variant" "fr"
+(**) Option "xkb_options" "lv3:ralt_switch"
+(II) config/hal: Adding input device TSC2005 touchscreen
+(**) TSC2005 touchscreen: always reports core events
+...
+</pre>
+
+<h2> Fn key issue </h2>
+
+<p> After your first boot on your N810, you will notice that your Fn
+  key simply does not work as expected. You will probably try and
+  launch xev to see what keycode/scancode/keysym/... it returns. The
+  response is simply: none.</p>
+
+<p> Why? Well, the kernel keymap for the N810 (in
+  arch/arm/mach-omap2/board-n800.c) is simply written so that the
+  value 464 (0x1d0) is returned as keycode value to X when the key is
+  pressed.</p> 
+
+<p> The thing is that Xorg does not handle (drops, in fact) keycodes
+  over 255. If you are interested by the topic, there are information
+  on the topic
+  <a href="http://lists.freedesktop.org/archives/hal/2009-January/012860.html">here</a>,
+  <a href="http://lists.freedesktop.org/archives/hal/2009-January/012868.html">here</a>,
+  <a href="http://lists.freedesktop.org/archives/hal/2009-January/012794.html">here</a> and
+  <a href="http://www.gossamer-threads.com/lists/maemo/developers/35105,">here</a>. </p>.
+
+<p> To correct that I wrote a simple kernel patch to have Fn key (KEY_FN)
+  advertise itself as a left alt key (KEY_LEFTALT): </p>
+
+<pre>
+Index: linux-omap-2.6/arch/arm/mach-omap2/board-n800.c
+===================================================================
+--- linux-omap-2.6.orig/arch/arm/mach-omap2/board-n800.c	2009-06-20 12:07:11.000000000 +0200
++++ linux-omap-2.6/arch/arm/mach-omap2/board-n800.c	2009-06-27 20:29:00.000000000 +0200
+@@ -85,7 +85,11 @@
+ 	[0x22] = KEY_SEMICOLON,
+ 	[0x23] = KEY_MINUS,
+ 	[0x24] = KEY_EQUAL,
++#ifdef CONFIG_REMAP_N810_FN_KEY
++	[0x2b] = KEY_LEFTALT,
++#else
+ 	[0x2b] = KEY_FN,
++#endif
+ 	[0x2c] = KEY_M,
+ 	[0x2f] = KEY_F8,
+ 
+Index: linux-omap-2.6/drivers/input/keyboard/Kconfig
+===================================================================
+--- linux-omap-2.6.orig/drivers/input/keyboard/Kconfig	2009-06-20 12:07:11.000000000 +0200
++++ linux-omap-2.6/drivers/input/keyboard/Kconfig	2009-06-20 12:07:35.000000000 +0200
+@@ -294,6 +294,20 @@
+ 	  If you say yes here you get support for the National Semiconductor
+ 	  LM8323 keypad controller.
+ 
++config REMAP_N810_FN_KEY
++       boolean "Nokia N810 keyboard Fn key remapping"
++       depends on MACH_NOKIA_N810 &amp;&amp; KEYBOARD_LM8323
++       help
++          If you build your kernel for your Nokia N810 (which would
++	  possibly explain you selected LM8323 keypad chip above),
++	  you might want to select this option in order to have the
++	  Fn key (KEY_FN) advertise itself as left alt key
++          (KEY_LEFTALT).
++
++	  This is because KEY_FN value is higher than 255, and Xorg
++	  basically drops those values. Selecting the option allows
++	  you to use the key under X
++
+ config KEYBOARD_PXA27x
+ 	tristate "PXA27x/PXA3xx keypad support"
+ 	depends on PXA27x || PXA3xx
+</pre>
+
+<p> Then, it's just a matter of modifying the rx-44 keymap in order to
+  change change the &lt;FN&gt; for &lt;LALT&gt;. </p>
+
+
+<h2> Keyboard remapping </h2>
+
+<p> <a href="rx-44">Here</a> is my rx-44 file </p>
+
+</div>
+</body>
+</html>

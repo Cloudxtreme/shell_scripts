@@ -1,0 +1,594 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #13082:
+clnt_control option CLGET_SVC_ADDR does not work with rpc vc transport                                                          
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #13082</h1>
+
+<pre>
+Received: (qmail 18834 invoked from network); 1 Jun 2001 16:27:57 -0000
+Message-Id: &lt;200106011620.f51GKCi24020@oban.imag.fr&gt;
+Date: Fri, 1 Jun 2001 18:20:12 +0200 (MEST)
+From: Jean-Luc Richier &lt;Jean-Luc.Richier@imag.fr&gt;
+Reply-To: Jean-Luc Richier &lt;Jean-Luc.Richier@imag.fr&gt;
+To: gnats-bugs@gnats.netbsd.org
+Subject: clnt_control option CLGET_SVC_ADDR does not work with rpc vc transport
+X-Send-Pr-Version: 3.95
+
+
+<b>&gt;Number:</b>         13082
+<b>&gt;Category:</b>       lib
+<b>&gt;Synopsis:</b>       clnt_control option CLGET_SVC_ADDR does not work with rpc vc transport
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       non-critical
+<b>&gt;Priority:</b>       medium
+<b>&gt;Responsible:</b>    lib-bug-people
+<b>&gt;State:</b>          closed
+<b>&gt;Class:</b>          sw-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Fri Jun 01 16:28:00 +0000 2001
+<b>&gt;Closed-Date:</b>    Wed Jul 17 00:27:08 +0000 2013
+<b>&gt;Last-Modified:</b>  Wed Jul 17 00:27:08 +0000 2013
+<b>&gt;Originator:</b>     Jean-Luc Richier
+<b>&gt;Release:</b>        NetBSD 1.5
+<b>&gt;Organization:</b>
+IMAG
+<b>&gt;Environment:</b>
+System: NetBSD oban.imag.fr 1.5 NetBSD 1.5 (IPv6) #24: Fri Apr 20 17:36:52 MEST 2001 richier@oban.imag.fr:/usr/src/sys/arch/sparc/compile/IPv6 sparc
+
+
+
+
+<b>&gt;Description:</b>
+    In the RPC libc code, the control call which allows clients to
+    find the address of the server (clnt_control(clnt, CLGET_SVC_ADDR, ..)
+    return an incorrect value.
+    Bug was detected in NetBSD1.5, and in still in the NetBSD-current source
+
+
+<b>&gt;How-To-Repeat:</b>
+    Consider the code at the end, which allows to test rpc calls (unicast or
+    not) on different transports, compile it (cc -o tstrpc tstrpc.c)
+    - on udp: it works:
+    % tstrpc tuna.imag.fr
+    response from: tuna.imag.fr
+    - on tcp there is an error
+    % tstrpc -t tuna.imag.fr
+    incorrect response
+
+
+     test program tstrpc.c:
+#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;rpc/rpc.h&gt;
+
+
+#define RPCBPROC_NULL 0
+char *transp;
+
+
+int
+reply(caddr_t replyp, struct netbuf *raddrp, struct netconfig *nconf)
+{
+	char host[NI_MAXHOST];
+	struct sockaddr *sock = raddrp-&gt;buf;
+
+
+	if (getnameinfo(sock, sock-&gt;sa_len, host, sizeof (host), NULL, 0, 0))
+		printf(&quot;incorrect response\n&quot;);
+	else
+		printf(&quot;response from: %s\n&quot;, host);
+	return(0);
+}
+
+
+void
+onehost(char *host)
+{
+        CLIENT *clnt;
+	struct netbuf addr;
+	struct timeval tv;
+
+
+        if ((clnt = clnt_create(host, RPCBPROG, RPCBVERS, transp)) == NULL)
+                errx(1, &quot;%s&quot;, clnt_spcreateerror(&quot;&quot;));
+
+
+	tv.tv_sec = 15;
+	tv.tv_usec = 0;
+	if (clnt_call(clnt, RPCBPROC_NULL, xdr_void, NULL, xdr_void, NULL, tv)
+			!= RPC_SUCCESS)
+                errx(1, &quot;%s&quot;, clnt_sperror(clnt, &quot;&quot;));
+	clnt_control(clnt, CLGET_SVC_ADDR, (char *)&amp;addr);
+	reply(NULL, &amp;addr, NULL);
+}
+
+
+void
+allhosts()
+{
+	enum clnt_stat clnt_stat;
+
+
+	clnt_stat = rpc_broadcast(RPCBPROG, RPCBVERS, RPCBPROC_NULL,
+				   xdr_void, NULL, xdr_void, NULL,
+				   (resultproc_t)reply, transp);
+	if (clnt_stat != RPC_SUCCESS &amp;&amp; clnt_stat != RPC_TIMEDOUT)
+		errx(1, &quot;%s&quot;, clnt_sperrno(clnt_stat));
+}
+
+
+int
+main(int argc, char *argv[])
+{
+        int ch;
+
+
+	transp = &quot;udp&quot;;
+        while ((ch = getopt(argc, argv, &quot;ut&quot;)) != -1)
+	        switch (ch) {
+                case 't':
+                        transp = &quot;tcp&quot;;
+                        break;
+                case 'u':
+                        transp = &quot;udp&quot;;
+                        break;
+                default:
+                        errx(1, &quot;tstrpc -[u|t] ...&quot;);
+                }
+	if (argc == optind)
+		allhosts();
+	else for (; optind &lt; argc; optind++)
+		onehost(argv[optind]);
+        exit(0);
+}
+
+
+<b>&gt;Fix:</b>
+
+
+     The problem is in lib/libc/rpc/clnt_vc.c, an incorrect reference.
+     To correct:
+
+
+*** /usr/src/lib/libc/rpc/clnt_vc.c.DIST	Fri Jul 14 18:48:12 2000
+--- /usr/src/lib/libc/rpc/clnt_vc.c	Fri Jun  1 18:05:33 2001
+***************
+*** 263,269 ****
+  	ct-&gt;ct_addr.buf = malloc(raddr-&gt;maxlen);
+  	if (ct-&gt;ct_addr.buf == NULL)
+  		goto fooy;
+! 	memcpy(ct-&gt;ct_addr.buf, &amp;raddr-&gt;buf, raddr-&gt;len);
+  	ct-&gt;ct_addr.len = raddr-&gt;maxlen;
+  	ct-&gt;ct_addr.maxlen = raddr-&gt;maxlen;
+
+  
+--- 263,269 ----
+  	ct-&gt;ct_addr.buf = malloc(raddr-&gt;maxlen);
+  	if (ct-&gt;ct_addr.buf == NULL)
+  		goto fooy;
+! 	memcpy(ct-&gt;ct_addr.buf, raddr-&gt;buf, raddr-&gt;len);
+  	ct-&gt;ct_addr.len = raddr-&gt;maxlen;
+  	ct-&gt;ct_addr.maxlen = raddr-&gt;maxlen;
+
+  
+
+
+<b>&gt;Release-Note:</b>
+<b>&gt;Audit-Trail:</b>
+
+
+From: christos@zoulas.com (Christos Zoulas)
+To: Jean-Luc Richier &lt;Jean-Luc.Richier@imag.fr&gt;,
+	lib-bug-people@netbsd.org, gnats-bugs@gnats.netbsd.org
+Cc:  
+Subject: Re: lib/13082: clnt_control option CLGET_SVC_ADDR does not work with rpc vc transport
+Date: Fri, 1 Jun 2001 13:18:10 -0400
+
+
+ On Jun 1,  6:20pm, Jean-Luc.Richier@imag.fr (Jean-Luc Richier) wrote:
+ -- Subject: lib/13082: clnt_control option CLGET_SVC_ADDR does not work with 
+
+ 
+ Yes, but it looks to me like the next line is wrong too. The assignment
+ should probably be:
+
+ 
+     ct-&gt;ct_addr.len = raddr-&gt;len;
+
+ 
+ not:
+
+ 
+     ct-&gt;ct_addr.len = raddr-&gt;maxlen;
+
+ 
+ christos
+
+ 
+ | *** /usr/src/lib/libc/rpc/clnt_vc.c.DIST	Fri Jul 14 18:48:12 2000
+ | --- /usr/src/lib/libc/rpc/clnt_vc.c	Fri Jun  1 18:05:33 2001
+ | ***************
+ | *** 263,269 ****
+ |   	ct-&gt;ct_addr.buf = malloc(raddr-&gt;maxlen);
+ |   	if (ct-&gt;ct_addr.buf == NULL)
+ |   		goto fooy;
+ | ! 	memcpy(ct-&gt;ct_addr.buf, &amp;raddr-&gt;buf, raddr-&gt;len);
+ |   	ct-&gt;ct_addr.len = raddr-&gt;maxlen;
+ |   	ct-&gt;ct_addr.maxlen = raddr-&gt;maxlen;
+ |   
+ | --- 263,269 ----
+ |   	ct-&gt;ct_addr.buf = malloc(raddr-&gt;maxlen);
+ |   	if (ct-&gt;ct_addr.buf == NULL)
+ |   		goto fooy;
+ | ! 	memcpy(ct-&gt;ct_addr.buf, raddr-&gt;buf, raddr-&gt;len);
+ |   	ct-&gt;ct_addr.len = raddr-&gt;maxlen;
+ |   	ct-&gt;ct_addr.maxlen = raddr-&gt;maxlen;
+ |   
+ | 
+ | &gt;Release-Note:
+ | &gt;Audit-Trail:
+ | &gt;Unformatted:
+ -- End of excerpt from Jean-Luc Richier
+
+ 
+
+ 
+From: Thorsten Brehm &lt;tbrehm@dspace.de&gt;
+To: &quot;gnats-bugs@gnats.netbsd.org&quot; &lt;gnats-bugs@gnats.netbsd.org&gt;
+Cc: &quot;christos@zoulas.com&quot; &lt;christos@zoulas.com&gt;
+Subject: Re: lib/13082
+Date: Tue, 26 Feb 2013 09:16:50 +0000
+
+
+ --_000_C8EE0F1FA402474893651B07DA446721EDC3BACEExchange2010dsp_
+ Content-Type: text/plain; charset=&quot;us-ascii&quot;
+ Content-Transfer-Encoding: quoted-printable
+
+ 
+ This bug should be raised to &quot;critical&quot;, since it causes sporadic segfaults=
+ . The incorrect memcpy source location has already been described in the re=
+ port.
+
+ 
+ But moreover, the memory location &amp;raddr-&gt;buf only guarantees 4 bytes (or 8=
+  bytes on 64 bit systems) to be accessible, while raddr-&gt;len is larger than=
+  4 (or 8). When &amp;raddr-&gt;buf is located at the end of an accessible memory s=
+ egment, then memcpy(...,&amp;raddr-&gt;buf, raddr-&gt;len) results in a memory violat=
+ ion (apart from not copying the right data). I've seen this crash regularly=
+ , obviously depending on the memory layout of the application.
+
+ 
+ The following patch fixes the segfault and also the second issue mentioned =
+ by Christos, which I can also confirm:
+
+ 
+ diff -wru trunk/src/lib/libc/rpc/clnt_vc.c new/src/lib/libc/rpc/clnt_vc.c
+ --- trunk/src/lib/libc/rpc/clnt_vc.c
+ +++ new/src/lib/libc/rpc/clnt_vc.c
+ @@ -263,8 +263,8 @@
+                ct-&gt;ct_addr.buf =3D malloc((size_t)raddr-&gt;maxlen);
+                if (ct-&gt;ct_addr.buf =3D=3D NULL)
+                               goto fooy;
+ -              memcpy(ct-&gt;ct_addr.buf, &amp;raddr-&gt;buf, (size_t)raddr-&gt;len);
+ -              ct-&gt;ct_addr.len =3D raddr-&gt;maxlen;
+ +             memcpy(ct-&gt;ct_addr.buf, raddr-&gt;buf, (size_t)raddr-&gt;len);
+ +             ct-&gt;ct_addr.len =3D raddr-&gt;len;
+                ct-&gt;ct_addr.maxlen =3D raddr-&gt;maxlen;
+                 /*
+
+ 
+ I've debugged, fixed and tested this locally - before seeing the issue and =
+ patch has already been known for more than 11 years. So *please* let's fix =
+ this now ;-).
+
+ 
+ Thorsten
+
+ 
+
+ 
+ --_000_C8EE0F1FA402474893651B07DA446721EDC3BACEExchange2010dsp_
+ Content-Type: text/html; charset=&quot;us-ascii&quot;
+ Content-Transfer-Encoding: quoted-printable
+
+ 
+ &lt;html xmlns:v=3D&quot;urn:schemas-microsoft-com:vml&quot; xmlns:o=3D&quot;urn:schemas-micr=
+ osoft-com:office:office&quot; xmlns:w=3D&quot;urn:schemas-microsoft-com:office:word&quot; =
+ xmlns:m=3D&quot;http://schemas.microsoft.com/office/2004/12/omml&quot; xmlns=3D&quot;http:=
+ //www.w3.org/TR/REC-html40&quot;&gt;
+ &lt;head&gt;
+ &lt;meta http-equiv=3D&quot;Content-Type&quot; content=3D&quot;text/html; charset=3Dus-ascii&quot;=
+ &gt;
+ &lt;meta name=3D&quot;Generator&quot; content=3D&quot;Microsoft Word 14 (filtered medium)&quot;&gt;
+ &lt;style&gt;&lt;!--
+ /* Font Definitions */
+ @font-face
+ 	{font-family:Calibri;
+ 	panose-1:2 15 5 2 2 2 4 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+ 	{margin:0cm;
+ 	margin-bottom:.0001pt;
+ 	font-size:11.0pt;
+ 	font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;;
+ 	mso-fareast-language:EN-US;}
+ a:link, span.MsoHyperlink
+ 	{mso-style-priority:99;
+ 	color:blue;
+ 	text-decoration:underline;}
+ a:visited, span.MsoHyperlinkFollowed
+ 	{mso-style-priority:99;
+ 	color:purple;
+ 	text-decoration:underline;}
+ pre
+ 	{mso-style-priority:99;
+ 	mso-style-link:&quot;HTML Vorformatiert Zchn&quot;;
+ 	margin:0cm;
+ 	margin-bottom:.0001pt;
+ 	font-size:10.0pt;
+ 	font-family:&quot;Courier New&quot;;}
+ span.E-MailFormatvorlage17
+ 	{mso-style-type:personal-compose;
+ 	font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;;
+ 	color:windowtext;}
+ span.HTMLVorformatiertZchn
+ 	{mso-style-name:&quot;HTML Vorformatiert Zchn&quot;;
+ 	mso-style-priority:99;
+ 	mso-style-link:&quot;HTML Vorformatiert&quot;;
+ 	font-family:&quot;Courier New&quot;;
+ 	mso-fareast-language:DE;}
+ .MsoChpDefault
+ 	{mso-style-type:export-only;
+ 	mso-fareast-language:EN-US;}
+ @page WordSection1
+ 	{size:612.0pt 792.0pt;
+ 	margin:70.85pt 70.85pt 2.0cm 70.85pt;}
+ div.WordSection1
+ 	{page:WordSection1;}
+ --&gt;&lt;/style&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:shapedefaults v:ext=3D&quot;edit&quot; spidmax=3D&quot;1026&quot; /&gt;
+ &lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:shapelayout v:ext=3D&quot;edit&quot;&gt;
+ &lt;o:idmap v:ext=3D&quot;edit&quot; data=3D&quot;1&quot; /&gt;
+ &lt;/o:shapelayout&gt;&lt;/xml&gt;&lt;![endif]--&gt;
+ &lt;/head&gt;
+ &lt;body lang=3D&quot;DE&quot; link=3D&quot;blue&quot; vlink=3D&quot;purple&quot;&gt;
+ &lt;div class=3D&quot;WordSection1&quot;&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;This bug should be raised to &amp;#=
+ 8220;critical&amp;#8221;, since it causes sporadic segfaults. The incorrect mem=
+ cpy source location has already been described in the report.&lt;o:p&gt;&lt;/o:p&gt;&lt;/s=
+ pan&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;But moreover, the memory locati=
+ on &amp;amp;raddr-&amp;gt;buf only guarantees 4 bytes (or 8 bytes on 64 bit systems=
+ ) to be accessible, while raddr-&amp;gt;len is larger than 4 (or 8). When &amp;amp;=
+ raddr-&amp;gt;buf is located at the end of an accessible
+  memory segment, then memcpy(&amp;#8230;,&amp;amp;raddr-&amp;gt;buf, raddr-&amp;gt;len) res=
+ ults in a memory violation (apart from not copying the right data). I&amp;#8217=
+ ;ve seen this crash regularly, obviously depending on the memory layout of =
+ the application.&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;The following patch fixes the s=
+ egfault and also the second issue mentioned by Christos, which I can also c=
+ onfirm:&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;diff -wru trunk/src/lib/libc/rp=
+ c/clnt_vc.c new/src/lib/libc/rpc/clnt_vc.c&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;--- trunk/src/lib/libc/rpc/clnt=
+ _vc.c&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&amp;#43;&amp;#43;&amp;#43; new/src/lib/lib=
+ c/rpc/clnt_vc.c&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;@@ -263,8 &amp;#43;263,8 @@&lt;o:p&gt;&lt;/o=
+ :p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;=
+ nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ct-&amp;gt;ct_addr.buf =
+ =3D malloc((size_t)raddr-&amp;gt;maxlen);&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;=
+ nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; if (ct-&amp;gt;ct_addr.bu=
+ f =3D=3D NULL)&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;=
+ nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbs=
+ p;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; goto f=
+ ooy;&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;=
+ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; memcpy(ct-&amp;gt;ct_addr.buf,=
+  &amp;amp;raddr-&amp;gt;buf, (size_t)raddr-&amp;gt;len);&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;=
+ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ct-&amp;gt;ct_addr.len =3D rad=
+ dr-&amp;gt;maxlen;&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&amp;#43;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
+ bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; memcpy(ct-&amp;gt;ct_addr.buf, r=
+ addr-&amp;gt;buf, (size_t)raddr-&amp;gt;len);&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&amp;#43;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;n=
+ bsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ct-&amp;gt;ct_addr.len =3D raddr=
+ -&amp;gt;len;&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;=
+ nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; ct-&amp;gt;ct_addr.maxlen=
+  =3D raddr-&amp;gt;maxlen;&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;=
+ nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; /*&lt;o:p&gt;&lt;/o:p&gt;&lt;/=
+ span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;I&amp;#8217;ve debugged, fixed and =
+ tested this locally &amp;#8211; before seeing the issue and patch has already b=
+ een known for more than 11 years. So *<b>please</b>* let&amp;#8217;s fix this n=
+ ow ;-).&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;Thorsten&lt;o:p&gt;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;p class=3D&quot;MsoNormal&quot;&gt;&lt;span lang=3D&quot;EN-US&quot;&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/span&gt;&lt;/p&gt;
+ &lt;/div&gt;
+ &lt;/body&gt;
+ &lt;/html&gt;
+
+ 
+ --_000_C8EE0F1FA402474893651B07DA446721EDC3BACEExchange2010dsp_--
+
+ 
+From: &quot;Christos Zoulas&quot; &lt;christos@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/13082 CVS commit: src/lib/libc/rpc
+Date: Tue, 26 Feb 2013 11:33:57 -0500
+
+
+ Module Name:	src
+ Committed By:	christos
+ Date:		Tue Feb 26 16:33:57 UTC 2013
+
+ 
+ Modified Files:
+ 	src/lib/libc/rpc: clnt_vc.c
+
+ 
+ Log Message:
+ PR/13082: Thorsten Brehm: Fix wrong memcpy that caused possible memory
+ corruption. XXX: pullup to 6.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.18 -r1.19 src/lib/libc/rpc/clnt_vc.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/13082 CVS commit: [netbsd-6] src/lib/libc/rpc
+Date: Sun, 31 Mar 2013 20:26:33 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Sun Mar 31 20:26:33 UTC 2013
+
+ 
+ Modified Files:
+ 	src/lib/libc/rpc [netbsd-6]: clnt_vc.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by christos in ticket #854):
+ 	lib/libc/rpc/clnt_vc.c: revision 1.19
+ PR/13082: Thorsten Brehm: Fix wrong memcpy that caused possible memory
+ corruption. XXX: pullup to 6.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.17.8.1 -r1.17.8.2 src/lib/libc/rpc/clnt_vc.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/13082 CVS commit: [netbsd-6-0] src/lib/libc/rpc
+Date: Sun, 31 Mar 2013 20:26:59 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Sun Mar 31 20:26:59 UTC 2013
+
+ 
+ Modified Files:
+ 	src/lib/libc/rpc [netbsd-6-0]: clnt_vc.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by christos in ticket #854):
+ 	lib/libc/rpc/clnt_vc.c: revision 1.19
+ PR/13082: Thorsten Brehm: Fix wrong memcpy that caused possible memory
+ corruption. XXX: pullup to 6.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.17 -r1.17.12.1 src/lib/libc/rpc/clnt_vc.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+State-Changed-From-To: open-&gt;closed
+State-Changed-By: snj@NetBSD.org
+State-Changed-When: Wed, 17 Jul 2013 00:27:08 +0000
+State-Changed-Why:
+Fix committed and pulled up to netbsd-6 and netbsd-6-0.
+
+
+
+
+<b>&gt;Unformatted:</b>
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

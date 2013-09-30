@@ -1,0 +1,193 @@
+<?xml version="1.1" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_US" xml:lang="en_US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body {
+	font-family: Gadget, sans-serif;
+	background: #dde;
+}
+#page {
+	margin: 0 auto;
+	width: 800px;
+}
+#header {
+	width: 740px;
+	padding: 10px;
+	margin: 10px 0 10px 0;
+	background: #88d;
+	text-align: center;
+}
+#main {
+	width: 740px;
+	padding: 10px;
+	margin: 10px 0 10px 0;
+	background: #fff;
+}
+.codesample {
+	margin-left: 20px;
+	line-height: 170%;
+	font-size: 1em;
+}
+.codenote {
+	font-family: Gadget, sans-serif;
+	font-style: italic;
+}
+.download {
+	text-align: center;
+}
+.download a {
+	color: #33d;
+	text-decoration: none;
+}
+.download a:visited {
+	color: #33d;
+	text-decoration: none;
+}
+</style>
+<title>TAYGA - NAT64 for Linux</title>
+</head>
+<body>
+
+<div id="page">
+
+<div id="header">
+<h1>TAYGA</h1>
+<h2>Simple, no-fuss NAT64 for Linux</h2>
+</div>
+
+<div id="main">
+
+<p>TAYGA is an out-of-kernel stateless NAT64 implementation for Linux that uses
+the TUN driver to exchange IPv4 and IPv6 packets with the kernel.  It is
+intended to provide production-quality NAT64 service for networks where
+dedicated NAT64 hardware would be overkill.</p>
+
+<p>TAYGA is:</p>
+
+<ul>
+
+<li><b>Fast</b> &mdash; can saturate gigabit Ethernet on modest PC
+hardware</li>
+
+<li><b>Flexible</b> &mdash; performs dynamic mapping to handle any site
+addressing scheme</li>
+
+<li><b>Secure</b> &mdash; runs outside of the kernel as an unprivileged
+process</li>
+
+<li><b>Compatible</b> &mdash; works with all Linux 2.4 and 2.6 kernels</li>
+
+<li><b>Simple</b> &mdash; requires only a five-line configuration file (three
+lines in some cases)</li>
+
+<li><b>Easy to install</b> &mdash; no kernel patches or external dependencies
+required</li>
+
+<li><b>Free</b> &mdash; licensed under GPLv2</li>
+
+</ul>
+
+<p>The latest release of TAYGA is version 0.9.2, released on 2011-06-10.
+This release fixes some obscure fragmentation and MTU bugs, and also adds a
+workaround for a bug in Linux kernels older than 2.6.34 which would cause
+certain translated packets to be dropped by the "conntrack" netfilter
+subsystem.  (See <a
+href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/788637">Launchpad
+bug 788637</a> for more information.)</p>
+
+<p class="download"><a
+href="tayga-0.9.2.tar.bz2">tayga-0.9.2.tar.bz2</a></p>
+
+<p class="download"><a href="README-0.9.2">README for TAYGA 0.9.2</a></p>
+
+<p class="download"><a href="faq.html">FAQ</a></p>
+
+<p class="download"><a href="tomato.html">Notes on building for WRT54 and
+<br/>similar routers running Tomato</a></p>
+
+<h3>Super-quick-start</h3>
+
+<p>You will need to select an unused /96 from your site's IPv6 address range
+which will be used as the NAT64 prefix.  You will also need a block of unused
+IPv4 addresses for the dynamic address pool.  TAYGA will assign IPv4 addresses
+from this pool to the IPv6 hosts that need NAT64 service.  The dynamic pool
+can be chosen from private IPv4 address space (10.x.x.x, 192.168.x.x, etc) and
+can be of any size, although it needs to be large enough to contain one IPv4
+address for every IPv6 host that needs to use the NAT64.</p>
+
+<p>TAYGA also needs its own IPv4 address, but this can be taken from the
+dynamic address pool.</p>
+
+<pre class="codesample">
+# ./configure &amp;&amp; make &amp;&amp; make install
+# mkdir -p /var/db/tayga
+# cat &gt;/usr/local/etc/tayga.conf &lt;&lt;EOD
+tun-device nat64
+ipv4-addr 192.168.255.1                  <span class="codenote">(this is TAYGA's IPv4 address, <b>not</b> your router's address)</span>
+prefix 2001:db8:1:ffff::/96              <span class="codenote">(replace with an unused /96 prefix from your site's address range)</span>
+dynamic-pool 192.168.255.0/24
+data-dir /var/db/tayga
+EOD
+# tayga --mktun
+# ip link set nat64 up
+# ip addr add 192.168.0.1 dev nat64      <span class="codenote">(replace with your router's IPv4 address)</span>
+# ip addr add 2001:db8:1::1 dev nat64    <span class="codenote">(replace with your router's IPv6 address)</span>
+# ip route add 192.168.255.0/24 dev nat64
+# ip route add 2001:db8:1:ffff::/96 dev nat64
+# tayga
+# ping6 2001:db8:1:ffff::192.168.0.1
+</pre>
+
+<p>If the ping6 command succeeds, TAYGA is working.  Now you'll need to set up
+NAT44 rules in iptables or elsewhere on your network so the dynamic pool
+addresses can reach the rest of the Internet.</p>
+
+<p>Full documentation about the configuration and operation of TAYGA can be
+found in the man pages and README file accompanying the distribution.</p>
+
+<h3>DNS64</h3>
+
+<p>Except for special use cases, NAT64 generally requires DNS64 to translate
+domain names with only an A record into AAAA records.  On Linux, <a
+href="http://www.dillema.net/software/totd.html">Totd</a> seems to be the best
+option for DNS64, although it has not been updated in some years.</p>
+
+<h3>What about stateful NAT?</h3>
+
+<p>TAYGA could never come close to offering the power and flexibility
+available in iptables and mature commercial NAT44 implementations, so instead
+TAYGA turns IPv6 into IPv4 in the most transparent manner possible, allowing
+existing IPv4-only tools to be used to further manipulate sessions flowing
+through it.</p>
+
+<p>In other words, if you need stateful NAT64, route TAYGA's IPv4 path through
+a stateful NAT44.</p>
+
+<h3>Contact</h3>
+
+<p>The author, Nathan Lutchansky, can be contacted at
+<a href="mailto:lutchann@litech.org">lutchann@litech.org</a>.</p>
+
+</div>
+</div>
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=6422212; 
+var sc_invisible=1; 
+var sc_security="62e370f3"; 
+</script>
+
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script><noscript><div
+class="statcounter"><a title="weebly analytics"
+href="http://statcounter.com/weebly/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/6422212/0/62e370f3/1/"
+alt="weebly analytics" ></a></div></noscript>
+<!-- End of StatCounter Code -->
+
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #47090:
+terminfo(5) lacks descriptions for key definitions                                                                              
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #47090</h1>
+
+<pre>
+From christos@astron.com  Fri Oct 19 00:21:08 2012
+Return-Path: &lt;christos@astron.com&gt;
+Received: from mail.netbsd.org (mail.netbsd.org [149.20.53.66])
+	by www.NetBSD.org (Postfix) with ESMTP id 7F7AA63E41D
+	for &lt;gnats-bugs@gnats.NetBSD.org&gt;; Fri, 19 Oct 2012 00:21:08 +0000 (UTC)
+Message-Id: &lt;20121019002106.693C7564E@quasar.astron.com&gt;
+Date: Fri, 19 Oct 2012 00:21:06 +0000 (UTC)
+From: christos@netbsd.org
+Reply-To: christos@netbsd.org
+To: gnats-bugs@gnats.NetBSD.org
+Subject: terminfo(5) lacks descriptions for key definitions
+X-Send-Pr-Version: 3.95
+
+
+<b>&gt;Number:</b>         47090
+<b>&gt;Category:</b>       lib
+<b>&gt;Synopsis:</b>       terminfo(5) lacks descriptions for key definitions
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       non-critical
+<b>&gt;Priority:</b>       medium
+<b>&gt;Responsible:</b>    lib-bug-people
+<b>&gt;State:</b>          closed
+<b>&gt;Class:</b>          doc-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Fri Oct 19 00:25:00 +0000 2012
+<b>&gt;Closed-Date:</b>    Sat Jul 13 18:28:50 +0000 2013
+<b>&gt;Last-Modified:</b>  Sat Jul 13 18:28:50 +0000 2013
+<b>&gt;Originator:</b>     Christos Zoulas
+<b>&gt;Release:</b>        NetBSD 6.99.13
+<b>&gt;Organization:</b>
+	Black Hole Entropy, LLC.
+<b>&gt;Environment:</b>
+System: NetBSD quasar.astron.com 6.99.13 NetBSD 6.99.13 (QUASAR) #250: Thu Oct 18 18:28:54 EDT 2012 christos@quasar.astron.com:/usr/src/sys/arch/amd64/compile/QUASAR amd64
+Architecture: x86_64
+Machine: amd64
+<b>&gt;Description:</b>
+	When termcap(5) was replaced by terminfo(5) the descriptions
+	of what the keys do vanished with it. Please put it back.
+	What does key_sdc do? How does one find out.
+
+
+<b>&gt;How-To-Repeat:</b>
+	man 5 terminfo
+<b>&gt;Fix:</b>
+	please
+
+
+<b>&gt;Release-Note:</b>
+
+
+<b>&gt;Audit-Trail:</b>
+From: &quot;Roy Marples&quot; &lt;roy@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47090 CVS commit: src/lib/libterminfo
+Date: Fri, 25 Jan 2013 12:52:45 +0000
+
+
+ Module Name:	src
+ Committed By:	roy
+ Date:		Fri Jan 25 12:52:45 UTC 2013
+
+ 
+ Modified Files:
+ 	src/lib/libterminfo: genman term.h terminfo.5.in
+
+ 
+ Log Message:
+ Add descriptions for terminfo keys to term.h
+ These are extracted by genman and placed into the compiled terminfo.5
+ Fixes PR lib/47090
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.4 -r1.5 src/lib/libterminfo/genman
+ cvs rdiff -u -r1.12 -r1.13 src/lib/libterminfo/term.h
+ cvs rdiff -u -r1.17 -r1.18 src/lib/libterminfo/terminfo.5.in
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47090 CVS commit: [netbsd-6] src
+Date: Thu, 14 Mar 2013 15:48:29 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Thu Mar 14 15:48:29 UTC 2013
+
+ 
+ Modified Files:
+ 	src/lib/libterminfo [netbsd-6]: Makefile.hash genman term.h
+ 	    term_private.h terminfo.3 terminfo.5.in tparm.c
+ 	src/usr.bin/tput [netbsd-6]: Makefile tput.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by roy in ticket #835):
+ 	lib/libterminfo/terminfo.3: revision 1.9
+ 	lib/libterminfo/term.h: revision 1.13
+ 	lib/libterminfo/term.h: revision 1.14
+ 	usr.bin/tput/Makefile: revision 1.11
+ 	lib/libterminfo/terminfo.3: revision 1.10
+ 	lib/libterminfo/genman: revision 1.5
+ 	lib/libterminfo/term_private.h: revision 1.11
+ 	usr.bin/tput/tput.c: revision 1.23
+ 	usr.bin/tput/tput.c: revision 1.24
+ 	usr.bin/tput/tput.c: revision 1.25
+ 	lib/libterminfo/tparm.c: revision 1.11
+ 	lib/libterminfo/Makefile.hash: revision 1.7
+ 	usr.bin/tput/tput.c: revision 1.26
+ 	lib/libterminfo/tparm.c: revision 1.12
+ 	lib/libterminfo/tparm.c: revision 1.13
+ 	lib/libterminfo/tparm.c: revision 1.14
+ 	lib/libterminfo/terminfo.5.in: revision 1.18
+ As tparm accepts longs we should treat them as long during expansion.
+ Also, fix the ~ and ! logic.
+ Move the strings vs long analysis to a private function, but allow
+ tput(1) to use it so we can work with string parameters to
+ capabilities.
+ Fix building our terminals with a non standard NETBSDSRCDIR, PR
+ lib/46793.
+ Thanks to Bernd Ernesti.
+ Remove debug accidently commited.
+ If char * &gt; long then print a suitable error when passing a string
+ parameter.
+ For platforms where we cannot fit a char * into a long, return NULL
+ and set errno to ENOTSUPP.
+ Add descriptions for terminfo keys to term.h
+ These are extracted by genman and placed into the compiled terminfo.5
+ Fixes PR lib/47090
+ Provide a disabled implentation of tlparm and ti_tlparm for
+ completeness.
+ This also improves the readability of _ti_tiparm.
+ Use putp(3) to output our strings.
+ Fixes PR lib/47532
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.4.4.1 -r1.4.4.2 src/lib/libterminfo/Makefile.hash
+ cvs rdiff -u -r1.4 -r1.4.8.1 src/lib/libterminfo/genman
+ cvs rdiff -u -r1.10.4.2 -r1.10.4.3 src/lib/libterminfo/term.h
+ cvs rdiff -u -r1.9.4.1 -r1.9.4.2 src/lib/libterminfo/term_private.h
+ cvs rdiff -u -r1.8 -r1.8.4.1 src/lib/libterminfo/terminfo.3
+ cvs rdiff -u -r1.15.6.1 -r1.15.6.2 src/lib/libterminfo/terminfo.5.in
+ cvs rdiff -u -r1.7.4.2 -r1.7.4.3 src/lib/libterminfo/tparm.c
+ cvs rdiff -u -r1.10 -r1.10.8.1 src/usr.bin/tput/Makefile
+ cvs rdiff -u -r1.22 -r1.22.4.1 src/usr.bin/tput/tput.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+State-Changed-From-To: open-&gt;closed
+State-Changed-By: snj@NetBSD.org
+State-Changed-When: Sat, 13 Jul 2013 18:28:50 +0000
+State-Changed-Why:
+Fixed and pulled up to netbsd-6 months ago.
+
+
+
+
+<b>&gt;Unformatted:</b>
+
+ 
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

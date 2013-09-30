@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Electric Sheep Fencing</title>
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link href="styles/main.css" rel="stylesheet" type="text/css" />	
+	<script src="scripts/jquery-1.9.1.js"></script>
+	<script src="scripts/jquery-ui-1.10.1.js"></script>
+	<script>
+		$(function() {
+			/* go to tab in URL */
+			var selectedTab = 0;
+			$('#tabs li a').each(function(index) {
+				//if ($(this).attr('href').replace("#", "#tab-") == document.location.hash) {
+					selectedTab = index;
+				//}
+			});
+			
+			/* create tabs */
+			$( "#tabs" ).tabs({
+			  event: "mouseover",
+			  hide: { 
+				effect: "fade", 
+				duration: 200 
+			  },
+			  'selected' : selectedTab
+			});
+			
+			/* update URL */ 
+			$('#tabs ul li a').mouseover(function () {location.hash = $(this).attr('href');});
+			
+			/* create services accordian */
+			$( "#services" ).accordion({
+				heightStyle: "content",
+				event: "click hoverintent",
+				collapsible: true,
+				active:false,
+				//icons: {
+				//	header: 'defaultIcon', 
+				//	activeHeader: 'selectedIcon' 
+				//}
+			});
+			
+			/* create policies accordian */
+			$( "#policies" ).accordion({
+				heightStyle: "content",
+				event: "click hoverintent",
+				collapsible: true,
+				active:false,
+				//icons: {
+				//	header: 'defaultIcon', 
+				//	activeHeader: 'selectedIcon' 
+				//}
+			});
+		});
+	</script>	
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header">
+			<img src="images/esf-header.png" />
+		</div>
+		<div id="tabs">
+		  <ul>
+			<li><a href="#esf-home">ESF</a></li>
+			<li><a href="#our-services">OUR SERVICES</a></li>
+			<li><a href="#our-policies">OUR POLICIES</a></li>
+			<li><a href="#contact-us">CONTACT US</a></li>
+			<li><a href="#about-us">ABOUT US</a></li>
+		  </ul>
+		  <div id="esf-home">
+				<p>Welcome to the Electric Sheep Fencing website. We are the leading provider of custom FreeBSD-based network security appliance solutions, as well as the official commercial support provider of the open source firewall <a href="http://www.pfsense.org" target="_blank">pfSense</a>, providing support, consulting and development services to a worldwide customer base.</p>
+				<p>A barrier to choosing and implementing open source software is the availability of prompt, professional support from knowledgable individuals. We eliminate that barrier for pfSense users.</p>
+				<p>We offer support contracts, as well as related consulting and custom development services.</p>
+				<p>We also have created and maintain dozens of custom branded network security appliances for OEMs in hospitality, networking, security, industrial control systems, and other industries.</p>
+		  </div>
+		  <div id="our-services">
+			<div id="services">
+				<!-- support services -->
+				<h3>Support Services</h3>
+				<div>
+					<p>Electric Sheep Fencing offers commercial support for pfSense and m0n0wall to a worldwide customer base.</p>
+					<h4>Support Benefits</h4>
+					<p>Support subscribers receive a number of benefits not afforded to other users of the open source projects.</p>
+					<ul>
+						<li>Guaranteed prompt, professional, personal attention to all questions and support issues. Typical response time under 3 hours for questions submitted between 8:00 AM and midnight US Eastern time, with immediate accessibility 24/7/365 via phone support.</li>
+						<li>Ability to get detailed documentation on a specific feature or area upon request.</li>
+						<li>Fast bug fixes for most problems you encounter. (some may be time consuming to resolve)</li>
+						<li>Significantly more input on future direction of the project - though we cannot make any promises that a specific request will be fulfilled, feature requests from customers receive much higher priority.</li>
+					</ul>
+					<h4>Support Packages</h4>
+					<p>For more information, see the <a href="https://portal.pfsense.org/index.php/support-subscription">Support Subscription</a> on the pfSense Portal.</p> 
+				</div>
+				<!-- consulting services -->
+				<h3>Consulting Services</h3>
+				<div>
+					<p>We offer the following professional services and more as part of the <a href="https://portal.pfsense.org/index.php/subscribe-for-access">pfSense Subscriptions</a> available on the pfSense portal.</p>
+					<p><strong>Firewall Ruleset Reviews</strong></p>
+					<p>Is your firewall ruleset configured for optimal security in your environment? An outside assessment by a professional with years of firewall configuration and auditing experience is an easy, low cost way to obtain recommendations for improving your security posture. This service is not limited to m0n0wall and pfSense firewalls, our professionals are experienced with Cisco routers, PIX and ASA firewalls, Microsoft ISA Server, Check Point, and Sonicwall, amongst many other vendors.</p>
+					<p><strong>Vulnerability Assessment</strong></p><p>A more recognizable term for many people is "penetration testing." Though penetration testing is different from vulnerability assessments it's often incorrectly marketed as penetration testing because of the recognition of that term. A vulnerability assessment is well defined on Wikipedia as "the process of identifying and quantifying vulnerabilities in a system." The scope of such testing varies from one engagement to another, but most commonly it involves assessing all perimeter Internet-accessible hosts on an organization's network (at a minimum).</p>
+					<p><strong>Network Design</strong></p>
+					<p>A secure network infrastructure starts with a sound network design. Whether you have an existing network or are in the process of planning a new network, we can assist with the design of your infrastructure. We specialize in network perimeters, but possess the expertise to assist in most all network environments.</p>
+				</div>
+				<!-- consulting services -->
+				<h3>Development Services</h3>
+				<div>
+					<p>Electric Sheep Fencing develops solutions for customers, usually extending upon the base features of m0n0wall or pfSense, or customizing an existing feature. We encourage project sponsors to permit us to release the code under the BSD license as part of the project, however we also develop proprietary code/features (at a higher cost). </p><p>We employ only developers with commit access to m0n0wall and/or pfSense, because we are familiar with their work and they are familiar with the existing code base. This compensation also helps keep our developers motivated to continue working on the open source projects on a volunteer basis. </p><p>If you have a development project in mind, get in touch with us. Costs will vary greatly depending on the amount of effort required, whether or not we can open source the resultant work, and how much interest it is to the open source community as a whole. Contact <a href="mailto:cmb@electricsheepfencing.com">Chris Buechler</a> to discuss your specific project. </p>
+				</div>
+			</div>
+		  </div>
+		  <div id="our-policies">
+			<div id="policies">
+				<!-- privacy policy -->
+				<h3>Privacy Policy</h3>
+				<div>
+					<h4>Our Commitment To Privacy</h4>
+					<p>Your privacy is important to us. To better protect your privacy we provide this notice explaining our online information practices and the choices you can make about the way your information is collected and used. To make this notice easy to find, we make it available on our homepage and at every point where personally identifiable information may be requested. </p>
+					<h4>The Information We Collect</h4>
+					<p>This notice applies to all information collected or submitted on the Electric Sheep Fencing website. On some pages, you can order products, make requests, and register to receive materials. The types of personal information collected at these pages are: Individual’s Name Company Name Address Email address Phone number Credit/Debit Card Information </p>
+					<h4>The Way We Use Information</h4>
+					<p>We use the information you provide about yourself when placing an order only to complete that order and provide the services you have purchased. We do not share this information with outside parties except to the extent necessary to complete that order. We use the information you provide about someone else when placing an order only to ship the product and to confirm delivery. We do not share this information with outside parties except to the extent necessary to complete that order. We use return email addresses to answer the email we receive. Such addresses are not used for any other purpose and are not shared with outside parties. You can register with our website if you would like to receive our catalog as well as updates on our new products and services. Information you submit on our website will not be used for this purpose unless you fill out the registration form. We use non-identifying and aggregate information to better design our website. For example, we may tell an advertiser that X number of individuals visited a certain area on our website, or that Y number of men and Z number of women filled out our registration form, but we would not disclose anything that could be used to identify those individuals. Finally, we never use or share the personally identifiable information provided to us online in ways unrelated to the ones described above without also providing you an opportunity to opt-out or otherwise prohibit such unrelated uses. </p>
+					<h4>Our Commitment To Data Security </h4>
+					<p>To prevent unauthorized access, maintain data accuracy, and ensure the correct use of information, we have put in place appropriate physical, electronic, and managerial procedures to safeguard and secure the information we collect online.</p>
+					<h4>Our Commitment To Children's Privacy</h4>
+					<p>Protecting the privacy of the very young is especially important. For that reason, we never collect or maintain information at our website from those we actually know are under 13, and no part of our website is structured to attract anyone under 13.</p>
+					<h4>How You Can Access Or Correct Your Information</h4>
+					<p>You can access all your personally identifiable information that we collect online and maintain by emailing <a href="mailto:info@electricsheepfencing.com">info@electricsheepfencing.com</a>. We use this procedure to better safeguard your information. You can correct factual errors in your personally identifiable information by sending us a request that credibly shows error. To protect your privacy and security, we will also take reasonable steps to verify your identity before granting access or making corrections. </p>
+					<h4>How To Contact Us</h4>
+					<p>Should you have other questions or concerns about these privacy policies, please call us at 1-502-442-7080 or send us an email at <a href="mailto:info@electricsheepfencing.com">info@electricsheepfencing.com</a>.</p>
+				</div>
+				<!-- refund policy -->
+				<h3>Refund Policy</h3>
+				<div>
+					<p>We offer a 100% satisfaction guarantee for the first 30 days of service. If for any reason you are not satisfied with the service we are providing within the first 30 days, at your request we will cancel your subscription and refund the full cost.</p>
+					<p>If at any time you have any serious issue caused by the m0n0wall or pfSense software that we cannot resolve, we will offer you the option of canceling your subscription and will refund your payment pro-rated by months of service already provided.</p>
+					<p>After 30 days, no refunds will be given unless the Software Support Agreement is violated by Electric Sheep Fencing and the customer wishes to cancel their subscription.</p>
+				</div>
+				<!-- shipping poilicy -->
+				<h3>Shipping Policy</h3>
+				<div>
+					<p>At this time, Electric Sheep Fencing provides only services to our client base, therefore there is no shipping involved. This page is a requirement of our credit card merchant account.</p>
+				</div>
+			</div>
+		  </div>
+		  <div id="contact-us">
+			<h3>Contact Us</h3>
+			<p><strong>Email: </strong><a href="mailto:info@electricsheepfencing.com">info@electricsheepfencing.com</a></p>
+			<p><strong>Phone: </strong>1-502-442-7080<br />
+			<strong>Toll free: </strong>888-880-6803 (US and Canada)</p>
+			<p><strong>Mailing address:</strong></p>
+			<p>3800 N Lamar Blvd<br />Suite 730-203<br />Austin, TX 78756<br />USA</p>
+		  </div>
+		  <div id="about-us">
+		    <h3>About Us</h3>
+			<p>We're the people behind the pfSense project, and have been providing commercial support, development and related services since 2007. With significant growth every year, we've since grown to become the world's leading provider of BSD-based network and security appliances, as well as significantly growing the success and install base of pfSense.</p>
+			<p>We relocated headquarters to Austin, Texas in 2012 where we have an office and are further expanding the company.</p>
+			<p>Our support and consulting staff are based in the US, with development staff all around the world.</p>
+		  </div>
+		</div>
+		<div id="footer">
+			Copyright &#169; 2013 Electric Sheep Fencing.<br />
+			CC Images courtesy of: <a href="http://www.flickr.com/photos/oligofree/7850060708/">Radoslav Minchev</a> && <a href="http://www.flickr.com/photos/zooboing/5376513937/">Patrick Hoesly</a>
+		</div>
+	</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-39061468-1']);
+  _gaq.push(['_trackPageview', location.pathname + location.search + location.hash]);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(ga, s);
+  })();
+</script>	
+</body>
+</html>

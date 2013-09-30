@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="iso-8859-1">
+
+<meta name="author" content="CERT.br" />
+<meta name="description" content="Segurança de redes" />
+<meta name="keywords" content="segurança, Internet, prevenção, redes, riscos, AP, interceptação, tráfego, banda larga, Wi-Fi, WEP, WPA, WPA-2, SSID, modem, ADSL, WAN, WPS, bluetooth, 3G, 4G" />
+
+<link rel="stylesheet" type="text/css" media="screen" href="/css/cartilha.css" />
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+<script type="text/javascript" src="/js/modernizr.js"></script>
+
+<title>Cartilha de Segurança -- Segurança de redes</title>
+
+</head>
+
+<body>
+
+<!-- ************************************************************ -->
+<!-- ******* Begin header *************************************** -->
+
+<header>
+<section id="header-cert">
+
+<h1>
+<a href="http://www.cert.br/">
+<img src="/images/logo_cert.png" alt="CERT.br" />
+</a>
+</h1>
+<span><a href="http://www.cert.br/">Centro de Estudos, Resposta e
+Tratamento de<br />Incidentes de Segurança no Brasil</a></span>
+
+<div id="header-cgi-nic">
+<a href="http://www.nic.br/" title="Núcleo de Informação e Coordenação do Ponto BR">
+<img src="/images/logo_nic.png" alt="NIC.br" class="logo-nic" />
+</a>
+<a href="http://www.cgi.br/" title="Comitê Gestor da Internet no Brasil">
+<img src="/images/logo_cgi.png" alt="CGI.br" />
+</a>
+</div>
+
+</section>
+
+<section class="topo">
+
+<h2>
+<a href="/" accesskey="1">
+<img src="/images/logo_cartilha.png"
+alt="Cartilha de Segurança para Internet" class="logo-cartilha" />
+</a>
+</h2>
+
+<nav>
+<ul>
+  <li><a href="/">Início</a></li>
+  <li><a href="/livro/">Livro</a></li>
+  <li><a href="/fasciculos/">Fascículos</a></li>
+  <li><a href="/sobre/">Sobre</a></li>
+</ul>
+</nav>
+
+<form method="get" class="search-form" action="http://www.google.com/search" >
+  <input type="text" value="Buscar" name="q" size="20"
+         class="searchInput" />
+  <input type="hidden" name="sitesearch" value="cartilha.cert.br" />
+  <input type="image" name="submit" class="searchButton"
+         src="/images/button_search.png" alt="Search" />
+</form>
+
+<span class="ir-conteudo"><a href="#content" accesskey="2">Ir para o
+conteúdo</a></span>
+
+<div class="breadcrumb">
+  Você está em: <a href="/">Cartilha</a> &gt;
+  <strong>13. Segurança de redes</strong>
+</div>
+
+</section>
+</header>
+
+<!-- ******* End header ***************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin sumario ************************************** -->
+
+<aside>
+  <nav>
+    <div class="menu-navigation-container">
+      <p>Sumário</p>
+      <ul id="menu-navigation" class="menu">
+        <li><a href="/seguranca/">1. Segurança na Internet</a></li>
+        <li><a href="/golpes/">2. Golpes na Internet</a></li>
+        <li><a href="/ataques/">3. Ataques na Internet</a></li>
+        <li><a href="/malware/">4. Códigos Maliciosos (Malware)</a></li>
+        <li><a href="/spam/">5. Spam</a></li>
+        <li><a href="/riscos/">6. Outros riscos</a></li>
+        <li><a href="/mecanismos/">7. Mecanismos de segurança</a></li>
+        <li><a href="/senhas/">8. Contas e senhas</a></li>
+        <li><a href="/criptografia/">9. Criptografia</a></li>
+        <li><a href="/uso-seguro/">10. Uso seguro da Internet</a></li>
+        <li><a href="/privacidade/">11. Privacidade</a></li>
+        <li><a href="/computadores/">12. Segurança de computadores</a></li>
+        <li class="on"><a href="/redes/">13. Segurança de redes</a></li>
+        <li><a href="/dispositivos-moveis/">14. Segurança em dispositivos móveis</a></li>
+        <li><a href="/glossario/">Glossário</a></li>
+      </ul>
+    </div>
+  </nav>
+</aside>
+
+<!-- ******* End sumario **************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin conteudo ************************************* -->
+
+<a name="content"></a>
+
+<!-- ************************************************************ -->
+
+<article id="chapter_13">
+
+<div class="posicaoConteudo">
+<div class="conteudoLateralEsquerda">
+<div class="conteudoLateralDireita">
+<div class="inicioConteudo"></div>
+<div class="conteudo">
+
+<h3>
+<a name="13"></a>
+13. Segurança de redes
+</h3>
+
+  <img class="ilustracao-r" src="/images/situacoes/seguranca-redes.jpg"
+       alt="[Segurança de redes]" title="Segurança de redes" />
+
+<p>
+Inicialmente, grande parte dos acessos à Internet eram realizados por
+meio de conexão discada com velocidades que dificilmente ultrapassavam
+56 Kbps. O usuário, de posse de um <i>modem</i> e de uma linha
+telefônica, se conectava ao provedor de acesso e mantinha esta conexão
+apenas pelo tempo necessário para realizar as ações que dependessem da
+rede.
+</p>
+
+<p>
+Desde então, grandes avanços ocorreram e novas alternativas surgiram,
+sendo que atualmente grande parte dos computadores pessoais ficam
+conectados à rede pelo tempo em que estiverem ligados e a velocidades
+que podem chegar a até 100 Mbps<a name="sup_footnote001"></a><a
+href="#footnote001" class="footnote">1</a>. Conexão à Internet também
+deixou de ser um recurso oferecido apenas a computadores, visto a grande
+quantidade de equipamentos com acesso à rede, como dispositivos móveis,
+TVs, eletrodomésticos e sistemas de áudio.
+</p>
+
+<p>
+Independente do tipo de tecnologia usada, ao conectar o seu computador à
+rede ele pode estar sujeito a ameaças, como:
+</p>
+
+<dl>
+
+  <dd> <b>Furto de dados:</b> informações pessoais e outros dados podem
+  ser obtidos tanto pela interceptação de tráfego como pela exploração
+  de possíveis vulnerabilidades existentes em seu computador.
+
+  <dd> <b>Uso indevido de recursos:</b> um atacante pode ganhar acesso a
+  um computador conectado à rede e utilizá-lo para a prática de
+  atividades maliciosas, como obter arquivos, disseminar <i>spam</i>,
+  propagar códigos maliciosos, desferir ataques e esconder a real
+  identidade do atacante.
+
+  <dd> <b>Varredura:</b> um atacante pode fazer varreduras na rede, a
+  fim de descobrir outros computadores e, então, tentar executar ações
+  maliciosas, como ganhar acesso e explorar vulnerabilidades (mais
+  detalhes na Seção <a href="/ataques/#3.2">3.2</a> do Capítulo <a
+  href="/ataques/">Ataques na Internet</a>).
+
+  <dd> <b>Interceptação de tráfego:</b> um atacante, que venha a ter
+  acesso à rede, pode tentar interceptar o tráfego e, então, coletar
+  dados que estejam sendo transmitidos sem o uso de criptografia (mais
+  detalhes na Seção <a href="/ataques/#3.4">3.4</a> do Capítulo <a
+  href="/ataques/">Ataques na Internet</a>).
+
+  <dd> <b>Exploração de vulnerabilidades:</b> por meio da exploração de
+  vulnerabilidades, um computador pode ser infectado ou invadido e, sem
+  que o dono saiba, participar de ataques, ter dados indevidamente
+  coletados e ser usado para a propagação de códigos maliciosos. Além
+  disto, equipamentos de rede (como <i>modems</i> e roteadores)
+  vulneráveis também podem ser invadidos, terem as configurações
+  alteradas e fazerem com que as conexões dos usuários sejam
+  redirecionadas para <i>sites</i> fraudulentos.
+
+  <dd> <b>Ataque de negação de serviço:</b> um atacante pode usar a rede
+  para enviar grande volume de mensagens para um computador, até
+  torná-lo inoperante ou incapaz de se comunicar.
+
+  <dd> <b>Ataque de força bruta:</b> computadores conectados à rede e
+  que usem senhas como método de autenticação, estão expostos a ataques
+  de força bruta. Muitos computadores, infelizmente, utilizam, por
+  padrão, senhas de tamanho reduzido e/ou de conhecimento geral dos
+  atacantes.
+
+  <dd> <b>Ataque de personificação:</b> um atacante pode introduzir ou
+  substituir um dispositivo de rede para induzir outros a se conectarem
+  a este, ao invés do dispositivo legítimo, permitindo a captura de
+  senhas de acesso e informações que por ele passem a trafegar.
+
+</dl>
+
+<p>
+Nas próximas seções são apresentados os cuidados gerais e independentes
+de tecnologia que você ter ao usar redes, os tipos mais comuns de acesso
+à Internet, os riscos adicionais que eles podem representar e algumas
+dicas de prevenção.
+</p>
+
+<div class="textoFootnote">
+<a name="footnote001"></a>
+<strong>[1]</strong> Estes dados baseiam-se nas tecnologias disponíveis
+no momento de escrita desta Cartilha.
+<span class="voltarTopo"><a href="#sup_footnote001">voltar</a></span>
+<br />
+</div>
+
+<!-- ************************************************************ -->
+
+<section id="section_13_1">
+
+<h4>
+<a name="13.1"></a>
+13.1. Cuidados gerais
+</h4>
+
+<p>
+Alguns cuidados que você deve tomar ao usar redes, independentemente da
+tecnologia, são:
+</p>
+
+<ul>
+
+  <li> mantenha seu computador atualizado, com as versões mais recentes
+  e com todas as atualizações aplicadas (mais detalhes no Capítulo <a
+  href="/computadores/">Segurança de computadores</a>);
+
+  <li> utilize e mantenha atualizados mecanismos de segurança, como
+  programa <i>antimalware</i> e <i>firewall</i> pessoal (mais detalhes
+  no Capítulo <a href="/mecanismos/">Mecanismos de segurança</a>);
+
+  <li> seja cuidadoso ao elaborar e ao usar suas senhas (mais detalhes
+  no Capítulo <a href="/senhas/">Contas e senhas</a>);
+
+  <li> utilize conexão segura sempre que a comunicação envolver dados
+  confidenciais (mais detalhes na Seção <a
+  href="/uso-seguro/#10.1">10.1</a> do Capítulo <a
+  href="/uso-seguro/">Uso seguro da Internet</a>);
+
+  <li> caso seu dispositivo permita o compartilhamento de recursos,
+  desative esta função e somente a ative quando necessário e usando
+  senhas difíceis de serem descobertas.
+
+</ul>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_13_2">
+
+<h4>
+<a name="13.2"></a>
+13.2. Wi-Fi
+</h4>
+
+<p>
+Wi-Fi (<i><b>Wi</b>reless <b>Fi</b>delity</i>) é um tipo de rede local
+que utiliza sinais de rádio para comunicação. Possui dois modos básicos
+de operação:
+</p>
+
+<dl>
+
+  <dd> <b>Infraestrutura:</b> normalmente o mais encontrado, utiliza um
+  concentrador de acesso (<i>Access Point</i> - AP) ou um roteador
+  <i>wireless</i>.
+
+  <dd> <b>Ponto a ponto (<i>ad-hoc</i>):</b> permite que um pequeno
+  grupo de máquinas se comunique diretamente, sem a necessidade de um
+  AP.
+
+</dl>
+
+<p>
+Redes Wi-Fi se tornaram populares pela mobilidade que oferecem e pela
+facilidade de instalação e de uso em diferentes tipos de ambientes.
+Embora sejam bastante convenientes, há alguns riscos que você deve
+considerar ao usá-las, como:
+</p>
+
+<ul>
+
+  <li> por se comunicarem por meio de sinais de rádio, não há a
+  necessidade de acesso físico a um ambiente restrito, como ocorre com
+  as redes cabeadas. Devido a isto, os dados transmitidos por clientes
+  legítimos podem ser interceptados por qualquer pessoa próxima com um
+  mínimo de equipamento (por exemplo, um <i>notebook</i> ou
+  <i>tablet</i>);
+
+  <li> por terem instalação bastante simples, muitas pessoas as instalam
+  em casa (ou mesmo em empresas, sem o conhecimento dos administradores
+  de rede), sem qualquer cuidado com configurações mínimas de segurança,
+  e podem vir a ser abusadas por atacantes, por meio de uso não
+  autorizado ou de "sequestro"<a name="sup_footnote002"></a><a
+  href="#footnote002" class="footnote">2</a>;
+
+  <li> em uma rede Wi-Fi pública (como as disponibilizadas em
+  aeroportos, hotéis e conferências) os dados que não estiverem
+  criptografados podem ser indevidamente coletados por atacantes;
+
+  <li> uma rede Wi-Fi aberta pode ser propositadamente disponibilizada
+  por atacantes para atrair usuários, a fim de interceptar o tráfego (e
+  coletar dados pessoais) ou desviar a navegação para <i>sites</i>
+  falsos.
+
+</ul>
+
+<p>
+Para resolver alguns destes riscos foram desenvolvidos mecanismos de
+segurança, como:
+</p>
+
+<dl>
+
+  <dd> <b>WEP (<i>Wired Equivalent Privacy</i>):</b> primeiro mecanismo
+  de segurança a ser lançado. É considerado frágil e, por isto, o uso
+  deve ser evitado.
+
+  <dd> <b>WPA (<i>Wi-Fi Protected Access</i>):</b> mecanismo
+  desenvolvido para resolver algumas das fragilidades do WEP. É o nível
+  mínimo de segurança que é recomendado.
+
+  <dd> <b>WPA-2:</b> similar ao WPA, mas com criptografia considerada
+  mais forte. É o mecanismo mais recomendado.
+
+</dl>
+
+<p>
+<b>Cuidados a serem tomados:</b>
+</p>
+
+<ul>
+
+  <li> habilite a interface de rede Wi-Fi do seu computador ou
+  dispositivo móvel somente quando usá-la e desabilite-a após o uso;
+
+  <li> desabilite o modo <i>ad-hoc</i> (use-o apenas quando necessário e
+  desligue-o quando não precisar). Alguns equipamentos permitem inibir
+  conexão com redes <i>ad-hoc</i>, utilize essa função caso o
+  dispositivo permita;
+
+  <li> use, quando possível, redes que oferecem autenticação e
+  criptografia entre o cliente e o AP (evite conectar-se a redes abertas
+  ou públicas, sem criptografia, especialmente as que você não conhece a
+  origem);
+
+  <li> considere o uso de criptografia nas aplicações, como por exemplo,
+  PGP para o envio de <i>e-mails</i>, SSH para conexões remotas ou ainda
+  VPNs;
+
+  <li> evite o acesso a serviços que não utilizem conexão segura
+  ("https");
+
+  <li> evite usar WEP, pois ele apresenta vulnerabilidades que, quando
+  exploradas, permitem que o mecanismo seja facilmente quebrado;
+
+  <li> use WPA2 sempre que disponível (caso seu dispositivo não tenha
+  este recurso, utilize no mínimo WPA).
+
+</ul>
+
+<p>
+<b>Cuidados ao montar uma rede sem fio doméstica:</b>
+</p>
+
+<ul>
+
+  <li> posicione o AP longe de janelas e próximo ao centro de sua casa a
+  fim de reduzir a propagação do sinal e controlar a abrangência
+  (conforme a potência da antena do AP e do posicionamento no recinto,
+  sua rede pode abranger uma área muito maior que apenas a da sua
+  residência e, com isto, ser acessada sem o seu conhecimento ou ter o
+  tráfego capturado por vizinhos ou pessoas que estejam nas
+  proximidades);
+
+  <li> altere as configurações padrão que acompanham o seu AP. Alguns
+  exemplos são:
+
+  <ul>
+
+    <li> altere as senhas originais, tanto de administração do AP como
+    de autenticação de usuários;
+
+    <li> assegure-se de utilizar senhas bem elaboradas e difíceis de
+    serem descobertas (mais detalhes no Capítulo <a
+    href="/senhas/">Contas e senhas</a>);
+
+    <li> altere o SSID (<i><b>S</b>erver <b>S</b>et
+    <b>ID</b>entifier</i>);
+
+    <li> ao configurar o SSID procure não usar dados pessoais e nem
+    nomes associados ao fabricante ou modelo, pois isto facilita a
+    identificação de características técnicas do equipamento e pode
+    permitir que essas informações sejam associadas a possíveis
+    vulnerabilidades existentes;
+
+    <li> desabilite a difusão (<i>broadcast</i>) do SSID, evitando que o
+    nome da rede seja anunciado para outros dispositivos;
+
+    <li> desabilite o gerenciamento do AP via rede sem fio, de tal forma
+    que, para acessar funções de administração, seja necessário
+    conectar-se diretamente a ele usando uma rede cabeada. Desta
+    maneira, um possível atacante externo (via rede sem fio) não será
+    capaz de acessar o AP para promover mudanças na configuração.
+
+  </ul>
+
+  <li> não ative WEP, pois ele apresenta vulnerabilidades que, quando
+  exploradas, permitem que o mecanismo seja facilmente quebrado;
+
+  <li> utilize WPA2 ou, no mínimo, WPA;
+
+  <li> caso seu AP disponibilize WPS (<i><b>W</b>i-Fi <b>P</b>rotected
+  <b>S</b>etup</i>), desabilite-o a fim de evitar acessos indevidos;
+
+  <li> desligue seu AP quando não usar sua rede.
+
+</ul>
+
+<div class="textoFootnote">
+<a name="footnote002"></a>
+<strong>[2]</strong> Por sequestro de rede Wi-Fi entende-se uma situação
+em que um terceiro ganha acesso à rede e altera configurações no AP para
+que somente ele consiga acessá-la.
+<span class="voltarTopo"><a href="#sup_footnote002">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_13_3">
+
+<h4>
+<a name="13.3"></a>
+13.3. <i>Bluetooth</i>
+</h4>
+
+<p>
+<i>Bluetooth</i> é um padrão para tecnologia de comunicação de dados e
+voz, baseado em radiofrequência e destinado à conexão de dispositivos em
+curtas distâncias, permitindo a formação de redes pessoais sem fio. Está
+disponível em uma extensa variedade de equipamentos, como dispositivos
+móveis, videogames, <i>mouses</i>, teclados, impressoras, sistemas de
+áudio, aparelhos de GPS e monitores de frequência cardíaca. A quantidade
+de aplicações também é vasta, incluindo sincronismo de dados entre
+dispositivos, comunicação entre computadores e periféricos e
+transferência de arquivos.
+</p>
+
+<p>
+Embora traga muitos benefícios, o uso desta tecnologia traz também
+riscos, visto que está sujeita às várias ameaças que acompanham as redes
+em geral, como varredura, furto de dados, uso indevido de recursos,
+ataque de negação de serviço, interceptação de tráfego e ataque de força
+bruta.
+</p>
+
+<p>
+Um agravante, que facilita a ação dos atacantes, é que muitos
+dispositivos vêm, por padrão, com o <i>bluetooth</i> ativo. Desta forma,
+muitos usuários não percebem que possuem este tipo de conexão ativa e
+não se preocupam em adotar uma postura preventiva.
+</p>
+
+<p>
+<b>Cuidados a serem tomados:</b>
+</p>
+
+<ul>
+
+  <li> mantenha as interfaces <i>bluetooth</i> inativas e somente as
+  habilite quando fizer o uso;
+
+  <li> configure as interfaces <i>bluetooth</i> para que a opção de
+  visibilidade seja "Oculto" ou "Invisível", evitando que o nome do
+  dispositivo seja anunciado publicamente. O dispositivo só deve ficar
+  rastreável quando for necessário autenticar-se a um novo dispositivo
+  ("pareamento");
+
+  <li> altere o nome padrão do dispositivo e evite usar na composição do
+  novo nome dados que identifiquem o proprietário ou características
+  técnicas do dispositivo;
+
+  <li> sempre que possível, altere a senha (PIN) padrão do dispositivo e
+  seja cuidadoso ao elaborar a nova (mais detalhes no Capítulo <a
+  href="/senhas/">Contas e senhas</a>);
+
+  <li> evite realizar o pareamento em locais públicos, reduzindo as
+  chances de ser rastreado ou interceptado por um atacante;
+
+  <li> fique atento ao receber mensagens em seu dispositivo solicitando
+  autorização ou PIN (não responda à solicitação se não tiver certeza
+  que está se comunicando com o dispositivo correto);
+
+  <li> no caso de perda ou furto de um dispositivo <i>bluetooth</i>,
+  remova todas as relações de confiança já estabelecidas com os demais
+  dispositivos que possui, evitando que alguém, de posse do dispositivo
+  roubado/perdido, possa conectar-se aos demais.
+
+</ul>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_13_4">
+
+<h4>
+<a name="13.4"></a>
+13.4. Banda larga fixa
+</h4>
+
+<p>
+Banda larga fixa é um tipo de conexão à rede com capacidade acima
+daquela conseguida, usualmente, em conexão discada via sistema
+telefônico. Não há uma definição de métrica de banda larga que seja
+aceita por todos, mas é comum que conexões deste tipo sejam permanentes
+e não comutadas, como as discadas. Usualmente, compreende conexões com
+mais de 100 Kbps, porém esse limite é muito variável de país para país e
+de serviço para serviço<a name="sup_footnote003"></a><a
+href="#footnote003" class="footnote">3</a>.
+</p>
+
+<p>
+Computadores conectados via banda larga fixa, geralmente, possuem boa
+velocidade de conexão, mudam o endereço IP com pouca frequência e ficam
+conectados à Internet por longos períodos. Por estas características,
+são visados por atacantes para diversos propósitos, como repositório de
+dados fraudulentos, para envio de <i>spam</i> e na realização de ataques
+de negação de serviço.
+</p>
+
+<p>
+O seu equipamento de banda larga (<i>modem</i> ADSL, por exemplo) também
+pode ser invadido, pela exploração de vulnerabilidades ou pelo uso de
+senhas fracas e/ou padrão (facilmente encontradas na Internet). Caso um
+atacante tenha acesso ao seu equipamento de rede, ele pode alterar
+configurações, bloquear o seu acesso ou desviar suas conexões para
+<i>sites</i> fraudulentos.
+</p>
+
+<p>
+<b>Cuidados a serem tomados:</b>
+</p>
+
+<ul>
+
+  <li> altere, se possível, a senha padrão do equipamento de rede
+  (verifique no contrato se isto é permitido e, caso seja, guarde a
+  senha original e lembre-se de restaurá-la quando necessário);
+
+  <li> desabilite o gerenciamento do equipamento de rede via Internet
+  (WAN), de tal forma que, para acessar funções de administração
+  (interfaces de configuração), seja necessário conectar-se diretamente
+  a ele usando a rede local (desta maneira, um possível atacante externo
+  não será capaz de acessá-lo para promover mudanças na configuração).
+
+</ul>
+
+<div class="textoFootnote">
+<a name="footnote003"></a>
+<strong>[3]</strong> Fonte: <a
+href="http://www.cetic.br/">http://www.cetic.br/</a>.
+<span class="voltarTopo"><a href="#sup_footnote003">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_13_5">
+
+<h4>
+<a name="13.5"></a>
+13.5. Banda Larga Móvel
+</h4>
+
+<p>
+A banda larga móvel refere-se às tecnologias de acesso sem fio, de longa
+distância, por meio da rede de telefonia móvel, especialmente 3G e 4G<a
+name="sup_footnote004"></a><a href="#footnote004"
+class="footnote">4</a>.
+</p>
+
+<p>
+Este tipo de tecnologia está disponível em grande quantidade de
+dispositivos móveis (como celulares, <i>smartphones</i> e
+<i>tablets</i>) e é uma das responsáveis pela popularização destes
+dispositivos e das redes sociais. Além disto, também pode ser adicionada
+a computadores e dispositivos móveis que ainda não tenham esta
+capacidade, por meio do uso de <i>modems</i> específicos.
+</p>
+
+<p>
+Assim como no caso da banda larga fixa, dispositivos com suporte a este
+tipo de tecnologia podem ficar conectados à Internet por longos períodos
+e permitem que o usuário esteja <i>online</i>, independente de
+localização. Por isto, são bastante visados por atacantes para a prática
+de atividades maliciosas.
+</p>
+
+<p>
+<b>Cuidados a serem tomados:</b>
+</p>
+
+<ul>
+
+  <li> aplique os cuidados básicos de segurança, apresentados na Seção
+  <a href="#13.1">13.1</a>.
+
+</ul>
+
+<div class="textoFootnote">
+<a name="footnote004"></a>
+<strong>[4]</strong> 3G e 4G correspondem, respectivamente, à terceira e
+quarta gerações de padrões de telefonia móvel definidos pela
+<i>International Telecommunication Union - ITU</i>.
+<span class="voltarTopo"><a href="#sup_footnote004">voltar</a></span>
+<br />
+</div>
+</section>
+
+</div>
+</div>
+</div>
+</div>
+
+</article>
+
+<!-- ******* End content **************************************** -->
+<!-- ************************************************************ -->
+
+<div id="rodape">
+  <ul>
+    <li><a href="/cc/">Licença</a></li>
+    <li><a href="/creditos/">Créditos</a></li>
+    <li><a href="/avisos/">Avisos</a></li>
+    <li><a href="/downloads/">Downloads</a></li>
+    <li class="last"><a href="/divulgue/">Divulgue</a></li>
+  </ul>
+  <p>
+    <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/br/">
+    <img src="/images/ic_creativeCommons.png"
+    alt="Licença Creative Commons CERT.br">
+    </a>
+    Cartilha de Segurança para Internet - CERT.br - $Date: 2012/06/03 01:41:42 $
+  </p>
+    <div class="selosRodape">
+      <a href="http://ipv6.br/">
+      <img src="/images/ic_ipv6.png"
+      alt="Site acessível via IPv6" title="Site acessível via IPv6">
+      </a>
+      <a href="http://jigsaw.w3.org/css-validator">
+      <img src="/images/ic_css.png" alt="CSS Válido" title="CSS Válido">
+      </a>
+      <img src="/images/ic_html5.png" alt="Desenvolvido em HTML 5"
+      title="Desenvolvido em HTML 5">
+    </div>
+</div>
+
+</body>
+</html>

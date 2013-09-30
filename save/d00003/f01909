@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [ipv6hackers] Operational ICMPv6 Filtering
+   </TITLE>
+   <LINK REL="Index" HREF="index.html" >
+   <LINK REL="made" HREF="mailto:ipv6hackers%40lists.si6networks.com?Subject=Re%3A%20%5Bipv6hackers%5D%20Operational%20ICMPv6%20Filtering&In-Reply-To=%3C985CFAA08F7C7E42865C86D91E6E2E5741018AC886%40EMV62-UKRD.domain1.systemhost.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000574.html">
+   <LINK REL="Next"  HREF="000576.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[ipv6hackers] Operational ICMPv6 Filtering</H1>
+    <B>daniel.bartram at bt.com</B> 
+    <A HREF="mailto:ipv6hackers%40lists.si6networks.com?Subject=Re%3A%20%5Bipv6hackers%5D%20Operational%20ICMPv6%20Filtering&In-Reply-To=%3C985CFAA08F7C7E42865C86D91E6E2E5741018AC886%40EMV62-UKRD.domain1.systemhost.net%3E"
+       TITLE="[ipv6hackers] Operational ICMPv6 Filtering">daniel.bartram at bt.com
+       </A><BR>
+    <I>Thu May 31 16:33:22 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000574.html">[ipv6hackers] Operational ICMPv6 Filtering
+</A></li>
+        <LI>Next message: <A HREF="000576.html">[ipv6hackers] Operational ICMPv6 Filtering
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#575">[ date ]</a>
+              <a href="thread.html#575">[ thread ]</a>
+              <a href="subject.html#575">[ subject ]</a>
+              <a href="author.html#575">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>So this prompted me to do a bit of research into ICMPv6 Type 4, which I probably should have done earlier.
+
+RFC4443:
+If an IPv6 node processing a packet finds a problem with a field in the IPv6 header or extension headers such that it cannot complete processing the packet, it MUST discard the packet and SHOULD originate an ICMPv6 Parameter Problem message to the packet's source, indicating the type and location of the problem.
+
+Now interesting points here. The router must discard a problematic packet after realising it can't process it, fair enough. But it SHOULD originate an ICMPv6 type 4 message - it doesn't necessarily have to. So by RFC4890 stating it MUST not be dropped, is not entirely correct. In fact, I'd prefer it not to generate a message. Say a rouge user is sending randomly constructed ICMPv6 packets into a network, and they finally send one that a node returns a type 4 packet. Now the rouge user knows they've found a packet structure the node cannot process so not only can they now flood this router with this type of packet (that it has to process to figure out it's not valid), it now also creates additional network bandwidth by constantly sending these type 4's back - almost like a self-inflicted DoS. 
+
+So must I still allow ICMPv6 type 4's through?
+
+Dan.
+
+
+-----Original Message-----
+From: <A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">ipv6hackers-bounces at lists.si6networks.com</A> [mailto:<A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">ipv6hackers-bounces at lists.si6networks.com</A>] On Behalf Of Simon Perreault
+Sent: 31 May 2012 15:06
+To: <A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">ipv6hackers at lists.si6networks.com</A>
+Subject: Re: [ipv6hackers] Operational ICMPv6 Filtering
+
+On 2012-05-31 09:52, <A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">daniel.bartram at bt.com</A> wrote:
+&gt;<i> Granted, but hackers don't work within what the RFC's say, or on the 
+</I>&gt;<i> converse can work within exactly what they say to find 
+</I>&gt;<i> vulnerabilities. If I don't know or need what type 4 does then I will 
+</I>&gt;<i> block it until a time where I do need it or I find it did in fact 
+</I>&gt;<i> break something. Why leave it open just because something tells you 
+</I>&gt;<i> to? I'd expect an even better network engineer to make their own 
+</I>&gt;<i> rules.
+</I>
+Change &quot;type 4&quot; with &quot;type 2&quot; and the above turns into the usual reasoning for breaking PMTUD.
+
+This is why we can't have nice things.
+
+If you don't know why the RFC tell you you MUST NOT block something, then you better follow the RFC and not block it.
+
+Simon
+--
+DTN made easy, lean, and smart --&gt; <A HREF="http://postellation.viagenie.ca">http://postellation.viagenie.ca</A>
+NAT64/DNS64 open-source        --&gt; <A HREF="http://ecdysis.viagenie.ca">http://ecdysis.viagenie.ca</A>
+STUN/TURN server               --&gt; <A HREF="http://numb.viagenie.ca">http://numb.viagenie.ca</A>
+_______________________________________________
+Ipv6hackers mailing list
+<A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">Ipv6hackers at lists.si6networks.com</A>
+<A HREF="http://lists.si6networks.com/listinfo/ipv6hackers">http://lists.si6networks.com/listinfo/ipv6hackers</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000574.html">[ipv6hackers] Operational ICMPv6 Filtering
+</A></li>
+	<LI>Next message: <A HREF="000576.html">[ipv6hackers] Operational ICMPv6 Filtering
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#575">[ date ]</a>
+              <a href="thread.html#575">[ thread ]</a>
+              <a href="subject.html#575">[ subject ]</a>
+              <a href="author.html#575">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="http://lists.si6networks.com/listinfo/ipv6hackers">More information about the Ipv6hackers
+mailing list</a><br>
+</body></html>

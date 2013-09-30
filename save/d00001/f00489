@@ -1,0 +1,545 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MikroTik Routers and Wireless</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="Mikrotik develops high performance routers and wireless ISP systems, providing both hardware and software for most countries around the world."/>
+<meta name="keywords" content="mikrotik, routeros, RouterOS, mikrotikls, routerboard, mtcna, mtctce, mtcwe, mtcre, dude, winbox, wireless, router, mum, mikrotik user meeting, wifi, microtik, hotspot, server, proxy, network, firewall, dhcp, bandwidth, nat, radius, pppoe, mikrotic, software, queue, bridge, snmp, eoip, manual, interface, gateway, install, isp, software, hardware"/>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="shortcut icon" href="/img/favicon.ico" />
+<link rel="alternate" type="application/rss+xml" href="http://www.mikrotik.com/download.rss" title="RouterOS downloads feed"/>
+<style type="text/css">
+hr {
+color: #e0e6e8;
+height: 1px;
+border: 0;
+padding: 0px;
+background-color: #e0e6e8;
+margin-top: 0px;
+margin-left: 0px;
+margin-right: 0px;
+margin-bottom: 2px;
+}
+
+hr.bold{height:3px;}
+.key-cont,.key-cont-bigger,.key-cont-bigger-4ever,.simple-cont{display:block;margin-left:auto;margin-right:auto;font-family:verdana;}
+.key-cont{width:400px;}
+.key-cont-bigger{width:600px;}
+.key-cont-bigger-4ever{width:700px;}
+.simple-cont{width:400px;}
+
+.clear{margin-bottom:20px;}
+
+input,textarea,select{border:1px solid #E0E6E8;}
+input.radio{border:0px solid transparent;}
+select{font-style:Arial;font-size:11px;}
+input.submitButton{background:#fff;}
+input.submitButton:hover{border:1px solid #C2CCCF;cursor:pointer;}
+div.e-body{border:1px solid #d0d0d0;background-color:#fff;width:800px;}
+
+.e-body a,.e-body a:link, .e-body a:visited, .e-body a:active{color:#5F4D4D;text-decoration:none;}
+.e-body a:hover{color:#6F6F6F;text-decoration:underline;}
+.e-body ul{list-style-type:none;}
+.e-body ul a{font-weight:normal !important;}
+
+ul.extraList{list-style-type:square ! important;}
+p.key,ul.key,form.key{margin-left:70px;}
+
+h3.key{padding-left:70px;line-height:63px !important;margin-bottom:-10px;font-size:1.1em;color:#BEBEBF;}
+h3.normalCaption{font-size:1.3em;color:#BEBEBF;margin-top:25px;margin-bottom:35px;text-align:center;}
+
+table.keyFormClient{font-style:Arial;font-size:11px;border-collapse:collapse;text-align:left;}
+table.bord{border:1px solid #c1c1c1;}
+
+font.caption,span.caption{font-size:12px;text-align:center;}
+span.caption{width:100%;display:block;}
+
+table.table{width:400px;}
+table.keyTable{width:90%;}
+table.keyTable th,table.keyTable tr{cursor:pointer;}
+table.keyTable tr.trOver{background:#D9D9F3;}
+table.keyTable tr.trDisabl{background:#E5E5E5;}
+table.keyTable td{text-align:center;}
+table.keyTable a{margin-right:2px;text-decoration:underline;font-size:12px;}
+table.keyTable font{margin-right:2px;font-weight:bold;font-size:12px;}
+table.certificate{width:285px;}
+table.adddeposit{width:400px;}
+table.userinfo{width:500px;}
+table.userinfo td{height:30px;}
+
+table.userinfo 
+	input.inputFeald,
+	select.inputFeald,
+	textarea.inputFeald {
+width: 200px;
+}
+
+table.userinfo tr.noBorder td{border-left:hidden;border-right:hidden;}
+table.userinfo td.selected{width:60%;text-align:right;}
+
+td.none {
+/*   background-color: #F9F8F5; */
+}
+
+td.top{border-top:hidden;}
+td.bottom{border-bottom: hidden;}
+td.right{border-right:hidden;}
+td.left{border-left:hidden;}
+
+table.defaultTable{font-style:Arial;font-size:11px;border-collapse:collapse;margin-left:auto;margin-right:auto;border:1px solid #c1c1c1;}
+
+table.defaultTable tr { 
+    /*background: #f1f1f1; */
+}
+
+table.defaultTable td{text-align:center;}
+table.defaultTable th{background:#FFFFEF;font-weight:normal;}
+table.defaultTable td.selected{background:#EFEFE4;}
+table.defaultTable tr.noBorder{background-color:transparent;cursor:auto;}
+table.mainMenu{margin-left:20px;margin-right:20px;}
+table.mainMenu td.selected{background:#F4F4E7;color:#415FAF;font-weight:bold;}
+table.certificate tr.noBorder td{border-left:hidden;border-right:hidden;border-bottom:hidden;}
+table.adddeposit tr.noBorder td{border:hidden;}
+
+div.error{width:400px;background:#f9f8f5;margin-top:15px;margin-bottom:15px;border:1px solid #E0E6E8;margin-left:auto;margin-right:auto;text-align:center;}
+div.error h3{line-height:63px !important;margin-top:10px;margin-bottom:-20px;font-size:1.5em;color:#BEBEBF;}
+div.error font{font-family:Arial;font-size:15px;font-weight:bold;}
+
+h3.down1{background:url(/img/steps/step1.png) top left no-repeat !important;}
+h3.down2{background:url(/img/steps/step2.png) top left no-repeat !important;}
+h3.down3{background:url(/img/steps/step3.png) top left no-repeat !important;}
+h3.down4{background:url(/img/steps/step4.png) top left no-repeat !important;}
+h3.down5{background:url(/img/steps/step5.png) top left no-repeat !important;}
+h3.down6{background:url(/img/steps/step6.png) top left no-repeat !important;}
+h3.down1,h3.down2,h3.down3,h3.down4,h3.down5,h3.down6{height:64px;font-size:16px;position:relative;border-right:1px solid #E0E6E8;}
+
+.key-tb {
+margin-left: 34px;
+/* background-color: #f9f8f5; */
+margin-bottom: 15px;
+border-bottom: 1px solid #E0E6E8;
+border-left: 1px solid #E0E6E8;
+border-right: 1px solid #E0E6E8;
+padding: 10px 15px 1px 15px;
+}
+
+.balances-tb{background-color:#f9f8f5;margin-bottom:15px;margin-top:15px;margin-left:15px;margin-right:15px;border:1px solid #E0E6E8;}
+.key-tb form{position:relative;z-index:1;margin:-15px 0 10px 20px !important;clear:both;}
+.key-tb p{margin-left:20px !important;}
+img.image{cursor:pointer;border:none;}
+
+/* for titles */
+body div#toolTip {
+position:absolute;
+width:auto;
+background:#D1D1D1;
+border:1px solid #A1A1A1;
+padding:5px;
+z-index:1000;
+filter: alpha(opacity=70); /* opacity for ISE */
+opacity: .7;               /* opacity for normal browsers */
+text-align:left;
+min-height:1em;
+}
+body div#toolTip p{margin:0;padding:0;color:#000000;font:11px/12px verdana,arial,sans-serif;}
+body div#toolTip p em{display:block;color:#f60;margin-top:3px;font-style:normal;font-weight:bold;}
+body div#toolTip p em span{font-weight:bold;color:#fff;}
+
+body div#detbox{position:absolute;width:auto;background:#fafafa;border:1px solid #c0c0c0;padding:5px;z-index:1000;text-align:left;min-height:1em;}
+body div#detbox p{padding:0px;margin:0px;}
+input.butActive{background:#fffff0;border:1px solid #aaa;color:#004000;}
+input.butDanger{color:#800000;}
+.nav{width:120px;padding-left:5px;padding-right:5px;}
+.nav li{list-style-type:circle;}
+.ui-tabs {
+border-bottom:1px solid #66CC66;
+font-family: verdana,arial,sans-serif;
+font-size:11px;
+font-size-adjust: none;
+font-strech:normal;
+font-style:normal;
+font-variant:normal;
+line-height: normal;
+list-style-type:none;
+margin:3px 0;
+padding: 3px 10px;
+text-align:left;
+}
+.ui-tabs .ui-tabs-nav { list-style: none; /*position: relative; padding: .2em .2em 0;*/ }
+.ui-tabs .ui-tabs-nav li {
+border-bottom:1px solid #FFFFFF;
+display:inline;
+padding-left:2px;
+padding-right:2px;
+font-size:100%;
+font-size-adjust:none;
+font-style:normal;
+font-variant:normal;
+font-weight:bold;
+line-height:normal;
+list-style-type:none;
+text-align:left;
+}
+.ui-tabs .ui-tabs-nav li a {
+background-color:#CCFFCC;
+color:#666666;	
+margin-right:0;
+padding:3px 4px;
+text-decoration:none;
+font-weight: bold !important;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected{padding-bottom:1px;border-bottom-width:0;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a{border-bottom:1px solid #FFFFFF;background-color:#FFFFFF;color:#000000;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+.ui-tabs .ui-tabs-panel { padding: 1em 1.4em; display: block; border-width: 0; background: none; }
+.ui-tabs .ui-tabs-hide { display: none !important; }
+
+.ui-tabs .ui-tabs-nav li .nav-name,.ui-tabs .ui-tabs-nav li .nav-icon,.ui-tabs .ui-tabs-nav li .nav-new{border-color:#66CC66 #66CC66;border-width:1px 1px medium;padding-bottom:1px;}
+.ui-tabs .ui-tabs-nav li .nav-name{border-style:solid none none solid;}
+.ui-tabs .ui-tabs-nav li .nav-icon{border-style:solid solid none none;}
+.ui-tabs .ui-tabs-nav li .nav-new{border-style:solid solid;}
+.ui-tabs img{vertical-align:top;aborder: 0 none;}
+.ui-tabs ul{padding-bottom:0px;margin-bottom:0px;}
+</style><!-- jquery -->
+<script type="text/javascript" src="/js/m.js"></script>
+<!-- <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.md5.js"></script> -->
+<!-- <script language="JavaScript" src="/js/md5.js" type="text/javascript"></script> -->
+<!-- <script type="text/javascript" src="/js/include2.js"></script> -->
+<!-- jquery autocomplete -->
+<!-- <script type="text/javascript" src="/js/jquery.autocomplete.js"></script> -->
+<!-- easy tooltip -->
+<!-- <script type="text/javascript" src="/js/easyTooltip.js"></script> -->
+<!-- <script type="text/javascript">
+$(document).ready(function() {
+/* This is basic - uses default settings */
+	/*if ( document.getElementById( 'fancy1' ) ) {
+		$("a#fancy1").fancybox();
+	}*/
+	$(".easyFancy").fancybox();
+	if ( document.getElementById( 'jing' ) ) {
+		$("a#jing").fancybox({'hideOnContentClick':false,'frameWidth':738,'frameHeight':506});
+	}
+	/* Using custom settings */
+	if ( document.getElementById( 'fancy2' ) ) {
+		$("a#fancy2").fancybox({'hideOnContentClick':true});
+	}
+	if ( document.getElementById( 'fancy3' ) ) {
+		$("a#fancy3").fancybox({'zoomSpeedIn':300,'zoomSpeedOut':300,'overlayShow':false});
+	}
+	if ( document.getElementById( 'iframe' ) ) {
+		$("a#iframe").fancybox({
+			'hideOnContentClick': true,
+			'type' : 'iframe',
+			'autoScale' : true,
+			'height' : '57.5%'
+		});
+	}
+	if(navigator.platform == 'iPad' ||
+		navigator.platform == 'iPhone' ||
+		navigator.platform == 'iPod'
+	) {
+		$("#foot_nav").css("position", "static");
+	}
+
+if(document.getElementById('warning')){
+	$("#warning a").easyTooltip({useElement:"item"});
+}
+
+});
+
+function clickclear(thisfield, defaulttext) {
+	if (thisfield.value == defaulttext) {thisfield.value = "";}
+}
+
+function clickrecall(thisfield, defaulttext) {
+	if (thisfield.value == "") {thisfield.value = defaulttext;}
+}
+
+</script> -->
+<script type="text/javascript">
+//google analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-10927155-4']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</head>
+<body>
+<!-- Expires: Mon, 26 Aug 2013 01:00:00 +0300 --><!-- Last-Modified: Mon, 26 Aug 2013 11:00:00 +0300 --><div id="bodyblock"><div id="menu"><span id="toplogo"></span> <div id="searchform"><form target="_blank" action="http://www.google.com/cse" id="cse-search-box"><input name="q" id="q" size="21" maxlength="20" value="Search..." style="width: 132px; font-size: 9px; visibility: visible;" onfocus="checkFill('Search...', this);" onblur="fillDefault('Search...', this);"/><input type="hidden" name="cx" value="014341547594717591594:ibqznhgxcku" /><input type="hidden" name="ie" value="UTF-8" /> <input class="goimage" type="image" name="img" src="/img/header/gogo.png" /></form></div><div id="header"><ul><li id="on"><a href="http://www.mikrotik.com/index.html">home</a></li><li ><a href="http://www.mikrotik.com/software.html">software</a></li><li ><a href="http://routerboard.com">hardware</a></li><li ><a href="http://www.mikrotik.com/support.html">support</a></li><li ><a href="http://www.mikrotik.com/download">downloads</a></li><li ><a href="/buy">purchase</a></li><li ><a href="http://www.mikrotik.com/training/">training</a></li><li ><a href="https://www.mikrotik.com/client/">account</a></li></ul></div><div class="submenu"><div id="submenu_corner"></div><ul><li class="current"><a href="http://www.mikrotik.com/index.html">Main</a></li><li ><a href="http://www.mikrotik.com/buy">Buy</a></li><li ><a href="http://www.mikrotik.com/aboutus">About us</a></li><li ><a href="http://www.mikrotik.com/mfm">Made for Mikrotik</a></li><li ><a href="http://www.mikrotik.com/ourcustomers.php">Our customers</a></li><li ><a href="http://www.mikrotik.com/joblist.php">Jobs</a></li></ul></div> <!-- pogas beidzas --> </div> <!-- menu beidzas --> <div style="clear: both; font-size: 1px;">&nbsp;</div><div style="clear: both; width: 740px; height:10px; display: block; text-align: left; margin-left: 100px"><strong class="everywhere">MikroTik everywhere:<a href="/wireless.php" title="click to see MikroTik as an AP">AP</a> |<a href="/wireless.php" title="click to see MikroTik as a CPE">CPE</a> |<a href="/thedude" title="click to see MikroTik's Network Manager tool for Windows">Network Monitor</a> |<a href="http://wiki.mikrotik.com/wiki/User_Manager" title="click to see MikroTik's User Management System">User Manager</a> |<a href="http://www.mikrotik.com/testdocs/ros/2.9/ip/hotspot.php" title="click to see MikroTik's HotSpot">HotSpot Gateway</a> |<a href="/software.html" title="click to see MikroTik's RouterOS and it's features">Core Router</a></strong></div> </div><div id="pageblock"><table width="840px"><tr><td>
+<div class="ind_leftcol">
+      <!-- kreisa kolonna -->
+
+
+
+
+<div>
+	<span class="ind_greentitle"><a href="/training/">MikroTik Training</a></span>
+	<p>
+          If you wish to verify an existing certificate number, you can <a href=
+          "/certificate_search.php">search for a certificate</a>.
+	</p>
+        <p class="c1">
+          List of <a href="http://www.mikrotik.com/training/next">MikroTik RouterOS training classes:</a>
+        </p>
+	<div class="mum_features_main">
+	<a name="LatinAmerica"><h2>Latin America</h2></a><ul class="training_mum"><li>August 27-29, Brazil, São Paulo, <a href="http://www.fs.com.br" target="_blank">FS Internet - Provedor, Cursos e Consultoria</a> <span>(MTCRE), Portuguese</span></li><li>August 30-September 01, Brazil, Feira de Santana/BA, <a href="http://www.alivesolutions.com.br/Alive/Listagem.aspx?CHAVE_CATEGORIA=ee56ba4e-c0d6-43d5-99db-7b247cf72843" target="_blank">Alive Solutions - Alivesolutions.com.br</a> <span>(MTCNA), Portuguese</span></li><li>September 02-05, Chile, Santiago - LinkStore, <a href="http://academia.linkstore.cl" target="_blank">Ing. Jorge Filippo - Optimix.com.ar</a> <span>(MTCWE, MTCNA), Spanish</span></li><li>September 04-06, Ecuador, Guayaquil, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span>(MTCNA, Introduction,The Dude), Spanish</span></li></ul><a name="Africa"><h2>Africa</h2></a><ul class="training_mum"><li>August 29-September 01, Kenya, Nairobi, <a href="http://sumocomputers.net/index.php?option=com_content&view=article&id=60&Itemid=64" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span>(MTCNA, Introduction,The Dude), English</span></li><li>September 02-04, Kenya, Nairobi, <a href="http://sumocomputers.net/index.php?option=com_content&view=article&id=60&Itemid=64" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span>(MTCWE), English</span></li></ul><a name="Europe"><h2>Europe</h2></a><ul class="training_mum"><li>August 27-28, Germany, Freiburg, <a href="http://www.mikrotik-shop.de/Training:::92.html" target="_blank">FMS Internetservice GmbH</a> <span>(MTCWE), English</span></li><li>August 27-27, Republic of Moldova, Chisinau, <a href="http://www.mikrotik4me.com" target="_blank">MikroTik 4 Middle East</a> <span>(MTCWE), English</span></li><li>August 28-30, Poland, Bytom, <a href="http://www.idea4pro.pl/mikrotik/mtcna.html" target="_blank">Inter Projekt S.A.</a> <span>(MTCNA, Introduction), English</span></li><li>August 29-30, Germany, Freiburg, <a href="http://www.mikrotik-shop.de/Training:::92.html" target="_blank">FMS Internetservice GmbH</a> <span>(MTCUME), English</span></li><li>August 30-September 02, Georgia, Tbilisi, <a href="http://www.mikrotiktrain.com/index.php/uzbekistan-kazakhstan/" target="_blank">Hamed Ghaseri</a> <span>(MTCNA), English</span></li></ul><a name="Asia"><h2>Asia</h2></a><ul class="training_mum"><li>August 26-29, Malaysia, Petaling Jaya, <a href="http://www.mikrotik.landasan.com.my/" target="_blank">Landasan Teknologi</a> <span>(MTCNA), English</span></li><li>August 26-28, Nepal, Kathmandu, <a href="http://www.blinknet.in" target="_blank">Blinknet Solutions Pvt Ltd</a> <span>(MTCWE, MikroTik SXT Workshop), English</span></li><li>August 26-31, Indonesia, Jakarta, <a href="http://www.training-mikrotik.com" target="_blank">Rofiq Fauzi, ID-Networkers</a> <span>(MTCINE), English</span></li><li>August 26-28, Lebanon, بيروت, <a href="http://www.mikrotik4me.com" target="_blank">MikroTik 4 Middle East</a> <span>(MTCWE), English</span></li><li>August 27-29, Nepal, Kathmandu, <a href="http://mikrotik.com.np/" target="_blank">M.IT.S Co. - Mani Raissdana</a> <span>(MTCINE), English</span></li><li>August 27-30, United Arab Emirates, رضا مقدم, <a href="http://ipexperts.ir/?product=%d8%ab%d8%a8%d8%aa-%d9%86%d8%a7%d9%85-%d8%af%d9%88%d8%b1%d9%87-%d8%a8%db%8c%d9%86-%d8%a7%d9%84%d9%85%d9%84%db%8c-%d9%85%db%8c%da%a9%d8%b1%d9%88%d8%aa%db%8c%da%a9-mtcna" target="_blank">Reza Moghadam - IPExperts</a> <span>(MTCNA), Persian</span></li><li>August 27-30, Indonesia, Surabaya, <a href="http://www.belajarmikrotik.com" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span>(MTCRE), Bahasa indonesia</span></li><li>August 28-30, Bangladesh, Motijheel, Dhaka, <a href="http://www.banglanetbd.com/training.html" target="_blank">Syed Abu Saleh, Banglanet</a> <span>(MTCNA), Bengali</span></li><li>August 28-31, Indonesia, Makassar, <a href="http://www.trainingmikrotik.co.id" target="_blank">Spectrum Indonesia</a> <span>(MTCNA), Bahasa indonesia</span></li><li>August 28-30, Philippines, Makati City, <a href="http://www.netexperts.ir/en/trainingcourses/mikrotik/38-makaticity-mtcwe-training.html" target="_blank">Mohammad Hassibi</a> <span>(MTCWE), English</span></li><li>August 28-30, Thailand, Chiangmai, <a href="http://www.mikrotikthai.com" target="_blank">MikrotikTHAI</a> <span>(MTCNA, MikroTik SXT Workshop,IPv6 Training), English</span></li><li>August 28-September 01, Indonesia, Bandung, <a href="http://www.router.co.id" target="_blank">Bambang</a> <span>(MTCRE, MTCNA), Bahasa indonesia</span></li><li>August 29-31, Lebanon, بيروت, <a href="http://www.mikrotik4me.com" target="_blank">MikroTik 4 Middle East</a> <span>(MTCRE), English</span></li><li>August 30-September 01, India, Kolkata, <a href="http://www.blinknet.in" target="_blank">Blinknet Solutions Pvt Ltd</a> <span>(MTCNA, Introduction), English</span></li><li>August 30-September 01, Nepal, Kathmandu, <a href="http://mikrotik.com.np/" target="_blank">M.IT.S Co. - Mani Raissdana</a> <span>(MTCNA), English</span></li><li>August 31-September 04, Indonesia, Jakarta, <a href="http://www.training-mikrotik.com" target="_blank">Rofiq Fauzi, ID-Networkers</a> <span>(MTCRE, MTCNA), Bahasa indonesia</span></li><li>September 01-05, Iraq, اربيل, <a href="http://www.umarasat.com" target="_blank">Umarasat</a> <span>(MTCNA, Introduction), English</span></li><li>September 01-04, Pakistan, Karachi, <a href="http://www.netexperts.ir/en/trainingcourses/registration.html" target="_blank">Mohammad Hassibi</a> <span>(MTCNA, Introduction,The Dude), English</span></li><li>September 03-06, Indonesia, Jakarta, <a href="http://www.belajarmikrotik.com" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span>(MTCNA, Introduction), Bahasa indonesia</span></li><li>September 03-06, Indonesia, Jakarta, <a href="http://www.trainingmikrotik.co.id" target="_blank">Spectrum Indonesia</a> <span>(MTCNA), Bahasa indonesia</span></li><li>September 03-06, Indonesia, Yogyakarta, <a href="http://www.mikrotik.co.id/training.php" target="_blank">Citraweb Nusa Infomedia</a> <span>(MTCNA), Bahasa indonesia</span></li><li>September 04-05, Philippines, Makati City, <a href="http://www.netexperts.ir/en/trainingcourses/mikrotik/37-makaticity-mtcre-training.html" target="_blank">Mohammad Hassibi</a> <span>(MTCRE), English</span></li></ul>
+	</div>
+        <p>
+          <a href="http://www.mikrotik.com/training/next">More ...</a>
+        </p>
+        <p>
+          MikroTik and our <a href=
+          "http://www.mikrotik.com/training/partners">Certified Training
+          Partners</a> offer RouterOS Training Seminars all over the world. Please see more details
+          here on our <a href="http://www.mikrotik.com/training/next" target="_blank">training
+          portal</a>.
+        </p>
+      </div>
+
+
+	
+	
+<!--
+	<div>
+        <span class="ind_greentitle"><a href="http://routerboard.com/RB1100AHx2">RouterBOARD RB1100AHx2</a></span><br />
+        <p class="c4">
+          <a href="http://routerboard.com/RB1100AHx2"><img src="http://i.mt.lv/ahx2-b.png" alt="RB1100AHx2" /></a>
+		  <br/>
+        </p>
+        <p>
+          This is our <strong>dual core</strong> flagship router. It is our best performance 1U Gigabit rackmount, and can reach up to a million packets per second.
+It has thirteen individual gigabit Ethernet ports, two 5-port switch groups, and includes Ethernet bypass capability.
+        </p>
+
+		<p><a href="http://routerboard.com/RB1100AHx2"><img src="http://i.mt.lv/ahx2-a.png"/></a></p>
+
+        <p>
+          <a href="http://www.routerboard.com">Order it now</a>, only for $495
+        </p>
+      </div>
+-->
+
+</div>
+<!-- EOF kreisa kolonna -->
+
+<!-- centra kolonna -->    
+<div class="ind_centcol">
+
+<div>
+	<span class="ind_greentitle"><a href="http://routerboard.com/">Cloud Core Router</a></span><br />
+	<p class="fpi">
+	<a href="http://routerboard.com/"><img src="http://i.mt.lv/278_m.png" width="200" height="54" /></a>
+	</p>
+	<p class="fpt">Cloud Core Router is an industrial grade router with cutting edge multicore Tilera CPU, available in 16 core or 36 core versions!</p>
+	<p class="fpt">Unprecedented power and unbeatable performance - this is our new flagship device. If you need many millions of packets per second - Cloud Core Router with 36 cores is your best choice - 24 million PPS is possible. </p>
+	<p class="fpt">Watch the video:</p>
+	<p class="fpi">
+	<a href="http://www.youtube.com/watch?v=QWnWZIjb6q4&feature=plcp"><img src="http://i.mt.lv/ccr.jpg" height="158" width="256" /></a>
+	</p>
+</div>
+
+	
+
+
+<!--
+
+	<div>
+		<span class="ind_greentitle"><a href="http://routerboard.com/RB951-2n">RB951-2n</a></span><br />
+<p class="c4" style="padding-left:20px;text-align:center;">
+<a href="http://routerboard.com/RB951-2n"><img src="http://i.mt.lv/285_m.png" width="200" /></a>
+</p>
+        <p>The <strong>RB951-2n</strong> is the home wireless AP you have been waiting for. It has five Ethernet ports and a 802.11b/g/n wireless AP with an antenna built in.</p>
+		<p>This model is much smaller than the more powerful RB751U-2HnD model, the RB951-2n looks exactly like our popular RB750 series. The device is very small and will look good in any home or office, wall mounting anchor holes are provided. <strong>List price just 45$!</strong></p>
+      </div>
+-->
+
+
+	
+        <span class="ind_greentitle"><a href="http://routerboard.com">MikroTik products</a></span><br />
+        <a href="software.html">[info]</a>&nbsp;<a href=
+        "http://wiki.mikrotik.com/wiki/Manual:TOC">[manual]</a>&nbsp;<a href=
+        "http://forum.mikrotik.com/">[forum]</a>&nbsp;<a href="download.html">[download]</a>
+        <p class="c2">
+<a href="software.html">
+<img src="http://i.mt.lv/shot_sm.png" width="185" height="171" border="0" alt="MikroTik RouterOS" />
+</a><br />
+        </p><strong>Learn more in these brochures:</strong>
+        <ul>
+          <li>
+            <a href="http://download2.mikrotik.com/what_is_routeros.pdf">What is RouterOS?</a>
+          </li>
+          <li>
+            <a href="http://download2.mikrotik.com/2013-Q2.pdf">What is RouterBOARD? (Q2, 2013)</a>
+          </li>
+        </ul><strong>Major features:</strong>
+        <ul class="c3">
+          <li>Powerful QoS control</li>
+          <li>P2P traffic filtering</li>
+          <li>High availability with VRRP</li>
+          <li>Bonding of Interfaces</li>
+          <li>Improved interface</li>
+          <li>Smaller and Less resource-hungry</li>
+          <li>Tons of other new features</li>
+          <li>Advanced Quality of Service</li>
+          <li>Stateful firewall, tunnels</li>
+          <li>STP bridging with filtering</li>
+          <li>High speed 802.11a/b/g wireless with WEP/WPA</li>
+          <li>WDS and Virtual AP</li>
+          <li>HotSpot for Plug-and-Play access</li>
+          <li>RIP, OSPF, BGP, MPLS routing</li>
+          <li>remote WinBox GUI and Web admin</li>
+          <li>telnet/mac-telnet/ssh/console admin</li>
+          <li>real-time configuration and monitoring</li>
+          <li>Nv2 wireless TDMA support</li>
+          <li>Nstreme wireless protocol</li>
+          <li>3G/LTE support</li>
+          <li>802.11a/b/g/n</li>
+          <li>WPA2 full support</li>
+          <li>OpenFlow support</li>
+          <li>Many more <a href="http://wiki.mikrotik.com/wiki/Manual:RouterOS_features">listed here</a></li>
+        </ul>
+        <p class="c2">
+<a href='/software.html'>
+<img src="http://i.mt.lv/descr.gif" width="120" height="17" border="0" alt="pdf" />
+</a>
+        </p>
+        <div>
+	<span class="ind_greentitle"><a href="http://routerboard.com/RB951G-2HnD">RB951G</a></span><br />
+	<p class="fpi"><img src="http://i.mt.lv/RB951G.png" /></p>
+	<p class="fpt">The RB951G is our new home AP with a Gigabit port. It uses a new generation Atheros CPU and improved antenna design.
+	<a href="http://routerboard.com/RB951G-2HnD">Click here to view more details.</a></p>
+</div>
+
+<div>
+	<span class="ind_greentitle"><a href="http://www.youtube.com/watch?v=Rr0RLwsax7M">RB951 series guide</a></span><br />
+	<p class="fpt">Watch our new video on how to set up your MikroTik home AP in just a few clicks. These instructions apply to all our indoor AP devices, RB951-2n, RB951G, RB2011 and others. </p>
+	<p class="fpi"><a href="http://www.youtube.com/watch?v=Rr0RLwsax7M"><img src="http://i.mt.lv/rb951g.jpg" width="256" height="158" alt="RB951G video" /></a></p>
+	<p class="fpt">The RB951 series are simple to use small home AP devices. <br /><a href="http://routerboard.com/RB951-2n">Click here to view more details.</a></p>
+</div>
+
+
+    </div>
+
+
+
+
+	<!-- RB951 ad <div>
+	<span class="ind_greentitle"><a href="http://youtu.be/OuYif-1FHc0">RB951-2n</a></span><br />
+	<p>Watch our new video ad of the RB951-2n home AP. We also now have a new Youtube channel, where you will be able to see videos about our products: <a href="http://youtube.com/mikrotik">http://youtube.com/mikrotik</a></p>
+	<p><a href="http://youtu.be/OuYif-1FHc0"><img src="http://i.mt.lv/951video.png" /></a></p>
+	<p>The <strong>RB951-2n</strong> is the home wireless AP you have been waiting for. It has five Ethernet ports and a 802.11b/g/n wireless AP with an antenna built in.</p>
+	<p>This model is much smaller than the more powerful RB751U-2HnD model, the RB951-2n looks exactly like our popular RB750 series. The device is very small and will look good in any home or office, wall mounting anchor holes are provided.</p>
+	<p>Box contains: RB951-2n, plastic case, power supply. All of this for only <strong>$45!</strong></p>
+	</div>-->
+
+    </div>
+<!-- EOF centra kolonna -->
+
+<!-- laba kolonna -->
+    <div class="ind_rightcol">
+
+<!--
+<div>
+	<span class="ind_greentitle"><a href="http://www.tiktube.com/?live=live">Live video stream from MUM</a></span><br />
+	<p class="c4"><a href="http://www.tiktube.com/?live=live"><img src="http://mt.lv/img/tiktube.png" /></a></p>
+	<p>Watch the live video stream from our MUM in Moldova!</p>
+</div>
+-->
+
+<!--
+<div>
+	<span class="ind_greentitle">National Holidays</span><br/>
+	<p style="text-align:center;">
+		<img width="240" height="191" src="http://i.mt.lv/coatofarms.png" alt="Coat of Arms of Latvia" />
+	</p>
+	<p style="text-align:justify;padding:0 5px 0 5px;">We will be closed for <a href="http://en.wikipedia.org/wiki/J%C4%81%C5%86i">national midsummer solstice celebration</a> on Monday, June 24th.
+	Due to this, email responses can take longer than usual also on Tuesday,
+	June 25th. We will be back at full capacity on Wednesday, June 26th.
+	</p>
+</div>
+-->
+<div><span class="ind_greentitle"><a href="http://mum.mikrotik.com/">MUM in 2013</a></span><br /><p class="fpi"><a href="http://mum.mikrotik.com/"><img src="http://i.mt.lv/banner_mum_generic.png" alt="Mikrotik User Meeting" width="218" height="167" /></a></p><p class="fpt">Announcing the MikroTik User Meeting (MUM) schedule in 2013</p><p><table class="mumtable"><tr><td><a href="http://mum.mikrotik.com/2013/US/info" title="USA"><img src="http://i.mt.lv/flags/unitedstates.png" alt="USA" width="48" height="48" /></a></td><td><b><a href="http://mum.mikrotik.com/2013/US/info" title="USA">USA in St. Louis</a>,<br />September 19 - 20</b></td></tr><tr><td><a href="http://mum.mikrotik.com/2013/MX/info" title="Mexico"><img src="http://i.mt.lv/flags/mexico.png" alt="Mexico" width="48" height="48" /></a></td><td><b><a href="http://mum.mikrotik.com/2013/MX/info" title="Mexico">Mexico in Mexico city</a>,<br />September 26 - 27</b></td></tr><tr><td><a href="http://mum.mikrotik.com/2013/BR/info" title="Brazil"><img src="http://i.mt.lv/flags/brazil.png" alt="Brazil" width="48" height="48" /></a></td><td><b><a href="http://mum.mikrotik.com/2013/BR/info" title="Brazil">Brazil in Curitiba</a>,<br />November 11 - 12</b></td></tr><tr><td><a href="http://mum.mikrotik.com/2013/EC/info" title="Ecuador"><img src="http://i.mt.lv/flags/ecuador.png" alt="Ecuador" width="48" height="48" /></a></td><td><b><a href="http://mum.mikrotik.com/2013/EC/info" title="Ecuador">Ecuador in Quito</a>,<br />November 15 - 16</b></td></tr><tr><td><a href="http://mum.mikrotik.com/2013/ID/info" title="Indonesia"><img src="http://i.mt.lv/flags/indonesia.png" alt="Indonesia" width="48" height="48" /></a></td><td><b><a href="http://mum.mikrotik.com/2013/ID/info" title="Indonesia">Indonesia in Yogyakarta</a>,<br />November 29 - 30</b></td></tr></table></p><p class="fpt">Registration for all events are already open, <a href="http://mum.mikrotik.com/registration.php"><b>click here to register your attendance</b></a> for free (lunch and RouterOS license require paid or voucher registration)!</p><p class="fpt">Conference, exhibition, technical workshops and trainings - meet the WISP industry here at the MUM.</p><p>Trainings before/after MUM:</p><b>USA</b><ul><li><a href="http://www.mikrotik.com/training/offers" title="TRAINER in MUM USA">TRAINER, Sep 16-18</a></li></ul><b>Mexico</b><ul><li><a href="http://www.mikrotik-mexico.com.mx/" title="MTCWE in MUM Mexico">MTCWE, Sep 23-25</a></li><li><a href="http://www.mikrotik-mexico.com.mx/" title="MTCNA in MUM Mexico">MTCNA, Sep 23-25</a></li><li><a href="http://www.academyxperts.com.mx" title="MTCINE in MUM Mexico">MTCINE, Sep 23-25</a></li><li><a href="http://www.mikrotikxperts.com/" title="MTCRE in MUM Mexico">MTCRE, Sep 24-25</a></li><li><a href="http://www.mikrotikxperts.com/" title="MTCTCE in MUM Mexico">MTCTCE, Sep 24-25</a></li></ul><b>Ecuador</b><ul><li><a href="http://www.mikrotikxperts.com/" title="MTCNA in MUM Ecuador">MTCNA, Nov 10-12</a></li><li><a href="http://www.mikrotikxperts.com/" title="MTCRE in MUM Ecuador">MTCRE, Nov 10-11</a></li><li><a href="http://www.mikrotikxperts.com/" title="MTCINE in MUM Ecuador">MTCINE, Nov 12-14</a></li><li><a href="http://www.mikrotikxperts.com/" title="MTCTCE in MUM Ecuador">MTCTCE, Nov 13-14</a></li></ul></div>
+
+<div>
+	<span class="ind_greentitle"><a href="http://routerboard.com/RB2011UAS-2HnD-IN">RB2011UAS-2HnD-IN</a></span><br />
+	<p class="fpi">
+	<a href="http://routerboard.com/RB2011UAS-2HnD-IN"><img src="http://i.mt.lv/287_m.png" width="200" height="93" alt="RB2011UAS-2HnD-IN" /></a>
+	</p>
+	<p class="fpt">RB2011UAS-2HnD-IN is an ideal solution for FTTH (Fiber To The Home) implementations. It has SFP cage, ten LAN ports (five of them Gigabit) and powerful 1W 2.4Ghz wireless onboard for Access Point.</p>
+	<p class="fpt">Complete with the desktop case and power supply— <a href="http://www.routerboard.com">order it now</a>, for only <strong>$129</strong>
+	</p>
+</div>
+
+<div>
+	<span class="ind_greentitle"><a href="http://mikrotikacademy.com">MikroTik Academy</a></span>
+	<p class="fpi">
+		<img style="border: 0px solid #eee; padding: 3px;" width="200" height="39" src="http://i.mt.lv/academy.png"/>
+	</p>
+	<p class="fpt">MikroTik is expanding RouterOS learning possibilities by launching the 
+			<strong>MikroTik Academy</strong> program for educational 
+			institutions - universities, technical schools, colleges, 
+			vocational schools and any others. Learn MikroTik at your University!</p>
+	<p class="fpt">More information can be found at: <a href="http://mikrotikacademy.com">http://mikrotikacademy.com</a>
+	<p class="fpi">
+			<a href="http://youtu.be/gVDubJTegV4">
+			<img src="http://i.mt.lv/academyvideo.png" alt="Academy Video" width="256" height="157" />
+			</a>
+		</p><br	/>
+	</div>
+<!--
+<div>
+	<span class="ind_greentitle"><a href="http://mikrotik.com/mfm">Made for Mikrotik</a></span>
+	<p>Find cases, accessories and product solutions based on Mikrotik products, or made for use
+	with RouterOS and RouterBOARD in our "Made for MikroTik" section of this webpage. Look for the 
+	"Powered by Mikrotik" logo at our distributors, to see that the device was made to work with 
+	our products. An overview of participating companies is in 
+	our <a href="http://mikrotik.com/mfm">MFM page</a> in the Buy section of Mikrotik.com</p>
+	<p><a href="http://mikrotik.com/mfm"><img src="http://i.mt.lv/made_mfm.png"/></a></p>
+</div>
+-->	
+<!--
+<div>
+	<span class="ind_greentitle"><a href="http://www.youtube.com/watch?v=-KNo1B7K-YY">SXT guide</a></span><br />
+	<p class="fpt">Watch our new video guide on installing the SXT CPE device. Easy to follow quick tutorial shows unboxing, mounting and aligning.</p>
+	<p class="fpi"><a href="http://www.youtube.com/watch?v=-KNo1B7K-YY"><img src="http://i.mt.lv/sxt-video-guide.png" width="256" height="157" alt="SXT Video Guide" /></a></p>
+	<p class="fpt">The <strong>SXT</strong> is our low cost CPE device for point to point or point to multipoint setups. A point to point link between SXT devices can reach as far as 10KM!</p>
+</div>
+-->
+
+    </div><!-- EOF laba kolonna -->
+    <div class="c8"></div><br />
+    <br />
+    
+</td>
+</tr>
+</table>
+</div> 
+
+<script type="text/javascript">
+//$("#foot_nav").html(navigator.platform);
+</script>
+<div id="foot_nav">
+<div class="foot_nav_inside">
+    <a style="float: left" href="http://www.mikrotik.com/trademark">&copy;</a>
+    <a href="http://www.mikrotik.com">Mikrotik</a> :
+    <a href="http://www.routerboard.com">RouterBOARD</a> :
+    <a href="http://forum.mikrotik.com">Forum</a> :
+    <a href="http://mum.mikrotik.com">MUM</a> :
+    <a href="http://training.mikrotik.com">Training</a> :
+    <a href="http://wiki.mikrotik.com/wiki/Main_Page">Wiki</a> :
+    <a href="http://www.tiktube.com">Tiktube</a> :
+    <a href="http://wiki.mikrotik.com/wiki/MikroTik_News">Newsletters</a> :
+    <a href="http://twitter.com/mikrotik_com">Twitter</a>
+    <a href="http://english-145815446642.spampoison.com" style="display: none">Click Here</a>
+</div>
+</div>
+
+</body>
+</html>
+

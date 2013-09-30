@@ -1,0 +1,326 @@
+<html lang="ja"> <head>
+<title>Tips for NetBSD</title>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-2022-JP">
+</head>
+
+<body bgcolor="#ffffff" fgcolor="#000000">
+
+<h1>Tips for NetBSD</h1>
+
+NOTICE: Most of the following tips are for setting up Japanese environment
+on NetBSD. Therefore this page is written in Japanese. When I find up
+the tips independing on language, I will make another page in English.
+
+<ul>
+  <li> Kernel configuration Basics.
+  <li> Netscape on NetBSD.
+  <li> Canna and Emacs-20.
+  <li> Tips for partitioning.
+</ul>
+
+Currently, these information is based on NetBSD-1.5 RELEASE (Jan. 2001).
+
+<hr>
+
+<h2>Kernel configuration Basics</h2>
+
+kernelの基本設定について。
+
+<ul>
+  <li> CMOSの時計設定がJSTになっている場合は、
+       <pre>
+       options         RTC_OFFSET=-540
+       </pre>
+       の一行が必要です。ここらへんはBSD/OSと同じですな。
+  <li> CapsLockとCtrlを入れ換えるには
+       <pre>
+options         PCKBD_LAYOUT="(KB_US | KB_SWAPCTRLCAPS)"
+       </pre>
+       を加えます。ただし、kernelでやるよりは、起動後に
+       <pre>
+       wsconsctl -w map+="keysym Caps_Lock = Control_L"
+       </pre>
+       を実行したほうがスマ−トかもしれません。
+  <li> PCカ−ドが使うリソ−スの制限はkernelのconfigで行います。<br>
+       man pcmciaを見てください。例えばPCMCIAが使うIRQを制限する場合は、
+       options PCIC_ISA_INTR_ALLOC_MASKを使います。この値はビットマップ
+       になっていて、0x0001から0x8000までがそれぞれ0-15のIRQに対応して
+       います。マスクしたいIRQのビットマスクを作成して指定してください。
+</ul>
+
+<hr>
+
+<h2>Netscape on NetBSD</h2>
+
+NetscapeをNetBSDで使う方法。いろいろありますが、私はいまのところ
+FreeBSDのバイナリを使っています。
+
+<h3>フォントの準備</h3>
+
+何はともあれフォントを準備します。pkgなりpkgsrcなりで、jisx0208fonts,
+jisx0212fontsをがりがりインスト−ルしてください。ただし、これだけ
+だとfonts.aliasがないのであまりうれしくありません。FreeBSDから
+<a href="fonts.alias">fonts.alias</a>をもらってきて、
+/usr/X11R6/lib/X11/fonts/local/に置きましょう。
+これで-netscape-*という名前でフォントをまとめて
+参照できるようになります。
+
+<p>
+
+この他に、URWなどの英語のスケ−ラブルフォントも入れておいたほうが良い
+でしょう。<a href="http://www.gimp.org">gimpのぺ−じ</a>などから入手で
+きます。例えば入手したフォントを/usr/X11R6/lib/X11/fonts/URW/に置いて、
+/etc/XF86ConfigのSection "files"のなかに
+<pre>
+   FontPath   "/usr/X11R6/lib/X11/fonts/URW"
+</pre>
+を加えます。
+
+<p>
+
+必要に応じてxset fp rehashを忘れずに。
+
+<h3>その1) BSD/OSのバイナリを使う</h3>
+
+多分一番安直に動く方法。<br>
+BSD/OS用のバイナリ(navigator-v475-us.x86-bsdi-bsd2.tar.gzなど)を
+ダウンロードし、展開してインストールします。インストール先は
+以降すべて/usr/local/lib/netscape/とします。これで
+/usr/local/lib/netscape/netscapeを実行すれば立ち上がりますが、
+これだけだとボタンやメニューに日本語がでません。以下の作業を行って
+ください。
+
+<ol>
+  <li> 拙作の日本語表示用リソースファイル
+       (<a href="Netscape">Netscape</a>)をダウンロード
+       して、/usr/local/lib/netscape/に置く。
+  <li> /usr/X11R6/lib/X11/locale/ja/XLC_LOCALEを<a href="XLC_LOCALE.bsdi">
+       これ</a>に置き換える。この方法は加藤さん＠WIDEに教えて頂きました。
+  <li> wrapperを作って/usr/local/bin/netscapeとでもして置く。例えば以下。
+       <hr>
+<pre>
+#!/bin/sh
+
+NSROOT=/usr/local/lib/netscape
+
+export LANG=ja_JP.EUC
+export MOZILLA_HOME=$NSROOT
+export XAPPLRESDIR=$NSROOT
+export CLASSPATH=
+
+exec $NSROOT/netscape $@
+</pre>
+       <hr>
+</ol>
+
+ただし、立ち上がりが遅いです。多分フォントの展開に時間を食っているからで、
+Xサーバを直せば改善できると思います。どう直すかについては、
+<a href="http://rananim.ie.u-ryukyu.ac.jp/~kono/">
+河野さん＠琉球大</a>の作ってくれた
+<a href="xfree86.patch">XFree86 3.3.xに対するpatch</a>を使うと良い
+のではないかと思います。多分ここらへんの事情はBSD/OSと
+まったく同じ症状が起きているのだと予想されます。
+
+<h3>その2) FreeBSDのバイナリを使う</h3>
+
+これについては、<a href="http://www.lb.u-tokai.ac.jp/~nork/NetBSD-pc98/">
+「NetBSDに関する情報」</a> のページに詳しく出ていて、
+ここに書いてあることをそのままやれば大丈夫です。
+上記のページはNetBSD 1.3ですが、NetBSD 1.5でも同じです。
+<p>
+簡単にまとめると、以下の手順になります。
+
+<ol>
+  <li> FreeBSD 2.2.7のエミュレーション環境を入れ換える。<br>
+       pkgsrc/freebsd_libは使いものになりません。/usr/pkg/emul/freebsd/は
+       ごっそり入れ換えましょう。上記のページにある
+       <a href="http://www.lb.u-tokai.ac.jp/~nork/NetBSD-pc98/freebsd_lib.tgz">
+       freebsd_lib.tgz
+       </a>をもらいましょう。/usr/pkg/emul/freebsd/に展開します。
+       また、/usr/pkg/emul/freebsd/etc/のファイルを調整する必要がある
+       そうですが、同名の/etc/のファイルにsymbolic linkを張っておけば
+       大抵は良いのではないかと思います。(細かいことは気にしない)
+  <li> FreeBSD用Netscapeをインストールする<br>
+       普通にインストールします。
+  <li> 日本語リソースを入れる<br>
+       FreeBSDのportsで日本語に使われている
+       <a href="http://www.bres.tsukuba.ac.jp/~yohta/netscape/communicator-ja-euc-v472-export.generic-generic-generic.tar.gz">
+       communicator-ja-euc-v472-export.generic-generic-generic.tar.gz</a>
+       をインストールしましょう。展開してinstall.jaを実行します。
+  <li> ライブラリを追加する<br>
+        FreeBSD Tips から
+<a href="http://www.yasuda.comm.waseda.ac.jp/~nagahama/libansi4.tgz">libansi4.tgz </a>を入手して、/usr/pkg/emul/freebsd/lib/libansi.so.1.3として置きます。
+  <li> wrapperを作って/usr/local/bin/netscapeとかとして置く。例えばこんな感じ。
+       <hr><pre>
+#!/bin/sh
+if [ ! -d $HOME/.netscape ]; then
+        mkdir -m 700 $HOME/.netscape
+        cp /usr/local/lib/netscape/preferences.js $HOME/.netscape
+        chmod 644 $HOME/.netscape/preferences.js
+fi
+export LD_LIBRARY_PATH=
+export LANG=ja_JP.EUC
+export LC_ALL=${LANG}
+export LC_CTYPE=${LANG}
+export MOZILLA_HOME=/usr/local/lib/netscape
+export CLASSPATH=.:${MOZILLA_HOME}
+export NS_NETHELP_PATH=${MOZILLA_HOME}/${LANG}
+export XKEYSYMDB=/usr/X11R6/lib/X11/XKeysymDB
+export XAPPLRESDIR=${MOZILLA_HOME}
+export TIMID_DIR=/usr/local/lib/timidity
+export XCMSDB=/dev/null
+ulimit -c 0
+
+export LD_PRELOAD=/usr/lib/libxpg4.so.2.0:/usr/lib/libansi.so.1.3
+
+exec ${MOZILLA_HOME}/netscape "$@"
+       </pre><hr>
+</ol>
+
+
+おまけとして、プラグインとしてflashとpluggerについてですが、FreeBSD 2.2.7で
+コンパイル済バイナリを用意
+しておいたので、/usr/local/lib/netscape/plugins/に置いてください。
+
+<ul>
+  <li> <a href="../freebsd/libswf.so">libswf.so(flash plug-in)</a>
+  <li> <a href="../freebsd/plugger.so">plugger.so(plugger plug-in)</a>,
+       <a href="../freebsd/pluggerrc.sample">pluggerrc</a>(これは
+       /usr/local/etcに置く)
+</ul>
+
+pluggerを使うためには、pluggerrcで記述したプレイヤーが必要です。<br>
+ただし、外部ビューアとしてLinuxバイナリなどを使う場合は、LD_PRELOADが
+悪さをします。余計な環境変数をunsetenvするwrapperスクリプトを
+書くなどしてください。例えば私は、/usr/local/bin/realplayを以下のように
+しています。
+
+<hr>
+<pre>
+#!/bin/sh
+export LD_PRELOAD=
+export LD_LIBRARY_PATH=
+export LANG=
+export LC_CTYPE=
+exec /usr/pkg/emul/linux/usr/local/RealPlayer7/realplay "$@"
+</pre>
+<hr>
+
+
+<h3>その3) Linuxのバイナリを使う</h3>
+
+pkgsrc/www/{navigator, communicator}を使ってインストールされるのは、
+Linuxのバイナリです。こいつは標準でflashのplug-inも純正品が入っているし、
+pjgsrc/www/{ns-plugger-*}を使うと、MIDI再生のプラグインなども簡単に
+インストールされるので、一番楽ちんです。<br>
+ところが、ボタンやメニューに日本語が出ません。そういうものらしいの
+ですが、Mailing Listの情報とかを読むとpkgsrc/japanese/linux-locale
+いれると出るような記述も見受けられます。これについては、現在調査中
+です。
+
+<hr>
+
+<h2>Canna and Emacs-20</h2>
+
+これまで私はCannaとMule-2.3を使っていました。しかし、
+
+<ul>
+  <li> 「情報処理」の記事でmuleの作者の半田氏が「emacs-20に移れ」と言っていた
+  <li> NetBSDのpkgだと、mule-2.3とemacs-20が共存できなかった
+  <li> mule-2.3のpkgはWnnしか対応していなかった
+</ul>
+
+という諸々の事情から、NetBSDに移行するのと同時にemacs-20に移ることにし
+ました。参考にしたのは
+<a href="http://emacs-20.ki.nu/">GNU Emacs + Gnus + Mew</a>
+のページです。
+
+<br>
+
+さて、問題になったのがCannaです。Emacs-20ではそのままではCannaが使えません。
+Emacs-20でcannaを使うには二つの方法があります。
+
+<dl>
+  <dt> yc.el を使う。
+  <dd> この方法は非常に簡単です。yc.elというプログラム１つをロードする
+       だけでcannaが使えるようになります。yc.elは
+       <a href="http://www.ceres.dti.ne.jp/~knak/yc.html">ここ</a>
+       から入手できます。ただ配付状態だとNetBSDのpathと違うのと、
+       C-hがdelete-backward-charにならなかったので、面倒だったので
+       本体に手を加えてしまいました。<a href="yc.el-3.2.6.netbsd.diff">
+       これ</a>が、yc.el-3.2.6へのパッチです。<br>
+       後者の問題については、単に
+       <pre>
+(define-key yc-edit-mode-map "\C-h" 'yc-edit-backward-delete-char)
+       </pre>
+       を.emacs.elに書けば良いだけですね。パッチは必要ないです。
+  <dt> tamago4を使う
+  <dd> tamago4がpkgsrcに入りました。インストールするだけで使えるように
+       なります。試してみましたが、yc.elで良いや、って気分だったので
+       10秒しか使いませんでした。
+</dl>
+
+あと、cannaを使う人は私の<a href="../canna.html">cannaについて</a>の
+ページも見ると良いことがあるかもしれません。
+
+<hr>
+<h2>パーティション構成のTips</h2>
+
+私のノートPCはNetBSDですが、dfコマンドを実行するとこうなります。
+<pre>
+Filesystem     1K-blocks     Used    Avail Capacity  Mounted on
+/dev/wd0a          63469    35415    24880    58%    /
+/dev/wd0f         190095   148504    32086    82%    /var
+/dev/wd0h        1132868  1029354    46870    95%    /usr
+/dev/wd0e           8184      199     7575     2%    /u
+/dev/wd0g        3144137  2633021   353909    88%    /local
+kernfs                 1        1        0   100%    /kern
+&lt;above&gt;:/u/etc     43599    35614     7575    82%    /etc
+</pre>
+ポイントはここです。
+<pre>
+/dev/wd0e           8184      199     7575     2%    /u
+&lt;above&gt;:/u/etc     43599    35614     7575    82%    /etc
+</pre>
+wd0eを/uにマウントしてあって、これを/etcにunionマウントしてあるわけです。
+その前に、/etcの下には/usr/pkg/etc, /usr/local/etcを移動してあって、
+/usr/pkg/etc → /etc/pkg, /usr/local/etc → /etc/local というシンボリック
+リンクが作られています。つまり、
+
+<ul>
+  <li> 設定ファイルはすべて/etcの下に集められている
+  <li> 設定ファイルを変更すると、union mountされた上の方(wd0e)に書き込まれる。
+</ul>
+
+例えばNetBSD 1.5を1.5.1にアップグレードするとしたときですが、私がやった
+作業は以下の通りでした。
+<ol>
+  <li> 1.5.1のbinaryを入手する。
+  <li> union mountを外す。
+  <li> ルートで全部のパッケージをtar pxfする。
+  <li> fstabとrc.confを一部書き変える。
+       <ul>
+	 <li> fstabにunion mountの箇所などを追加する。
+	 <li> rc.confで rc_configured=YES にする。
+       </ul>
+</ol>
+
+便利でしょ。
+ただし欠点はありまして、rebootするとunion mountされた上の方に、/etc/nologin
+が残ってしまうのです。これはrc.dの中にあるファイルのうちnologinを消す作業が
+mount -aするより前に実行されるからなので、このあたりは改善の余地があるなとは
+思っているのですが。
+<p>
+この構成は<a href="http://www.ohnolab.org/researches/pickles/">PICKLES</a>の
+思想を継承しています。PICKLESの技術的なポイントは、全ホストで共通化できる
+領域とホスト個有の領域を完全に分離するというものでした。上記のパーティション
+構成にすることにより、共通領域を/, /usrに、ホスト個有情報を/u, /var, /localに
+集めることができます。この結果、先に述べたようなバージョンアップや、バック
+アップが手軽で安全確実に行えるようになります。
+
+<hr>
+<address><a href="mailto:kimoto@ohnolab.org">Masahiko KIMOTO &lt;kimoto@ohnolab.org&gt;</a></address>
+<!-- hhmts start -->
+Last modified: Sun Aug  4 18:55:02 2002
+<!-- hhmts end -->
+</body> </html>

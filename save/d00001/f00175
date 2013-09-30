@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.45
+     from nwf on 12 January 1997 -->
+
+<TITLE>NetBSD/amiga-Networking-FAQ - PPP-manual</TITLE>
+</HEAD>
+<BODY>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_25.html">previous</A>, <A HREF="nwf_27.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_25.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+<HR>
+
+
+<H4><A NAME="SEC26" HREF="nwf_toc.html#SEC26">3.2.3.1 Manual PPP setup</A></H4>
+
+<P>
+Here's what Markus Landgraf (<CODE>landgraf@crunch.ikp.physik.th-darmstadt.de</CODE>)
+does to run PPP with the ip-addresses etc. set manually (i.e. they have
+to be known in advance):
+
+</P>
+
+<OL>
+<LI>ifconfig ppp0
+
+
+<PRE>
+# ifconfig ppp0 inet &#60;local-ip&#62; -arp -trailer &#60;remote-ip&#62;
+</PRE>
+
+<LI>Connect to remote machine via kermit:
+
+
+<PRE>
+kermit&#62; set line /dev/tty00
+kermit&#62; set speed 9600           # or whatever
+kermit&#62; set flow rts/cts
+kermit&#62; connect
+</PRE>
+
+ If your're using a modem, you'll have to dial before connecting:
+
+
+<PRE>
+kermit&#62; dial &#60;your terminal-server's phone number&#62;
+</PRE>
+
+ Log into your remote machine and start <CODE>dplogin</CODE>, <CODE>pppd</CODE> or
+ whatever's used to start PPP on the remote site.
+
+ After that (when you get weird chars on your display) terminate kermit
+ (CTRL-\ q) and perform the next step <EM>fast</EM> to avoid a timeout.
+
+<LI>run pppd
+
+
+<PRE>
+# pppd /dev/tty00 9600
+</PRE>
+
+<LI>Set PPP-device's status to 'up':
+
+
+<PRE>
+# ifconfig ppp0 up
+</PRE>
+
+<LI>Turn on routing:
+
+
+<PRE>
+# route add default &#60;remote-ip&#62;
+</PRE>
+
+<LI>ping some remote site, see section <A HREF="nwf_23.html#SEC23">3.2.1 Configuring your ethernet-board</A>.  Those pings should
+ succeed.
+</OL>
+
+<HR>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_25.html">previous</A>, <A HREF="nwf_27.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_25.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+</BODY>
+</HTML>

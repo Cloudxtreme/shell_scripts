@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="iso-8859-1">
+
+<meta name="author" content="CERT.br" />
+<meta name="description" content="Segurança de computadores" />
+<meta name="keywords" content="segurança, Internet, prevenção, computador pessoal, atualização, patch, hot fix, service pack, programas originais, mecanismos, proteção, antimalware, antivírus, link curto, firewall pessoal, configuração, arquivos, data, hora, NTP, administração, administrador, root, convidado, guest, disco de recuperação" />
+
+<link rel="stylesheet" type="text/css" media="screen" href="/css/cartilha.css" />
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+<script type="text/javascript" src="/js/modernizr.js"></script>
+
+<title>Cartilha de Segurança -- Segurança de computadores</title>
+
+</head>
+
+<body>
+
+<!-- ************************************************************ -->
+<!-- ******* Begin header *************************************** -->
+
+<header>
+<section id="header-cert">
+
+<h1>
+<a href="http://www.cert.br/">
+<img src="/images/logo_cert.png" alt="CERT.br" />
+</a>
+</h1>
+<span><a href="http://www.cert.br/">Centro de Estudos, Resposta e
+Tratamento de<br />Incidentes de Segurança no Brasil</a></span>
+
+<div id="header-cgi-nic">
+<a href="http://www.nic.br/" title="Núcleo de Informação e Coordenação do Ponto BR">
+<img src="/images/logo_nic.png" alt="NIC.br" class="logo-nic" />
+</a>
+<a href="http://www.cgi.br/" title="Comitê Gestor da Internet no Brasil">
+<img src="/images/logo_cgi.png" alt="CGI.br" />
+</a>
+</div>
+
+</section>
+
+<section class="topo">
+
+<h2>
+<a href="/" accesskey="1">
+<img src="/images/logo_cartilha.png"
+alt="Cartilha de Segurança para Internet" class="logo-cartilha" />
+</a>
+</h2>
+
+<nav>
+<ul>
+  <li><a href="/">Início</a></li>
+  <li><a href="/livro/">Livro</a></li>
+  <li><a href="/fasciculos/">Fascículos</a></li>
+  <li><a href="/sobre/">Sobre</a></li>
+</ul>
+</nav>
+
+<form method="get" class="search-form" action="http://www.google.com/search" >
+  <input type="text" value="Buscar" name="q" size="20"
+         class="searchInput" />
+  <input type="hidden" name="sitesearch" value="cartilha.cert.br" />
+  <input type="image" name="submit" class="searchButton"
+         src="/images/button_search.png" alt="Search" />
+</form>
+
+<span class="ir-conteudo"><a href="#content" accesskey="2">Ir para o
+conteúdo</a></span>
+
+<div class="breadcrumb">
+  Você está em: <a href="/">Cartilha</a> &gt;
+  <strong>12. Segurança de computadores</strong>
+</div>
+
+</section>
+</header>
+
+<!-- ******* End header ***************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin sumario ************************************** -->
+
+<aside>
+  <nav>
+    <div class="menu-navigation-container">
+      <p>Sumário</p>
+      <ul id="menu-navigation" class="menu">
+        <li><a href="/seguranca/">1. Segurança na Internet</a></li>
+        <li><a href="/golpes/">2. Golpes na Internet</a></li>
+        <li><a href="/ataques/">3. Ataques na Internet</a></li>
+        <li><a href="/malware/">4. Códigos Maliciosos (Malware)</a></li>
+        <li><a href="/spam/">5. Spam</a></li>
+        <li><a href="/riscos/">6. Outros riscos</a></li>
+        <li><a href="/mecanismos/">7. Mecanismos de segurança</a></li>
+        <li><a href="/senhas/">8. Contas e senhas</a></li>
+        <li><a href="/criptografia/">9. Criptografia</a></li>
+        <li><a href="/uso-seguro/">10. Uso seguro da Internet</a></li>
+        <li><a href="/privacidade/">11. Privacidade</a></li>
+        <li class="on"><a href="/computadores/">12. Segurança de computadores</a></li>
+        <li><a href="/redes/">13. Segurança de redes</a></li>
+        <li><a href="/dispositivos-moveis/">14. Segurança em dispositivos móveis</a></li>
+        <li><a href="/glossario/">Glossário</a></li>
+      </ul>
+    </div>
+  </nav>
+</aside>
+
+<!-- ******* End sumario **************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin conteudo ************************************* -->
+
+<a name="content"></a>
+
+<!-- ************************************************************ -->
+
+<article id="chapter_12">
+
+<div class="posicaoConteudo">
+<div class="conteudoLateralEsquerda">
+<div class="conteudoLateralDireita">
+<div class="inicioConteudo"></div>
+<div class="conteudo">
+
+<h3>
+<a name="12"></a>
+12. Segurança de computadores
+</h3>
+
+  <img class="ilustracao-r" src="/images/situacoes/seguranca-de-computadores.jpg"
+       alt="[Segurança de computadores]" title="Segurança de computadores" />
+
+<p>
+Muito provavelmente é em seu computador pessoal que a maioria dos seus
+dados está gravada e, por meio dele, que você acessa <i>e-mails</i> e
+redes sociais e realiza transações bancárias e comerciais. Por isto,
+mantê-lo seguro é essencial para se proteger dos riscos envolvidos no
+uso da Internet.
+</p>
+
+<p>
+Além disto, ao manter seu computador seguro, você diminui as chances
+dele ser indevidamente utilizado para atividades maliciosas, como
+disseminação de <i>spam</i>, propagação de códigos maliciosos e
+participação em ataques realizados via Internet.
+</p>
+
+<p>
+Muitas vezes, os atacantes estão interessados em conseguir o acesso à
+grande quantidade de computadores, independente de quais são e das
+configurações que possuem. Por isto, acreditar que seu computador está
+protegido por não apresentar atrativos para um atacante pode ser um
+grande erro.
+</p>
+
+<p>
+Para manter seu computador pessoal seguro, é importante que você:
+</p>
+
+<p>
+<b>Mantenha os programas instalados com as versões mais recentes:</b>
+</p>
+
+<p>
+Fabricantes costumam lançar novas versões quando há recursos a serem
+adicionados e vulnerabilidades a serem corrigidas. Sempre que uma nova
+versão for lançada, ela deve ser prontamente instalada, pois isto pode
+ajudar a proteger seu computador da ação de atacantes e códigos
+maliciosos. Além disto, alguns fabricantes deixam de dar suporte e de
+desenvolver atualizações para versões antigas, o que significa que
+vulnerabilidades que possam vir a ser descobertas não serão corrigidas.
+</p>
+
+<ul>
+
+  <li> remova programas que você não utiliza mais. Programas não usados
+  tendem a ser esquecidos e a ficar com versões antigas (e
+  potencialmente vulneráveis);
+
+  <li> remova as versões antigas. Existem programas que permitem que
+  duas ou mais versões estejam instaladas ao mesmo tempo. Nestes casos,
+  você deve manter apenas a versão mais recente e remover as mais
+  antigas;
+
+  <li> tenha o hábito de verificar a existência de novas versões, por
+  meio de opções disponibilizadas pelos próprios programas ou acessando
+  diretamente os <i>sites</i> dos fabricantes.
+
+</ul>
+
+<p>
+<b>Mantenha os programas instalados com todas as atualizações
+aplicadas:</b>
+</p>
+
+  <img class="ilustracao-r" src="/images/situacoes/boas-praticas.jpg"
+       alt="[Boas práticas de segurança]" title="Boas práticas de segurança" />
+
+<p>
+Quando vulnerabilidades são descobertas, certos fabricantes costumam
+lançar atualizações específicas, chamadas de <i>patches</i>, <i>hot
+fixes</i> ou <i>service packs</i>. Portanto, para manter os programas
+instalados livres de vulnerabilidades, além de manter as versões mais
+recentes, é importante que sejam aplicadas todas as atualizações
+disponíveis.
+</p>
+
+<ul>
+
+  <li> configure, quando possível, para que os programas sejam
+  atualizados automaticamente;
+
+  <li> programe as atualizações automáticas para serem baixadas e
+  aplicadas em horários em que seu computador esteja ligado e conectado
+  à Internet. Alguns programas, por padrão, são configurados para que as
+  atualizações sejam feitas de madrugada, período no qual grande parte
+  dos computadores está desligada (as atualizações que não foram feitas
+  no horário programado podem não ser feitas quando ele for novamente
+  ligado);
+
+  <li> no caso de programas que não possuam o recurso de atualização
+  automática, ou caso você opte por não utilizar este recurso, é
+  importante visitar constantemente os <i>sites</i> dos fabricantes para
+  verificar a existência de novas atualizações;
+
+  <li> utilize programas para verificação de vulnerabilidades, como o
+  PSI (mais detalhes na Seção <a href="/mecanismos/#7.10">7.10</a> do
+  Capítulo <a href="/mecanismos/">Mecanismos de segurança</a>), para
+  verificar se os programas instalados em seu computador estão
+  atualizados.
+
+</ul>
+
+<p>
+<b>Use apenas programas originais:</b>
+</p>
+
+<p>
+O uso de programas não originais pode colocar em risco a segurança do
+seu computador já que muitos fabricantes não permitem a realização de
+atualizações quando detectam versões não licenciadas. Além disto, a
+instalação de programas deste tipo, obtidos de mídias e <i>sites</i> não
+confiáveis ou via programas de compartilhamento de arquivos, pode
+incluir a instalação de códigos maliciosos.
+</p>
+
+<ul>
+
+  <li> ao adquirir computadores com programas pré-instalados, procure
+  certificar-se de que eles são originais solicitando ao revendedor as
+  licenças de uso;
+
+  <li> ao enviar seu computador para manutenção, não permita a
+  instalação de programas que não sejam originais;
+
+  <li> caso deseje usar um programa proprietário, mas não tenha recursos
+  para adquirir a licença, procure por alternativas gratuitas ou mais
+  baratas e que apresentem funcionalidades semelhantes as desejadas.
+
+</ul>
+
+<p>
+<b>Use mecanismos de proteção:</b>
+</p>
+
+  <img class="ilustracao-r" src="/images/situacoes/protecao.jpg"
+       alt="[Mecanismos de proteção]" title="Mecanismos de proteção" />
+
+<p>
+O uso de mecanismos de proteção, como programas <i>antimalware</i> e
+<i>firewall</i> pessoal, pode contribuir para que seu computador não
+seja infectado/invadido e para que não participe de atividades
+maliciosas.
+</p>
+
+<ul>
+
+  <li> utilize mecanismos de segurança, como os descritos no Capítulo <a
+  href="/mecanismos/">Mecanismos de segurança</a>;
+
+  <li> mantenha seu <i>antimalware</i> atualizado, incluindo o arquivo
+  de assinaturas;
+
+  <li> assegure-se de ter um <i>firewall</i> pessoal instalado e ativo
+  em seu computador;
+
+  <li> crie um disco de emergência e o utilize quando desconfiar que o
+  <i>antimalware</i> instalado está desabilitado/comprometido ou que o
+  comportamento do computador está estranho (mais lento, gravando ou
+  lendo o disco rígido com muita frequência, etc.);
+
+  <li> verifique periodicamente os <i>logs</i> gerados pelo seu
+  <i>firewall</i> pessoal, sistema operacional e <i>antimalware</i>
+  (observe se há registros que possam indicar algum problema de
+  segurança).
+
+</ul>
+
+<p>
+<b>Use as configurações de segurança já disponíveis:</b>
+</p>
+
+<p>
+Muitos programas disponibilizam opções de segurança, mas que, por
+padrão, vêm desabilitadas ou em níveis considerados baixos. A correta
+configuração destas opções pode contribuir para melhorar a segurança
+geral do seu computador.
+</p>
+
+<ul>
+
+  <li> observe as configurações de segurança e privacidade oferecidas
+  pelos programas instalados em seu computador (como programas leitores
+  de <i>e-mails</i> e navegadores <i>Web</i>) e altere-as caso não
+  estejam de acordo com as suas necessidades.
+
+</ul>
+
+<p>
+<b>Seja cuidadoso ao manipular arquivos:</b>
+</p>
+
+<p>
+Alguns mecanismos, como os programas <i>antimalware</i>, são importantes
+para proteger seu computador contra ameaças já conhecidas, mas podem não
+servir para aquelas ainda não detectadas. Novos códigos maliciosos podem
+surgir, a velocidades nem sempre acompanhadas pela capacidade de
+atualização dos mecanismos de segurança e, por isto, adotar uma postura
+preventiva é tão importante quanto as outras medidas de segurança
+aplicadas.
+</p>
+
+<ul>
+
+  <li> seja cuidadoso ao clicar em <i>links</i>, independente de como
+  foram recebidos e de quem os enviou;
+
+  <li> seja cuidadoso ao clicar em <i>links</i> curtos, procure usar
+  complementos que possibilitem que o <i>link</i> de destino seja
+  visualizado;
+
+  <li> não considere que mensagens vindas de conhecidos são sempre
+  confiáveis, pois o campo de remetente pode ter sido falsificado ou
+  elas podem ter sido enviadas de contas falsas ou invadidas;
+
+  <li> desabilite, em seu seu programa leitor de <i>e-mails</i>, a
+  auto-execução de arquivos anexados;
+
+  <li> desabilite a auto-execução de mídias removíveis (se estiverem
+  infectadas, elas podem comprometer o seu computador ao serem
+  executadas);
+
+  <li> não abra ou execute arquivos sem antes verificá-los com seu
+  <i>antimalware</i>;
+
+  <li> configure seu <i>antimalware</i> para verificar todos os formatos
+  de arquivo pois, apesar de inicialmente algumas extensões terem sido
+  mais usadas para a disseminação de códigos maliciosos, atualmente isso
+  já não é mais válido;
+
+  <li> tenha cuidado com extensões ocultas. Alguns sistemas possuem como
+  configuração padrão ocultar a extensão de tipos de arquivos
+  conhecidos. Exemplo: se um atacante renomear o arquivo
+  "<code>exemplo.scr</code>" para "<code>exemplo.txt.scr</code>", ao ser
+  visualizado o nome do arquivo será mostrado como
+  "<code>exemplo.txt</code>", já que a extensão "<code>.scr</code>" não
+  será mostrada.
+
+</ul>
+
+<p>
+Alguns cuidados especiais para manipular arquivos contendo macros são:
+</p>
+
+<ul>
+
+  <li> verifique o nível de segurança associado à execução de macros e
+  certifique-se de associar um nível que, no mínimo, pergunte antes de
+  executá-las (normalmente associado ao nível médio);
+
+  <li> permita a execução de macros apenas quando realmente necessário
+  (caso não tenha certeza, é melhor não permitir a execução);
+
+  <li> utilize visualizadores. Arquivos gerados, por exemplo, pelo Word,
+  PowerPoint e Excel podem ser visualizados e impressos, sem que as
+  macros sejam executadas, usando visualizadores gratuitos
+  disponibilizados no <i>site</i> do fabricante.
+
+</ul>
+
+<p>
+<b>Proteja seus dados:</b>
+</p>
+
+<p>
+O seu computador pessoal é, provavelmente, onde a maioria dos seus dados
+fica gravada. Por este motivo, é importante que você tome medidas
+preventivas para evitar perdê-los.
+</p>
+
+<ul>
+
+  <li> faça regularmente <i>backup</i> dos seus dados. Para evitar que
+  eles sejam perdidos em caso de furto ou mal-funcionamento do
+  computador (por exemplo, invasão, infecção por códigos maliciosos ou
+  problemas de <i>hardware</i>;
+
+  <li> siga as dicas relacionadas a <i>backups</i> apresentadas na Seção
+  <a href="/mecanismos/#7.5">7.5</a> do Capítulo <a
+  href="/mecanismos/">Mecanismos de segurança</a>.
+
+</ul>
+
+<p>
+<b>Mantenha seu computador com a data e a hora corretas:</b>
+</p>
+
+<p>
+A data e a hora do seu computador são usadas na geração de <i>logs</i>,
+na correlação de incidentes de segurança, na verificação de certificados
+digitais (para conferir se estão válidos). Portanto, é muito importante
+que tome medidas para garantir que estejam sempre corretas.
+</p>
+
+<ul>
+
+  <li> observe as dicas sobre como manter a hora do seu computador
+  sincronizado apresentadas em <a
+  href="http://ntp.br/">http://ntp.br/</a>.
+
+</ul>
+
+<p>
+<b>Crie um disco de recuperação de sistema:</b>
+</p>
+
+<p>
+Discos de recuperação são úteis em caso de emergência, como atualizações
+mal-sucedidas ou desligamentos abruptos que tenham corrompido arquivos
+essenciais ao funcionamento do sistema (causado geralmente por queda de
+energia). Além disso, também podem socorrer caso seu computador seja
+infectado e o código malicioso tenha apagado arquivos essenciais. Podem
+ser criados por meio de opções do sistema operacional ou de programas
+<i>antimalware</i> que ofereçam esta funcionalidade.
+</p>
+
+<ul>
+
+  <li> crie um disco de recuperação do seu sistema e certifique-se de
+  tê-lo sempre por perto, no caso de emergências.
+
+</ul>
+
+<p>
+<b>Seja cuidadoso ao instalar aplicativos desenvolvidos por
+terceiros:</b>
+</p>
+
+<ul>
+
+  <li> ao instalar <i>plug-ins</i>, complementos e extensões, procure
+  ser bastante criterioso e siga as dicas de prevenção apresentadas na
+  Seção <a href="/riscos/#6.4">6.4</a> do Capítulo <a
+  href="/riscos/">Outros riscos</a>.
+
+</ul>
+
+<p>
+<b>Seja cuidadoso ao enviar seu computador para serviços de
+manutenção:</b>
+</p>
+
+<ul>
+
+  <li> procure selecionar uma empresa com boas referências;
+
+  <li> pesquise na Internet sobre a empresa, à procura de opinião de
+  clientes sobre ela;
+
+  <li> não permita a instalação de programas não originais;
+
+  <li> se possível, faça <i>backups</i> dos seus dados antes de enviar
+  seu computador, para não correr o risco de perdê-los acidentalmente ou
+  como parte do processo de manutenção do seu computador;
+
+  <li> se possível, peça que a manutenção seja feita em sua residência,
+  assim fica mais fácil de acompanhar a realização do serviço.
+
+</ul>
+
+<p>
+<b>Seja cuidadoso ao utilizar o computador em locais públicos:</b>
+</p>
+
+<p>
+Quando usar seu computador em público, é importante tomar cuidados para
+evitar que ele seja furtado ou indevidamente utilizado por outras
+pessoas.
+</p>
+
+<ul>
+
+  <li> procure manter a segurança física do seu computador, utilizando
+  travas que dificultem que ele seja aberto, que tenha peças retiradas
+  ou que seja furtado, como cadeados e cabos de aço;
+
+  <li> procure manter seu computador bloqueado, para evitar que seja
+  usado quando você não estiver por perto (isso pode ser feito
+  utilizando protetores de tela com senha ou com programas que impedem o
+  uso do computador caso um dispositivo específico não esteja
+  conectado);
+
+  <li> configure seu computador para solicitar senha na tela inicial
+  (isso impede que alguém reinicie seu computador e o acesse
+  diretamente);
+
+  <li> utilize criptografia de disco para que, em caso de perda ou
+  furto, seus dados não sejam indevidamente acessados.
+
+</ul>
+
+
+<!-- ************************************************************ -->
+
+<section id="section_12_1">
+
+<h4>
+<a name="12.1"></a>
+12.1. Administração de contas de usuários
+</h4>
+
+<p>
+A maioria dos sistemas operacionais possui 3 tipos de conta de usuário:
+</p>
+
+<dl>
+
+  <dd> <b>Administrador (<i>administrator</i>, <i>admin</i> ou
+  <i>root</i>):</b> fornece controle completo sobre o computador,
+  devendo ser usada para atividades como criar/alterar/excluir outras
+  contas, instalar programas de uso geral e alterar de configuração que
+  afetem os demais usuários ou o sistema operacional.
+
+  <dd> <b>Padrão (<i>standard</i>, limitada ou <i>limited</i>):</b>
+  considerada de uso "normal" e que contém os privilégios que a grande
+  maioria dos usuários necessita para realizar tarefas rotineiras, como
+  alterar configurações pessoais, navegar, ler <i>e-mails</i>, redigir
+  documentos, etc.
+
+  <dd> <b>Convidado (<i>guest</i>):</b> destinada aos usuários
+  eventuais, não possui senha e não pode ser acessada remotamente.
+  Permite que o usuário realize tarefas como navegar na Internet e
+  executar programas já instalados. Quando o usuário que utilizou esta
+  conta deixa de usar o sistema, todas as informações e arquivos que
+  foram criados referentes a ela são apagados.
+
+</dl>
+
+<p>
+Quando um programa é executado, ele herda as permissões da conta do
+usuário que o executou e pode realizar operações e acessar arquivos de
+acordo com estas permissões. Se o usuário em questão estiver utilizando
+a conta de administrador, então o programa poderá executar qualquer tipo
+de operação e acessar todo tipo de arquivo.
+</p>
+
+<p>
+A conta de administrador, portanto, deve ser usada apenas em situações
+nas quais uma conta padrão não tenha privilégios suficientes para
+realizar uma operação<a name="sup_footnote001"></a><a
+href="#footnote001" class="footnote">1</a>. E, sobretudo, pelo menor
+tempo possível. Muitas pessoas, entretanto, por questões de comodidade
+ou falta de conhecimento, utilizam esta conta para realizar todo tipo de
+atividade.
+</p>
+
+<p>
+Utilizar nas atividades cotidianas uma conta com privilégios de
+administrador é um hábito que deve ser evitado, pois você pode, por
+exemplo, apagar acidentalmente arquivos essenciais para o funcionamento
+do sistema operacional ou instalar inadvertidamente um código malicioso,
+que terá acesso irrestrito ao seu computador.
+</p>
+
+<p>
+Alguns cuidados específicos referentes à administração de contas em
+computadores pessoais são:
+</p>
+
+<ul>
+
+  <li> nunca compartilhe a senha de administrador;
+
+  <li> crie uma conta padrão e a utilize para a realização de suas
+  tarefas rotineiras;
+
+  <li> utilize a conta de administrador apenas o mínimo necessário;
+
+  <li> use a opção de "executar como administrador" quando necessitar de
+  privilégios administrativos;
+
+  <li> crie tantas contas padrão quantas forem as pessoas que utilizem o
+  seu computador;
+
+  <li> assegure que todas as contas existentes em seu computador tenham
+  senha;
+
+  <li> mantenha a conta de convidado sempre desabilitada (caso você
+  queira utilizá-la, libere-a pelo tempo necessário, mas tenha certeza
+  de novamente bloqueá-la quando não estiver mais em uso);
+
+  <li> assegure que o seu computador esteja configurado para solicitar a
+  conta de usuário e a senha na tela inicial;
+
+  <li> assegure que a opção de <i>login</i> (inicio de sessão)
+  automático esteja desabilitada;
+
+  <li> não crie e não permita o uso de contas compartilhadas, cada conta
+  deve ser acessada apenas por uma pessoa (assim é possível rastrear as
+  ações realizadas por cada um e detectar uso indevido);
+
+  <li> crie tantas contas com privilégio de administrador quantas forem
+  as pessoas que usem o seu computador e que necessitem destes
+  privilégios.
+
+</ul>
+
+<div class="textoFootnote">
+<a name="footnote001"></a>
+<strong>[1]</strong> Esta recomendação baseia-se em um princípio de
+segurança conhecido como "privilégio mínimo" e visa evitar danos por uso
+equivocado ou não autorizado.
+<span class="voltarTopo"><a href="#sup_footnote001">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_12_2">
+
+<h4>
+<a name="12.2"></a>
+12.2. O que fazer se seu computador for comprometido
+</h4>
+
+<p>
+Há alguns indícios que, isoladamente ou em conjunto, podem indicar que
+seu computador foi comprometido. Alguns deles são:
+</p>
+
+<ul>
+
+  <li> o computador desliga sozinho e sem motivo aparente;
+
+  <li> o computador fica mais lento, tanto para ligar e desligar como
+  para executar programas;
+
+  <li> o acesso à Internet fica mais lento;
+
+  <li> o acesso ao disco se torna muito frequente;
+
+  <li> janelas de <i>pop-up</i> aparecem de forma inesperada;
+
+  <li> mensagens de <i>logs</i> são geradas em excesso ou deixam de ser
+  geradas;
+
+  <li> arquivos de <i>logs</i> são apagados, sem nenhum motivo aparente;
+
+  <li> atualizações do sistema operacional ou do <i>antimalware</i> não
+  podem ser aplicadas.
+
+</ul>
+
+<p>
+Caso perceba estes indícios em seu computador e conclua que ele possa
+estar infectado ou invadido, é importante que você tome medidas para
+tentar reverter os problemas. Para isto, os seguintes passos devem ser
+executados por você:
+</p>
+
+<ol type="a">
+
+  <li> Certifique-se de que seu computador esteja atualizado (com a
+  versão mais recente e com todas as atualizações aplicadas). Caso não
+  esteja, atualize-o imediatamente;
+
+  <li> certifique-se de que seu <i>antimalware</i> esteja sendo
+  executado e atualizado, incluindo o arquivo de assinaturas;
+
+  <li> execute o <i>antimalware</i>, configurando-o para verificar todos
+  os discos e analisar todas as extensões de arquivos;
+
+  <li> limpe os arquivos que o <i>antimalware</i> detectar como
+  infectado caso haja algum;
+
+  <li> caso deseje, utilize outro <i>antimalware</i> como, por exemplo,
+  uma versão <i>online</i> (neste caso, certifique-se de temporariamente
+  interromper a execução do <i>antimalware</i> local).
+
+</ol>
+
+<p>
+Executar estes passos, na maioria das vezes, consegue resolver grande
+parte dos problemas relacionados a códigos maliciosos. É necessário,
+porém, que você verifique se seu computador não foi invadido e, para
+isto, você deve seguir os seguintes passos:
+</p>
+
+<ol type="a">
+
+  <li> Certifique-se de que seu <i>firewall</i> pessoal esteja ativo;
+
+  <li> verifique os <i>logs</i> do seu <i>firewall</i> pessoal. Caso
+  encontre algo fora do padrão e que o faça concluir que seu computador
+  tenha sido invadido, o melhor a ser feito é reinstalá-lo, pois
+  dificilmente é possível determinar com certeza as ações do invasor;
+
+  <li> antes de reinstalá-lo, faça <i>backups</i> de <i>logs</i> e
+  notifique ao CERT.br sobre a ocorrência (mais detalhes na Seção <a
+  href="/mecanismos/#7.2">7.2</a> do Capítulo <a
+  href="/mecanismos/">Mecanismos de segurança</a>);
+
+  <li> reinstale o sistema operacional e aplique todas as atualizações,
+  principalmente as de segurança;
+
+  <li> instale e atualize o seu programa <i>antimalware</i>;
+
+  <li> instale ou ative o seu <i>firewall</i> pessoal;
+
+  <li> recupere seus dados pessoais, por meio de um <i>backup</i>
+  confiável.
+
+</ol>
+
+<p>
+Independente de seu computador ter sido infectado ou invadido, é
+importante alterar rapidamente todas as senhas dos serviços que você
+costuma acessar por meio dele.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_12_3">
+
+<h4>
+<a name="12.3"></a>
+12.3. Cuidados ao usar computadores de terceiros
+</h4>
+
+<p>
+Ao usar outros computadores, seja de seus amigos, na sua escola, em
+<i>lanhouse</i> e <i>cyber</i> café, é necessário que os cuidados com
+segurança sejam redobrados. Ao passo que no seu computador é possível
+tomar medidas preventivas para evitar os riscos de uso da Internet, ao
+usar um outro computador não há como saber, com certeza, se estes mesmos
+cuidados estão sendo devidamente tomados e quais as atitudes dos demais
+usuários. Alguns cuidados que você deve ter são:
+</p>
+
+<ul>
+
+  <li> utilize opções de navegar anonimamente, caso queria garantir sua
+  privacidade (você pode usar opções do próprio navegador <i>Web</i> ou
+  <i>anonymizers</i>);
+
+  <li> utilize um <i>antimalware online</i> para verificar se o
+  computador está infectado;
+
+  <li> não efetue transações bancárias ou comerciais;
+
+  <li> não utilize opções como "Lembre-se de mim" e "Continuar
+  conectado";
+
+  <li> não permita que suas senhas sejam memorizadas pelo navegador
+  <i>Web</i>;
+
+  <li> limpe os dados pessoais salvos pelo navegador, como histórico de
+  navegação e <i>cookies</i> (os navegadores disponibilizam opções que
+  permitem que isto seja facilmente realizado);
+
+  <li> assegure-se de sair (<i>logout</i>) de sua conta de usuário, nos
+  <i>sites</i> que você tenha acessado;
+
+  <li> seja cuidadoso ao conectar mídias removíveis, como
+  <i>pen-drives</i>. Caso você use seu <i>pen-drive</i> no computador de
+  outra pessoa, assegure-se de verificá-lo com seu <i>antimalware</i>
+  quando for utilizá-lo em seu computador;
+
+  <li> ao retornar ao seu computador, procure alterar as senhas que, por
+  ventura, você tenha utilizado.
+
+</ul>
+
+</section>
+
+</div>
+</div>
+</div>
+</div>
+
+</article>
+
+<!-- ******* End content **************************************** -->
+<!-- ************************************************************ -->
+
+<div id="rodape">
+  <ul>
+    <li><a href="/cc/">Licença</a></li>
+    <li><a href="/creditos/">Créditos</a></li>
+    <li><a href="/avisos/">Avisos</a></li>
+    <li><a href="/downloads/">Downloads</a></li>
+    <li class="last"><a href="/divulgue/">Divulgue</a></li>
+  </ul>
+  <p>
+    <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/br/">
+    <img src="/images/ic_creativeCommons.png"
+    alt="Licença Creative Commons CERT.br">
+    </a>
+    Cartilha de Segurança para Internet - CERT.br - $Date: 2012/06/03 01:41:42 $
+  </p>
+    <div class="selosRodape">
+      <a href="http://ipv6.br/">
+      <img src="/images/ic_ipv6.png"
+      alt="Site acessível via IPv6" title="Site acessível via IPv6">
+      </a>
+      <a href="http://jigsaw.w3.org/css-validator">
+      <img src="/images/ic_css.png" alt="CSS Válido" title="CSS Válido">
+      </a>
+      <img src="/images/ic_html5.png" alt="Desenvolvido em HTML 5"
+      title="Desenvolvido em HTML 5">
+    </div>
+</div>
+
+</body>
+</html>

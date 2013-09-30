@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	<head>
+		<title>Open Resolver Project</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<style type="text/css">
+			body {
+				background-color: #0ffff;
+
+				color: #000;
+				font-size: 0.9em;
+				font-family: sans-serif,helvetica;
+				margin: 0;
+				padding: 0;
+			}
+			:link {
+				color: #0000FF;
+			}
+			:visited {
+				color: #0000FF;
+			}
+			a:hover {
+				color: #3399FF;
+			}
+			h1 {
+				text-align: center;
+				margin: 0;
+				padding: 0.6em 2em 0.4em;
+				background-color: #3399FF;
+				color: #ffffff;
+				font-weight: normal;
+				font-size: 1.75em;
+				border-bottom: 2px solid #000;
+			}
+			h1 strong {
+				font-weight: bold;
+			}
+			h2 {
+				font-size: 1.1em;
+				font-weight: bold;
+			}
+			.content {
+				padding: 1em 5em;
+			}
+			.content-columns {
+				/* Setting relative positioning allows for 
+				absolute positioning for sub-classes */
+				position: relative;
+				padding-top: 1em;
+			}
+			.content-column-left {
+				/* Value for IE/Win; will be overwritten for other browsers */
+				width: 47%;
+				padding-right: 3%;
+				float: left;
+				padding-bottom: 2em;
+			}
+			.content-column-right {
+				/* Values for IE/Win; will be overwritten for other browsers */
+				width: 47%;
+				padding-left: 3%;
+				float: left;
+				padding-bottom: 2em;
+			}
+			.content-columns>.content-column-left, .content-columns>.content-column-right {
+				/* Non-IE/Win */
+			}
+			img {
+				border: 2px solid #fff;
+				padding: 2px;
+				margin: 2px;
+			}
+			a:hover img {
+				border: 2px solid #3399FF;
+			}
+		</style>
+	</head>
+
+	<body>
+	<h1>Open Resolver Project<br></h1>
+
+		<div class="content">
+			<div class="content-middle">
+				<p>Open Resolvers pose a significant threat to the global network infrastructure by answering recursive queries for hosts outside of its domain.  They are utilized in DNS Amplification attacks and pose a similar threat as those from <a href="http://en.wikipedia.org/wiki/Smurf_attack">Smurf attacks</a> commonly seen in the late 1990s.</p>
+
+<p> We have collected a list of 33 million resolvers that respond to queries in some fashion. 28 million of these pose a significant threat (as of 26-MAY-2013). <a href="/breakdown.cgi">Detailed History and Breakdown</a> </p>
+				<p><center><strong>Check my IP space</strong></center></p>
+<p><center>
+<!-- searchbox goes here -->
+<FORM METHOD="GET" ACTION="search.cgi">
+<input NAME=botnet VALUE=yessir type=hidden>Search my IP space (eg: 192.0.2.0/24 - searches "larger" than /22 will be rejected): <INPUT TYPE=text VALUE=2001:0:53aa:64c:18ca:5d94:2471:e895  NAME=search_for></TD>
+</FORM>
+</center>
+</p>
+<p><a href="heatmap-20130519.png">ipv4-heatmap of 20130519 data</a> <a href="/heatmap-archive.html">heatmap archive</a></p>
+			</div>
+<hr />
+			<div class="content-columns">
+				<div class="content-column-left">
+					<h2>What can I do?</h2>
+
+					<p>If you operate a DNS server, please check the settings.</p>
+					<p><b>Recursive servers</b> should be restricted to your enterprise or customer IP ranges to prevent abuse.  Directions on securing BIND and Microsoft nameservers can be found on the <a href="http://www.team-cymru.org/Services/Resolvers/instructions.html">Team CYMRU Website</a> - If you operate BIND, you can deploy the <a href="https://lists.dns-oarc.net/pipermail/dns-operations/2013-May/010175.html">TCP-ANY patch</a></p>
+
+					<p><b>Authoritative servers</b> should not offer recursion, but can still be used in an attack.  Configure your Authoritative DNS servers to use <a href="http://www.redbarn.org/dns/ratelimits"> DNS RRL [Response Rate Limiting]</a>  Knot DNS and NLNetLabs NSD include this as a standard option now. BIND requires a patch.</p> 
+					<p><b>CPE DEVICES</b> SHOULD NOT listen for DNS packets on the WAN interface, including NETWORK and BROADCAST addresses.</p>
+
+					<h2>Prevent spoofing on your network!</h2>
+					<p>Configure Source Address Validation/uRPF/BCP-38 on all CPE and Datacenter equipment edges that have fixed IP ranges. This could be as simple as setting ip verify unicast source reachable-via rx on a router interface. Any staticly routed customer should receive this setting by default.</p>
+
+
+				</div>
+
+				<div class="content-column-right">
+					<h2>If you are in the security community:</h2>
+
+					<p>Please contact dns-scan /at/ puck.nether.net for access to raw data.</p>
+
+					<h2>Additional Information</h2>	
+
+                                        <p><a href="http://www.cert.br/docs/whitepapers/dns-recursivo-aberto/">Informações em Português</a>
+					<p>We can provide you a List of Open Resolvers by ASN if you e-mail dns-scan /at/ puck.nether.net</p>
+					<p><a href="http://www.thinkbroadband.com/tools/dnscheck.html">Test your IP Now!</a></p>
+					
+					<strong>DNS DDoS and Security in the News</strong>
+					<li>04-APR-2013 <a href="http://www.fiercetelecom.com/story/spamhaus-ddos-was-just-warning-shot/2013-04-02">Spamhaus DDoS was just a warning shot</a>
+                                        <li>30-MAR-2013 <a href="http://www.nytimes.com/interactive/2013/03/30/technology/how-the-cyberattack-on-spamhaus-unfolded.html?_r=0">How the Cyberattack on Spamhaus Unfolded</a>
+					<li>28-MAR-2013 <a href="https://www.isc.org/wordpress/is-your-open-dns-resolver-part-of-a-criminal-conspiracy/">Is Your DNS Server part of a criminal conspiracy?</a>
+                                        <li>20-MAR-2013 <a href="http://blog.cloudflare.com/the-ddos-that-knocked-spamhaus-offline-and-ho">75Gb/s DDoS against Cloudflare</a>
+
+					<p></p>
+					<strong>Presentations:</strong>
+					<li>DNS-OARC May 2013 - <a href="https://indico.dns-oarc.net/indico/materialDisplay.py?contribId=24&sessionId=0&materialId=slides&confId=0">slides</a>
+					<li> NANOG 58 June 2013 - <a href="https://www.nanog.org/meetings/nanog58/agenda">Lightning Talk</a>
+				</div>
+			</div>
+                </div>
+<iframe src="http://test-ipv6.com" width=0 height=0 style="hidden" frameborder=0 marginheight=0 marginwidth=0 scrolling=no></iframe>
+</body>
+</html>

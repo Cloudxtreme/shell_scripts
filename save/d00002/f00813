@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Bug #14766: 2nd puppet run after restart is ignoring runinterval, negating splay - Puppet - Puppet Labs</title>
+<meta name="description" content="Redmine" />
+<meta name="keywords" content="issue,bug,tracker" />
+<meta content="authenticity_token" name="csrf-param" />
+<meta content="pz8PSCsjvH4mjxoFYZ1xzEjWWuoW697jec5CEWAlRZc=" name="csrf-token" />
+<link rel='shortcut icon' href='/favicon.ico?1363307366' />
+<link href="/stylesheets/jquery/jquery-ui-1.8.21.css?1357934870" media="all" rel="stylesheet" type="text/css" />
+<link href="/themes/puppetlabs_redmine_theme/stylesheets/application.css?1358972821" media="all" rel="stylesheet" type="text/css" />
+
+<script src="/javascripts/jquery-1.7.2-ui-1.8.21-ujs-2.0.3.js?1357934870" type="text/javascript"></script>
+<script src="/javascripts/application.js?1357934870" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+$(window).load(function(){ warnLeavingUnsaved('The current page contains unsaved text that will be lost if you leave this page.'); });
+//]]>
+</script>
+
+<link href="/plugin_assets/redmine_vote/stylesheets/stylesheet.css?1358364479" media="screen" rel="stylesheet" type="text/css" />
+<!-- page specific tags -->
+    <link href="http://projects.puppetlabs.com/issues/14766.atom" rel="alternate" title="Puppet - Bug #14766: 2nd puppet run after restart is ignoring runinterval, negating splay" type="application/atom+xml" />
+<script src="/javascripts/context_menu.js?1357934869" type="text/javascript"></script><link href="/stylesheets/context_menu.css?1357934869" media="screen" rel="stylesheet" type="text/css" /></head>
+<body class="theme-Puppetlabs redmine theme controller-issues action-show">
+<div id="wrapper">
+<div id="wrapper2">
+<div id="wrapper3">
+<div id="top-menu">
+    <div id="account">
+        <ul><li><a href="/login" class="login">Sign in</a></li>
+<li><a href="/account/register" class="register">Register</a></li></ul>    </div>
+    
+    <ul><li><a href="http://puppetlabs.com" class="puppetlabs">Puppet Labs Site</a></li>
+<li><a href="http://docs.puppetlabs.com" class="documentation">Documentation</a></li>
+<li><a href="http://www.puppetlabs.com/resources/customer-support" class="support">Support</a></li>
+<li><a href="http://www.puppetlabs.com/company/#contact" class="contact">Contact Us</a></li>
+<li><a href="http://www.puppetlabs.com/resources/downloads" class="download">Download</a></li>
+<li><a href="/" class="home">Home</a></li>
+<li><a href="/projects" class="projects">Projects</a></li>
+<li><a href="http://www.redmine.org/guide" class="help">Help</a></li></ul></div>
+
+<div id="header">
+    <div id="quick-search">
+        <form accept-charset="UTF-8" action="/projects/puppet/search" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+        <input name="issues" type="hidden" value="1" />
+        <label for='q'>
+          <a href="/projects/puppet/search" accesskey="4">Search</a>:
+        </label>
+        <input accesskey="f" class="small" id="q" name="q" size="20" type="text" />
+</form>        
+    </div>
+
+    <h1>Puppet</h1>
+
+    <div id="main-menu">
+        <ul><li><a href="/projects/puppet" class="overview">Overview</a></li>
+<li><a href="/projects/puppet/activity" class="activity">Activity</a></li>
+<li><a href="/projects/puppet/roadmap" class="roadmap">Roadmap</a></li>
+<li><a href="/projects/puppet/issues" class="issues selected">Issues</a></li>
+<li><a href="/projects/puppet/wiki" class="wiki">Wiki</a></li></ul>
+    </div>
+</div>
+
+<div id="main" class="">
+    <div id="sidebar">
+          <h3>Issues</h3>
+<a href="/projects/puppet/issues?set_filter=1">View all issues</a><br />
+<a href="/projects/puppet/issues/report">Summary</a><br />
+
+
+
+
+<h3>Custom queries</h3><a href="/projects/puppet/issues?query_id=272" class="query">Accepted but Unowned - Patches Welcome!</a><br /><a href="/projects/puppet/issues?query_id=95" class="query">All tickets</a><br /><a href="/projects/puppet/issues?query_id=289" class="query">Backlog Query</a><br /><a href="/projects/puppet/issues?query_id=98" class="query">Open cron issues</a><br /><a href="/projects/puppet/issues?query_id=304" class="query">Platform Report - 2 Week Activity</a><br /><a href="/projects/puppet/issues?query_id=199" class="query">Puppet Solaris issues</a><br /><a href="/projects/puppet/issues?query_id=107" class="query">Ruby 1.9 Issues</a><br /><a href="/projects/puppet/issues?query_id=145" class="query">Support Customer Tickets</a><br /><a href="/projects/puppet/issues?query_id=177" class="query">Support Tickets</a><br /><a href="/projects/puppet/issues?query_id=262" class="query">Telly Deprecations</a><br /><a href="/projects/puppet/issues?query_id=176" class="query">Tickets - Assigned to Me</a><br /><a href="/projects/puppet/issues?query_id=131" class="query">Tickets - Authored by Me</a><br /><a href="/projects/puppet/issues?query_id=173" class="query">Tickets - By Priority</a><br /><a href="/projects/puppet/issues?query_id=64" class="query">Tickets - In Topic Branch Pending Review</a><br /><a href="/projects/puppet/issues?query_id=147" class="query">Tickets - Top by votes</a><br /><a href="/projects/puppet/issues?query_id=29" class="query">Tickets - Unassigned to a target release</a><br /><a href="/projects/puppet/issues?query_id=19" class="query">Tickets - Unreviewed</a><br /><a href="/projects/puppet/issues?query_id=198" class="query">Tickets - unreviewed and outside SLA</a><br /><a href="/projects/puppet/issues?query_id=208" class="query">Tickets - waiting for action</a><br /><a href="/projects/puppet/issues?query_id=201" class="query">Tickets with simple fixes</a>
+
+
+
+    <div id="watchers">
+      
+<h3>Watchers (5)</h3>
+
+<ul><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/1587e27de0bc0489e9577d00c2e9c72f?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/848" class="user active">konrad rzentarzewski</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/2a6f2dc8ce7fed3335785c90c2af0f2d?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/1245" class="user active">Chuck Schweizer</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/f32ed5b7e352f381599f08fd7794257c?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/4547" class="user active">David Gwilliam</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/00ab53e542eed384c8a325b6399145e3?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/3096" class="user active">Julien R.</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/f1e41c35b971320e5db667dc80192df6?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/6402" class="user active">Bernard Bondos</a></li></ul>
+
+    </div>
+
+        
+    </div>
+
+    <div id="content">
+        
+        <div class="contextual">
+
+
+<span class="issue-14766-watcher"></span>
+
+
+</div>
+
+
+<h2>Bug #14766</h2>
+
+<div class="issue status-5 priority-4 priority-default closed details">
+
+  <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/f616f727254aed8092d8ccfb768ba441?rating=PG&amp;size=50&amp;default=" ssl="false" title="" />
+
+<div class="subject">
+<div><h3>2nd puppet run after restart is ignoring runinterval, negating splay</h3></div>
+</div>
+        <p class="author">
+        Added by <a href="/users/3076" class="user active">Mariusz Gronczewski</a> <a href="/projects/puppet/activity?from=2012-05-31" title="05/31/2012 06:36 am">about 1 year</a> ago.
+        Updated <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:18 pm">4 months</a> ago.
+        </p>
+
+<table class="attributes">
+<tr><th class="status">Status:</th><td class="status">Closed</td><th class="start-date">Start date:</th><td class="start-date">05/31/2012</td></tr><tr><th class="priority">Priority:</th><td class="priority">Normal</td><th class="due-date">Due date:</th><td class="due-date"></td></tr><tr><th class="assigned-to">Assignee:</th><td class="assigned-to"><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/36ccf398adbe1a4264d57b32917b990c?rating=PG&amp;size=14&amp;default=" ssl="false" title="" /><a href="/users/4316" class="user active">Andrew Parker</a></td><th class="progress">% Done:</th><td class="progress"><table class="progress" style="width: 80px;"><tr><td class="todo" style="width: 100%;"></td></tr></table><p class="pourcent">0%</p></td></tr><tr><th class="category">Category:</th><td class="category">agent</td><th></th><td></td></tr><tr><th class="fixed-version">Target version:</th><td class="fixed-version"><a href="/versions/371">3.2.0</a></td><th></th><td></td></tr>
+<tr>
+	<th>Affected Puppet version:</th><td>2.7.14</td>
+	<th>Branch:</th><td>https://github.com/puppetlabs/puppet/pull/1130</td>
+</tr>
+<tr>
+	<th>Keywords:</th><td> customer</td>
+</tr>
+
+    <tr><td><b>
+
+
+
+
+    </td></tr>
+
+</table>
+
+<hr />
+<div class="description">
+  <div class="contextual">
+  
+  </div>
+
+  <p><strong>Description</strong></p>
+  <div class="wiki">
+  <p>after upgrading from 2.7.13 to 2.7.14 I noticed that our  puppets got &ldquo;synchonized&rdquo; and we have 10-20 clients running in one minute but 1-2 in other, which causes big spikes in load, especially if it hits few VMs on same physical machine
+It seems that second puppet run after splay ignores runinterval:</p>
+
+<pre><code>May 13 05:00:03 blade308 puppet-agent[8820]: Sleeping for 346 seconds (splay is enabled) # start
+May 13 05:05:49 blade308 puppet-agent[8820]: Retrieving plugin                           # puppet run 5m after start
+May 13 05:10:02 blade308 puppet-agent[8820]: Finished catalog run in 106.23 seconds
+May 13 05:30:17 blade308 puppet-agent[8820]: Retrieving plugin                           # puppet run 25m after last one, 30m after start
+May 13 05:37:28 blade308 puppet-agent[8820]: Finished catalog run in 107.28 seconds
+
+May 14 05:00:04 blade308 puppet-agent[17967]: Sleeping for 1019 seconds (splay is enabled)
+May 14 05:17:03 blade308 puppet-agent[17967]: Retrieving plugin                             # puppet run 17 min after start
+May 14 05:21:03 blade308 puppet-agent[17967]: Finished catalog run in 99.93 seconds
+May 14 05:30:16 blade308 puppet-agent[17967]: Retrieving plugin                             # puoer run 13 min after last one 30m after start
+May 14 05:37:21 blade308 puppet-agent[17967]: Finished catalog run in 103.47 seconds 
+</code></pre>
+
+<p>It seems like 2nd run is counting time from puppet start, not from last run
+For comparision, before update:</p>
+
+<pre><code>Apr 29 04:03:09 blade307 puppet-agent[31595]: Sleeping for 723 seconds (splay is enabled)
+Apr 29 04:15:12 blade307 puppet-agent[31595]: Retrieving plugin                            # 12m after start
+Apr 29 04:19:54 blade307 puppet-agent[31595]: Finished catalog run in 127.66 seconds       
+Apr 29 04:50:21 blade307 puppet-agent[31595]: Retrieving plugin                            # 35m after last run, 47 after start.
+Apr 29 04:54:27 blade307 puppet-agent[31595]: Finished catalog run in 95.67 seconds
+</code></pre>
+
+<p>I noticed that now it counts run interval from start of puppet, not from end of last run. While it makes puppet run in interval closer to defined run interval, it causes problems when for some case puppet will be ran at same time on many nodes. Before every &ldquo;peak&rdquo; in load would cause puppet run to take longer so next run would be delayed, causing &lsquo;peak time&rsquo; to smooth out after few runs.</p>
+
+  </div>
+</div>
+
+
+
+
+
+<hr />
+<div id="relations">
+<div class="contextual">
+</div>
+
+<p><strong>Related issues</strong></p>
+
+<form>
+<table class="list issues">
+<tr class="issue hascontextmenu" id="relation-4182">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="18211" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/18211" class="issue status-5 priority-4 priority-default closed">Bug #18211</a>: puppet agent sleeping well past runinterval
+</td>
+<td class="status">Closed</td>
+<td class="start_date"></td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+<tr class="issue hascontextmenu" id="relation-4311">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="20561" /></td>
+<td class="subject">Copied to 
+    Puppet - 
+    <a href="/issues/20561" class="issue status-5 priority-4 priority-default closed">Bug #20561</a>: 2nd puppet run after restart is ignoring runinterval, neg...
+</td>
+<td class="status">Closed</td>
+<td class="start_date">05/31/2012</td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+</table>
+</form>
+
+<form accept-charset="UTF-8" action="/issues/14766/relations" class="new_relation" data-remote="true" id="new-relation-form" method="post" style="display: none;"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="pz8PSCsjvH4mjxoFYZ1xzEjWWuoW697jec5CEWAlRZc=" /></div>
+
+
+<p><select id="relation_relation_type" name="relation[relation_type]" onchange="setPredecessorFieldsVisibility();"><option value="relates">Related to</option>
+<option value="duplicates">Duplicates</option>
+<option value="duplicated">Duplicated by</option>
+<option value="blocks">Blocks</option>
+<option value="blocked">Blocked by</option>
+<option value="precedes">Precedes</option>
+<option value="follows">Follows</option>
+<option value="copied_to">Copied to</option>
+<option value="copied_from">Copied from</option></select>
+Issue #<input id="relation_issue_to_id" name="relation[issue_to_id]" size="10" type="text" />
+<span id="predecessor_fields" style="display:none;">
+Delay: <input id="relation_delay" name="relation[delay]" size="3" type="text" /> days
+</span>
+<input name="commit" type="submit" value="Add" />
+<a href="#" onclick="$(&quot;#new-relation-form&quot;).hide();; return false;">Cancel</a>
+</p>
+
+<script type="text/javascript">
+//<![CDATA[
+observeAutocompleteField('relation_issue_to_id', '/issues/auto_complete?project_id=puppet&scope=all')
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setPredecessorFieldsVisibility();
+//]]>
+</script>
+
+</form>
+</div>
+
+</div>
+
+
+<div id="history">
+<h3>History</h3>
+  <div id="change-64633" class="journal has-details">
+    <div id="note-1">
+    <h4><a href="/issues/14766#note-1" class="journal-link">#1</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d637c6a7ee106cfce51add8008b3d835?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3654" class="user active">Kelsey Hightower</a> <a href="/projects/puppet/activity?from=2012-06-08" title="06/08/2012 08:51 am">about 1 year</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Unreviewed</i> to <i>Accepted</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-66975" class="journal has-notes">
+    <div id="note-2">
+    <h4><a href="/issues/14766#note-2" class="journal-link">#2</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/e5da49e7737182fcfa42ce533503817a?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/5386" class="user active">Boyan Tabakov</a> <a href="/projects/puppet/activity?from=2012-07-13" title="07/13/2012 03:19 am">about 1 year</a> ago</h4>
+
+    <div class="wiki" id="journal-66975-notes"><p>I can confirm this with 2.7.18 running on Ubuntu lucid. Pretty nasty thing for environments where puppet daemon is being restarted at a given time (e.g. for cleaning up a bit of memory).</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-70832" class="journal has-notes has-details">
+    <div id="note-3">
+    <h4><a href="/issues/14766#note-3" class="journal-link">#3</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/31ae65092221467161ded048032f40cd?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/366" class="user active">Daniel Pittman</a> <a href="/projects/puppet/activity?from=2012-09-10" title="09/10/2012 04:22 pm">12 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Accepted</i> to <i>In Topic Branch Pending Review</i></li>
+       <li><strong>Target version</strong> set to <i>2.7.x</i></li>
+       <li><strong>Branch</strong> set to <i>https://github.com/puppetlabs/puppet/pull/1130</i></li>
+    </ul>
+    <div class="wiki" id="journal-70832-notes"><p>https://github.com/puppetlabs/puppet/pull/1130 fixes this so that the scheduler knows about splay, allowing it to make a better decision about how to act on it.</p>
+
+<p>This should almost certainly go into 3.0.0 before the final release.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-71074" class="journal has-details">
+    <div id="note-4">
+    <h4><a href="/issues/14766#note-4" class="journal-link">#4</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/31ae65092221467161ded048032f40cd?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/366" class="user active">Daniel Pittman</a> <a href="/projects/puppet/activity?from=2012-09-13" title="09/13/2012 11:57 am">12 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>In Topic Branch Pending Review</i> to <i>Code Insufficient</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-80534" class="journal has-notes has-details">
+    <div id="note-5">
+    <h4><a href="/issues/14766#note-5" class="journal-link">#5</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/36ccf398adbe1a4264d57b32917b990c?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/4316" class="user active">Andrew Parker</a> <a href="/projects/puppet/activity?from=2013-01-04" title="01/04/2013 03:53 pm">8 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> deleted (<del><i>2.7.x</i></del>)</li>
+    </ul>
+    <div class="wiki" id="journal-80534-notes"><p>As the 2.7.x line is winding down, I am removing the target at 2.7.x from tickets in the system. The 2.7 line should only receive fixes for major problems (crashes, for instance) or security problems.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-82832" class="journal has-notes has-details">
+    <div id="note-6">
+    <h4><a href="/issues/14766#note-6" class="journal-link">#6</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/7f7fe07c6402a15a4888c3ba00efca45?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/693" class="user active">eric sorenson</a> <a href="/projects/puppet/activity?from=2013-02-08" title="02/08/2013 07:16 am">7 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Category</strong> set to <i>agent</i></li>
+       <li><strong>Assignee</strong> set to <i>Andrew Parker</i></li>
+       <li><strong>Target version</strong> set to <i>3.x</i></li>
+    </ul>
+    <div class="wiki" id="journal-82832-notes"><p>Andy, we got a ping on this &mdash; I&rsquo;m bumping ownership over to you since your last comment on the pull request suggested you had a specific design idea for what this should look like.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-82833" class="journal has-notes has-details">
+    <div id="note-7">
+    <h4><a href="/issues/14766#note-7" class="journal-link">#7</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/36ccf398adbe1a4264d57b32917b990c?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/4316" class="user active">Andrew Parker</a> <a href="/projects/puppet/activity?from=2013-02-08" title="02/08/2013 07:27 am">7 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Code Insufficient</i> to <i>Needs Decision</i></li>
+       <li><strong>Assignee</strong> changed from <i>Andrew Parker</i> to <i>eric sorenson</i></li>
+    </ul>
+    <div class="wiki" id="journal-82833-notes"><p>eric sorenson wrote:</p>
+
+<blockquote><p>Andy, we got a ping on this &mdash; I&rsquo;m bumping ownership over to you since your last comment on the pull request suggested you had a specific design idea for what this should look like.</p></blockquote>
+
+<p>The pull request solved the problem, but presented design issues. I believe that all that was needed was for the code for calculating the next run time to be extracted out from the daemon code, placed into a class, parameterized appropriately, and tested (this was in order to stop testing a private method on the daemon class).</p>
+
+<p>We should be able to resuscitate the branch that Daniel had and finish it up. Would you like us to pull this in for inclusion in our work next week?</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-82835" class="journal has-notes has-details">
+    <div id="note-8">
+    <h4><a href="/issues/14766#note-8" class="journal-link">#8</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/7f7fe07c6402a15a4888c3ba00efca45?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/693" class="user active">eric sorenson</a> <a href="/projects/puppet/activity?from=2013-02-08" title="02/08/2013 07:33 am">7 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Assignee</strong> changed from <i>eric sorenson</i> to <i>Andrew Parker</i></li>
+       <li><strong>Target version</strong> changed from <i>3.x</i> to <i>3.2.0</i></li>
+    </ul>
+    <div class="wiki" id="journal-82835-notes"><p>Sure if it&rsquo;s not a big rat-hole, it&rsquo;s sad to see it get so close but not actually Done.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-88391" class="journal has-details">
+    <div id="note-9">
+    <h4><a href="/issues/14766#note-9" class="journal-link">#9</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/0877c3568ad22ac948626ce8808d1fce?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6471" class="user active">Charlie Sharpsteen</a> <a href="/projects/puppet/activity?from=2013-04-05" title="04/05/2013 04:35 pm">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Keywords</strong> set to <i> customer</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-88877" class="journal has-details">
+    <div id="note-11">
+    <h4><a href="/issues/14766#note-11" class="journal-link">#11</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/c7ff0fe7a67ef06a7717c0dde345acc7?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2866" class="user active">Josh Cooper</a> <a href="/projects/puppet/activity?from=2013-04-08" title="04/08/2013 10:14 am">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Needs Decision</i> to <i>Accepted</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-89189" class="journal has-notes has-details">
+    <div id="note-13">
+    <h4><a href="/issues/14766#note-13" class="journal-link">#13</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/36ccf398adbe1a4264d57b32917b990c?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/4316" class="user active">Andrew Parker</a> <a href="/projects/puppet/activity?from=2013-04-12" title="04/12/2013 02:28 pm">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Accepted</i> to <i>Merged - Pending Release</i></li>
+    </ul>
+    <div class="wiki" id="journal-89189-notes"><p>Merged in <a href="https://github.com/puppetlabs/puppet/commit/96ff2790b90dea30da7df8b2b3f5f9a7be0d86cb">https://github.com/puppetlabs/puppet/commit/96ff2790b90dea30da7df8b2b3f5f9a7be0d86cb</a></p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-89472" class="journal has-notes has-details">
+    <div id="note-14">
+    <h4><a href="/issues/14766#note-14" class="journal-link">#14</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/aafd0d5beaa872e15092084e9bab49c9?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3206" class="user active">Matthaus Owens</a> <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:17 pm">4 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Merged - Pending Release</i> to <i>Closed</i></li>
+    </ul>
+    <div class="wiki" id="journal-89472-notes"><p>Released in Puppet 3.2.0-rc1</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-89536" class="journal has-notes">
+    <div id="note-15">
+    <h4><a href="/issues/14766#note-15" class="journal-link">#15</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/aafd0d5beaa872e15092084e9bab49c9?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3206" class="user active">Matthaus Owens</a> <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:18 pm">4 months</a> ago</h4>
+
+    <div class="wiki" id="journal-89536-notes"><p>Released in Puppet 3.2.0-rc1</p>
+</div>
+    </div>
+  </div>
+  
+
+
+</div>
+
+
+<div style="clear: both;"></div>
+<div class="contextual">
+
+
+<span class="issue-14766-watcher"></span>
+
+
+</div>
+
+
+<div style="clear: both;"></div>
+
+<p class="other-formats">Also available in:  <span><a href="/issues/14766.atom" class="atom" rel="nofollow">Atom</a></span>
+  <span><a href="/issues/14766.pdf" class="pdf" rel="nofollow">PDF</a></span>
+</p>
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+contextMenuInit('/issues/context_menu')
+//]]>
+</script>
+
+        
+        <div style="clear:both;"></div>
+    </div>
+</div>
+</div>
+
+<div id="ajax-indicator" style="display:none;"><span>Loading...</span></div>
+<div id="ajax-modal" style="display:none;"></div>
+
+<div id="footer">
+  <div class="bgl"><div class="bgr">
+    Powered by <a href="http://www.redmine.org/">Redmine</a> &copy; 2006-2012 Jean-Philippe Lang
+  </div></div>
+</div>
+</div>
+</div>
+<script src="/javascripts/leadcapture.js?1328214688" type="text/javascript"></script>
+
+<!-- BEGIN: MARKETO TRACKING -->
+    <script src="https://munchkin.marketo.net/munchkin.js
+type="text/javascript"></script>
+<script>mktoMunchkin("307-QLA-991");</script>
+ <!-- END: MARKETO TRACKING --> <!-- Begin Google Analytics Asynch-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1537572-5']);
+  _gaq.push(['_setDomainName', 'puppetlabs.com']);
+  _gaq.push(['_addIgnoredRef', 'puppetlabs.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  <!-- End Google Analytics -->
+
+</body>
+</html>

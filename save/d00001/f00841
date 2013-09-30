@@ -1,0 +1,683 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Nmap Documentation - Free Security Scanner For Network Exploration & Security Audits.</TITLE>
+<META name="description" content="Documentation for Nmap Free Security Scanner For Network Exploration & Hacking. Download open source software for Redhat Linux,Microsoft Windows,UNIX,FreeBSD,etc.">
+<META name="keywords" content="Nmap,Nmap Security Scanner,Port Scanner,Portscanner,Free Download,Software,Linux,Microsoft Windows,Unix,Tool,Open Source,FreeBSD,Network tools,Nmap,Network Security,Hacking,Redhat">
+
+<link REL="SHORTCUT ICON" HREF="/shared/images/tiny-eyeicon.png" TYPE="image/png">
+<META NAME="ROBOTS" CONTENT="NOARCHIVE">
+<link rel="stylesheet" href="/shared/css/insecdb.css" type="text/css">
+<!--Google Analytics-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-11009417-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<!--Google Custom Site Search boilerplate Javascript-->
+<script>
+  (function() {
+    var cx = 'partner-pub-0078565546631069:bx60rb-fytx';
+    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<!--End Google Custom Site Search boilerplate Javascript-->
+
+</HEAD>
+<BODY BGCOLOR="#2A0D45" TEXT="#000000">
+
+<TABLE CELLPADDING="0" WIDTH="100%" CELLSPACING="0">
+<TR><TD ALIGN="left"><A HREF="/"><IMG BORDER=0 ALT="Home page logo"
+SRC="/images/sitelogo.png" HEIGHT=90 WIDTH=168></A></TD>
+<TD VALIGN="bottom" ALIGN="right">
+<!-- Begin TopBanner Code -->
+<!-- AdSpeed.com Serving Code 7.9.5 for [Zone] TopBanner [Any Dimension] -->
+<script type="text/javascript" src="http://g.adspeed.net/ad.php?do=js&amp;zid=14678&amp;wd=-1&amp;ht=-1&amp;target=_top"></script>
+<!-- AdSpeed.com End -->
+<!-- End Banner Code -->
+
+</TD></TR></TABLE>
+<TABLE WIDTH="100%" CELLPADDING="0" CELLSPACING="0"><TR>
+<TD ALIGN="left" WIDTH="130" VALIGN="top" class="sidebar">
+
+<!-- SECWIKI PORTAL INSERT -->
+
+<ul>
+<li><a href="http://nmap.org/">Nmap Security Scanner</a>
+<ul>
+<li><a href="http://nmap.org/">Intro</a></li>
+<li><a href="http://nmap.org/book/man.html">Ref Guide</a></li>
+<li><a href="http://nmap.org/book/install.html">Install Guide</a></li>
+<li><a href="http://nmap.org/download.html">Download</a></li>
+<li><a href="http://nmap.org/changelog.html">Changelog</a></li>
+<li><a href="http://nmap.org/book/">Book</a></li>
+<li><a href="http://nmap.org/docs.html">Docs</a></li>
+</ul>
+<li><a href="http://seclists.org/">Security Lists</a>
+<ul>
+<li><a href="http://seclists.org/nmap-hackers/">Nmap Hackers</a></li>
+<li><a href="http://seclists.org/nmap-dev/">Nmap Dev</a></li>
+<li><a href="http://seclists.org/bugtraq/">Bugtraq</a></li>
+<li><a href="http://seclists.org/fulldisclosure/">Full Disclosure</a></li>
+<li><a href="http://seclists.org/pen-test/">Pen Test</a></li>
+<li><a href="http://seclists.org/basics/">Basics</a></li>
+<li><a href="http://seclists.org/">More</a></li>
+</ul>
+<li><a href="http://sectools.org">Security Tools</a>
+<ul>
+<li><a href="http://sectools.org/tag/crackers/">Pass crackers</a></li>
+<li><a href="http://sectools.org/tag/sniffers/">Sniffers</a></li>
+<li><a href="http://sectools.org/tag/vuln-scanners/">Vuln Scanners</a></li>
+<li><a href="http://sectools.org/tag/web-scanners/">Web scanners</a></li>
+<li><a href="http://sectools.org/tag/wireless/">Wireless</a></li>
+<li><a href="http://sectools.org/tag/sploits/">Exploitation</a></li>
+<li><a href="http://sectools.org/tag/packet-crafters/">Packet crafters</a></li>
+<li><a href="http://sectools.org/">More</a></li>
+</ul>
+<li><a href="http://insecure.org/">Site News</a></li>
+<li><a href="http://insecure.org/advertising.html">Advertising</a></li>
+<li><a href="http://insecure.org/fyodor/">About/Contact</a></li>
+<li>
+<!-- SiteSearch Google -->
+<form action="http://insecure.org/search.html" id="cse-search-box-sidebar">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-0078565546631069:bx60rb-fytx">
+    <input type="hidden" name="cof" value="FORID:9">
+    <input type="hidden" name="ie" value="ISO-8859-1">
+    <input type="text" name="q" size="16">
+    <input type="submit" name="sa" value="Site Search">
+  </div>
+</form>
+<!-- End SiteSearch Google -->
+</li>
+<!-- These can come back if I ever update them ...
+<li><a href="http://insecure.org/links.html">Exceptional Links</a></li>
+<li><a href="http://insecure.org/reading.html">Good Reading</a></li>
+<li><a href="http://insecure.org/sploits.html">Exploit World</a></li>
+-->
+<li><a href="http://insecure.org/advertising.html">Sponsors:</a>
+
+<!-- Begin Sidebar 1 Banner Code -->
+<!-- Modified random image selection code. Original version at
+     http://www.bravenet.com/reviews/archives/tips.php?view=8 -->
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var imagenumber = 2;
+var randomnumber = Math.random() ;
+var rand1 = Math.round( (imagenumber-1) * randomnumber) + 1 ;
+images = new Array
+images[1] = "/shared/images/p/Acunetix/120x90_Scanner.gif"
+images[2] = "/shared/images/p/Acunetix/120x90freexss.gif"
+
+links = new Array
+links[1] = "http://www.acunetix.com/vulnerability-scanner/download.htm"
+links[2] = "http://www.acunetix.com/cross-site-scripting/scanner.htm"
+
+var myimage = images[rand1]
+var mylink = links[rand1]
+document.write('<A HREF="' + mylink + '"><IMG src="' + myimage + '" BORDER=0 ALT="Acunetix" WIDTH=120 HEIGHT=90></A>')
+//  -->
+</SCRIPT>
+<NOSCRIPT>
+<A HREF="http://www.acunetix.com/vulnerability-scanner/download.htm"><IMG SRC="/shared/images/p/Acunetix/120x90_Scanner.gif" BORDER=0 HEIGHT=90 WIDTH=120 ALT="Acunetix"></A>
+</NOSCRIPT>
+
+<!-- End Sidebar 1 Banner Code -->
+
+<BR><BR>
+
+</TD>
+<TD BGCOLOR="#FFFFFF" VALIGN="top" ALIGN="left"><IMG
+SRC="/shared/images/topleftcurve.gif" alt="/"><TABLE CELLPADDING="4" WIDTH="100%" style="table-layout: fixed;"><TR><TD BGCOLOR="#FFFFFF">
+
+
+<CENTER>
+
+<TABLE CELLSPACING="5">
+<TR VALIGN="top"><TD VALIGN="top"><A HREF="http://nmap.org/zenmap/images/zenmap-multi-1220x700.png"><IMG WIDTH=150 HEIGHT=150 SRC="http://nmap.org/zenmap/images/zenmap-thumb-150x150.png"></A></TD>
+<TD VALIGN="top" ALIGN="center">
+<!-- Begin Banner Code -->
+<!-- Modified random image selection code - original version at 
+     http://www.bravenet.com/reviews/archives/tips.php?view=8 -->
+
+<SCRIPT type="text/javascript"> 
+<!--
+var imagenumber = 11 ; 
+var randomnumber = Math.random() ; 
+var rand1 = Math.round( (imagenumber-1) * randomnumber) + 1 ; 
+images = new Array 
+images[1] = "images/nmap_bnr2.jpg" 
+images[2] = "images/nmap_bnr_euroboy.jpg" 
+images[3] = "images/nmap_bnr_ai.jpg" 
+images[4] = "images/nmap_bnr_kyra1.gif" 
+images[5] = "images/nmap_bnr_kyra2.gif" 
+images[6] = "images/nmap_bnr_kyra3.gif" 
+images[7] = "images/nmap_bnr_kyra4.gif" 
+images[8] = "images/nmap_bnr_kyra5.gif" 
+images[9] = "images/nmap_bnr_i_amgod3.jpg" 
+images[10] = "images/nmap_bnr_mouse.gif" 
+images[11] = "images/nmap_bnr_m4rc3l0-2.jpg" 
+
+var myimage = images[rand1] 
+var mylink = "/"
+document.write('<A HREF="' + mylink + '"><IMG src="http://nmap.org/' + myimage + '" BORDER=0><\/A>') 
+//  --> 
+</SCRIPT> 
+<NOSCRIPT>
+<A HREF="/"><IMG SRC="http://nmap.org/images/nmap_bnr_euroboy.jpg" BORDER=0 HEIGHT=60 WIDTH=468></A>
+</NOSCRIPT>
+<table class="pagemap" width=468>
+<tr>
+
+<td><A HREF="/">Intro</A></td>
+
+
+
+<td><A HREF="/book/man.html">Reference Guide</A></td>
+
+
+
+<td><A HREF="/book/">Book</A></td>
+
+
+
+<td><A HREF="/book/install.html">Install Guide</A></td>
+
+
+</tr><tr>
+
+<td><A HREF="/download.html">Download</A></td>
+
+
+
+
+<td><A HREF="/changelog.html">Changelog</A></td>
+
+
+
+
+<td><A HREF="/zenmap/">Zenmap GUI</A></td>
+
+
+
+<td class="currentpage">Docs</td>
+
+
+</tr><tr>
+
+<td><A HREF="/book/man-bugs.html">Bug Reports</A></td>
+
+
+
+
+<td><A HREF="/book/osdetect.html">OS Detection</A></td>
+
+
+
+
+<td><A HREF="/nmap_propaganda.html">Propaganda</A></td>
+
+
+
+
+<td><A HREF="/projects.html">Related Projects</A></td>
+
+
+</tr><tr>
+
+
+<td colspan=2><A HREF="/movies/">In the Movies</A></td>
+
+
+
+
+
+<td colspan=2 align="right"><A HREF="/nmap_inthenews.html">In the News</A></td>
+
+
+
+</tr></table>
+
+
+</TD>
+<TD VALIGN="top"><A HREF="http://nmap.org/images/nmap-401-demoscan-798x774.gif"><IMG WIDTH=150 HEIGHT=150 SRC="http://nmap.org/images/nmap-401-demoscan-squarecrop-150x150.gif"></A></TD>
+</TR></TABLE>
+</CENTER>
+
+<A NAME="sponsor"></A>
+<h2 class="purpleheader">Sponsors</h2>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var imagenumber = 5;
+var randomnumber = Math.random() ;
+var rand1 = Math.round( (imagenumber-1) * randomnumber) + 1 ;
+
+if (rand1==1)
+  {
+  	document.write('<table border="0" cellpadding="10" style="border:1px dashed gray"><tr><td valign="top"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/boss-150x150.gif" alt="Risk I/O"></td><td><h2 style="margin-top:0">Remediate...Like a Boss <small>  (with Nmap and Risk I/O)</small></h2><p>Risk I/O aggregates vulnerabilities into one centralized location and enables you to collaborate on all tasks, from detection to close. It uses big data analysis to provide insight into what is happening within your organization. Go. Be like a Boss.</p><a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-boss-text&utm_campaign=homer"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/get_started.png" height="35" alt="Get Started" border="0"></a><a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-boss-text&utm_campaign=homer"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/risk_io_light_bg_small.png" height="35" alt="Risk I/O" align="right" border="0"></a></td></tr></table>');
+
+  }
+else if (rand1==2)
+  {
+  	document.write('<table border="0" cellpadding="10" style="border:1px dashed gray"><tr><td valign="top"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/beer-150x150.jpg" alt="Risk I/O"></td><td><h2 style="margin-top:0">Free As in Beer! <small>  (Nmap and Risk I/O make a tasty brew)</small></h2><p>They say the best things in life are free. Well, Risk I/O provides a version of its vulnerability intelligence platform, giving you full access to the tools you need to manage and monitor all your vulnerability data generated by Nmap and 20 other security tools. Tip back a glass and <a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-beer&utm_campaign=homer">create a free account</a> today.</p><a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-beer&utm_campaign=homer"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/get_started.png" height="35" alt="Get Started" border="0"></a><a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-beer&utm_campaign=homer"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/risk_io_light_bg_small.png" height="35" alt="Risk I/O" align="right" border="0"></a></td></tr></table>');
+
+  }
+else if (rand1==3)
+  {
+  	document.write('<table border="0" cellpadding="10" style="border:1px dashed gray"><tr><td valign="top"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/cats-150x150.jpg" alt="Risk I/O"></td><td><h2 style="margin-top:0">All of your vulnerabilities in one place<small> (Nmap data and 20+ sectools)</small></h2><p>With Risk I/O, you can bring all your scan data results from Nmap and 20+ security tools together into one spot, so you have more time for prioritizing and solving real problems. <a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-cats&utm_campaign=homer">Create a free account!</a></p><a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-cats&utm_campaign=homer"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/get_started.png" height="35" alt="Get Started" border="0"></a><a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-cats&utm_campaign=homer"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/risk_io_light_bg_small.png" height="35" alt="Risk I/O" align="right" border="0"></a></td></tr></table>');
+
+  }
+else if (rand1==4)
+  {
+  	document.write('<table border="0" cellpadding="10" style="border:1px dashed gray"><tr><td valign="top"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/magnifyingglass-191x150.jpg" alt="Risk I/O"></td><td><h3 style="margin-top:0">Get a Handle on Your Vulnerability Remediation<small>  (with Nmap and Risk I/O)</small></h3><p>Managing your security program can be hard, but remediating your vulnerabilities doesn\'t have to be. Risk I/O brings all of your scan data results together into one spot, so you have more time for prioritizing and solving real problems. <a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-mglass&utm_campaign=homer">Create a free account!</a></p><a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-mglass&utm_campaign=homer"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/get_started.png" height="35" alt="Get Started" border="0"></a><a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-mglass&utm_campaign=homer"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/risk_io_light_bg_small.png" height="35" alt="Risk I/O" align="right" border="0"></a></td></tr></table>');
+
+  }
+else if (rand1==5)
+  {
+  	document.write('<table border="0" cellpadding="10" style="border:1px dashed gray"><tr><td valign="top"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/spaceship-150x150.jpg" alt="Risk I/O"></td><td><h2 style="margin-top:0">All your Scan are belong to us.</h2><p>With Risk I/O, you can bring all your scan data results from Nmap and 20+ security tools together into one spot, so you have more time for prioritizing and solving real problems (...like protecting your intergalactic bases).</p><a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-spaceship&utm_campaign=homer"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/get_started.png" height="35" alt="Get Started" border="0"></a><a href="http://risk.io/?utm_source=nmap&utm_medium=sponsorship&utm_content=nmap-spaceship&utm_campaign=homer"><img src="http://6abea40802e67bd60e36-dfbd007fa9ce25534cdbfed1ca3d00f2.r2.cf1.rackcdn.com/risk_io_light_bg_small.png" height="35" alt="Risk I/O" align="right" border="0"></a></td></tr></table>');
+  }
+
+//  -->
+</SCRIPT>
+
+<br>
+
+
+<A NAME="intro"></A>
+<h2 class="purpleheader">Documentation</h2>
+
+<P>The Nmap project tries to defy the stereotype of some open source
+software being poorly documented by providing a
+comprehensive set of documentation for installing and using Nmap.
+This page links to official Insecure.Org documentation, and generous
+contributions from other parties.  
+
+
+<h2 class="purpleheader">Nmap Reference Guide</h2>
+
+<P>The primary documentation for using Nmap is the <a href="book/man.html">Nmap
+Reference Guide</a>.  This is also the basis for the Nmap man page
+(<a href="data/nmap.1">nroff version of nmap.1</a>).  It was rewritten
+from scratch in late 2005 and is meant to serve as a quick-reference
+to virtually all Nmap command-line arguments, but you can learn even
+more about Nmap by reading it straight through. The 18 sections
+include <a
+href="http://nmap.org/book/man-briefoptions.html">Brief
+Options Summary</a>, <a
+href="http://nmap.org/book/man-bypass-firewalls-ids.html">Firewall/IDS
+Evasion and Spoofing</a>, <a
+href="http://nmap.org/book/man-performance.html">Timing
+and Performance</a>, <a
+href="http://nmap.org/book/man-port-scanning-techniques.html">Port
+Scanning Techniques</a>, <a href="http://nmap.org/book/man-examples.html">Usage Examples </a>, and much more.
+
+<P>We have been overwhelmed by offers to translate the man page to other languages.  That is fantastic, as it makes Nmap more accessible around the world.  The following languages are now available:
+
+<center>
+<table style="font-size: large;" cellpadding=5>
+ <tr>
+   <td><a href="/man/zh/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/cn.png" alt="cn" width=32 height=32 border=0>Chinese</font></a></td>
+   <td><a href="/man/hr/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/hr.png" alt="hr" width=32 height=32 border=0>Croatian</a></td>
+   <td><a href="/book/man.html"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/us.png" alt="us" width=32 height=32 border=0>English (Original)</a></td>
+   <td><a href="/man/fr/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/fr.png" alt="fr" width=32 height=32 border=0>French</a></td>
+ </tr><tr>
+   <td><a href="/man/de/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/de.png" alt="de" width=32 height=32 border=0>German</a></td>
+   <td><a href="/man/hu/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/hu.png" alt="hu" width=32 height=32 border=0>Hungarian</a></td>
+   <td><a href="/man/id/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/id.png" alt="id" width=32 height=32 border=0>Indonesian</a></td>
+   <td><a href="/man/it/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/it.png" alt="it" width=32 height=32 border=0>Italian</a></td>
+ </tr><tr>
+   <td><a href="/man/jp/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/jp.png" alt="jp" width=32 height=32 border=0>Japanese</a></td>
+   <td><a href="/man/pl/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/pl.png" alt="pl" width=32 height=32 border=0>Polish</a></td>
+   <td><a href="/man/pt-br/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/br.png" alt="br" width=32 height=32 border=0>Portuguese (Brazil)</a></td>
+   <td><a href="/man/pt-pt/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/pt.png" alt="pt" width=32 height=32 border=0>Portuguese (Portugal)</a></td>
+ </tr><tr>
+   <td><a href="/man/ro/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/ro.png" alt="ro" width=32 height=32 border=0>Romanian</a></td>
+   <td><a href="/man/ru/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/ru.png" alt="ru" width=32 height=32 border=0>Russian</a></td>
+   <td><a href="/man/sk/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/sk.png" alt="sk" width=32 height=32 border=0>Slovak</a></td>
+   <td colspan="4"><a href="/man/es/"><img style="vertical-align:middle" src="http://images.insecure.org/images/flags/32/es.png" alt="es" width=32 height=32 border=0>Spanish</a></td>
+ </tr></table>
+</center>
+
+<p>The links above go to the HTML guide.  Nroff (man page format) and DocBook XML (source) versions of each man page translation can be found <a href="data/man-xlate/">here</a>.  If you would like to translate to a language <b>not</b> mentioned
+above, please <a
+href="xlate-faq.html">read
+the instructions and FAQ</a> and then <a href="mailto:fyodor@nmap.org">mail
+Fyodor</a>.  It is a lot of work, but the reward is that thousands of
+people may benefit from your translation every month.
+
+
+<h2 class="purpleheader">Nmap Book</h2>
+
+<TABLE CELLPADDING=0 CELLSPACING=10>
+<TR><TD>
+<A NAME="book"></A>
+<a href="book/"><img border=0 width=104 height=125 src="http://nmap.org/book/cover/nns-front-cover-104x125.jpg"></a><br>
+</TD><TD>
+<a href="book/">Nmap Network Scanning</a> is the official guide to
+Nmap.  From explaining port scanning basics for novices to detailing
+low-level packet crafting methods used by advanced hackers, this book
+by Nmap's original author suits all levels of security and networking
+professionals. The <a href="book/man.html">reference guide</a>
+documents every Nmap feature and option, while the remainder
+demonstrates how to apply them to quickly solve real-world
+tasks. Examples and diagrams show actual communication on the
+wire. Topics include subverting firewalls and intrusion detection
+systems, optimizing Nmap performance, and automating common networking
+tasks with the Nmap Scripting Engine.  More than half of the book is
+<a href="http://nmap.org/book/toc.html">available free
+online</a>.  It was written in English but <a href="book/#translations">has already been translated to other languages</a>.
+</TD></TR>
+</TABLE>
+
+
+<h2 class="purpleheader">Other Insecure.Org Documentation</h2>
+
+<P>Installation is made easy by the detailed <a href="book/install.html">Nmap Installation Guide</a>.  This covers topics such as <a href="book/inst-source.html">UNIX compilation and configure directives</A> and Installing Nmap on <a href="book/inst-linux.html">Linux</a>,
+<a href="book/inst-windows.html">Windows</a>,
+<a href="book/inst-macosx.html">Mac OS X</a>,
+<a href="book/inst-bsd.html">Free/Open/NetBSD</a>,
+<a href="book/inst-solaris.html">Solaris</a>,
+<a href="book/inst-other-platforms.html">Amiga, and HP-UX</a>.  It also covers <a href="book/inst-removing-nmap.html">Nmap removal</a> in case you change your mind.
+
+<P>One of Nmap's most exciting new features is the <a href="book/nse.html">Nmap Scripting
+Engine</a>, which extends Nmap's functionality using the simple and
+efficient <a href="http://lua.org">Lua</a> programming language.
+Nmap includes about 50
+valuable scripts for network discovery and vulnerability detection,
+and you can also write your own.  We describe the system in depth
+(from simple usage instructions to writing your own scripts) in our <a
+href="book/nse.html">NSE guide</a>.  We also have an <a href="/nsedoc/">NSE Documentation Portal</a> which includes detailed documentation for every NSE script and library.
+
+<P>Fyodor regularly gives conference presentations covering advanced Nmap usage and new features.  Audio, video, and/or slides for many of these are available on <a href="http://nmap.org/presentations/">his presentations page</a>.
+
+<P>Interested in how nmap uses TCP/IP fingerprinting for <a href="book/osdetect.html">remote OS
+detection</a>?  We have written a detailed article on the <a href="book/osdetect.html">2nd Generation Nmap OS Detection System</a>.  We also have an <A HREF="nmap-fingerprinting-old.html">old article about the 1st generation system</a>, which people have generously translated into <A
+HREF="nmap-fingerprinting-article-fr.html">French</A>, 
+<A HREF="http://www.absoluta.org/absoluta/seguranca/seg_detect_os.html">Portuguese</A>,
+<A HREF="nmap-fingerprinting-article-it/stackf.html">Italian</A>,
+<A HREF="nmap-fingerprinting-article-ru.html">Russian</A>,
+<A HREF="nmap-fingerprinting-article-mx.html">Spanish</A>,
+<A HREF="nmap-fingerprinting-article-de.html">German</A>,
+<A HREF="nmap-fingerprinting-article-jp.html">Japanese</A>,
+<A HREF="nmap-fingerprinting-article-cn.html">Chinese</A>,
+<A HREF="nmap-fingerprinting-article-tw.html">Traditional Chinese (Big5)</A>,
+<A HREF="nmap-fingerprinting-article-tr.html">Turkish</A>,
+<A HREF="nmap-fingerprinting-article-il.html">Hebrew</A>,
+<A HREF="nmap-fingerprinting-article-id.html">Indonesian</A>,
+<A HREF="nmap-fingerprinting-article-nl.html">Dutch</A>.
+<A HREF="nmap-fingerprinting-article-pl.html">Polish</A>, and
+<A HREF="nmap-fingerprinting-article-se.html">Swedish</A>.
+
+<P><a href="book/vscan.html">Nmap Version Detection</a>: Instead of using a simple
+nmap-services table lookup to determine a port's likely purpose, Nmap
+will (if asked) interrogate that TCP or UDP port to determine what
+service is really listening. In many cases it can determine the
+application name and version number as well. Obstacles like SSL
+encryption and Sun RPC are no threat, as Nmap can connect using
+OpenSSL (if available) as well as utilizing Nmap's RPC
+bruteforcer. IPv6 is also supported.  Learn all about this great
+feature in our <a href="book/vscan.html">Version Detection Paper</a><BR>
+
+<P>Nmap now has an official cross-platform GUI named <a
+href="zenmap/">Zenmap</a>.  It is included in most of the packages on
+the Nmap download page.  It is documented in the <a
+href="book/zenmap.html">Zenmap User's Guide</a>.  More information is
+available from the <a href="zenmap/">Zenmap site</a> and <a
+href="zenmap/man.html">Zenmap man page</a>.
+
+<P>One of the coolest, yet still relatively obscure features of Nmap
+is the IPID Idle scan (-sI).  Not only does this allow for a
+completely blind portscan (no packets sent to the target from your
+real IP), but it can even allow you to bypass packet filters in
+certain circumstances.  We wrote a <A HREF="book/idlescan.html"> Idle
+scanning paper</A> describing this technique as well as several other
+exploits based on predictable IPID sequence numbers. It includes
+real-life examples as well as a section on defending yourself from
+these techniques.
+
+<P>The most important changes (features,
+bugfixes, etc) in each Nmap version are described in its <A
+HREF="changelog.html">ChangeLog</A>.
+
+
+
+<P>While it is now only of historical interest, Nmap was first released in a September 1, 1997 Phrack 51 Article titled <a href="p51-11.html">The Art of Port Scanning</a>
+<BR><BR>
+<A NAME="books"></A>
+<h2 class="purpleheader">More Books</h2>
+
+<P>This section covers books written/co-authored by Nmap Author Fyodor or that cover Nmap extensively.
+
+<TABLE CELLPADDING=0 CELLSPACING=10>
+<TR><TD>
+<A NAME="book"></A>
+<a href="book/"><img border=0 width=104 height=125 src="http://nmap.org/book/cover/nns-front-cover-104x125.jpg"></a><br>
+</TD><TD>
+<a href="book/">Nmap Network Scanning</a> is the official guide to
+Nmap.  From explaining port scanning basics for novices to detailing
+low-level packet crafting methods used by advanced hackers, this book
+by Nmap's original author suits all levels of security and networking
+professionals. The <a href="book/man.html">reference guide</a>
+documents every Nmap feature and option, while the remainder
+demonstrates how to apply them to quickly solve real-world
+tasks. Examples and diagrams show actual communication on the
+wire. Topics include subverting firewalls and intrusion detection
+systems, optimizing Nmap performance, and automating common networking
+tasks with the Nmap Scripting Engine.  More than half of the book is
+<a href="http://nmap.org/book/toc.html">available free
+online</a>.  It was written in English but <a href="book/#translations">has already been translated to other languages</a>.
+</TD></TR>
+<TR><TD>
+<a href="http://insecure.org/stc/"><img border=0 width=95 height=125 src="http://images.insecure.org/stc/images/cover_95_125.gif"></a><br>
+</TD><TD>
+Fyodor has co-authored a novel on hacking, along with FX, Joe Grand,
+Kevin Mitnick, Ryan Russell, Jay Beale, and several others.
+Their individual stories combine to describe a massive electronic
+financial heist.  While the work is fiction, hacks are described in
+depth using real technology such as Nmap, Hping2, OpenSSL, etc.  Stealing the Network: How to Own a Continent can be <a
+href="http://www.amazon.com/dp/1931836051?tag=secbks-20">purchased
+at Amazon (save $17)</a>, and your can <a href="http://insecure.org/stc/">read
+Fyodor's chapter online for free</a>.  STC was a best-seller, ranking for a while as the second-highest selling
+computer book on Amazon.
+</TD></TR>
+<TR><TD>
+<a href="http://insecure.org/stc/sti.html"><img border=0 width=95 height=125 src="http://images.insecure.org/stc/images/sti_cover_95x125.gif"></a><br>
+</TD><TD>
+Syngress has released a sequel: <a href="http://www.amazon.com/dp/1597490067?tag=secbks-20">Stealing the Network: How to Own an Identity</a>.  They have generously allowed Fyodor to post his favorite chapter for free.  So enjoy <a href="http://insecure.org/stc/sti.html">Bl@ckTo\/\/3r</a>, by Nmap contributor Brian Hatch.  It is full of wry humor and creative security conundrums to keep the experts entertained, while it also offers security lessons on the finer points of SSH, SSL, and X Windows authentication and encryption.
+</TD></TR>
+
+<TR><TD>
+<a href="http://www.amazon.com/exec/obidos/ASIN1849517487/secbks-20"><img border=0 width=95 height=125 src="images/Nmap6-Cookbook-Cover-95x125.gif"></a><br>
+</TD><TD>
+Paulino Calderón Pale has written <a href="http://www.amazon.com/exec/obidos/ASIN/1849517487/secbks-20">Nmap 6: Network Exploration and Security Auditing Cookbook</a> (also available <a href="http://www.packtpub.com/network-mapper-6-exploration-and-security-auditing-cookbook/book">directly through Packt Publishing</a>).
+</TD></TR>
+
+<TR><TD>
+<a href="http://www.networkuptime.com/nmap/index.shtml"><img border=0 width=95 height=127 src="images/snc_cover_95x127.gif"></a><br>
+</TD><TD>
+James Messer has written <a href="http://www.professormesser.com/nmap-book/">Secrets of Network Cartography</a>, a 230-page eBook on Nmap.  PDFs can be <a href="http://www.professormesser.com/nmap-book/">purchased</a>, or you can <a href="http://www.networkuptime.com/nmap/index.shtml">view the ad-supported HTML version for free</a>.
+</TD></TR>
+
+<TR><TD>
+<a href="http://www.amazon.com/exec/obidos/ASIN/1597492418/secbks-20"><img border=0 width=95 height=125 src="images/nmap-enterprise-cover-95x125.png"></a><br>
+</TD><TD>
+Syngress has released <a href="http://www.amazon.com/exec/obidos/ASIN/1597492418/secbks-20">Nmap in the Enterprise: Your Guide to Network Scanning</a> by Angela Orebaugh and Becky Pinkard.
+</TD></TR>
+
+</TABLE>
+
+
+<h2 class="purpleheader">3rd Party Docs</h2>
+
+<P>Some of the best (and certainly most creative!) documentation has been contributed by Nmap users themselves.  If you write an interesting or useful document about Nmap, please send the announcement to <a href="http://nmap.org/mailman/listinfo/dev">nmap-dev</a> or directly to Fyodor.
+
+
+<P>
+<a href="http://www.professormesser.com/nmap-secrets/"><img src="http://images.insecure.org/nmap/images/nmapsecrets-200x112.jpg" border=0 align=right width=200 height=112></a>
+James &ldquo;Professor&rdquo; Messer has released <a href="http://www.professormesser.com/nmap-secrets/">Nmap Secrets</a>, the first interactive video training course for Nmap.  It contains 11 modules with hours of instruction starting with &ldquo;Nmap Basics&rdquo; and proceeding up to firewall evasion and &ldquo;Ninja Scanning&rdquo;.  The course costs $197 and offers a money-back guarantee.  James also runs regular free Nmap Webinars.  Learn more at <a href="http://www.professormesser.com/nmap-secrets/">ProfessorMesser.Com</a>.
+
+<P>A detailed <a href="http://nmap.org/bennieston-tutorial/">Nmap Tutorial</a> [2006] has been maintained since 2003 by Andrew Bennieston (Stormhawk).
+
+<P>Mohamed Aly has created this single-page (PDF) <a href="docs/nmap-mindmap.pdf">Nmap Mindmap</a> as a convenient reference to all of the major Nmap options. [2006]
+
+<P>Mark Wolfgang has written an excellent paper on advanced host
+discovery using Nmap.  Here is the <A
+HREF="http://moonpie.org/writings/discovery.pdf">PDF paper</A>  [<A
+HREF="docs/discovery.pdf">local copy</A>] and <A
+HREF="http://moonpie.org/tools/discover.tgz">associated source
+code</A>. [2002]
+
+<P>Adrian Crenshaw has made a couple excellent <i>video tutorials</i>
+in Flash.  Check out <a
+href="http://www.irongeek.com/i.php?page=videos/nmap1">Volume 1: Basic
+Nmap Usage</a> and <a
+href="http://www.irongeek.com/i.php?page=videos/nmap2">Volume 2: Port
+Scan Boogaloo</a>.  [2005]
+
+<P>Meanwhile, the HaXXXor girls have produced a
+sexier but much less comprehensive <a
+href="nmap_haxxxor.html">Nmap training video</a> (not safe for work).
+
+<P>Long-time Nmap contributor Lamont Granquist wrote a clear and useful (if dated) <A HREF="lamont-nmap-guide.txt">guide to getting started
+with nmap</A>. [1999]
+
+<P>Raven Alder has written a short guide named <a href="http://www.linuxchix.org/content/courses/security/nmap">Nmap -- looking from the outside in</a> for <a href="http://www.linuxchix.org">LinuxChix</a>. [2002]
+
+<P>Uh-oh!  Security expert and <a href="http://www.amazon.com/exec/obidos/ASIN/0130332739/secbks-20">Counter Hack</a> author Ed Skoudis
+has discovered our <A
+HREF="http://www.counterhack.net/base_clippy_image.html">secret
+partnership with Microsoft</A>!
+
+
+
+<h2 class="purpleheader">Nmap Site Navigation</h2>
+
+<CENTER>
+<table class="pagemap" width=468>
+<tr>
+
+<td><A HREF="/">Intro</A></td>
+
+
+
+<td><A HREF="/book/man.html">Reference Guide</A></td>
+
+
+
+<td><A HREF="/book/">Book</A></td>
+
+
+
+<td><A HREF="/book/install.html">Install Guide</A></td>
+
+
+</tr><tr>
+
+<td><A HREF="/download.html">Download</A></td>
+
+
+
+
+<td><A HREF="/changelog.html">Changelog</A></td>
+
+
+
+
+<td><A HREF="/zenmap/">Zenmap GUI</A></td>
+
+
+
+<td class="currentpage">Docs</td>
+
+
+</tr><tr>
+
+<td><A HREF="/book/man-bugs.html">Bug Reports</A></td>
+
+
+
+
+<td><A HREF="/book/osdetect.html">OS Detection</A></td>
+
+
+
+
+<td><A HREF="/nmap_propaganda.html">Propaganda</A></td>
+
+
+
+
+<td><A HREF="/projects.html">Related Projects</A></td>
+
+
+</tr><tr>
+
+
+<td colspan=2><A HREF="/movies/">In the Movies</A></td>
+
+
+
+
+
+<td colspan=2 align="right"><A HREF="/nmap_inthenews.html">In the News</A></td>
+
+
+
+</tr></table>
+
+
+</CENTER>
+</TD></TR>
+</TABLE>
+</TD></TR>
+<TR><TD></TD><TD ALIGN="center">
+<FONT COLOR="#FFFFFF">
+[ <A HREF="http://nmap.org"><FONT COLOR="#FFFFFF">Nmap</FONT></A> |
+  <A HREF="http://sectools.org"><FONT COLOR="#FFFFFF">Sec Tools</FONT></A> |
+  <A HREF="http://seclists.org/"><FONT COLOR="#FFFFFF">Mailing Lists</FONT></A> |
+  <A HREF="http://insecure.org/"><FONT COLOR="#FFFFFF">Site News</FONT></A> |
+  <A HREF="http://insecure.org/fyodor/"><FONT COLOR="#FFFFFF">About/Contact</FONT></A> |
+  <A HREF="http://insecure.org/advertising.html"><FONT COLOR="#FFFFFF">Advertising</FONT></A> |
+  <A HREF="http://insecure.org/privacy.html"><FONT COLOR="#FFFFFF">Privacy</FONT></A> ]<BR>
+</FONT>
+
+<!-- SiteSearch Google -->
+<gcse:searchbox-only></gcse:searchbox-only>
+<!-- End SiteSearch Google -->
+
+<!-- Bottom Banner -->
+<script type="text/javascript"><!--
+google_ad_client = "pub-0078565546631069";
+/* PageBottom728x90 */
+google_ad_slot = "2743510915";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"><!--
+if (document.location.protocol != "https:") {
+document.write("<script type='text/javascript' src='http://pagead2.googlesyndication.com/pagead/show_ads.js'><\/script>");
+}
+//-->
+</script>
+<!-- End Bottom Banner -->
+
+</TD></TR>
+</TABLE>
+</BODY>
+</HTML>
+
+

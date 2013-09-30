@@ -1,0 +1,275 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #46793:
+Can not compile libterminfo                                                                                                     
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #46793</h1>
+
+<pre>
+From bernd@arresum.veego.de  Sat Aug 11 22:26:10 2012
+Return-Path: &lt;bernd@arresum.veego.de&gt;
+Received: from mail.netbsd.org (mail.netbsd.org [149.20.53.66])
+	by www.NetBSD.org (Postfix) with ESMTP id B1E6363B85F
+	for &lt;gnats-bugs@gnats.netbsd.org&gt;; Sat, 11 Aug 2012 22:26:10 +0000 (UTC)
+Message-Id: &lt;20120811222547.CA1A88AB65@arresum.veego.de&gt;
+Date: Sun, 12 Aug 2012 00:25:47 +0200 (CEST)
+From: Bernd Ernesti &lt;pr201203@veego.de&gt;
+Reply-To: Bernd Ernesti &lt;pr201203@veego.de&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Subject: Can not compile libterminfo
+X-Send-Pr-Version: 3.95
+
+
+<b>&gt;Number:</b>         46793
+<b>&gt;Category:</b>       lib
+<b>&gt;Synopsis:</b>       Can not compile libterminfo
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       serious
+<b>&gt;Priority:</b>       medium
+<b>&gt;Responsible:</b>    lib-bug-people
+<b>&gt;State:</b>          open
+<b>&gt;Class:</b>          sw-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Sat Aug 11 22:30:00 +0000 2012
+<b>&gt;Last-Modified:</b>  Thu Mar 14 15:50:02 +0000 2013
+<b>&gt;Originator:</b>     Bernd Ernesti
+<b>&gt;Release:</b>        NetBSD 6.0_BETA2
+<b>&gt;Organization:</b>
+
+	
+<b>&gt;Environment:</b>
+System: NetBSD 6.0_BETA2
+Architecture: i386
+Machine: i386
+<b>&gt;Description:</b>
+
+
+A normal build fails in src/lib/libterminfo and src/tests/lib/libcurses
+
+
+ dependall ===&gt; libterminfo
+ Generating terminfo hash
+ .
+ Generating termcap hash
+ .....
+ ..
+ make: don't know how to make tic. Stop
+
+
+src/lib/libterminfo/Makefile.hash contains this:
+ compiled_terms.c: ${TOOL_TIC}
+and src/tests/lib/libcurses/Makefile
+ ${TERMINFO_DB}.cdb: ${TOOL_TIC} ${TEST_TERMINFO}
+
+
+So the define from /usr/share/mk/bsd.own.mk can not work with USETOOLS != yes:
+ /usr/share/mk/bsd.own.mk:TOOL_TIC= tic
+
+
+Additionally src/lib/libterminfo/genterms will not work if
+you do not have your source code in /usr/src. It needs a patch to
+set NETBSDSRCDIR in src/lib/libterminfo/Makefile.hash.
+
+
+<b>&gt;How-To-Repeat:</b>
+
+
+Use
+ USETOOLS = never
+ MKTOOLS = no
+
+
+cd src/lib/libterminfo
+make dependall
+
+
+<b>&gt;Fix:</b>
+
+
+No idea how to deal with the tic issue, but for genterms::
+
+
+Index: Makefile.hash
+===================================================================
+RCS file: /cvsroot/src/lib/libterminfo/Makefile.hash,v
+retrieving revision 1.4.4.1
+diff -b -u -r1.4.4.1 Makefile.hash
+--- Makefile.hash	23 Jun 2012 22:54:57 -0000	1.4.4.1
++++ Makefile.hash	11 Aug 2012 22:07:25 -0000
+@@ -1,6 +1,7 @@
+ #	$NetBSD: Makefile.hash,v 1.4.4.1 2012/06/23 22:54:57 riz Exp $
+
+ 
+ SCRIPT_ENV=	\
++	NETBSDSRCDIR=${NETBSDSRCDIR:Q} \
+ 	TOOL_AWK=${TOOL_AWK:Q} \
+ 	TOOL_NBPERF=${TOOL_NBPERF:Q} \
+ 	TOOL_SED=${TOOL_SED:Q} \
+
+
+<b>&gt;Audit-Trail:</b>
+From: &quot;Roy Marples&quot; &lt;roy@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/46793 CVS commit: src/lib/libterminfo
+Date: Thu, 24 Jan 2013 14:17:40 +0000
+
+
+ Module Name:	src
+ Committed By:	roy
+ Date:		Thu Jan 24 14:17:40 UTC 2013
+
+ 
+ Modified Files:
+ 	src/lib/libterminfo: Makefile.hash
+
+ 
+ Log Message:
+ Fix building our terminals with a non standard NETBSDSRCDIR, PR lib/46793.
+ Thanks to Bernd Ernesti.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.6 -r1.7 src/lib/libterminfo/Makefile.hash
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/46793 CVS commit: [netbsd-6] src
+Date: Thu, 14 Mar 2013 15:48:29 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Thu Mar 14 15:48:29 UTC 2013
+
+ 
+ Modified Files:
+ 	src/lib/libterminfo [netbsd-6]: Makefile.hash genman term.h
+ 	    term_private.h terminfo.3 terminfo.5.in tparm.c
+ 	src/usr.bin/tput [netbsd-6]: Makefile tput.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by roy in ticket #835):
+ 	lib/libterminfo/terminfo.3: revision 1.9
+ 	lib/libterminfo/term.h: revision 1.13
+ 	lib/libterminfo/term.h: revision 1.14
+ 	usr.bin/tput/Makefile: revision 1.11
+ 	lib/libterminfo/terminfo.3: revision 1.10
+ 	lib/libterminfo/genman: revision 1.5
+ 	lib/libterminfo/term_private.h: revision 1.11
+ 	usr.bin/tput/tput.c: revision 1.23
+ 	usr.bin/tput/tput.c: revision 1.24
+ 	usr.bin/tput/tput.c: revision 1.25
+ 	lib/libterminfo/tparm.c: revision 1.11
+ 	lib/libterminfo/Makefile.hash: revision 1.7
+ 	usr.bin/tput/tput.c: revision 1.26
+ 	lib/libterminfo/tparm.c: revision 1.12
+ 	lib/libterminfo/tparm.c: revision 1.13
+ 	lib/libterminfo/tparm.c: revision 1.14
+ 	lib/libterminfo/terminfo.5.in: revision 1.18
+ As tparm accepts longs we should treat them as long during expansion.
+ Also, fix the ~ and ! logic.
+ Move the strings vs long analysis to a private function, but allow
+ tput(1) to use it so we can work with string parameters to
+ capabilities.
+ Fix building our terminals with a non standard NETBSDSRCDIR, PR
+ lib/46793.
+ Thanks to Bernd Ernesti.
+ Remove debug accidently commited.
+ If char * &gt; long then print a suitable error when passing a string
+ parameter.
+ For platforms where we cannot fit a char * into a long, return NULL
+ and set errno to ENOTSUPP.
+ Add descriptions for terminfo keys to term.h
+ These are extracted by genman and placed into the compiled terminfo.5
+ Fixes PR lib/47090
+ Provide a disabled implentation of tlparm and ti_tlparm for
+ completeness.
+ This also improves the readability of _ti_tiparm.
+ Use putp(3) to output our strings.
+ Fixes PR lib/47532
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.4.4.1 -r1.4.4.2 src/lib/libterminfo/Makefile.hash
+ cvs rdiff -u -r1.4 -r1.4.8.1 src/lib/libterminfo/genman
+ cvs rdiff -u -r1.10.4.2 -r1.10.4.3 src/lib/libterminfo/term.h
+ cvs rdiff -u -r1.9.4.1 -r1.9.4.2 src/lib/libterminfo/term_private.h
+ cvs rdiff -u -r1.8 -r1.8.4.1 src/lib/libterminfo/terminfo.3
+ cvs rdiff -u -r1.15.6.1 -r1.15.6.2 src/lib/libterminfo/terminfo.5.in
+ cvs rdiff -u -r1.7.4.2 -r1.7.4.3 src/lib/libterminfo/tparm.c
+ cvs rdiff -u -r1.10 -r1.10.8.1 src/usr.bin/tput/Makefile
+ cvs rdiff -u -r1.22 -r1.22.4.1 src/usr.bin/tput/tput.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

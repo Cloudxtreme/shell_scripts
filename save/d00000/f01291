@@ -1,0 +1,2251 @@
+<html>
+
+<link rel="stylesheet" href="style.css">
+
+<head>
+	<title>Nautilus :: nautilus6.org </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<table width="66%" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+	<table width="100%" border="0" cellpadding="2" cellspacing="1">
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header">Romain KUNTZ</td>
+		<td width="33%" bgcolor="#666666" class="header">http://www.rkuntz.org</td>
+	</tr>
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header">Nautilus6 Working Group</td>
+		<td width="33%" bgcolor="#666666" class="header">http://www.nautilus6.org</td>
+	</tr>
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header">Created on 2005-11-10</td>
+		<td width="33%" bgcolor="#666666" class="header">Version 2.8
+		(Last modified on 2010-02-08)</td>
+	</tr>
+	
+	</table>
+</td></tr>
+</table>
+
+<body bgcolor="#ffffff" text="#000000" alink="#000000" vlink="#666666" link="#990000">
+<font size="-1">[<a href="http://www.nautilus6.org">http://www.nautilus6.org</a>]</font>
+<br>
+<br>
+<br>
+<br>
+
+<!----------------------------------------------------------------------------
+	TITLE
+----------------------------------------------------------------------------->
+
+<div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><span class="title">
+	NEPL (NEMO Platform for Linux) HOWTO
+</span></b></font></div>
+<hr>
+<br>
+<table border="0">
+<tr>    
+<td><img src="./pics/tux-nemo-small.png"></img></td>
+<td>
+<p>
+This document aims at helping the reader to build step-by-step a NEMO test network 
+on Linux. We first introduce the basic concepts of IPv6, host and network mobility. We also 
+briefly present NEPL (NEMO Platform for Linux). We then explain how to properly configure a 
+simple test network, with a NEMO-enabled Home Agent and Mobile Router using NEPL.
+<p>
+</td>
+</tr>
+</table>
+<br>
+
+<!----------------------------------------------------------------------------
+	Latest News
+----------------------------------------------------------------------------->
+
+<div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	Latest News
+</span></b></font></div>
+<hr><br>
+
+February 8th, 2010: Added patches for MCoA (contributed by Vilmos Nebehaj) that fixes the fact the BU may 
+be sent through a disconnected interface. More information <a href="nepl-howto.html#6">here</a> 
+and <a href="http://ml.nautilus6.org/pipermail/support/2010-January/001637.html">here</a>
+<br>
+<br>
+
+Patches and Documentation update on June 24th, 2009:
+<li>Updated the NEPL patch (version 20090624). It fixes routing problems when returning home.
+</li>
+<li>Updated the MCoA patch (version 20090624). It does not include new features, but can be applied above the updated NEPL patch.
+</li>
+<li>Updated documentation to use a 2.6.29 kernel. As a result, no patches are needed for the kernel anymore.
+</li>
+<br>
+
+<b>Note:</b> Older patch and software releases are available <a href="./old/">here</a>. 
+A complete changelog is available <a href="nepl-howto.html#change">at the end of this page</a>.
+<br><br>
+
+<!----------------------------------------------------------------------------
+	ToC
+----------------------------------------------------------------------------->
+
+<a name="toc"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	Table of Contents
+</span></b></font></div></a>
+<hr>
+<br>
+1. <a href="nepl-howto.html#1">IPv6, Mobile IPv6 and NEMO Basic Support</a><br>
+<ul>
+    a. <a href="nepl-howto.html#1a">The IPv6 protocol</a><br>
+    b. <a href="nepl-howto.html#1b">Mobile IPv6</a><br>
+    c. <a href="nepl-howto.html#1c">NEMO Basic Support</a><br>
+    d. <a href="nepl-howto.html#1d">Useful References</a><br>
+</ul>
+2. <a href="nepl-howto.html#2">Overview of the NEPL implementation</a><br>
+3. <a href="nepl-howto.html#3">The NEPL test network</a><br>
+4. <a href="nepl-howto.html#4">Setup and configuration</a><br>
+<ul>
+    a. <a href="nepl-howto.html#4a">The Router R</a><br>
+    b. <a href="nepl-howto.html#4b">Kernel setup for HA and MR</a><br>
+    c. <a href="nepl-howto.html#4c">Userland for HA and MR</a><br>
+    d. <a href="nepl-howto.html#4d">Home Agent configuration</a><br>
+    e. <a href="nepl-howto.html#4e">Mobile Router configuration</a><br>
+    f. <a href="nepl-howto.html#4f">IPsec configuration</a><br>
+</ul>
+5. <a href="nepl-howto.html#5">Operation</a><br>
+6. <a href="nepl-howto.html#6">Multiple Care-of Addresses registration</a><br>
+<ul>
+    a. <a href="nepl-howto.html#6a">Limitations</a><br>
+    b. <a href="nepl-howto.html#6b">Kernel Options</a><br>
+    c. <a href="nepl-howto.html#6c">Userland Compilation</a><br>
+    d. <a href="nepl-howto.html#6d">Home Agent Configuration</a><br>
+    e. <a href="nepl-howto.html#6e">Mobile Router Configuration</a><br>
+    f. <a href="nepl-howto.html#6f">Policy Routing</a><br>
+</ul>
+7. <a href="nepl-howto.html#7">NEPL enhancements</a><br>
+<ul>
+    a. <a href="nepl-howto.html#7a">Mobile Network Prefix Delegation</a><br>
+</ul>
+<a href="nepl-howto.html#faq">FAQ</a><br>
+<a href="nepl-howto.html#ref">References</a><br>
+<a href="nepl-howto.html#ack">Acknowledgement</a><br>
+<a href="nepl-howto.html#support">Support</a><br>
+<a href="nepl-howto.html#change">Changelog</a><br>
+<a href="nepl-howto.html#contact">Contact</a><br>
+<br>
+
+<!----------------------------------------------------------------------------
+	Chap 1
+----------------------------------------------------------------------------->
+
+<a name="1"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	1. IPv6, Mobile IPv6 and NEMO Basic Support
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<a name="1a"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+        a. The IPv6 protocol
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+In today's Internet, most communications between end-to-end nodes are using the IP protocol. 
+This protocol assigns an unique address to all nodes connected to the Internet, and provides 
+the mechanisms to transport data between two nodes.
+</p>
+
+<p>
+IP version 4 (known as IPv4) is the current version of this protocol and was the first widely 
+deployed IP protocol. It was standardized 25 years ago. It is now suffering from several design 
+problems and will certainly restrain the creation of new usages of the Internet. The most 
+debated problem with IPv4 is the lack of addresses, but it is not the only important one.
+</p>
+
+<p>
+The need for addresses will increase in the near future. With the voice-over-IP becoming 
+more and more popular, we can guess than billions of people will use an IP phone. Each 
+vehicle will embed tens of IP sensors and some multimedia devices. Obviously, all of those 
+equipments need an IP address. The lack of addresses that can be assigned with IPv4 was 
+solved with the Network Address Translation (NAT) system. However, many peer-to-peer 
+applications (such as video-conference or voice-over-IP softwares) suffer from this 
+mechanism: with NAT, the real address of the host is not directly reachable from its 
+correspondent. The communication cannot be directly established and sometimes need a 
+third part.
+</p>
+
+<p>
+We expect more and more equipments will be connected to the Internet, but the IPv4 
+protocol is not appropriate anymore to distribute and manage the IP addresses. The 
+IPv4 scheme to allocate addresses is not based on any hierarchical scheme and the 
+high fragmentation of address space will lead to an heavy load on backbone equipments 
+(the routers). This is one of the most critical problems with the current IP protocol 
+as it might cause the core routers of the Internet to stop working without prior notice.
+</p>
+
+<p>
+Eventually, the IPv4 protocol has a monolithic design that makes it difficult to extend, 
+and contains some mechanisms that prevent new protocols like mobile IP to work flawlessly.
+</p>
+
+<p>
+As IPv4 cannot meet the demand anymore, the <a href="http://www.faqs.org/rfcs/rfc2460.html">
+IPv6 protocol (RFC 2460)</a> has been standardized in 1998. 
+It can allocate much more addresses and allows to interconnect undecillions (10e36) of 
+nodes at the same time. Nodes that connect to the Internet can automatically 
+acquire an address thanks to the auto-configuration mechanism 
+(<a href="http://www.ietf.org/rfc/rfc2462.txt">RFC2462 "IPv6 Stateless Address Autoconfiguration"</a>).
+IPv6 also simplifies the use of multicast, that allows many to many (including one to many) communications
+without wasting the bandwidth.
+</p>
+
+<p>
+Besides those core features, IPv6 also allows the integration of new features such as 
+improved security, quality of service where IPv4 only provides best effort, and mobility 
+mechanisms with Mobile IPv6 and NEMO Basic Support.
+</p>
+
+<p>
+The scalability offered by IPv6 will thus allow to interconnect any equipment and to design 
+new services (such as connecting each car to the Internet) and new usages of the Internet 
+(for instance use the vehicle connectivity for monitoring purposes) that we could not imagine 
+with IPv4. 
+</p>
+
+<a name="1b"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+        b. Mobile IPv6
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+When a node using an Internet wireless access physically moves, it can be at some point of 
+time out of the coverage area of its access network and needs to move to another one. 
+In addition, because distinct operators may operate or the public target is different 
+(pedestrians, cars etc.), usually no single access technology can cover one big area 
+(such as a city). The node thus has to select the best access technology available.
+</p>
+
+<p>
+When a node moves from one access network to another or switches between its access 
+technologies, it acquires a new IPv6 address and is not reachable to its previous one 
+anymore. It implies that all current communications (for example streaming video from 
+the Internet) are stopped and later restarted by the user or the application. 
+</p>
+
+<p>
+The <a href="http://www.faqs.org/rfcs/rfc3775.html">Mobile IPv6 protocol (RFC 3775)</a> 
+has been defined to address those issues and allow the node to be always reachable at the 
+same IPv6 address whatever the access network it uses. 
+It allows the host to move transparently for the applications and the users, without 
+the need to reset all the current connections each time the host moves to another 
+access network.
+</p>
+
+<p>
+With Mobile IPv6, a host has two addresses while moving in the Internet topology: 
+one permanent address that identifies the host, and the other representing the 
+location in the Internet topology. The Mobile IPv6 protocol takes care of the 
+binding between these two addresses (thanks to a Home Agent), and ensures that 
+the host is always reachable at its permanent address even if it moves in the 
+Internet topology. 
+</p>
+
+<a name="1c"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+        c. NEMO Basic support
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+On one side Mobile IPv6 manages mobility for only one host, on the other side 
+<a href="http://www.faqs.org/rfcs/rfc3963.html">NEMO Basic Support (RFC 3963)</a> 
+manages mobility for one whole network. Such a network can be for instance a 
+PAN (Personal Area Network, a small network made of IPv6 sensors and PDAs), or 
+an access network deployed in cars, buses or trains. Thanks to NEMO Basic Support, 
+the only computer that needs to have mobility functionnalities when the whole network 
+moves is the one that connects the network to the Internet (this computer is called 
+a Mobile Router), whereas with the Mobile IPv6 approach each host in the network 
+would have to handle mobility.
+</p>
+
+<p>
+Running Mobile IPv6 on each node can be expensive, especially for little devices 
+such as sensors. NEMO Basic Support only requires changes on the router, all 
+others hosts in the moving network do not need any new feature. Thus all movement
+in the Internet topology will be handled by the router, transparently to the hosts.
+</p>
+
+<p>
+With NEMO, we can imagine lots of senarii where mobility can play an important role. 
+Using Network Mobility in a train would allow the customers to stay connected to the 
+Internet without disruption during all their trip. Network Mobility in cars 
+can allow to set up a PAN (Personal Area Network) made of tiny IPv6 sensors that can 
+be queried from outside, and PDAs that can have permanent access to the Internet.
+</p>
+
+<a name="1d"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+        d. Useful References
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+<a href="http://www.faqs.org/rfcs/rfc3963.html"> 
+RFC3963 "<b>Network Mobility (NEMO) Basic Support Protocol</b>"
+</p>
+
+<p>
+<a href="http://www.faqs.org/rfcs/rfc3775.html"> 
+RFC3775 "<b>Mobility Support in IPv6</b>"
+</p>
+
+<p>
+<a href="http://www.nautilus6.org/doc/paper/20051111-JSF-NEMO-KuntzR-LorchatJ-ErnstT.pdf"> 
+<b>Real-life demonstrations using IPv6 and mobility support mechanisms</b></a>
+<br>Kuntz, Romain and Lorchat, Jean and Ernst, Thierry (Keio University)
+<br>JSF, Tokyo, Japan, November 2005
+</p>
+
+<p>
+<a href="http://www.nautilus6.org/doc/paper/20050627-ITST-eBicycle-TErnst.pdf"> 
+<b>A Live Light-Weight IPv6 Demonstration Platform for ITS Usages</b></a>
+<br>Ernst, Thierry and Kuntz, Romain and Leiber, Francois (Keio University)
+<br>5th International Conference on ITS Telecommunications (ITST), Brest, France, 27-29 June 2005
+</p>
+
+<p>
+<a href="http://www.nautilus6.org/doc/misc-network-mobility-jsf-20040913-KuntzR.pdf"> 
+<b>IPv6 Network Mobility, Usage and Demonstration</b></a>
+<br>Kuntz, Romain (Keio University)
+<br>JSF, Tokyo, Japan, November 2004
+</p>
+
+<!----------------------------------------------------------------------------
+	Chap 2
+----------------------------------------------------------------------------->
+
+<a name="2"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	2. Overview of the NEPL implementation
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+NEPL (NEMO Platform for Linux) is a freely available NEMO implementation 
+for Linux on 2.6 kernel. The original NEPL release was based on 
+<a href="http://www.mobile-ipv6.org">MIPL2 (Mobile IPv6  for Linux)</a> and has 
+been developed and tested in cooperation between the Go-Core Project (Helsinki 
+Univestity of Technology) and the <a href="http://www.nautilus6.org">Nautilus6 Project</a> 
+(<a href="http://www.wide.ad.jp">WIDE</a>). NEPL is now maintained on 
+<a href="http://www.linux-ipv6.org">UMIP</a>, which is an effort 
+from the <a href="http://www.linux-ipv6.org">USAGI people</a> to maintain MIPL2 to the 
+current kernel releases.
+</p>
+
+<p>
+NEPL currently supports Home Agent and Mobile Router, Implicit and Explicit registration modes 
+and DHAAD. Extensions to NEPL, such as Multiple Care-of Addresses registration, are available
+in <a href="nepl-howto.html#6">Section 6</a>.
+</p>
+
+<p>Interoperability tests with the <a href="http://www.mobileip.jp">SHISA implementation</a> 
+and an experimental CISCO image have been performed in January 2005 at the 6th TAHI 
+interoperability event. We have successfully confirmed the interoperability for the following 
+scenario:
+</p>
+
+<p>
+<li>Mobile Router registration and deregistration to the Home Agent, 
+using explicit mode and implicit mode, and using DHAAD to discover the Home Agent,</li>
+<li>Communications between two Mobile Networks, with the same or a different Home Agent
+for each Mobile Router,</li>
+<li>Up to two levels of Nested mobility, including Nested Mobile Networks and Visiting 
+Mobile Node in a Nested Mobile Network.</li>
+</p>
+
+<br>
+<p>
+<img src="./pics/nepl-overview.png" border=1></img>
+</p>
+
+<a name="1d"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+        Useful References
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+<a href="http://www.nautilus6.org/doc/tc-nemo-tahi-interop-20050207-KuntzR.txt"> 
+<b>NEMO Basic Support implementation interoperability tests</b></a>
+<br>Kuntz, Romain (Keio University)
+<br>6th IPv6 TAHI Interoperability Test Event, Tokyo, Japan, February 2005
+</p>
+
+<p>
+<a href="http://www.nautilus6.org/doc/paper/20060119-WONEMO-NEMO-KuntzR.pdf"> 
+<b>Performance Evaluation of NEMO Basic Support Implementations</b></a>
+<br>Kuntz, Romain and Mitsuya, Koshiro and Wakikawa, Ryuji (Keio University)
+<br>WONEMO Workshop, Sendai, Japan, January 2006
+</p>
+
+<!----------------------------------------------------------------------------
+	Chap 3
+----------------------------------------------------------------------------->
+
+<a name="3"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	3. The NEPL test network
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+<b>NOTE:</b> If you are interested in setting up a virtual platform, you may have a look at 
+<a href="http://www.clownix.net">uml_clownix_net</a> which provides the necessary 
+tools and documentation to setup a topology modifiable virtual network with UMIP.
+</p>
+
+<p>
+The UMIP test network is composed of:
+</p>
+
+<p>
+<li>A Home Link HL where the Home Agent HA is located. The Home Agent is the gateway of 
+the Home Link and interconnects HL and the Foreign Link 1 (FL1). It can delegate /64 Mobile 
+Network Prefixes (MNPs) to the Mobile Routers. The prefix <b>2001:a:b:0::/60</b> will be 
+used for the Home Link Prefix and the Mobile Network Prefixes as followed:</li>
+<ul>
+   <li><b>2001:a:b:0::/64</b> is the Home Link,</li>
+   <li><b>2001:a:b:0::1000</b> is the Home Agent Address,</li>
+   <li><b>2001:a:b:1::/64</b> to <b>2001:a:b:f::/64</b> are the Mobile Network Prefixes 
+    that can be registered by the Mobile Routers and announced in the Mobile Networks. 
+    This platform can thus handle 15 MNPs.</li>
+</ul>
+
+	
+<li>Two Foreign Links FL1 and FL2 interconnected by a Router R.</li>
+<li>A Mobile Network connected to the Internet via a Mobile Router MR. The MR can move between 
+the Home Link (HL), FL1 and FL2.</li>
+<li>Some Mobile Network Nodes (MNNs).</li>
+</p>
+
+<pre>
+
+                  MNN      MNN     Mobile Network Nodes (MNN)
+                   |        |
+         ------------------------- Mobile Network (NEMO-Link) [2001:a:b:1::/64]
+             |::1
+             MR                    Mobile Router MR
+             |::1
+         ------------------------- Home Link (HL) [2001:a:b:0::/64]
+                     |::1000
+                     HA            Home Agent HA
+                     |::1000
+         ------------------------- Foreign Link 1 (FL1) [2001:a:c:1::/64]
+             |::1
+             R                     Router R
+             |::1
+         ------------------------- Foreign Link 2 (FL2) [2001:a:d:1::/64]
+            
+</pre>
+
+<!----------------------------------------------------------------------------
+	Chap 4
+----------------------------------------------------------------------------->
+
+<a name="4"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	4. Setup and configuration
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr>
+
+<a name="4a"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	a. The Router R
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>The router R can be a Linux box with two network interfaces. You have to configure both interfaces 
+of the router, enable the forwarding between the interfaces and install the routes to the 
+networks. The following sample script should help you. Replace the interface's name according to your 
+configuration:
+</p>
+
+<pre>
+   #!/bin/sh
+   # Router R - Startup script
+   # Interface definition
+   IF1=eth0
+   IF2=eth1
+
+   # Do not accept Router Advertisements, and enable forwarding
+   echo 0 > /proc/sys/net/ipv6/conf/all/accept_ra 
+   echo 1 > /proc/sys/net/ipv6/conf/all/forwarding 
+
+   # Configure the interfaces   
+   ifconfig $IF1 up
+   ifconfig $IF1 inet6 add 2001:a:c:1::1/64
+   ifconfig $IF2 up
+   ifconfig $IF2 inet6 add 2001:a:d:1::1/64
+
+   # Add a route via the Home Agent to the Home Link and the MNPs
+   route add -A inet6 2001:a:b:0::/60 gw 2001:a:c:1::1000 $IF1
+   # EOF
+</pre>
+
+<p>
+The Router R must advertise Router Advertisements on both FL1 and FL2. You can use 
+the <a href="http://www.litech.org/radvd/">radvd software</a> configured as followed:
+</p>
+
+<pre>
+   # Router R - /etc/radvd.conf
+   # Replace eth0 with the interface connected to FL1
+   interface eth0
+   {
+        AdvSendAdvert on;
+        MaxRtrAdvInterval 4;
+        MinRtrAdvInterval 3;
+        AdvIntervalOpt on;
+        prefix 2001:a:c:1::1/64
+        {
+                AdvRouterAddr on;
+                AdvOnLink on;
+                AdvAutonomous on;
+        };
+   };
+
+   # Replace eth1 with the interface connected to FL2
+   interface eth1
+   {
+        AdvSendAdvert on;
+        MaxRtrAdvInterval 4;
+        MinRtrAdvInterval 3;
+        AdvIntervalOpt on;
+        prefix 2001:a:d:1::1/64
+        {
+                AdvRouterAddr on;
+                AdvOnLink on;
+                AdvAutonomous on;
+        };
+   };  
+   # EOF     
+</pre>
+
+<p>
+You can tune the advertisement interval with the <b>MinRtrAdvInterval</b> and 
+<b>MaxRtrAdvInterval</b> options. Check the <b>radvd.conf manpage</b> for more information.
+You can then execute <b>rtadv</b> specifying the location of your configuration file:
+</p>
+<pre>
+   radvd -C /etc/radvd.conf
+</pre>
+
+
+<a name="4b"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	b. Kernel setup for HA and MR
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+You need to recompile a kernel from scratch for your system, here is the procedure 
+for a 2.6.29 kernel. First, Download the 
+<a href="http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.29.5.tar.gz">kernel sources</a>.
+Note that your don't need to patch the kernel anymore (support for IPv6 mobility has been 
+integrated since version 2.6.26).
+</p>
+
+<pre>
+   # cd /usr/src/
+   # wget http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.29.5.tar.gz
+</pre>
+
+<p>
+Local copies of these softwares are also available 
+<a href="http://www.nautilus6.org/doc/nepl-howto/umip-nepl/">here</a>.
+Uncompress the kernel sources:
+</p>
+
+<pre>
+   # tar zxf linux-2.6.29.5.tar.gz
+</pre>
+
+<p>
+For conveniency, we create a symbolic link to the kernel sources:
+</p>
+
+<pre>
+   # ln -s /usr/src/linux-2.6.29.5/include /usr/src/linux
+</pre>
+
+<p>
+You then need to edit the kernel configuration file to turn on the mobility options:
+</p>
+
+<pre>
+   # cd linux-2.6.29.5/
+   # make menuconfig
+</pre>
+
+<p>
+Adjust the kernel options according to your hardware configuration. If you are not familiar with 
+kernel compilation, take a look at this <a href="http://www.digitalhermit.com/linux/Kernel-Build-HOWTO.html">
+Kernel Rebuild Guide</a>. To enable the mobility features, you also need to turn on the following options 
+in the kernel (for both Home Agent and Mobile Router):
+</p>
+
+<pre>
+   Code maturity level options
+   --> Prompt for development and/or incomplete code/drivers [CONFIG_EXPERIMENTAL]
+
+   General setup 
+   --> System V IPC [CONFIG_SYSVIPC]
+
+   Networking
+   --> Networking support [CONFIG_NET]
+   --> Networking options
+       --> Transformation user configuration interface [CONFIG_XFRM_USER]
+       --> Transformation sub policy support [CONFIG_XFRM_SUB_POLICY]
+       --> Transformation migrate database [CONFIG_XFRM_MIGRATE]
+       --> PF_KEY sockets [CONFIG_NET_KEY]
+       --> PF_KEY MIGRATE [CONFIG_NET_KEY_MIGRATE]
+       --> TCP/IP networking [CONFIG_INET]
+       --> The IPv6 protocol [CONFIG_IPV6]
+       --> IPv6: AH transformation [CONFIG_INET6_AH]
+       --> IPv6: ESP transformation [CONFIG_INET6_ESP]
+       --> IPv6: IPComp transformation [CONFIG_INET6_IPCOMP]
+       --> IPv6: Mobility [CONFIG_IPV6_MIP6]
+       --> IPv6: IPsec transport mode [CONFIG_INET6_XFRM_MODE_TRANSPORT]
+       --> IPv6: IPsec tunnel mode [CONFIG_INET6_XFRM_MODE_TUNNEL]
+       --> IPv6: MIPv6 route optimization mode [CONFIG_INET6_XFRM_MODE_ROUTEOPTIMIZATION]
+       --> IPv6: IPv6-in-IPv6 tunnel [CONFIG_IPV6_TUNNEL]
+       --> IPv6: Multiple Routing Tables [CONFIG_IPV6_MULTIPLE_TABLES]
+       --> IPv6: source address based routing [CONFIG_IPV6_SUBTREES]
+
+   File systems
+   --> Pseudo filesystems
+       --> /proc file system support [CONFIG_PROC_FS]
+</pre>
+
+<p> 
+If you want to use <b>Multiple Care-of Addresses</b> (MCoA) registration on the Mobile
+Router, please refer to <a href="nepl-howto.html#6b">section 6.b</a> in order to activate 
+some more needed options.
+</p>
+
+<p>
+You can now proceed to the kernel compilation:
+</p>
+
+<pre>
+   # make
+   # make install
+   # make modules_install
+</pre>
+
+<p>
+Verify your bootloader (LILO or GRUB)'s configuration and reboot on 
+your new kernel.
+</p>
+
+
+<a name="4c"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	c. Userland for the Mobile Router and the Home Agent
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+NEPL is an extension to UMIP provided as a patch. UMIP is an effort from the 
+<a href="http://www.linux-ipv6.org">USAGI people</a> to maintain MIPL2 to the current kernel 
+releases. By applying the NEPL patch on UMIP, you will get the NEMO Basic Support extension.
+</p>
+
+<p>
+You need to get the original UMIP sources and to patch them with the NEPL patch. 
+First, You may need additional packages to be able to compile UMIP. Be sure to have 
+the following packages: <b>autoconf, automake, bison, 
+flex, libssl-dev, indent</b> on your system. On a Debian operating system, you can 
+install them with:
+</p>
+
+<pre>
+   # apt-get install autoconf automake bison flex libssl-dev indent
+</pre>
+
+<p> Then, download the 
+<a href="ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/daemon/tarball/mipv6-daemon-umip-0.4.tar.gz">UMIP userland</a>
+and the <a href="http://www.nautilus6.org/doc/nepl-howto/umip-nepl/mipv6-daemon-umip-0.4-nepl-20090624.patch">NEPL patch for UMIP</a>:
+</p>
+
+<pre>
+   # cd /usr/src/
+   # wget ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/daemon/tarball/mipv6-daemon-umip-0.4.tar.gz
+   # wget http://www.nautilus6.org/doc/nepl-howto/umip-nepl/mipv6-daemon-umip-0.4-nepl-20090624.patch
+   # tar zxf mipv6-daemon-umip-0.4.tar.gz
+</pre>
+
+<p>
+Apply the NEPL patch for UMIP to add the NEMO Basic Support extension:
+</p>
+
+<pre>
+   # cd /usr/src/
+   # mv mipv6-daemon-umip-0.4-nepl-20090624.patch mipv6-daemon-umip-0.4/
+   # cd mipv6-daemon-umip-0.4/
+   # patch -p1 < mipv6-daemon-umip-0.4-nepl-20090624.patch
+</pre>
+
+<p>
+Compile UMIP:
+</p>
+
+<pre>
+   # autoreconf -i 
+   # CPPFLAGS='-isystem /usr/src/linux/include/' ./configure --enable-vt
+   # make
+   # make install
+</pre>
+
+<p>
+The <b>--enable-vt</b> option will enable the virtual terminal, which can be useful to retrieve 
+the binding cache or binding update list information on the Home Agent or the Mobile Router.
+See <a href="nepl-howto.html#5">section 5</a> for more information.
+</p>
+
+<a name="4d"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	d. Home Agent configuration
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+The Home Agent configuration file will be stored in <b>/etc/mip6d.conf</b>. Here is a sample 
+file for our test network. Read carefully the <b>mip6d.conf manpage</b> to have more 
+information on each keyword.
+</p>
+
+<pre>
+   # This is an example of mip6d NEMO enabled Home Agent configuration file
+   NodeConfig HA;
+   # Set DebugLevel to 0 if you do not want debug messages
+   DebugLevel 10;
+   # Replace eth1 with the interface connected to the HOME LINK
+   Interface "eth1";
+   HaAcceptMobRtr enabled;
+
+   # MNP configuration
+   HaServedPrefix 2001:a:b:0::/64;
+   BindingAclPolicy 2001:a:b:0::1 (2001:a:b:1::/64) allow;
+   DefaultBindingAclPolicy deny;
+
+   # IPsec configuration - NO IPSEC AT THE MOMENT
+   UseMnHaIPsec disabled;
+   KeyMngMobCapability disabled;
+   # EOF
+</pre>
+
+<p>
+The Home Agent also needs to advertise Router Advertisements on the Home Link, with 
+some specific options to Mobile IPv6 and NEMO. You can use the 
+<a href="http://www.litech.org/radvd/">radvd software</a> for this purpose. On a Debian
+system, you can install it with:
+</p>
+
+<pre>
+   # apt-get install radvd
+</pre>
+
+<p>Be careful, only <b>version 0.9 and later</b> supports the NEMO Basic support options. Check 
+your version before using it. Configure the daemon as followed, in the <b>/etc/radvd.conf</b> file:
+</p>
+
+<pre>
+   # Home Agent HA - radvd.conf
+   # Replace eth1 with the interface connected to the Home Link
+   interface eth1
+   {
+        AdvSendAdvert on;
+        MaxRtrAdvInterval 3;
+        MinRtrAdvInterval 1;
+        AdvIntervalOpt on;
+        AdvHomeAgentFlag on;
+        AdvHomeAgentInfo on;
+        HomeAgentLifetime 1800;
+        HomeAgentPreference 10;
+        AdvMobRtrSupportFlag on;
+        prefix 2001:a:b:0::1000/64
+        {
+                AdvRouterAddr on;
+                AdvOnLink on;
+                AdvAutonomous on;
+        };
+   };
+   # EOF
+</pre>
+
+<p>
+<b>NOTE:</b> even though you do not plan to use the Home Link (e.g. in 
+a Virtual Home Link configuration), you still have to advertise RA with 
+the home link prefix: mip6d needs it to configure its Home Agent list. 
+In that case you can use dummy interfaces to advertise the home link RA. 
+See the <a href="nepl-howto.html#faq">FAQ entry</a> for more information 
+on how to configure a virtual Home Link.
+</p>
+
+<p>
+You can now use a startup script to properly configure the Home Agent after 
+boot and execute the NEMO and RADVD daemons. Here is a sample script for our
+test network. Replace the interface's name and the MR's Link Local address
+according to your configuration:
+</p>
+
+<pre>
+   #!/bin/bash 
+   # Home Agent HA - Startup script
+   # Interface definition
+   IF1=eth0
+   IF2=eth1
+
+   # Put here your MR's Link Local address on the egress interface
+   MRLLADDR=fe80::200:24ff:fecc:6868
+
+   # Put here the path to your radvd binary
+   RADVD=/usr/local/sbin/radvd
+   # Put here the path to your mip6d binary
+   NEMOD=/usr/local/sbin/mip6d
+
+   # Deny RA and setup forwarding
+   echo 0 > /proc/sys/net/ipv6/conf/all/accept_ra 
+   echo 1 > /proc/sys/net/ipv6/conf/all/forwarding 
+
+   # Enable Proxy NDP (to support returning home)
+   echo 1 > /proc/sys/net/ipv6/conf/all/proxy_ndp
+
+   # Configure the interface connected to the Home Link
+   ifconfig $IF2 up
+   ifconfig $IF2 inet6 add 2001:a:b:0::1000/64
+
+   # Configure the interface connected to FL1 
+   ifconfig $IF1 up
+   ifconfig $IF1 inet6 add 2001:a:c:1::1000/64
+
+   # Route configuration
+   # In order to route the packets to the Mobile Router when it is in the 
+   # Home Link.
+   route -A inet6 add 2001:a:b:1::/64 gw $MRLLADDR $IF2 
+   # Route the packets to the Foreign Link 2 via the Router R
+   route -A inet6 add 2001:a:d:1::/64 gw 2001:a:c:1::1 $IF1
+
+   # Execute the router advertisement daemon
+   $RADVD -C /etc/radvd.conf
+
+   # Execute the NEMO daemon
+   $NEMOD -c /etc/mip6d.conf
+   # EOF
+</pre>
+
+<p>
+Once the script is executed, the Home Agent should be operational and ready to register 
+your Mobile Router.
+</p>
+
+<a name="4e"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	e. Mobile Router configuration
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+The Mobile Router configuration file will be stored in <b>/etc/mip6d.conf</b>. Here is a 
+sample file for our test network. Read carefully the <b>mip6d.conf manpage</b> to have 
+more information on each keyword.
+</p>
+
+<pre>
+   # This is an example of mip6d NEMO enabled Mobile Router configuration file
+   NodeConfig MN;
+   DebugLevel 10;
+   DoRouteOptimizationCN disabled;
+   DoRouteOptimizationMN disabled;
+   UseCnBuAck disabled;
+
+   # We use Explicit Mode
+   MobRtrUseExplicitMode enabled;
+
+   # Enable Optimistic Handovers
+   OptimisticHandoff enabled;
+
+   # The Binding Lifetime, for example 60 seconds
+   MnMaxHaBindingLife 60;
+
+   # Replace eth0 with your egress interface 
+   # (the one connected to the Home Link or Foreign Link)
+   Interface "eth0" { 
+        MnIfPreference 1;
+   }
+
+   # Replace eth0 with your egress interface 
+   MnHomeLink "eth0" {
+        IsMobRtr enabled;
+        HomeAgentAddress 2001:a:b:0::1000;
+        HomeAddress 2001:a:b:0::1/64 (2001:a:b:1::/64);
+   }
+
+   # IPsec configuration - NO IPSEC AT THE MOMENT
+   UseMnHaIPsec disabled;
+   KeyMngMobCapability disabled;
+   # EOF
+</pre>
+
+<p>
+The Mobile Router also needs to advertise Router Advertisements on its NEMO-Link, inside 
+the Mobile Network. You can use the <a href="http://www.litech.org/radvd/">radvd software</a> 
+for this purpose. Configure the daemon as followed, in the <b>/etc/radvd.conf</b> file:
+</p>
+
+<pre>
+   # Mobile Router MR - radvd.conf
+   # Replace eth1 with the interface connected to the NEMO-Link.
+   interface eth1
+   {
+      AdvSendAdvert on;
+      MaxRtrAdvInterval 3;
+      MinRtrAdvInterval 1;
+      AdvIntervalOpt on;
+      prefix 2001:a:b:1::1/64
+      {
+           AdvRouterAddr on;
+           AdvOnLink on;
+           AdvAutonomous on;
+           AdvPreferredLifetime 60;
+           AdvValidLifetime 120;
+      };
+   };
+   # EOF
+</pre>
+
+<p>
+You can now use a startup script to properly configure the Mobile Router after 
+boot and execute the NEMO and RADVD daemons. Here is a sample script for our
+test network. Replace the interface's name according to your configuration:
+</p>
+
+<pre>
+   #!/bin/bash
+   # Mobile Router MR - Startup script
+   # Interface definition
+   IF1=eth0
+   IF2=eth1
+
+   # Put here the path to your radvd binary
+   RADVD=/usr/local/sbin/radvd
+   # Put here the path to your mip6d binary
+   NEMOD=/usr/local/sbin/mip6d
+
+   # Deny RA and setup forwarding
+   echo 0 > /proc/sys/net/ipv6/conf/all/accept_ra
+   echo 1 > /proc/sys/net/ipv6/conf/all/forwarding
+  
+   # IF1 is the egress interface. Do not configure any address on it.
+   ifconfig $IF1 up
+   # IF2 is the ingress interface, connected to the NEMO-Link
+   ifconfig $IF2 up
+   ifconfig $IF2 inet6 add 2001:a:b:1::1/64
+
+   # Execute the router advertisement daemon 
+   $RADVD -C /etc/radvd.conf
+  
+   # Execute the NEMO daemon
+   $NEMOD -c /etc/mip6d.conf
+   # EOF
+</pre>
+
+<p>
+Once the script is executed, the Mobile Router should be operational and ready to register 
+to the Home Agent when moving in foreign networks.
+</p>
+
+<br>
+<div align="left"><font face="monaco, MS Sans Serif" size="+0">
+<b><span class="title"><ul>
+        e1. Configure the MR with the interface preference mechanism
+<hr></ul></span></b></font></div>     
+
+<p>
+You can specify a preference for each egress interface you would like to use on
+your Mobile Router, in the <b>mip6d.conf</b> file of the MR. Let's imagine that
+<b>eth0</b> is a ethernet egress interface, and you would also like to use <b>eth2</b>,
+a wireless interface, as another egress interface when you disconnect eth0 from its link.
+You will then configure your MR as followed:
+</p>
+
+<pre>
+   # This is an example of mip6d NEMO enabled Mobile Router configuration file
+   [...]                                                      
+   Interface "eth0" {                                         
+        # The lower the preference is, the prefered is the interface.
+        MnIfPreference 1;                                     
+   }                                                          
+                                                              
+   Interface "eth2" {                                         
+        MnIfPreference 2;                                     
+   }
+   [...]
+   # EOF
+</pre>
+
+<p>
+In the present case, <b>eth0</b> will be used when available to send and receive traffic
+to and from the Mobile Network. If eth0 is disconnected from its link, <b>eth2</b> will be
+used instead for the communications.
+</p>
+
+<p>
+Don't forget to also update your startup script to use the eth2 interface:
+</p>
+
+<pre>
+   #!/bin/bash
+   # Mobile Router MR - Startup script
+   # Interface definition
+   IF1=eth0
+   IF2=eth1
+   IF3=eth2
+   [...]
+   # IF1 is the egress interface. Do not configure any address on it.
+   ifconfig $IF1 up
+   # IF2 is the ingress interface, connected to the NEMO-Link
+   ifconfig $IF2 up
+   ifconfig $IF2 inet6 add 2001:a:b:1::1/64
+   # IF3 is the second egress interface
+   ifconfig $IF3 up
+   [...]
+   # EOF
+</pre>
+
+<p>
+<b>NOTE1:</b> in order to get good performances in vertical handovers between your 
+egress interfaces, be sure that the access routers on your foreign links send frequently 
+Router Advertisements or always reply to Router Solicitations.
+</p>
+
+<p>
+<b>NOTE2:</b> if you wish to use a cellular interface (GPRS, UMTS, etc.) as one of your 
+network interface, please check the <a href="nepl-howto.html#faq">FAQ section</a>.
+</p>
+
+
+<a name="4f"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	f. IPsec configuration
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+An excellent HowTo to configure IPsec with dynamic keying on UMIP (using racoon2)
+is available 
+<a href="http://www.nautilus6.org/~sdecugis/dynamic_keying/Howto_dynamic_keying.html">here</a>.
+This document has been contributed by Sebastien DECUGIS.
+</p>
+
+<!----------------------------------------------------------------------------
+	Chap 5
+----------------------------------------------------------------------------->
+
+<a name="5"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	5. Operation
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+Once your Home Agent is operational, you can boot the Mobile Router. Once the NEMO dameon is 
+running, be sure that the Mobile Router and the MNNs inside the Mobile Network are reachable 
+(using <b>ping6</b> for example) when the MR is in the Home Link. If they are not reachable, 
+you certainly have a configuration problem.
+<p>
+
+<p>
+If all your test network is setup and all nodes are reachable from each network, then you 
+can try to move your Mobile Network from the Home Link to Foreign Link 1, by connecting the 
+Mobile Router's egress interface to FL1. The MR will then register to the Home Agent, and each 
+node (MR and MNNs) will still be reacheable at the same address as if they were in the Home 
+Link.
+</p>
+
+<p>
+You can check that the registration to the Home Agent was successful by checking the 
+<b>Binding Update List</b> on the <b>Mobile Router</b> and the <b>Binding Cache</b> on 
+the <b>Home Agent</b>. You can check them through the <b>Virtual Terminal</b>. For example,
+you can execute on the MR:
+</p>
+
+<pre>
+   # telnet localhost 7777
+   mip6d> verbose yes
+   yes
+   mip6d> bul
+   == BUL_ENTRY ==
+   Home address    2001:a:b:0:0:0:0:1
+   Care-of address 2001:a:c:1:208:dff:feed:beef
+   CN address      2001:a:b:0:0:0:0:1000
+    lifetime = 8,  delay = 7000
+    flags: IP6_MH_BU_HOME IP6_MH_BU_ACK 
+    ack ready
+    dev eth0 last_coa 2001:660:4701:f03f:230:5ff:fe1a:7ffb
+    lifetime 4 / 8 seq 51006 resend 0 delay 7(after 3s) expires 4
+    mps 2332741 / 2332798
+</pre>
+
+<p>
+We can see that the CoA <b>2001:a:c:1:208:dff:feed:beef</b> wich is bound 
+to the HoA <b>2001:a:b:0:0:0:0:1</b> is registered to the CN (here, the Home Agent)
+whose address is <b>2001:a:b:0:0:0:0:1000</b>.
+</p>
+
+<p>
+On the Home Agent, you can get similar information with the <b>bc</b> command of the Virtual
+Terminal, which displays all the Binding Cache Entries:
+</p>
+
+<pre>
+   mip6d> verbose yes
+   yes
+   mip6d> bc
+   hoa 2001:a:b:0:0:0:0:1 nonce 0 status registered
+    coa 2001:a:c:1:208:dff:feed:beef nonce 0 flags AH--
+    local 2001:a:b:0:0:0:0:1000 tunnel ip6tnl1 link eth1
+    lifetime 1 / 8 seq 51018 unreach 0 mpa 2023 / 2167 retry 0
+</pre>
+
+<p>
+You can now move your Mobile Network from the Home Link to FL1 and FL2, transparently for 
+all the MNNs in your Mobile Network.
+</p>
+
+
+<!----------------------------------------------------------------------------
+	Chap 6
+----------------------------------------------------------------------------->
+
+<a name="6"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	6. Multiple Care-of Addresses registration
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+Multiple Care-of Addresses Registration (MCoA) allows
+a Mobile Node (Mobile Host or Mobile Router) to register simulteanously 
+multiple Care-of Addresses to its Home Agent. Main benefits, amongst others, 
+are policy routing and fault tolerance for the Mobile Router.
+</p>
+
+<p>
+The current implementation is based on
+<a
+href="http://tools.ietf.org/html/draft-ietf-monami6-multiplecoa-01">
+draft-ietf-monami6-multiplecoa-01.txt</a>. It is shipped as a patch for the UMIP userland
+that must be applied AFTER the NEPL patch from <a href="nepl-howto.html#4b">section 4.b</a>.
+It runs on a 2.6.29.5 kernel patched with the UMIP kernel patch, and is based on the 
+NEPL for UMIP code.
+</p>
+
+<p>
+Note that MCoA allows to use multiple interfaces <b>at the same time</b>,
+whereas the interface preference mechanism explained in 
+<a href="nepl-howto.html#4e">section 4.e1</a> only allows to use multiple
+interfaces <b>sequentially</b>.
+</p>
+
+<a name="6a"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	a. Limitations
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+	<b>MCoA for UMIP</b> is still under development and thus contains
+	some bugs and limitations. Please read carefully the <b>README.MCOA</b>
+	which will appear once the MCoA patch have been applied. The most important
+	limitations are:
+</p>
+<ul>
+	<li>
+	The Policy Routing only works for the <b>FORWARDING TRAFFIC</b>. The 
+	traffic generated locally on the Mobile Router will not benefit 
+	from the Multiple Care-of Addresses registration. However, the traffic 
+	from the MNNs can be routed by the Mobile Router according to your 
+	policies. We are currently working on this issue to also allow policy 
+	routing for the Mobile Router itself.
+	</li>
+</ul>
+
+<ul>
+	<li>
+	IPsec is not supported. We will work on this part once we get a rather 
+	stable implementation.
+	</li>
+</ul>
+<ul>
+	<li>
+	Returning Home or mixing interfaces at home with interfaces in foreign
+	network does not work. We are currently discussing which behaviour on
+	the Mobile Router would be the best when one of its interface returns
+	home.
+	</li>
+</ul>
+
+<p>	
+	Besides this, there are still some bugs, so any bug report is welcome!
+</p>	
+
+<a name="6b"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	b. Kernel Options
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+First, download and activate the UMIP kernel options for the 2.6.29.5 kernel 
+as explained in <a href="nepl-howto.html#4b">section 4.b</a>. You also need to activate 
+at least the following options:
+
+<pre>
+   Networking
+   --> Networking options
+       --> Network packet filtering framework (Netfilter) [CONFIG_NETFILTER]
+           --> Core Netfilter Configuration
+               -->  Netfilter Xtables support (required for ip_tables)a [CONFIG_NETFILTER_XTABLES]
+               --> "MARK" target support [CONFIG_NETFILTER_XT_TARGET_MARK]
+               --> "mark" match support [CONFIG_NETFILTER_XT_MATCH_MARK]
+           --> IPv6: Netfilter Configuration (EXPERIMENTAL)
+	       --> IP6 tables support (required for filtering) [CONFIG_IP6_NF_IPTABLES]
+	       --> Packet mangling [CONFIG_IP6_NF_MANGLE]
+</pre>
+
+<p>
+In order to fix a problem with the BU that could be sent through a disconnected interface, you need 
+to patch the kernel with <a href="extra/mcoa_bu_kernel.diff">this patch</a> (more explanation on the problem 
+<a href="http://ml.nautilus6.org/pipermail/support/2010-January/001637.html">here</a>).
+</p>
+
+<p>
+Compile and reboot on your new kernel, as explained in 
+<a href="nepl-howto.html#4b">section 4.b</a>.
+</p>
+			    
+
+<a name="6c"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	c. Userland Compilation
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+You may need additional packages to be able to compile UMIP. Be sure to have the following 
+packages: <b>autoconf, automake1.8, bison, flex, libssl-dev, indent</b>. On a Debian operating 
+system, you can install them with:
+</p>
+
+<pre>
+   # apt-get install autoconf automake1.8 bison flex libssl-dev indent
+</pre>
+
+<p>
+Download all the necessary softwares and patch:
+the <a href="ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/daemon/tarball/mipv6-daemon-umip-0.4.tar.gz">UMIP userland</a>,
+the <a href="http://www.nautilus6.org/doc/nepl-howto/umip-nepl/mipv6-daemon-umip-0.4-nepl-20090624.patch">NEPL patch for UMIP</a>,
+the <a href="http://www.nautilus6.org/doc/nepl-howto/umip-nepl/mipv6-daemon-umip-0.4-nepl-mcoa-20090624.patch">MCoA patch for UMIP</a>, 
+and an <a href="extra/mcoa_bu_mip6d.diff">extra patch</a> to solve an issue regarding the interface chosen to send the BU. 
+</p>
+
+<pre>
+   # cd /usr/src/
+   # wget ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/daemon/tarball/mipv6-daemon-umip-0.4.tar.gz
+   # wget http://www.nautilus6.org/doc/nepl-howto/umip-nepl/mipv6-daemon-umip-0.4-nepl-20090624.patch
+   # wget http://www.nautilus6.org/doc/nepl-howto/umip-nepl/mipv6-daemon-umip-0.4-nepl-mcoa-20090624.patch
+   # wget http://www.nautilus6.org/doc/nepl-howto/extra/mcoa_bu_mip6d.diff
+   # tar zxf mipv6-daemon-umip-0.4.tar.gz
+</pre>
+
+<p>
+First, apply the NEPL patch for UMIP (to add the NEMO Basic Support extension) 
+and then the MCoA patch:
+</p>
+
+<pre>
+   # cd /usr/src/
+   # mv mipv6-daemon-umip-0.4-nepl-20090624.patch mipv6-daemon-umip-0.4/
+   # mv mipv6-daemon-umip-0.4-nepl-mcoa-20090624.patch mipv6-daemon-umip-0.4/
+   # mv mcoa_bu_mip6d.diff mipv6-daemon-umip-0.4/
+   # cd mipv6-daemon-umip-0.4/
+   # patch -p1 < mipv6-daemon-umip-0.4-nepl-20090624.patch
+   # patch -p1 < mipv6-daemon-umip-0.4-nepl-mcoa-20090624.patch
+   # patch -p0 < mcoa_bu_mip6d.diff
+</pre>
+
+<p>
+Compile UMIP:
+</p>
+
+<pre>
+   # autoreconf -i 
+   # CPPFLAGS='-isystem /usr/src/linux/include/' ./configure --enable-vt
+   # make
+   # make install
+</pre>
+
+<p>
+The <b>--enable-vt</b> option will enable the virtual terminal, which can be useful to retrieve 
+the binding cache or binding update list information on the Home Agent or the Mobile Router.
+</p>
+
+
+<a name="6d"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	d. Home Agent Configuration
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+The Home Agent configuration file supports new items to enable MCoA
+registrations. Please also refer to the <b>mip6d.conf</b> manpage for more
+information.
+</p>
+
+<pre>
+   # Add support for MCoA
+   # enabled: will accept MCoA registration from MN
+   # disabled: will not accept MCoA registration from MN
+   # Default: disabled
+   HaAcceptMCoAReg {enabled|disabled};
+
+   # Each entry for MN/MR can be configured to accept MCoA or not
+   # Default: NoMCoAReg
+   BindingAclPolicy HoA (MNP1, MNP2) {MCoAReg|NoMCoAReg} allow;
+</pre>
+
+<p>
+You should also set <b>UseMnHaIPsec</b> to <b>disabled;</b>
+</p>
+
+<p>
+As an example, the <b>mip6d.conf</b> for the Home Agent available in 
+<a href="nepl-howto.html#4d">section 4.d</a> would become:
+</p>
+
+<pre>
+   # This is an example of mip6d NEMO and MCoA enabled Home Agent configuration file
+   NodeConfig HA;
+   DebugLevel 10;
+   Interface "eth1";
+   HaAcceptMobRtr enabled;
+   HaAcceptMCoAReg enabled;
+
+   # Disable MPS/MPA
+   SendMobPfxAdvs enabled;
+   SendUnsolMobPfxAdvs enabled;
+
+   # MNP configuration
+   HaServedPrefix 2001:a:b:0::/64;
+   BindingAclPolicy 2001:a:b:0::1 (2001:a:b:1::/64) MCoAReg allow;
+   DefaultBindingAclPolicy deny;
+
+   # IPsec configuration - NO IPSEC AT THE MOMENT
+   UseMnHaIPsec disabled;
+   KeyMngMobCapability disabled;
+   # EOF
+</pre>
+
+<p>
+The <b>radvd.conf</b> and the startup script remains the same as in 
+<a href="nepl-howto.html#4d">section 4.d</a>.
+</p>
+
+<a name="6e"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	e. Mobile Router Configuration
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+The Mobile Router configuration file supports new items to enable MCoA
+registrations. Please also refer to the <b>mip6d.conf</b> manpage for more
+information.
+</p>
+
+<pre>
+   # Put an "Interface" item for each interface you wish to tuse
+   # for MCoA registration
+   Interface "eth0" {
+        # BID for this interface
+        # BID MUST be choosed between 1 and 251, and MUST be UNIQUE
+        Bid 100;
+        # Binding priority (the higher the better)
+        # When MCoA is used, this is the priority of the binding
+        # and MnIfPreference is ignored.
+        # If no external policies are used, the higher is preferred.
+        BidPriority 10;
+	# Setting the Reliable flag to false allows to use the BU as 
+	# a heartbeat. Check the manpage for more details.
+	Reliable {true|false};
+   }
+
+   MnHomeLink "eth0" {
+	[...]
+        # Add support for MCoA
+        # enabled: will try to register Multiple CoA to the HA
+        # disabled: will only register one interface
+        # Default: disabled
+        RegMultipleCoA {enabled|disabled};
+        # Interfaces to use for MCoA Registration
+        IfMultipleCoA "eth0", "eth1";
+   }
+</pre>
+
+<p>
+You should also set <b>DoRouteOptimizationCN</b>, 
+<b>DoRouteOptimizationMN</b> and <b>UseMnHaIPsec</b> to <b>disabled;</b>.
+<b>MnMaxHaBindingLife</b> should also be set to a small value (thus the 
+HA can quickly delete useless bindings if needed). Using <b>Optimistic 
+Handovers</b> may also give you better results in case the Mobile router 
+redirects flows from one tunnel to another. If one MR-HA path is not very 
+reliable, you can also set the <b>Reliable</b> option to <b>false;</b> in 
+the corresponding <b>Interface</b> entry. Please check the manpage for 
+more information about that.
+</p>
+
+<p>
+Supposing that you wish to use both <b>eth0</b> and <b>eth2</b> as egress 
+interfaces, and to register two care-of addresses to your Home Agent, the 
+<b>mip6d.conf</b> for the Mobile Router available in 
+<a href="nepl-howto.html#4e">section 4.e</a> would become:
+</p>
+
+<pre>
+   # This is an example of mip6d NEMO and MCoA enabled Mobile Router configuration file
+   NodeConfig MN;
+   DebugLevel 10;
+   DoRouteOptimizationCN disabled;
+   DoRouteOptimizationMN disabled;
+   SendMobPfxSols enabled;
+   UseCnBuAck disabled;
+
+   # We use Explicit Mode
+   MobRtrUseExplicitMode enabled;
+   OptimisticHandoff enabled;
+
+   # The Binding Lifetime, for example 20 seconds
+   MnMaxHaBindingLife 20;
+
+   Interface "eth0" { 
+	Bid 200;
+	BidPriority 10;
+	Reliable true;
+   }
+
+   Interface "eth2" {
+	Bid 100; 
+	BidPriority 20;
+	Reliable true;
+   }
+
+   # Replace eth0 with your egress interface 
+   MnHomeLink "eth0" {
+        IsMobRtr enabled;
+        HomeAgentAddress 2001:a:b:0::1000;
+        HomeAddress 2001:a:b:0::1/64 (2001:a:b:1::/64);
+        RegMultipleCoA enabled;
+        IfMultipleCoA "eth0", "eth2";
+   }
+
+   # IPsec configuration - NO IPSEC AT THE MOMENT
+   UseMnHaIPsec disabled;
+   KeyMngMobCapability disabled;
+   # EOF
+</pre>
+
+<p>
+Don't forget to also update your startup script to use the eth2 interface:
+</p>
+
+<pre>
+   #!/bin/bash
+   # Mobile Router MR - Startup script
+   # Interface definition
+   IF1=eth0
+   IF2=eth1
+   IF3=eth2
+   [...]
+   # IF3 is the second egress interface
+   ifconfig $IF3 up
+   [...]
+   # EOF
+</pre>
+
+<p>
+<b>NOTE:</b> if you wish to use a cellular interface (GPRs, UMTS, etc.) as one of your 
+network interface, please check the following howto that will explain you how to setup 
+an IPv6 connectivity over it using OpenVPN: 
+<a href="http://www.nautilus6.org/doc/tc-nepl-openvpn-20070615-SchreinerG.txt">
+Setup OpenVPN with an UMTS interface on Debian GNU/Linux to get IPv6 connectivity</a>.
+</p>
+
+<a name="6f"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	f. Policy Routing
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+Once your MN has registered multiple Care-of Addresses to your Home Agent, it 
+can use its multiple MN-HA tunnels for policy routing. The policy routing part 
+is managed with the <b>ip6tables</b> tool. Be sure to install this tool
+(included in the <b>iptables</b> tool suite) on both your HA and MN. 
+If it is not available as package for your Linux distribution, you can get it 
+on <a href="http://www.netfilter.org/">the netfilter.org webpage</a>.
+</p>
+
+<p>
+You will use the <b>BID</b> that you assigned to each interface to mark the
+packets. Packets marked with BID X will be routed through the
+interface whose BID is X. If this interface is not available (because
+it is down), then the packet will be routed through the most prefered
+interface (the one with the highest <b>BidPriority</b>).
+</p>
+
+<p>
+<b>NOTE:</b>
+At the moment, <b>ONLY PACKETS FORWARDED BY THE MR</b> (ie packets sent by MNN 
+via the MR) can benefit from the policy routing. Packets generated by the MR itself
+will not be routed according to your rules. We are currently working to
+improve the current situation to also allow the MR to benefit from the
+policy routing.
+</p>
+
+<p>
+Use the <b>ip6tables</b> tool and the <b>MARK</b> target to mark your packets with
+the <b>BID</b>. Ip6tables rules must be done in the <b>PREROUTING</b> chain, in the
+<b>mangle</b> table.
+</p>
+
+<p>
+For example, on the MR, to mark as <b>100</b> all <b>icmpv6 packets</b> whose
+destination is <b>2001:a:d:1::1</b>, you can do:
+</p>
+
+<pre>
+   ip6tables -A PREROUTING -t mangle
+             -p icmpv6 --destination 2001:a:d:1::1
+             -j MARK --set-mark 100
+</pre>
+
+<p>
+Those packets will be sent through the interface whose BID is 100.
+You will also need to create the "symetric" rule on the Home Agent:
+</p>
+
+<pre>
+   ip6tables -A PREROUTING -t mangle
+             -p icmpv6 --source 2001:a:d:1::1
+             -j MARK --set-mark 100
+</pre>
+
+<p>
+As you see, one current limitation is that each rules created on the
+MR must be also created on the Home Agent. We plan to support in the
+future some policy exchange mechanism between the MR and the HA in
+order to configure automatically the HA.
+</p>
+
+<p>
+Read carefully the <b>ip6tables</b> manpage. You will be able to create
+rules based on many parameters, and thus create a very subtle policy
+routing on your MR.
+</p>
+
+<!----------------------------------------------------------------------------
+	Chap 7
+----------------------------------------------------------------------------->
+
+<a name="7"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	7. NEPL enhancements
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+Some enhancements for NEPL are available on <a href="http://software.nautilus6.org/NEPL/">
+http://software.nautilus6.org/NEPL</a>. This includes
+<a href="nepl-howto.html#7a">Mobile Network Prefix Delegation</a> to 
+delegate automatically the Mobile Network Prefixes to your Mobile Router, and
+some interfaces preference mechanism.</p>
+
+<p>
+Please note that those features were implemented on a quite old version of NEPL.
+It is now considered as <b>obsolete</b>, and you should prefer the latest version of
+NEPL (NEPL for UMIP) available in <a href="nepl-howto.html#4b">section 4.b</a>. 
+Note that at the moment there is no plan to port those features to the latest 
+version of NEPL.
+</p>
+
+<p>
+For any questions or bug report regarding those features, please send a mail on 
+<a href="nepl-howto.html#support">our support mailing list</a>. As those features are not 
+supported by the MIPL2 developers, please do not complain on the MIPL2 mailing list.
+</p>
+
+<a name="7a"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0">
+<b><br><span class="title">
+	a. Mobile Network Prefix Delegation
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+The Mobile Network Prefix Delegation mechanism, as defined in 
+<a href="http://www.ietf.org/internet-drafts/draft-ietf-nemo-prefix-delegation-00.txt">
+draft-ietf-nemo-prefix-delegation-00</a>, extends NEMO Basic Support for a Mobile Router to
+synchronize its Mobile Network Prefixes with its Home Agents and obtain new ones dynamically.
+</p>
+
+<p>
+<b>NOTE1:</b> with this prefix delegation mechanism, it is not possible for the 
+Mobile Router to boot on Home Link, as the Prefix is delegated only when a Binding Update 
+is sent. Such a mechanism is thus designed for Mobile Router that are never at home.
+</p>
+<p>
+<b>NOTE2:</b> this work is based on a different version of NEPL, which is older 
+than the NEPL version used previously in this document. Prefix Delegation is 
+currently based on <a href="http://software.nautilus6.org/packages/NEPL/NEPL-SE-1.0.tar.bz2">
+NEPL-SE-1.0</a> which works on a 2.6.11 kernel. 
+</p>
+<br>
+
+<div align="left"><font face="monaco, MS Sans Serif" size="+0">
+<b><span class="title"><ul>
+	a1. Compile a 2.6.11 kernel with Mobility Options
+<hr></ul></span></b></font></div>
+
+<p>
+You first need to compile a 2.6.11 
+kernel with the mobility features enabled. Download the                              
+<a href="http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.11.tar.gz">kernel sources</a> and the 
+<a href="http://www.nautilus6.org/doc/nepl-howto/patch/mipv6-2.0-rc3-linux-2.6.11.patch.gz">
+Mobile IPv6 kernel patch</a> for this kernel:
+</p>
+    
+<pre>
+   # cd /usr/src/
+   # wget http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.11.tar.gz
+   # wget http://www.nautilus6.org/doc/nepl-howto/patch/mipv6-2.0-rc3-linux-2.6.11.patch.gz
+</pre>                                                                  
+
+<p>
+Uncompress all downloaded files:
+</p>
+    
+<pre>
+   # tar zxf linux-2.6.11.tar.gz
+   # gunzip mipv6-2.0-rc3-linux-2.6.11.patch.gz
+</pre>                         
+
+<p>
+Patch the kernel sources with the Mobile IPv6 patch:
+</p>
+
+<pre>
+   # mv mipv6-2.0-rc3-linux-2.6.11.patch linux-2.6.11/
+   # cd linux-2.6.11/
+   # patch -p1 < mipv6-2.0-rc3-linux-2.6.11.patch
+</pre>
+
+<p>
+Now edit the kernel configuration file, compile the kernel and boot on it as explained in 
+<a href="nepl-howto#4b">section 4.b</a>.
+</p>
+
+<br>
+<div align="left"><font face="monaco, MS Sans Serif" size="+0">
+<b><span class="title"><ul>
+	a2. Compile NEPL with Prefix Delegation support
+<hr></ul></span></b></font></div>
+
+<p>
+Mobile Network Prefix Delegation can be added to NEPL thanks to
+<a href="http://software.nautilus6.org/packages/NEPL/NEPL-SE-PrefixDelegation-20051202.tar.bz2">
+this package</a>. Download it, and apply it against <a href="http://software.nautilus6.org/packages/NEPL/NEPL-SE-1.0.tar.bz2">
+NEPL-SE-1.0</a>:
+</p>
+
+<pre>
+   # cd /usr/src
+   # wget http://software.nautilus6.org/packages/NEPL/NEPL-SE-PrefixDelegation-20051202.tar.bz2
+   # wget http://software.nautilus6.org/packages/NEPL/NEPL-SE-1.0.tar.bz2
+   # tar jxf NEPL-SE-1.0.tar.bz2
+   # tar jxf NEPL-SE-PrefixDelegation-20051202.tar.bz2
+   # mv NEPL-SE-PrefixDelegation-20051202/patch-NEPL-SE-1.1-ifpref-pdel.patch NEPL-SE-1.0/
+   # cd NEPL-SE-1.0/
+   # patch -p1 < patch-NEPL-SE-1.1-ifpref-pdel.patch
+</pre>
+
+<p>
+Then compile NEPL as explained in <a href="nepl-howto.html#4c">section 4.c</a>. <b>NOTE:</b> the 
+patch in this package also includes some basic interface preference mechanism described in 
+<a href="nepl-howto.html#7b">section 7.b</a>
+</p>
+
+<p>
+This work is experimental. We invite the reader to check the <b>README.txt</b> file 
+included in the package. It provides useful instructions and information about what is 
+supported and what is not.
+</p>
+<br>
+
+<div align="left"><font face="monaco, MS Sans Serif" size="+0">
+<b><span class="title"><ul>
+	a3. Configure the Home Agent
+<hr></ul></span></b></font></div>
+
+<p>
+For our test network, we would like that the Mobile Router obtains automatically a prefix 
+from its Home Agent, and advertise it in its Mobile Network. First, the Home Agent has to specify 
+in its <b>nemod.conf</b> file which prefixes can be delegated to the Mobile Router. We configure 
+the Home Agent to delegate a Persistent Prefix to our Mobile Router:
+</p>
+
+<pre>
+   # This is an example of nemod NEMO enabled Home Agent configuration file
+   [...]
+   # Enable Prefix Delegation
+   UsePrefixDel enabled;
+
+   # Do NOT use the 'BindingAclPolicy' option but use instead the 'PrefixDel' option 
+   #BindingAclPolicy 2001:a:b:0::1 (2001:a:b:1::/64) allow;
+   PrefixDel 2001:a:b:0::1 {
+            2001:a:b:1::/64 Persistent Global;
+   } 
+   [...]
+   # EOF
+</pre>
+<br>
+
+<div align="left"><font face="monaco, MS Sans Serif" size="+0">
+<b><span class="title"><ul>
+	a4. Configure the Mobile Router
+<hr></ul></span></b></font></div>
+
+<p>
+We now configure the Mobile Router to ask for one prefix that could be advertised in its 
+Mobile Network:
+</p>
+
+<pre>
+   # This is an example of nemod NEMO enabled Mobile Router configuration file
+   [...]
+   # Enable Prefix Delegation
+   UsePrefixDel enabled;
+
+   MnHomeLink "eth0" {
+        IsMobRtr enabled;
+        HomeAgentAddress 2001:a:b:0::1000;
+        # Do NOT specify the MNP with the 'HomeAddress' option
+        # HomeAddress 2001:a:b:0::1/64 (2001:a:b:1::/64);
+        HomeAddress 2001:a:b:0::1/64;
+        # Specify which ingress interface should be configured to advertise a prefix
+        PrefixDel "eth1" Persistent 64 Global;
+   }
+   [...]
+   # EOF
+</pre>
+
+<p>
+With this configuration, the Mobile Router will ask the Home Agent to delegate it 
+a <b>/64 persistent prefix</b>, that will be assigned to the <b>eth1 interface</b>. The 
+eth1 interface will automatically configure an <b>MNP::100/64 address</b> (in our example,
+2001:a:b:1::100/64).
+Of course, several prefixes can be asked and assigned to different ingress interfaces. 
+Read the documentation to check how to configure the Home Agent and the Mobile Router 
+in that case.
+</p>
+<br>
+
+<div align="left"><font face="monaco, MS Sans Serif" size="+0">
+<b><span class="title"><ul>
+	a5. Setup Quagga/rtadv for Dynamic Prefix Advertisement
+<hr></ul></span></b></font></div>
+
+<p>
+Once the Mobile Router got its MNP and configured its ingress interface, it needs to advertise
+the MNP in the Mobile Network with Router Advertisments. To automatically advertise the prefixes
+related to the new addresses configured on an interface, you can use the modified RTADV daemon 
+for the Quagga Routing Software: 
+<a href="http://software.nautilus6.org/packages/quagga/quagga-0.99.2-netlink-rtadv.tar.bz2">
+Dynamic prefix advertisement for Quagga/rtadv</a>. This is a patch that applies to 
+Quagga 0.99.2. The following instructions explain how to patch and compile Quagga on your 
+Mobile Router:
+</p>
+
+<pre>
+   # cd /usr/src
+   # wget http://www.quagga.net/download/quagga-0.99.2.tar.gz
+   # wget http://software.nautilus6.org/packages/quagga/quagga-0.99.2-netlink-rtadv.tar.bz2
+   # tar zxf quagga-0.99.2.tar.gz
+   # tar jxf quagga-0.99.2-netlink-rtadv.tar.bz2
+   # cp quagga-0.99.2-netlink-rtadv/quagga-0.99.2-rtadv-netlink.patch quagga-0.99.2/
+   # cd quagga-0.99.2/
+   # patch -p1 < quagga-0.99.2-rtadv-netlink.patch
+   # autoreconf -i
+   # ./configure --enable-rtadv --enable-netlink-rtadv \
+   --disable-ripd --disable-ripngd --disable-ospfd \
+   --disable-ospf6d --disable-bgpd
+   # make
+   # make install
+</pre>
+
+<p>
+You now have to configure Quagga, via telnet or a configuration file. This patch 
+adds one new Interface Command to enable the new Dynamic Prefix Advertisement feature:
+</p>
+
+<pre>
+   "ipv6 nd netlink"
+      Enable netlink support for dynamic prefix advertisement
+
+   "no ipv6 nd netlink"
+      Disable netlink support for dynamic prefix advertisement,
+      This is the default
+</pre>
+
+<p>
+Other usual commands are available on 
+<a href="http://www.quagga.net/docs/docs-info.php#Router-Advertisement">
+Quagga's documentation webpage</a>. A sample configuration file for our test network 
+will look like the following:
+</p>
+
+<pre>
+   ! # This is an example of /etc/quagga.conf for the Mobile Router
+   hostname Router
+   password zebra
+   enable password zebra
+   !
+   ! eth1 dynamically advertises new prefixes
+   !
+   interface eth1
+    no ipv6 nd suppress-ra
+    ipv6 nd ra-interval 4
+    ipv6 nd netlink
+   !
+   log stdout
+   ! # EOF
+</pre>
+
+<p>
+You can now execute Quagga with the following command, where <b>'user'</b> and 
+<b>'group'</b> are the user and group you want to use to execute Quagga. See the <b>zebra manpage</b> 
+for more information:
+</p>
+
+<pre>
+   # zebra --daemon --config_file=/etc/quagga.conf --user='user' --group='group'
+</pre>
+
+<p>
+Please read also carefully the <b>README.txt file</b> included in the package for more 
+information. 
+</p>
+
+<!----------------------------------------------------------------------------
+    FAQ
+----------------------------------------------------------------------------->
+
+<a name="faq"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	FAQ: Frequently Asked Questions
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<li>
+<b>How to configure a Virtual Home Link on the Home Agent?</b>
+</li>
+
+<p>
+We can use <b>dummy interfaces</b> to avoid the use of a real network interface. 
+Use the <b>dummy</b> kernel module:
+</p>
+
+<pre>
+# modprobe dummy
+</pre>
+
+<p>This will create a <b>dummy0</b> interface. Bring it up and configure it 
+with the Home Agent address:</p>
+
+<pre>
+# ifconfig dummy0 up
+# ifconfig dummy0 inet6 add 2001:a:b:0::1000/64
+</pre>
+
+<p>You can now use the <b>dummy0</b> interface as the Home Link interface. 
+In particular, you have to modify the <b>/etc/radvd.conf</b>, 
+<b>/etc/mip6d.conf</b> and the startup script of the Home Agent to set the 
+Home Link interface to <b>dummy0</b>.
+</p>
+
+<br>
+<li>
+<b>How to use point-to-point interfaces with UMIP?</b>
+</li>
+
+<p>It is possible to use cellular interfaces (GPRS, UMTS, etc.) with UMIP, but
+you need to have an IPv6 connectivity on this interface. One way is to use 
+OpenVPN to provide the IPv6 connectivity over the point-to-point link, and to 
+use a bridge interface as the one to use with UMIP. An excellent documentation 
+contributed by Guillaume SCHREINER is available here: 
+<a href="http://www.nautilus6.org/doc/tc-nepl-openvpn-20070615-SchreinerG.txt">
+Setup OpenVPN with an UMTS interface on Debian GNU/Linux to get IPv6 connectivity</a>.
+
+<p>Another way to get IPv6 connectivity is L2TP. A documentation to setup L2TP
+is available here: 
+<a href="http://www.nautilus6.org/doc/tc-bmobile_l2tp-20041028-KuntzR.txt">
+Setup L2TP on GNU/Linux to get IPv6 connectivity</a>. However, there are some
+known problems when using the L2TP ppp interface with UMIP. You should then
+apply the following patches to have the correct behaviour: first, apply 
+<a href="./patch/feat_is_dad_necessary.patch">
+feat_is_dad_necessary.patch</a> (this avoids to run DAD on PPP links), 
+and then <a href="./patch/feat_wait_for_lladdr.patch">
+feat_wait_for_lladdr.patch</a> (this allows UMIP to wait for a link-local 
+address to be assigned by the kernel when no hardware address is available 
+on the interface - contributed by Jozsef KOVACS). You will then have to 
+recompile UMIP.
+</p>
+
+<br>
+<li>
+<b>How to get my GPRS/UMTS card working on Linux?</b>
+</li>
+
+<p>This is not really related to UMIP, but you may find what you need in this 
+tarball: <a href="./extra/umts-howto.tar.gz">Configure an UMTS/GPRS card on GNU/Linux OS</a>.
+
+<!----------------------------------------------------------------------------
+	REFERENCES
+----------------------------------------------------------------------------->
+
+<a name="ref"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	References
+	<font size="+0"><a href="nepl-howto.html#toc">[Back to ToC]</a></font>
+</span></b></font></div></a>
+<hr><br>
+
+<p> Request For Comments (RFC): </p>
+<li> <a href="http://www.ietf.org/rfc/rfc3963.txt">
+     RFC3963 "Network Mobility (NEMO) Basic Support Protocol"</a><br>
+</li>
+<li> <a href="http://www.ietf.org/rfc/rfc3775.txt">
+     RFC3775 "Mobility Support in IPv6"</a><br>
+</li>
+<li> <a href="http://www.ietf.org/rfc/rfc2460.txt">
+     RFC2460 "Internet Protocol, Version 6 (IPv6) Specification"</a><br>
+</li>
+<li> <a href="http://www.ietf.org/rfc/rfc2462.txt">
+     RFC2462 "IPv6 Stateless Address Autoconfiguration"</a><br>
+</li>
+
+<p> Mobile IPv6 and NEMO Basic Support implementations: </p>
+
+<li> <a href="http://umip.linux-ipv6.org">
+     UMIP: a patch set for the MIPL2 software</a><br>
+</li>
+<li> <a href="http://www.mobile-ipv6.org">
+     MIPL2: Mobile IPv6 for Linux</a><br>
+</li>
+<li> <a href="http://software.nautilus6.org/MCoA/">
+     Multiple Care-of Addresses registration for NEPL</a><br>
+</li>
+<li> <a href="http://software.nautilus6.org/NEPL/">
+     NEPL-SE: Enhancement for NEPL</a> (<b>Obsolete</b>)<br>
+</li>
+<li> <a href="http://www.kame.net">
+     KAME/SHISA: Mobile IPv6 and NEMO Basic Support for *BSD</a><br>
+</li>
+
+<p> Misc. Softwares: </p>
+
+<li> <a href="http://www.clownix.net/">
+     Uml_clownix_net, a topology modifiable virtual network to be used with UMIP</a><br>
+</li>
+<li> <a href="http://www.quagga.net">
+     QUAGGA Routing Software</a><br>
+</li>
+
+<p> Technical Reports and papers: </p>
+<li> <a href="http://www.nautilus6.org/~sdecugis/dynamic_keying/Howto_dynamic_keying.html">
+     HowTo: Dynamic keying for Mobile IPv6 using racoon2 and mip6d</a><br>
+</li>
+<li> <a href="http://www.nautilus6.org/doc/tc-nepl-openvpn-20070615-SchreinerG.txt">
+     Setup OpenVPN with an UMTS interface on Debian GNU/Linux to get IPv6 connectivity</a>
+</li>
+<li> <a href="http://clarinet.u-strasbg.fr/~montavont/nautilus/Linux-NEPL-CF-HowTo.txt">
+     Setup a CF card with a GNU/Linux OS including NEMO support.</a><br>
+</li>
+<li> <a href="http://www.nautilus6.org/doc/tc-nemo-tahi-interop-20050207-KuntzR.txt">
+     NEMO interoperability tests at the 6th IPv6 TAHI Event</a><br>
+</li>
+
+<li> <a href="http://www.nautilus6.org/doc.php">
+     NEMO-related research and technical papers and posters</a><br>
+</li>
+
+
+<!----------------------------------------------------------------------------
+	ACK
+----------------------------------------------------------------------------->
+
+<a name="ack"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	Acknowledgement
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+Many thanks to the MIPL and UMIP developers who provides support on the MIPL Mailing Lists, 
+people at Strasbourg University
+(<a href="https://lsiit.u-strasbg.fr/rp-en/index.php/Main_Page">Networks and Protocols team</a>, 
+LSIIT, Strasbourg, France), and people at Telecom-BretagneT (Rennes, France).
+</p>
+
+
+<!----------------------------------------------------------------------------
+	SUPPORT
+----------------------------------------------------------------------------->
+
+<a name="support"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	Support
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+You can get support by subscribing to <a href="http://ml.nautilus6.org/mailman/listinfo/">
+the following Mailing Lists</a>:
+<p>
+
+<li>
+<a href="http://ml.nautilus6.org/mailman/listinfo/support">support(at)ml.nautilus6.org</a>: 
+You can get or provide support for our <a href="http://software.nautilus6.org/">softwares</a>
+and documents on this mailing list. Feel free to describe your problems, report bugs, send 
+patches etc. on this mailing list. You can check the archives of this ML
+<a href="http://ml.nautilus6.org/pipermail/support/">here</a>.
+</li>
+
+<li>
+<a href="http://ml.nautilus6.org/mailman/listinfo/announce">announce(at)ml.nautilus6.org</a>: 
+All demonstrations, events and softwares in which Nautilus6 is involved are announced on this 
+mailing list. Members of this ML cannot post on it. You can check the archives of this ML 
+<a href="http://ml.nautilus6.org/pipermail/announce/">here</a>.
+</li>
+
+<p>
+Any comments to improve this document are welcome!
+</p>
+
+<!----------------------------------------------------------------------------
+	CHANGELOG
+----------------------------------------------------------------------------->
+
+<a name="change"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title"></a>
+	Changelog
+</span></b></font></div>
+<hr><br>
+
+Patches and Documentation update on June 24th, 2009:
+<li>Updated the NEPL patch (version 20090624), which fixes routing problems when in the home network.
+</li>
+<li>Updated the MCoA patch (version 20090624). It does not include new features, but can be applied above the updated NEPL patch.
+</li>
+<li>Updated documentation to use a 2.6.29 kernel. As a result, no patches are needed for the kernel anymore.
+</li>
+<br>
+
+Patch and Documentation update on June 24th, 2009:
+<li>Added a <a href="nepl-howto.html#faq">FAQ entry</a> on how to configure 
+a virtual Home Link with a dummy interface for the Home Agent.
+</li>
+<br>
+
+Documentation update on February 05th, 2009:
+<li>Added a <a href="nepl-howto.html#faq">FAQ entry</a> on how to configure 
+a virtual Home Link with a dummy interface for the Home Agent.
+</li>
+<br>
+
+Documentation update on July 19th:
+<li>Added a <a href="nepl-howto.html#faq">FAQ section</a> with some tips for 
+people having troubles using UMIP over PPP interfaces.
+</li>
+<br>
+
+Patches and documentation update on January 8th.
+<li>Released new NEPL and MCoA patch (version 20080108). The NEPL patch fixes a 
+registration issue on the HA and improves the IPsec code to protect the traffic 
+from and to the MNP (contributed by Arnaud EBALARD). The MCoA patch is an update 
+to be able to use it on top of the new NEPL patch.
+</li>
+<li>Added a link to an IPsec documentation for UMIP and NEPL 
+(see the new <a href="nepl-howto.html#4f">section 4.f</a>, contributed by Sebastien 
+DECUGIS)</li>
+<li>Added a link to Uml_clownix_net, a virtual platform to be used with UMIP (see in 
+<a href="nepl-howto.html#ref">References</a>)</li>
+<br>
+
+Patches update on November 5th.
+<li>Released new NEPL and MCoA patch (version 20071105). The MCoA patch fixes a bug in MCoA 
+preventing the MR to correctly bind with its Home Agent. The NEPL patch fixes a bug on 
+Big Endian computers and add some NEMO-related debug messages (contributed by Arnaud EBALARD).</li>
+<br>
+
+Small update on October 26th.
+<li>Released new NEPL and MCoA patch (version 20071026) fixing a bug in the NEMO IPsec code.</li>
+<br>
+
+Version 2.3 released on October 22nd.
+<li>Updated to newer userland (UMIP 0.4) and newer kernel (2.6.23)</li>
+<li>Updated the NEMO patch to UMIP 0.4. It now supports IPsec Tunnel Payload 
+protection for the traffic from and to the MNNs (Contributed by Sebastien 
+DECUGIS).</li>
+<li>Updated the MCoA patch to UMIP 0.4.</li>
+<li>Pre-compiled kernels and userland with NEMO support are now available:
+see <a href="nepl-howto.html#4b">section 4.b</a> and 
+<a href="nepl-howto.html#4c">4.c</a></li>
+<br>
+
+Version 2.2 released on July 16th 2007.
+<li>Updated the MCoA patch for UMIP (version 20070716) (<a href="nepl-howto.html#6">section 6</a>),</li>
+<br>
+
+Version 2.1 released on June 15th 2007.
+<li>Patch for UMIP 0.3 that fixes UMIP bugs (<a href="nepl-howto.html#4c">section 4.c</a>),</li>
+<li>Updated UMIP kernel patch to 2.6.21.3 kernel (<a href="nepl-howto.html#4b">section 4.b</a>),</li>
+<li>Updated the NEPL patch for UMIP (<a href="nepl-howto.html#4c">section 4.c</a>),</li>
+<li>Released a MCoA patch for UMIP (<a href="nepl-howto.html#6">section 6</a>),</li>
+<br>
+
+Version 2.0 released on May 8th 2007.
+<li>Updated to newer userland (UMIP) and newer kernel (2.6.21). See 
+<a href="nepl-howto.html#4b">section 4.b</a>
+and <a href="nepl-howto.html#4c">4.c</a></li>
+<li>More information about UMIP can be found in 
+<a href="nepl-howto.html#4b">section 4.b</a></li>
+<br>
+
+Version 1.9 released on January 18th 2007.
+<li>Updated 
+<a href="nepl-howto.html#6">section 6</a> to latest MCoA release (beta3)</li>
+<br>
+
+Version 1.8 released on January 9th 2007.
+<li> Solved the problem preventing the MR to work correctly when in the Home Network.</li> 
+<br>
+
+Version 1.7 released on June 30th 2006.
+<li>Updated 
+<a href="nepl-howto.html#6">section 6</a> to latest MCoA release (beta2)</li>
+<li>There is still the problem preventing the MR to work correctly when in the Home Network</li>
+<br>
+
+Version 1.6 released on June 1st 2006.
+<li>Added some instruction for <b>Multiple CoA registration</b>. See 
+<a href="nepl-howto.html#6">section 6</a></li>
+<li>There is still the problem preventing the MR to work correctly when in the Home Network</li>
+<br>
+
+Version 1.5 released on February 28th 2006.
+<li>Updated to newer userland and kernel (nemo-0.2 and kernel 2.6.15).</li>
+<li>There is a problem preventing the MR to work correctly when in the Home Network</li>
+<br>
+
+Version 1.4 released on February 22th 2006.
+<li>Updated the interface preference section.</li>
+<br>
+
+Version 1.3 released on February 20th 2006.
+<li>Updated to newer userland (<b>nemo-20060220</b>).</li>
+<li>This solves serious thread management problem on the HA.</li>
+<li>Added a link to the Linux CF HowTo (see <a href="nepl-howto.html#ref">References</a>).</li>
+<br>
+
+Version 1.2 released on February 17th 2006.
+<li>Updated testbed to Linux kernel 2.6.14 and newer userland (<b>nemo-20060217</b>)</li>
+<br>
+
+Version 1.1 released on February 9th 2006.<br>
+Version 1.0 created on November 10th 2005.<br>
+
+<!----------------------------------------------------------------------------
+	CONTACT
+----------------------------------------------------------------------------->
+
+<a name="contact"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2">
+<b><br><span class="title">
+	Contact
+</span></b></font></div></a>
+<hr><br>
+
+<p>
+Romain KUNTZ <br>
+<a href="http://www.rkuntz.org">http://www.rkuntz.org</a> <br>
+Strasbourg University, France<br>
+</p>
+<br>
+<br>
+<br>
+
+<div align="center">
+<font face="monaco, MS Sans Serif" color="#000000" size="-2">
+<b>
+Created on 2005-11-10<br> 
+v.2.8 last modified 2010-02-08
+</b>
+</div>
+</font>
+
+</body>
+</html>

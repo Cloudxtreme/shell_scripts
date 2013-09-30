@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>The DiamEAP project | Documentation</title>
+		<meta name="keywords" content="DiamEAP, AAA, Authentication, Authorization, Accounting, EAP, EAP Protocol, Extensible Authentication Protocol, Diameter, Diameter protocol, Diameter EAP Application, Diameter EAP Server, EAP MD5, EAP TLS, freeDiameter, Teraoka Laboratory" />
+		<meta name="description" content="" />		
+        <link rel="stylesheet" href="stylesheets/styles.css" type="text/css" />
+				<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17058455-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+    </head>
+<body class="style2">
+        <!-- wrapper -->
+        <div id="wrapper">
+            <!-- top -->
+            <div id="top">
+                <div id="logo">
+                    <a href="index.html"><img src="images/pixel.gif" width=400 height=62 border=0 alt="Logo"></a>
+                    <br/>
+                    a Free Open Source Diameter EAP Server
+                </div>
+                <div class="clear">
+                </div>
+                <div id="nav">
+                    <div id="nav-left"></div>
+					<div id="nav-center">
+                    <ul>
+                        <li>
+                            <span class="nav-menu"><a href="index.html">Home</a></span>
+                        </li>
+                        <li>
+                            
+                            <span class="nav-menu"><a href="plugins.html">DiamEAP plug-ins</a></span>
+                            
+                        </li>
+                        <li>
+                            <span class="nav-menu"><a href="download.html">Download</a></span>
+                        </li>
+                        <li>
+                        	
+                            <span class="nav-menu"><a href="faq.html">FAQ</a></span>
+							
+                        </li>
+                        <li>
+                            <span class="nav-menu"><a href="projects.html">Related projects</a></span>
+                        </li>
+                        <li>
+                            <span class="nav-menu"><a href="documentation.html">Documentation</a></span>
+                        </li>
+                    </ul>
+					</div>
+					<div id="nav-right"></div>
+                </div>
+            </div>
+            <!-- end top -->
+            <div class="clear">
+            </div>
+           <!-- no-header -->
+            <div id="no-header">
+            </div>
+            <div id="top-shadow-bottom">
+            </div>
+            <div class="clear">
+            </div>
+            <!-- content -->
+            <div id="content-level1">
+                <div id="content-top">
+                    <div id="content-top-left">
+                    </div>
+                    <div id="content-top-right">
+                    </div>
+                </div>
+                <div id="content">
+				
+           <br/>
+                <h1>Configuration of DiamEAP</h1>
+                
+                    <p>
+	<a href="index.html"><strong>DiamEAP</strong></a> is an extension of <a href="http://freediameter.net" target="_blank">freeDiameter</a> to support the Extensible Authentication Protocol (EAP) within Diameter Protocol.</p>
+
+<h4>
+	Before you start</h4>
+
+<p>
+	Before start installing and configuring DiamEAP, you should install and configure <a href="http://freediameter.net" target="_blank">freeDiameter</a> (refer to freeDiameter documentation for more details on how to install and configure it and its extensions) and enable the two dictionaries: <a href="http://www.freediameter.net/trac/wiki/Documentation#Dictionary" target="_blank"><span>dict_eap</span></a> (dictionary objects defined in <a href="http://tools.ietf.org/html/rfc4072" target="_blank"><span>RFC 4072</span></a> Diameter EAP Application) and <a href="http://www.freediameter.net/trac/wiki/Documentation#Dictionary" target="_blank"><span>dict_nasreq</span></a> (dictionary objects defined in <a href="http://tools.ietf.org/html/rfc4005" target="_blank"><span>RFC 4005</span></a>&nbsp; Diameter Network Access Server application).</p>
+
+<p>
+	Some packages are required to compile DiamEAP from source.<br />
+	If you are installing DiamEAP on Debian or Ubuntu system install the following packages:<br />
+	flex bison libgnutls-dev libgcrypt-dev libmysqlclient-dev</p>
+<h4>
+	Step1: Download DiamEAP</h4>
+<p>
+	DiamEAP can be downloaded separately from the <a href="download.html">download page</a> or from <a href="http://freediameter.net/hg/freeDiameter/" target="_blank">freeDiameter repository</a> (using mercurial).</p>
+
+<ul>
+<li>
+<p>
+			From DiamEAP download page:</p>
+</li>
+</ul>
+<p>
+	Before downloading DiamEAP, navigate to the <em>extensions</em> directory of your freeDiameter installation. Then creates a new folder &#39;<em>app_diameap</em>&#39; for DiamEAP extension.</p>
+
+<p>
+	Downloads DiamEAP using a download utility. For example using <em>wget</em> download utility, the command is:</p>
+<pre>
+# wget http://diameap.yagami.freediameter.net/download.php?file=diameap&ver=x.x.x
+</pre>
+
+<ul>
+<li>
+<p>
+			From freeDiameter repository:</p>
+</li>
+</ul>
+<p>
+	Typically, if you get freeDiameter using mercurial, DiamEAP should exist with it under the &#39;extensions&#39; folder at &#39;app_diameap&#39;. If you can not find the &#39;app_diameap&#39; folder upadate your freeDiameter to the last version, the command is:</p>
+
+<pre>
+$ hg pull -u
+</pre>
+<h4>
+	Step2: Create User&#39;s information Database</h4>
+<p>
+	The current version of DiamEAP supports only a MySQL Database for storing user&#39;s information. Flat file Database and LDAP Database are under development and will be integrated in future releases.</p>
+<p>
+	Create database and user using MySQL commands or your preferred tool.</p>
+
+<p>
+	For information on installing and Configuring MySQL see <a href="http://www.mysql.com" title="http://www.mysql.com">http://www.mysql.com</a></p>
+<p>
+	In the following example, &#39;diameap_ui&#39; is the name of the new database and &#39;username&#39; and &#39;password&#39; are the credentials of the user who will create the database for DiamEAP.</p>
+
+<p>
+	Create a new MySQL database for DiamEAP.</p>
+<pre>
+mysql&gt; CREATE DATABASE diameap_ui;</pre><p>
+	&nbsp;</p>
+<p>
+	Create tables using the sql script in the file INSTALL.mysql.txt:</p>
+<pre>
+$ mysql diameap_ui -u username -p password &lt; INSTALL.mysql.txt</pre><p>
+
+	or you can execute the sql script from mysql prompt:</p>
+<pre>
+mysql&gt; USE diameap_ui;
+
+mysql&gt; source INSTALL.mysql.txt
+
+mysql&gt; \. INSTALL.mysql.txt
+
+</pre>
+<h4>
+	Step3: Configure DiamEAP</h4>
+
+<p>
+	DiamEAP requires a configuration file to start the DiamEAP server. If you downloaded DiamEAP separately you will find a sample configuration file &#39;diameap.conf.sample&#39; in extensions/app_diameap or in doc folder if you get DiamEAP with freediameter. the file &#39;diameap.conf.sample&#39; contains a description of all parameters that can be added to the DiamEAP configuration file. It is advised to start by a copy of the sample file, and customize the configuration to fit your needs.</p>
+<ul>
+<li>
+		<strong>MySQL Database settings</strong></li>
+</ul>
+<p>
+
+	Specify connection parameters for DiamEAP MySQL database:<br />
+	- username and password to connect to the MySQL Server<br />
+	- databaseserver : the MySQL server location. It can be the IP address or the host name where MySQL server is located. &#39;localhost&#39; can be used as the location if the server is locatd in the same host than DiamEAP.<br />
+	- database_name : the created database for DiamEAP.<br />
+	Syntax :</p>
+
+
+<pre>
+DiamEAP_MySQL = &quot;&lt;username&gt;&quot; , &quot;&lt;password&gt;&quot; , &quot;&lt;databaseserver&gt;&quot; , &quot;&lt;database_name&gt;&quot;;</pre><ul>
+
+<li>
+		<strong>Load EAP Plugins</strong></li>
+</ul>
+<p>
+	An EAP Method Plugins are implementation of EAP methods. These EAP methods became available in DiamEAP only if their EAP Method Plugins are added in DiamEAP configuration to be loaded at the startup. An EAP method is identified by its EAP method name, type, vendor and path to its EAP Method Plugin. Optionally, path to a configuration file of plugin can also be provided. location of plugins and their configuration files can be provided by the absolute pathor the relative path from the location configured in cmake.<br />
+	Syntax :</p>
+
+<pre>
+Load_plugin = &quot;&lt;EAP method name&gt;&quot;:EAP_TYPE:VENDOR:&quot;&lt;Path to EAP Method Plugin&gt;&quot;:&quot;&lt;Path to configuration file&gt;&quot;;</pre>
+
+<ul>
+<li>
+		<strong>Authorization</strong></li>
+</ul>
+<p>
+	In addition to authentication DiamEAP can be configured to check authorization of authenticated users. If set to 0 authorization is disabled, otherwise enabled.( by default disabled).</p>
+
+<ul>
+<li>
+
+		<strong>Multi round Timeout</strong></li>
+</ul>
+<p>
+	This parameter specify the maximum number of seconds provided to the access device for responding to an EAP request. (by default set to 30 seconds)</p>
+
+<ul>
+<li>
+		<strong>Invalid EAP Packets</strong></li>
+</ul>
+
+<p>
+	After receivin a number of invalid EAP packets, DiamEAP reject the authentication by responding with Failure Authentication. The default value of maximum number of invalid EAP packets is set to 5 packets. This maximum number can be modified by adding a new value.</p>
+<p>
+	For configuring DiamEAP plugins see the documentation pages.</p>
+
+<h4>
+	Step4: Add DiamEAP to freeDiameter configuration</h4>
+<p>
+	Edit the configuration file of freeDiameter. Then add a new entry to load the DiamEAP extension:</p>
+
+<pre>
+LoadExtension = &quot;extensions/app_diameap.fdx&quot;:&quot;doc/app_diameap.conf&quot;;</pre>
+<h4>
+	Step5: Add DiamEAP extension to freeDiameter</h4>
+<p>
+
+	Browse to the extensions folder of freeDiameter. Then modify the CMakeLists.txt in order to add DiamEAP extension to be compiled. Add the following lines if they don&#39;t exist:</p>
+
+<pre>
+	OPTION(BUILD_APP_DIAMEAP &quot;Build app_diameap? (Diameter EAP Application RFC4072)&quot; ON)
+&nbsp;&nbsp; &nbsp;IF (BUILD_APP_DIAMEAP)
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; SUBDIRS(app_diameap)
+&nbsp;&nbsp; &nbsp;ENDIF (BUILD_APP_DIAMEAP)</pre>
+
+<h4>
+	Step6: Enable DiamEAP extension</h4>
+<p>
+	All extensions are not built by default in freeDiameter. DiamEAP extension need to be enabled in order to be started with freeDiameter. Therefore, enable BUILD_DIAMEAP in cmake (see freeDiameter documentation for more details).</p>
+    </div>
+                <!-- end content -->
+                <div class="r_sidebar">
+                    <div class="title">
+                        Useful links
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="index.html#LastReleases">Last Releases</a>
+                        </li>
+                        <li>
+                            <a href="index.html#DiamEAPPlugins">DiamEAP Plug-ins</a>
+                        </li>
+                        <li>
+                            <a href="index.html#Getstarted">Get started</a>
+                        </li>
+                        <li>
+                            <a href="index.html#Reportbug">Reporting bugs</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="r_sidebar">
+                    <div class="title">
+                        Related projects
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="http://www.wide.ad.jp/project/wg/aaa.html">AAA-WG (WIDE Project)</a>
+                        </li>
+                        <li>
+                            <a href="http://www.tera.ics.keio.ac.jp">Teraoka Laboratory</a>
+                        </li>
+                        <li>
+                            <a href="http://www.freediameter.net">freeDiameter Project</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="content-bottom">
+                    <div id="content-bottom-left">
+                    </div>
+                    <div id="content-bottom-right">
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <!-- end wrapper --><!-- footer -->
+        <div id="footer">
+            <div id="footer-content">
+                <div class="createdby">
+                    &copy; 2009-2011 The DiamEAP Project team.
+                </div>
+                <div class="right">
+                    <a class="top_anchor" href="#top">Back to top</a>
+                </div>
+            </div>
+        </div>
+        <!-- end footer -->
+    </body>
+</html>

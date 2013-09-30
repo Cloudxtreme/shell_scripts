@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" >
+
+<head>
+
+<!-- Include site-specific header items  -->
+
+
+<!-- Allow the site icon to appear in browsers -->
+
+<link rel="icon" href="http://nsrc.org/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://nsrc.org/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="/css/nsrc_main.css" />
+
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<meta name="description" content="The NSRC, or Network Startup Resource Center, is a non-profit organization that has worked since the late 1980s to help develop and deploy networking technology in various projects throughout Asia/Pacific, Africa, Latin America and the Caribbean, the Middle East, and the Commonwealth of Independent States." />
+<meta name="keywords" content="nsrc, BGP, wireless, DNS, routing, IXP, network managment, IPv6, DNSSEC, IPv4, NRENs, education, network, connectivity, non profit, emerging, developing, africa, asia, middle east, latin america, south america, caribbean, national science foundation." />
+<meta name="robots" content="index, follow" />
+
+<title>nsrc.org: Securing Network Services and Infrastructure</title>
+
+
+</head>
+
+<!-- ********** HEADER ********** -->
+
+<!-- Include the top header and navigation items here -->
+<!-- Note that the "body" tag is in the nav.html include file -->
+
+
+
+<!-- set the body style -->
+
+<body>
+
+<!-- Create the navigation area -->
+
+
+<div id="header">
+
+<table width="100%" border="0">
+<tr><td valign="bottom" align="left" width="340">
+&nbsp;<a href="http://nsrc.org/"><img src="/gifs/nsrc-logo-front.png" title="The Network Startup Resource Center" width="250" height="120" border="0" /></a>
+</td><td valign="top" align="center">
+<h1>Securing Network Services and Infrastructure</h1>
+
+<!-- If no sub-title is set, then it's equal to (none), which is expressed -->
+<!-- as you see below. Note, you can only have one line after the if expr. --> 
+	   
+	 
+
+</td></tr>
+</table>
+
+<p id="layoutdims">
+<font size="2">
+<a href="/" class="active">Home</a> | <a href="/about.html">About</a> | <a href="/contact.html">Contact</a> | <a href="/networking/">Networking</a> | <a href="/sponsors/">Supporters</a> | <a href="/workshops/">Workshops</a> | <a href="/helpdesk/">Help Desk</a> | <a href="/where/">Where is the NSRC?</a> | <a href="/search.html">Search</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.uoregon.edu/"><img src="/gifs/university-of-oregon.png" class="alignText" width="187" height="14" border="0"></a>
+</font>
+</p>
+</div>
+
+
+
+<!-- CENTER COLUMN -->
+
+<div class="colmask rightmenu">
+	<div class="colleft">
+		<div class="col1">
+			<!-- Column 1 start -->
+	
+<h3><a name="intro"></a>Introduction</h3>
+
+<font size="2">
+<p>This document presents some tips and suggestions for system administrators and network managers who are responsible for securing their networks. The document begins with an outline and basic steps for those new to server and network security. Each section below goes into more detail and includes links to configuration examples, software, and other helpful informations sources.</p>
+
+<p>This document is largely aimed at the new or intermediate Unix/Linux system administrator who is looking to secure a server, or servers, on their network. Some discussion of general network security issues is included as well in the "Network Infrastructure" section of this document.</p>
+
+<p>If you have feedback on the information you see here, or additional suggestions for content, please contact us at <a href="mailto:nsrc@nsrc.org">nsrc@nsrc.org</a>.</p>
+</font>
+
+
+<h3><a name="#informed"></a>Staying Informed</h3>
+<font size="2"><p>
+Because security vulnerabilities are constantly being revealed, staying informed about recent security issues is crucial. The ‘Secunia Advisories’ mailing list and RSS feed are an excellent resource for up-to-date security advisories. </p>
+<p>You can sign up for the Secunia Advisories mailing list at : <a href="http://secunia.com/advisories/mailing_lists/">http://secunia.com/advisories/mailing_lists/</a></p>
+</font>
+
+<h3><a name="outline"></a>Critical Steps to Securing a Network Server</h3>
+<font size="2">
+<p>
+If you are new to security and are considering installing a Unix-based or Linux server there are a few things that you should consider before installation. If you have already installed and setup your server and it is on a publicly accessible network, then we strongly recommend that you take these steps to begin securing your box immediately. The assumption made here is that you have not taken steps to secure your server(s). If you have, then you may wish to use this list to review what you have done. </p>
+
+<p>
+Ideally, you would install any network server box and secure it before connecting the box to the network. The reason for this is because many default installations of Linux or Unix have known security holes. If you install a network server and place it on a publicly accessible network for any time, then it may be compromised before you manage to secure the box. In addition, if the box is compromised, and then you install System Integrity software you may not notice your system is compromised, which defeats the purpose of using this type of software. </p>
+
+<p>
+During your initial network server installation you can do this with your machine not connected to the network, or just connected to an internal, and secure network. You can connect your server as needed to update your software for security purposes, and then disconnect once updates are downloaded. Additionally, you can consider downloading any software updates you will need to another network server, and then copy this software to your new network server to avoid placing it on the network before you feel it is properly secured. </p>
+</font>
+<h3><a name="physical"></a>Physical Security</h3>
+<font size="2">
+<p>
+Before we get started with securing your server's operating system, and installed software, it's important that we mention physical security. You can secure your server fully and completely, but if someone gains physical access to the box, then it's likely there is little you can do to protect it. In extreme cases there are some things you could do, such as encrypting data on the drive, but for the most part it is trivial to gain root (administrator) access to a server box once it has been physically compromised. </p>
+
+<p>
+Consider the people who have physical access to your server or servers. Can you trust all of them? If not, perhaps you should consider placing your server(s) in a locked room of some type where only trusted individuals have physical access to the box. </p>
+
+<p>If physical security still presents an issue, encourage users to lock their terminal when leaving a computer unattended.</p>
+</font>
+
+
+<h3><a name="password"></a>Strong Passwords</h3>
+<font size="2"><p>
+Choosing a strong password is crucial in maintaining the security of networked host. A password that is ‘strong’ is a password that is less prone to be guessed. The strength of a password increases with the number of characters in the password, the randomness of the password's characters and the variety of characters in the password.</p>
+
+<p>It is fine to tell your users that their passwords must follow a rule set like this (from http://password.uoregon.edu/):
+<ul>
+	<li>New passwords must be 6 to 14 characters in length.</li>
+	<li>You cannot choose any word that is in a dictionary, or any names, places, or personal information like your birth date.</li>
+	<li>A secure password should contain at least two numbers and two letters and it's a good idea to mix upper and lower case letters.</li>
+</ul></p>
+
+<p>The open source security project 'openwall' offers a PAM (Pluggable Authentication Module) called "pam_passwdqc" with the ability of enforcing a password policy on your host. This module is available at:</p>
+
+<p>
+<a href="http://www.openwall.com/passwdqc/">http://www.openwall.com/passwdqc</a>
+</p>
+
+</font>
+
+
+<h3><a name="service"></a>Services</h3>
+<font size="2"><p>
+<p>Services are the heart and soul of a network server machine. Services represent the permanently running programs that listen for requests and respond to them. Understanding what you want to do with your machine will directly lead to deciding what services you need to run. Once you make this decision, then you should do the following: </p>
+<ul>
+	<li>Disable all unnecessary network services.</li>
+	<li>Update or patch the program to be run to fix potential and known security holes. </li>
+	<li>Restrict access to running services to only those who need or should have access.</li>
+	<li>Change the service's listening port to a non-standard port number (Optional).</li>
+</ul>
+<p>This philosophy is absolutely essential to running a secure network server. If you install your network server, run a bunch of services by default, don't restrict access, and don't update or patch the programs running then it is guaranteed that your machine will be compromised quickly. To see just how quickly check out the HoneyNet Project at <a href="http://www.honeynet.org/">http://www.honeynet.org/papers/stats/</a>, and in particular their <a href="http://www.honeynet.org/papers/stats/">Statistics</a> White Paper from July, 2001. </p>
+
+<p>
+
+<p><b>Securing Common Services</b></p><a name="commonservices"></a>
+<p>
+Below are links to sites explaining how to secure a few common Unix/Linux services:
+</p>
+<ul>
+	<li>SSH: <a href ="http://ubuntu-tutorials.com/2007/02/14/what-you-ought-to-know-about-securing-ssh/">http://ubuntu-tutorials.com/2007/02/14/what-you-ought-to-know-about-securing-ssh/</a></li>
+	<li>Apache2: </li><a href="http://httpd.apache.org/docs/trunk/misc/security_tips.html">http://httpd.apache.org/docs/trunk/misc/security_tips.html</a>
+	<li>MySQL: </li><a href="http://dev.mysql.com/doc/mysql-security-excerpt/5.1/en/index.html">http://dev.mysql.com/doc/mysql-security-excerpt/5.1/en/index.html</a>
+</ul>
+<p><b>What Services to Run</b></p><a name="whatservices"></a>
+
+<p>On most Linux/Unix systems you can look in the directory '/etc/rc.d/init.d/' or '/etc/init.d' to see the startup script files that are called as your operating system starts. In Red Hat Linux derivitives like Fedora and CentOS the command ‘chkconfig’ allows for the easy listing, enabling and disabling of services. </p>
+
+<p>A tutorial on how to use 'chkconfig' is located at <a href="http://www.linuxjournal.com/article/4445">http://www.linuxjournal.com/article/4445</a><br>
+The man page for 'chkconfig' is located at <a href="http://linuxcommand.org/man_pages/chkconfig8.html">http://linuxcommand.org/man_pages/chkconfig8.html</a>
+</p>
+<p>Debian Linux derivatives such as Ubuntu offer a tool called ‘update-rc.d’ that offers functionality similar to ‘chkconfig’. To disable a service from starting at all runlevels run the following command, where <i>service</i> is the name of the service you wish to disable:</p>
+<p><ul><li> update-rc.d <i>service</i> remove</li></ul> </p>
+<p>The man page for 'update-rc.d' is located at: <a href="http://xgen.iit.edu/cgi-bin/man/man2html?update-rc.d+8">http://xgen.iit.edu/cgi-bin/man/man2html?update-rc.d+8</a></p>
+<p>If your operating system does not include the 'chkconfig' or 'sysvconfig' utility, changing which scripts start up at boot time is a bit more tedious. The 'Initscripts' section of the gentoo linux user manual explains how the linux boot process works, this document will help you change which scripts start at boot time. This document is located at: <a href="http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=4">http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&chap=4</a>
+</font>
+
+<h3><a name="firewall"></a>Firewalls</h3>
+<font size="2"><p>
+‘Iptables’ is a common service used to ‘firewall’ a Linux host. Actually, a more accurate description of iptables function is as a ‘packet filter’; iptables essentially filters packets destined or originating from your host. This is absolutely essential to protecting your system. For instance, you may have certain services that you only want accessed by people on or from your local network—using network filters like ‘iptables’ you can do this rather easily.
+</p>
+<p>
+As a general rule of thumb you will enable a service such as iptables in run-levels 2, 3, 4, and 5. The iptables services will start from a script located somewhere like /etc/rc.d/init.d/iptables, and this script may refer to a rule set that you define under /etc/sysconfig/iptables. There are other ways to do this, but this is one typical example. Or, if you use something like pfilter (mentioned above), simply add it in under /etc/rc.d/init.d/ and then use something like chkconfig to make sure the service starts each time you boot your server.
+</p>
+<p>
+Most modern Linux distributions come bundled with iptables; some distributions like CentOS, offer a GUI front-end to iptables. To see if your host is already running iptables type “iptables –v” at a command prompt, if your host is running iptables the version of iptables you are running will be listed.
+</p><ul>
+
+<li><p>An excellent iptables tutorial is located at: <a href="http://www.linuxhomenetworking.com/wiki/index.php/Quick_HOWTO_:_Ch14_:_Linux_Firewalls_Using_iptables">http://www.linuxhomenetworking.com/wiki/index.php/Quick_HOWTO_:_Ch14_:_Linux_Firewalls_Using_iptables</a></p></li>
+<li><p>An iptables reference guide is located at: <a href="http://iptables-tutorial.frozentux.net/iptables-tutorial.html">http://iptables-tutorial.frozentux.net/iptables-tutorial.html</a></p></li>
+<li><p>An example iptables script is located at: <a href="http://nsrc.org/security/pfilter">http://nsrc.org/security/pfilter</a></li>
+</ul>
+
+</p></font>
+
+<h3><a name="patch"></a>Updating and Patching Software</h3>
+<font size="2"><p>
+ All Linux and Unix distributions are "out-of-date" by the time you install them. What this means is that it is very likely that there are already updates and security patches for many of the services included in base installation of the operating system. It is extremely important to keep your operating system up to date to mitigate the security risks to your host. </p>
+
+<p>Most modern Linux/Unix distributions come bundled with package management software. Package managers are a collection of software tools used to ease the installation, maintenance and of software packages. It is highly recommended that you use a package management system to manage the software on your host because it makes it far easier to keep your system up-to-date and secure.</p>
+<ul>
+<li><p>Debian Linux dervitives such as Ubuntu use the 'apt' package manager, instructions on how to use 'apt' are located at: <a href="http://www.debian.org/doc/manuals/apt-howto/">http://www.debian.org/doc/manuals/apt-howto/</a> </p></li>
+<li><p>Red Hat Linux derivitives such as Fedora and CentOS use the 'yum' and 'rpm' package managers, instructions on how to use 'yum' and 'rpm' are located at: <a href="http://www.fedorafaq.org/#installsoftware">http://www.fedorafaq.org/#installsoftware</a></p></li>
+</ul>
+
+
+</font>
+
+<h3><a name="integrity"></a>System Integrity Checking and Intrusion Detection Systems</h3>
+<font size="2"><p>
+Your first question may be, "What is System Integrity Checking?" The basic concept is that once your system is configured, patched, and secured, then how do you know if something changes that you don't expect? Answering this question is actually harder than you might think, and it's at the heart of system integrity checking. In a nutshell, a system integrity checker examines how your filesystem and network services behave. If your computer operates outside the systems administrator's prescribed boundaries the system integrity checker notifies the administrator, or in drastic circumstances, halts the system.</p>
+<p>One very simple method to do some basic checking is to generate md5 checksums on each and every file on your system. You can then run a script (using cron, for example) that compares expected md5sums with newly generated md5sums for all files on your system.</p>
+<p>Immediately you should see some problems associated with this: </p>
+<ul>
+	<li>How do you keep track of new files, and automatically generate an md5sum for these files?</li>
+	<li>You have to decide what constitute valid files. That is, you probably don't want to generate md5sums for the /proc directory.</li>
+	<li>What about files that are erased? You should have a way of knowing that the file no longer exists.</li>
+	<li>If your system has many users, then you may not want to generate md5sums on their files as they are in a state of constant flux.</li>
+	<li>How do you interpret the results of rescanning your system? You may need to look at each report to understand what's going on.</li>
+</ul>
+<p>Programs like 'Samhain' and 'Osiris' address the issues of system integrity and intrusion protection.</p>
+<ul><li><p>'Samhain' is an open source 'host-based intrusion detection system'. It can be downloaded at: <a href="http://www.la-samhna.de/samhain/">http://www.la-samhna.de/samhain/</a></p></li>
+<li><p>'Osiris' is an open source "Host Integrity monitor". It can be downloaded at: <a href="http://osiris.shmoo.com/">http://osiris.shmoo.com/</a></p></li>
+<li><p>An excellent article on "Best Practices" in Host Integrity Monitoring is located at: <a href="http://www.securityfocus.com/infocus/1771">http://www.securityfocus.com/infocus/1771</a></p></li></ul>
+</font>
+
+<h3><a name="backups"></a>Backups</h3>
+<font size="2"><p>
+<p>Backing up your server once everything is installed and setup just the way you want it is very important.</p>
+<p>You might be asking why we include backup as a topic under security. If your server is compromised, then you will need a good set of backups to recover from the compromise. If you know when the compromise took place, then it may be possible to restore your server and it's data relatively quickly. If you are unsure of when your server was compromised, but you know what the compromise was, then you could decide to rebuild your server, but restore user data. Naturally you are running the risk that you have a compromised user on your system with tools to break in to your system from the inside. Restoring user data in this case is a decision you would have to take. Finally, a system with a backup, including your configuration files, can be much more quickly rebuilt if you have your old configuration files to refer to. You may wish to take a snapshot of your system once you have it running just as you want it for the first time in case you ever need to refer to your original configuration files to rebuild your server. </p>
+<p>Once you make the decision to put a good backup system in place, then your first set of decisions concerning backups include the following: </p>
+<ul>
+	<li>What do you want to backup?</li>
+	<li>What do you need to backup?</li>
+	<li>How often must you backup?</li>
+        <ul><li>User data? System configuration files? Operating system files?</li></ul>
+	<li>What is the backup rotation? Daily, weekly, monthly, semi-annually, yearly?</li>
+	<li>What type of backup media are you going to use?</li>
+	<li>Will you use the same media and software for each piece of your backup process?</li>
+	<li>Where will you backup your data?</li>
+	<li>Where will you keep copies of your backups?</li>
+	<li>Have you tested your backups? I.E. have you tried a restore?</li>
+	<li>What will you do if you lose your server? Do you have a place to restore your data in this case?</li>
+ </ul>
+<p>This is quite a few questions, but they are <i>really</i> important. If you don't believe us, wait until you lose data or a server, and see what happens if these questions have not been answered ahead of time! </p>
+
+<p>The first thing to remember is to never backup your data to the same partition, or same disk. This should be obvious, but we state it just in case... Ideally you should back up your data to a different physical device than your server. At the very least, you should back up your data to media that can be removed from your server. Remember, if you back up to CD, Tape, DVD, another disk drive that can be removed, etc., and your server is completely lost (i.e. - it burns up, is destroyed, etc.), then you will need a device that can read that media in order to restore your files to a new server! This fairly obvious, but a key point that is sometimes forgotten. </p>
+
+<p>Now you should decide what gets backed up and how. You could just do an entire disk image backup and always be able to restore your entire machine. This might work if you are lucky enough to have something large enough to fit your entire disk, but more likely than not, you will only want to back up what's necessary, when it's necessary. In this case you can consider backing up your system files and configuration files as necessary, maybe weekly. Now you need to backup your user's data and your constantly changing system data. User data and log files should be backed up daily. In practical terms you'll want to consider something like: </p>
+
+<b>Weekly</b><br>
+<ul><li>/etc</li>
+<li>Everything not in daily backups, and /proc, /tmp, /scratch</li>
+</ul>
+
+<b>Daily</b><br>
+<ul><li>/home</li>
+<li>/var/spool (includes user mail files on many systems)</li>
+<li>/var/log</li>
+</ul>
+<p>This is still not complete because you need to think about how long you keep your backups. That is, do you keep the weekly backups (where you should do both daily and weekly backups) for a month? Then do monthly backups and keep them for a year? Then do semi-annual backups and keep them permanently? </p>
+
+<p>The suggestion above is just that, a suggestion. Almost certainly you will do something different, but it's just to give you an idea of how to approach backing up your system. In addition, you may noted that some policies are implied by your backup routines. For instance, if you do not back up files in /tmp or /scratch, then users who have work files in these locations will lose them. This is generally considered to be acceptable practice as anyone using a directory such as /scratch should be able to copy the files they need to their own directory for safekeeping. But, on some systems, particularly heavy research servers, this may not be acceptable. You, as a system administrator, will have to set such policies based on how your server is used. </p>
+
+<p>You may find that you can back up your system files only when they change if your server is fairly static. But, if you apply patches on a regularl basis, particularly for security reasons, then you will want to back up your system files fairly regularly as well. </p>
+
+<ul><li><p>'A.M.A.N.D.A' is an open source tool that can manage the back ups of numerous Linux and Windows hosts. A.M.A.N.D.A is available at: <a href="http://www.amanda.org/">http://www.amanda.org/</a></p></li></ul>
+</font>
+
+<h3><a name="logging"></a>System Logging</h3>
+<font size="2"><p>
+What you decide to log, where you decide to log information, and how you decide to do this can go a long ways toward securing your system. Not only can logging help you to detect security breaches, but it can help you to verify that software is running as expected, detect hardware problems, and get a general feel for how your box and it's users work. </p>
+
+<p>Most modern Linux distributions configure logging by default, if you are using Ubuntu, your syslog configuration file is located in '/etc/syslog.conf'.</p>
+
+<p> In your syslog configuration file you will have an option to configure remote logging. Configuring remote logging on production systems is HIGHLY recommended. Remote logging is useful both in the event of an intrusion and in the event of a disk failure; your log files MUST be kept safe! See the man page for your syslog daemon for more details on how to configure remote logging.</p>
+</font>
+
+<h3><a name="tools"></a>Tools</h3>
+<font size="2"><ul><li>
+<a href="http://foremost.sourceforge.net/">Foremost</a>: Foremost is a console program to recover files based on their headers, footers, and internal data structures. This process is commonly referred to as data carving. Foremost can work on image files, such as those generated by dd, Safeback, Encase, etc, or directly on a drive. The headers and footers can be specified by a configuration file or you can use command line switches to specify built-in file types. These built-in types look at the data structures of a given file format allowing for a more reliable and faster recovery.</li>
+
+<li><a href="http://people.freebsd.org/~abe/">LSOF - LiSt Open Files</a>: Lsof is a Unix-specific diagnostic tool. Its name stands for LiSt Open Files, and it does just that. It lists information about any files that are open by processes currently running on the system. It can also list communications open by each process.</li>
+
+<li><a href="http://www.chkrootkit.org/">chkrootkit</a>: chkrootkit is a tool to locally check for signs of a rootkit.</li>
+
+<li><a href="http://www.modsecurity.org/">ModSecurity</a>: ModSecurity is an open source web application firewall that runs as an Apache module.</li>
+
+<li><a href="http://www.wireshark.org/">Wireshark (formerly Ethereal)</a>: Wireshark is a program that captures network traffic on a given network interface.</li>
+
+<li><a href="http://www.kismetwireless.net/">Kismet</a>: A powerful wireless packet sniffer</li>
+
+<li><a href="http://tcpreplay.synfin.net/trac/">tcpreplay</a>: tcprelay is a a program that gives you the ability to use previously captured traffic in libpcap format to test a variety of network devices. It allows you to classify traffic as client or server, rewrite Layer 2, 3 and 4 headers and finally replay the traffic back onto the network and through other devices such as switches, routers, firewalls, NIDS and IPS's.</li>
+
+<li><a href="http://nmap.org/">nmap</a>: nmap is an extremely powerful port scanner for the *nix platform.
+</ul>
+</font>
+
+<h3><a name="pgp"></a>Encryption with PGP</h3>
+<font size="2">
+<p><b>Introduction</b></p>
+<p>PGP is an implementation of public key cryptography that is often used to sign and encrypt e-mail messages and files.  To use PGP, you must generate a “key-pair”; a PGP “key-pair” consists of both a “private key” and a “public key”. A private key is not to be shared with ANYONE, and is to be stored in a place that only you can access it like your home directory. A “public key” is to be distributed to anyone with whom you would like to communicate with over an encrypted channel. </p>
+<p><b>Generating a PGP Key</b></p>
+<p>To generate a PGP key-pair using GnuPG enter the following command:</p>
+<ul><li>gpg --gen-key</li></ul>
+<p>After you enter the command you will be prompted with a series of questions about what kind of key-pair you wish to create.  The GnuPG documentation recommends a ‘DSA/ ElGamal’ key because it is so widely used. </p>
+<p>Next, the tool will ask how long you wish the key to be. It is recommended that you create a key of 2048 bits. Creating a key of this length takes a bit more time, but is far less vulnerable to cracking.</p>
+<p>The last step in creating a PGP key-pair is setting a password. When choosing a password for your PGP key-pair be sure to make it secure. Keep in mind that PGP passwords allow spaces to be used, in that way, a PGP password can be a long sentence if you would like.  See the <a href=”#password>creating secure password</a> portion of this document for more information on how to create a secure password.</p>
+<p><b>Uploading Your Public key to a Keyserver</b></p>
+<p>Once you have created your PGP key-pair, it is important to distribute your public key so that people will be able to send you encrypted and signed messages. </p>
+<p>First you must locate your public key. Your public key is often located in your home directory in the folder ‘.gnupg’. </p>
+<p>Next you must view your public key with your favorite text editor, and copy the contents of the file to your clipboard.</p>
+<p>Next go to http//pgp.mit.edu scoll down to the heading “Submit a Key”, paste your key in the provided textbox, and click submit.</p>
+<p><b>Configuring your E-mail Client for PGP</b></p>
+<p>If you use Mozilla Thunderbird for your e-mail client, an extension called ‘Enigmail’ is used to encrypt, decrypt and sign messages with GnuPG. </p>
+<p>You may download Enigmail from: <a href="http://enigmail.mozdev.org/">http://enigmail.mozdev.org/</a></p>
+</font>
+
+<h3><a name="route"></a>Securing Routers and Switches</h3>
+<font size="2">
+<p>
+If you look at the two "Border router config" files listed below you willl notice they both block incoming udp requests on ports 137-139, 445, as well as incoming tcp requests on ports 137, 139, and 445. Ports 137-139 have to do with NetBIOS access, while port 445 is used by Windows 2000 for SMB over TCP; see <a href="http://ntsecurity.nu/papers/port445/">http://ntsecurity.nu/papers/port445</a> for a discussion of this. Windows client boxes are almost certainly not secured and extremely easy to compromise if you allow outside users access to your internal network ports 137-139, and port 445. There are many other ports that you may or may not want to block. This generally tends to be an internal organizational discussion about the trade offs in security vs. the inconvenience of not allowing outside access to some of the services on your internal network servers. This discussion is different for most every organization. Many groups will decide to block the RPC (Sun Remote Procedure Calls) tcp and udp port 111, as well as the LPR tcp port 515. Note that Samba (the Linux/Unix NetBIOS service) uses port 111. </p>
+
+<p>
+Another option on your part is to create what is called a DMZ (Demilitarized Zone). One way to do this is to simply block all incoming services at your border routers. While this may sound reasonable, it very rarely works. Generally the larger your organization, the harder it will be to enforce such rules. For instance, eventually someone (perhaps an important administrator) will insist on external access to some server. You might decide to give them access via SSH, so that at least they are using a secure protocol when accessing your network. While this is a good idea, users can now use SSH to tunnel other services in and out of your network, and, SSH has had various vulnerabilities exposed over the years. If you forget to patch SSH, or if you have many servers running SSH, then it's entirely possible that one of them may eventually run an insecure version of the protocol. And, this is just one service! Imagine what happens if several "holes" are opened in your DMZ. At this point you might as well concentrate on securing your individual servers on your internal network. </p>
+
+<p>Now that you may be thinking it's time to look at securing your individual servers again, then you will want to understand and implement firewalls well. Please refer to the Firewalls and Protecting Services section of this document for a complete discussion, examples, and references. </p>
+
+<p>Cisco has provided some very good tools to learn about security as it pertains to routing, particularly from the perspective of an ISP. You can find all of this at <a href="ftp://ftp-eng.cisco.com/cons/isp/security/">ftp://ftp-eng.cisco.com/cons/isp/security/</a> (mostly in PDF format). 
+</p>
+<p>Here a few sample items included at this location: </p>
+
+<p><b>Cisco Security for ISPs: Sample Items </b>
+<ul>
+	<li><a href="ftp://ftp-eng.cisco.com/cons/isp/security/ACL_Update_Procedures.pdf">ACL Update Procedures</a> (PDF)</li>
+	<li><a href="ftp://ftp-eng.cisco.com/cons/isp/security/BGP%20Risk%20Assesment-v.pdf">BGP Risk Assessment</a> (PDF)</li>
+</ul>
+<p><b>Configuration Examples</b></p>
+<font size="2">
+<ul>
+<li><a href="http://nsrc.org/security/large-net.conf">http://nsrc.org/security/large-net.conf</a>: A Cisco Border router config for a large university network. ( IP addresses have been replaced with "abc.xyz")
+<li><a href="http://nsrc.org/security/small-net.conf">http://nsrc.org/security/small-net.conf</a>: A Cisco Border router config for a small network. (IP addresses have been replaced with "abc.xyz")
+</ul>
+<p><b>Links</b></p>
+<ul>
+<li><a href="http://www.cisco.com/en/US/tech/tk648/tk361/technologies_tech_note09186a0080120f48.shtml#usingaaa">Cisco Guide to Harden Cisco IOS Devices</a>: An in depth guide about how to secure Cisco IOS devices.</li>
+<li><a href="http://www.cisco.com/web/about/security/intelligence/identify-incidents-via-syslog.html#2">Identifying Incidents Using Firewall and IOS Router Syslog Events</a>: An explanation of how to use IOS and ASA syslogging to identify security incidents.</li>
+<li><a href="http://www.sans.org/reading_room/whitepapers/firewalls/794.php">http://www.sans.org/reading_room/whitepapers/firewalls/794.php</a>: An article from SANS about hardening Cisco Routers.</li>
+<li><a href="http://www.cs.cmu.edu/~dwendlan/routing/">http://www.cs.cmu.edu/~dwendlan/routing/</a>: A collection of BGP and routing security resources </li> 
+<li><a href="http://www.cisco.com/warp/public/707/cisco-sr-20080516-rootkits.shtml">Cisco Security Response: Rootkits on Cisco IOS devices</a>: A discussion of the implications of rootkits on Cisco IOS devices. This document presents a "Best Practices Guide" for securing your Cisco IOS devices.</li>
+<li><a href="http://blogs.techrepublic.com.com/security/?p=320">TechRepublic.com: Lock Down Cisco switch port security</a> An article from TechRepublic about switch port security and how to enable it on Cisco Catalyst switches.</li>
+
+</ul>
+
+</p>
+
+</font>
+</font>
+
+<a name="wireless"></a><h3>Wireless Security</h3>
+<font size="2"><p>
+There are, naturally, several issues surrounding security and wireless networks. The major issue is that most the methods built in to the 802.11a/b networking protocols for security can be broken by a determined hacker. The methods generally available for securing your clients with Access Points are WEP 40/64 bit and 128 bit, required SSID's (Service Set Identifier), MAC (Media Access Control) access authentication, and passwords (if supported by your client). The issue with these methods are the following:</p>
+<ul>
+<li>WEP can be broken by a determined hacker. Thus passwords can be discovered.</li>
+<li>The WEP key is stored, plain text, on each machine configured to connect to the network. Access to any of these machines will give someone the WEP key in a trivial manner.</li>
+<li>Clients can "spoof" MAC addresses.</li>
+<li>SSIDs can be found out easily</li>
+</ul>
+<p>
+In addition, you should change the default SSIDs and passwords that come with your equipment. With that said, you should still use 128 bit WEP encryption, and, if feasible, use a MAC address filtering mechanism. Most access points have MAC address filters. This means that if a machine's MAC address (really the wireless card in that machine) is not registered with the access point, then that machine is not allowed on the network - even if the WEP key, passwords, etc. presented are correct. These steps will make it considerably more difficult for someone to break in to your wireless network - at least at a first attempt. There are users who look for open wireless networks to gain free access to the Internet. Putting basic protection in place will stop many of these types of users.
+</p>
+<p>
+Below we will present several resources discussion how to further protect your wireless network, including the possible use of VPN's to add another layer of authentication to your wireless network. With this said, however, it's important to remember that the best protection is to ensure that your users are working with secure services from end-to-end on your wireless network. That is, if you protect someone on your wireless network from having their password guessed this may be great for your part of the network, but what if they are still using insecure POP to get their email. Once their password leaves your protected network, then it will, once again, be out in the clear. The best long-term defense is to work toward migrating all your clients to secure network use with protocols such as POP/IMAP over SSL, SSH instead of Telnet, SCP instead of FTP, and HTTPS instead of HTTP when reading email over the web.
+</p>
+<p>
+By MAC authentication we mean that most wireless access points allow you to specify a list of Ethernet hardware addresses and IP numbers. This generally does not scale well, but if your network is small enough, then you can insist that all new members of your network first see you with their wireless card so that you can register its MAC address in your wireless access point, and assign an IP address to that MAC address. This is a 1-to-1 mapping of hardware on your network, which can be very powerful in terms of security - but, once again, can be very hard to scale to a larger number of users. 
+</p></font>
+
+<p><b><a name="wirelesstools"></a>Tools</b></p>
+
+<p><ul>
+<li><a href="http://www.kismetwireless.net/">Kismet</a> - Kismet is a wireless network detector, sniffer and intrusion detection system. </li>
+<li><a href="http://www.aircrack-ng.org/">Aircrack-ng</a> - Aircrack-ng is a a suite of utilities used to crack 802.11 WEP and WPA-PSK keys </li>
+</ul>
+
+<!-- RIGHT COLUMN -->
+
+			<!-- Column 1 end -->
+		</div>
+		<div class="col2">
+			<!-- Column 2 start -->
+			<h3>Network Host Security</h3>
+			<ul>
+			<li><a href="#intro">Introduction</a></li>
+			<li><a href="#informed">Staying Informed</a></li>
+			<li><a href="#critical">Critical Steps to Securing a Network Server</a></li>
+			<li><a href="#physical">Physical Security</a></li>
+			<li><a href="#password">Secure Passwords</a></li>
+			<li><a href="#service">Services</a></li>
+				<ul><li><a href="#commonservices">Securing Common Services</a></li>
+				    <li><a href="#whatservices">Determining What Services to Run</a></li></ul>
+			<li><a href="#firewall">Firewalls</a></li>
+			<li><a href="#patch">Updating and Patching Software</a></li>
+			<li><a href="#integrity">System Integrity Checking and Intrusion Detection Systems</a></li>
+			<li><a href="#backups">Backups</a></li>
+			<li><a href="#logging">System Logging</a></li>
+			<li><a href="#tools">Tools</a></li>
+			<li><a href="#pgp">Encryption and PGP</a></li>
+			</ul>
+			<h3>Network Infrastructure Security</h3>
+			<ul>
+			<li><a href="#route">Routers and Switches</a>
+			<li><a href="#wireless">Wireless Security</a>
+			<ul><li><a href="#wirelesstools">Tools</a></li></ul>
+			</ul>
+			
+			
+
+			<!-- Column 2 end -->
+		</div>
+	</div>
+</div>
+
+<!-- FOOTER -->
+
+<div id="footer">
+
+<!-- ********** FOOTER ********** -->
+
+<!-- Include footer items here. Pass along file modification time. UPDATE THIS -->
+<!-- Note that the </body> tag is in the footer file -->
+
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr><td width="3" align="left" valign="top">&nbsp;</td>
+<td align="left" valign="top">
+<font size="1"><i>Running on LAMP (Linux/Apache/MySQL/PHP)</i></font>
+<br />
+<font size="1"><i><a href="/stats/">Site statistics</a></i></font>
+</td>
+<td align="right" valign="top">
+
+<font size="1"><i>Last modified: Tue Nov 25 23:08:10 2008</i></font>
+
+<!--
+<font size="1"><i>Last modified: Thu Apr 17 10:53:04 PDT 2008</i></font>
+-->
+<br />
+<font size="1"><i>nsrc@nsrc.org</i></font>
+</td>
+<td align="right" valign="top" width="3">&nbsp;</td>
+</tr>
+</table>
+
+</div>
+
+</html>
+</body>
+

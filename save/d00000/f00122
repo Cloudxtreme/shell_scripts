@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
+	<!-- $Id: template.tpl 452 2013-05-03 16:27:53Z kcochran $ -->
+	<head>
+		<title>Looking Glass - Hurricane Electric (AS6939)</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="author" content="Hurricane Electric" />
+		<meta name="copyright" content="1994-2013 Hurricane Electric, LLC" />
+		<meta name="description" content="Hurricane Electric (AS6939) Network Looking Glass" />
+		<meta name="keywords" content="ip ipv4 ipv6 peer peering transit transport colo colocation managed dedicated server servers tunnel tunnels leased-lines leased lines t1 t3 ds3 oc1 oc2 oc3 oc12 lg looking glass" />
+		<meta name="language" content="en" />
+		<link rel="stylesheet" type="text/css" href="/styles/screen.css?1" media="screen, print" />
+		<link rel="stylesheet" type="text/css" href="/styles/handheld.css" media="handheld" />
+		<link rel="shortcut icon" href="/images/he_icon.png" type="image/png" />
+		<script src="//platform.twitter.com/widgets.js" type="text/javascript"></script>
+		<script src="//connect.facebook.net/en_GB/all.js#xfbml=1&appId=465754630423"></script>
+		<script type="text/javascript" src="/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/js/jquery.metadata.min.js"></script>
+		<script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push (['_setAccount', 'UA-26518558-1']);
+			_gaq.push (['_trackPageview']);
+			
+			(function() {
+				var ga = document.createElement ('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName ('script') [0];
+				s.parentNode.insertBefore (ga, s);
+			}) ();
+		</script>
+		<script type="text/javascript">
+			function checkIP () {
+				var ip4Test = /^[0-9\.\/]+$/i;
+				var ip6Test = /^[:0-9a-f\/]+$/i;
+				if(!$('#ip').val() || ip4Test.test($('#ip').val()) || ip6Test.test($('#ip').val())) {
+					$('.hostnameOnly').hide();
+				} else {
+					$('.hostnameOnly').show();
+				}
+			}
+			function setdisplay (id, value) {
+				if (document.getElementById) {
+					document.getElementById (id).style.display = value;
+				}
+			}
+			$.tablesorter.addParser ({
+				id: 'ip',
+				is: function (s) {
+					return (false);
+				},
+				format: function (s) {
+					var i, quads, parts, mask;
+					mask = '';
+					
+					if (s.indexOf ('/') != -1) {
+						parts = s.split ('/');
+						s = parts [0];
+						mask = String.fromCharCode (parts [1]);
+					}
+					
+					if (s.indexOf (':') != -1) {
+						// IPv6
+						var parts, quads, i;
+						
+						if (s.indexOf ('::') != -1) {
+							parts = s.split ('::');
+							s = '';
+							quads = 0;
+							for (i = 0; i < parts.length; i++) {
+								quads += parts [i].split (':').length;
+							}
+							s += parts [0] + ':';
+							for (var i = 0; i < 8 - quads; i++) {
+								s += '0000:';
+							}
+							s += parts [1];
+						}
+						parts = s.split (':');
+						s = '';
+						for (i = 0; i < 4; i++) {
+							while (parts [i].length < 4) {
+								parts [i] = '0' + parts [i];
+							}
+							s += ((i != 4 - 1) ? ':' : '') + parts [i];
+						}
+						return ('v6_' + s + mask);
+						
+					} else {
+						// IPv4
+						parts = s.split ('.');
+						return ('v4_' + String.fromCharCode (parts [0]) + String.fromCharCode (parts [1]) + String.fromCharCode (parts [2]) + String.fromCharCode (parts [3]) + mask);
+					}
+				},
+				type: 'text'
+			});
+			$.tablesorter.addParser ({
+				id: 'duration',
+				is: function (s) {
+					return (false);
+				},
+				format: function (s) {
+					var ret = 0;
+					s = s.replace (/ /, '');
+					
+					while (value = s.match (/^\d+/)) {
+						value = value [0];
+						s = s.replace (/^\d+/, '');
+						unit = s.match (/^[a-z]/);
+						unit = unit [0];
+						s = s.replace (/^[a-z]/, '');
+						
+						switch (unit) {
+							case 'y':
+								unit = 365.25 * 24 * 60 * 60;
+								break;
+							case 'd':
+								unit = 24 * 60 * 60;
+								break;
+							case 'h':
+								unit = 60 * 60;
+								break;
+							case 'm':
+								unit = 60;
+								break;
+							case 's':
+								unit = 1;
+								break;
+							default:
+								return (0);
+						}
+						ret += value * unit;
+					}
+					return (ret);
+				},
+				type: 'numeric'
+			});
+			$(function () {
+				$("table").tablesorter ({});
+				$('#ip').blur(function() {
+					checkIP();
+				});
+				$('#ip').keyup(function() {
+					checkIP();
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div id="fb-root"></div>
+		<div id="page">
+			<div id="header">
+				<a href="http://lg.he.net/" title="Hurricane Electric Looking Glass"><img src="/images/he_logo.png" alt="Hurricane Electric Looking Glass" /></a>
+			</div>
+			<div id="content">
+				<h2>Looking Glass</h2>
+				<!-- $Id: index.tpl 483 2013-08-09 17:52:11Z kcochran $ -->
+				<div id="lg_header">
+					Welcome to Hurricane Electric's Network Looking Glass. The information provided by and the support of this service are on a best effort basis. These are some of our routers at core locations within our network. We also operate a public route server accessible via telnet at <a href="telnet://route-server.he.net/">route-server.he.net</a>.
+				</div>
+				<form method="post" action="/">
+					<div id="options">
+						<div id="lg_routers">
+							<h3>Routers</h3>
+							<ul>
+								<li>Europe
+									<ul>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.ams1.he.net" value="core1.ams1.he.net" /> <label for="routers_core1.ams1.he.net" title="core1.ams1.he.net - AMS-IX, NL-IX">NIKHEF Amsterdam <span>Amsterdam, NL <img src="/images/flags/nl.png" alt="NL" title="Netherlands" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.ber1.he.net" value="core1.ber1.he.net" /> <label for="routers_core1.ber1.he.net" title="core1.ber1.he.net - BCIX, ECIX Berlin">IPB CarrierColo Berlin <span>Berlin, DE <img src="/images/flags/de.png" alt="DE" title="Germany" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.buh1.he.net" value="core1.buh1.he.net" /> <label for="routers_core1.buh1.he.net" title="core1.buh1.he.net - INTERLAN, RONIX">NXDATA-1 Bucharest <span>Bucharest, RO <img src="/images/flags/ro.png" alt="RO" title="Romania" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.bud1.he.net" value="core1.bud1.he.net" /> <label for="routers_core1.bud1.he.net" title="core1.bud1.he.net - BIX Budapest">CE Colo Budapest (Victor Hugo 1) <span>Budapest, HU <img src="/images/flags/hu.png" alt="HU" title="Hungary" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.cph1.he.net" value="core1.cph1.he.net" /> <label for="routers_core1.cph1.he.net" title="core1.cph1.he.net - COPHIX, DIX">Interxion Copenhagen <span>Copenhagen, DK <img src="/images/flags/dk.png" alt="DK" title="Denmark" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.fra1.he.net" value="core1.fra1.he.net" /> <label for="routers_core1.fra1.he.net" title="core1.fra1.he.net - DE-CIX, ECIX Dusseldorf, ECIX Hamburg, KleyRex">Interxion Frankfurt 1 <span>Frankfurt, DE <img src="/images/flags/de.png" alt="DE" title="Germany" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.lon1.he.net" value="core1.lon1.he.net" /> <label for="routers_core1.lon1.he.net" title="core1.lon1.he.net - LINX, LoNAP">Telehouse East Docklands <span>London, UK <img src="/images/flags/uk.png" alt="UK" title="United Kingdom" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.mad1.he.net" value="core1.mad1.he.net" /> <label for="routers_core1.mad1.he.net" title="core1.mad1.he.net">Interxion Madrid <span>Madrid, ES <img src="/images/flags/es.png" alt="ES" title="Spain" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.mil1.he.net" value="core1.mil1.he.net" /> <label for="routers_core1.mil1.he.net" title="core1.mil1.he.net - MIX">MIX Milan Via Caldera <span>Milan, IT <img src="/images/flags/it.png" alt="IT" title="Italy" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.par1.he.net" value="core1.par1.he.net" /> <label for="routers_core1.par1.he.net" title="core1.par1.he.net - France-IX, LU-CIX">Interxion Paris 2 <span>Paris, FR <img src="/images/flags/fr.png" alt="FR" title="France" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.par2.he.net" value="core1.par2.he.net" /> <label for="routers_core1.par2.he.net" title="core1.par2.he.net - Equinix Paris">Telehouse Voltaire Paris (TH2) <span>Paris, FR <img src="/images/flags/fr.png" alt="FR" title="France" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.prg1.he.net" value="core1.prg1.he.net" /> <label for="routers_core1.prg1.he.net" title="core1.prg1.he.net - NIX.CZ">CEColo/Sitel Prague <span>Prague, CZ <img src="/images/flags/cz.png" alt="CZ" title="Czech Republic" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.sof1.he.net" value="core1.sof1.he.net" /> <label for="routers_core1.sof1.he.net" title="core1.sof1.he.net - BIX.BG, B-IX">Telepoint Sofia <span>Sofia, BG <img src="/images/flags/bg.png" alt="BG" title="Bulgaria" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.sto1.he.net" value="core1.sto1.he.net" /> <label for="routers_core1.sto1.he.net" title="core1.sto1.he.net - NetNod-A, NetNod-B, SOLIX, STHIX">Telecity Bromma <span>Stockholm, SE <img src="/images/flags/se.png" alt="SE" title="Sweden" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.vie1.he.net" value="core1.vie1.he.net" /> <label for="routers_core1.vie1.he.net" title="core1.vie1.he.net - VIX">Interxion Vienna <span>Vienna, AT <img src="/images/flags/at.png" alt="AT" title="Austria" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.waw1.he.net" value="core1.waw1.he.net" /> <label for="routers_core1.waw1.he.net" title="core1.waw1.he.net - PIX Posnan, PLIX, THINX">PLIX/LIM Warsaw <span>Warsaw, PL <img src="/images/flags/pl.png" alt="PL" title="Poland" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.zrh1.he.net" value="core1.zrh1.he.net" /> <label for="routers_core1.zrh1.he.net" title="core1.zrh1.he.net - Equinix Zurich, SwissIX">Equinix Zürich (ZH1) <span>Zurich, CH <img src="/images/flags/ch.png" alt="CH" title="Switzerland" /></span></label></li>
+									</ul>
+								</li>
+								<li>North America
+									<ul>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.ash1.he.net" value="core1.ash1.he.net" /> <label for="routers_core1.ash1.he.net" title="core1.ash1.he.net - Equinix Ashburn">Equinix Ashburn (DC2) <span>Ashburn, VA, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.atl1.he.net" value="core1.atl1.he.net" /> <label for="routers_core1.atl1.he.net" title="core1.atl1.he.net - Telx-TIE Atlanta">Telx Atlanta (ATL1), 56 Marietta <span>Atlanta, GA, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.yyc1.he.net" value="core1.yyc1.he.net" /> <label for="routers_core1.yyc1.he.net" title="core1.yyc1.he.net - YYCIX">Datahive Calgary <span>Calgary, AB, CA <img src="/images/flags/ca.png" alt="CA" title="Canada" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.chi1.he.net" value="core1.chi1.he.net" /> <label for="routers_core1.chi1.he.net" title="core1.chi1.he.net - Equinix Chicago">Equinix Chicago (CH1) <span>Chicago, IL, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.cmh1.he.net" value="core1.cmh1.he.net" /> <label for="routers_core1.cmh1.he.net" title="core1.cmh1.he.net">DataCenter.BZ Columbus <span>Columbus, OH, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.dal1.he.net" value="core1.dal1.he.net" /> <label for="routers_core1.dal1.he.net" title="core1.dal1.he.net - Equinix Dallas">Equinix Dallas (DA1) <span>Dallas, TX, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.den1.he.net" value="core1.den1.he.net" /> <label for="routers_core1.den1.he.net" title="core1.den1.he.net - Any2 Denver">CoreSite Denver <span>Denver, CO, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.fmt1.he.net" value="core1.fmt1.he.net" checked="checked" /> <label for="routers_core1.fmt1.he.net" title="core1.fmt1.he.net">Hurricane Electric Fremont 1 <span>Fremont, CA, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.fmt2.he.net" value="core1.fmt2.he.net" /> <label for="routers_core1.fmt2.he.net" title="core1.fmt2.he.net">Hurricane Electric Fremont 2 <span>Fremont, CA, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.mci1.he.net" value="core1.mci1.he.net" /> <label for="routers_core1.mci1.he.net" title="core1.mci1.he.net">Level3 Kansas City <span>Kansas City, MO, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.mci2.he.net" value="core1.mci2.he.net" /> <label for="routers_core1.mci2.he.net" title="core1.mci2.he.net - KCIX">Oak Tower Kansas City <span>Kansas City, MO, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.mci3.he.net" value="core1.mci3.he.net" /> <label for="routers_core1.mci3.he.net" title="core1.mci3.he.net">1102 Grand Kansas City <span>Kansas City, MO, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.las1.he.net" value="core1.las1.he.net" /> <label for="routers_core1.las1.he.net" title="core1.las1.he.net">VegasNAP Las Vegas <span>Las Vegas, NV, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.lax1.he.net" value="core1.lax1.he.net" /> <label for="routers_core1.lax1.he.net" title="core1.lax1.he.net - Equinix Los Angeles, LAIIX">Equinix Los Angeles (LA1) <span>Los Angeles, CA, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.lax2.he.net" value="core1.lax2.he.net" /> <label for="routers_core1.lax2.he.net" title="core1.lax2.he.net - Any2 Los Angeles">CoreSite One Wilshire <span>Los Angeles, CA, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.msn1.he.net" value="core1.msn1.he.net" /> <label for="routers_core1.msn1.he.net" title="core1.msn1.he.net - MadIX">5NINES Madison <span>Madison, WI, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.mia1.he.net" value="core1.mia1.he.net" /> <label for="routers_core1.mia1.he.net" title="core1.mia1.he.net - NOTA">Terremark Miami <span>Miami, FL, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.msp1.he.net" value="core1.msp1.he.net" /> <label for="routers_core1.msp1.he.net" title="core1.msp1.he.net - MICE">The Minnesota Gateway <span>Minneapolis, MN, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.ymq1.he.net" value="core1.ymq1.he.net" /> <label for="routers_core1.ymq1.he.net" title="core1.ymq1.he.net - QIX Montreal">Cologix Montreal / CANIX 3 <span>Montreal, QC, CA <img src="/images/flags/ca.png" alt="CA" title="Canada" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.nyc4.he.net" value="core1.nyc4.he.net" /> <label for="routers_core1.nyc4.he.net" title="core1.nyc4.he.net - Equinix New York">Equinix New York (NY9) <span>New York, NY, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.nyc5.he.net" value="core1.nyc5.he.net" /> <label for="routers_core1.nyc5.he.net" title="core1.nyc5.he.net - BigAPE, Telx-TIE New York">Telx New York (NYC1), 60 Hudson <span>New York, NY, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.nyc6.he.net" value="core1.nyc6.he.net" /> <label for="routers_core1.nyc6.he.net" title="core1.nyc6.he.net - NYIIX">Telehouse New York, Chelsea <span>New York, NY, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.pao1.he.net" value="core1.pao1.he.net" /> <label for="routers_core1.pao1.he.net" title="core1.pao1.he.net - Equinix Palo Alto, NASA-AIX">Equinix Palo Alto (SV8) <span>Palo Alto, CA, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.phx1.he.net" value="core1.phx1.he.net" /> <label for="routers_core1.phx1.he.net" title="core1.phx1.he.net - Telx-TIE Phoenix">Telx Phoenix (PHX1), 120 E Van Buren <span>Phoenix, AZ, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.phx2.he.net" value="core1.phx2.he.net" /> <label for="routers_core1.phx2.he.net" title="core1.phx2.he.net - Phoenix IX">PhoenixNAP <span>Phoenix, AZ, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.pdx1.he.net" value="core1.pdx1.he.net" /> <label for="routers_core1.pdx1.he.net" title="core1.pdx1.he.net - NWAX">Pittock Building Portland <span>Portland, OR, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.rst1.he.net" value="core1.rst1.he.net" /> <label for="routers_core1.rst1.he.net" title="core1.rst1.he.net">Neutral Path Rochester <span>Rochester, MN, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.slc1.he.net" value="core1.slc1.he.net" /> <label for="routers_core1.slc1.he.net" title="core1.slc1.he.net">C7 Salt Lake City <span>Salt Lake City, UT, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.sjc1.he.net" value="core1.sjc1.he.net" /> <label for="routers_core1.sjc1.he.net" title="core1.sjc1.he.net - Any2 San Jose">CoreSite / Hurricane Electric San Jose 1 <span>San Jose, CA, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.sjc2.he.net" value="core1.sjc2.he.net" /> <label for="routers_core1.sjc2.he.net" title="core1.sjc2.he.net - Equinix San Jose">Equinix San Jose (SV1) <span>San Jose, CA, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.sea1.he.net" value="core1.sea1.he.net" /> <label for="routers_core1.sea1.he.net" title="core1.sea1.he.net - Equinix Seattle, SIX">Equinix Seattle (SE2), Westin Building <span>Seattle, WA, US <img src="/images/flags/us.png" alt="US" title="United States" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.tor1.he.net" value="core1.tor1.he.net" /> <label for="routers_core1.tor1.he.net" title="core1.tor1.he.net - Equinix Toronto">Equinix Toronto (TR1) <span>Toronto, ON, CA <img src="/images/flags/ca.png" alt="CA" title="Canada" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.yvr1.he.net" value="core1.yvr1.he.net" /> <label for="routers_core1.yvr1.he.net" title="core1.yvr1.he.net - PIX Vancouver">Cologix Vancouver <span>Vancouver, BC, CA <img src="/images/flags/ca.png" alt="CA" title="Canada" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.ywg1.he.net" value="core1.ywg1.he.net" /> <label for="routers_core1.ywg1.he.net" title="core1.ywg1.he.net - MBIX">Global Server Centre Winnipeg <span>Winnipeg, MB, CA <img src="/images/flags/ca.png" alt="CA" title="Canada" /></span></label></li>
+									</ul>
+								</li>
+								<li>Asia
+									<ul>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.hkg1.he.net" value="core1.hkg1.he.net" /> <label for="routers_core1.hkg1.he.net" title="core1.hkg1.he.net - AMS-IX HK, Equinix Hong Kong, HKIX, IAIX">MEGA-iAdvantage Hong Kong <span>Hong Kong, HK <img src="/images/flags/hk.png" alt="HK" title="Hong Kong" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.sin1.he.net" value="core1.sin1.he.net" /> <label for="routers_core1.sin1.he.net" title="core1.sin1.he.net - Equinix Singapore">Equinix Singapore (SG1) <span>Singapore, SG <img src="/images/flags/sg.png" alt="SG" title="Singapore" /></span></label></li>
+										<li><input type="checkbox" name="routers[]" id="routers_core1.tyo1.he.net" value="core1.tyo1.he.net" /> <label for="routers_core1.tyo1.he.net" title="core1.tyo1.he.net - Equinix Tokyo, JPNAP, JPIX">Equinix Tokyo (TY2) <span>Tokyo, JP <img src="/images/flags/jp.png" alt="JP" title="Japan" /></span></label></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div id="lg_command">
+							<h3>Commands</h3>
+							<ul>
+								<li><input type="radio" name="command" id="command_ping" value="ping" /> <label for="command_ping">Ping</label></li>
+								<li><input type="radio" name="command" id="command_traceroute" value="traceroute" checked="checked" /> <label for="command_traceroute">Traceroute</label></li>
+								<li><input type="radio" name="command" id="command_bgproute" value="bgproute" /> <label for="command_bgproute">BGP Route</label></li>
+								<li><input type="radio" name="command" id="command_bgpsummary4" value="bgpsummary4" /> <label for="command_bgpsummary4">BGP Summary (IPv4)</label></li>
+								<li><input type="radio" name="command" id="command_bgpsummary6" value="bgpsummary6" /> <label for="command_bgpsummary6">BGP Summary (IPv6)</label></li>
+							</ul>
+							<br />
+							<h3>Arguments</h3>
+							<ul>
+								<li><label for="ip" id="ipLabel">IP/Hostname:</label> <input type="text" name="ip" id="ip" value="2001:0:53aa:64c:18ca:5d94:2471:e895" size="40" title="IPv4 or IPv6 address or prefix" /></li>
+								<li><input type="checkbox" name="raw" id="raw" value="1" /> <label for="raw">Raw output (no tables)</label></li>
+								<li class="hostnameOnly"><input type="radio" name="afPref" id="preferV6" value="preferV6" checked="checked" /> <label for="preferV6">Prefer IPv6 name resolution</label></li>
+								<li class="hostnameOnly"><input type="radio" name="afPref" id="preferV4" value="preferV4" /> <label for="preferV4">Prefer IPv4 name resolution</label></li>
+								<script type="text/javascript">
+									checkIP();
+								</script>
+							</ul>
+							<br />
+							<input type="submit" value="Probe" /> <input type="reset" value="Clear" />
+						</div>
+					</div>
+				</form>
+				<div id="lg_return">
+				</div>
+			</div>
+			<div id="footer">
+				<div class="left">
+					Copyright &copy; 1994-2013 <a href="http://www.he.net/">Hurricane Electric</a> | <a href="/contact.php">Contact Support</a>
+				</div>
+				<div class="clear"></div>
+				<br />
+				<div class="right">
+					<!-- <a href="http://www.twitter.com/henet" title="Hurricane Electric @ Twitter"><img src="/images/twitter.png" alt="Follow us on Twitter&reg;" /></a><a href="http://www.facebook.com/pages/Fremont-CA/Hurricane-Electric/287045761241" title="Hurricane Electric on Facebook&reg;"><img src="/images/facebook.png" alt="Become a Fan" /></a> -->
+					<a href="https://twitter.com/henet" class="twitter-follow-button" data-width="400" data-align="right">Follow @henet</a> <div class="fb-like" data-href="http://facebook.com/he.net" data-send="false" data-width="400" data-align="right" data-show-faces="false" data-font="tahoma"></div>
+				</div>
+				<div class="clear"></div>
+				<br />
+			</div>
+		</div>
+	</body>
+</html>

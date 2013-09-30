@@ -1,0 +1,143 @@
+<html>
+  <!-- $Id -->
+
+  <head>
+    <meta name="Description" content="This page refers to the latest docs and
+      sources for user-ppp for FreeBSD and OpenBSD.">
+    <meta name="Keywords" content="iij-ppp, iijppp, ppp, user-ppp, pppd,
+      FreeBSD, OpenBSD, brian, somers, contract, consultant, support">
+    <title>PPP</title>
+  </head>
+
+  <body bgcolor="black" text="white" link="aqua" vlink="aqua">
+
+  <p><img width="100" height="40" alt="Site Hits" align="right"
+          src="/cgi-bin/Count.cgi?df=Awfulhak.org"></p>
+  <center><h1><font color="aqua">P</font>oint to
+    <font color="aqua">P</font>oint <font color="aqua">P</font>rotocol</h1>
+  </center>
+
+  <font size="+1">
+
+  <p>I'm responsible for user-ppp under FreeBSD and OpenBSD.  My
+    responsibilities don't extend to the <tt>pppd</tt> kernel
+    implementation (although
+    <a href="http://www.freebsd.org/cgi/man.cgi?query=netgraph&apropos=0&sektion=4&manpath=FreeBSD+5.0-current&format=html">Netgraph</a> support is on the
+    horizon).  Pppd is separately maintained.  Check out the
+    <a href="ftp://ftp.freebsd.org/pub/FreeBSD/FreeBSD-current/src/usr.sbin/pppd/RELNOTES">current pppd RELNOTES file</a> for details.</p>
+
+    <p>Information on <strong>user-level ppp</strong> and how to set it up
+      can be found at the following locations:</p>
+
+    <hr width="2">
+    <p><h2>The current sources [<a href="http://www.Awfulhak.org/~brian">UK</a>/<a href="http://people.FreeBSD.org/~brian">US</a> download]</p>
+
+    <p>A slightly hacked version of user-ppp from FreeBSD-current that will
+      build on practically any version of FreeBSD <strong>or</strong> OpenBSD
+      is available.  If you're running a version of FreeBSD before 2.2.6, I'd
+      strongly advise installing this version of ppp.  Just right-click on
+      <a href="http://people.freebsd.org/~brian/src.uue">US uuencoded
+      download</a> or <a href="http://www.Awfulhak.org/~brian/src.uue">UK
+      uuencoded download</a>, select "Save As", then from a command prompt
+      type the following:</p>
+
+    <table><tr><td width="15"></td><td>
+    <code><pre>
+      $ uudecode src.uue
+      $ tar xvfz ppp-*.src.tar.gz
+      $ cd ppp-*
+      $ make
+      $ su
+      Password: 
+      # make install
+    </pre></code>
+    </td></tr></table>
+
+    <p>If you would rather install ppp under a specific directory hierarchy,
+     (say /usr/local), the following is possible:</p>
+
+    <table><tr><td width="15"></td><td>
+    <code><pre>
+      $ uudecode src.uue
+      $ tar xvfz ppp-*.src.tar.gz
+      $ cd ppp-*
+      $ make PPP_CONFDIR=/usr/local/etc
+      $ su
+      Password: 
+      # make -e PPP_CONFDIR=/usr/local/etc BINDIR=/usr/local/sbin MANDIR=/usr/local/man PPP_EXAMPLES=/usr/local/share/examples/ppp
+    </pre></code>
+    </td></tr></table>
+
+    <p>Source and binaries in gzip'd tar format are also available from the
+      US <a href="http://people.FreeBSD.org/~brian/index.html">here</a>.
+    <hr width="2">
+    <p><h2>An up-to-date <a href="http://www.de.freebsd.org:80/de/cgi/man.cgi?proto=1.0&apropos=0&query=ppp&manpath=FreeBSD+3.0-current">
+      manual page</a></h2>
+
+    <p>This page is updated weekly from
+      <a href="ftp://ftp.freebsd.org/pub/FreeBSD/FreeBSD-current">
+      FreeBSD-current</a> courtesy of Wolfram Schneider.
+      <strong>Be careful</strong>.... this page may include features and
+      enhancements that aren't available in your local copy of ppp.  It may
+      be best to download the latest version of ppp using the instructions
+      above.</p>
+
+    <hr width="2">
+    <p><h2>The FreeBSD Handbook's
+      <a href="http://www.freebsd.org:80/handbook/userppp.html">
+      PPP section</a></h2></p>
+
+    <p>This contains information for <strong>Setting up user PPP</strong>.
+      If you want to set up ppp as an internet gateway, this document is a
+      <strong>must</strong>.  Again, <strong>be careful</strong>.  This document
+      describes the current ppp and may include enhancements and modifications
+      not present in your version.  If in doubt, download and build the
+      latest version using the instructions above.</p>
+
+    <hr width="2">
+    <p><h2>The FreeBSD FAQ's
+      <a href="http://www.freebsd.org:80/FAQ/ppp.html">
+      PPP section</a></h2></p>
+
+    <p>This contains FAQs for configuring ppp under FreeBSD.</p>
+
+    <hr width="2">
+    <p><a href="http://www.freebsd.org/doc/en_US.ISO8859-1/books/ppp-primer/index.html">
+      <h2>The Pedantic PPP primer</h2></a></p>
+
+    <p>This document provides some very specific information on setting up
+      and connecting a LAN to the Internet using FreeBSD.</p>
+
+    <hr width="2">
+    <p><h2>The <a href="ftp://ftp.freebsd.org:21/pub/FreeBSD/FreeBSD-current/src/share/examples/ppp/ppp.conf.sample">ppp.conf</a>,
+      <a href="ftp://ftp.freebsd.org:21/pub/FreeBSD/FreeBSD-current/src/share/examples/ppp/ppp.linkup.sample">ppp.linkup</a>,
+      <a href="ftp://ftp.freebsd.org:21/pub/FreeBSD/FreeBSD-current/src/share/examples/ppp/ppp.linkdown.sample">ppp.linkdown</a> and
+      <a href="ftp://ftp.freebsd.org:21/pub/FreeBSD/FreeBSD-current/src/share/examples/ppp/ppp.secret.sample">ppp.secret</a> samples from -current</h2></p>
+
+    <p>These files give working examples of how to connect to your ISP (The
+      <code>pmdemand</code> label) and how to connect via a null-modem
+      cable (The <code>direct-client</code> and <code>direct-server</code>
+      labels)</p>
+
+    <hr width="2">
+
+    <center><table><tr><td>
+    <hr>
+    <font size="-2">
+      <a href="index.html">Main</a> |
+      <a href="brian/index.html">Brian Somers</a> |
+      <a href="elaine/index.html">Elaine Somers</a> |
+      <a href="kai/index.html">Kai Somers</a> |
+      <a href="eleanor/index.html">Eleanor Somers</a> |
+      <a href="brian/chess.html">Chess</a> |
+      <a href="freebsd.html">FreeBSD</a> |
+      <a href="openbsd.html">OpenBSD</a> |
+      <a href="software.html">Misc Software</a> |
+      PPP |
+      <a href="brian/cv.html">CV</a>
+    </font>
+    <hr>
+    </table></center>
+
+  </body>
+</html>

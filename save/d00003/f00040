@@ -1,0 +1,599 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<HTML>
+<HEAD>
+<TITLE>Evaluation of label mapping policy for aggregated packet flow in label switching network</TITLE>
+</HEAD>
+<BODY>
+<P>
+<H1 ALIGN=CENTER>Evaluation of label mapping policy for aggregated packet flow in 
+  label switching network</H1>
+<P>
+Ken-ichi Nagami (ken.nagami@toshiba.co.jp)<BR>
+Toshiba<BR>
+Japan<BR>
+<P>
+Hideaki Imaizumi (hiddy@wide.ad.jp)<BR>
+Keio University<BR>
+Japan<BR>
+<P>
+Osamu Nakamura (osamu@wide.ad.jp)<BR>
+Keio University<BR>
+Japan<BR>
+<P>
+Hiroshi Esaki (hiroshi@wide.ad.jp)<BR>
+University of Tokyo<BR>
+Japan<BR>
+<P>
+<P ALIGN=CENTER><STRONG></STRONG></P><P>
+<P>
+<H1><A NAME="SECTION00010000000000000000">1 Introduction</A></H1>
+<A NAME="secintro">&#160;</A>
+<P>
+Label switching technology enables high performance, flexible, layer-3
+packet forwarding based on the fixed length label information mapped
+to the layer-3 packet stream.  A Label Switching Router (LSR) forwards
+layer-3 packets based on their layer-3 address information or their
+label information mapped to the layer-3 address information.
+<P>
+LSR requires one label per one packet stream.  Therefore, the
+evaluation of the required number of labels are important from the viewpoint
+of the implementation and the scalability of LSR.  The required
+number of labels depends on a label mapping trigger and a granularity
+of a packet stream.
+<P>
+Two typical label mapping policies have been evaluated with an actual
+traffic trace.  One is traffic-driven label mapping with host-pair
+packet stream.  This policy is used for IFMP[<A HREF="main.html#RFC1953">1</A>]
+and FANP[<A HREF="main.html#RFC2098">2</A>, <A HREF="main.html#RFC2129">4</A>].  The other is
+topology-driven label mapping with a destination network packet
+stream. This policy is used for TDP[<A HREF="main.html#RFC2105">3</A>].  The evaluation shows
+that both mapping policies will require a large number of labels in an
+inter AS.
+<P>
+In this paper, we discuss several label mapping policies in an intra AS
+and inter AS. 
+Based on the evaluations, we propose the hybrid label mapping policy to 
+establish LSP, i.e., topology driven for intra AS and aggregated flow driven
+ for 
+inter AS. 
+Regarding the inter AS, we evaluate the number of labels for the
+several label mapping policies using the real traffic trace.
+In the intra AS, we compare three label mapping policies.
+One of these label mapping policies is a flow aggregation using OSPF.
+LSP (Label Switched Path) is established between an ingress router and
+egress router which are border routers in an OSPF area.
+We evaluate this label mapping policy in the actual LAN environment.
+<P>
+<H1><A NAME="SECTION00020000000000000000">2 Overview of Label Switching Router</A></H1>
+<P>
+<A NAME="secoverview">&#160;</A>
+<H2><A NAME="SECTION00021000000000000000">2.1 Architectural Overview</A></H2>
+<P>
+The label switching concept enables layer-3 packets to be forwarded either
+using the layer-2 label (e.g., VPI/VCI) or using the shim label
+[<A HREF="main.html#LSRARCH">7</A>] between the layer-2 header and layer-3 header.  The label is
+used as information to forward the packets without analyzing the layer-3
+address (e.g., IP address).  This means that the label represents the
+destination address of the layer-3 packets.  By using the label instead of
+the layer-3 address for packet forwarding, the LSR does not need to look up
+anything in the best match policy based routing table, whose search key is
+the layer-3 address.
+<P>
+The packet forwarding at the LSR is shown figure <A HREF="main.html#figLSR">1</A>.  The LSR has
+a layer-3 forwarding engine and layer-2 forwarding engine.  It is connected
+with two LSR-edge routers (Edge1 and Edge2).
+<P>
+LSRs are connected with two types of VC. One is the Default VC, and another
+is the Label Switched VC.
+<P>
+The Default VC is used for conventional packet forwarding.  For example,
+when Edge1 sends a packet to Edge2 using conventional packet forwarding,
+Edge1 sends the packet through the default VC.  LSR receives it and
+transmits it to the layer-3 forwarding engine through the layer-2
+forwarding engine. The layer-3 forwarding engine of the LSR looks up the
+routing table according to the destination of the packet and sends it
+through the default VC.  Then, Edge 2 receives it.  LSR forwards the
+packets using the layer-3 engine.
+<P>
+The Label Switched VC is used for cut-through packet forwarding. For
+example, when Edge1 sends a packet to Edge2 using the cut-through packet
+forwarding, Edge1 sends the packet through the label switched VC. LSR
+receives it and forwards it using only the layer-2 forwarding engine to
+send it through the Label Switched VC.  LSR forwards these packets
+faster than with the conventional forwarding because LSR doesn't need to
+look up the layer-3 packet.  The conjunction of the Label Switched VC is
+called the Label Switched Path (LSP).
+<P>
+A relationship between the label and the packet stream needs for LSR to 
+forward packets using the label.
+Label Distributed Protocol (LDP) [<A HREF="main.html#LDP">6</A>] establishes the mapping between
+the label and the packet stream.
+<P>
+<P><A NAME="542">&#160;</A><A NAME="figLSR">&#160;</A><BR>
+<IMG SRC="fig1.gif" HEIGHT=150><BR>
+<STRONG>Figure 1:</STRONG> LSR<BR>
+<P>
+<P>
+One of major applications of LSR is ATM-LSR, that contains the ATM switch
+module as a layer-2 forwarding engine.  ATM-LSR has to allocate a reassemble
+buffer space for each label. Therefore, each ATM-LSR has the maximum number
+of labels to be able to provide for the packet stream.  From the viewpoints
+of the scalability and the implementation feasibility of LSR, it is
+important to evaluate the required number of labels in a label switching
+network. The required number of labels depends on the following three
+parameters.
+<P>
+<UL><LI> Label mapping triggers<LI> Granularity of packet stream<LI> Scale of the network 
+</UL><H2><A NAME="SECTION00022000000000000000">2.2 Label Mapping Triggers</A></H2>
+<P>
+There are two types of triggers to control the LSPs, which are
+traffic-driven label mapping and topology-driven label mapping.
+<P>
+With the traffic-driven mapping, the LSP is established on demand according
+to the appearance of data packets at a node.  The LSP is maintained as long
+as packets are forwarded through the LSP.  When the node recognizes that the
+LSP is not active any more, it is released.
+<P>
+With the topology-driven mapping, the LSP is established in advance
+according to the routing protocol information.  For example, the LSP is
+established when a routing entry is generated by the routing
+protocol.  The LSP is maintained as long as the corresponding routing entry
+exists. Therefore, it is released when the routing entry is deleted.
+<P>
+The advantage of the traffic-driven mapping would be
+that the required amount of
+label space is smaller than that for the topology-driven mapping, since the
+LSP in the topology-driven mapping is established in advance even if a data
+packet is not forwarded through it at all.
+<P>
+The advantage of the topology-driven mapping is that all data packets are
+forwarded through the LSP.
+<P>
+<H2><A NAME="SECTION00023000000000000000">2.3 Granularity of Packet Stream</A></H2>
+<P>
+There are the following definitions of the packet stream in the LSR system.
+<P>
+<UL><LI> set of the packets which have the same source and destination
+  addresses.<LI> set of the packets which have the same source address and destination
+  network prefix.<LI> set of the packets which have the same source and destination
+  network prefixes.<LI> set of the packets which have the same destination address.<LI> set of the packets which have the same destination network prefix.<LI> set of the packets which are sent through the same egress router.
+</UL><H1><A NAME="SECTION00030000000000000000">3 Evaluations of Label Mapping Policies</A></H1>
+<P>
+<A NAME="secconventional">&#160;</A>
+<H2><A NAME="SECTION00031000000000000000">3.1 Traffic Condition for Evaluations</A></H2>
+<P>
+This section briefly describes evaluations for several label mapping
+policies, regarding inter AS packet forwarding. 
+We evaluate the number of labels and the cut-through ratio using a 
+real internet traffic trace. 
+A traffic trace is obtained
+between the WIDE(Widely Integrated and Distributed Environment) project 
+internet backbone in Japan and the U.S.
+This is an AS border. Detailed traffic condition is described 
+in [<A HREF="main.html#SPIE">10</A>].
+<P>
+<H2><A NAME="SECTION00032000000000000000">3.2 Evaluations for Topology-Driven Mapping</A></H2>
+<P>
+In this subsection, we evaluate the number of labels for the conventional
+topology-driven label mapping, where each label is mapped to the destination 
+network packet stream shown in the routing table entry.
+<P>
+We evaluate the required number of labels, where we use the full-route 
+routing table.  In this case, it could be
+assumed that the analyzed LSR is located at the AS border.
+The router has the full-route routing table.
+The number of routing entries for the outside AS were 48385.
+<P>
+With full-route routing table, if the labels are established
+with the conventional topology-driven mapping policy,
+we may need 48385 labels for the traffic leaving the AS.
+The result shows that, with the conventional
+topology-driven policy, the number of required labels have to be 
+large enough for the inter AS.
+<P>
+<H2><A NAME="SECTION00033000000000000000">3.3 Evaluations for Conventional Traffic-Driven Mapping</A></H2>
+<P>
+In this subsection, we evaluate the number of required labels for the
+conventional traffic-driven mapping, that using the host-pair packet stream.
+The parameters applied in the LSR are assumed as followings.
+<P>
+<UL><LI> The label-established trigger is invoked
+  when the HTTP/FTP/TELNET/NNTP packets are sent.<LI> The label-released trigger is invoked when no packet is sent during
+  the Disconnect Timer Interval.<LI> The delay of LDP is 100 ms.
+The packets are transmitted using the conventional
+  layer-3 forwarding function
+  for 100 ms, after the label-established trigger is invoked.
+</UL>
+<P>
+Figure <A HREF="main.html#fighostpair">2</A> shows the number of the required labels
+and cut-through ratios for the outgoing traffic from the AS.
+In figure <A HREF="main.html#fighostpair">2</A>,
+the cut-through ratio is almost the same
+when the disconnect timer interval is more than 60 seconds.  This result
+indicates that the value of the disconnect timer interval should be 60 seconds.
+The number of labels with the host-pair packet stream outgoing from the AS
+is 1131,
+when the disconnect timer interval is 60 seconds.
+<P>
+The result shows that a large number of labels are required for the
+conventional traffic-driven mapping with the host-pair packet stream in the
+Internet backbone area.
+<P>
+<P><A NAME="567">&#160;</A><A NAME="fighostpair">&#160;</A><BR>
+<IMG SRC="fig2.gif" HEIGHT=300><BR>
+<STRONG>Figure 2:</STRONG> Number of labels and cut-through ratio for inter AS<BR>
+<P><H2><A NAME="SECTION00034000000000000000">3.4 Evaluations for Flow Aggregated Traffic-Driven Mapping</A></H2>
+<P>
+In this subsection, we describe the number of required labels 
+and the cut-through ratio for the flow aggregated traffic-driven mapping,
+that is used the ingress-egress packet stream.
+Here, the label is mapped with the set of packets which have the same 
+destination network prefix. 
+The parameters applied in the LSR are the same as the conventional
+traffic-driven mapping.
+Figure <A HREF="main.html#figtoabroadfullcon">3</A>, <A HREF="main.html#figtoabroadfullpkt">4</A> show
+the number of the required labels and the cut-through ratio.
+As same as the previous evaluation, the disconnect timer value is
+selected as 60 seconds.
+At the AS border router, the number of labels are 542. The cut-through ratio 
+is 80 %. 
+The number of labels with this policy are 48%
+of that with the traffic-driven mapping with the host-pair granularity, 
+and 1.1% of that with the topology-driven mapping with the destination
+granularity.
+<P>
+The cut-through ratio of the flow aggregated
+traffic-driven mapping is better than that of the
+traffic-driven with the host-pair. 
+And, the cut-through ratio for the topology 
+driven mapping is further better than
+that of the flow aggregated traffic-driven mapping. 
+However, the cut-through ratio with the flow aggregated traffic-driven 
+mapping should be enough large for the actual operation, i.e., 
+it is more than 80%.
+<P>
+Based on the above evaluations, we conclude that the aggregated 
+traffic-driven mapping is better than the topology-driven 
+mapping because the proposed label mapping policy needs fairly 
+small number of labels, while achieving high cut-through ratio. 
+In other words, the above result shows 
+tha the flow aggregated traffic-driven mapping policy is
+better when LSPs are established between ASes.
+<P>
+<P><A NAME="579">&#160;</A><A NAME="tabevaluation">&#160;</A><BR>
+<TABLE BORDER=1>
+<TH>Label Mapping Policies</TH><TH># of Labels</TH><TH>Cut-through Ratio [%]</TH>
+<TR><TD>Topology/Destination </TD><TD>48385</TD><TD>100</TD></TR>
+<TR><TD>Traffic/Host-pair  </TD><TD>1131   </TD><TD>68</TD></TR>
+<TR><TD>Traffic/Destination</TD><TD>542    </TD><TD>86</TD></TR>
+</TABLE>
+<STRONG>Table 1:</STRONG> Comparison for several label mapping policies<BR>
+<P>
+<P>
+<P><A NAME="588">&#160;</A><A NAME="figtoabroadfullcon">&#160;</A><BR>
+<IMG SRC="fig3.gif" HEIGHT=300><BR>
+<STRONG>Figure 3:</STRONG> Number of labels for inter AS<BR>
+<P>
+<P>
+<P><A NAME="597">&#160;</A><A NAME="figtoabroadfullpkt">&#160;</A><BR>
+<IMG SRC="fig4.gif" HEIGHT=300><BR>
+<STRONG>Figure 4:</STRONG> Cut-through ratio for inter AS<BR>
+<P><H1><A NAME="SECTION00040000000000000000">4 Hybrid Label Mapping</A></H1>
+<P>
+<H2><A NAME="SECTION00041000000000000000">4.1 Hybrid Label Mapping Policy</A></H2>
+<P>
+This section proposes and evaluates the Hybrid Label Mapping 
+Policy.
+<P>
+For the inter AS environment, the aggregated traffic-driven label 
+mapping is proposed.
+The aggregated traffic-driven label mapping policy reduces the 
+number of LSPs and increases
+the cut-through ratio.
+The result shows on demand LSP setup procedure is useful at the AS border 
+router which has the full-route routing table,
+because small number of the routing entries are referred when the packets are 
+forwarded.
+<P>
+For the intra AS environment, we need to be establish an LSP 
+from a router in an AS to 
+a router outside of the AS because the intermediate LSRs want
+to cut-through the network layer procedure.
+A label mapping policy for the intra AS is also proposed and 
+evaluated below.
+<P>
+The aggregated traffic-driven label mapping may not be always
+efficient in the intra AS, due to the following reasons. 
+ <UL><LI> the number of routing entries in the intra AS are smaller 
+than that in the inter AS<LI> the large percentage of routing entries may be referred to, i.e., 
+only small number of routing entries may not be referred to, during the
+traffic-driven Disconnect Timer Interval.
+</UL>
+<P>
+The followings would be possible procedures to establish an LSP for 
+intra AS.
+<P>
+<OL><LI> <A NAME="pfirst">&#160;</A> Traffic-driven mapping with host-pair granularity
+  (Conventional traffic-driven)<LI> <A NAME="psecond">&#160;</A> Traffic-driven mapping with destination network granularity
+  (Aggregated traffic-driven)<LI> <A NAME="pthird">&#160;</A> Topology-driven mapping with destination network granularity
+  (Conventional Topology-driven)<LI> <A NAME="pforth">&#160;</A> Topology-driven mapping with ingress-egress router granularity
+  (Full-mesh LSP between LSR edges)
+</OL>
+<P>
+The above policies are evaluated from the viewpoint of the trade off between 
+evaluated the required number of LSPs and the control overhead (i.e., LSP setup 
+overhead).
+<P>
+Policy 4 is better than policy 3. 
+This is because the number of LSPs 
+with policy 4 are smaller than that with policy 3, 
+when MPLS domain is a subset of AS. With the policy 3, 
+LSR establishes multiple LSPs to the same egress router, 
+because the egress router 
+is on the path of multiple routing entries.
+<P>
+As we evaluated in [<A HREF="main.html#DSM">11</A>], 
+the number of labels with the policy 4 is about two times less
+than that with policy 1.
+<P>
+The policy 4 reduces LSP setup procedure overhead, since 
+it establishes LSPs in advance. Furthermore, the number of LSPs 
+with policy 4 should not large, because 
+the number of the ingress routers should not large in one AS. 
+As a result, we conclude that the policy 4 is better 
+than the policy 2, 
+even if the number of LSPs with the policy 2 is smaller than that
+with the policy 4.
+<P>
+Based on the above evaluations and discussions, we propose the 
+following label mapping policy in the LSR system, i.e., Hybrid Label Mapping
+Policy. 
+For intra AS, the topology-driven mapping based on ingress-egress routers is
+applied to. 
+For inter AS, the aggregated traffic-driven mapping is 
+applied to.
+<P>
+Figure <A HREF="main.html#figlabel">5</A> shows an operational overview of the proposed label
+mapping 
+policy.  The network contains multiple ASes, and ASes are internetworked
+by the boarder routers.  
+Within the AS, the topology-driven based semi-permanent (i.e., long-life) 
+LSP are established among the border routers.  
+For the packet stream to the outside own AS, the corresponding 
+label is dynamically allocated at the AS border router while the packets 
+are forwarded to the destination network.  
+Once the activity of packet forwarding decreases, the corresponding 
+LSP is released. 
+Also, when we define the packet flow as the set of packets which 
+have the same destination network prefix,
+the packet flows can be aggregated at the 
+AS border router.  This flow aggregation can also reduce the 
+required number of labels in the LSR system.
+<P>
+<P><A NAME="634">&#160;</A><A NAME="figlabel">&#160;</A><BR>
+<IMG SRC="fig5.gif" HEIGHT=200><BR>
+<STRONG>Figure 5:</STRONG> Hybrid Label Mapping<BR>
+<P>
+In order to achieve the &quot;Hybrid Label Mapping&quot;, 
+we proposed to use the label stack encoding [<A HREF="main.html#labelencap">9</A>] mechanism.
+Figure <A HREF="main.html#figlabelencap">6</A> shows an example of LSPs through multiple AS.
+Top label,
+e.g., VPI/VCI in ATM, is used for LSP in an AS.
+The label distribution is performed between the neighbor LSRs.
+In figure <A HREF="main.html#figlabelencap">6</A>,
+the LSP from R1 to R3 uses the top label. The label distribution protocol is
+performed between R1 and R2, R2 and R3.
+<P>
+Second level of label, e.g., shim header, is used among AS.  This
+label is distributed between AS border router.
+For example, in figure <A HREF="main.html#figlabelencap">6</A>, the label distribution of 
+the second label is performed between R1 and R3.
+When R1 sends the packet to R5, R1 puts the second and the top labels
+before the IP datagram header. In this example,
+the top label uses for the LSP toward R3, and
+the second label is used for the LSP toward R8 or R7.
+R2 forwards the packet using the top label for the
+cut-through forwarding.
+R3 forwards the packet using the second label
+because R3 is the LSP termination node regarding the top label.
+R3 puts the top label toward R5 and the second label toward R8.
+<P>
+Using the above algorithm, the required number of
+top level label will be small enough to implement. 
+This is because the LSPs are established only among 
+AS border routers using OSPF flow aggregation, described in the 
+following subsections. 
+Second label is established by the traffic-driven label mapping for
+the destination network.
+<P>
+<P><A NAME="644">&#160;</A><A NAME="figlabelencap">&#160;</A><BR>
+<IMG SRC="fig6.gif" HEIGHT=170><BR>
+<STRONG>Figure 6:</STRONG> Example of LSPs using Label Stack<BR>
+<P><H2><A NAME="SECTION00042000000000000000">4.2 LSP establishment in OSPF routing domain</A></H2>
+<A NAME="secOSPF">&#160;</A>
+In this subsection, we propose the LSP establishment mechanism and
+implementation
+in an OSPF domain. 
+The topology-driven LSP is established between the ingress and  egress
+border routers using the OSPF information.
+<P>
+<H3><A NAME="SECTION00042100000000000000">4.2.1 Route Calculation of OSPF</A></H3>
+<P>
+An OSPF router, which uses an OSPF routing protocol, has the 
+complete network topology and link cost information 
+in the belonging OSPF domain.  
+Also, every OSPF area border router informs the external network 
+reachability information to the neighbor OSPF router(s). 
+All OSPF routers obtains exactly the same topology, link cost 
+and external network reachability 
+information through the OSPF message exchange 
+between the neighbor OSPF router(s).
+Every OSPF router calculates an appropriate next hop router 
+using these informations with the same shortest path algorithm.
+<P>
+Fig. <A HREF="main.html#figtopology">7</A> shows an example of OSPF route calculation.
+This figure shows a topology information and a cost of links at R1.
+The packet transmission path from R1 to the destination
+is described as the bold line.
+When R1 wants to send a packet to R2, R1 sends the packet to R2.
+When R1 wants to send a packet to R3 or R4 or R5,
+R1 sends the packet to R3. 
+When R1 wants to send a packet to network A, R1 sends the packet to R3. 
+This is because R1 knows the network A is reachable through border 
+router R4, and the routing path through R4 is the shortest path to 
+network A.  
+Finally, when R1 wants to send a packet to network B, 
+R1 sends the packet to R3. 
+This is because the network B is reachable through border 
+router R5, and the routing path through R5 is the shortest path to 
+network B.
+<P>
+<P><A NAME="657">&#160;</A><A NAME="figtopology">&#160;</A><BR>
+<IMG SRC="fig7.gif" HEIGHT=200><BR>
+<STRONG>Figure 7:</STRONG> OSPF Topology<BR>
+<P><H3><A NAME="SECTION00042200000000000000">4.2.2 Flow Aggregation using OSPF information</A></H3>
+<P>
+ In this subsection, we describe how to reduce the number of labels using
+OSPF information. An LSP is established between an
+ingress and egress routers which are border routers in the OSPF area.
+In this procedure, packets which are forwarded from the
+ingress router to the egress router are transmitted through the LSP, that is
+established among the boarder routers.  
+The following three
+information has to be obtained by each boarder router.
+<P>
+<OL><LI> <A NAME="first">&#160;</A> An ingress router recognizes the egress router
+  which is the router terminating the corresponding LSP.<LI> <A NAME="second">&#160;</A> An ingress router establishes the LSP
+  to the egress router.<LI> <A NAME="third">&#160;</A> An ingress router specifies the corresponding
+  egress router for every received the packets.
+</OL>
+<P>
+There are two methods to achieve the first function. 
+One is automatic configuration,
+the other is manual configuration.
+In this paper, the manual configuration is applied to.
+Regarding the second function, 
+LSR establishes the LSP using a label distribution protocol. 
+The evaluated system below uses the
+FANP(Flow Attribute Notification Protocol) 
+as the label distribution protocol.
+With the third function, all packets forwarded through the same 
+boarder router use the LSP between the corresponding ingress 
+and egress routers. 
+In other words, even when the destination network is different, 
+the packets use the same LSP, when the OSPF indicates 
+these packets should be forwarded through the same border 
+router. 
+As a result, all packets forwarded through the same 
+border router can share a single LSP between the corresponding 
+ingress and egress routers.
+<P>
+Since the packet flows forwarded through the same egress router 
+are aggregated into the shared single LSP, this label switch packet 
+forwarding policy is denoted as the &quot;flow aggregation using OSPF 
+information&quot;, in this paper.
+<P>
+Figure <A HREF="main.html#figtopologylsp">8</A> shows an example of an LSP setup from the 
+ingress router R1.  A network manager configures that R4 and R5 are egress
+routers.  R1 establishes the LSP to each egress routers. An LSP
+to the egress router R4 is R1  R3  R5 
+R4. In the figure <A HREF="main.html#figtopology">7</A>, the
+destinations through R4 are R4 itself and the network A. 
+Therefore, the packets to R4 and the network A are transferred 
+through the same LSP from R1 to R4. 
+In other words, the packets to R4 and to the network A from R1 share 
+the single LSP.  
+An LSP
+to R5 establishes through R1  R3  R5.
+This LSP forwards the packets to R5 and
+the network B. In this example, two ingress-egress LSPs are established
+using the OSPF information.
+<P>
+<P><A NAME="674">&#160;</A><A NAME="figtopologylsp">&#160;</A><BR>
+<IMG SRC="fig8.gif" HEIGHT=200><BR>
+<STRONG>Figure 8:</STRONG> Example of LSP setup<BR>
+<P><H3><A NAME="SECTION00042300000000000000">4.2.3 Implementation</A></H3>
+<A NAME="secevaluation">&#160;</A>
+The required number of LSPs with the OSPF flow aggregation at an ingress
+router are the same number of egress routers. For example, when MPLS domain 
+has ten of edge routers, each edge LSR establishes nine LSPs.
+<P>
+We implement the LSR system, which uses ingress-egress granularity 
+using a CSR system, which is one of an implementation of LSR.  
+We evaluate this implementation at an LAN environment.
+The network has 5 edge routers and 1 core router, with a star topology.
+Figure <A HREF="main.html#figMRTG">9</A> shows the number of LSPs at the core router.
+X-axis shows the time. Y-axis shows the number of established LSPs.
+The number of LSPs are 20 for the most of the time. 
+This number (20) is the ideal number with this system configuration. 
+The ideal number should be , where N are the number of the
+edge routers. The number of LSPs are sometimes less than 20. 
+When the number of LSPs decrease, the edge router(s) was(were) 
+rebooted and the number of border routers in the OSPF database 
+decreased.
+<P>
+The result shows that the implemented OSPF flow aggregation 
+policy works correctly, in the LAN environment.
+<P>
+<P><A NAME="686">&#160;</A><A NAME="figMRTG">&#160;</A><BR>
+<IMG SRC="fig9.gif" ><BR>
+<STRONG>Figure 9:</STRONG> The number of LSPs<BR>
+<P><H1><A NAME="SECTION00050000000000000000">5 Conclusion</A></H1>
+<P>
+In this paper, we discuss the label mapping policy in an inter AS and intra 
+AS.
+And, we propose the hybrid label mapping policy.
+It is mixture of the topology-driven mapping with the ingress-egress
+granularity in an intra AS and the traffic-driven mapping with the
+destination granularity.
+Also, we discuss and implement the flow aggregation using
+OSPF information, which is one procedure of the topology-driven mapping
+with the ingress-egress granularity. The implementation works correctly 
+in the LAN environment.
+One of the further study item would be the comparison of the number of labels 
+for the topology-driven mapping with the ingress-egress granularity 
+and the aggregated traffic-driven mapping in
+an intra AS environment.
+<P>
+ <P><A NAME="SECTIONREF"><H2>References</H2></A><P>
+<DL COMPACT>
+ <DT><A NAME="RFC1953"><STRONG>1</STRONG></A><DD> P. Newman, W. Edwards, R. Hinden, E. Hoffman,
+  F. Ching Liaw, T. Lyon, G. Minshall,
+  ``Ipsilon Flow Management Protocol Specification for IPv4 Version
+     1.0.'', May, 1996.
+ <DT><A NAME="RFC2098"><STRONG>2</STRONG></A><DD> Y. Katsube, K. Nagami, H. Esaki,
+  ``Toshiba's Router Architecture Extensions for ATM : Overview'',
+  IETF RFC2098, Feb., 1997.
+  <DT><A NAME="RFC2105"><STRONG>3</STRONG></A><DD> Y. Rekhter, B. Davie, D. Katz, E. Rosen, G. Swallow,
+   ``Cisco Systems's Tag Switching Architecture Overview'',
+   IETF RFC2105, Feb., 1997.
+ <DT><A NAME="RFC2129"><STRONG>4</STRONG></A><DD> K. Nagami, Y. Katsube, Y. Shobatake, A. Mogi,
+  S.Matsuzawa, T. Jinmei, H. Esaki,
+  ``Toshiba's Flow Attribute Notification Protocol (FANP) Specification'',
+  IETF RFC2129, April, 1997.
+ <DT><A NAME="ARIS"><STRONG>5</STRONG></A><DD> A. Viswanathan, N. Feldman, R. Boivie, R. Woundy,
+  ``ARIS: Aggregate Route-Based IP Switching'',
+  IETF Internet Draft, March, 1997.
+  <DT><A NAME="LDP"><STRONG>6</STRONG></A><DD> L. Andersson, P. Doolan, N. Feldman, A. Fredette, B. Thomas,
+   ``LDP Specification'',
+   IETF Internet Draft, Nov., 1998.
+  <DT><A NAME="LSRARCH"><STRONG>7</STRONG></A><DD>
+   E. Rosen, A. Viswanathan, R. Callon,
+   ``Multiprotocol Label Switching Architecture'',
+   IETF Internet-Draft, March, 1998.
+  <DT><A NAME="OSPF"><STRONG>8</STRONG></A><DD> J. Moy,
+   ``OSPF Version 2'',
+   IETF RFC2328, April, 1998.
+  <DT><A NAME="labelencap"><STRONG>9</STRONG></A><DD> E. Rosen, Y. Rekhter, D. Tappan, D. Farinacci,
+   G. Fedorkow, T. Li, A. Conta,
+   ``MPLS Label Stack Encoding'',
+   IETF Internet Draft, Sep., 1998.
+  <DT><A NAME="SPIE"><STRONG>10</STRONG></A><DD> K. Nagami, Y. Katsube, H. Esaki, O. Nakamura,
+   ``Effect of flow aggregation in label switching network'',
+   SPIE Proceedings, Nov., 1998.
+  <DT><A NAME="DSM"><STRONG>11</STRONG></A><DD> K. Nagami, H. Imaizumi, O. Nakamura, E. Hiroshi, 
+   ``Evaluation of the number of labels for flow aggregation using OSPF in
+  label switching router'',
+  IPSJ DSM symposium, Feb., 1999.
+</BODY>
+</HTML>

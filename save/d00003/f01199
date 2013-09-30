@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="Jan-Piet Mens" />
+        <meta name="ICBM" content="52.0341, 8.4772" />
+	<link rel="apple-touch-icon" href="/inc/apple-touch-icon.png" />
+        <meta name="geo.position" content="52.0341;8.4772" />
+        <link rel="pavatar" href="http://jpmens.net/inc/pavatar.png" />
+        <meta name="DC.title" content="Jan-Piet Mens" />    
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@jpmens" />
+	<meta name="keywords" content="jpmens,jan-piet mens,jpm" /> 
+	<link rel="icon" href="/favicon.ico" type="image/x-icon" /> 
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> 
+	<meta name="google-site-verification" content="eOAtwQVe63Q3l-kJrBJQR8fsP_AqstRj-9lw3kx92tM" />
+	<link rel="alternate" type="application/atom+xml" title="Atom all posts" href="/atom.xml" />
+
+	<link rel="stylesheet" href="/css/style.css" type="text/css"/>
+	<link rel="stylesheet" href="/css/syntax.css" type="text/css"/>
+	<script type="text/javascript" src="/inc/jquery-min.js"></script>
+	<script type="text/javascript" src="/inc/jpmens.js"></script>
+	<script type="text/javascript" src="/inc/dnssecmagic.js"></script>
+
+	
+		<title>Jan-Piet Mens :: The "making of" the Graphic DNSSEC in the TLDs Report</title>
+		<meta name="twitter:url" content="http://jpmens.net/pages/dns/gdr-making-of/" />
+		<meta name="twitter:title" content="The "making of" the Graphic DNSSEC in the TLDs Report" />
+		<meta name="twitter:description" 
+			
+			  content="When I first saw the ICANN TLD DNSSEC Report which, at the time, had no
+diagram on it, I wanted to make a diagram showing the progress of
+DNSSEC-signing in the Top-Level Domains (TLD). The result (..."
+			
+			/>
+	
+
+</head>
+<body>
+        <div id="header">
+            <div class="inner">
+		<div class='mygrep'>
+                <ul>
+			<li><span id='dnssecmagic'></span></li>
+			<li><span id='ipmagic'></span></li>
+			<li><a href="/atom.xml" ><img src="/inc/feed.png" width="16" height="16" alt="Atom" /></a></li>
+                    <li>
+                          <a title="grep" href='#' class='greplink'>Search</a>
+                          <div class='form'>
+                            <form id='qform' action="http://www.google.com/cse" method="get">
+                              <input type="hidden" name="cx" value="018110282457752677189:f9v9jgssdag" />
+                              <input type="hidden" name="ie" value="UTF-8" />
+                              <input id='grepfield' type="text" name="q" size="6" />
+                              <input type="hidden" name="sa" value="Search" />
+                            </form>
+                          </div>
+                    </li>
+                    <li><a title="more" href="/pages/index.html">Pages</a></li>
+                    <li><a title="ls -l" href="/archive/">Archives</a></li>
+		    <li><a title="Twitter" href="https://twitter.com/jpmens">@jpmens</a></li>
+                    <li>
+		         <a href="https://plus.google.com/107349548255760539356?rel=author">+</a>
+		    	<a title="whoami" href="/pages/about/">About</a></li>
+                </ul>
+		</div>
+                <h1><a href="/">Jan-Piet Mens</a></h1>
+            </div>
+        </div>
+
+
+
+
+
+        <div id="content">  
+	    <div id='searchres' class="inner">
+		<div class="post" id="">
+		    <div class="title"><h1><a href="/pages/dns/gdr-making-of/">The "making of" the Graphic DNSSEC in the TLDs Report</a></h1></div>
+		    <p>When I first saw the <a href="http://stats.research.icann.org/dns/tld_report/">ICANN TLD DNSSEC Report</a> which, at the time, had no
+diagram on it, I wanted to make a diagram showing the progress of
+DNSSEC-signing in the Top-Level Domains (TLD). The result (well, it's second
+iteration), is what I call the <a href="/pages/dns/gdr/">Graphic DNSSEC in the TLDs Report</a>.
+(Have a look at it before reading on.)</p>
+
+<p>Let me tell you about how I did that.</p>
+
+<h3>Presenting the data</h3>
+
+<p>If you query the DNS for a <code>TXT</code> Resource Record at the domain
+<code>tldstats.jpmens.net</code>, you'll see the following:</p>
+
+<div class="highlight"><pre><code class="text">dig tldstats.jpmens.net txt
+
+;; ANSWER SECTION:
+tldstats.jpmens.net.    3600    IN  TXT &quot;{\&quot;signed\&quot;:75,\&quot;updated\&quot;:\&quot;2011-06-10T12:14:31Z\&quot;,\&quot;about\&quot;:\&quot;http://mens.de/:/gdr\&quot;,\&quot;dlv\&quot;:4,\&quot;unsigned\&quot;:235,\&quot;total\&quot;:310,\&quot;dsroot\&quot;:70}&quot;
+</code></pre>
+</div>
+
+
+<p>The single TXT record contains a <a href="http://json.org/">JSON</a> string as its data. (It looks a bit
+funny with all those escaped quotes, but that's the way it is stored in the
+DNS.) The unescaped and reformatted JSON string looks like this:</p>
+
+<div class="highlight"><pre><code class="js"><span class="p">{</span>
+   <span class="s2">&quot;signed&quot;</span> <span class="o">:</span> <span class="mi">75</span><span class="p">,</span>
+   <span class="s2">&quot;updated&quot;</span> <span class="o">:</span> <span class="s2">&quot;2011-06-10T12:14:31Z&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;about&quot;</span> <span class="o">:</span> <span class="s2">&quot;http://mens.de/:/gdr&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;dlv&quot;</span> <span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+   <span class="s2">&quot;unsigned&quot;</span> <span class="o">:</span> <span class="mi">235</span><span class="p">,</span>
+   <span class="s2">&quot;total&quot;</span> <span class="o">:</span> <span class="mi">310</span><span class="p">,</span>
+   <span class="s2">&quot;dsroot&quot;</span> <span class="o">:</span> <span class="mi">70</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+<p>The values have the following meanings:</p>
+
+<ul>
+<li><em>signed</em> means the TLD has at least one DNSKEY record in it.</li>
+<li><em>dlv</em> means a record for the TLD was found in the <a href="https://dlv.isc.org/">ISC DLV Registry</a>.</li>
+<li><em>dsroot</em> signifies a DS record for the TLD was found in the DNS root zone.</li>
+<li><em>unsigned</em> means that no DNSKEY, DS, or DLV records where found for the domain.</li>
+<li><em>total</em> is the total number of TLDs in the <a href="http://data.iana.org/TLD/tlds-alpha-by-domain.txt">IANA Registry</a>.</li>
+</ul>
+
+
+<p>The <a href="/pages/dns/gdr/">Graphic DNSSEC in the TLDs Report</a> page uses <a href="http://jquery.com/">jQuery</a> to get the
+data (from the DNS), re-formats it a bit, and presents it dynamically on the
+page using <a href="http://code.google.com/p/flot/">Flot</a>.</p>
+
+<h3>Obtaining and storing the data</h3>
+
+<p>The values you saw above are obtained from two sources:</p>
+
+<ul>
+<li>The list of TLDs is retrieved via HTTP from the <a href="http://data.iana.org/TLD/tlds-alpha-by-domain.txt">IANA Registry</a>.</li>
+<li>The other values are obtained directly via the DNS.</li>
+</ul>
+
+
+<p><img src="http://jpmens.net/media/2011b/gdr-making-flowchart.png" alt="Obtaining data" /></p>
+
+<p>Putting it all together takes about half a minute (with a warm DNS cache), and
+I then update the DNS using a <a href="/2010/12/01/securing-dynamic-dns-updates-ddns-with-sig0/">signed update</a>.</p>
+
+<p>That just about covers it.</p>
+
+
+	
+		
+
+			<div class="info">
+<a href="/pages/dns/gdr-making-of/" title="Link to this article">10 Jun 2011</a> :: <a title="e-mail link to this article" href="mailto:?X-site=jpmens.net&amp;subject=The "making of" the Graphic DNSSEC in the TLDs Report&amp;body=You%20might%20like%20this:%20http://jpmens.net/pages/dns/gdr-making-of/">e-mail</a>
+</div><!-- info -->
+
+			<div id='comments'>
+  <h3>Comments</h3>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jpmens-net';
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    var disqus_url = 'http://jpmens.net/pages/dns/gdr-making-of/';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+
+
+	
+		</div><!-- post -->
+	    </div><!-- inner -->
+        </div><!-- content -->
+
+
+
+ <div id="tail">
+ </div>
+
+<!-- Piwik --> 
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://jpmens.net/pi/piwik/" : "http://jpmens.net/pi/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://jpmens.net/pi/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+
+        <!-- Place this image somewhere at the bottom of your page -->
+        <span><img
+                src="http://www.dnssec-failed.org/1x1.gif"
+                width="1"
+                height="1"
+                id="dnssecmagicpixel"
+                onload="dnssecmagicpixelLoaded();" /></span>
+
+ </body>
+</html>
+

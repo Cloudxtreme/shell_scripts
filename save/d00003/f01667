@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<head>
+  <meta http-equiv='Content-type' content='text/html;charset=iso-8859-1' />
+  <title>PaP Hosting :: Technology</title>
+  <style type='text/css'> 
+    @import '../layout.css'; 
+    @import '../style.css'; 
+  </style>
+</head>
+<body>
+<div id='page'>
+
+<div id='header'>
+<h1>NGINX Setup</h1>
+</div>
+
+<div id='nav'>
+<ul>
+<li><a href='../index.html'>Home</a></li>
+<li><a href='../technology/index.html'>Technology</a></li>
+<li><a href='../users/index.html'>Users</a></li>
+</ul>
+</div>
+
+<div id='main'>
+<h2>Creating a frontend</h2>
+Creating and running frontends can be done on pretty much any machine. The
+frontend can be seen as a passthrough server, which relays HTTP requests from
+clients to an available backend in one or more pool(s), based on a config file.
+It will health check the backends and remove them from the pool(s) if they
+are unreachable, or unhealthy.
+<p>
+Depending on how complicated and feature rich the frontend should be (it's always
+a trade off between complexity/features, speed, cost and reliability), one can
+choose for a simple <a href='ug_haproxy.html'>HA Proxy</a> or a more complicated
+NGINX (this document).
+<p>
+As with most howto's in the user guide, this one assumes that you have a
+host set up using one of the methods described in the <a href='ug_host.html'>
+Host Setup</a> guide.  Once the machine is up and has the necessary access,
+we install the required packages and introduce the machine into our
+provisioning system, which is represented on your admin machine by an RCS,
+of which you can read more <a href='ug_rcs.html'>here</a>.
+<p>
+We installed a few OpenBSD and Ubuntu LTS machines and put them at three
+different hosting providers in Europe: <a href='http://www.bit.nl/'>BIT bv</a>
+in Ede, the Netherlands; <a href='http://www.coloclue.net/'>Coloclue</a> in
+Amsterdam, the Netherlands; <a href='http://www.ip-max.net/'>IP Max</a> in
+Zurich/Geneva, Switzerland; and <a href='http://www.saitis.net/'>Saitis</a>
+in Lausanne, Switzerland. You can use existing machines as long as (a) you
+have root access to this machine using ssh(1), and (b) you are able and allowed
+to bind port 80 (and optionally 443 if you would like to terminate HTTPS)
+on at least one IP address of this machine.
+
+<h3>A1) Using OpenBSD</h3>
+OpenBSD before 5.2 has a port, from 5.3 onwards we use the stock nginx in base.
+OpenBSD by default wants to force nginx to <tt>chroot()</tt> into the homedir
+of the user running it (normally <tt>_nginx</tt>). This doesn't work for us
+and all other versions of nginx will not have this behavior, so we turn it off
+using the <tt>-u</tt> flag in <tt>rc.conf.local</tt>.
+
+<h4>1. Put nginx in rc.conf.local</h4>
+<pre>
+sudo su -
+echo nginx=\"YES\" >> /etc/rc.conf.local
+echo nginx_flags=\"-u\" >> /etc/rc.conf.local
+
+mkdir -p /etc/nginx/conf.d
+ln -sf /etc/nginx/conf.d/nginx.conf /etc/nginx/nginx.conf
+mkdir -p /paphosting/nginx/cache /paphosting/nginx/logs /paphosting/nginx/sites
+chown -R paphosting:paphosting /etc/nginx/conf.d/
+chown _nginx:paphosting /paphosting/nginx
+chown paphosting:paphosting /paphosting/nginx/{logs,sites}/
+chown _nginx:paphosting /paphosting/nginx/cache/
+</pre>
+
+<h3>A2) Using Ubuntu</h3>
+Note: IPv6 was added in nginx relatively recently, and LTS 8.04 (possibly Debian
+Stable) does not have a recent IPv6 enabled package. Jeff Waugh has recent builds for
+Debian/Ubuntu on <a href='https://launchpad.net/~jdub/+archive/devel'>his PPA</a>. Another good document is on the <a href='http://wiki.nginx.org/Install#Ubuntu_PPA'>nginx wiki</a>. This is not an issue for LTS 10.04 and 12.04
+so there we simply use the maintainer supplied version.
+<h4>1. Install needed packages</h4>
+<pre>
+sudo su -
+apt-get install nginx rsync
+</pre>
+
+<h4>2. Enable nginx</h4>
+<pre>
+sudo su -
+mkdir -p /etc/nginx/conf.d
+ln -sf /etc/nginx/conf.d/nginx.conf /etc/nginx/nginx.conf
+mkdir -p /paphosting/nginx/logs
+ln -sf /paphosting/nginx/logs /etc/nginx/logs
+chown -R paphosting:paphosting /etc/nginx/conf.d/ /paphosting/nginx/
+</pre>
+
+<h3>A3) Staging Hosts</h3>
+Staging hosts don't get synced using the normal push method, as such, one needs to check out their svn directory in a useful place and then:
+<pre>
+export SVNROOT=<i>/your/path/to/svnroot</i>/paphosting/
+mkdir -p /paphosting/nginx/
+ln -s ${SVNROOT}nginx/sites/ /paphosting/nginx/sites
+cd /etc/nginx/conf.d/
+ln -s ${SVNROOT}nginx/config/<i>host</i>/* .
+ln -s ${SVNROOT}nginx/config/default/* .
+rm *.regtest
+</pre>
+This way, the config is actually running out of the live SVN directory instead of being pushed. Of course, when adding files one has to update them there too.
+
+<h3>B) Configuring NGINX</h3>
+<h4>1. Add the machine to config/nginx{,.$CLUSTER}.hosts</h4>
+(for the SixXS cluster this is performed with the config update)
+On your client, add the hostname (any hostname or IPv4 or IPv6 address to which you can connect
+on the ssh port:
+<pre>
+CLUSTER=.ipng
+svn update
+echo ${HOSTNAME} >> config/nginx${CLUSTER}.hosts
+mkdir -p files/${HOSTNAME}/etc/logrotate.d
+ln -s ../../../common/logrotate.d/nginx-paphosting \
+  files/${HOSTNAME}/etc/logrotate.d/
+svn commit
+</pre>
+<p>
+The NGINX configuration consists of statements in <tt>nginx/config/fe-*</tt>
+(frontend configs), and <tt>nginx/config/$HOSTNAME/</tt> (the machine-specific
+configs). The configuration builder will read <tt>nginx/config/default/</tt>
+and the machine-specific configs, bundle them and copy them out to
+<tt>/etc/nginx/conf.d/</tt>. As an example, see this machine:
+<pre>
+$ ls nginx/config/$HOSTNAME/
+STAR.ipng.nl.cert -> ../fe-ipng-ssl0/STAR.ipng.nl.cert
+STAR.ipng.nl.key -> ../fe-ipng-ssl0/STAR.ipng.nl.key
+STAR.sixxs.cctld.cert -> ../fe-sixxs-ssl0/STAR.sixxs.cctld.cert
+STAR.sixxs.cctld.key -> ../fe-sixxs-ssl0/STAR.sixxs.cctld.key
+STAR.sixxs.net.cert -> ../fe-sixxs-ssl0/STAR.sixxs.net.cert
+STAR.sixxs.net.key -> ../fe-sixxs-ssl0/STAR.sixxs.net.key
+class3-cacert.cert -> ../fe-sixxs-ssl0/class3-cacert.cert
+listen-ipng-ssl0-default.inc
+listen-ipng-ssl0.inc
+listen-sixxs-ssl0-default.inc
+listen-sixxs-ssl0.inc
+nginx.ipng.regtest -> ../fe-ipng-ssl0/nginx.ipng.regtest
+nginx.sixxs.regtest -> ../fe-sixxs-ssl0/nginx.sixxs.regtest
+server-ipng.conf -> ../fe-ipng-ssl0/server-ipng.conf
+server-sixxs.conf -> ../fe-sixxs-ssl0/server-sixxs.conf
+sixxs.org.cert -> ../fe-sixxs-ssl0/sixxs.org.cert
+sixxs.org.key -> ../fe-sixxs-ssl0/sixxs.org.key
+www.sixxs.net.cert -> ../fe-sixxs-ssl0/www.sixxs.net.cert
+www.sixxs.net.key -> ../fe-sixxs-ssl0/www.sixxs.net.key
+</pre>
+As can be seen from this example, this particular machine is serving frontend
+traffic for two clusters: <tt>ipng</tt> and <tt>sixxs</tt>.
+The only thing specific to the machines are the IP addresses they bind in their
+<tt>server {}</tt> blocks, so these are their own files. The rest is shared 
+between all nginx cluster members, and therefor symlinked to the frontend
+configs <tt>nginx/config/fe-*</tt>.
+
+<h4>2. Ensure you can SSH into the machine as paphosting</h4>
+From your client, try to SSH as paphosting into the machine.
+Your SSH keys should be in config/ssh-keyring.pub, and
+those should be in ~paphosting/.ssh/authorized_keys. <br />
+Now that you're here, you need to setup sudo access for
+the paphosting user, so that it can restart the NGINX:
+<pre>
+cat << EOF >> /etc/sudoers
+paphosting ALL = NOPASSWD: /usr/sbin/nginx
+EOF
+</pre>
+
+<h4>3. Force a push of the NGINX configs</h4>
+On your client, try to do a nginx push
+<pre>
+scripts/nginx-push.sh -v -n $HOSTNAME
+# If this looks good, then:
+scripts/nginx-push.sh -f $HOSTNAME
+# If you changed config/fe-ipng-ssl0/ data, then:
+scripts/nginx-push.sh -f -file config/nginx.ipng.hosts
+</pre>
+
+<h4>4. Put the machine in DNS</h4>
+Add IPv4 and IPv6 addresses of the machine to the http0 label, which will
+put your nginx into the rotation within $TTL seconds (probably 300). Note:
+your frontend will go live as soon as DNS propagates!
+<pre>
+$EDITOR dns/zones/paphosting/http0.inc
+# (or ipng.inc, or sixxs.inc, or ...)
+scripts/dns-push.sh -v -n
+# If this looks good, then:
+scripts/dns-push.sh -f
+</pre>
+
+EOF :)
+
+</div>
+
+<div id='sidebar'>
+<ul>
+<li>Design Documents
+  <ul>
+  <li><a href="index.html">Overview</a></li>
+  <li><a href="dns.html">DNS</a></li>
+  <li><a href="frontend.html">Frontend</a></li>
+  <li><a href="backend.html">Backends</a></li>
+  <li><a href="rcs.html">Revision Control</a></li>
+  </ul>
+</li>
+<li>User Guides
+  <ul>
+  <li><a href="ug_host.html">host setup</a></li>
+  <li><a href="ug_haproxy.html">haproxy setup</a></li>
+  <li><a href="ug_nginx.html">nginx setup</a></li>
+  <li><a href="ug_dns.html">dns setup</a></li>
+  <li><a href="ug_thttpd.html">thttpd setup</a></li>
+  <li><a href="ug_apache.html">apache setup</a></li>
+  <li><a href="ug_sendmail.html">sendmail setup</a></li>
+  </ul>
+</li>
+</ul>
+</div>
+
+<div style='clear:both;'></div>
+
+<div id='footer'>
+<a href='http://jigsaw.w3.org/css-validator/check/referer'>Valid CSS</a>
+&nbsp;|&nbsp;
+<a href='http://validator.w3.org/check?uri=referer'>Valid XHTML 1.0 Strict</a>
+&nbsp;|&nbsp;
+<tt>$Id: ug_nginx.html 2185 2013-03-17 16:07:56Z pim $</tt>
+</div>
+
+</div>
+</body>
+</html>

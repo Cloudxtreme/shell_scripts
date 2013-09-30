@@ -1,0 +1,281 @@
+<html> <head>
+<title>Some tips on FreeBSD</title>
+</head>
+
+<body bgcolor="#ffffff" fgcolor="#000000">
+<h1>Some tips on FreeBSD</h1>
+
+<p>
+LAST UPDATE: $Date: 2005/04/30 14:49:55 $
+<p>
+
+<ul>
+  <li> nForce3 Ethernet on FreeBSD-AMD64</li>
+  <li> Uvisor on FreeBSD 4.9-RELEASE</li>
+  <li> RealProducer on FreeBSD
+  <li> Flash plug-in on Netscape
+  <li> Plugger on Netscape
+  <li> <a href="pops.html">POPS: Package of PackageS for FreeBSD</a>
+  <li> <a href="pickles_like_freebsd.html">How to make a PICKLES-like FreeBSD</a> (in Japanese)
+</ul>
+
+<hr>
+
+<h2>nForce3 Ethernet on FreeBSD 5.3-amd64 and -CURRENT-amd64.</h2>
+
+Original source is made by
+<a href="http://www.onthenet.com.au/~q/nvnet/" >
+Quinton Dolan</a>.<br>
+I've tested
+<a href="http://www.onthenet.com.au/~q/nvnet/nvnet-src-20050312.tar.gz" >
+latest version
+</a> at 4/3/2005, and it is working on 6-CURRENT at that time.<br>
+Nve driver has been commited in March, but It is not working on my box.
+Quinton told me that nve driver was based on a little bit older version.
+So maybe nve will be corrected soon.
+<p></p>
+
+FreeBSD 5.3 can use kernel modules even on amd64. Thus we can compile
+nvnet as kernel module.
+
+<ol>
+  <li>Obtain
+  <a href="http://www.onthenet.com.au/~q/nvnet/nvnet-src-20040813.tar.gz" >
+  nvnet-src-20040813.tar.gz
+  </a> and
+<a href="http://www.onthenet.com.au/~q/nvnet/NVIDIA_nforce-1.0-0275.tar.gz" >
+  NVIDIA_nforce-1.0-0275.tar.gz
+  </a>(for amd 64).
+  </li>
+  <li>Extract both tar.gz and apply a patch to nvnet/src/if_nv.c
+  <table border=2>
+    <td>
+      <pre>
+*** if_nv.c.orig        Mon Oct 11 12:04:44 2004
+--- if_nv.c     Mon Oct 11 11:57:07 2004
+***************
+*** 86,91 ****
+--- 86,92 ----
+  #include &lt;sys/socket.h&gt;
+  #include &lt;sys/sysctl.h&gt;
+  #include &lt;sys/queue.h&gt;
++ #include &lt;sys/module.h&gt;
+  
+  #include &lt;net/if.h&gt;
+  #include &lt;net/if_arp.h&gt;
+</pre>
+      </td>
+    </table>
+  </li>
+  <li>Run make in nvnet/, then you can get if_nv.ko. </li>
+  <li>Copy if_nv.ko into appropriate directory and 'kldload if_nv.c'.</li>
+  <li>nForce3 ethernet will be recognized like as follows.
+  <table border=2>
+    <td>
+  <pre>
+nv0: &lt;NVIDIA nForce MCP3 Networking Adapter&gt; port 0xb400-0xb407 mem 0xe8000000-0xe8000fff irq 10 at device 5.0 on pci0
+nv0: Ethernet address 00:30:1b:b3:b8:1d
+nv0: Ethernet address: 00:30:1b:b3:b8:1d
+nv0: [GIANT-LOCKED]
+miibus1: &lt;MII bus&gt; on nv0
+rlphy0: &lt;RTL8201L 10/100 media interface&gt; on miibus1
+rlphy0:  10baseT, 10baseT-FDX, 100baseTX, 100baseTX-FDX, auto
+</pre>
+</td>
+</table>
+  </li>
+</ol>
+
+<hr>
+<h2>nForce3 Ethernet on FreeBSD 5.2-AMD64</h2>
+
+This way is only for FreeBSD 5.2-RELEASE. This is not appliable to
+FreeBSD-CURRENT.
+
+<h3>ABSTRACT:</h3>
+
+<ul>
+  <li>ports/net/nvnet is kernel module to use nForce Ethernet Controller.</li>
+  <li>Driver for Linux-AMD64 is officially available.</li>
+  <li>FreeBSD-AMD64 doesn't support kernel module currently.</li>
+  <li>Thus, possibly I can use the driver for AMD64 with static linking.</li>
+</ul>
+
+<h3>PREPARATION:</h3>
+
+Obtain two files:<br>
+<a href="http://www.onthenet.com.au/~q/nvnet/nvnet-src-20040108.tar.gz" >
+nvnet-src-20040108.tar.gz</a> and
+<a href="http://download.nvidia.com/XFree86/nforce/1.0-0269/NVIDIA_nforce-1.0-0269.tar.gz" >
+Official nForce Drivers for Linux AMD64(1.0.0269)
+</a>.
+Then, extract them in your temporary directory.
+
+<h3>DRIVER INSTALLATION:</h3>
+
+Make dir /usr/src/sys/dev/nvnet and collect the following files into the
+directory.
+<p>
+(nvnet-src-20040108.tar.gz):<br>
+nvnet/src/{if_nv.c, if_nvreg.h}<br>
+(NVIDIA_nforce-1.0-0269.tar.gz):<br>
+nforce/nvnet/{basetype.h, os.h, adapter.h, nvnetlib.o, phy.h}
+
+<p>
+
+And, touch /usr/src/sys/dev/nvnet/nvnetlib.c.<br>
+At this point, you can see eight files under /usr/src/sys/dev/nvnet.
+
+<pre>
+# cd /usr/src/sys/dev/nvnet/
+# ls
+adapter.h       if_nv.c         nvnetlib.c      os.h
+basetype.h      if_nvreg.h      nvnetlib.o      phy.h
+</pre>
+
+Apply <a href="nvnet-amd64-patch.diff" >the patch</a> in the directory.
+
+<pre>
+# patch -p1 < nvnet-amd64-patch.diff
+</pre>
+
+Append the following lines to /usr/src/sys/conf/files.amd64.
+
+<pre>
+dev/nvnet/if_nv.c               optional nv pci
+dev/nvnet/nvnetlib.c            optional nv pci
+</pre>
+
+<h3>COMPILING KERNEL:</h3>
+
+Append a line to your kernel CONFIGFILE.
+
+<pre>
+device   nv
+</pre>
+
+Then, execute 'config CONFIGFILE', move into compilation directory, copy
+/usr/src/sys/dev/nvnet/nvnetlib.o into the directory (make sure that
+nvnetlib.o is newer than /usr/src/sys/dev/nvnet/nvnetlib.c).
+And make depend and make. You can build new kernel with nvnet driver.
+<br>
+dmesg is like this.
+
+<pre>
+Copyright (c) 1992-2004 The FreeBSD Project.
+Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+        The Regents of the University of California. All rights reserved.
+FreeBSD 5.2-CURRENT #15: Mon May  3 20:28:10 JST 2004
+    root@XXXXX:/usr/src/sys/amd64/compile/EIRENE
+Preloaded elf kernel "/boot/kernel/kernel" at 0xffffffff80788000.
+Timecounter "i8254" frequency 1193182 Hz quality 0
+CPU: AMD Athlon(tm) 64 Processor 3200+ (1994.86-MHz K8-class CPU)
+  Origin = "AuthenticAMD"  Id = 0xf48  Stepping = 8
+  Features=0x78bfbff&lt;FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CLFLUSH,MMX,FXSR,SSE,SSE2&gt;
+  AMD Features=0xe0500800&lt;SYSCALL,NX,MMX+,LM,3DNow!+,3DNow!&gt;
+real memory  = 536805376 (511 MB)
+avail memory = 508452864 (484 MB)
+
+(snip)
+
+nv0: &lt;NVIDIA nForce MCP3 Networking Adapter&gt; port 0xb400-0xb407 mem 0xe8000000-0xe8000fff irq 10 at device 5.0 on pci0
+nv0: Reserved 0x1000 bytes for rid 0x10 type 3 at 0xe8000000
+nv0: Ethernet address 00:30:1b:b3:b8:1d
+miibus1: &lt;MII bus&gt; on nv0
+rlphy0: &lt;RTL8201L 10/100 media interface&gt; on miibus1
+rlphy0:  10baseT, 10baseT-FDX, 100baseTX, 100baseTX-FDX, auto
+nv0: Ethernet address: 00:30:1b:b3:b8:1d
+nv0: [GIANT-LOCKED]
+</pre>
+
+<hr>
+
+<h2>Uvisor on FreeBSD 4.9-RELEASE / FreeBSD-CURRENT</h2>
+
+My Palm Tungsten T doesn't work via uvisor on FreeBSD 4.9-RELEASE.
+So, I've modified uvisor.c so that it can attach Tungsten T (and other
+Palm device) properly.<br>
+<ul>
+  <li><a href="uvisor.c.diff" >This</a> is a patch for uvisor.c
+  on FreeBSD 4.9-RELEASE.<br>
+  </li>
+  <li><a href="uvisor.c.diff-current-20050430" >This</a> is a patch for
+  uvisor.c on FreeBSD 6-CURRENT (2005.04.03).<br>
+  This patch adds support for TungstenT, CLIE 3.5 and CLIE 4.0.
+  </li>
+</ul>
+
+I'll send-pr again after I send same send-pr on NetBSD.
+
+<hr>
+<h2>RealProducer on FreeBSD (linux emulation)</h2>
+
+<a href="www.real.com">Real Producer</a> doesn't work on linux emulation
+on FreeBSD (3.x/4.x). Please apply the following patch corresponding to
+you version. This patch has been commited into -CURRENT tree in Nov. 17th,
+2001.
+
+<ul>
+  <li> <a href="rp-patch.diff">for FreeBSD 4.1-RELEASE</a>
+  <li> <a href="rp-patch43.diff">for FreeBSD 4.3-RELEASE, (Probably 4.4-RELEASE and 4.5-RELEASE)</a>
+</ul>
+
+And rebuild linux.ko. The patch is as shown below (for FreeBSD 4.1):
+
+<hr>
+<pre>
+*** sys/i386/linux/linux_ioctl.c.orig	Mon Nov 20 20:22:07 2000
+--- sys/i386/linux/linux_ioctl.c	Mon Nov 20 20:23:11 2000
+***************
+*** 1044,1049 ****
+--- 1044,1053 ----
+  		args->cmd = SETDIR(SOUND_MIXER_WRITE_LINE3);
+  		return (ioctl(p, (struct ioctl_args *)args));
+  
++ 	case LINUX_SOUND_MIXER_WRITE_RECSRC:
++ 	        args->cmd = SETDIR(SOUND_MIXER_WRITE_RECSRC);
++ 	        return ioctl(p, (struct ioctl_args *)args);
++ 
+  	case LINUX_OSS_GETVERSION: {
+  		int version = linux_get_oss_version(p);
+  		return (copyout(&amp;version, (caddr_t)args->arg, sizeof(int)));
+*** sys/i386/linux/linux_ioctl.h.orig	Mon Nov 20 20:23:43 2000
+--- sys/i386/linux/linux_ioctl.h	Mon Nov 20 20:24:08 2000
+***************
+*** 163,168 ****
+--- 163,169 ----
+  #define	LINUX_SOUND_MIXER_WRITE_LINE1	0x4d0E
+  #define	LINUX_SOUND_MIXER_WRITE_LINE2	0x4d0F
+  #define	LINUX_SOUND_MIXER_WRITE_LINE3	0x4d10
++ #define LINUX_SOUND_MIXER_WRITE_RECSRC  0x4dff
+  #define	LINUX_OSS_GETVERSION		0x4d76
+  #define	LINUX_SOUND_MIXER_READ_DEVMASK	0x4dfe
+  #define	LINUX_SNDCTL_DSP_RESET		0x5000
+</pre>
+<hr>
+
+<h2>Flash plug-in on Netscape</h2>
+
+Newer version than /usr/ports/www/flash-plugin/ is
+<a href="libswf.so">here (0.4.10)</a>.
+Put it into /usr/local/lib/netscape/plugins/.
+
+<hr>
+<h2>Plugger on Netscape</h2>
+
+Plugger is the front end of plugin for netscape to play multimedia
+contents.<br>
+
+To compile it by ports, c++rt0.c of FreeBSD 2.2.x is needed.<br>
+
+Compiled binary of plugger is <a href="plugger.so">here</a>.  Put it
+into /usr/local/lib/netscape/plugins/, and put
+<a href="pluggerrc.sample"> pluggerrc</a> into /usr/local/etc/. Ofcourse
+you should prepare many multimedia players, such as mtvp, xanim,
+timidity and so on.
+
+<hr>
+<hr>
+<address><a href="mailto:kimoto@ohnolab.org">Masahiko KIMOTO, Ph.D. &lt;kimoto@ohnolab.org&gt;</a></address>
+<!-- hhmts start --> Last modified: Sat Apr 30 23:49:01 JST 2005 <!-- hhmts end -->
+</body> </html>

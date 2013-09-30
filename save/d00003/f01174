@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  <head>
+    <title>
+      SystemNotesGentoo – BIND 10 Development
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="search" href="/search" />
+        <link rel="help" href="/wiki/TracGuide" />
+        <link rel="alternate" href="/wiki/SystemNotesGentoo?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="/wiki" />
+        <link rel="stylesheet" href="/chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="/chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="/search/opensearch" title="Search BIND 10 Development" />
+    <script type="text/javascript" src="/chrome/common/js/jquery.js"></script><script type="text/javascript" src="/chrome/common/js/babel.js"></script><script type="text/javascript" src="/chrome/common/js/messages/en_US.js"></script><script type="text/javascript" src="/chrome/common/js/trac.js"></script><script type="text/javascript" src="/chrome/common/js/search.js"></script><script type="text/javascript" src="/chrome/common/js/folding.js"></script>
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="/chrome/common/js/ie_pre7_hacks.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://www.isc.org"><img src="/isc-logo-hack.png" alt="ISC Logo" /></a>
+      </div>
+      <form id="search" action="/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="/login">Login</a></li><li><a href="/prefs">Preferences</a></li><li><a href="/wiki/TracGuide">Help/Guide</a></li><li><a href="/about">About Trac</a></li><li><a href="/register">Register</a></li><li class="last"><a href="/reset_password">Forgot your password?</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="/wiki">Wiki</a></li><li><a href="/timeline">Timeline</a></li><li><a href="/roadmap">Roadmap</a></li><li><a href="/report">View Tickets</a></li><li class="last"><a href="/search">Search</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="/wiki">wiki:</a><a class="pathentry" href="/wiki/SystemNotesGentoo" title="View SystemNotesGentoo">SystemNotesGentoo</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+          <ul>
+              <li class="first"><a href="/wiki/WikiStart">Start Page</a></li><li><a href="/wiki/TitleIndex">Index</a></li><li class="last"><a href="/wiki/SystemNotesGentoo?action=history">History</a></li>
+          </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          
+          <div class="trac-modifiedby"><a href="/wiki/SystemNotesGentoo?action=diff&amp;version=1" title="Version 1 by fdupont">Last modified</a> <a class="timeline" href="/timeline?from=2012-09-15T07%3A59%3A23Z&amp;precision=second" title="2012-09-15T07:59:23Z in Timeline">12 months</a> ago</div>
+          <div id="wikipage"><h2 id="IntroductionandSystemDescription">Introduction and System Description</h2>
+<p>
+This documents installing BIND 10 from source on Gentoo Linux. These examples were on September 2012 Gentoo Linux on x86.
+The version of BIND 10 was latest master from git.
+</p>
+<h2 id="SetupofPackagedPrerequisites">Setup of Packaged Prerequisites</h2>
+<p>
+all building tools were already installed by default, and "dev/devel" versions are allways included.
+</p>
+<p>
+As root <em>emerge</em>:
+</p>
+<ul><li>dev-libs/boost
+</li><li>dev-libs/botan
+</li><li>dev-db/sqlite
+</li></ul><p>
+and optionally:
+</p>
+<ul><li>dev-cpp/gtest
+</li><li>dev-python/setproctitle
+</li><li>dev-util/lcov
+</li><li>dev-python/coverage
+</li><li>dev-libs/libxslt
+</li><li>dev-util/valgrind
+</li></ul><p>
+If from git install dev-vcs/git
+</p>
+<p>
+For <em>USE</em> flags, threads and sqlite are required.
+</p>
+<p>
+Should <em>eselect</em> a version 3 of python
+</p>
+<h2 id="SetupofOtherPrerequisites">Setup of Other Prerequisites</h2>
+<p>
+Also install log4cplus which is not available in default emerge packages.
+</p>
+<pre class="wiki">wget http://iweb.dl.sourceforge.net/project/log4cplus/log4cplus-stable/1.0.4/log4cplus-1.0.4.1.tar.bz2
+tar xjf log4cplus-1.0.4.1.tar.bz2 
+cd log4cplus-1.0.4.1/
+./configure
+make
+sudo make install
+</pre></div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="/wiki/SystemNotesGentoo?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="/chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="/about"><strong>Trac 0.12.2</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right">Visit the <a href="https://www.isc.org/bind10">BIND 10</a> pages.</p>
+    </div>
+  </body>
+</html>

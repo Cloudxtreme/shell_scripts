@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8">
+            
+<!-- this should be per page -->
+        <meta lang="cs" name="keywords" content="Domény, Registrátoři, Registrace domén, CZ.NIC, WHOIS, DNS" />
+        <meta lang="en" name="keywords" content="Domains, Registrators, Domain registration, CZ.NIC, WHOIS, DNS" />
+        <meta lang="cs" name="description" content="Správce domén CZ." />
+        <meta lang="en" name="description" content="CZ domain registry." />
+        <link rel='shortcut icon' type='image/x-icon' href='/static/nic/images/favicon.ico' />
+
+        <title>CZ.NIC - DNSSEC HOWTO</title>
+        
+
+
+        <link href="/static/nic/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="/static/nic/css/print.css" rel="stylesheet" type="text/css" media="print" />
+        <link href="/static/nic/css/specific.css" rel="stylesheet" type="text/css" media="screen" />
+
+<!-- this should be in separate files -->
+        <meta name="google-site-verification" content="wuFFLLq-bqUtDNBDwq1UU27QOsvAX9cN-JY8oymPavY" />
+        <meta name="msvalidate.01" content="41F9105A2B1D5155132F833AEB5A129D" />
+        <script src="/static/js/jquery-1.8.0.min.js"></script>
+        <script src="/static/nic/js/jquery.placeholder.js?v=2.0.7"></script>
+        
+    
+        <link href="/static/nic/css/support.css" rel="stylesheet" type="text/css" media="screen" />
+
+        
+        
+    </head>
+
+    <body id="bodyblank">
+
+<script type="text/javascript">
+$(function() {
+ $('input, textarea').placeholder();
+});
+</script>
+
+
+        
+    <div id="header">
+        <div class="wrap">
+
+        <!-- Logo -->
+            <h1 id="logo"><a href="/" title="Back to nic.cz home page"><img src="/static/nic/images/logo_cs.png" width="316" height="114" alt ="Nic.cz | CZ Domain Registry" /></a></h1>
+            <div class="anchor"><a href="#main-menu">k navigaci &darr;</a></div>
+        <form action="/search/" method="get" id="search" class="searchbox">
+            <input type="submit" class="search-button" name="go" value=" " />
+            <input type="text" class="search-field txt" name="query" value="" placeholder="hledat&hellip;" />
+        </form>
+<!-- menu -->
+    <div id="podpora-contact">
+        <a href="http://podpora.nic.cz/page/357/">Kontakt</a>
+    </div>
+    <div class="cleaner"></div>
+        </div><!-- .wrap -->
+    </div><!-- #header -->
+<!-- /menu -->
+
+<div id="content" role="main">
+    <div class="wrap cs">
+        <div id="page" >
+            
+
+
+
+
+<!-- DEFAULT base : design/base_blank.html -->
+        <div id="content-main" >
+            <h1>DNSSEC HOWTO</h1>
+            <div class="article_text">
+                <div class="markdown-text"><p>Dokumentace vychází z takzvané specifikace <a href="http://ds9a.nl/dnssec/">DNSSEC-bis</a>, která byla dokončena pracovní skupinou <a href="http://www.ietf.org/html.charters/dnsext-charter.html">IETF DNSEXT</a> v červenci 2004, a publikována v březnu 2005 jako [<a href="/page/617/dnssec-howto/">3, 4, 5</a>], autorem dokumentu je <a href="http://www.linkedin.com/in/olafkolkman">Olaf Kolkman</a>.
+</p>
+<p>Počínaje listopadem 2006 má autor povědomí o následujících open-source a freeware implementacích specifikací DNSSEC-bis: <a href="http://www.bind9.net/manual/bind/9.3.2/Bv9ARM.html">BIND 9.3.2</a> a <a href="http://www.nlnetlabs.nl/projects/nsd/">NSD 3.0.3.</a> Všechny naše příklady jsou založeny na BIND 9.3.2.
+</p>
+<p>Tento dokument není koncipován jako úvod do DNS. Předpokládá se základní znalost DNS a použitých zkratek. Pokusili jsme se nepoužívat slang, ale v případech, kdy jsme se tomu nevyhnuli, jsme se pokusili vysvětlit význam. Pokud se chcete obecně o tématu DNS dozvědět více, pak jsou vynikajícím úvodem do problematiky knihy Paula Albitze a Cricketa Luie[<a href="/page/617/dnssec-howto/">2</a>] nebo Rona Aitchinsona [<a href="/page/617/dnssec-howto/">1</a>].
+</p>
+<p>Obsah tohoto dokumentu se bude měnit. Pravidelně prosím kontrolujte dostupnost nových verzí na <a href="www.nlnetlabs.nl/dnssec_howto/">www.nlnetlabs.nl/dnssec_howto/</a> (v angličtině). Vaše opravy a doplnění jsou vítány.
+</p>
+
+<h1>Obsah DNSSEC HOWTO</h1>
+<p><a href="/page/577/podpora---dns---dnssec---dnssec-howto---i.-zabezpeceni-dat-dns/">I. Zabezpečení dat DNS</a><br />
+
+</p>
+<ol>
+ <li><p>Konfigurace rekurzivního jmenného serveru pro ověřování odpovědí<br />
+
+</p>
+<p><br />
+<a href="/page/578/dnssec-howto/">1.1 Úvod</a><br />
+
+</p>
+<p><br />
+<a href="/page/579/dnssec-howto/">1.2 Upozornění</a><br />
+
+</p>
+<p><br />
+<a href="/page/580/dnssec-howto/">1.3 Konfigurace caching forwarderu</a><br />
+
+</p>
+<p><br />
+<a href="/page/580/dnssec-howto/">1.3.1 Konfigurace trust anchor</a><br />
+
+</p>
+<p><br />
+<a href="/page/580/dnssec-howto/">1.3.2 Testování</a><br />
+
+</p>
+<p><br />
+<a href="/page/581/dnssec-howto/">1.4 Vyhledání trust-anchors</a> 
+</p>
+<p><br />
+<a href="/page/582/dnssec-howto/">1.5 Lookaside Validation</a> 
+</p>
+<p><br />
+<a href="/page/582/dnssec-howto/">1.5.1 Konfigurace lookaside validation</a> 
+</p>
+<p><br />
+<a href="/page/582/dnssec-howto/">1.5.1.1 Testování</a> 
+</p>
+<p><br />
+<a href="/page/583/dnssec-howto/">1.6 Tipy na odstraňování některých problémů</a> 
+</p>
+
+ </li>
+
+ <li><p>Zabezpečení zóny DNS<br />
+
+</p>
+<p><br />
+<a href="/page/584/dnssec-howto/">2.1 Úvod</a><br />
+
+</p>
+<p><br />
+<a href="/page/585/dnssec-howto/">2.2 Konfigurace autoritativních serverů</a><br />
+
+</p>
+<p><br />
+<a href="/page/586/dnssec-howto/">2.3 Vytváření párů klíčů</a><br />
+
+</p>
+<p><br />
+<a href="/page/586/dnssec-howto/">2.3.1 Zásady údržby klíčů</a><br />
+
+</p>
+<p><br />
+<a href="/page/586/dnssec-howto/">2.3.1.1 Klíč podepisující klíče a klíč podepisující zóny</a><br />
+
+</p>
+<p><br />
+<a href="/page/586/dnssec-howto/">2.3.2 Vytváření klíčů</a><br />
+
+</p>
+<p><br />
+<a href="/page/587/dnssec-howto/">2.4 Podepisování zóny</a> 
+</p>
+<p><br />
+<a href="/page/588/dnssec-howto/">2.5 Konfigurace caching forwarderu</a> 
+</p>
+<p><br />
+<a href="/page/589/dnssec-howto/">2.6 Znovupodepsání zóny</a>
+</p>
+<p><br />
+<a href="/page/590/dnssec-howto/">2.7 Odstraňování problémů podepsaných zón</a>
+</p>
+<p><br />
+<a href="/page/591/dnssec-howto/">2.8 Možné problémy</a> 
+</p>
+
+ </li>
+
+ <li><p>Delegování podepisující autority; přechod na globální zabezpečení<br />
+
+</p>
+<p><br />
+<a href="/page/592/dnssec-howto/">3.1 Úvod</a><br />
+
+</p>
+<p><br />
+<a href="/page/593/dnssec-howto/">3.2 Praktické kroky</a><br />
+
+</p>
+<p><br />
+<a href="/page/594/dnssec-howto/">3.3 Možné problémy</a><br />
+
+</p>
+<p><br />
+<a href="/page/595/dnssec-howto/">3.4 Přihlášení do registru DLV</a><br />
+
+</p>
+
+ </li>
+
+ <li><p>Rotace klíčů
+</p>
+<p><br />
+<a href="/page/596/dnssec-howto/">4.1 DNS traversal (přechod přes DNS)</a>
+</p>
+<p><br />
+<a href="/page/597/dnssec-howto/">4.2 “Předem publikované” a “dvojitě podepsané“ rotace</a>
+</p>
+<p><br />
+<a href="/page/598/podpora---dns---dnssec---dnssec-howto---4.3.-nastroje/">4.3 Nástroje</a>
+</p>
+<p><br />
+<a href="/page/601/dnssec-howto/">4.4 Rotace ZSK</a>
+</p>
+<p><br />
+<a href="/page/601/dnssec-howto/">4.4.1 Příprava ZSK (fáze vytvoření)</a>
+</p>
+<p><br />
+<a href="/page/601/dnssec-howto/">4.4.2 Rotace ZSK(fáze 1)</a>
+</p>
+<p><br />
+<a href="/page/601/dnssec-howto/">4.4.3 Vyčištění ZSK (fáze 2)</a>
+</p>
+<p><br />
+<a href="/page/601/dnssec-howto/">4.4.4 Úprava dat zóny během rotace</a> 
+</p>
+<p><br />
+<a href="/page/602/dnssec-howto/">4.5 Rotace klíče podepisujícího klíče</a>
+</p>
+<p><br />
+<a href="/page/602/dnssec-howto/">4.5.1 Příprava KSK (fáze vytvoření)</a>
+</p>
+<p><br />
+<a href="/page/602/dnssec-howto/">4.5.2 Rotace ZSK (fáze 1)</a>
+</p>
+<p><br />
+<a href="/page/602/dnssec-howto/">4.5.3 Vyčištění KSK (fáze 2)</a>
+</p>
+<p><br />
+<a href="/page/602/dnssec-howto/">4.5.4 Vícenásobné KSK</a>
+</p>
+
+ </li>
+</ol>
+<p><a href="/page/603/dnssec-howto/">II. Zabezpečení komunikace mezi servery</a>
+</p>
+<ol>
+ <li><p>Zabezpečení zónových přenosů
+</p>
+<p><br />
+<a href="/page/604/podpora---dns---dnssec---dnssec-howto---5.1-uvod/">5.1 Úvod</a>
+</p>
+<p><br />
+<a href="/page/605/dnssec-howto/">5.2 Generování klíče TSIG</a>
+</p>
+<p><br />
+<a href="/page/605/dnssec-howto/">5.2.1 Generování tajného klíče TSIG pomocí dnssec-keygen</a>
+</p>
+<p><br />
+<a href="/page/605/dnssec-howto/">5.2.2 Další způsoby generování tajných klíčů</a> 
+</p>
+<p><br />
+<a href="/page/606/dnssec-howto/">5.3 Konfigurace klíčů TSIG</a>
+</p>
+<p><br />
+<a href="/page/607/dnssec-howto/">5.4 Konfigurace TSIG primárních serverů</a>
+</p>
+<p><br />
+<a href="/page/608/podpora---dns---dnssec---dnssec-howto---5.5-konfigurace-tsig-sekundarnich-serveru/">5.5 Konfigurace TSIG sekundárních serverů</a>
+</p>
+<p><br />
+<a href="/page/609/dnssec-howto/">5.6 Zabezpečení komunikačního nástroje pro UPOZORNĚNÍ</a>
+</p>
+<p><br />
+<a href="/page/610/dnssec-howto/">5.7 Řešení problémů s konfigurací TSIG</a>
+</p>
+<p><br />
+<a href="/page/611/dnssec-howto/">5.8 Možné problémy</a> 
+</p>
+
+ </li>
+</ol>
+<p><a href="/page/612/dnssec-howto/">III. Nástroje pro odstraňování problémů</a>
+</p>
+<p><br />
+<a href="/page/613/dnssec-howto/">6. Využití „drill“ při odstraňování problémů</a>
+</p>
+<p><br />
+<a href="/page/614/dnssec-howto/">7. Využití „dig“ při odstraňování problémů</a>
+</p>
+<p><br />
+<a href="/page/615/dnssec-howto/">8. Nástroje DNSSEC</a> 
+</p>
+<p><a href="/page/616/dnssec-howto/">IV. Přílohy</a><br />
+
+</p>
+<p> <br />
+<a href="/page/616/dnssec-howto/#A">A Instalace BIND</a><br />
+
+</p>
+<p> <br />
+<a href="/page/616/dnssec-howto/#B">B Odhad zvětšení zóny</a><br />
+
+</p>
+<p> <br />
+<a href="/page/616/dnssec-howto/#C">C Generování náhodných čísel</a><br />
+
+</p>
+<p> <br />
+<a href="/page/616/dnssec-howto/#D">D Knihovna Net::DNS::SEC v Perlu</a><br />
+
+</p>
+<p><a href="/page/617/dnssec-howto/">V. Reference</a>
+</p></div>
+            </div>
+        </div> <!-- page main -->
+
+
+
+
+    
+
+   <div class="cleaner" id="break"></div> <!-- base_support -->
+
+        </div> <!-- page -->
+    </div> <!-- wrap -->
+
+        
+    <!-- footer -->
+    <div id="footer" role="contentinfo">
+    <div class="wrap">
+        <p id="copyright">&copy; 2013 CZ.NIC, z. s. p. o.</p>
+        <p id="footer-navigation-heading">Ostatní weby:</p>
+    <ul id="footer-navigation">
+    <!-- site nic -->
+        
+        <li><a href="http://www.mojeid.cz/" title="mojeID">mojeID</a></li>
+        <li><a href="http://fred.nic.cz" title="Free Registry for ENUM and Domains">FRED</a></li>
+        <li><a href="http://www.nic.cz/dnssec/" title="DNSSEC">DNSSEC</a></li>
+        <li><a href="http://www.nic.cz/csirt/" title="CZ.NIC-CSIRT">CZ.NIC-CSIRT</a></li>
+        <li><a href="http://csirt.cz/" title="CSIRT">CSIRT.CZ</a></li>
+        
+           <li><a href="http://labs.nic.cz/" title="Laboratoře">Laboratoře</a></li>
+        
+        <li><a href="http://www.nic.cz/akademie/" title="Akademie">Akademie</a></li>
+        <li><a href="http://knihy.nic.cz/" title="Edice CZ.NIC">Edice CZ.NIC</a></li>
+        <li><a href="/page/357/"  title="Kontakt">Kontakt</a></li>
+    </ul>
+    <div id="footer-link-up"><a href="#content">Nahoru</a>
+    </div>
+    <div class="cleaner"></div>
+  </div><!-- .wrap -->
+</div><!-- #footer -->
+<p id="links"></p>
+
+
+        
+    </div>
+
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        _uacct = "UA-439372-1";
+        urchinTracker();
+    </script>
+
+
+
+
+    </body>
+
+</html>

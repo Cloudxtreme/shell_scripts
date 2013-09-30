@@ -1,0 +1,1178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Linux Advanced Routing &amp; Traffic Control HOWTO</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REL="NEXT"
+TITLE="Dedication"
+HREF="lartc.dedication.html"></HEAD
+><BODY
+CLASS="BOOK"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="BOOK"
+><A
+NAME="LARTC"
+></A
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="TITLE"
+><A
+NAME="AEN2"
+>Linux Advanced Routing &amp; Traffic Control HOWTO</A
+></H1
+><H3
+CLASS="AUTHOR"
+><A
+NAME="AEN5"
+></A
+>Bert Hubert</H3
+><DIV
+CLASS="AFFILIATION"
+><SPAN
+CLASS="ORGNAME"
+>Netherlabs BV<BR></SPAN
+><DIV
+CLASS="ADDRESS"
+><P
+CLASS="ADDRESS"
+><CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:bert.hubert@netherlabs.nl"
+>bert.hubert@netherlabs.nl</A
+>&#62;</CODE
+></P
+></DIV
+></DIV
+><SPAN
+CLASS="COLLAB"
+><SPAN
+CLASS="COLLABNAME"
+>Thomas Graf (Section Author)</SPAN
+><DIV
+CLASS="AFFILIATION"
+><DIV
+CLASS="ADDRESS"
+><P
+CLASS="ADDRESS"
+><CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:tgraf%suug.ch"
+>tgraf%suug.ch</A
+>&#62;</CODE
+></P
+></DIV
+></DIV
+><BR></SPAN
+><SPAN
+CLASS="COLLAB"
+><SPAN
+CLASS="COLLABNAME"
+>Gregory Maxwell (Section Author)</SPAN
+><BR></SPAN
+><SPAN
+CLASS="COLLAB"
+><SPAN
+CLASS="COLLABNAME"
+>Remco van Mook (Section Author)</SPAN
+><DIV
+CLASS="AFFILIATION"
+><DIV
+CLASS="ADDRESS"
+><P
+CLASS="ADDRESS"
+><CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:remco@virtu.nl"
+>remco@virtu.nl</A
+>&#62;</CODE
+></P
+></DIV
+></DIV
+><BR></SPAN
+><SPAN
+CLASS="COLLAB"
+><SPAN
+CLASS="COLLABNAME"
+>Martijn van Oosterhout (Section Author)</SPAN
+><DIV
+CLASS="AFFILIATION"
+><DIV
+CLASS="ADDRESS"
+><P
+CLASS="ADDRESS"
+><CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:kleptog@cupid.suninternet.com"
+>kleptog@cupid.suninternet.com</A
+>&#62;</CODE
+></P
+></DIV
+></DIV
+><BR></SPAN
+><SPAN
+CLASS="COLLAB"
+><SPAN
+CLASS="COLLABNAME"
+>Paul B Schroeder (Section Author)</SPAN
+><DIV
+CLASS="AFFILIATION"
+><DIV
+CLASS="ADDRESS"
+><P
+CLASS="ADDRESS"
+><CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:paulsch@us.ibm.com"
+>paulsch@us.ibm.com</A
+>&#62;</CODE
+></P
+></DIV
+></DIV
+><BR></SPAN
+><SPAN
+CLASS="COLLAB"
+><SPAN
+CLASS="COLLABNAME"
+>Jasper Spaans (Section Author)</SPAN
+><DIV
+CLASS="AFFILIATION"
+><DIV
+CLASS="ADDRESS"
+><P
+CLASS="ADDRESS"
+><CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:jasper@spaans.ds9a.nl"
+>jasper@spaans.ds9a.nl</A
+>&#62;</CODE
+></P
+></DIV
+></DIV
+><BR></SPAN
+><SPAN
+CLASS="COLLAB"
+><SPAN
+CLASS="COLLABNAME"
+>Pedro Larroy (Section Author)</SPAN
+><DIV
+CLASS="AFFILIATION"
+><DIV
+CLASS="ADDRESS"
+><P
+CLASS="ADDRESS"
+><CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:piotr%member.fsf.org"
+>piotr%member.fsf.org</A
+>&#62;</CODE
+></P
+></DIV
+></DIV
+><BR></SPAN
+><DIV
+><DIV
+CLASS="ABSTRACT"
+><P
+></P
+><A
+NAME="AEN49"
+></A
+><P
+>A very hands-on approach to <SPAN
+CLASS="APPLICATION"
+>iproute2</SPAN
+>,
+     traffic shaping and a bit of <SPAN
+CLASS="APPLICATION"
+>netfilter</SPAN
+>.
+     </P
+><P
+></P
+></DIV
+></DIV
+><HR></DIV
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+>1. <A
+HREF="lartc.dedication.html"
+>Dedication</A
+></DT
+><DT
+>2. <A
+HREF="lartc.intro.html"
+>Introduction</A
+></DT
+><DD
+><DL
+><DT
+>2.1. <A
+HREF="lartc.intro.html#LARTC.INTRO.DISCLAIMER"
+>Disclaimer &amp; License</A
+></DT
+><DT
+>2.2. <A
+HREF="lartc.intro.prior.html"
+>Prior knowledge</A
+></DT
+><DT
+>2.3. <A
+HREF="lartc.intro.linux.html"
+>What Linux can do for you</A
+></DT
+><DT
+>2.4. <A
+HREF="lartc.intro.houskeeping.html"
+>Housekeeping notes</A
+></DT
+><DT
+>2.5. <A
+HREF="lartc.intro.git.html"
+>Access, GIT &amp; submitting updates</A
+></DT
+><DT
+>2.6. <A
+HREF="lartc.intro.mlist.html"
+>Mailing list</A
+></DT
+><DT
+>2.7. <A
+HREF="lartc.intro.layout.html"
+>Layout of this document</A
+></DT
+></DL
+></DD
+><DT
+>3. <A
+HREF="lartc.iproute2.html"
+>Introduction to iproute2</A
+></DT
+><DD
+><DL
+><DT
+>3.1. <A
+HREF="lartc.iproute2.html#LARTC.IPROUTE2.WHY"
+>Why iproute2?</A
+></DT
+><DT
+>3.2. <A
+HREF="lartc.iproute2.tour.html"
+>iproute2 tour</A
+></DT
+><DT
+>3.3. <A
+HREF="lartc.iproute2.package.html"
+>Prerequisites</A
+></DT
+><DT
+>3.4. <A
+HREF="lartc.iproute2.explore.html"
+>Exploring your current configuration</A
+></DT
+><DD
+><DL
+><DT
+>3.4.1. <A
+HREF="lartc.iproute2.explore.html#AEN195"
+><B
+CLASS="COMMAND"
+>ip</B
+> shows us our links</A
+></DT
+><DT
+>3.4.2. <A
+HREF="lartc.iproute2.explore.html#AEN204"
+><B
+CLASS="COMMAND"
+>ip</B
+> shows us our IP addresses</A
+></DT
+><DT
+>3.4.3. <A
+HREF="lartc.iproute2.explore.html#AEN214"
+><B
+CLASS="COMMAND"
+>ip</B
+> shows us our routes</A
+></DT
+></DL
+></DD
+><DT
+>3.5. <A
+HREF="lartc.iproute2.arp.html"
+>ARP</A
+></DT
+></DL
+></DD
+><DT
+>4. <A
+HREF="lartc.rpdb.html"
+>Rules - routing policy database</A
+></DT
+><DD
+><DL
+><DT
+>4.1. <A
+HREF="lartc.rpdb.html#LARTC.RPDB.SIMPLE"
+>Simple source policy routing</A
+></DT
+><DT
+>4.2. <A
+HREF="lartc.rpdb.multiple-links.html"
+>Routing for multiple uplinks/providers</A
+></DT
+><DD
+><DL
+><DT
+>4.2.1. <A
+HREF="lartc.rpdb.multiple-links.html#AEN267"
+>Split access</A
+></DT
+><DT
+>4.2.2. <A
+HREF="lartc.rpdb.multiple-links.html#AEN297"
+>Load balancing</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>5. <A
+HREF="lartc.tunnel.html"
+>GRE and other tunnels</A
+></DT
+><DD
+><DL
+><DT
+>5.1. <A
+HREF="lartc.tunnel.html#LARTC.TUNNEL.REMARKS"
+>A few general remarks about tunnels:</A
+></DT
+><DT
+>5.2. <A
+HREF="lartc.tunnel.ip-ip.html"
+>IP in IP tunneling</A
+></DT
+><DT
+>5.3. <A
+HREF="lartc.tunnel.gre.html"
+>GRE tunneling</A
+></DT
+><DD
+><DL
+><DT
+>5.3.1. <A
+HREF="lartc.tunnel.gre.html#AEN337"
+>IPv4 Tunneling</A
+></DT
+><DT
+>5.3.2. <A
+HREF="lartc.tunnel.gre.html#AEN355"
+>IPv6 Tunneling</A
+></DT
+></DL
+></DD
+><DT
+>5.4. <A
+HREF="lartc.tunnel.userland.html"
+>Userland tunnels</A
+></DT
+></DL
+></DD
+><DT
+>6. <A
+HREF="lartc.ipv6-tunnel.html"
+>IPv6 tunneling with Cisco and/or 6bone</A
+></DT
+><DD
+><DL
+><DT
+>6.1. <A
+HREF="lartc.ipv6-tunnel.html#LARTC.TUNNEL-IPV6.ADDRESSING"
+>IPv6 Tunneling</A
+></DT
+></DL
+></DD
+><DT
+>7. <A
+HREF="lartc.ipsec.html"
+>IPSEC: secure IP over the Internet</A
+></DT
+><DD
+><DL
+><DT
+>7.1. <A
+HREF="lartc.ipsec.html#LARTC.IPSEC.INTRO"
+>Intro with Manual Keying</A
+></DT
+><DT
+>7.2. <A
+HREF="lartc.ipsec.automatic.keying.html"
+>Automatic keying</A
+></DT
+><DD
+><DL
+><DT
+>7.2.1. <A
+HREF="lartc.ipsec.automatic.keying.html#LARTC.IPSEC.KEYING.THEORY"
+>Theory</A
+></DT
+><DT
+>7.2.2. <A
+HREF="lartc.ipsec.automatic.keying.html#LARTC.IPSEC.AUTOMATIC.KEYING.EXAMPLE"
+>Example</A
+></DT
+><DT
+>7.2.3. <A
+HREF="lartc.ipsec.automatic.keying.html#LARTC.IPSEC.X509"
+>Automatic keying using X.509 certificates</A
+></DT
+></DL
+></DD
+><DT
+>7.3. <A
+HREF="lartc.ipsec.tunnel.html"
+>IPSEC tunnels</A
+></DT
+><DT
+>7.4. <A
+HREF="lartc.ipsec.other.html"
+>Other IPSEC software</A
+></DT
+><DT
+>7.5. <A
+HREF="lartc.ipsec.interop.html"
+>IPSEC interoperation with other systems</A
+></DT
+><DD
+><DL
+><DT
+>7.5.1. <A
+HREF="lartc.ipsec.interop.html#LARTC.IPSEC.INTEROP.WIN32"
+>Windows</A
+></DT
+><DT
+>7.5.2. <A
+HREF="lartc.ipsec.interop.html#LARTC.IPSEC.INTEROP.CHECKPOINT"
+>Check Point VPN-1
+NG</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>8. <A
+HREF="lartc.multicast.html"
+>Multicast routing</A
+></DT
+><DT
+>9. <A
+HREF="lartc.qdisc.html"
+>Queueing Disciplines for Bandwidth Management</A
+></DT
+><DD
+><DL
+><DT
+>9.1. <A
+HREF="lartc.qdisc.html#LARTC.QDISC.EXPLAIN"
+>Queues and Queueing Disciplines explained</A
+></DT
+><DT
+>9.2. <A
+HREF="lartc.qdisc.classless.html"
+>Simple, classless Queueing Disciplines</A
+></DT
+><DD
+><DL
+><DT
+>9.2.1. <A
+HREF="lartc.qdisc.classless.html#AEN658"
+>pfifo_fast</A
+></DT
+><DT
+>9.2.2. <A
+HREF="lartc.qdisc.classless.html#AEN690"
+>Token Bucket Filter</A
+></DT
+><DT
+>9.2.3. <A
+HREF="lartc.qdisc.classless.html#LARTC.SFQ"
+>Stochastic Fairness Queueing</A
+></DT
+></DL
+></DD
+><DT
+>9.3. <A
+HREF="lartc.qdisc.advice.html"
+>Advice for when to use which queue</A
+></DT
+><DT
+>9.4. <A
+HREF="lartc.qdisc.terminology.html"
+>Terminology</A
+></DT
+><DT
+>9.5. <A
+HREF="lartc.qdisc.classful.html"
+>Classful Queueing Disciplines</A
+></DT
+><DD
+><DL
+><DT
+>9.5.1. <A
+HREF="lartc.qdisc.classful.html#AEN876"
+>Flow within classful qdiscs &amp; classes</A
+></DT
+><DT
+>9.5.2. <A
+HREF="lartc.qdisc.classful.html#AEN882"
+>The qdisc family: roots, handles, siblings and parents</A
+></DT
+><DT
+>9.5.3. <A
+HREF="lartc.qdisc.classful.html#AEN902"
+>The PRIO qdisc</A
+></DT
+><DT
+>9.5.4. <A
+HREF="lartc.qdisc.classful.html#AEN938"
+>The famous CBQ qdisc</A
+></DT
+><DT
+>9.5.5. <A
+HREF="lartc.qdisc.classful.html#AEN1071"
+>Hierarchical Token Bucket</A
+></DT
+></DL
+></DD
+><DT
+>9.6. <A
+HREF="lartc.qdisc.filters.html"
+>Classifying packets with filters</A
+></DT
+><DD
+><DL
+><DT
+>9.6.1. <A
+HREF="lartc.qdisc.filters.html#AEN1099"
+>Some simple filtering examples</A
+></DT
+><DT
+>9.6.2. <A
+HREF="lartc.qdisc.filters.html#LARTC.FILTERING.SIMPLE"
+>All the filtering commands you will normally need</A
+></DT
+></DL
+></DD
+><DT
+>9.7. <A
+HREF="lartc.imq.html"
+>The Intermediate queueing device (IMQ)</A
+></DT
+><DD
+><DL
+><DT
+>9.7.1. <A
+HREF="lartc.imq.html#AEN1154"
+>Sample configuration</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>10. <A
+HREF="lartc.loadshare.html"
+>Load sharing over multiple interfaces</A
+></DT
+><DD
+><DL
+><DT
+>10.1. <A
+HREF="lartc.loadshare.html#LARTC.LOADSHARE.CAVEATS"
+>Caveats</A
+></DT
+><DT
+>10.2. <A
+HREF="lartc.loadshare.other.html"
+>Other possibilities</A
+></DT
+></DL
+></DD
+><DT
+>11. <A
+HREF="lartc.netfilter.html"
+>Netfilter &amp; iproute - marking packets</A
+></DT
+><DT
+>12. <A
+HREF="lartc.adv-filter.html"
+>Advanced filters for (re-)classifying packets</A
+></DT
+><DD
+><DL
+><DT
+>12.1. <A
+HREF="lartc.adv-filter.html#LARTC.ADV-FILTER.U32"
+>The <CODE
+CLASS="OPTION"
+>u32</CODE
+> classifier</A
+></DT
+><DD
+><DL
+><DT
+>12.1.1. <A
+HREF="lartc.adv-filter.html#AEN1289"
+>U32 selector</A
+></DT
+><DT
+>12.1.2. <A
+HREF="lartc.adv-filter.html#AEN1303"
+>General selectors</A
+></DT
+><DT
+>12.1.3. <A
+HREF="lartc.adv-filter.html#AEN1327"
+>Specific selectors</A
+></DT
+></DL
+></DD
+><DT
+>12.2. <A
+HREF="lartc.adv-filter.route.html"
+>The <CODE
+CLASS="OPTION"
+>route</CODE
+> classifier</A
+></DT
+><DT
+>12.3. <A
+HREF="lartc.adv-filter.policing.html"
+>Policing filters</A
+></DT
+><DD
+><DL
+><DT
+>12.3.1. <A
+HREF="lartc.adv-filter.policing.html#AEN1371"
+>Ways to police</A
+></DT
+><DT
+>12.3.2. <A
+HREF="lartc.adv-filter.policing.html#AEN1393"
+>Overlimit actions</A
+></DT
+><DT
+>12.3.3. <A
+HREF="lartc.adv-filter.policing.html#AEN1413"
+>Examples</A
+></DT
+></DL
+></DD
+><DT
+>12.4. <A
+HREF="lartc.adv-filter.hashing.html"
+>Hashing filters for very fast massive filtering</A
+></DT
+><DT
+>12.5. <A
+HREF="lartc.adv-filter.ipv6.html"
+>Filtering IPv6 Traffic</A
+></DT
+><DD
+><DL
+><DT
+>12.5.1. <A
+HREF="lartc.adv-filter.ipv6.html#AEN1446"
+>How come that IPv6 tc filters do not work?</A
+></DT
+><DT
+>12.5.2. <A
+HREF="lartc.adv-filter.ipv6.html#AEN1451"
+>Marking IPv6 packets using ip6tables</A
+></DT
+><DT
+>12.5.3. <A
+HREF="lartc.adv-filter.ipv6.html#AEN1456"
+>Using the u32 selector to match IPv6 packet</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>13. <A
+HREF="lartc.kernel.html"
+>Kernel network parameters</A
+></DT
+><DD
+><DL
+><DT
+>13.1. <A
+HREF="lartc.kernel.html#LARTC.KERNEL.RPF"
+>Reverse Path Filtering</A
+></DT
+><DT
+>13.2. <A
+HREF="lartc.kernel.obscure.html"
+>Obscure settings</A
+></DT
+><DD
+><DL
+><DT
+>13.2.1. <A
+HREF="lartc.kernel.obscure.html#AEN1492"
+>Generic ipv4</A
+></DT
+><DT
+>13.2.2. <A
+HREF="lartc.kernel.obscure.html#AEN1673"
+>Per device settings</A
+></DT
+><DT
+>13.2.3. <A
+HREF="lartc.kernel.obscure.html#AEN1730"
+>Neighbor policy</A
+></DT
+><DT
+>13.2.4. <A
+HREF="lartc.kernel.obscure.html#AEN1782"
+>Routing settings</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>14. <A
+HREF="lartc.adv-qdisc.html"
+>Advanced &amp; less common queueing disciplines</A
+></DT
+><DD
+><DL
+><DT
+>14.1. <A
+HREF="lartc.adv-qdisc.html#LARTC.ADV-QDISC.BFIFO-PFIFO"
+><TT
+CLASS="LITERAL"
+>bfifo</TT
+>/<TT
+CLASS="LITERAL"
+>pfifo</TT
+></A
+></DT
+><DD
+><DL
+><DT
+>14.1.1. <A
+HREF="lartc.adv-qdisc.html#AEN1861"
+>Parameters &amp; usage</A
+></DT
+></DL
+></DD
+><DT
+>14.2. <A
+HREF="lartc.adv-qdisc.csz.html"
+>Clark-Shenker-Zhang algorithm (CSZ)</A
+></DT
+><DT
+>14.3. <A
+HREF="lartc.adv-qdisc.dsmark.html"
+>DSMARK</A
+></DT
+><DD
+><DL
+><DT
+>14.3.1. <A
+HREF="lartc.adv-qdisc.dsmark.html#AEN1902"
+>Introduction</A
+></DT
+><DT
+>14.3.2. <A
+HREF="lartc.adv-qdisc.dsmark.html#AEN1907"
+>What is Dsmark related to?</A
+></DT
+><DT
+>14.3.3. <A
+HREF="lartc.adv-qdisc.dsmark.html#AEN1911"
+>Differentiated Services guidelines</A
+></DT
+><DT
+>14.3.4. <A
+HREF="lartc.adv-qdisc.dsmark.html#AEN1919"
+>Working with Dsmark</A
+></DT
+><DT
+>14.3.5. <A
+HREF="lartc.adv-qdisc.dsmark.html#AEN1935"
+>How SCH_DSMARK works.</A
+></DT
+><DT
+>14.3.6. <A
+HREF="lartc.adv-qdisc.dsmark.html#AEN1952"
+>TC_INDEX Filter</A
+></DT
+></DL
+></DD
+><DT
+>14.4. <A
+HREF="lartc.adv-qdisc.ingress.html"
+>Ingress qdisc</A
+></DT
+><DD
+><DL
+><DT
+>14.4.1. <A
+HREF="lartc.adv-qdisc.ingress.html#AEN1980"
+>Parameters &amp; usage</A
+></DT
+></DL
+></DD
+><DT
+>14.5. <A
+HREF="lartc.adv-qdisc.red.html"
+>Random Early Detection (RED)</A
+></DT
+><DT
+>14.6. <A
+HREF="lartc.adv-qdisc.gred.html"
+>Generic Random Early Detection</A
+></DT
+><DT
+>14.7. <A
+HREF="lartc.adv-qdisc.vc-atm.html"
+>VC/ATM emulation</A
+></DT
+><DT
+>14.8. <A
+HREF="lartc.adv-qdisc.wrr.html"
+>Weighted Round Robin (WRR)</A
+></DT
+></DL
+></DD
+><DT
+>15. <A
+HREF="lartc.cookbook.html"
+>Cookbook</A
+></DT
+><DD
+><DL
+><DT
+>15.1. <A
+HREF="lartc.cookbook.html#LARTC.COOKBOOK.SLA"
+>Running multiple sites with different SLAs</A
+></DT
+><DT
+>15.2. <A
+HREF="lartc.cookbook.synflood-protect.html"
+>Protecting your host from SYN floods</A
+></DT
+><DT
+>15.3. <A
+HREF="lartc.cookbook.icmp-ratelimit.html"
+>Rate limit ICMP to prevent dDoS</A
+></DT
+><DT
+>15.4. <A
+HREF="lartc.cookbook.interactive-prio.html"
+>Prioritizing interactive traffic</A
+></DT
+><DT
+>15.5. <A
+HREF="lartc.cookbook.squid.html"
+>Transparent web-caching using <SPAN
+CLASS="APPLICATION"
+>netfilter</SPAN
+>,
+	<SPAN
+CLASS="APPLICATION"
+>iproute2</SPAN
+>, <SPAN
+CLASS="APPLICATION"
+>ipchains</SPAN
+> and 
+	<SPAN
+CLASS="APPLICATION"
+>squid</SPAN
+></A
+></DT
+><DD
+><DL
+><DT
+>15.5.1. <A
+HREF="lartc.cookbook.squid.html#AEN2139"
+>Traffic flow diagram after implementation</A
+></DT
+></DL
+></DD
+><DT
+>15.6. <A
+HREF="lartc.cookbook.mtu-discovery.html"
+>Circumventing Path MTU Discovery issues with per route MTU settings</A
+></DT
+><DD
+><DL
+><DT
+>15.6.1. <A
+HREF="lartc.cookbook.mtu-discovery.html#AEN2164"
+>Solution</A
+></DT
+></DL
+></DD
+><DT
+>15.7. <A
+HREF="lartc.cookbook.mtu-mss.html"
+>Circumventing Path MTU Discovery issues with MSS Clamping
+  (for ADSL, cable, PPPoE &amp; PPtP users)</A
+></DT
+><DT
+>15.8. <A
+HREF="lartc.cookbook.ultimate-tc.html"
+>The Ultimate Traffic Conditioner: Low Latency, Fast Up &amp; Downloads</A
+></DT
+><DD
+><DL
+><DT
+>15.8.1. <A
+HREF="lartc.cookbook.ultimate-tc.html#AEN2210"
+>Why it doesn't work well by default</A
+></DT
+><DT
+>15.8.2. <A
+HREF="lartc.cookbook.ultimate-tc.html#AEN2233"
+>The actual script (CBQ)</A
+></DT
+><DT
+>15.8.3. <A
+HREF="lartc.cookbook.ultimate-tc.html#AEN2241"
+>The actual script (HTB)</A
+></DT
+></DL
+></DD
+><DT
+>15.9. <A
+HREF="lartc.ratelimit.single.html"
+>Rate limiting a single host or netmask</A
+></DT
+><DT
+>15.10. <A
+HREF="lartc.cookbook.fullnat.intro.html"
+>Example of a full nat solution with QoS</A
+></DT
+><DD
+><DL
+><DT
+>15.10.1. <A
+HREF="lartc.cookbook.fullnat.intro.html#AEN2279"
+>Let's begin optimizing that scarce bandwidth</A
+></DT
+><DT
+>15.10.2. <A
+HREF="lartc.cookbook.fullnat.intro.html#AEN2313"
+>Classifying packets</A
+></DT
+><DT
+>15.10.3. <A
+HREF="lartc.cookbook.fullnat.intro.html#AEN2333"
+>Improving our setup</A
+></DT
+><DT
+>15.10.4. <A
+HREF="lartc.cookbook.fullnat.intro.html#AEN2338"
+>Making all of the above start at boot</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>16. <A
+HREF="lartc.bridging.html"
+>Building bridges, and pseudo-bridges with Proxy ARP</A
+></DT
+><DD
+><DL
+><DT
+>16.1. <A
+HREF="lartc.bridging.html#LARTC.BRIDGING.IPTABLES"
+>State of bridging and iptables</A
+></DT
+><DT
+>16.2. <A
+HREF="lartc.bridging.shaping.html"
+>Bridging and shaping</A
+></DT
+><DT
+>16.3. <A
+HREF="lartc.bridging.proxy-arp.html"
+>Pseudo-bridges with Proxy-ARP</A
+></DT
+><DD
+><DL
+><DT
+>16.3.1. <A
+HREF="lartc.bridging.proxy-arp.html#AEN2364"
+>ARP &amp; Proxy-ARP</A
+></DT
+><DT
+>16.3.2. <A
+HREF="lartc.bridging.proxy-arp.html#AEN2371"
+>Implementing it</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>17. <A
+HREF="lartc.dynamic-routing.html"
+>Dynamic routing - OSPF and BGP</A
+></DT
+><DD
+><DL
+><DT
+>17.1. <A
+HREF="lartc.dynamic-routing.html#LARTC.DYNAMIC-ROUTING.OSPF"
+>Setting up OSPF with Zebra</A
+></DT
+><DD
+><DL
+><DT
+>17.1.1. <A
+HREF="lartc.dynamic-routing.html#LARTC.DYNAMIC-ROUTING.OSPF.PREREQ"
+>Prerequisites</A
+></DT
+><DT
+>17.1.2. <A
+HREF="lartc.dynamic-routing.html#LARTC.DYNAMIC-ROUTING.OSPF.ZEBRACFG"
+>Configuring Zebra</A
+></DT
+><DT
+>17.1.3. <A
+HREF="lartc.dynamic-routing.html#LARTC.DYNAMIC-ROUTING.OSPF.RUNNING"
+>Running Zebra</A
+></DT
+></DL
+></DD
+><DT
+>17.2. <A
+HREF="lartc.dynamic-routing.bgp.html"
+>Setting up BGP4 with Zebra</A
+></DT
+><DD
+><DL
+><DT
+>17.2.1. <A
+HREF="lartc.dynamic-routing.bgp.html#LARTC.DYNAMIC-ROUTING.BGP.NETMAP"
+>Network Map (Example)</A
+></DT
+><DT
+>17.2.2. <A
+HREF="lartc.dynamic-routing.bgp.html#LARTC.DYNAMIC-ROUTING.BGP.CONFIG"
+>Configuration (Example)</A
+></DT
+><DT
+>17.2.3. <A
+HREF="lartc.dynamic-routing.bgp.html#AEN2512"
+>Checking Configuration</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>18. <A
+HREF="lartc.other.html"
+>Other possibilities</A
+></DT
+><DT
+>19. <A
+HREF="lartc.further.html"
+>Further reading</A
+></DT
+><DT
+>20. <A
+HREF="lartc.ack.html"
+>Acknowledgements</A
+></DT
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="lartc.dedication.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Dedication</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

@@ -1,0 +1,132 @@
+<?xml version="1.1" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_US" xml:lang="en_US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body {
+	font-family: Gadget, sans-serif;
+	background: #dde;
+}
+#page {
+	margin: 0 auto;
+	width: 800px;
+}
+#header {
+	width: 740px;
+	padding: 10px;
+	margin: 10px 0 10px 0;
+	background: #88d;
+	text-align: center;
+}
+#main {
+	width: 740px;
+	padding: 10px;
+	margin: 10px 0 10px 0;
+	background: #fff;
+}
+.codesample {
+	margin-left: 20px;
+	line-height: 170%;
+	font-size: 1em;
+}
+.codenote {
+	font-family: Gadget, sans-serif;
+	font-style: italic;
+}
+.download {
+	text-align: center;
+}
+.download a {
+	color: #33d;
+	text-decoration: none;
+}
+.download a:visited {
+	color: #33d;
+	text-decoration: none;
+}
+</style>
+<title>TAYGA - NAT64 for Linux</title>
+</head>
+<body>
+
+<div id="page">
+
+<div id="header">
+<h1>TAYGA</h1>
+<h2>Simple, no-fuss NAT64 for Linux</h2>
+</div>
+
+<div id="main">
+
+<h1>Building TAYGA for TomatoUSB</h1>
+
+<p><a href=".">Back to main page</a></p>
+
+<p><a href="mailto:stevenrwalter@gmail.com">Steven Walter</a> contributed the
+below instructions on how to build TAYGA for the <a
+href="http://tomatousb.org/">TomatoUSB firmware</a> for WRT54-like
+home routers.</p>
+
+<pre>
+I started with a Tomato USB firmware with IPv6 and JFFS enabled.  To
+start with I downloaded the git repository for Tomato, since it
+contains the necessary MIPS cross-compiler tool chain.
+
+Read tools/README in the tomato source tree and follow the
+instructions for putting the compiler toolchain in $PATH.  You can go
+ahead and build Tomato as indicated; the only part that's really
+necessary is to build the tun.o kernel module.  It is built by
+default, but not included in the flash image.  Alternately, you can
+use a firmware image that supports OpenVPN.  To build TAYGA, configure
+it like so:
+
+    CC=mipsel-linux-uclibc-gcc ./configure --host=mipsel-linux-uclibc \
+          --build=i686-linux-gnu-pc
+
+You can build it with the usual "make", and then copy the binary to
+/jffs on your router.  You might want to strip it with
+mipsel-linux-uclibc-strip first.  Then copy tun.o also onto /jffs, if
+necessary.  Create /jffs/tayga.conf as you would for any other Linux
+system.
+
+From the router's shell:
+
+    # cd /jffs
+    # insmod ./tun.o
+    # ./tayga -c tayga.conf --mktun
+    # (configure your tun device, use "ip" just like on any other Linux system)
+    # ./tayga -c tayga.conf
+
+At this point tayga is running and functional.  You might find, as I
+did, that the default firewall rules prevent it from being very
+useful.  I added this rules to my iptables:
+
+    # iptables -A FORWARD -i nat64 -j ACCEPT
+    # iptables -A FORWARD -o nat64 -j ACCEPT
+
+ip6tables will need to allow forwarding as well, but that was not
+already denied on my system.
+</pre>
+
+</div>
+</div>
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=6422212; 
+var sc_invisible=1; 
+var sc_security="62e370f3"; 
+</script>
+
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script><noscript><div
+class="statcounter"><a title="weebly analytics"
+href="http://statcounter.com/weebly/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/6422212/0/62e370f3/1/"
+alt="weebly analytics" ></a></div></noscript>
+<!-- End of StatCounter Code -->
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<html>
+<head><title>cryptlib</title></head>
+
+<body background="img/backgrou.gif" bgcolor="#C0C0C0" text="#000000" link="#0066BB" vlink="#000000">
+
+<center><h2><img src="img/t_smime.gif" alt="S/MIME"></h2></center>
+
+<table>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+cryptlib employs the IETF-standardised Cryptographic Message Syntax (CMS,
+formerly called PKCS #7) format as its native data format.  CMS is the
+underlying format used in the S/MIME secure mail standard, as well as a number
+of other standards covering secure EDI and related systems like HL7 medical
+messaging and the Session Initiation Protocol (SIP) for services such as
+Internet telephony and instant messaging.  As an example of its use in secure
+EDI, cryptlib provides security services for the Symphonia EDI messaging
+toolkit which is used to communicate medical lab reports, patient data, drug
+prescription information, and similar information requiring a high level of
+security.
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+The S/MIME implementation uses cryptlib's enveloping interface which allows
+simple, rapid integration of strong encryption and authentication capabilities
+into existing email agents and messaging software.  The resulting signed
+enveloped data format provides message integrity and origin authentication
+services, the encrypted enveloped data format provides confidentiality.  In
+addition cryptlib's S/MIME implementation allows external services such as
+trusted timestamping authorities (TSAs) to be used when a signed message is
+created, providing externally-certified proof of the time of message creation.
+The complexity of the S/MIME format means that the few other toolkits that are
+available require a high level of programmer knowledge of S/MIME processing
+issues.  In contrast cryptlib's enveloping interface makes the process as
+simple as pushing raw data into an envelope and popping the processed data
+back out, a total of three function calls, plus one more call to add the
+appropriate encryption or signature key.
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+Alongside the PKCS #7/CMS/SMIME formats, cryptlib supports the PGP/OpenPGP
+message format, allowing it to be used to send and receive PGP-encrypted email
+and data.  As with the S/MIME implementation, the PGP implementation uses
+cryptlib's enveloping interface to allow simple, rapid integration of strong
+encryption and authentication capabilities into existing email agents and
+messaging software.  Since the enveloping interface is universal, the process
+involved in creating PGP and S/MIME messages is identical except for the
+envelope format specifier, allowing a one-off development effort to handle any
+secure message format.
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+The complexity of the S/MIME and PGP/OpenPGP formats means that the few other
+toolkits that are available require a high level of programmer knowledge of
+S/MIME and PGP/OpenPGP processing issues.  In contrast cryptlib's enveloping
+interface makes the process as simple as pushing raw data into an envelope and
+popping the processed data back out, a total of three function calls, plus one
+more call to add the appropriate encryption or signature key.  The code to
+create an S/MIME signed message is as follows:<p>
+
+<pre>
+  CRYPT_ENVELOPE cryptEnvelope;
+  int bytesCopied;
+
+  cryptCreateEnvelope( &cryptEnvelope, CRYPT_FORMAT_SMIME );
+
+  /* Push in the signing key */
+  cryptSetAttribute( cryptEnvelope, CRYPT_ENVINFO_SIGNATURE, sigKeyContext );
+
+  /* Push in the data and pop out the processed data */
+  cryptPushData( cryptEnvelope, data, dataLength, &bytesCopied );
+  cryptFlushData( cryptEnvelope );
+  cryptPopData( cryptEnvelope, processedData, processedDataBufsize, &bytesCopied );
+
+  cryptDestroyEnvelope( cryptEnvelope );
+</pre>
+
+To encrypt instead of signing, change the second function call to:<p>
+
+<pre>
+  /* Push in the certificate */
+  cryptSetAttribute( cryptEnvelope, CRYPT_ENVINFO_PUBLICKEY, certificate );
+</pre>
+
+That's all that's necessary (you can copy this code directly into your
+application to S/MIME-enable it).  To do the same for PGP/OpenPGP, just change
+the CRYPT_FORMAT_SMIME to CRYPT_FORMAT_PGP.
+</td></tr>
+
+</table>
+
+</body>
+
+</html>
+

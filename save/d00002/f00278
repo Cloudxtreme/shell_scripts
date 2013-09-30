@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.45
+     from nwf on 12 January 1997 -->
+
+<TITLE>NetBSD/amiga-Networking-FAQ - FAQ11</TITLE>
+</HEAD>
+<BODY>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_65.html">previous</A>, <A HREF="nwf_67.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_55.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+<HR>
+
+
+<H2><A NAME="SEC66" HREF="nwf_toc.html#SEC66">5.11 Is there some software for building a Firewall?</A></H2>
+
+<P>
+Try Darren Reed's <CODE>ipfilter</CODE>, which is a TCP/IP packet filter. It
+can:
+
+</P>
+
+<UL>
+<LI>explicitly deny/permit any packet from passing through
+
+<LI>distinguish between various interfaces
+
+<LI>filter by IP networks or hosts
+
+<LI>selectively filter any IP protocol
+
+<LI>selectively filter fragmented IP packets
+
+<LI>selectively filter packets with IP options.
+
+<LI>send back an ICMP error/TCP reset for blocked packets
+
+<LI>keep packet state information for TCP, UDP and ICMP packet flows.
+
+<LI>keep fragment state information for any IP packet, applying the same rule to all fragments.
+
+<LI>act as a Network Address Translator (NAT)
+
+<LI>use redirection to setup true transparent proxy connections.
+
+</UL>
+
+<P>
+Special provision is made for the three most common Internet protocols,
+TCP, UDP and ICMP. The IP Packet filter allows filtering of:
+
+</P>
+
+<UL>
+<LI>TCP/UDP packets by port number or a port number range
+
+<LI>ICMP packets by type/code
+
+<LI>"established" TCP packets
+
+<LI>on any arbitary combination of TCP flags
+
+<LI>"short" (fragmented) IP packets with incomplete headers can be filtered
+
+<LI>any of the 19 IP options or 8 registered IP security  classes
+
+<LI>TOS (Type of Service) field in packets
+
+</UL>
+
+<P>
+For more information, check out the ipfilter-homepage at
+<A HREF="http://www.cyber.com.au/users/darrenr/">http://www.cyber.com.au/users/darrenr/</A>. 
+
+</P>
+<P>
+If setting up a whole packet filter seems overkill to you, there's a
+package called tcp_wrapper, which you can put in your <TT>`/etc/inetd.conf'</TT>
+and which will only allow/deny certain services based on a pser host/user 
+basis. The package is available under
+<A HREF="ftp://cert.org/pub/tools/tcp_wrappers/">ftp://cert.org/pub/tools/tcp_wrappers/</A>.
+
+</P>
+
+<HR>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_65.html">previous</A>, <A HREF="nwf_67.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_55.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+</BODY>
+</HTML>

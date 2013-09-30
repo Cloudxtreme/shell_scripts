@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<TITLE>
+TAHI Conformance Test Report
+</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<CENTER>
+<H1>IPv6 Conformance Test Report for LINUX</H1>
+as of September 20, 2000.
+</CENTER>
+
+<P align="right">
+Done by<BR>
+<A HREF="http://www.tahi.org/">TAHI Project</A><BR>
+<A HREF="http://www.v6.linux.or.jp/">Linux IPv6 Users Group JP</A><BR>
+<A HREF="http://www.linux-ipv6.org/">USAGI Project</A><BR>
+<A HREF="http://www.v6.wide.ad.jp/">WIDE Project, V6 Working Group</A><BR>
+</P>
+
+<UL>
+      <LI> <a href="#soukatu">Summary</a>
+      <LI> <a href="#linux">Results of Linux IPv6 implementation</a>
+      <LI> <a href="#kame">Results of KAME IPv6 implementation</a>
+      <LI> <a href="graph.png">Comparison Linux and KAME</a>
+</UL>
+
+
+<HR>
+<center>
+<H1><a name="soukatu">Summary</a></H1>
+</center>
+<P>
+As of September 22, 2000, The release of Linux-2.4.0 kernel is imminent. Some of
+new features are introduced into the kernel and the performance of SMP is improved.
+Regarding IPv6 protocol stack, sin6_scope_id field is introduced and some function
+are improved.
+</p>
+<p>
+In spite of some improvement, it still has many problems such as below.
+</p>
+<UL>
+      <LI>It is not in compliance with latest RFCs.
+      <LI>Some functions are missing.
+      <LI>Some functions are miss-implemented.
+      <LI>Because the kernel and libc are developped separately, they have inconsistent each other.
+</UL>
+<p>
+As a result, we think that the IPv6 implementation of Linux is inferior to other ones.
+
+In order to make a guideline to improve the implementations, 
+we decide to ask <a href="http://www.tahi.org/">TAHI project</a> 
+for checking IPv6 conformance of the Linux kernel.
+After checking Linux IPv6 implementation, we try to compare it and 
+<a href="http://www.kame.net/">KAME</a> implementation
+which is highly evaluated as a referential IPv6 implementation. 
+</p>
+<p>
+We publish the results because we want to show the reason for improving Linux
+implementation officially and make a guideline for improving it.
+</p>
+
+<hr>
+
+<CENTER>
+<H1><a name="linux">Results of Linux IPv6 implementation</a></H1>
+</CENTER>
+
+<H2>Target Info</H2>
+<UL>
+<LI>Kernel 2.2.15
+<LI>glibc 2.1.2
+</UL>
+
+<H2>Host Test</H2>
+<p> The result of checking functions as a IPv6 host, such as 
+ICMPv6, NDP, autoconfiguration and so on.  There are many failed items
+ in NDP and autoconfiguration sections which are fundamental functions for
+IPv6 specs.</P>
+
+<UL>
+<LI><A HREF="linux-20000612/spec/index.html">
+    IPv6 Specification</A>
+    <BR>
+    Checked items: 35, Succeeded: 33, Failed: 2, Success rate: 94%
+
+<LI><A HREF="linux-20000612/icmp/index.html">
+    ICMPv6 for IPv6 Specification</A>
+    <BR>
+    Checked items: 16, Succeeded: 16, Failed: 0, Success rate: 100%
+
+<LI><A HREF="linux-20000612/nd/index.html">
+    Neighbor Discovery</A>
+    <BR>
+    Checked items: 58, Succeeded: 20, Failed: 38, Success rate: 34%
+
+<LI><A HREF="linux-20000612/stateless-addrconf/index.html">
+    IPv6 Stateless Address Autoconfiguration</A>
+    <BR>
+    Checked items: 57, Succeeded: 2, Failed: 55, Success rate: 4%
+
+<LI><A HREF="linux-20000612/pmtu/index.html">
+    IPv6 Path MTU Discovery</A>
+    <BR>
+    Checked items: 4, Succeeded: 2, Failed: 2, Success rate: 50%
+
+<LI><A HREF="linux-20000612/ipsec/index.html">IPSec AH and ESP for IPv6</a>
+    <BR>
+    Checked items: 61, Succeeded: 1, Failed: 60, Success rate: 0%
+
+<LI>IPSec AH and ESP for IPv4
+    <BR>Not tested.
+
+<LI><A HREF="linux-20000612/tunnel/index.html">
+    IPv6 over IPv4 Tunnel</A>
+    <BR>
+    Checked items: 4, Succeeded: 4, Failed: 0, Success rate: 100%
+
+<LI><A HREF="linux-20000612/robust/index.html">
+    Robustness</A>
+    <BR>
+    Checked items: 4, Succeeded: 4, Failed: 0, Success rate: 100%
+</UL>
+
+<HR>
+
+<CENTER>
+<H1><a name="kame">Results of KAME IPv6 implementation</a></H1>
+</CENTER>
+
+<H2>Target Info</H2>
+<UL>
+<LI>KAME Stable-20000704 on FreeBSD 3.4
+<LI>Host
+</UL>
+
+<H2>Host Test</H2>
+<P>
+In order to compare with Linux implementation, we show the result of KAME implementation,
+ which is already evaluated as a referential IPv6 implementation.
+The KAME implementation has passed almost all items. Please check the success rate of KAME
+implementation and Linux one.
+</p>
+
+<UL>
+<LI><A HREF="freebsd34-stable-20000704/host/spec/index.html">
+    IPv6 Specification</A>
+    <BR>
+    Checked items: 35, Succeeded: 35, Failed: 0, Success rate: 100%
+
+<LI><A HREF="freebsd34-stable-20000704/host/icmp/index.html">
+    ICMPv6 for IPv6 Specification</A>
+    <BR>
+    Checked items: 16, Succeeded: 16, Failed: 0, Success rate: 100%
+
+<LI><A HREF="freebsd34-stable-20000704/host/nd/index.html">
+    Neighbor Discovery</A>
+    <BR>
+    Checked items: 58, Succeeded: 56, Failed: 2, Success rate: 97%
+
+<LI><A HREF="freebsd34-stable-20000704/host/stateless-addrconf/index.html">
+    IPv6 Stateless Address Autoconfiguration</A>
+    <BR>
+    Checked items: 57, Succeeded: 56, Failed: 1, Success rate: 98%
+
+<LI><A HREF="freebsd34-stable-20000704/host/pmtu/index.html">
+    IPv6 Path MTU Discovery</A>
+    <BR>
+    Checked items: 4, Succeeded: 3, Failed: 1, Success rate: 75%
+
+<LI><A HREF="freebsd34-stable-20000704/host/ipsec/index.html">
+    IPSec AH and ESP for IPv6</A>
+    <BR>
+    Checked items: 61, Succeeded: 61, Failed: 0, Success rate: 100%
+
+<LI><A HREF="freebsd34-stable-20000704/host/ipsec4/index.html">
+    IPSec AH and ESP for IPv4</A>
+    <BR>
+    Checked items: 49, Succeeded: 48, Failed: 1, Success rate: 98%
+
+<LI><A HREF="freebsd34-stable-20000704/host/tunnel/index.html">
+    IPv6 over IPv4 Tunnel</A>
+    <BR>
+    Checked items: 4, Succeeded: 2, Failed: 2, Success rate: 50%
+
+<LI><A HREF="freebsd34-stable-20000704/host/robust/index.html">
+    Robustness</A>
+    <BR>
+    Checked items: 4, Succeeded: 4, Failed: 0, Success rate: 100%
+
+</UL>
+
+<HR>
+2000.9.13, <A HREF="mailto:contact@tahi.org">contact@tahi.org</A>
+
+</BODY>
+
+</HTML>

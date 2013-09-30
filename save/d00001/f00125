@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=us-ascii" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<link rel="stylesheet" href="/~kazu/green.css" type="text/css" media="all" />
+<script type="text/javascript" src="/~kazu/menu.js"></script>
+<script type="text/javascript" src="submenu.js"></script>
+<title>Weight-Balanced Trees</title></head>
+<body onload="Submenu.create()">
+<div id="main">
+
+<h1>Weight-Balanced Trees</h1>
+<div class="right">
+<p>Kazu Yamamoto<br />
+created: 2011.1.25<br />
+modified: 2011.2.1</p>
+</div>
+<p>Weight-Balanced Trees(or binary search trees of bounded balance) are binary search trees which can be used to implement
+sets and finite maps (key-value store). This structure is widely used in
+functional languages. For instance, Haskell uses this for
+<a href="http://haskell.org/ghc/docs/6.12.3/html/libraries/containers-0.3.0.0/Data-Set.html">Data.Set</a> and
+<a href="http://haskell.org/ghc/docs/6.12.3/html/libraries/containers-0.3.0.0/Data-Map.html">Data.Map</a>.
+<a href="http://www.gnu.org/software/mit-scheme/">MIT/GNU Scheme</a> and
+<a href="http://people.csail.mit.edu/jaffer/SLIB">slib</a> provides
+<a href="http://web.mit.edu/scheme_v9.0.1/doc/mit-scheme-ref/Weight_002dBalanced-Trees.html">wttree</a>.</p>
+<h2>History</h2>
+<p>The original weight balanced tree is invested by Nievergelt and
+Reingold in 1972. Its weight is &quot;size + 1&quot;. The balance algorithm has
+two parameters, delta and gamma.
+They defined &lt;delta,gamma&gt; = &lt;1 + sprt 2, sqrt 2&gt;.
+This algorithm and this parameter does not have bugs. That is, the
+balance of a tree is always maintained.
+However, since these parameter are not integer, implementation cost is
+high.</p>
+<ul>
+<li>Nievergelt J. and Reingold E.M., &quot;Binary search trees of bounded balance&quot;, Proceedings of the fourth annual ACM symposium on Theory of computing, pp 137--142, 1972</li>
+</ul>
+<p>In 1991, Adams created a variant of weight balanced tree
+for the programming competition organized by Appel. Its weight
+is purely &quot;size&quot;. He defined (delta,gamma) = (3 or larger, 1)
+in his SML implementations and papers.
+The pair (delta,gamma) of &quot;wttree.scm&quot; is (5,1).</p>
+<ul>
+<li>Adams S., <a href="http://www.swiss.ai.mit.edu/~adams/BB/">Implementing sets efficiently in a functional language</a>, Technical Report CSTR 92-10, University of Southampton, 1992</li>
+</ul>
+<ul>
+<li>Adams S., &quot;Efficient sets: a balancing act, Journal of Functional Programming&quot;, Vol 3, No 4, pp 553--562, 1993</li>
+</ul>
+<p>While Campbell was re-implementing &quot;wttree.scm&quot; in 2010, he found a balancing bug.
+In some cases, the delete operation on a given balanced tree breaks its
+balance.
+He also found Data.Map of Haskell is buggy and made <a href="http://hackage.haskell.org/trac/ghc/ticket/4242">a bug report</a>.
+To our tests, only (3,2) and (4,2) are valid.
+So, all parameter choices by Adams are buggy.</p>
+<p>We (<a href="https://yoichihirai.com/">Mr. Hirai</a> and <a href="http://www.mew.org/~kazu/">me</a>) mathematically proved in Coq that &lt;3,2&gt; is one
+and only one interger solution for the original weight balanced tree
+(not Adams's one).</p>
+<h2>Fixes</h2>
+<ul>
+<li>In Dec 2010, <a href="http://git.savannah.gnu.org/cgit/mit-scheme.git/plain/src/runtime/wttree.scm?id=89f138dfb7b37a4ac25d1046fb66583e6a6172c8">slib incorporated our patch</a>. (wttree.scm in slib 3b3 or earlier has this bug.)</li>
+<li>In Jan 2011, <a href="http://git.savannah.gnu.org/cgit/mit-scheme.git/commit/?id=fa7ec497241664b891e2b57c8330b47e6c8ede11">MIT/GNU Scheme incorporated our patch</a>. (wttree.scm in MIT/GNU Scheme 9.0.1 or earlier has this bug.)</li>
+<li>Data.Map in the container package 0.3.0.0 or earlier has this bug. We would propose to incorporate our patch.</li>
+</ul>
+<h2>Resources</h2>
+<ul>
+<li><a href="http://yoichihirai.com/bst.pdf">Balancing Weight-Balanced Trees</a>, Journal of Functional Programming. Volume 21, Issue 03, pp 287-307. (The old title is &quot;Balance Condition on Weight-Balanced Trees&quot;.)</li>
+<li><a href="http://yoichihirai.com/Balance.v">Our proof in Coq</a></li>
+<li><a href="https://github.com/kazu-yamamoto/bst">Our code for algorithm implementation, tests, Omega Solver, and benchmarks</a> are available on github.</li>
+<li><a href="https://github.com/kazu-yamamoto/wttree">Our fixes for MIT/GNU Scheme and slib</a> are also available on github. To demonstrate Adams's implementation is buggy and our patch fixes the bug, we implemented a test framework like QuickCheck.</li>
+<li><a href="./valid-area.png">The valid area of &lt;delta,gamma&gt;</a> for the original weight balanced tree is illustrated.</li>
+</ul>
+
+</div>
+<div id="submenu"></div>
+</body>
+</html>

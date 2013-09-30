@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <title>Python program: pydig</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <!-- Copyright (C) 2006, 2007, 2008 Shumon Huque -->
+  <meta name="author" content="Shumon Huque">
+  <meta name="keywords"
+          content="pydig, Python, DNS query tool, dig, DNSSEC,
+                  software, Huque, Shumon, Shumon Huque, Python programs">
+  <meta name="description"
+          content="pydig, a Python program to perform DNS queries, zone transfers, and enumeration of DNSSEC secured zones.">
+  <link rel="stylesheet" type="text/css" href="/~shuque/style/document1.css">
+</head>
+
+<!-- Background white, links blue (unvisited), navy (visited), red (active) -->
+ <BODY
+  BGCOLOR="#FFFFFF"
+  TEXT="#000000"
+  LINK="#0000FF"
+  VLINK="#000080"
+  ALINK="#FF0000"
+ >
+<h1>pydig: a DNS query tool written in Python</h1>
+
+
+<h2>Source code</h2>
+<ul>
+<li><a href="pydig.src.txt">View source code</a>
+<li>Download: 
+    <a href="pydig-0.7.tar.gz">pydig-0.7.tar.gz</a>,
+    <a href="pydig-0.7.tar.gz.asc">PGP signature</a>,  (latest version)<br>
+</ul>
+
+Usage:
+<pre>
+
+        pydig [list of options] <qname> [&lt;qtype&gt;] [&lt;qclass&gt;]
+
+        pydig @server +walk &lt;zone&gt;
+
+Options:
+
+        -h                        print program usage information
+        @server                   server to query
+        -pNN                      use port NN
+        +tcp                      send query via TCP
+        +aaonly                   set authoritative answer bit
+        +cdflag                   set checking disabled bit
+        +norecurse                set rd bit to 0 (recursion not desired)
+        +edns0                    use EDNS0 with 4096 octet UDP payload
+        +dnssec                   request DNSSEC RRs in response
+        +hex                      print hexdump of rdata field
+        +walk                     walk (enumerate) a DNSSEC secured zone
+	+0x20			  randomize case of query name (bit 0x20 hack)
+        -4                        perform queries using IPv4
+        -6                        perform queries using IPv6
+        -d                        request additional debugging output
+	-k/path/to/keyfile        use TSIG key in specified file
+        -iNNN                     use specified message id
+        -tNNN                     use this TSIG timestamp (secs since epoch)
+        -y&lt;alg&gt;:&lt;name&gt;:&lt;key&gt;      use specified TSIG alg, name, key
+
+Example usage:
+
+       pydig www.example.com
+       pydig www.example.com A
+       pydig www.example.com A IN
+       pydig @10.0.1.2 example.com MX
+       pydig @dns1.example.com _blah._tcp.foo.example.com SRV
+       pydig @192.168.42.6 +dnssec +norecurse blah.example.com NAPTR
+       pydig @dns2.example.com -6 +hex www.example.com
+       pydig @192.168.72.3 +walk secure.example.com
+       pydig @192.168.14.7 -yhmac-md5:my.secret.key.:YWxidXMgZHVtYmxlZG9yZSByaWNoYXJkIGRhd2tpbnM= example.com axfr
+
+</pre>
+
+<h3>Description</h3>
+<p>
+        A small python program to perform DNS queries. It works mostly 
+        similarly to the dig program that comes with Bind. I wrote it 
+        mostly for fun, while trying to understand DNSSEC. And in general, 
+        for most queries, there is no reason to use it in preference to 
+        dig. However, it does a few things differently that I needed from 
+        time to time, such as: optionally presenting a hexdump of the 
+        resource data rather than decoding it; decoding the exponent in 
+        a RSA/SHA-1 DNSKEY; printing out names of DNSSEC related crypto 
+        hashes and algorithms; counting how many compression references 
+        were followed; implementing the 0x20 bit case randomization hack;
+        providing more detailed statistics on TSIG authenticated zone
+        transfers, reporting query/response size amplification factor, etc.
+	It also has an option to walk a DNSSEC secured  zone and enumerate 
+	all its resource records - this obviously only works on NSEC zones.
+</p>
+<p>
+        RR type and class codes (qtype and qclass) unknown to this 
+        program can be specified with the TYPE123 and CLASS123 syntax.
+</p>
+<p>
+        This program is self contained, doesn't need to be installed
+        in any particular location, and doesn't depend on any 3rd
+        party modules. All it needs is a recent version of Python (and
+        it's standard library).
+</p>
+
+<h3>Limitations</h3>
+<p>
+        Expects well formed (ie. correct) DNS responses. Otherwise 
+        it will likely generate an exception and terminate itself
+        ungracefully.
+</p>
+<p>
+        Certain combinations of options don't make any sense (eg.
+        +tcp and +edns0). pydig doesn't bother to check that, and 
+	just ignores the nonsensical ones. Certain options also 
+	imply other options, eg. +walk and +dnssec imply +edns0.
+</p>
+<p>
+        For TSIG (Transaction Signature) signed messages, only the
+        manadatory-to-implement HMAC-MD5 TSIG signature algorithm is
+        supported.
+</p>
+<p>
+        It does not yet verify signatures in DNSSEC secured data.
+</p>
+<p>
+        It does not perform iterative resolution (eg. dig's +trace).
+</p>
+
+<h3>Pre-requisites</h3>
+
+<pre>
+	Python 2.3 or later
+
+Platforms:
+
+	Tested on the following platforms:
+		Solaris 8, 9, 10, and 11
+		Linux 2.x
+		Mac OS X 10.4 - 10.7
+
+	and with Python 2.3 - 2.7.
+
+Installation:
+
+1. (as root) make install
+
+</pre>
+
+Shumon Huque<br>
+E-mail: shuque -at- upenn.edu<br>
+Web: <a href="/~shuque/">http://www.huque.com/~shuque/</a><br>
+Philadelphia, United States of America.
+
+<p>
+
+Copyright (c) 2006 - 2012 Shumon Huque. All rights reserved. This program 
+is free software; and is distributed under the terms of the GNU General
+Public License.
+
+<p>
+This page has been translated to <a href="http://science.webhostinggeeks.com/pidig-dns-upitni-alat">Serbo-Croatian</a> language by Jovana Milutinovich.
+<p>
+
+Back to <a href="/~shuque/">Shumon Huque's home page</a> or 
+<a href="/">website</a><br>
+ </BODY>
+</HTML>

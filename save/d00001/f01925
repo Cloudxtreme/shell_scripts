@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="Description" content="Points of Presence, SixXS - IPv6 Deployment and IPv6 Tunnel Broker, helping to deploy IPv6 around the world, IPv6 monitoring, IPv6 routing monitoring, IPv6 coordination, IPv6 Transition" />
+<meta name="Keywords" content="Points of Presence, sixxs, ipv6, deployment, tunnel broker, free, public, tunnel, broker, tunnelbroker, lir, pim van pelt, jeroen massar, ipng, ghost, route, hunter, bogon, bogons, AS8298, AYIYA, AICCU, TIC, heartbeat" />
+<meta name="Author" content="Jeroen Massar and Pim van Pelt" />
+<meta name="Copyright" content="(c)2001-2013 SixXS" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Robots" content="NOODP" /><!-- ODP has a very wrong description -->
+<link rel="alternate" type="application/rss+xml" title="SixXS PoP Status (RSS)" href="/pops/status/rss/" />
+<link rel="stylesheet" type="text/css" href="/s/style.css" />
+<link rel="shortcut icon" href="/s/favicon.ico" />
+<link rel="author" href="https://plus.google.com/100086401179058661515/posts" />
+<link rel="publisher" href="https://plus.google.com/100086401179058661515" />
+<title>SixXS - IPv6 Deployment &amp; Tunnel Broker :: Points of Presence</title>
+</head>
+<body>
+<header>
+<div class="top">
+<div class="toplogo">
+<a href="/" class="nolines"><img src="/s/top-logo.gif" style="height: 50px; width: 70px" alt="SixXS" title="SixXS" /></a></div>
+<div class="toplogin">
+<form action="https://www.sixxs.net/pops/" method="post">
+<div>
+<abbr title="Please enter your username or (NIC-)Handle, typically xxxn-SIXXS or xxxn-RIPE">Username:<input type="text" name="siteAccount" size="10" /></abbr> <abbr title="Please enter your password">Password:<input type="password" name="sitePassword" size="10" /> </abbr> <input type="submit" name="action" value="Login" /></div>
+</form>
+</div>
+<div class="topmenu">
+<nav>
+<ul id="menu">
+<li><a href="/main/" title="Generic information">Main</a></li>
+<li><a href="/about/" title="About SixXS">About</a></li>
+<li><a href="/contact/" title="Contact information">Contact</a></li>
+<li><a href="/news/" title="News">News</a></li>
+<li><a href="/home/" title="The User's Home">User Home</a></li>
+<li><b>PoPs</b></li>
+<li><a href="/presentations/" title="Presentations done by and for SixXS">Presentations</a></li>
+<li><a href="/faq/" title="Frequently Asked Questions">FAQ</a></li>
+<li><a href="/forum/" title="Forum">Forum</a></li>
+<li><a href="/wiki/" title="Wiki">Wiki</a></li>
+<li class="menulast"><a href="/misc/" title="Misc. information and assorted Tools">Misc/Tools</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</header>
+<table style="width: 100%">
+<tr class="main">
+<td class="main">
+<div class="menu">
+<ul id="sectmenu">
+<li><a href="#pop" title="Points of Presence">Points of Presence</a></li>
+<li><a href="#new" title="New PoP's">New PoP's</a></li>
+<li><a href="#current" title="Current PoP's">Current PoP's</a></li>
+<li><a href="#former" title="Former PoP's">Former PoP's</a></li>
+<li><a href="#naming" title="PoP Naming">PoP Naming</a></li>
+<li><a href="#tunnaming" title="Tunnel Naming Scheme">Tunnel Naming Scheme</a></li>
+<li class="menulast"><a href="prefixes/" title="Prefixes">Prefixes</a></li>
+</ul>
+</div>
+<div style="padding-left: 10px; padding-top: 0px; padding-right: 10px; padding-bottom: 10px">
+<h1>Points of Presence</h1>
+<div style="float: right; text-align: right; padding-left: 10px">
+<h3>Points of Presence Worldwide</h3>
+<img src="http://maps.google.com/maps/api/staticmap?center=Niger&amp;zoom=1&amp;size=550x250&amp;maptype=terrain&amp;key=ABQIAAAA_Z1eoNRNrEWXVqX2balKSBRkYg8aDj8OA98Ld1Xnoz83TscjwRTaL6bec7hNy0XRnrBc3U8dw463zQ&amp;sensor=false&amp;markers=size:small|color:grey&amp;markers=size:small|color:red&amp;markers=size:small|color:green|Brussels,Belgium|Brussels,Belgium|Sint%20Niklaas,Belgium|Uberlandia,Brazil|Prague,Czech%20Republic|Copenhagen,Denmark|Tallinn,Estonia|Torshavn,Faroe%20Islands|Helsinki,Finland|Marseille,France|Cologne,Germany|Duesseldorf,Germany|Hamburg,Germany|Hamburg,Germany|Leonberg,Germany|Muenchen,Germany|Oldenburg,Germany|Athens,Greece|Budapest,Hungary|Budapest,Hungary|Dublin,Ireland|Dublin,Ireland|Torino,Italy|Luxembourg,Luxembourg|Amsterdam,Netherlands,%20The|Amsterdam,Netherlands,%20The|Breda,Netherlands,%20The|Ede,Netherlands,%20The|Haarlem,Netherlands,%20The|Noumea,New%20Caledonia|Wellington,New%20Zealand|Oslo,Norway|Poznan,Poland|Poznan,Poland|Warsaw,Poland|Lisboa,Portugal|St.Petersburg,Russia|Maribor,Slovenia|Stockholm,Sweden|Geneva,Switzerland|Zurich,Switzerland|London,United%20Kingdom%20(Great%20Britain)|London,United%20Kingdom%20(Great%20Britain)|Anchorage,%20Alaska,United%20States|Ashburn,%20Virginia,United%20States|Boston,%20Massachusetts,United%20States|Chicago,%20Illinois,United%20States|Chicago,%20Illinois,United%20States|Los%20Angeles,United%20States|Miami,%20Florida,United%20States|Phoenix,%20Arizona,United%20States|Hanoi,Vietnam" style="border: 1px solid black; height: 250px; width: 550px" alt="SixXS PoPs Worldwide" />
+</div>
+<p id="pop">
+A PoP (Point of Presence) is a router/machine serving IPv6 in IPv4 tunnels.
+In <a href="ftp://ftp.rfc-editor.org/in-notes/rfc3053.txt">RFC3053 IPv6 Tunnel Broker terminology</a> a PoP would be called a Tunnel Server, while SixXS is the Tunnel Broker.
+Each one of these PoPs is under complete control of the owner (the ISP providing it) and using its own DFP for serving out addresses to its clients under the policies defined by PoP's owners.
+SixXS manages the day to day aspects of these PoPs and provides the software and knowledge to run them properly.
+</p>
+<p>
+<img src="/s/info.gif" alt="FAQ" /> <a href="/faq/connectivity/?faq=whichpop">Which PoP should I use?</a><br />
+<img src="/s/info.gif" alt="FAQ" /> <a href="/faq/sixxs/?faq=isp">What can SixXS do for an ISP?</a><br />
+<img src="/s/info.gif" alt="FAQ" /> <a href="/faq/sixxs/?faq=enduser">What can SixXS do for endusers?</a><br />
+</p>
+<p>
+The status of the PoPs can be checked on the <a href="status/">PoP Status/Overview</a> page and per-pop pages linked below.
+Trouble Tickets can be found in the <a href="/tickets/">Tickets Tracker</a>.
+PoP Up/Down status updates are available through RSS <a href="status/rss/" class="nolines"><img src="/s/rss.gif" alt="RSS Feed of PoP Status" /></a>, <a href="http://twitter.com/tweetsix/"><img class="nolines" src="/s/twitbird.gif" title="Follow" alt="Twitter Logo" />@tweetsix</a>, and also on our <a href="/contact/#irc">IRC channel</a>.
+</p>
+<h1>New PoP's</h1>
+<p id="new">
+New PoP's are always welcome to join, which is completely <a href="/faq/misc/?faq=free">free</a>, the PoP is not required to be public and control &amp; usage depend on the policy of the owner.
+<a href="/contact/">Contact us</a> and ask for more information when needed.
+To keep the quality high we've defined a couple of <a href="requirements/">requirements</a> for an ISP to become a SixXS PoP.
+To request a new PoP please provide us a fully filled in <a href="requirements/">requirements</a> form.
+</p>
+<p>
+<img src="/s/info.gif" alt="FAQ" /> <a href="/faq/sixxs/?faq=isp">Reasons for an ISP to setup a PoP</a>
+</p>
+<div style="float: right; text-align: right; padding-left: 10px">
+<h3>Points of Presence Europe</h3>
+<img src="http://maps.google.com/maps/api/staticmap?center=Berlin,Germany&amp;zoom=4&amp;size=550x550&amp;maptype=terrain&amp;key=ABQIAAAA_Z1eoNRNrEWXVqX2balKSBRkYg8aDj8OA98Ld1Xnoz83TscjwRTaL6bec7hNy0XRnrBc3U8dw463zQ&amp;sensor=false&amp;markers=size:small|color:grey&amp;markers=size:small|color:red&amp;markers=size:small|color:green|Brussels,Belgium|Brussels,Belgium|Sint%20Niklaas,Belgium|Uberlandia,Brazil|Prague,Czech%20Republic|Copenhagen,Denmark|Tallinn,Estonia|Torshavn,Faroe%20Islands|Helsinki,Finland|Marseille,France|Cologne,Germany|Duesseldorf,Germany|Hamburg,Germany|Hamburg,Germany|Leonberg,Germany|Muenchen,Germany|Oldenburg,Germany|Athens,Greece|Budapest,Hungary|Budapest,Hungary|Dublin,Ireland|Dublin,Ireland|Torino,Italy|Luxembourg,Luxembourg|Amsterdam,Netherlands,%20The|Amsterdam,Netherlands,%20The|Breda,Netherlands,%20The|Ede,Netherlands,%20The|Haarlem,Netherlands,%20The|Noumea,New%20Caledonia|Wellington,New%20Zealand|Oslo,Norway|Poznan,Poland|Poznan,Poland|Warsaw,Poland|Lisboa,Portugal|St.Petersburg,Russia|Maribor,Slovenia|Stockholm,Sweden|Geneva,Switzerland|Zurich,Switzerland|London,United%20Kingdom%20(Great%20Britain)|London,United%20Kingdom%20(Great%20Britain)|Anchorage,%20Alaska,United%20States|Ashburn,%20Virginia,United%20States|Boston,%20Massachusetts,United%20States|Chicago,%20Illinois,United%20States|Chicago,%20Illinois,United%20States|Los%20Angeles,United%20States|Miami,%20Florida,United%20States|Phoenix,%20Arizona,United%20States|Hanoi,Vietnam" style="border: 1px solid black; height: 550px; width: 550px" alt="SixXS PoPs Europe" />
+<h3>Points of Presence USA</h3>
+<img src="http://maps.google.com/maps/api/staticmap?center=Hays,MT,USA&amp;zoom=3&amp;size=550x350&amp;maptype=terrain&amp;key=ABQIAAAA_Z1eoNRNrEWXVqX2balKSBRkYg8aDj8OA98Ld1Xnoz83TscjwRTaL6bec7hNy0XRnrBc3U8dw463zQ&amp;sensor=false&amp;markers=size:small|color:grey&amp;markers=size:small|color:red&amp;markers=size:small|color:green|Brussels,Belgium|Brussels,Belgium|Sint%20Niklaas,Belgium|Uberlandia,Brazil|Prague,Czech%20Republic|Copenhagen,Denmark|Tallinn,Estonia|Torshavn,Faroe%20Islands|Helsinki,Finland|Marseille,France|Cologne,Germany|Duesseldorf,Germany|Hamburg,Germany|Hamburg,Germany|Leonberg,Germany|Muenchen,Germany|Oldenburg,Germany|Athens,Greece|Budapest,Hungary|Budapest,Hungary|Dublin,Ireland|Dublin,Ireland|Torino,Italy|Luxembourg,Luxembourg|Amsterdam,Netherlands,%20The|Amsterdam,Netherlands,%20The|Breda,Netherlands,%20The|Ede,Netherlands,%20The|Haarlem,Netherlands,%20The|Noumea,New%20Caledonia|Wellington,New%20Zealand|Oslo,Norway|Poznan,Poland|Poznan,Poland|Warsaw,Poland|Lisboa,Portugal|St.Petersburg,Russia|Maribor,Slovenia|Stockholm,Sweden|Geneva,Switzerland|Zurich,Switzerland|London,United%20Kingdom%20(Great%20Britain)|London,United%20Kingdom%20(Great%20Britain)|Anchorage,%20Alaska,United%20States|Ashburn,%20Virginia,United%20States|Boston,%20Massachusetts,United%20States|Chicago,%20Illinois,United%20States|Chicago,%20Illinois,United%20States|Los%20Angeles,United%20States|Miami,%20Florida,United%20States|Phoenix,%20Arizona,United%20States|Hanoi,Vietnam" style="border: 1px solid black; height: 350px; width: 550px" alt="SixXS PoPs USA" />
+<h3>Points of Presence South America</h3>
+<img src="http://maps.google.com/maps/api/staticmap?center=Limpio,Paraguay&amp;zoom=3&amp;size=550x500&amp;maptype=terrain&amp;key=ABQIAAAA_Z1eoNRNrEWXVqX2balKSBRkYg8aDj8OA98Ld1Xnoz83TscjwRTaL6bec7hNy0XRnrBc3U8dw463zQ&amp;sensor=false&amp;markers=size:small|color:grey&amp;markers=size:small|color:red&amp;markers=size:small|color:green|Brussels,Belgium|Brussels,Belgium|Sint%20Niklaas,Belgium|Uberlandia,Brazil|Prague,Czech%20Republic|Copenhagen,Denmark|Tallinn,Estonia|Torshavn,Faroe%20Islands|Helsinki,Finland|Marseille,France|Cologne,Germany|Duesseldorf,Germany|Hamburg,Germany|Hamburg,Germany|Leonberg,Germany|Muenchen,Germany|Oldenburg,Germany|Athens,Greece|Budapest,Hungary|Budapest,Hungary|Dublin,Ireland|Dublin,Ireland|Torino,Italy|Luxembourg,Luxembourg|Amsterdam,Netherlands,%20The|Amsterdam,Netherlands,%20The|Breda,Netherlands,%20The|Ede,Netherlands,%20The|Haarlem,Netherlands,%20The|Noumea,New%20Caledonia|Wellington,New%20Zealand|Oslo,Norway|Poznan,Poland|Poznan,Poland|Warsaw,Poland|Lisboa,Portugal|St.Petersburg,Russia|Maribor,Slovenia|Stockholm,Sweden|Geneva,Switzerland|Zurich,Switzerland|London,United%20Kingdom%20(Great%20Britain)|London,United%20Kingdom%20(Great%20Britain)|Anchorage,%20Alaska,United%20States|Ashburn,%20Virginia,United%20States|Boston,%20Massachusetts,United%20States|Chicago,%20Illinois,United%20States|Chicago,%20Illinois,United%20States|Los%20Angeles,United%20States|Miami,%20Florida,United%20States|Phoenix,%20Arizona,United%20States|Hanoi,Vietnam" style="border: 1px solid black; height: 500px; width: 550px" alt="SixXS PoPs South America" />
+<h3>Points of Presence Asia</h3>
+<img src="http://maps.google.com/maps/api/staticmap?center=Hanoi,Vietnam&amp;zoom=3&amp;size=550x350&amp;maptype=terrain&amp;key=ABQIAAAA_Z1eoNRNrEWXVqX2balKSBRkYg8aDj8OA98Ld1Xnoz83TscjwRTaL6bec7hNy0XRnrBc3U8dw463zQ&amp;sensor=false&amp;markers=size:small|color:grey&amp;markers=size:small|color:red&amp;markers=size:small|color:green|Brussels,Belgium|Brussels,Belgium|Sint%20Niklaas,Belgium|Uberlandia,Brazil|Prague,Czech%20Republic|Copenhagen,Denmark|Tallinn,Estonia|Torshavn,Faroe%20Islands|Helsinki,Finland|Marseille,France|Cologne,Germany|Duesseldorf,Germany|Hamburg,Germany|Hamburg,Germany|Leonberg,Germany|Muenchen,Germany|Oldenburg,Germany|Athens,Greece|Budapest,Hungary|Budapest,Hungary|Dublin,Ireland|Dublin,Ireland|Torino,Italy|Luxembourg,Luxembourg|Amsterdam,Netherlands,%20The|Amsterdam,Netherlands,%20The|Breda,Netherlands,%20The|Ede,Netherlands,%20The|Haarlem,Netherlands,%20The|Noumea,New%20Caledonia|Wellington,New%20Zealand|Oslo,Norway|Poznan,Poland|Poznan,Poland|Warsaw,Poland|Lisboa,Portugal|St.Petersburg,Russia|Maribor,Slovenia|Stockholm,Sweden|Geneva,Switzerland|Zurich,Switzerland|London,United%20Kingdom%20(Great%20Britain)|London,United%20Kingdom%20(Great%20Britain)|Anchorage,%20Alaska,United%20States|Ashburn,%20Virginia,United%20States|Boston,%20Massachusetts,United%20States|Chicago,%20Illinois,United%20States|Chicago,%20Illinois,United%20States|Los%20Angeles,United%20States|Miami,%20Florida,United%20States|Phoenix,%20Arizona,United%20States|Hanoi,Vietnam" style="border: 1px solid black; height: 350px; width: 550px" alt="SixXS PoPs Asia" />
+<h3>Points of Presence Down Under</h3>
+<img src="http://maps.google.com/maps/api/staticmap?center=Alice%20Springs,Australia&amp;zoom=3&amp;size=550x350&amp;maptype=terrain&amp;key=ABQIAAAA_Z1eoNRNrEWXVqX2balKSBRkYg8aDj8OA98Ld1Xnoz83TscjwRTaL6bec7hNy0XRnrBc3U8dw463zQ&amp;sensor=false&amp;markers=size:small|color:grey&amp;markers=size:small|color:red&amp;markers=size:small|color:green|Brussels,Belgium|Brussels,Belgium|Sint%20Niklaas,Belgium|Uberlandia,Brazil|Prague,Czech%20Republic|Copenhagen,Denmark|Tallinn,Estonia|Torshavn,Faroe%20Islands|Helsinki,Finland|Marseille,France|Cologne,Germany|Duesseldorf,Germany|Hamburg,Germany|Hamburg,Germany|Leonberg,Germany|Muenchen,Germany|Oldenburg,Germany|Athens,Greece|Budapest,Hungary|Budapest,Hungary|Dublin,Ireland|Dublin,Ireland|Torino,Italy|Luxembourg,Luxembourg|Amsterdam,Netherlands,%20The|Amsterdam,Netherlands,%20The|Breda,Netherlands,%20The|Ede,Netherlands,%20The|Haarlem,Netherlands,%20The|Noumea,New%20Caledonia|Wellington,New%20Zealand|Oslo,Norway|Poznan,Poland|Poznan,Poland|Warsaw,Poland|Lisboa,Portugal|St.Petersburg,Russia|Maribor,Slovenia|Stockholm,Sweden|Geneva,Switzerland|Zurich,Switzerland|London,United%20Kingdom%20(Great%20Britain)|London,United%20Kingdom%20(Great%20Britain)|Anchorage,%20Alaska,United%20States|Ashburn,%20Virginia,United%20States|Boston,%20Massachusetts,United%20States|Chicago,%20Illinois,United%20States|Chicago,%20Illinois,United%20States|Los%20Angeles,United%20States|Miami,%20Florida,United%20States|Phoenix,%20Arizona,United%20States|Hanoi,Vietnam" style="border: 1px solid black; height: 350px; width: 550px" alt="SixXS PoPs Down Under" />
+</div>
+<h2 style="clear: none">Current PoPs</h2>
+<p id="current">
+The following maps show the physical locations of the 52 PoPs spread over 28 countries that the SixXS Tunnel Broker system currently manages worldwide.
+See the <a href="prefixes/">list of PoP prefixes</a> for an overview of the prefixes being used by these PoPs.
+</p>
+<p>
+The PoP status can be <b style="color: green">Up</b>, <b><a style="color: red" href="/faq/connectivity/?faq=popdown">Down</a></b> or <b style="color: gray">Planned</b>.
+</p>
+<table>
+<tr><th><img class="country" src="/s/countries/be.gif" alt="Belgium (.be)" /></th><th colspan="4">Belgium</th></tr>
+<tr><td>&nbsp;</td><td>Brussels</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="easynet/">bebru01</a></td><td><a href="easynet/">Easynet</a></td></tr>
+<tr><td>&nbsp;</td><td>Brussels</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="belnet/">bebru02</a></td><td><a href="belnet/">BELNET, The Belgian Research and Education Network</a></td></tr>
+<tr><td>&nbsp;</td><td>Sint Niklaas</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="edpnet/">beanr01</a></td><td><a href="edpnet/">EDPnet N.V.</a></td></tr>
+<tr><th><img class="country" src="/s/countries/br.gif" alt="Brazil (.br)" /></th><th colspan="4">Brazil</th></tr>
+<tr><td>&nbsp;</td><td>Uberlandia</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="ctbc/">brudi01</a></td><td><a href="ctbc/"></a></td></tr>
+<tr><th><img class="country" src="/s/countries/cz.gif" alt="Czech Republic (.cz)" /></th><th colspan="4">Czech Republic</th></tr>
+<tr><td>&nbsp;</td><td>Prague</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="ignum/">czprg01</a></td><td><a href="ignum/">Ignum, s.r.o.</a></td></tr>
+<tr><th><img class="country" src="/s/countries/dk.gif" alt="Denmark (.dk)" /></th><th colspan="4">Denmark</th></tr>
+<tr><td>&nbsp;</td><td>Copenhagen</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="availo/">dkcph01</a></td><td><a href="availo/">Availo</a></td></tr>
+<tr><th><img class="country" src="/s/countries/ee.gif" alt="Estonia (.ee)" /></th><th colspan="4">Estonia</th></tr>
+<tr><td>&nbsp;</td><td>Tallinn</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="linxtelecom/">eetll01</a></td><td><a href="linxtelecom/">Linxtelecom Estonia</a></td></tr>
+<tr><th><img class="country" src="/s/countries/fo.gif" alt="Faroe Islands (.fo)" /></th><th colspan="4">Faroe Islands</th></tr>
+<tr><td>&nbsp;</td><td>Torshavn</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="ft/">fotor01</a></td><td><a href="ft/">Faroese Telecom</a></td></tr>
+<tr><th><img class="country" src="/s/countries/fi.gif" alt="Finland (.fi)" /></th><th colspan="4">Finland</th></tr>
+<tr><td>&nbsp;</td><td>Helsinki</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="dna/">fihel01</a></td><td><a href="dna/">DNA Oy</a></td></tr>
+<tr><th><img class="country" src="/s/countries/fr.gif" alt="France (.fr)" /></th><th colspan="4">France</th></tr>
+<tr><td>&nbsp;</td><td>Marseille</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="jaguar/">frmrs01</a></td><td><a href="jaguar/">Jaguar Network SARL</a></td></tr>
+<tr><th><img class="country" src="/s/countries/de.gif" alt="Germany (.de)" /></th><th colspan="4">Germany</th></tr>
+<tr><td>&nbsp;</td><td>Cologne</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="netcologne/">decgn01</a></td><td><a href="netcologne/">NetCologne Gesellschaft fur Telekommunikation mbH</a></td></tr>
+<tr><td>&nbsp;</td><td>Duesseldorf</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="speedpartner/">dedus01</a></td><td><a href="speedpartner/">SpeedPartner GmbH </a></td></tr>
+<tr><td>&nbsp;</td><td>Hamburg</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="easynet/">deham01</a></td><td><a href="easynet/">Easynet</a></td></tr>
+<tr><td>&nbsp;</td><td>Hamburg</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="easynet/">deham02</a></td><td><a href="easynet/">Easynet</a></td></tr>
+<tr><td>&nbsp;</td><td>Leonberg</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="interscholz/">deleo01</a></td><td><a href="interscholz/">interscholz Internet Services GmbH &amp; Co. KG</a></td></tr>
+<tr><td>&nbsp;</td><td>Muenchen</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="mnet/">demuc02</a></td><td><a href="mnet/">M-net Telekommunikations GmbH</a></td></tr>
+<tr><td>&nbsp;</td><td>Oldenburg</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="ewetel/">deolo01</a></td><td><a href="ewetel/">EWE TEL GmbH</a></td></tr>
+<tr><th><img class="country" src="/s/countries/gr.gif" alt="Greece (.gr)" /></th><th colspan="4">Greece</th></tr>
+<tr><td>&nbsp;</td><td>Athens</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="grnet/">grath01</a></td><td><a href="grnet/">Greek Research and Technology Network (GRNET)</a></td></tr>
+<tr><th><img class="country" src="/s/countries/hu.gif" alt="Hungary (.hu)" /></th><th colspan="4">Hungary</th></tr>
+<tr><td>&nbsp;</td><td>Budapest</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="digi/">hubud01</a></td><td><a href="digi/">DIGI Kft</a></td></tr>
+<tr><td>&nbsp;</td><td>Budapest</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="digi/">hubud02</a></td><td><a href="digi/">DIGI Kft</a></td></tr>
+<tr><th><img class="country" src="/s/countries/ie.gif" alt="Ireland (.ie)" /></th><th colspan="4">Ireland</th></tr>
+<tr><td>&nbsp;</td><td>Dublin</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="heanet/">iedub01</a></td><td><a href="heanet/">HEAnet</a></td></tr>
+<tr><td>&nbsp;</td><td>Dublin</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="digiweb/">iedub02</a></td><td><a href="digiweb/">Digiweb Limited</a></td></tr>
+<tr><th><img class="country" src="/s/countries/it.gif" alt="Italy (.it)" /></th><th colspan="4">Italy</th></tr>
+<tr><td>&nbsp;</td><td>Torino</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="itgate/">ittrn01</a></td><td><a href="itgate/">ITgate</a></td></tr>
+<tr><th><img class="country" src="/s/countries/lu.gif" alt="Luxembourg (.lu)" /></th><th colspan="4">Luxembourg</th></tr>
+<tr><td>&nbsp;</td><td>Luxembourg</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="ptlu/">lulux01</a></td><td><a href="ptlu/">Entreprise des Postes et Telecommunications</a></td></tr>
+<tr><th><img class="country" src="/s/countries/nl.gif" alt="Netherlands, The (.nl)" /></th><th colspan="4">Netherlands, The</th></tr>
+<tr><td>&nbsp;</td><td>Amsterdam</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="scarlet/">nlams04</a></td><td><a href="scarlet/">Scarlet Internet B.V.</a></td></tr>
+<tr><td>&nbsp;</td><td>Amsterdam</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="surfnet/">nlams05</a></td><td><a href="surfnet/">SURFnet</a></td></tr>
+<tr><td>&nbsp;</td><td>Breda</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="concepts/">nlams01</a></td><td><a href="concepts/">Concepts ICT BV</a></td></tr>
+<tr><td>&nbsp;</td><td>Ede</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="bit/">nlede01</a></td><td><a href="bit/">BIT BV</a></td></tr>
+<tr><td>&nbsp;</td><td>Haarlem</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="leaseweb/">nlhaa01</a></td><td><a href="leaseweb/">Leaseweb B.V.</a></td></tr>
+<tr><th><img class="country" src="/s/countries/nc.gif" alt="New Caledonia (.nc)" /></th><th colspan="4">New Caledonia</th></tr>
+<tr><td>&nbsp;</td><td>Noumea</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="nautile/">ncnou01</a></td><td><a href="nautile/">Nautile SARL</a></td></tr>
+<tr><th><img class="country" src="/s/countries/nz.gif" alt="New Zealand (.nz)" /></th><th colspan="4">New Zealand</th></tr>
+<tr><td>&nbsp;</td><td>Wellington</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="acsdata/">nzwlg01</a></td><td><a href="acsdata/">Advanced Computer Solutions (ACSData)</a></td></tr>
+<tr><th><img class="country" src="/s/countries/no.gif" alt="Norway (.no)" /></th><th colspan="4">Norway</th></tr>
+<tr><td>&nbsp;</td><td>Oslo</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="availo/">noosl01</a></td><td><a href="availo/">Availo</a></td></tr>
+<tr><th><img class="country" src="/s/countries/pl.gif" alt="Poland (.pl)" /></th><th colspan="4">Poland</th></tr>
+<tr><td>&nbsp;</td><td>Poznan</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="poznan/">plpoz01</a></td><td><a href="poznan/">Poznan Supercomputing and Networking Center</a></td></tr>
+<tr><td>&nbsp;</td><td>Poznan</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="inotel/">plpoz02</a></td><td><a href="inotel/">Inotel S.A.</a></td></tr>
+<tr><td>&nbsp;</td><td>Warsaw</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="icm/">plwaw01</a></td><td><a href="icm/">ICM</a></td></tr>
+<tr><th><img class="country" src="/s/countries/pt.gif" alt="Portugal (.pt)" /></th><th colspan="4">Portugal</th></tr>
+<tr><td>&nbsp;</td><td>Lisboa</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="nfsi/">ptlis01</a></td><td><a href="nfsi/">NFSi Telecom, Lda.</a></td></tr>
+<tr><th><img class="country" src="/s/countries/ru.gif" alt="Russia (.ru)" /></th><th colspan="4">Russia</th></tr>
+<tr><td>&nbsp;</td><td>St.Petersburg</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="edpnet/">ruled01</a></td><td><a href="edpnet/">EDPnet N.V.</a></td></tr>
+<tr><th><img class="country" src="/s/countries/si.gif" alt="Slovenia (.si)" /></th><th colspan="4">Slovenia</th></tr>
+<tr><td>&nbsp;</td><td>Maribor</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="amis/">simbx01</a></td><td><a href="amis/">Amis</a></td></tr>
+<tr><th><img class="country" src="/s/countries/se.gif" alt="Sweden (.se)" /></th><th colspan="4">Sweden</th></tr>
+<tr><td>&nbsp;</td><td>Stockholm</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="availo/">sesto01</a></td><td><a href="availo/">Availo</a></td></tr>
+<tr><th><img class="country" src="/s/countries/ch.gif" alt="Switzerland (.ch)" /></th><th colspan="4">Switzerland</th></tr>
+<tr><td>&nbsp;</td><td>Geneva</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="ipmax/">chgva01</a></td><td><a href="ipmax/">IP-Max Network Services</a></td></tr>
+<tr><td>&nbsp;</td><td>Zurich</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="init7/">chzrh02</a></td><td><a href="init7/">Init7 AG </a></td></tr>
+<tr><th><img class="country" src="/s/countries/gb.gif" alt="United Kingdom (Great Britain) (.gb)" /></th><th colspan="4">United Kingdom (Great Britain)</th></tr>
+<tr><td>&nbsp;</td><td>London</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="goscomb/">gblon02</a></td><td><a href="goscomb/">Goscomb Technologies</a></td></tr>
+<tr><td>&nbsp;</td><td>London</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="gyron/">gblon03</a></td><td><a href="gyron/">Gyron Internet LTD - Limited UK Company</a></td></tr>
+<tr><th><img class="country" src="/s/countries/us.gif" alt="United States (.us)" /></th><th colspan="4">United States</th></tr>
+<tr><td>&nbsp;</td><td>Anchorage, Alaska</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="gci/">usanc01</a></td><td><a href="gci/">General Communication Incorporated (GCI)</a></td></tr>
+<tr><td>&nbsp;</td><td>Ashburn, Virginia</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="occaid/">usqas01</a></td><td><a href="occaid/">OCCAID Inc.</a></td></tr>
+<tr><td>&nbsp;</td><td>Boston, Massachusetts</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="occaid/">usbos01</a></td><td><a href="occaid/">OCCAID Inc.</a></td></tr>
+<tr><td>&nbsp;</td><td>Chicago, Illinois</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="yourorg/">uschi02</a></td><td><a href="yourorg/">Your.Org, Inc.</a></td></tr>
+<tr><td>&nbsp;</td><td>Chicago, Illinois</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="cymru/">uschi03</a></td><td><a href="cymru/">Team Cymru</a></td></tr>
+<tr><td>&nbsp;</td><td>Los Angeles</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="burst/">uslax02</a></td><td><a href="burst/">BurstNET Technologies, Inc.</a></td></tr>
+<tr><td>&nbsp;</td><td>Miami, Florida</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="burst/">usmia01</a></td><td><a href="burst/">BurstNET Technologies, Inc.</a></td></tr>
+<tr><td>&nbsp;</td><td>Phoenix, Arizona</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="highwinds/">usphx01</a></td><td><a href="highwinds/">Highwinds Network Group Inc</a></td></tr>
+<tr><th><img class="country" src="/s/countries/vn.gif" alt="Vietnam (.vn)" /></th><th colspan="4">Vietnam</th></tr>
+<tr><td>&nbsp;</td><td>Hanoi</td><td><img class="country" src="/s/spacer.gif" width="7" height="7" alt="Up" style="width: 7px; height: 7px; background-color: green" /></td><td><a href="netnam/">vnhan01</a></td><td><a href="netnam/">NetNam Corporation</a></td></tr>
+</table>
+<p style="font-size: xx-small">
+nlams01 was relocated to Breda, though it still uses Concepts's Amsterdam address space.<br />
+deham01 was formerly demuc01, when it was still located in Muenchen.
+</p>
+<h2>Former PoPs</h2>
+<p id="former">
+Following PoP's where previously also available but where shutdown due to the shutdown of the <a href="http://www.6bone.net">6bone</a>.
+</p>
+<table>
+<tr><th><img class="country" src="/s/countries/dk.gif" alt="Denmark (.dk)" /></th><th colspan="3">Denmark</th></tr>
+<tr><td>&nbsp;</td><td>Copenhagen</td><td><a href="fullrate/">dkcph02</a></td><td><a href="fullrate/">Fullrate A/S</a></td></tr>
+<tr><th><img class="country" src="/s/countries/de.gif" alt="Germany (.de)" /></th><th colspan="3">Germany</th></tr>
+<tr><td>&nbsp;</td><td>Muenchen</td><td><a href="psinet/">demun01</a></td><td><a href="psinet/">Interoute Germany GmbH</a></td></tr>
+<tr><th><img class="country" src="/s/countries/nl.gif" alt="Netherlands, The (.nl)" /></th><th colspan="3">Netherlands, The</th></tr>
+<tr><td>&nbsp;</td><td>Amsterdam</td><td><a href="ipng/">nlams02</a></td><td><a href="ipng/">IPng (Intouch)</a></td></tr>
+<tr><td>&nbsp;</td><td>Amsterdam</td><td><a href="amsix/">nlams03</a></td><td><a href="amsix/">AMS-IX (Amsterdam Internet Exchange)</a></td></tr>
+<tr><th><img class="country" src="/s/countries/ch.gif" alt="Switzerland (.ch)" /></th><th colspan="3">Switzerland</th></tr>
+<tr><td>&nbsp;</td><td>Zurich</td><td><a href="ipman/">chzrh01</a></td><td><a href="ipman/">IP-Man</a></td></tr>
+<tr><th><img class="country" src="/s/countries/us.gif" alt="United States (.us)" /></th><th colspan="3">United States</th></tr>
+<tr><td>&nbsp;</td><td>Atlanta, Georgia</td><td><a href="occaid/">usatl01</a></td><td><a href="occaid/">OCCAID Inc.</a></td></tr>
+<tr><td>&nbsp;</td><td>Chicago, Illinois</td><td><a href="occaid/">uschi01</a></td><td><a href="occaid/">OCCAID Inc.</a></td></tr>
+<tr><td>&nbsp;</td><td>Dallas, Texas</td><td><a href="highwinds/">usdal01</a></td><td><a href="highwinds/">Highwinds Network Group Inc</a></td></tr>
+<tr><td>&nbsp;</td><td>Los Angeles, California</td><td><a href="highwinds/">uslax01</a></td><td><a href="highwinds/">Highwinds Network Group Inc</a></td></tr>
+<tr><td>&nbsp;</td><td>Newark, New Jersey</td><td><a href="occaid/">usewr01</a></td><td><a href="occaid/">OCCAID Inc.</a></td></tr>
+</table>
+<h2>PoP Naming Scheme</h2>
+<p id="naming">
+PoPs are named according to <a href="http://www.unece.org/cefact/locode/welcome.html">UN/LOCODE</a> in the format of a two letter country code followed by a three letter city code and a two digit sequence number.</p>
+<h2>Tunnel Naming Scheme</h2>
+<p id="tunnaming">
+Tunnel endpoints will have two DNS forward and reverse entries:<br />
+gw-<i>tunnelnumber</i>.<i>city</i>-<i>sequencenumber</i>.<i>tld</i>.sixxs.net<br />
+cl-<i>tunnelnumber</i>.<i>city</i>-<i>sequencenumber</i>.<i>tld</i>.sixxs.net<br />
+The gw stands for <i>G</i>ate<i>w</i>ay and is on the side of the PoP, ::1 in the /64.
+That address should only appear in traceroutes.
+cl stands for <i>cl</i>ient and it is the endpoint of the client, ::2 in the /64.
+</p>
+<p>
+Examples:
+</p>
+<ul>
+<li>gw-20.ams-02.nl.sixxs.net - Gateway endpoint of tunnel 20 on PoP nlams02.</li>
+<li>cl-42.dub-01.ie.sixxs.net - Client endpoint of tunnel 42 on PoP iedub01.</li>
+<li>cl-13.pub-poz-01.pl.sixxs.net - Client endpoint of tunnel 13 on public part of PoP plpoz01.</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+	<div class="bottom">
+			<div><img src="/s/lock_open.gif" width="16" height="16" alt="Warning" title="Warning: All communications over HTTP happen in clear text" />&nbsp;</div>
+<div>
+Not <a href="/home/">logged</a> in<br />
+<a href="https://www.sixxs.net/pops/">non-SSL</a>&nbsp;IPv6 connection from <a href="/tools/ipv6calc/">2001:0:53aa:64c:18ca:5d94:2471:e895</a> </div>
+		<div class="bottomcopy">
+			<a href="/about/" rel="license">&copy;2001-2013 SixXS</a> - IPv6 Deployment &amp; Tunnel Broker<br />
+		</div>
+	</div>
+</body>
+</html>

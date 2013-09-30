@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Bug #16121: Cron user change results in duplicate entries on target user - Puppet - Puppet Labs</title>
+<meta name="description" content="Redmine" />
+<meta name="keywords" content="issue,bug,tracker" />
+<meta content="authenticity_token" name="csrf-param" />
+<meta content="S1sEJ9V90sUbALuOD3Vrk0igza6MUzN8+PKYtQHV9dg=" name="csrf-token" />
+<link rel='shortcut icon' href='/favicon.ico?1363307366' />
+<link href="/stylesheets/jquery/jquery-ui-1.8.21.css?1357934870" media="all" rel="stylesheet" type="text/css" />
+<link href="/themes/puppetlabs_redmine_theme/stylesheets/application.css?1358972821" media="all" rel="stylesheet" type="text/css" />
+
+<script src="/javascripts/jquery-1.7.2-ui-1.8.21-ujs-2.0.3.js?1357934870" type="text/javascript"></script>
+<script src="/javascripts/application.js?1357934870" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+$(window).load(function(){ warnLeavingUnsaved('The current page contains unsaved text that will be lost if you leave this page.'); });
+//]]>
+</script>
+
+<link href="/plugin_assets/redmine_vote/stylesheets/stylesheet.css?1358364479" media="screen" rel="stylesheet" type="text/css" />
+<!-- page specific tags -->
+    <link href="http://projects.puppetlabs.com/issues/16121.atom" rel="alternate" title="Puppet - Bug #16121: Cron user change results in duplicate entries on target user" type="application/atom+xml" />
+<script src="/javascripts/context_menu.js?1357934869" type="text/javascript"></script><link href="/stylesheets/context_menu.css?1357934869" media="screen" rel="stylesheet" type="text/css" /></head>
+<body class="theme-Puppetlabs redmine theme controller-issues action-show">
+<div id="wrapper">
+<div id="wrapper2">
+<div id="wrapper3">
+<div id="top-menu">
+    <div id="account">
+        <ul><li><a href="/login" class="login">Sign in</a></li>
+<li><a href="/account/register" class="register">Register</a></li></ul>    </div>
+    
+    <ul><li><a href="http://puppetlabs.com" class="puppetlabs">Puppet Labs Site</a></li>
+<li><a href="http://docs.puppetlabs.com" class="documentation">Documentation</a></li>
+<li><a href="http://www.puppetlabs.com/resources/customer-support" class="support">Support</a></li>
+<li><a href="http://www.puppetlabs.com/company/#contact" class="contact">Contact Us</a></li>
+<li><a href="http://www.puppetlabs.com/resources/downloads" class="download">Download</a></li>
+<li><a href="/" class="home">Home</a></li>
+<li><a href="/projects" class="projects">Projects</a></li>
+<li><a href="http://www.redmine.org/guide" class="help">Help</a></li></ul></div>
+
+<div id="header">
+    <div id="quick-search">
+        <form accept-charset="UTF-8" action="/projects/puppet/search" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+        <input name="issues" type="hidden" value="1" />
+        <label for='q'>
+          <a href="/projects/puppet/search" accesskey="4">Search</a>:
+        </label>
+        <input accesskey="f" class="small" id="q" name="q" size="20" type="text" />
+</form>        
+    </div>
+
+    <h1>Puppet</h1>
+
+    <div id="main-menu">
+        <ul><li><a href="/projects/puppet" class="overview">Overview</a></li>
+<li><a href="/projects/puppet/activity" class="activity">Activity</a></li>
+<li><a href="/projects/puppet/roadmap" class="roadmap">Roadmap</a></li>
+<li><a href="/projects/puppet/issues" class="issues selected">Issues</a></li>
+<li><a href="/projects/puppet/wiki" class="wiki">Wiki</a></li></ul>
+    </div>
+</div>
+
+<div id="main" class="">
+    <div id="sidebar">
+          <h3>Issues</h3>
+<a href="/projects/puppet/issues?set_filter=1">View all issues</a><br />
+<a href="/projects/puppet/issues/report">Summary</a><br />
+
+
+
+
+<h3>Custom queries</h3><a href="/projects/puppet/issues?query_id=272" class="query">Accepted but Unowned - Patches Welcome!</a><br /><a href="/projects/puppet/issues?query_id=95" class="query">All tickets</a><br /><a href="/projects/puppet/issues?query_id=289" class="query">Backlog Query</a><br /><a href="/projects/puppet/issues?query_id=98" class="query">Open cron issues</a><br /><a href="/projects/puppet/issues?query_id=304" class="query">Platform Report - 2 Week Activity</a><br /><a href="/projects/puppet/issues?query_id=199" class="query">Puppet Solaris issues</a><br /><a href="/projects/puppet/issues?query_id=107" class="query">Ruby 1.9 Issues</a><br /><a href="/projects/puppet/issues?query_id=145" class="query">Support Customer Tickets</a><br /><a href="/projects/puppet/issues?query_id=177" class="query">Support Tickets</a><br /><a href="/projects/puppet/issues?query_id=262" class="query">Telly Deprecations</a><br /><a href="/projects/puppet/issues?query_id=176" class="query">Tickets - Assigned to Me</a><br /><a href="/projects/puppet/issues?query_id=131" class="query">Tickets - Authored by Me</a><br /><a href="/projects/puppet/issues?query_id=173" class="query">Tickets - By Priority</a><br /><a href="/projects/puppet/issues?query_id=64" class="query">Tickets - In Topic Branch Pending Review</a><br /><a href="/projects/puppet/issues?query_id=147" class="query">Tickets - Top by votes</a><br /><a href="/projects/puppet/issues?query_id=29" class="query">Tickets - Unassigned to a target release</a><br /><a href="/projects/puppet/issues?query_id=19" class="query">Tickets - Unreviewed</a><br /><a href="/projects/puppet/issues?query_id=198" class="query">Tickets - unreviewed and outside SLA</a><br /><a href="/projects/puppet/issues?query_id=208" class="query">Tickets - waiting for action</a><br /><a href="/projects/puppet/issues?query_id=201" class="query">Tickets with simple fixes</a>
+
+
+
+    <div id="watchers">
+      
+<h3>Watchers (3)</h3>
+
+<ul><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d52f2b3c8e952dd826d8a04852870098?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/1573" class="user active">Stefan Schulte</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/ef14b7b705e5580cb42d78f0a7fa9238?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/171" class="user active">Peter Meier</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/e74809005072f6d8dc133307e4a04e3b?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/622" class="user active">Jason Antman</a></li></ul>
+
+    </div>
+
+        
+    </div>
+
+    <div id="content">
+        
+        <div class="contextual">
+
+
+<span class="issue-16121-watcher"></span>
+
+
+</div>
+
+
+<h2>Bug #16121</h2>
+
+<div class="issue status-5 priority-4 priority-default closed details">
+
+  <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/adde77d37e36a7df1b6c4e874cd8ee77?rating=PG&amp;size=50&amp;default=" ssl="false" title="" />
+
+<div class="subject">
+<div><h3>Cron user change results in duplicate entries on target user</h3></div>
+</div>
+        <p class="author">
+        Added by <a href="/users/2953" class="user active">Chris Henry</a> <a href="/projects/puppet/activity?from=2012-08-25" title="08/25/2012 01:10 am">about 1 year</a> ago.
+        Updated <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:19 pm">4 months</a> ago.
+        </p>
+
+<table class="attributes">
+<tr><th class="status">Status:</th><td class="status">Closed</td><th class="start-date">Start date:</th><td class="start-date">08/25/2012</td></tr><tr><th class="priority">Priority:</th><td class="priority">Normal</td><th class="due-date">Due date:</th><td class="due-date"></td></tr><tr><th class="assigned-to">Assignee:</th><td class="assigned-to">-</td><th class="progress">% Done:</th><td class="progress"><table class="progress" style="width: 80px;"><tr><td class="todo" style="width: 100%;"></td></tr></table><p class="pourcent">0%</p></td></tr><tr><th class="category">Category:</th><td class="category">cron</td><th></th><td></td></tr><tr><th class="fixed-version">Target version:</th><td class="fixed-version"><a href="/versions/371">3.2.0</a></td><th></th><td></td></tr>
+<tr>
+	<th>Affected Puppet version:</th><td></td>
+	<th>Branch:</th><td>https://github.com/puppetlabs/puppet/pull/1216</td>
+</tr>
+<tr>
+	<th>Keywords:</th><td>customer</td>
+</tr>
+
+    <tr><td><b>
+
+
+
+
+    </td></tr>
+
+</table>
+
+<hr />
+<div class="description">
+  <div class="contextual">
+  
+  </div>
+
+  <p><strong>Description</strong></p>
+  <div class="wiki">
+  <p>Running puppetmaster 2.7.13 and puppetd 2.7.13 on Centos6</p>
+
+<p>We have a puppet module that installs some scripts and creates a cronjob to pickup gzip&rsquo;d logs and upload them to s3.  I mistakenly created the cron job as the user &lsquo;www-data&rsquo; initially &ndash; but later found out that the supervisord daemon logs as &lsquo;root&rsquo; &ndash; so I changed the user of a puppet cronjob from &lsquo;www-data&rsquo; &ndash;> &lsquo;root&rsquo;.</p>
+
+<p>On a puppetd run the client successfully detects the change and returns a notice that it is changing users for the cron job &ndash; but the end result is that the cron job is not removed for the www-data user and a duplicate job is create on the root users crontab.</p>
+
+<p>I didn&rsquo;t notice this for about a day but when I looked I saw that there were many duplicate entries in the root users crontab for this job &ndash; presumably one for each puppetd run.</p>
+
+<p>The only crontab jobs on this server are managed by puppet &ndash; no manual edits or jobs have ever been created</p>
+
+<p>As you can see in the output below every client run results in the cronjob still existing for the www-data user and another entry being generated in the root users crontab:</p>
+
+<pre>
+client puppetd run:
+
+[user@HOSTNAME ~]$ date
+Sat Aug 25 07:52:20 UTC 2012
+[user@HOSTNAME ~]$ sudo puppetd -t
+info: Caching catalog for HOSTNAME
+info: Applying configuration version '1345880642'
+notice: /Stage[main]/S3_logrotate::Supervisord/Cron[s3_logger_supervisord]/user: user changed 'www-data' to 'root'
+notice: /Stage[main]/S3_logrotate::Supervisord/Cron[s3_logger_supervisord]/target: target changed 'www-data' to 'root'
+notice: Finished catalog run in 31.34 seconds
+[user@HOSTNAME ~]$
+
+---------------
+'www-data' crontab after run:
+
+[user@HOSTNAME ~]$ date
+Sat Aug 25 07:53:36 UTC 2012
+[user@HOSTNAME ~]$ sudo -u www-data crontab -l
+# HEADER: This file was autogenerated at Fri Aug 24 20:09:06 +0000 2012 by puppet.
+# HEADER: While it can still be managed manually, it is definitely not recommended.
+# HEADER: Note particularly that the comments starting with 'Puppet Name' should
+# HEADER: not be deleted, as doing so could cause duplicate cron jobs.
+# Puppet Name: s3_logger_crond
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/crond -l /var/has/log/s3_logrotate/HOSTNAME_crond -s secret_key_here -k key_here
+# Puppet Name: s3_logger_nginx
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/nginx -l /var/has/log/s3_logrotate/HOSTNAME_nginx -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_api
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /data/log/api -l /var/has/log/s3_logrotate/HOSTNAME_api -s 'secret_key_here' -k 'key_here'
+[user@HOSTNAME ~]$
+------------------
+'root' crontab after run:
+
+[user@HOSTNAME ~]$ date
+Sat Aug 25 07:54:15 UTC 2012
+[user@HOSTNAME ~]$ sudo -u root crontab -l
+# HEADER: This file was autogenerated at Sat Aug 25 07:53:08 +0000 2012 by puppet.
+# HEADER: While it can still be managed manually, it is definitely not recommended.
+# HEADER: Note particularly that the comments starting with 'Puppet Name' should
+# HEADER: not be deleted, as doing so could cause duplicate cron jobs.
+# Puppet Name: puppet_clientbucket_cleanup
+15 1 * * * /usr/bin/find /var/lib/puppet/clientbucket/ -type f -mtime +14 -exec rm {} \;
+# Puppet Name: s3_logger_php-fpm_cleanup
+35 23 * * * /bin/find /var/has/log/s3_logrotate -name 'HOSTNAME_php-fpm.*' -mtime +7 -exec rm {} \;
+# Puppet Name: s3_logger_nginx_cleanup
+35 23 * * * /bin/find /var/has/log/s3_logrotate -name 'HOSTNAME_nginx.*' -mtime +7 -exec rm {} \;
+# Puppet Name: s3_logger_crond_cleanup
+35 23 * * * /bin/find /var/has/log/s3_logrotate -name 'HOSTNAME_crond.*' -mtime +7 -exec rm {} \;
+# Puppet Name: s3_logger_supervisord_cleanup
+35 23 * * * /bin/find /var/has/log/s3_logrotate -name 'HOSTNAME_supervisord.*' -mtime +7 -exec rm {} \;
+# Puppet Name: s3_logger_api_cleanup
+35 23 * * * /bin/find /var/has/log/s3_logrotate -name 'HOSTNAME_api.*' -mtime +7 -exec rm {} \;
+# Puppet Name: s3_logger_php-fpm
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/php-fpm -l /var/has/log/s3_logrotate/HOSTNAME_php-fpm -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key_here' -k 'key_here'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket_name -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key_here' -k 'key_here'
+[user@HOSTNAME ~]$
+
+------------------
+manifest:
+class s3_logrotate::supervisord ($secret, $key, $bucket,$path='/var/has/log/supervisord') {
+    include s3_logrotate
+
+    Cron {
+        require => Class["s3_logrotate"]
+    }
+    cron {
+        "s3_logger_supervisord":
+            command  => "/var/has/s3_logrotate/bin/s3_logrotate.py -b $bucket -p $path -l /var/has/log/s3_logrotate/${hostname}_supervisord -s '${secret}' -k '${key}'",
+            user     => root, # this used to be www-data but supervisord logs as root
+            minute   => 40,
+            hour     => 23;
+
+        "s3_logger_supervisord_cleanup":
+            command  => "/bin/find /var/has/log/s3_logrotate -name '${hostname}_supervisord.*' -mtime +7 -exec rm {} \\;",
+            user     => root,
+            minute   => 35,
+            hour     => 23;
+    }
+}
+</pre>
+
+
+  </div>
+</div>
+<div class="attachments">
+<p><a href="/attachments/download/2197/puppetd-issue-16121-agent_out.txt" class="icon icon-attachment">puppetd-issue-16121-agent_out.txt</a>    <a href="/attachments/2197/puppetd-issue-16121-agent_out.txt"><img alt="Magnifier" src="/images/magnifier.png?1357934869" /></a>
+   - output from: sudo puppet agent --test --verbose --debug |egrep -in &#x27;(s3|cron)&#x27;
+  <span class="size">(5.5 KB)</span>
+    <span class="author">Chris Henry, 08/25/2012 09:48 pm</span>
+  </p>
+</div>
+
+
+
+
+
+<hr />
+<div id="relations">
+<div class="contextual">
+</div>
+
+<p><strong>Related issues</strong></p>
+
+<form>
+<table class="list issues">
+<tr class="issue hascontextmenu" id="relation-4154">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="2251" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/2251" class="issue status-5 priority-4 priority-default closed">Bug #2251</a>: cron provider doesn&#x27;t correctly employ user property for ...
+</td>
+<td class="status">Closed</td>
+<td class="start_date">05/12/2009</td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+<tr class="issue hascontextmenu" id="relation-4155">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="16809" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/16809" class="issue status-5 priority-4 priority-default closed">Bug #16809</a>: cron resource can destroy other resources
+</td>
+<td class="status">Closed</td>
+<td class="start_date">10/05/2012</td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+</table>
+</form>
+
+<form accept-charset="UTF-8" action="/issues/16121/relations" class="new_relation" data-remote="true" id="new-relation-form" method="post" style="display: none;"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="S1sEJ9V90sUbALuOD3Vrk0igza6MUzN8+PKYtQHV9dg=" /></div>
+
+
+<p><select id="relation_relation_type" name="relation[relation_type]" onchange="setPredecessorFieldsVisibility();"><option value="relates">Related to</option>
+<option value="duplicates">Duplicates</option>
+<option value="duplicated">Duplicated by</option>
+<option value="blocks">Blocks</option>
+<option value="blocked">Blocked by</option>
+<option value="precedes">Precedes</option>
+<option value="follows">Follows</option>
+<option value="copied_to">Copied to</option>
+<option value="copied_from">Copied from</option></select>
+Issue #<input id="relation_issue_to_id" name="relation[issue_to_id]" size="10" type="text" />
+<span id="predecessor_fields" style="display:none;">
+Delay: <input id="relation_delay" name="relation[delay]" size="3" type="text" /> days
+</span>
+<input name="commit" type="submit" value="Add" />
+<a href="#" onclick="$(&quot;#new-relation-form&quot;).hide();; return false;">Cancel</a>
+</p>
+
+<script type="text/javascript">
+//<![CDATA[
+observeAutocompleteField('relation_issue_to_id', '/issues/auto_complete?project_id=puppet&scope=all')
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setPredecessorFieldsVisibility();
+//]]>
+</script>
+
+</form>
+</div>
+
+</div>
+
+
+<div id="history">
+<h3>History</h3>
+  <div id="change-69851" class="journal has-notes has-details">
+    <div id="note-1">
+    <h4><a href="/issues/16121#note-1" class="journal-link">#1</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d52f2b3c8e952dd826d8a04852870098?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1573" class="user active">Stefan Schulte</a> <a href="/projects/puppet/activity?from=2012-08-25" title="08/25/2012 03:11 pm">about 1 year</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Unreviewed</i> to <i>Needs More Information</i></li>
+       <li><strong>Assignee</strong> set to <i>Chris Henry</i></li>
+    </ul>
+    <div class="wiki" id="journal-69851-notes"><p>I expect puppet has trouble to remove the cron entry from www-data&rsquo;s crontab  but somehow does not complain about it. As a result puppet writes the cron entry in root&rsquo;s crontab but after the puppet run it is also still in www-data&rsquo;s crontab causing puppet to say the resource is out of sync in the following run.</p>
+
+<p>Can you please provide the output of <code>sudo puppet agent --test --verbose --debug</code>. This way we should see the actual command that puppet executes to write the crontab.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69852" class="journal has-notes has-details">
+    <div id="note-2">
+    <h4><a href="/issues/16121#note-2" class="journal-link">#2</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/adde77d37e36a7df1b6c4e874cd8ee77?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2953" class="user active">Chris Henry</a> <a href="/projects/puppet/activity?from=2012-08-26" title="08/25/2012 09:48 pm">about 1 year</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>File</strong> <a href="/attachments/download/2197/puppetd-issue-16121-agent_out.txt">puppetd-issue-16121-agent_out.txt</a><a href="/attachments/2197/puppetd-issue-16121-agent_out.txt"><img alt="Magnifier" src="/images/magnifier.png?1357934869" /></a> added</li>
+    </ul>
+    <div class="wiki" id="journal-69852-notes"><p>Stefan &ndash;</p>
+
+<p>Thanks for getting back to me &ndash; I&rsquo;ve run the puppet agent with verbose and debug enabled but I don&rsquo;t see any output relating to the exact commands puppet is using to manipulate the crontabs.</p>
+
+<p>There are 1450 lines of debug output created which contain some sensitive information (such as user accounts) &ndash; is there anything specific I can look for to post for you?</p>
+
+<p>Assuming that the class is called s3_logrotate:supervisord and it&rsquo;s affect the crontab a simple case insensitive egrep for &lsquo;(s3|cron)&rsquo; is included in the attachment</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69859" class="journal has-notes">
+    <div id="note-3">
+    <h4><a href="/issues/16121#note-3" class="journal-link">#3</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/ef14b7b705e5580cb42d78f0a7fa9238?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/171" class="user active">Peter Meier</a> <a href="/projects/puppet/activity?from=2012-08-27" title="08/27/2012 04:38 am">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-69859-notes"><p>I think you should be able to reproduce that issue with a minimal manifest and <code>puppet apply</code>, which should be sufficient to debug things.</p>
+
+<p>However, I think the issue is way more down in the core architecture of puppet, as each catalog has no idea about the state of the previous catalog. So puppet does not see <code>change user from www-data to root</code> it more sees <code>ensure that user root has this cron entry present</code>, but within the new catalog there is no information about the previous www-data cron entry. So in my opinion this is something that can&rsquo;t be fixed (easily) as it works that way by design.</p>
+
+<p>To workaround that issue, you can use puppet to remove the previous log entry. Which will certainly fail because of a duplicate resource entry as both have the same title. Hence as a resulting ticket the cron provider should include the user as a part of the resource title.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69869" class="journal has-notes">
+    <div id="note-4">
+    <h4><a href="/issues/16121#note-4" class="journal-link">#4</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d52f2b3c8e952dd826d8a04852870098?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1573" class="user active">Stefan Schulte</a> <a href="/projects/puppet/activity?from=2012-08-27" title="08/27/2012 09:06 am">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-69869-notes"><p>Peter &ndash;</p>
+
+<p>the parsedfile provider parses a list of records from all known files during prefetch (this means a record has to be unique across all files). If puppet detects that the target property is incorrect, the target property is changed and both files (old target and new target) are marked as dirty so flush should rewrite both files.</p>
+
+<p>Since crontab makes use of the parsedfile provider I would have expected two writes here:</p>
+
+<pre>
+1282:debug: Prefetching crontab resources for cron
+1323:notice: /Stage[main]/S3_logrotate::Supervisord/Cron[s3_logger_supervisord]/user: user changed 'www-data' to 'root'
+1324:notice: /Stage[main]/S3_logrotate::Supervisord/Cron[s3_logger_supervisord]/target: target changed 'www-data' to 'root'
+1325:debug: Flushing cron provider target root
+</pre>
+
+
+<p>I would have expected another <code>Flushing cron provider target www-data</code> here.</p>
+
+<p>@Chris:</p>
+
+<p>Can you please take Peter&rsquo;s advice and build a simple manifest of just your cron resource and put it in one file e.g.</p>
+
+<pre>
+# /tmp/test.pp
+cron {
+...
+}
+cron {
+...
+}
+</pre>
+
+
+<p>you can then run <code>puppet apply -v -d /tmp/test.pp</code> and see what happens.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69889" class="journal has-notes">
+    <div id="note-5">
+    <h4><a href="/issues/16121#note-5" class="journal-link">#5</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/ef14b7b705e5580cb42d78f0a7fa9238?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/171" class="user active">Peter Meier</a> <a href="/projects/puppet/activity?from=2012-08-27" title="08/27/2012 10:57 am">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-69889-notes"><blockquote><p>the parsedfile provider parses a list of records from all known files during prefetch (this means a record has to be unique across all files). If puppet detects that the target property is incorrect, the target property is changed and both files (old target and new target) are marked as dirty so flush should rewrite both files.</p></blockquote>
+
+<p>Right, loading the state of all records is the other option and I didn&rsquo;t know that the cron provider does that. Thanks for the explanation! :)</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69919" class="journal has-notes">
+    <div id="note-6">
+    <h4><a href="/issues/16121#note-6" class="journal-link">#6</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/adde77d37e36a7df1b6c4e874cd8ee77?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2953" class="user active">Chris Henry</a> <a href="/projects/puppet/activity?from=2012-08-27" title="08/27/2012 01:33 pm">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-69919-notes"><p>creating a simple manifest with the 2 cron jobs to mimic my manifest has a little different behavior.  Specifically it does not re-add the root cron job over and over and over &ndash; but it still does not delete the www-data user&rsquo;s entry before creating the root user entry on the first run after flipping the &lsquo;user&rsquo; parameter on the cron:</p>
+
+<pre>
+verify no cron jobs:
+[user@p-HOSTNAME tmp]$ sudo -u www-data crontab -l  |grep -A 2 "s3_logger_supervisord$"
+[user@p-HOSTNAME tmp]$ sudo -u root crontab -l  |grep -A 2 "s3_logger_supervisord$"        
+--
+test manifest adds www-data user cron job:
+[user@p-HOSTNAME tmp]$ cat test.pp
+cron {
+    "s3_logger_supervisord":
+        command  => "/var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'",
+        user     => www-data,
+        minute   => 40,
+        hour     => 23;
+
+    "s3_logger_supervisord_cleanup":
+        command  => "/bin/find /var/has/log/s3_logrotate -name '${hostname}_supervisord.*' -mtime +7 -exec rm {} \\;",
+        user     => root,
+        minute   => 35,
+        hour     => 23;
+}
+--
+apply test manifest (creates www-data user cron job)
+[user@p-HOSTNAME tmp]$ sudo puppet apply -v -d ./test.pp  
+debug: Creating default schedules
+debug: Failed to load library 'rubygems' for feature 'rubygems'
+debug: Puppet::Type::User::ProviderUser_role_add: file rolemod does not exist
+debug: Puppet::Type::User::ProviderLdap: true value when expecting false
+debug: Puppet::Type::User::ProviderDirectoryservice: file /usr/bin/dscl does not exist
+debug: Puppet::Type::User::ProviderPw: file pw does not exist
+debug: Failed to load library 'ldap' for feature 'ldap'
+debug: /File[/var/lib/puppet/lib]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/certs/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/certs]
+debug: /File[/var/lib/puppet/ssl/public_keys/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/public_keys]
+debug: /File[/var/lib/puppet/state/graphs]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/ssl]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/client_yaml]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/state/state.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/ssl/crl.pem]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/private_keys]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/public_keys]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/state/last_run_report.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/client_data]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/state/last_run_summary.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/state]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/certs]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/facts]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/private]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/certs/ca.pem]: Autorequiring File[/var/lib/puppet/ssl/certs]
+debug: /File[/var/lib/puppet/state/resources.txt]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/clientbucket]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/certificate_requests]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/private_keys/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/private_keys]
+debug: Finishing transaction 69953800229580
+debug: Loaded state in 0.02 seconds
+debug: Loaded state in 0.02 seconds
+info: Applying configuration version '1346099302'
+debug: /Schedule[daily]: Skipping device resources because running on a host
+debug: /Schedule[monthly]: Skipping device resources because running on a host
+debug: /Schedule[hourly]: Skipping device resources because running on a host
+debug: /Schedule[never]: Skipping device resources because running on a host
+debug: /Schedule[weekly]: Skipping device resources because running on a host
+debug: Prefetching crontab resources for cron
+notice: /Stage[main]//Cron[s3_logger_supervisord]/ensure: created
+debug: Flushing cron provider target www-data
+debug: /Stage[main]//Cron[s3_logger_supervisord]: The container Class[Main] will propagate my refresh event
+debug: /Schedule[puppet]: Skipping device resources because running on a host
+debug: Class[Main]: The container Stage[main] will propagate my refresh event
+debug: Finishing transaction 69953799442880
+debug: Storing state
+debug: Stored state in 0.31 seconds
+notice: Finished catalog run in 0.48 seconds
+debug: Finishing transaction 69953800562740
+debug: Received report to process from p-HOSTNAME.use01.plat.priv
+debug: Processing report from p-HOSTNAME.use01.plat.priv with processor Puppet::Reports::Store
+--
+replace www-data user with root in test manifest
+[user@p-HOSTNAME tmp]$ sed -i 's/www-data/root/g' test.pp           
+--
+test manifest now adds root user cron job:
+[user@p-HOSTNAME tmp]$ cat test.pp
+cron {
+    "s3_logger_supervisord":
+        command  => "/var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'",
+        user     => root,
+        minute   => 40,
+        hour     => 23;
+
+    "s3_logger_supervisord_cleanup":
+        command  => "/bin/find /var/has/log/s3_logrotate -name '${hostname}_supervisord.*' -mtime +7 -exec rm {} \\;",
+        user     => root,
+        minute   => 35,
+        hour     => 23;
+}
+--
+apply test manifest (should delete www-data user cron job and create root user cron job - but doesn't)
+[user@p-HOSTNAME tmp]$ sudo puppet apply -v -d ./test.pp  
+debug: Creating default schedules
+debug: Failed to load library 'rubygems' for feature 'rubygems'
+debug: Puppet::Type::User::ProviderUser_role_add: file rolemod does not exist
+debug: Puppet::Type::User::ProviderLdap: true value when expecting false
+debug: Puppet::Type::User::ProviderDirectoryservice: file /usr/bin/dscl does not exist
+debug: Puppet::Type::User::ProviderPw: file pw does not exist
+debug: Failed to load library 'ldap' for feature 'ldap'
+debug: /File[/var/lib/puppet/ssl/certs]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/facts]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/state/resources.txt]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/client_yaml]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/client_data]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/certs/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/certs]
+debug: /File[/var/lib/puppet/ssl/certs/ca.pem]: Autorequiring File[/var/lib/puppet/ssl/certs]
+debug: /File[/var/lib/puppet/state]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/state/graphs]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/ssl/public_keys/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/public_keys]
+debug: /File[/var/lib/puppet/state/state.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/clientbucket]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/private]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/private_keys/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/private_keys]
+debug: /File[/var/lib/puppet/ssl]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/state/last_run_summary.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/state/last_run_report.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/ssl/private_keys]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/lib]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/crl.pem]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/certificate_requests]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/public_keys]: Autorequiring File[/var/lib/puppet/ssl]
+debug: Finishing transaction 69884944804720
+debug: Loaded state in 0.02 seconds
+debug: Loaded state in 0.02 seconds
+info: Applying configuration version '1346099316'
+debug: /Schedule[daily]: Skipping device resources because running on a host
+debug: /Schedule[monthly]: Skipping device resources because running on a host
+debug: /Schedule[hourly]: Skipping device resources because running on a host
+debug: /Schedule[never]: Skipping device resources because running on a host
+debug: /Schedule[weekly]: Skipping device resources because running on a host
+debug: Prefetching crontab resources for cron
+notice: /Stage[main]//Cron[s3_logger_supervisord]/ensure: created
+debug: Flushing cron provider target root
+debug: /Stage[main]//Cron[s3_logger_supervisord]: The container Class[Main] will propagate my refresh event
+debug: /Schedule[puppet]: Skipping device resources because running on a host
+debug: Class[Main]: The container Stage[main] will propagate my refresh event
+debug: Finishing transaction 69884944021460
+debug: Storing state
+debug: Stored state in 0.29 seconds
+notice: Finished catalog run in 0.42 seconds
+debug: Finishing transaction 69884945144080
+debug: Received report to process from p-HOSTNAME.use01.plat.priv
+debug: Processing report from p-HOSTNAME.use01.plat.priv with processor Puppet::Reports::Store
+--
+verify www-data user crontab after
+[user@p-HOSTNAME tmp]$ sudo -u www-data crontab -l  |grep -A 2 "s3_logger_supervisord$"    
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'
+--
+verify root user crontab after
+[user@p-HOSTNAME tmp]$ sudo -u root crontab -l  |grep -A 2 "s3_logger_supervisord$"
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'
+[user@p-HOSTNAME tmp]$
+</pre>
+
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69931" class="journal has-notes">
+    <div id="note-7">
+    <h4><a href="/issues/16121#note-7" class="journal-link">#7</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d52f2b3c8e952dd826d8a04852870098?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1573" class="user active">Stefan Schulte</a> <a href="/projects/puppet/activity?from=2012-08-27" title="08/27/2012 02:33 pm">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-69931-notes"><p>Try adding the following to your file</p>
+
+<pre>
+cron { 'no_such_cron':
+  ensure => absent,
+  user   => 'www-data',
+}
+</pre>
+
+
+<p>The problem you are hitting now is of another kind: As I said puppet will parse all targets (crontabs) and stores every record in memory. But puppet will not actively search for all possible crontabs that may be out there (while this might be possible by parsing <code>/var/spool/cron</code> or executing crontab -l for every user on the system). As a result if you only have cron resources for user <code>www-data</code> puppet does not care if the same entry is present in <code>root</code>&rsquo;s crontab. However if you start to manage <strong>any</strong> crontab for <code>root</code>, puppet becomes aware of <code>root</code>&rsquo;s crontab. That is why I specified a resource above that is always in sync. Just to force puppet to parse the crontab of <code>www-data</code>.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-69937" class="journal has-notes">
+    <div id="note-8">
+    <h4><a href="/issues/16121#note-8" class="journal-link">#8</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/adde77d37e36a7df1b6c4e874cd8ee77?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2953" class="user active">Chris Henry</a> <a href="/projects/puppet/activity?from=2012-08-27" title="08/27/2012 02:48 pm">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-69937-notes"><p>Stefan &ndash;</p>
+
+<p>Ahh thank you for the explanation.  That was the difference between my original manifests and this new test one &ndash; I did have other cron jobs for the www-data user.</p>
+
+<p>I am now getting my original results using the &lsquo;test manifest &ndash; that is the www-data user job never gets removed and duplicate jobs keep getting created for the root user:</p>
+
+<pre>
+original manifest - apply cronjob as www-data
+[user@p-HOSTNAME tmp]$ sudo puppet apply -v -d ./test.pp  
+debug: Creating default schedules
+debug: Failed to load library 'rubygems' for feature 'rubygems'
+debug: Puppet::Type::User::ProviderUser_role_add: file rolemod does not exist
+debug: Puppet::Type::User::ProviderLdap: true value when expecting false
+debug: Puppet::Type::User::ProviderDirectoryservice: file /usr/bin/dscl does not exist
+debug: Puppet::Type::User::ProviderPw: file pw does not exist
+debug: Failed to load library 'ldap' for feature 'ldap'
+debug: /File[/var/lib/puppet/state/last_run_summary.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/clientbucket]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/state/graphs]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/lib]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/certs]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/crl.pem]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/state/state.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/client_yaml]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/public_keys]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/certs/ca.pem]: Autorequiring File[/var/lib/puppet/ssl/certs]
+debug: /File[/var/lib/puppet/ssl/private_keys]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/facts]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/public_keys/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/public_keys]
+debug: /File[/var/lib/puppet/ssl/certs/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/certs]
+debug: /File[/var/lib/puppet/state/resources.txt]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/ssl/certificate_requests]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/state]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/private_keys/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/private_keys]
+debug: /File[/var/lib/puppet/state/last_run_report.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/ssl/private]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/client_data]: Autorequiring File[/var/lib/puppet]
+debug: Finishing transaction 70318302517420
+debug: Loaded state in 0.02 seconds
+debug: Loaded state in 0.02 seconds
+info: Applying configuration version '1346103833'
+debug: /Schedule[daily]: Skipping device resources because running on a host
+debug: /Schedule[monthly]: Skipping device resources because running on a host
+debug: /Schedule[hourly]: Skipping device resources because running on a host
+debug: Prefetching crontab resources for cron
+debug: /Schedule[never]: Skipping device resources because running on a host
+debug: /Schedule[weekly]: Skipping device resources because running on a host
+notice: /Stage[main]//Cron[s3_logger_supervisord]/ensure: created
+debug: Flushing cron provider target www-data
+debug: /Stage[main]//Cron[s3_logger_supervisord]: The container Class[Main] will propagate my refresh event
+debug: /Schedule[puppet]: Skipping device resources because running on a host
+debug: Class[Main]: The container Stage[main] will propagate my refresh event
+debug: Finishing transaction 70318301685280
+debug: Storing state
+debug: Stored state in 0.29 seconds
+notice: Finished catalog run in 0.49 seconds
+debug: Finishing transaction 70318302764000
+debug: Received report to process from p-HOSTNAME.use01.plat.priv
+debug: Processing report from p-HOSTNAME.use01.plat.priv with processor Puppet::Reports::Store
+--
+verify crontabs
+[user@p-HOSTNAME tmp]$ sudo -u www-data crontab -l  |grep -A 2 "s3_logger_supervisord$"    
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'
+[user@p-HOSTNAME tmp]$ sudo -u root crontab -l  |grep -A 2 "s3_logger_supervisord$"    
+--
+change manifest cron job from www-data user -> root
+[user@p-HOSTNAME tmp]$ sudo vim test.pp 
+
+cron {
+    "s3_logger_supervisord":
+        command  => "/var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/lo
+g/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'",
+        user     => root,
+        minute   => 40,
+        hour     => 23;
+
+    "s3_logger_supervisord_cleanup":
+        command  => "/bin/find /var/has/log/s3_logrotate -name '${hostname}_supervisord.*' -mtime +7 -exec rm {} \\
+;",
+        user     => root,
+        minute   => 35,
+        hour     => 23;
+
+    "test_job":
+        ensure   => absent,
+        user     => www-data;
+
+}                                                                                                  
+"test.pp" 18L, 597C written                                                                      
+--
+reapply test manifest
+[user@p-HOSTNAME tmp]$ sudo puppet apply -v -d ./test.pp                               
+debug: Creating default schedules
+debug: Failed to load library 'rubygems' for feature 'rubygems'
+debug: Puppet::Type::User::ProviderUser_role_add: file rolemod does not exist
+debug: Puppet::Type::User::ProviderLdap: true value when expecting false
+debug: Puppet::Type::User::ProviderDirectoryservice: file /usr/bin/dscl does not exist
+debug: Puppet::Type::User::ProviderPw: file pw does not exist
+debug: Failed to load library 'ldap' for feature 'ldap'
+debug: /File[/var/lib/puppet/client_data]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/state/resources.txt]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/clientbucket]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/private_keys/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/private_keys]
+debug: /File[/var/lib/puppet/state/last_run_report.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/state/graphs]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/ssl/private_keys]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/crl.pem]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/state/state.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/ssl/public_keys]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/certs/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/certs]
+debug: /File[/var/lib/puppet/ssl/certs]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/state]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/client_yaml]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/facts]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/public_keys/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/public_keys]
+debug: /File[/var/lib/puppet/ssl]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/private]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/state/last_run_summary.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/ssl/certs/ca.pem]: Autorequiring File[/var/lib/puppet/ssl/certs]
+debug: /File[/var/lib/puppet/lib]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/certificate_requests]: Autorequiring File[/var/lib/puppet/ssl]
+debug: Finishing transaction 69888778679020
+debug: Loaded state in 0.02 seconds
+debug: Loaded state in 0.02 seconds
+info: Applying configuration version '1346103868'
+debug: /Schedule[daily]: Skipping device resources because running on a host
+debug: /Schedule[monthly]: Skipping device resources because running on a host
+debug: /Schedule[hourly]: Skipping device resources because running on a host
+debug: Prefetching crontab resources for cron
+debug: /Schedule[never]: Skipping device resources because running on a host
+debug: /Schedule[weekly]: Skipping device resources because running on a host
+notice: /Stage[main]//Cron[s3_logger_supervisord]/user: user changed 'www-data' to 'root'
+notice: /Stage[main]//Cron[s3_logger_supervisord]/target: target changed 'www-data' to 'root'
+debug: Flushing cron provider target root
+debug: /Stage[main]//Cron[s3_logger_supervisord]: The container Class[Main] will propagate my refresh event
+debug: /Stage[main]//Cron[s3_logger_supervisord]: The container Class[Main] will propagate my refresh event
+debug: /Schedule[puppet]: Skipping device resources because running on a host
+debug: Class[Main]: The container Stage[main] will propagate my refresh event
+debug: Finishing transaction 69888777846420
+debug: Storing state
+debug: Stored state in 0.28 seconds
+notice: Finished catalog run in 0.43 seconds
+debug: Finishing transaction 69888778911560
+debug: Received report to process from p-HOSTNAME.use01.plat.priv
+debug: Processing report from p-HOSTNAME.use01.plat.priv with processor Puppet::Reports::Store
+--
+verify cron jobs (exists for www-data and root now)
+[user@p-HOSTNAME tmp]$ sudo -u www-data crontab -l  |grep -A 2 "s3_logger_supervisord$"
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'
+[user@p-HOSTNAME tmp]$ sudo -u root crontab -l  |grep -A 2 "s3_logger_supervisord$"    
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'
+--
+apply manifest a second time
+[user@p-HOSTNAME tmp]$ sudo puppet apply -v -d ./test.pp                                                 
+debug: Creating default schedules
+debug: Failed to load library 'rubygems' for feature 'rubygems'
+debug: Puppet::Type::User::ProviderUser_role_add: file rolemod does not exist
+debug: Puppet::Type::User::ProviderLdap: true value when expecting false
+debug: Puppet::Type::User::ProviderDirectoryservice: file /usr/bin/dscl does not exist
+debug: Puppet::Type::User::ProviderPw: file pw does not exist
+debug: Failed to load library 'ldap' for feature 'ldap'
+debug: /File[/var/lib/puppet/client_yaml]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/crl.pem]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/private_keys/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/private_keys]
+debug: /File[/var/lib/puppet/ssl/certs/ca.pem]: Autorequiring File[/var/lib/puppet/ssl/certs]
+debug: /File[/var/lib/puppet/ssl/private]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/client_data]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/state/last_run_report.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/state/resources.txt]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/state/graphs]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/state/last_run_summary.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/ssl/certificate_requests]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/state/state.yaml]: Autorequiring File[/var/lib/puppet/state]
+debug: /File[/var/lib/puppet/facts]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/state]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/public_keys]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/private_keys]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/ssl/public_keys/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/public_keys]
+debug: /File[/var/lib/puppet/clientbucket]: Autorequiring File[/var/lib/puppet]
+debug: /File[/var/lib/puppet/ssl/certs/p-HOSTNAME.use01.plat.priv.pem]: Autorequiring File[/var/lib/puppet/ssl/certs]
+debug: /File[/var/lib/puppet/ssl/certs]: Autorequiring File[/var/lib/puppet/ssl]
+debug: /File[/var/lib/puppet/lib]: Autorequiring File[/var/lib/puppet]
+debug: Finishing transaction 69923343454980
+debug: Loaded state in 0.02 seconds
+debug: Loaded state in 0.02 seconds
+info: Applying configuration version '1346103885'
+debug: /Schedule[daily]: Skipping device resources because running on a host
+debug: /Schedule[monthly]: Skipping device resources because running on a host
+debug: /Schedule[hourly]: Skipping device resources because running on a host
+debug: Prefetching crontab resources for cron
+debug: /Schedule[never]: Skipping device resources because running on a host
+debug: /Schedule[weekly]: Skipping device resources because running on a host
+notice: /Stage[main]//Cron[s3_logger_supervisord]/user: user changed 'www-data' to 'root'
+notice: /Stage[main]//Cron[s3_logger_supervisord]/target: target changed 'www-data' to 'root'
+debug: Flushing cron provider target root
+debug: /Stage[main]//Cron[s3_logger_supervisord]: The container Class[Main] will propagate my refresh event
+debug: /Stage[main]//Cron[s3_logger_supervisord]: The container Class[Main] will propagate my refresh event
+debug: /Schedule[puppet]: Skipping device resources because running on a host
+debug: Class[Main]: The container Stage[main] will propagate my refresh event
+debug: Finishing transaction 69923342626060
+debug: Storing state
+debug: Stored state in 0.29 seconds
+notice: Finished catalog run in 0.50 seconds
+debug: Finishing transaction 69923343685540
+debug: Received report to process from p-HOSTNAME.use01.plat.priv
+debug: Processing report from p-HOSTNAME.use01.plat.priv with processor Puppet::Reports::Store
+--
+verify cron jobs - 2 exist for root now
+[user@p-HOSTNAME tmp]$ sudo -u www-data crontab -l  |grep -A 2 "s3_logger_supervisord$"
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'
+[user@p-HOSTNAME tmp]$ sudo -u root crontab -l  |grep -A 2 "s3_logger_supervisord$"    
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'
+# Puppet Name: s3_logger_supervisord
+40 23 * * * /var/has/s3_logrotate/bin/s3_logrotate.py -b bucket -p /var/has/log/supervisord -l /var/has/log/s3_logrotate/HOSTNAME_supervisord -s 'secret_key' -k 'key'
+[user@p-HOSTNAME tmp]$
+</pre>
+
+</div>
+    </div>
+  </div>
+  
+  <div id="change-70782" class="journal has-notes">
+    <div id="note-9">
+    <h4><a href="/issues/16121#note-9" class="journal-link">#9</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/adde77d37e36a7df1b6c4e874cd8ee77?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2953" class="user active">Chris Henry</a> <a href="/projects/puppet/activity?from=2012-09-10" title="09/10/2012 09:57 am">12 months</a> ago</h4>
+
+    <div class="wiki" id="journal-70782-notes"><p>Peter/Stefan &ndash;</p>
+
+<p>Is there any more information needed from me about this issue?</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-71124" class="journal has-notes has-details">
+    <div id="note-10">
+    <h4><a href="/issues/16121#note-10" class="journal-link">#10</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d52f2b3c8e952dd826d8a04852870098?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1573" class="user active">Stefan Schulte</a> <a href="/projects/puppet/activity?from=2012-09-14" title="09/14/2012 07:40 am">12 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Assignee</strong> changed from <i>Chris Henry</i> to <i>Stefan Schulte</i></li>
+    </ul>
+    <div class="wiki" id="journal-71124-notes"><p>Chris &ndash;</p>
+
+<p>thanks for the input. I was able to verify that a cronjob is not moved from one target to the other. The old crontab will not be marked as modified so if all other cronjobs are insync, puppet will create duplicate cronjobs.</p>
+
+<p>I was able to fix the issue but I have to write additional tests.</p>
+
+<p>If you want to play with the fix already here is what I changed:</p>
+
+<pre>
+diff --git a/lib/puppet/provider/cron/crontab.rb b/lib/puppet/provider/cron/crontab.rb
+index dce9826..811d723 100755
+--- a/lib/puppet/provider/cron/crontab.rb
++++ b/lib/puppet/provider/cron/crontab.rb
+@@ -189,6 +189,10 @@ Puppet::Type.type(:cron).provide(:crontab, :parent => Puppet::Provider::ParsedFi
+   end
+ 
+   def user=(user)
++    # we have to mark the target as modified first, to make sure that if
++    # we move a cronjob from userA to userB, userA's crontab will also
++    # be rewritten
++    mark_target_modified
+     @property_hash[:user] = user
+     @property_hash[:target] = user
+   end
+</pre>
+
+</div>
+    </div>
+  </div>
+  
+  <div id="change-74528" class="journal has-notes has-details">
+    <div id="note-11">
+    <h4><a href="/issues/16121#note-11" class="journal-link">#11</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d52f2b3c8e952dd826d8a04852870098?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1573" class="user active">Stefan Schulte</a> <a href="/projects/puppet/activity?from=2012-10-20" title="10/20/2012 01:36 am">10 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Needs More Information</i> to <i>In Topic Branch Pending Review</i></li>
+       <li><strong>Assignee</strong> deleted (<del><i>Stefan Schulte</i></del>)</li>
+    </ul>
+    <div class="wiki" id="journal-74528-notes"><p>fix provided in <a href="/issues/16809" class="issue status-5 priority-4 priority-default closed" title="cron resource can destroy other resources (Closed)">#16809</a></p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87496" class="journal has-notes">
+    <div id="note-12">
+    <h4><a href="/issues/16121#note-12" class="journal-link">#12</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2013-03-23" title="03/23/2013 03:00 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87496-notes"><p>To whom it may concern.</p>
+
+<p>This appears to be a duplicate of <a href="/issues/2251" class="issue status-5 priority-4 priority-default closed" title="cron provider doesn&#x27;t correctly employ user property for resource existence checks. (Closed)">#2251</a>. The discussion over there was rather fruitful, and we concluded that this shouldn&rsquo;t be fixed in the way Stefan did.</p>
+
+<p>Instead of removing the crontab from the original file, it should remain in both. What requires fixing is the repeated creation of duplicates in the new crontab.</p>
+
+<p>There is a pull request including tests as well.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87849" class="journal has-details">
+    <div id="note-13">
+    <h4><a href="/issues/16121#note-13" class="journal-link">#13</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/0877c3568ad22ac948626ce8808d1fce?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6471" class="user active">Charlie Sharpsteen</a> <a href="/projects/puppet/activity?from=2013-04-01" title="04/01/2013 10:39 am">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Keywords</strong> set to <i>customer</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-87869" class="journal has-notes has-details">
+    <div id="note-15">
+    <h4><a href="/issues/16121#note-15" class="journal-link">#15</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/0877c3568ad22ac948626ce8808d1fce?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6471" class="user active">Charlie Sharpsteen</a> <a href="/projects/puppet/activity?from=2013-04-01" title="04/01/2013 03:38 pm">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>In Topic Branch Pending Review</i> to <i>Merged - Pending Release</i></li>
+       <li><strong>Target version</strong> set to <i>3.2.0</i></li>
+       <li><strong>Branch</strong> set to <i>https://github.com/puppetlabs/puppet/pull/1216</i></li>
+    </ul>
+    <div class="wiki" id="journal-87869-notes"><p>Confirmed that this was fixed by <a href="/issues/16809" class="issue status-5 priority-4 priority-default closed" title="cron resource can destroy other resources (Closed)">#16809</a> with the merge of <a href="https://github.com/puppetlabs/puppet/pull/1216">GH-1216</a> in <a href="https://github.com/puppetlabs/puppet/commit/5b06686">5b06686</a>.</p>
+
+<p>Fix should be live in 3.2.0.</p>
+
+<p>Puppet will still copy the job to a new crontab if the user is changed, but it will now do this only once instead of once per run. Further discussion concerning whether we should move the job instead of copying it can take place in <a href="/issues/2251" class="issue status-5 priority-4 priority-default closed" title="cron provider doesn&#x27;t correctly employ user property for resource existence checks. (Closed)">#2251</a>.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-89478" class="journal has-notes has-details">
+    <div id="note-16">
+    <h4><a href="/issues/16121#note-16" class="journal-link">#16</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/aafd0d5beaa872e15092084e9bab49c9?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3206" class="user active">Matthaus Owens</a> <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:17 pm">4 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Merged - Pending Release</i> to <i>Closed</i></li>
+    </ul>
+    <div class="wiki" id="journal-89478-notes"><p>Released in Puppet 3.2.0-rc1</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-89542" class="journal has-notes">
+    <div id="note-17">
+    <h4><a href="/issues/16121#note-17" class="journal-link">#17</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/aafd0d5beaa872e15092084e9bab49c9?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3206" class="user active">Matthaus Owens</a> <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:19 pm">4 months</a> ago</h4>
+
+    <div class="wiki" id="journal-89542-notes"><p>Released in Puppet 3.2.0-rc1</p>
+</div>
+    </div>
+  </div>
+  
+
+
+</div>
+
+
+<div style="clear: both;"></div>
+<div class="contextual">
+
+
+<span class="issue-16121-watcher"></span>
+
+
+</div>
+
+
+<div style="clear: both;"></div>
+
+<p class="other-formats">Also available in:  <span><a href="/issues/16121.atom" class="atom" rel="nofollow">Atom</a></span>
+  <span><a href="/issues/16121.pdf" class="pdf" rel="nofollow">PDF</a></span>
+</p>
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+contextMenuInit('/issues/context_menu')
+//]]>
+</script>
+
+        
+        <div style="clear:both;"></div>
+    </div>
+</div>
+</div>
+
+<div id="ajax-indicator" style="display:none;"><span>Loading...</span></div>
+<div id="ajax-modal" style="display:none;"></div>
+
+<div id="footer">
+  <div class="bgl"><div class="bgr">
+    Powered by <a href="http://www.redmine.org/">Redmine</a> &copy; 2006-2012 Jean-Philippe Lang
+  </div></div>
+</div>
+</div>
+</div>
+<script src="/javascripts/leadcapture.js?1328214688" type="text/javascript"></script>
+
+<!-- BEGIN: MARKETO TRACKING -->
+    <script src="https://munchkin.marketo.net/munchkin.js
+type="text/javascript"></script>
+<script>mktoMunchkin("307-QLA-991");</script>
+ <!-- END: MARKETO TRACKING --> <!-- Begin Google Analytics Asynch-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1537572-5']);
+  _gaq.push(['_setDomainName', 'puppetlabs.com']);
+  _gaq.push(['_addIgnoredRef', 'puppetlabs.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  <!-- End Google Analytics -->
+
+</body>
+</html>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-br" lang="pt-br" dir="ltr" >
+<head>
+	  <base href="http://www.cert-rs.tche.br/index.php/ferramentas/58" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="Hosts, Vulneráveis, Mail, Relay, Detecção, Para, Manual, Utilização, Ferramenta, " />
+  <meta name="title" content="Manual de Utilização da ferramenta para detecção de hosts vulneráveis a Mail Relay" />
+  <meta name="description" content="Manual de Utilização da ferramenta para detecção de hosts vulneráveis a Mail Relay..." />
+  <meta name="generator" content="JoomSEO by Phill Brown (http://www.joomseo.com)" />
+  <title>CERT-RS | Manual de Utilização da ferramenta para detecção de hosts vulneráveis a Mail Relay</title>
+  <link href="/templates/cert20/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+	<link rel="stylesheet" href="/modules/mod_jw_srfr/paginate.css" type="text/css" />
+	<link rel="stylesheet" href="/modules/mod_jw_srfr/mod_jw_srfr/mod_jw_srfr.css" />
+	<link rel="stylesheet" href="/templates/cert20/css/template.css" type="text/css" />
+	<!--[if IE]>
+		<link rel="stylesheet" href="/templates/cert20/css/ie.css" type="text/css" />
+	<![endif]-->
+	<!--[if lt IE 7]>
+		<link rel="stylesheet" href="/templates/cert20/css/itie7.css" type="text/css" />
+	<![endif]-->
+</head>
+<body>
+<div id="bodyBackground">
+	<!--[if lt IE 7]>
+	<center>
+	<![endif]-->
+	<!--[if gte IE 8]>
+	<center>
+	<![endif]--> 
+
+<div id="main">
+<div id="top">
+<div class="menuicon">
+	<ul>
+	<li><a href="/index.php"><span>home</span><img src="/templates/cert20/images/blankline.gif" /><img src="/templates/cert20/images/homeblue.jpg" width="35" height="33"alt="home"/></a></li>
+	<li><a href="/index.php/honeypots"><span>honeypots</span><img src="/templates/cert20/images/blankline.gif" /><img src="/templates/cert20/images/favoblue.jpg" width="35" height="33" alt="honeypots"/></a></li>
+	<li><a href="/index.php/docs"><span>documentos</span><img src="/templates/cert20/images/blankline.gif" /><img src="/templates/cert20/images/docsblue.jpg" width="35" height="33" alt="documentos"/></a></li>
+</ul>
+</div>
+
+<a href="/index.php"><img src="/templates/cert20/images/logocert.png" alt="CERT-RS � home" /></a><br/> 
+	 			<div class="moduletable-breadcrumbs">
+					<span class="breadcrumbs pathway">
+<a href="http://www.cert-rs.tche.br/" class="pathway">Home</a> <img src="/images/M_images/arrow.png" alt=""  /> Ferramentas</span>
+		</div>
+	
+	
+</div>
+
+<div id="right">
+				<div class="moduletable">
+					<ul class="menu"><li class="item1"><a href="http://www.cert-rs.tche.br/"><img border="0" alt="Página Inicial" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=P%C3%A1gina%20Inicial&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=P%C3%A1gina%20Inicial&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=P%C3%A1gina%20Inicial&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li><li class="item53"><a href="/index.php/missao"><img border="0" alt="Missão" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Miss%C3%A3o&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Miss%C3%A3o&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Miss%C3%A3o&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li><li class="item54"><a href="/index.php/clientes"><img border="0" alt="Clientes" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Clientes&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Clientes&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Clientes&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li><li class="item55"><a href="/index.php/listainfoseg"><img border="0" alt="Lista InfoSeg" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Lista%20InfoSeg&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Lista%20InfoSeg&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Lista%20InfoSeg&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li><li class="item27"><a href="/index.php/feeds"><img border="0" alt="Feeds RSS" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Feeds%20RSS&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Feeds%20RSS&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Feeds%20RSS&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li><li class="item2"><a href="/index.php/honeypots"><img border="0" alt="Honeypots" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Honeypots&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Honeypots&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Honeypots&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li><li class="item50"><a href="/index.php/docs"><img border="0" alt="Documentos" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Documentos&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Documentos&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Documentos&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li><li class="item37"><a href="/index.php/estatisticas"><img border="0" alt="Estatísticas" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Estat%C3%ADsticas&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Estat%C3%ADsticas&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Estat%C3%ADsticas&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li><li class="item41"><a href="/index.php/outroscerts"><img border="0" alt="Outros CERTs" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Outros%20CERTs&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Outros%20CERTs&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Outros%20CERTs&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li><li id="current" class="active item48"><a href="/index.php/ferramentas"><img border="0" alt="Ferramentas" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Ferramentas&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Ferramentas&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Ferramentas&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li><li class="item57"><a href="/index.php/contato"><img border="0" alt="Contato" src="/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Contato&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none" onmouseover="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Contato&amp;font_color=FFd862&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=x'" onmouseout="this.src='/modules/mod_imgttfmenu/ttf_image_generator.php?caption=Contato&amp;font_color=FFFFFF&amp;font_file=AGENCYB.TTF&amp;font_size=16&amp;padding_left=0&amp;padding_right=5&amp;padding_bottom=3&amp;padding_top=8&amp;img_height=29&amp;txt_align=0&amp;bg_color=213363&amp;bg_trans=0&amp;bg_repeat=none'" /></a></li></ul>		</div>
+	
+	<div id="ip">
+	 IP:2001:0:53aa:64c:<br>18ca:5d94:2471:e895 
+</div>
+<div id="selo">
+<p>
+	<img src="/templates/cert20/images/ipv6_din.gif" alt="ipv6" /> 
+Se o globo estiver girando, voc&ecirc; usa IPv6</p>
+</div><!--fecha div selo -->
+<br />
+
+</div>
+<div id="left">
+		<div id="cont">
+		
+<div id="page">
+
+
+<h1 class="componentheading">
+        Manual de Utilização da ferramenta para detecção de hosts vulneráveis a Mail Relay</h1>
+
+
+
+
+<p class="buttonheading">
+		<img src="/templates/beez/images/trans.gif" alt="Atenção, abrir em uma nova janela." />
+	<a href="/index.php/ferramentas/58-manual-mail-relay?format=pdf" title="PDF" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/pdf_button.png" alt="PDF"  /></a><a href="/index.php/ferramentas/58-manual-mail-relay?tmpl=component&amp;print=1&amp;page=" title="Imprimir" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><img src="/images/M_images/printButton.png" alt="Imprimir"  /></a></p>
+
+
+
+
+
+<p><div class="backbutton"><a href="javascript:history.back();"><< voltar</a></div><span style="text-decoration: underline;"><strong>Instalação</strong></span></p>
+<p>Inicialmente, o pacote Relay.tar.gz deve ser descompactado através do comando:</p>
+<pre>tar -zxvf Relay.tar.gz </pre>
+<p>ou</p>
+<pre>gunzip Relay.tar.gz <br />tar -xvf Relay.tar    </pre>
+<p>Com isso, será criado o diretório Relay, contendo os seguintes arquivos:</p>
+<ul>
+<li><strong>dispara_relay.pl</strong>: Script principal em PERL que é utilizado para disparar a bateria de testes, utilizando para isso os arquivos abaixo. Antes da execução, este script deve ter alguns parâmetros de execução devidamente configurados, através das informações que serão explicados adiante. </li>
+<li><strong>rlytest.pl</strong>: Script em PERL responsável pelo teste de Mail Relay para cada host. É chamado pelo dispara_relay.pl em cada teste (processo) disparado para cada host. Também possui parâmetros que devem ser configurados, explicados adiante. </li>
+<li><strong>cabecalho</strong>: Arquivo utilizado para armazenar o código em HTML que deve ser incluído em cada arquivo resultante do teste como cabeçalho. Como exemplo está incluído um cabeçalho modelo, com o nome do POP-RS e a data de teste. Em cada teste este arquivo deve ser configurado para evitar o trabalho de atualização de todos os arquivos HTML resultantes. </li>
+<li><strong>lista_blocos</strong>:  Arquivo texto que contém a listagem de todas as instituições e seus respectivos blocos que devem ser testados. Como exemplo, este arquivo possui a listagem de duas instituições hipotéticas, chamadas Insittuicao_A e Instituicao_B, contendo cada uma blocos CIDR /24 privado. Algo importante que merece atenção é que este arquivo deve possuir como nome de instituições apenas uma string, cujos caracteres utilizados devem obedecer às normas de nomes de arquivos, visto que cada string será utilizada para representar a instituição nos arquivos de saída. Não é suportado espaço em um nome de instituição e os nomes devem ser obrigatoriamente diferentes. Adicionalmente, a string "fim" deve ser incluída no arquivo para sinalizar o final da listagem. </li>
+<li><strong>geraips.c</strong>: Código fonte do aplicativo de geração de IPs que pertencem a determinado bloco CIDR. Este fonte deve ser compilado da seguinte forma: <br />
+<pre>gcc geraips.c -o geraips </pre>
+</li>
+</ul>
+<p>A compilação desta ferramenta foi feita com sucesso nos seguintes sistemas operacionais: AIX 4.3, FreeBSD 4.5, Solaris 2.5.1 e Red Hat 7.2. Parte-se do pressuposto que serão passados blocos CIDR válidos, por isso não está implementada consistência para aceitar apenas blocos CIDR válidos.</p>
+<p>Para permitir a execução da ferramenta, devem ser instalados os pacotes PERL e FPING. O interpretador da linguagem PERL será utilizado para a execução dos scripts dispara_relay.pl e rlytest.pl. O download deste pacote pode ser feito a partir de <a href="http://www.perl.org" target="_blank">http://www.perl.org</a>.</p>
+<p>O pacote FPING trata-se de uma implementação de PING em paralelo, ou seja, verificar um grande número de hosts ao mesmo tempo e retornar os hosts ativos. <br />Este recurso será utilizado para otimizar os testes e fazer o teste de Mail Relay apenas nos hosts que estiverem ativos. Maiores informações e download desta ferramenta podem ser obtidos em:<a href="http://www.fping.com/" target="_blank"> http://www.fping.com/</a>. A versão sugerida para instalação é: 2.4b2. <br />Os sistemas operacionais em que a ferramenta já foi testada são AIX 4.2/4.3 e FreeBSD 4.5.</p>
+<p><span style="text-decoration: underline;"><strong>Utilização</strong></span></p>
+<p>Todo o procedimento de execução desta ferramenta deverá ser feito como usuário não privilegiado. Assim sendo, é aconselhável que a ferramenta seja instalada no home de um usuário normal, configurando os pacotes FPING e Perl para que possam ser executados por esse usuário não privilegiado.</p>
+<p>Antes de utilizar a ferramenta, diversas configurações devem ser feitas, listadas a seguir. É importante que os arquivos listados acima estejam no mesmo diretório. Editar o script <em>dispara_relay.pl</em>, setando no início dos comandos as seguintes informações:</p>
+<p>Setar o PATH completo do interpretador PERL, de acordo com nos exemplos que seguem</p>
+<p>Editar o script <em>dispara_relay.p</em>l, setando no início dos comandos as seguintes informações: <br />Setar o PATH completo do interpretador PERL, de acordo com os exemplos que seguem</p>
+<pre>#!/usr/local/bin/perl<br />$PATH_PERL="/usr/bin/perl"; </pre>
+<p>Setar o PATH completo do aplicativo FPING, de acordo com o exemplo:</p>
+<pre>$PATH_FPING="/usr/local/sbin/fping"; </pre>
+<p>Setar o endereço de e-mail que será destinado aos testes de relay. Esse endereço será preferencialmente destinado a quem estiver como resposável pelo teste, já <br />que será a forma de confirmar que o host em que o e-mail foi postado é realmente vulnerável. O exemplo é dado a seguir.</p>
+<pre>$MAIL="usuario\@dominio.br"; </pre>
+<p>O símbolo \ é utilizado antes do @ pois este é um caracter especial na linguagem PERL. <br /><br />Setar o tempo desejado de timeout para o teste de cada host</p>
+<pre>$TIMEOUT=30; </pre>
+<p>Setar o diretório, a partir do PATH onde a ferramenta se encontra para serem colocados os arquivos resultantes do teste que serão publicados. O exemplo que segue seta como diretório o nome "sadas":</p>
+<pre>$PATH_RESULTADOS="saidas"; </pre>
+<p>Supondo que a ferramenta esteja instalada em /home/relay, o diretório de resultados será /home/relay/saidas.</p>
+<p>- Editar o script rlytest.pl, setando as variáveis com o nome do host e domínio onde está sendo utilizada a ferramenta. <br />Exemplo:</p>
+<pre>$Dflt_domain = "domain.br"; <br />$Dflt_hostname = "host.domain.br"; </pre>
+<p>- Editar o arquivo cabecalho para incluir as tags HTML que serão incluídas no cabeçalho de todos os arquivos resultantes do teste. <br /><br />- Preencher o arquivo que lista as instituições e seus respectivos blocos. Um exemplo do conteúdo deste arquivo seria:</p>
+<pre>Instituicao_A <br />200.200.200.9/24 <br />Instuicao_B <br />210.210.160/20 <br />fim </pre>
+<p><span style="text-decoration: underline;">Cuidados: Não utilizar acentos, espaços e caracteres que não são permitidos para nomes de arquivos em sistemas UNIX-like.</span></p>
+<p><span style="text-decoration: underline;"><strong>Execução</strong></span></p>
+<p><span style="text-decoration: underline;">Atenção:</span> A execução desta ferramenta deverá ser feita utilizando um usuário não privilegiado. Antes deverão ser testadas as ferramentas FPING e PERL para verificar se elas podem ser executadas por usuário não privilegiado. Caso isso não seja permitido, deverá ser liberada a execução por usuário não privilegiado destas ferramentas.</p>
+<p>A execução da ferramenta é feita pelo script dispara_relay.pl. Na chamada deste script são necessários alguns parâmetros obrigatórios, apresentados a seguir, respectivamente:</p>
+<p><span style="text-decoration: underline;">Uso</span>: dispara_relay.pl lista_blocos arquivo_main_html arq_cabecalho testes_por_segundo <br /><br /><span style="text-decoration: underline;">lista_blocos</span>: nome do arquivo que contém a listagem de instituições e respectivos blocos. O exemplo de lista está nomeado como lista_blocos <br /><br /><span style="text-decoration: underline;">arquivo_main_html</span>: Trata-se do nome do arquivo HTML que será o arquivo MAIN, ou seja, que conterá a listagem de instituições que possuem hosts vulneráveis. <br />A partir deste arquivo poderá se chegar aos arquivos resultantes de cada instituições e o log de teste dos hosts considerados vulneráveis na publicação dos resultados.</p>
+<p><span style="text-decoration: underline;">arq_cabecalho</span>: Nome do arquivo que contém o código HTML que será incluído como cabecalho de cada arquivo resultante. O exemplo de arquivo de cabeçalho encontra-se com o nome cabecalho.</p>
+<p><span style="text-decoration: underline;">testes_por_segundo</span>: Número de testes que podem ser disparados a cada segundo, ou seja, o número de processos que serão disparados a cada segundo.</p>
+<p>Supondo que esse número seja 2, significa que a cada segundo dois testes serão disparados, permitindo que sejam testados 120 hosts por minuto, totalizando 7200 hosts testados por hora. Caso a conexão até as redes em teste seja de baixa velocidade ou superutilizada, vale lembrar que com esse número poderão se acumular até 120 processos de teste, consumindo recursos de CPU e memória consideráveis. A sugestão é iniciar com 1 ou 2 por segundo, analisar o comportamento no host em que o teste está rodando e aumentar para 3 ou mais.</p>
+<p>Um exemplo de chamada, baseado nos arquivos exemplo, seria: perl dispara_relay.pl lista_blocos index.html cabecalho 2</p>
+<p><span style="text-decoration: underline;"><strong>Detalhes Importantes</strong></span></p>
+<p>Como é dito no artigo e acima, a ferramenta FPING verifica quais os hosts estão ativos nas redes em teste e posteriormente são aplicados os testes sobre esses hosts. Por esse motivo, firewalls e roteadores das redes em teste deverão permitir o tráfego de pacotes ICMP para essa verificação.</p>
+<p>Para cada instituição testada, são gerados alguns arquivos temporários, com nomenclatura baseada na string que foi definida no arquivo da listagem de <br />instituições/redes que serão testados. Supondo que a instituição tenha nome POP-RS, serão gerados os seguintes arquivos temporários:</p>
+<ul>
+<li>POP-RS.tmp: Contém a lista de todos os IPs pertencentes aos blocos declarados; </li>
+<li>POP-RS.ping1: Contém a saÃída do FPING dos hosts que estão ativos; </li>
+<li>POP-RS.ping2: Contém também a lista de hosts ativos, mas com algumas adaptações em relaçõo ao POP-RS.ping1. </li>
+</ul>
+<p>Ao final do teste, estes arquivos são apagados. Também são gerados arquivos para cada host em teste. Estes arquivos são mantidos apenas se o host aceitar o relay. Baseado nisso, é importante que estes arquivos não sejam acessados durante o teste, pois seu acesso pode fazer com que em determinado momento o arquivo não possa ser deletado pelo teste e gerar inconsistências no resultados.</p>
+<p>É importante que seja configurado no script dispara_relay.pl um endereço de e-mail válido para recebimento dos e-mails postados a partir dos hosts vulneráveis. Já foram registrados casos em que o servidor SMTP aceitava mensagens, como se estivesse aceitando relay, mas na verdade ele aceitava apenas a postagem e ao processar e verificar o destino, descartava a mensagem. Neste caso, como o teste de relay baseia-se na postagem, ou seja, se a postagem foi aceita, o servidor é considerado vulnerável, deverá ser feita a conferência dos e-mails recebidos, com o intuito de saber quais servidores são realmente vulneráveis.</p>
+<p>Durante a execução do teste, serão exibidas informações do que está sendo feito no momento. Para abortar a execução da ferramenta, por se tratar de uma execução em paralelo, a tecla CTRL-C apenas irá interromper a execução do processo corrente e não dos demais. Dependendo do sistema operacional, para interromper a execução deverá ser utilizado o comando killall. Neste caso os arquivos temporários que poderão ficar no diretório corrente deverão ser apagados para evitar inconsistências nas execuções posteriores.</p>
+<p><span style="text-decoration: underline;"><strong>Resultados</strong></span></p>
+<p>Uma vez que o teste tenha terminado, será exibida uma mensagem sinalizando o final do teste, indicando onde os arquivos HTML do resultado encontram-se. São listados nos resultados apenas as instituições com hosts vulneráveis. Basta copiar o conteúdo desse diretório de resultados para o servidor WEB. Sugere-se que seja feito um controle de acesso a este conteúdo, já que estas informações poderão ser mau utilizados caso estejam sob o domínio de pessoas que não são responsáveis pelas redes em questão.</p>
+<p><span style="text-decoration: underline;"><strong>Considerações finais</strong></span></p>
+<p>Tratando-se de uma versão inicial e de utilização interna do CERT-RS, pede-se que sejam enviadas comentários, sugestões, críticas sobre a ferramenta para <img src="/images/stories/mails/teste_relay_mail.png" border="0" alt="
+ <script language='JavaScript' type='text/javascript'>
+ <!--
+ var prefix = 'm&#97;&#105;lt&#111;:';
+ var suffix = '';
+ var attribs = '';
+ var path = 'hr' + 'ef' + '=';
+ var addy10402 = 't&#101;st&#101;-r&#101;l&#97;y' + '&#64;';
+ addy10402 = addy10402 + 'p&#111;p-rs' + '&#46;' + 'rnp' + '&#46;' + 'br';
+ document.write( '<a ' + path + '\'' + prefix + addy10402 + suffix + '\'' + attribs + '>' );
+ document.write( addy10402 );
+ document.write( '<\/a>' );
+ //-->
+ </script><script language='JavaScript' type='text/javascript'>
+ <!--
+ document.write( '<span style=\'display: none;\'>' );
+ //-->
+ </script>Este endereço de e-mail está protegido contra spambots. Você deve habilitar o JavaScript para visualizá-lo.
+ <script language='JavaScript' type='text/javascript'>
+ <!--
+ document.write( '</' );
+ document.write( 'span>' );
+ //-->
+ </script>" title="
+ <script language='JavaScript' type='text/javascript'>
+ <!--
+ var prefix = 'm&#97;&#105;lt&#111;:';
+ var suffix = '';
+ var attribs = '';
+ var path = 'hr' + 'ef' + '=';
+ var addy12767 = 't&#101;st&#101;-r&#101;l&#97;y' + '&#64;';
+ addy12767 = addy12767 + 'p&#111;p-rs' + '&#46;' + 'rnp' + '&#46;' + 'br';
+ document.write( '<a ' + path + '\'' + prefix + addy12767 + suffix + '\'' + attribs + '>' );
+ document.write( addy12767 );
+ document.write( '<\/a>' );
+ //-->
+ </script><script language='JavaScript' type='text/javascript'>
+ <!--
+ document.write( '<span style=\'display: none;\'>' );
+ //-->
+ </script>Este endereço de e-mail está protegido contra spambots. Você deve habilitar o JavaScript para visualizá-lo.
+ <script language='JavaScript' type='text/javascript'>
+ <!--
+ document.write( '</' );
+ document.write( 'span>' );
+ //-->
+ </script>" align="top" /> e ainda, no caso de eventuais problemas na utilização, o mesmo e-mail seja utilizado para tirar dÚvidas e tornar operacional a ferramenta a todos os interessados.</p>
+
+</div>
+
+</div>
+		
+				<div class="moduletable-feedsmall">
+					<h3>US-CERT Alerts</h3>
+					<div style="direction: ltr; text-align: left ! important">
+	<table cellpadding="0" cellspacing="0" class="moduletable-feedsmall">
+		<tr>
+		<td>
+			<ul class="newsfeed-feedsmall"  >
+							<li class="par">
+				
+									<a href="http://www.us-cert.gov/ncas/alerts/TA13-225A" target="_blank">
+					TA13-225A: Microsoft Updates for Multiple Vulnerabilities</a>
+								</li>
+								<li class="impar">
+				
+									<a href="http://www.us-cert.gov/ncas/alerts/TA13-207A" target="_blank">
+					TA13-207A: Risks of Using the Intelligent Platform Management Interface (IPMI)</a>
+								</li>
+								<li class="par">
+				
+									<a href="http://www.us-cert.gov/ncas/alerts/TA13-193A" target="_blank">
+					TA13-193A: Exploit Tool Targets Vulnerabilities in McAfee ePolicy Orchestrator (ePO)</a>
+								</li>
+							</ul>
+		</td>
+		</tr>
+	</table>
+			<a href="/ " target="_self">  </a> 
+</div>		</div>
+	
+	
+				<div class="moduletable-feedsmall2">
+					<h3>Alertas do CAIS</h3>
+					<div style="direction: ltr; text-align: left ! important">
+	<table cellpadding="0" cellspacing="0" class="moduletable-feedsmall2">
+		<tr>
+		<td>
+			<ul class="newsfeed-feedsmall2"  >
+							<li class="par">
+				
+									<a href="http://www.rnp.br//cais/alertas/2012/ms-12-dez-1.html" target="_blank">
+					CAIS-Alerta: Resumo dos Boletins de Segurança Microsoft - Dezembro/2012</a>
+								</li>
+								<li class="impar">
+				
+									<a href="http://www.rnp.br//cais/alertas/2012/ms-12-nov.html" target="_blank">
+					CAIS-Alerta: Resumo dos Boletins de Segurança Microsoft - Novembro/2012</a>
+								</li>
+								<li class="par">
+				
+									<a href="http://www.rnp.br//cais/alertas/2012/ms-12-out.html" target="_blank">
+					CAIS-Alerta: Resumo dos Boletins de Segurança Microsoft - Outubro/2012</a>
+								</li>
+							</ul>
+		</td>
+		</tr>
+	</table>
+			<a href="/ " target="_self">  </a> 
+</div>		</div>
+	
+	</div>
+</div>
+</div>
+	<!--[if lt IE 7]>
+	</center>
+	<![endif]-->
+
+
+	<!--[if gte IE 8]>
+	</center>
+	<![endif]--> 
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try{
+var pageTracker = _gat._getTracker("UA-1283663-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>

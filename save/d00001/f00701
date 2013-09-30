@@ -1,0 +1,73 @@
+<html>
+<head><title>cryptlib</title></head>
+
+<body background="img/backgrou.gif" bgcolor="#C0C0C0" text="#000000" link="#0066BB" vlink="#000000">
+
+<center><h2><img src="img/t_sessio.gif" alt="Secure sessions"></h2></center>
+
+<table>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+cryptlib secure sessions can include SSH, SSL, and TLS sessions, and general
+communications sessions can include protocols such as the certificate
+management protocol (CMP), simple certificate enrolment protocol (SCEP), real-
+time certificate status protocol (RTCS), online certificate status protocol
+(OCSP), and timestamping (TSP).  As with S/MIME and PGP/OpenPGP envelopes,
+cryptlib takes care of the session details for you so that all you need to do
+is provide basic communications information such as the name of the server or
+host to connect to and any other information required for the session such as
+a password or certificate.  cryptlib takes care of establishing the session
+and managing the details of the communications channel and its security
+parameters.
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+cryptlib provides both client and server implementations of all session types.
+By tying a key or certificate store to the session, you can let cryptlib take
+care of any key management issues for you.  For example, with an SSH, SSL or
+TLS server session cryptlib will use the key/certificate store to authenticate
+incoming connections, and with a CMP or SCEP server session cryptlib will use
+the certificate store to handle the certificate management process.  In this
+way a complete CMP-based CA that handles enrolment, certificate update and
+renewal, and certificate revocation, can be implemented with only a handful of
+function calls.
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+Sample code to create an SSL/TLS session is as follows:<p>
+
+<pre>
+  CRYPT_SESSION cryptSession;
+
+  /* Create the session */
+  cryptCreateSession( &cryptSession, cryptUser, CRYPT_SESSION_SSL );
+
+  /* Add the server name and activate the session */
+  cryptSetAttributeString( cryptSession, CRYPT_SESSINFO_SERVER_NAME, serverName, serverNameLength );
+  cryptSetAttribute( cryptSession, CRYPT_SESSINFO_ACTIVE, 1 );
+</pre>
+
+The corresponding SSL/TLS server is:<p>
+
+<pre>
+  CRYPT_SESSION cryptSession;
+
+  /* Create the session */
+  cryptCreateSession( &cryptSession, cryptUser, CRYPT_SESSION_SSL_SERVER );
+
+  /* Add the server key/certificate and activate the session */
+  cryptSetAttribute( cryptSession, CRYPT_SESSINFO_PRIVATEKEY, privateKey );
+  cryptSetAttribute( cryptSession, CRYPT_SESSINFO_ACTIVE, 1 );
+</pre>
+
+That's all that's necessary (you can copy this code directly into your
+application to SSL-enable it).
+</td></tr>
+
+</table>
+</p>
+
+</body>
+
+</html>
+

@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+
+<meta name="keywords" content="コンピュータセキュリティインシデント,緊急対応,インシデント対応,レスポンス,情報流出,フィッシングサイト,不正アクセス,マルウエア,ウイルス,改ざん,事後対応,報告者,サーバ管理者,NationalCSIRT" />
+<meta name="description" content="JPCERT/CCでは、国内外の関連組織と連携して、コンピュータセキュリティインシデント(フィッシングサイト、サーバへの侵入被害、DoS攻撃の発生)に関する発信元などへの調整などのインシデント対応（インシデントレスポンス）を行っています。" />
+<title>JPCERT コーディネーションセンター インシデント対応とは？</title>
+
+<link rel="alternate" type="application/rss+xml" title="注意喚起と緊急報告、Weekly Report の新着情報" href="/rss/jpcert.rdf" />
+<link rel="alternate" type="application/rss+xml" title="JPCERT/CCからのお知らせ、イベントの新着情報" href="/rss/whatsnew.rdf" />
+<link href="/common/css/contents.css" rel="stylesheet" type="text/css" />
+<link href="/common/css/menu.css" rel="stylesheet" type="text/css" />
+<link href="/common/css/print.css" rel="stylesheet" type="text/css" media="print" />
+<script type="text/javascript" src="/common/js/script.js"></script>
+<script type="text/javascript" src="/common/js/prototype.js"></script>
+<script type="text/javascript" src="/common/js/effects.js"></script>
+<script type="text/javascript" src="/common/js/cookie.js"></script>
+<script type="text/javascript" src="/common/js/event.js"></script>
+</head>
+<body>
+
+<!-- liquid -->
+<div class="liquid">
+
+
+<!-- header -->
+<div class="header">
+<h1><a href="/"><img src="/common/img/header_logo.gif" alt="JPCERT コーディネーションセンター" /></a></h1>
+<h2>安全・安心なIT社会のための、国内・国際連携を支援する</h2>
+
+<p>
+<span><a href="/reference.html">お問い合わせ</a></span>
+<span><a href="/recruit/index.html">採用情報</a></span>
+<span><a href="/sitemap.html">サイトマップ</a></span>
+<span><a href="/english/">English</a></span>
+</p>
+
+</div>
+<!-- /header -->
+
+<!-- search -->
+<div class="searchbox">
+	<form class="search" id="cse-search-box" action="http://www.google.com/cse">
+		<input type="hidden" value="011276954563619633753:gam5ydxz2ni" name="cx" />
+		<input type="hidden" value="UTF-8" name="ie" />
+		<input type="text" name="q" id="q" value="" />
+		<input type="image" name="sa" id="sa" src="/common/img/btn_search.jpg" alt="検索" />
+	</form>
+	<ol class="service_link">
+		<li class="right_box_link_rss">最新情報を取得&nbsp;(<a href="/rss/">RSS</a>&nbsp;|&nbsp;<a href="/announce.html">メーリングリスト</a>)&nbsp;</li>
+		<li class="https"><a href="https://www.jpcert.or.jp/">HTTPS</a></li>
+		<li class="mobile"><a href="/about/about_mobile.html">モバイル</a></li>
+	</ol>
+</div>
+<!-- /search -->
+
+<!-- panlist -->
+<div class="panlist">
+<p><a href="../index.html">Home</a> &gt; インシデントの報告 &gt; インシデント対応とは？</p>
+<div id="content_layout" class="content_layout" style="display:none;">
+	<ul class="button_normal">
+		<li class="to_print_layout"><a href="javascript:;">印刷用レイアウトに変更</a></li>
+		<li class="print_diabled">印刷</li>
+	</ul>
+	<ul class="button_print">
+		<li class="to_normal_layout"><a href="javascript:;">通常レイアウトに戻す</a></li>
+		<li class="print"><a href="javascript:;">印刷</a></li>
+	</ul>
+</div>
+</div>
+<!-- /panlist -->
+
+<!-- contentsblock -->
+<div class="base">
+
+<!-- center_inner -->
+<div class="center_inner">
+
+<!-- left_column -->
+<div class="left">
+
+<!-- menu -->
+<div id="menu">
+<h3 id="menu-top"><a href="/"><img src="/common/img/menu_top_icon_normal.gif" alt="トップページ" />トップページ</a></h3>
+<div id="information">
+<h3 class="menu-01"> 情報提供</h3>
+<ul class="submenu-01">
+<li><a href="/at/">注意喚起</a></li>
+<li><a href="/wwinfo/">早期警戒</a></li>
+<li><a href="/vh/top.html">脆弱性対策情報</a></li>
+<li><a href="/wr/">Weekly Report</a></li>
+<li><a href="/tsubame/">インターネット定点観測</a></li>
+</ul>
+</div>
+<div id="incident">
+<h3 class="menu-02"><img src="/common/img/menu_close_icon_normal.gif" alt="インシデントの報告" />インシデントの報告</h3>
+<ul class="submenu-02">
+<li><a class="current"href="/ir/">インシデント対応とは？</a></li>
+<li><a href="/form/">インシデントの報告</a></li>
+<li><a href="/ir/status.html">インシデント対応状況</a></li>
+</ul>
+</div>
+<div id="registration">
+<h3 class="menu-02"><img src="/common/img/menu_close_icon_normal.gif" alt="各種登録" />各種登録</h3>
+<ul class="submenu-02">
+<li><a href="/vh/regist.html">製品開発者登録</a></li>
+<li><a href="/announce.html">メーリングリスト</a></li>
+</ul>
+</div>
+<div id="control">
+<h3 class="menu-03"><img src="/common/img/menu_close_icon_normal.gif" alt="制御システムセキュリティ" />制御システムセキュリティ</h3>
+<ul class="submenu-03">
+<li><a href="/ics/">制御システムセキュリティとは</a></li>
+<li><a href="/ics/ics-form.html">インシデント報告</a></li>
+</ul>
+</div>
+<div id="learning">
+<h3 class="menu-03"><img src="/common/img/menu_close_icon_normal.gif" alt="ラーニング" />ラーニング</h3>
+<ul class="submenu-03">
+<li><a href="/securecoding/">セキュアコーディング</a></li>
+<li><a href="/memo/">技術メモ</a></li>
+<li><a href="/magazine/">ライブラリ</a></li>
+</ul>
+</div>
+<div id="documents">
+<h3 class="menu-03"><img src="/common/img/menu_close_icon_normal.gif" alt="公開資料" />公開資料</h3>
+<ul class="submenu-03">
+<li><a href="/report/">四半期レポート</a></li>
+<li><a href="/research/">研究・調査レポート</a></li>
+<li><a href="/csirt_material/">CSIRTマテリアル</a></li>
+</ul>
+</div>
+<div id="event">
+<h3 class="menu-03"><img src="/common/img/menu_close_icon_normal.gif" alt="イベント" />イベント</h3>
+<ul class="submenu-03">
+<li><a href="/event/">イベント情報</a></li>
+<li><a href="/present/">講演資料一覧</a></li>
+</ul>
+</div>
+<div id="press">
+<h3 class="menu-03"><img src="/common/img/menu_close_icon_normal.gif" alt="プレスリリース" />プレスリリース</h3>
+<ul class="submenu-03">
+<li><a href="/press/">リリース一覧</a></li>
+</ul>
+</div>
+<div id="about">
+<h3 class="menu-04"><img src="/common/img/menu_close_icon_normal.gif" alt="JPCERT/CC" />JPCERT/CC</h3>
+<ul class="submenu-04">
+<li><a href="/about/">JPCERT/CCについて</a></li>
+<li><a href="/about/about_mobile.html">モバイル向けコンテンツ</a></li>
+<li><a href="/rss/">RSS</a></li>
+<li><a href="/jpcert-pgp.html">PGP公開鍵</a></li>
+<li><a href="/jpcert-ca/">JPCERT/CC認証局</a></li>
+<li><a href="/recruit/">採用情報</a></li>
+</ul>
+</div>
+</div>
+<!-- /menu -->
+
+
+<!-- related -->
+<div class="banners">
+<div>
+<h3>関連組織</h3>
+<dl>
+<dt><a href="http://www.first.org/"><img src="/common/img/logo_first.gif" alt="FIRST ロゴ" height="40" width="165"/></a></dt>
+<dd><a href="http://www.first.org/">JPCERT/CC は FIRST のチームメンバーです。また JPCERT/CC スタッフが Steering Committee メンバーとして FIRST の運営に協力しています。</a></dd>
+<dt><a href="http://www.apcert.org/"><img src="/common/img/logo_apcert.gif" alt="APCERT ロゴ" height="29" width="165"/></a></dt>
+<dd><a href="http://www.apcert.org/">JPCERT/CC は APCERT の議長チームです。また、事務局も担当しています。</a></dd>
+<dt><a href="http://www.nca.gr.jp/"><img src="/common/img/logo_csirt.gif" alt="CSIRT ロゴ" height="55" width="165"/></a></dt>
+<dd><a href="http://www.nca.gr.jp/">JPCERT/CCは 日本シーサート協議会の事務局を担当しています。</a></dd>
+<dt><a href="https://www.antiphishing.jp/"><img src="/common/img/logo_antiphishing.gif" alt="フィッシング対策協議会ロゴ" height="50" width="165"/></a></dt>
+<dd><a href="http://www.antiphishing.jp/">JPCERT/CC はフィッシング対策協議会を運営しています。</a></dd>
+<dt><a href="https://www.ccc.go.jp/"><img src="/common/img/logo_ccc.gif" alt="CyberCleanCenter ロゴ" height="50" width="165"/></a></dt>
+<dd class="banners_end"><a href="https://www.ccc.go.jp/">サイバークリーンセンター</a></dd>
+</dl>
+</div>
+</div>
+<!-- /related -->
+
+</div>
+<!-- /left_column -->
+
+<!--center-->
+<div class="center">
+
+<script type="text/javascript">
+<!--
+try{
+initialize_menu('information incident');
+}catch(e){
+//alert(e);
+}
+-->
+</script>
+
+<div id="cat_02" class="c_02">
+<a name="link_pgtop"></a>
+
+<!-- contents_read -->
+<div class="contents_read">
+<span>最終更新: 2013-01-23</span>
+<h3>インシデント対応とは？</h3>
+</div>
+<div class="hr"><hr /></div>
+<!-- /contents_read -->
+
+<!-- page_base -->
+<div class="page_base">
+
+<!-- content_area -->
+<a name="mokuji"><h4>目次</h4></a>
+
+<div class="li_disc">
+<ul>
+  <li><a href="#incident">コンピュータセキュリティインシデントとは</a></li>
+  <li><a href="#response">インシデント対応とは？</a></li>
+  <li><a href="#handling">JPCERT/CC が行うインシデント対応(調整)活動</a></li>
+  <li><a href="#international">国際間連携</a></li>
+  <li><a href="#csirt">インシデント対応 (レスポンス) とCSIRT</a></li>
+</ul>
+</div>
+
+<a name="incident"><h4>コンピュータセキュリティインシデントとは</h4></a>
+<p>
+コンピュータセキュリティインシデントとは、「情報システムの運用におけるセキュリティ上の問題として捉えられる事象」です。
+コンピュータセキュリティインシデントの例として、情報流出、フィッシングサイト、不正侵入、マルウエア感染、Web　改ざん、DoS(DDoS)などがあります。
+JPCERT/CC では、コンピュータセキュリティインシデントを「インシデント」と呼びます。インシデントが発生すると、ユーザや組織に対して被害が発生する場合があります。
+例えば、自組織が管理する Web サーバが改ざんされた場合、その Web サイトにアクセスしたユーザの PC がマルウエアに感染してしまう可能性があります。
+このようなケースにおいて自組織での対応が遅れたり、不十分であったりした場合、被害の発生につながったり、被害が拡大してしまったりすることになります。
+</p>
+<p>
+また、インターネット上で発生するインシデントに国境はありません。
+発生したインシデントの関係者は、国内に限定されるとは限りません。
+例えば、前述の例でいうとWeb サーバを運営する組織は国内にあっても Web サーバは海外に設置されているかもしれません。
+また、 Web サイトを改ざんした攻撃者も国内にいるとは限りません。
+</p>
+
+<p>
+なお、制御システム（センサやアクチュエータ等のフィールド機器、制御用ネットワーク、コントローラ、監視・制御システム(SCADA) 等で構成されるシステム）や各種プラントが対象と考えられるセキュリティインシデントの報告に関しては「<a href="/ics/ics-form.html">制御システムインシデントの報告</a>」のページもご覧ください。
+</p>
+
+
+<p class="pg_top"><a href="#link_pgtop">Topへ</a></p>
+<div style="height:10px"></div>
+
+<a name="response"><h4>インシデント対応とは？</h4></a>
+<p>インシデントが発生した後の被害を最小限にするための「事後」対応を、インシデント対応(レスポンス)と呼んでいます。</p>
+
+<div class="img_center_arrow">
+<img src="/about/brief/img/graphic_c_01.gif" alt="図1" width="415" height="300" /></div>
+
+<div class="img_center_arrow">
+<img src="/about/brief/img/graphic_c_03.gif" alt="図2" width="415" height="300" /></div>
+
+<div class="img_center_arrow">
+<img src="/about/brief/img/graphic_c_02.gif" alt="図3" width="415" height="295" /></div>
+
+<div class="img_center_end">
+<img src="/about/brief/img/graphic_c_04.gif" alt="図4" width="415" height="310" /></div>
+
+<p class="pg_top"><a href="#link_pgtop">Topへ</a></p>
+
+
+
+<a name="handling"><h4>JPCERT/CC が行うインシデント対応(調整)活動</h4></a>
+<p>
+JPCERT/CC は、コンピュータセキュリティインシデントに対応することを目的とした組織 (CSIRT) です。特定の政府機関や企業から独立した中立の組織として活動しています。
+JPCERT/CC では、インシデント対応活動としてコンピュータセキュリティインシデントに関する報告の受け付け、対応の支援、発生状況の把握、手口の分析、再発防止のための助言などを行っています。 
+</p>
+具体的には、国内及び海外からお寄せ頂いたインシデント報告*1を元に、インシデントに関係している可能性のあるサイト(アクセス元のサイトなど)への連絡(場合によっては海外の National CSIRT にも連絡)を行っています。
+<p>
+*1 JPCERT/CC では、こうしたインデント対応(調整)を年間約 10000 件取り扱っております。
+</p>
+JPCERT/CC におけるインシデント対応の詳細については、以下の「JPCERT/CC インシデント報告対応レポート」をご参照ください。
+<p>
+<a href="https://www.jpcert.or.jp/ir/report.html">https://www.jpcert.or.jp/ir/report.html</a>
+</p>
+本活動は、経済産業省より委託を受け、コンピュータセキュリティ早期警戒体制の整備（不正アクセス行為等対策業務）事業として実施しています。
+</p>
+
+<div style="height:10px"></div>
+<p class="pg_top"><a href="#link_pgtop">Topへ</a></p>
+
+<a name="international"><h4>国際間連携</h4></a>
+<p>国境をまたいだインシデントへの対応(調整)に関し、海外組織に協力してもらうため、国際連携を強化しています。</p>
+<div class="li_disc">
+<ul>
+<li>世界的な、コンピュータセキュリティインシデント対応組織の協力体制を構築する目的で設立されたフォーラム FIRST (Forum of Incident Response and Security Teams) への参加</li>
+<li>アジア太平洋地域における、コンピュータセキュリティインシデント対応組織の協力体制を構築する目的で設立されたフォーラム、 APCERT (Asia PacificComputer Emergency Response Team) への参加と事務局の運営、合同サイバー演習への参加</li>
+<li>各国National CSIRT等との間の協力の申し合わせ</li>
+</ul>
+</div>
+<p class="pg_top"><a href="#link_pgtop">Topへ</a></p>
+<div style="height:10px"></div>
+
+<a name="csirt"><h4>インシデント対応 (レスポンス) とCSIRT</h4></a>
+<p>
+インターネット上で発生するインシデントは急速に拡大する可能性があるため、的確なインシデント対応 (レスポンス) を行う必要があります。そのためには、各組織における CSIRT (Computer Security Incident Response Team) 間の情報共有が必要不可欠となります。
+例えば、インシデントの原因や対応方法などの情報を共有することで、被害を最小限に抑えたり、再発を防ぐことができるようになります。
+JPCERT/CC は、CSIRT 間の連携をコーディネーションする 'CSIRT of CSIRTs' として、インシデント情報の流通促進を図っています。
+</p>
+<div class="img_about_center"><img src="img/csirt_490.jpg" alt="インシデント対応 (レスポンス) とCSIRT"/></div>
+
+<div style="height:20px"></div>
+
+<p class="pg_top"><a href="#link_pgtop">Topへ</a></p>
+
+<!-- /content_area -->
+
+
+</div>
+<!-- /page_base -->
+</div>
+</div>
+<!-- /center -->
+</div>
+<!-- /center_inner -->
+
+<!-- right_column -->
+<div class="right">
+
+
+    <!-- banner-csirt -->
+<div class="right_ban_jpc">
+<a href="/csirt_material/"><img src="/common/img/btn_banner02_off.jpg" alt="CSIRTマテリアル" width="198" height="174" onmouseover="Btn_on('banner02');" onmouseout="Btn_off('banner02');" name="btn_banner02" /></a>
+</div>
+<!-- /banner-csirt -->
+
+
+<!-- banner-info -->
+<div class="right_ban_jpcinfo">
+<h3><a href="/update.html"><img src="/common/img/btn_osirase_off.gif" alt="JPCERT/CCからのお知らせ" width="198" height="47" onmouseover="Btn_on('osirase');" onmouseout="Btn_off('osirase');" name="btn_osirase" /></a></h3>
+<dl>
+
+<dt>2013-08-16</dt>
+<dd><a href="/english/pub/pr.html">日中韓サイバーセキュリティインシデント対応年次会合に係るJPCERT/CC、CNCERT/CC、KrCERT/CCの共同声明(英文)</a></dd>
+
+<dt>2013-08-05</dt>
+<dd><a href="/tsubame/report/report201304-06.html">インターネット定点観測レポート(2013年 4～6月)を公開</a></dd>
+
+<dt>2013-07-22</dt>
+<dd><a href="/report/press.html">ソフトウエア等の脆弱性関連情報に関する届出状況/活動報告レポート2013年第2四半期(4月-6月)</a></dd>
+
+<dt>2013-07-11</dt>
+<dd><a href="/ir/report.html">JPCERT/CC インシデント報告対応レポート [2013年4月1日～2013年6月30日]</a></dd>
+
+</dl>
+<div class="right_box_more">
+<a href="/update.html" class="right_box_link_more">お知らせ一覧</a>
+<a href="/rss/whatsnew.rdf" class="right_box_link_rss">お知らせRSS</a>
+</div>
+</div>
+<!-- /banner-info -->
+
+<!-- banner-event -->
+<div class="right_ban_event">
+<h3><a href="/event/"><img src="/common/img/btn_event_off.gif" alt="イベント" width="198" height="34" onmouseover="Btn_on('event');" onmouseout="Btn_off('event');" name="btn_event" /></a></h3>
+
+
+<p class="p_ban_event"><a href="/securecoding/materials-java.html">・Javaセキュアコーディングセミナー資料公開</a></p>
+
+
+<div class="right_box_more">
+<a href="/event/" class="right_box_link_more">過去のイベント</a>
+<a href="/rss/whatsnew.rdf" class="right_box_link_rss">お知らせRSS</a>
+</div>
+</div>
+<!-- /banner-event -->
+
+<!-- banner-recommend -->
+<div class="right_ban_recommend">
+<h3><a href="/magazine/"><img src="/common/img/btn_osusume_off.gif" alt="お薦めページ" width="198" height="34" onmouseover="Btn_on('osusume');" onmouseout="Btn_off('osusume');" name="btn_osusume" /></a></h3>
+
+<p><a href="/magazine/security/pgpquick.html" onclick="piwikTracker.trackGoal(3);">はじめての暗号化メール (Thunderbird編) 公開</a></p>
+<p><a href="/csirt_material/" onclick="piwikTracker.trackGoal(3);">セキュリティ対策チームの構想、構築、運用のためのCSIRTマテリアル</a></p>
+<p><a href="/research/inoculation2009.html" onclick="piwikTracker.trackGoal(3);">標的型攻撃への予防  ITセキュリティ予防接種調査報告書</a></p>
+</div>
+<!-- /banner-recommend -->
+
+<!-- banner-speech -->
+<div class="right_ban_kouen">
+<h3><a href="/kouen/"><img src="/common/img/btn_kouen_off.gif" alt="講演・執筆活動" width="198" height="34" onmouseover="Btn_on('kouen');" onmouseout="Btn_off('kouen');" name="btn_kouen" /></a></h3>
+<p class="p_ban_kouen">JPCERT/CC職員の<a href="/kouen/">講演・執筆活動一覧</a>をご覧いただけます。</p>
+<div class="right_box_more"><a href="/kouen/" class="right_box_link_more">過去の講演・執筆一覧</a></div>
+</div>
+<!-- /banner-speech -->
+
+
+<!-- banner-aboutjpc -->
+<div class="right_ban_jpc">
+<a href="/about/brief/"><img src="/common/img/btn_banner01_off.jpg" alt="JPCERT/CCって何をやっているのですか？" width="198" height="174" onmouseover="Btn_on('banner01');" onmouseout="Btn_off('banner01');" name="btn_banner01" /></a>
+</div>
+<!-- /banner-aboutjpc -->
+
+
+
+
+
+
+
+
+<!-- banner-aboutjpc -->
+<div style="margin-bottom:10px">
+<a href="http://twitter.com/jpcert"><img src="/common/img/btn_follow_me-a.png" alt="Follow jpcert on Twitter" width="198"/></a>
+</div>
+<!-- /banner-aboutjpc -->
+
+
+<!-- banner-aboutjpc -->
+<div style="margin-bottom:10px">
+<a href="http://jpcert.typepad.jp/jpcert_blog/"><img src="/common/img/blog_banner_english.gif" alt="blog_banner_english" width="198"/></a>
+</div>
+<!-- /banner-aboutjpc -->
+
+
+</div>
+<!-- /right_column -->
+
+</div>
+
+<!-- footer -->
+<div class="footer">
+
+<ol>
+<li><a href="/guide.html">ご利用にあたってのお願い</a></li>
+<li>｜ <a href="/privacy.html">プライバシーポリシー</a></li>
+</ol>
+
+<address>Copyright &copy; 1996-2013 JPCERT/CC All Rights Reserved.</address>
+</div>
+<!-- /footer -->
+
+</div>
+<!-- /liquid -->
+</body>
+</html>

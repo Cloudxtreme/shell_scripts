@@ -1,0 +1,507 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>News items for tag linux - Koos van den Hout</title>
+<base href="http://idefix.net/~koos/">
+<meta name="description" content="Koos van den Hout Homepage">
+<meta name="keywords" content="Koos van den Hout">
+<meta name="Author" content="Koos van den Hout">
+<link href="koos.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="alternate" title="Koos van den Hout" type="application/rss+xml" href="/~koos/index.rdf">
+</head>
+<body>
+<div class="blockcontainer">
+<h1>News items for tag linux - Koos van den Hout</h1>
+<div class="entry">
+
+<div class="generalitem newsitem"><strong>2013-08-20</strong> (<a href="newsitem.cgi/1377023033" title="Permanent link" rel="bookmark">#</a>) <span class="age">5 days ago</span>
+<blockquote>Correctly firewalling IPv6 was a bit of a search for me but I think I
+managed it. There is a bit of an apparent contradiction: filtering too much
+ipv6-icmp will break things, and allowing it too much will allow a
+neighbour cache overflow attack. In the end I settled on allowing ipv6-icmp
+in the INPUT ip6tables rule but not on the FORWARD ip6tables rule. Both
+rules do have a rule for ESTABLISHED,RELATED traffic. This all for the
+external interface(s), internal interfaces are trusted.
+<p></p>
+I tested this with nmap from an external ipv6-enabled host and found out
+there is no way to input ipv6 address ranges. So to scan a number of addresses
+I had to type them all in full.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/security" title="News items tagged with security" rel="tag">security</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-08-16</strong> (<a href="newsitem.cgi/1376662853" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 week ago</span>
+<blockquote><pre class="commandlog">
+koos@greenblatt:~$ export ☃=COLD
+-bash: export: `☃=COLD': not a valid identifier
+</pre></blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/fridayafternoon" title="News items tagged with fridayafternoon" rel="tag">fridayafternoon</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-08-09</strong> (<a href="newsitem.cgi/1376042274" title="Permanent link" rel="bookmark">#</a>) <span class="age">2 weeks ago</span>
+<blockquote>I've been working on managing Linux systems with puppet for a while. Until
+now puppet was a tool to manage part of the configuration with still
+work to be done on each host. But the last two weeks I worked on a (test)
+webserver completely configured from puppet. With a complete separation of
+configuration (from puppet), input data (web content), output data (logging)
+and installed applications it is possible to reduce a webserver to a puppet
+recipe and an amount of storage. This means adding new webservers to a
+cluster or rebuilding systems in the cluster is easy. As a test I 'broke' the
+webserver (wiped the disk), reinstalled basic CentOS (nothing configured)
+and let puppet deliver a running webserver again, all within 15 minutes.
+<p></p>
+The new bit for me was using puppet templates to write centos
+<tt>ifcfg-ethX</tt> files and apache virtualhost configurations. Apache
+virtualhosts get a number of parameters (the hostname, aliases, directory
+index settings, needing php, needing ssl). I started with different templates
+for 'real' virtualhosts and 'special' virtualhosts like a host which gives a
+410 Gone error on all urls but I noticed the templates were still mostly the
+same so now the type of virtualhost is also set using variables and one
+template has conditional parts depending on the type of virtualhost.
+<p></p>
+This does mean I'm learning bits of Ruby, Yet Another Scripting Language
+(for me).
+<p></p>
+In general, using puppet makes it very easy to install/remove packages,
+add scripts, schedule tasks, configure the monitoring setup (zabbix) and
+do other 'checklist' items to each system in a consistent way. Which in
+my opinion improves security and general quality.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/computersarebetterat" title="News items tagged with computersarebetterat" rel="tag">computersarebetterat</a>, <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/work" title="News items tagged with work" rel="tag">work</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-07-29</strong> (<a href="newsitem.cgi/1375082065" title="Permanent link" rel="bookmark">#</a>) <span class="age">4 weeks ago</span>
+<blockquote>I use amanda for backups, all scheduled automatically, including
+<a href="http://idefix.net/~koos/newsitem.cgi/1288703114">automatically
+waking up and shutting down systems for backups</a> but I also want the 
+effort to put in the right tape minimal. To eliminate waiting for the
+previous tape to rewind and eject I tried an extra check which ejects the
+tape when it's not the 'correct' tape.
+<pre class="commandlog">
+$ <strong>amcheck -t kzdoos > /dev/null || mt -f /dev/nst0 eject 2>/dev/null</strong>
+$
+</pre>
+The <tt>amcheck</tt> command will give an errorlevel on the wrong tape,
+but also on no tape at all, so I need to ignore the errors from <tt>mt</tt>.
+The above commandline now has a place in the crontab for the account the
+backups are run on.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/computersarebetterat" title="News items tagged with computersarebetterat" rel="tag">computersarebetterat</a>, <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-07-16</strong> (<a href="newsitem.cgi/1373970523" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 month ago</span>
+<blockquote>I follow some blogs of people working in the same kind of system
+administration work as I do. The article
+<a href="https://joshua.hoblitt.com/rtfm/2013/06/how_to_disable_lsi_megaraid_sas_controllers_suspend_boot_on_error_feature/"> How to disable LSI MegaRAID SAS controller's suspend boot on error "feature"</a> by Joshua Hobblit caught my
+eye because it mentions a different utility from LSI to manage MegaRAID
+controllers from the commandline.
+<p></p>
+In the past Supermicro systems with OEM LSI controllers have refused to work
+with several versions of the MegaCLI software. But <tt>storcli</tt> works
+on these systems, enabling me to monitor them fully for harddisk failures
+and disable the beeper whenever a disk should fail.
+<p></p>
+Search the <a href="http://www.lsi.com/">LSI website</a> documents &amp;
+downloads section for <a href="http://www.lsi.com/support/Pages/Download-Results.aspx?keyword=storcli">keyword storcli</a>.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/work" title="News items tagged with work" rel="tag">work</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-05-30</strong> (<a href="newsitem.cgi/1369946263" title="Permanent link" rel="bookmark">#</a>) <span class="age">2 months ago</span>
+<blockquote>Trying to repeat the APRS decoding, this time with the scanner connected to
+the input of the audio card. No luck sofar, the scope in <a href="http://www.baycom.org/~tom/ham/linux/multimon.html">multimon</a> shows something but it
+doesn't decode the signal.
+<p></p>
+I know I had to tweak seriously to get reception via the <tt>rtl_fm</tt>
+utility working so this is probably something with levels. And I'm using the
+earphone output of the hand scanner to feed the microphone/line (?) input
+of my laptop. Which has three mixers concerning the input level.
+And at the moment there is not a lot of APRS traffic to decode.</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/hamradio" title="News items tagged with hamradio" rel="tag">hamradio</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-05-29</strong> (<a href="newsitem.cgi/1369835616" title="Permanent link" rel="bookmark">#</a>) <span class="age">2 months ago</span>
+<blockquote>I checked for updates of <a href="http://ndpmon.sourceforge.net/">NDPMon,
+an IPv6 neighbour discovery protocol monitor</a> and noticed I was way behind
+the current times. I also found out it can now monitor multiple network 
+interfaces in once instance of the program, so I can keep an eye on both
+wired and wireless networks at home.
+<p></p>
+Do take the advice of using the 'learning' mode of NDPMon as mentioned in
+the <a href="http://ndpmon.sourceforge.net/index.php?n=Doc.Configuration">documentation for NDPMon</a>. It makes getting the entire correct router advertisment
+correct into the datafile correctly so much easier. Downside is you have
+to run at a quiet time and after each IPv6 network reconfiguration.
+<p></p>
+It would also be nice if NDPMon would report on which interface certain
+traffic was seen.
+<p></p>
+<strong>Update:</strong>
+Ok, NDPMon still manages to warn about a router configuration it has learned
+itself. I found a remark in the <a href="http://ndpmon.sourceforge.net/index.php?n=Doc.Configuration">NDPMon documentation/configuration page</a>:
+<blockquote class="webquote">Under the tag addresses are listed the IPv6 global addresses of the router. This is not required for the tool to work properly, but can be useful is the router send NA messages for its global addresses (to avoid raising NA router flag alerts). </blockquote>
+So I added the global IPv6 addresses of the routers, let's see if this
+decreases the noise.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/network" title="News items tagged with network" rel="tag">network</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-05-13</strong> (<a href="newsitem.cgi/1368475744" title="Permanent link" rel="bookmark">#</a>) <span class="age">3 months ago</span>
+<blockquote>I found the old rockwell jupiter gps board which I had not used in years
+and hooked it up to the <a href="http://idefix.net/~koos/ntp-server.html">NTP
+server project</a> system. I was used to this GPS taking ages to get a location
+fix and being very finicky about reception. Not this time: between hooking
+it up to the system and walking back to my laptop and checking the gps output
+with minicom it already had enough of a location fix to start sending PPS
+pulses. And next..
+<pre>
+# ntpq -p
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+*xxxxxxxxxxxxxxx .PPS.            1 u    1   16    7   15.570   -6.927   9.294
+ xxxxxxxxxxxxxxx .INIT.          16 u    -   64    0    0.000    0.000   0.000
+ chime1.surfnet. 194.171.167.130  2 u   35   64    1   18.643   -7.491   0.000
+ chime2.surfnet. .GPS.            1 u   34   64    1   19.214   -6.526   0.000
+oPPS(0)          .PPS.            0 l    1   16    3    0.000   15.431   1.227
+</pre>
+<p></p>
+<strong>Update:</strong>
+But the situation isn't ideal, the PPS is voted falseticker after a while.
+Looking at the NMEA data, specifically the <tt>$GPRMC</tt> messages I notice
+there is no fix at all, but the PPS indicator (carrier detect) keeps ticking
+so minicom keeps switching between 'Online' and 'Offline'. At least this
+means all the bits are working.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/time" title="News items tagged with time" rel="tag">time</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-05-12</strong> (<a href="newsitem.cgi/1368387163" title="Permanent link" rel="bookmark">#</a>) <span class="age">3 months ago</span>
+<blockquote>Update for the <a href="http://idefix.net/~koos/ntp-server.html">NTP server
+project</a>: the SATA cables arrived and I managed to fit everything in the
+case. I think I removed and replaced the central fan in the case about 15
+times, it is always in the way whenever anything happens in the front area
+of the 1U case.
+Ubuntu 12.04 LTS is now happily installing on a linux software raid.
+<p></p>
+Interestingly, when I copy the Ubuntu 12.04 LTS .iso to an USB stick as-is
+it boots and works fine, when I use <tt>usb-creator-gtk</tt> on an Ubuntu
+10.04.4 LTS system with the Ubuntu 12.04 LTS .iso (amd64) it creates an USB
+stick which hangs during boot. I <em>guess</em> Ubuntu is also using
+isohybrid for .iso images now but usb-creator-gtk doesn't recognize those
+somehow.
+<p></p>
+<strong>Update:</strong>
+The <tt>ntp</tt> package from Ubuntu 12.04 includes no ATOM refclock
+support (refclock 22). So I removed the package again and built <tt>ntpd</tt>
+from sources, using the hints from <a href="http://linuxpps.org/wiki/index.php/LinuxPPS_NTPD_support">LinuxPPS NTPD support</a> on how to make sure the
+right <tt>timepps.h</tt> is available. The first tests look good:
+<pre>
+# ntpq -p
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+*xxxxxxxxxxxxxxx .PPS.            1 u   11   16  377   15.920   -2.472  35.941
+ xxxxxxxxxxxxxxx .INIT.          16 u    -   64    0    0.000    0.000   0.000
++chime1.surfnet. 192.87.106.3     2 u   39   64  177   14.826   -1.898  28.043
++chime2.surfnet. .GPS.            1 u   30   64  177   18.103   -3.296   1.623
+ PPS(0)          .PPS.            0 l    -   16    0    0.000    0.000   0.000
+</pre>
+I have a rockwell jupiter gps board with PPS support available to test with.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/time" title="News items tagged with time" rel="tag">time</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-05-04</strong> (<a href="newsitem.cgi/1367692378" title="Permanent link" rel="bookmark">#</a>) <span class="age">3 months ago</span>
+<blockquote>Some more tries to get the server running which I've been working on a few
+times. To keep all my notes together I started a webpage about it:
+<a href="http://idefix.net/~koos/ntp-server.html">NTP server</a>.
+<p></p>
+From PLD linux I was able to reset the IPMI config so I could manage
+the system remotely (away from the fan noise!). In the Ubuntu and Debian
+installers the remote keyboard access was unavailable so I still had to walk
+up to the system from time to time to answer installer questions, but I could
+view the progress bars from a different room.</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/time" title="News items tagged with time" rel="tag">time</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-04-29</strong> (<a href="newsitem.cgi/1367239398" title="Permanent link" rel="bookmark">#</a>) <span class="age">3 months ago</span>
+<blockquote>We like our Linux kernels chatty during boot, seeing stuff in the startup
+messages like
+<pre>
+serial8250: ttyS0 at I/O 0x3f8 (irq = 4) is a 16550A
+serial8250: ttyS1 at I/O 0x2f8 (irq = 3) is a 16550A
+00:06: ttyS0 at I/O 0x3f8 (irq = 4) is a 16550A
+00:07: ttyS1 at I/O 0x2f8 (irq = 3) is a 16550A
+</pre>
+is perfectly fine with us. Defaults with several linux distributions are
+going the other way. For CentOS we already disable the plymouth splash screen,
+but to disable more eyecandy and get real kernel messages the commandline
+options <tt>rhgb</tt> and <tt>quiet</tt> need to be removed from the kernel
+commandline in the grub config. Option <tt>rhgb</tt> enables 'red hat graphic
+boot' and option <tt>quiet</tt> disables most kernel messages.
+<p></p>
+Via <a href="http://serverfault.com/questions/405558/how-do-i-set-the-default-kernel-parameters-in-centos-for-all-existing-and-future">How do I set the default kernel parameters in CentOS for all existing and future kernels? - Server Fault</a> I found the right way.
+The next step was to turn this into a puppet recipe so this is done
+automatically:
+<pre>
+class serverpackages::fixgrubconfig {
+        exec { "Clean grub default options":
+                path => "/sbin:/bin",
+                onlyif => 'egrep -c \'(rhgb|quiet)\' /boot/grub/grub.conf',
+                command => '/usr/local/sbin/normalizegrubconfig',
+                require => file["normalizegrubconfig"];
+        }
+        file { "normalizegrubconfig":
+                path => '/usr/local/sbin/normalizegrubconfig',
+                ensure => present,
+                owner => 'root',
+                group => 'root',
+                mode => 0700,
+                content => '#!/bin/sh
+#
+# THIS FILE IS UNDER PUPPET CONTROL
+# reset grub config for all kernels
+for KERNEL in /boot/vmlinuz-* ; do
+        grubby --update-kernel="$KERNEL" --remove-args="rhgb quiet"
+done
+';
+        }
+}
+</pre>
+Problem solved, yet another thing puppet adds to the baseline configuration.
+The upside of using <tt>grubby</tt> to manage this is that 'creating
+correct grub config files' is builtin into grubby.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/computersarebetterat" title="News items tagged with computersarebetterat" rel="tag">computersarebetterat</a>, <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/work" title="News items tagged with work" rel="tag">work</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-04-26</strong> (<a href="newsitem.cgi/1366974231" title="Permanent link" rel="bookmark">#</a>) <span class="age">4 months ago</span>
+<blockquote>It looks like I'm not the only one solving a lot with the help of PXE booting:
+<a href="https://joshua.hoblitt.com/rtfm/2013/04/pxe_booting_systemrescuecd/">PXE booting SystemRescueCd - [Read This Fine Material] from Joshua Hoblitt</a>.
+<p></p>
+He also shows a nice trick to set a system with IPMI access to once boot via
+pxe:
+<pre class="commandlog">
+~ $ <strong>ipmitool -U ADMIN -P  -H  chassis bootparam set bootflag pxe </strong>
+Set Boot Device to pxe
+~ $ <strong>ipmitool -U ADMIN -P  -H  chassis power cycle</strong>
+Chassis Power Control: Cycle
+</pre></blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-04-24</strong> (<a href="newsitem.cgi/1366835192" title="Permanent link" rel="bookmark">#</a>) <span class="age">4 months ago</span>
+<blockquote>I needed a way to boot the <a href="http://rescuecd.pld-linux.org/">PLD rescue disk</a> on a system which decided PXE
+boot was not available (strange on a server grade system from 2009!).
+There are two howtos listed at the above page, the first one sounding the
+easiest (not needing an installation of DOS). But it was left
+non-booting, until I had a closer look why: I needed to copy
+<tt>/boot/isolinux/isolinux.cfg</tt> from the cd (iso) to
+<tt>syslinux.cfg</tt> on the usb drive. Then it needed
+<tt>/custom/custom.cpi</tt> which also was not mentioned in the original
+howto. To be 100% correct, I'd also have to add <tt>boot.msg</tt> and
+<tt>help.msg</tt> from the iso to the root of the usb drive.
+<p></p>
+This system also has a downside: when it is on the main fan makes a noise like 
+three vacuum cleaners combined. Not a problem in the average server room,
+bad idea at home.
+<p></p>
+<strong>Update 2013-04-25:</strong>
+The system can boot from PXE after I enable the 'option ROM' in the setup
+for the network cards, after which I can move PXE boot around in the boot
+order in the setup.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-03-26</strong> (<a href="newsitem.cgi/1364324624" title="Permanent link" rel="bookmark">#</a>) <span class="age">5 months ago</span>
+<blockquote>Interesting clash between the <a href="http://rpmfind.net//linux/RPM/centos/updates/6.4/x86_64/Packages/bind-9.8.2-0.17.rc1.el6.3.x86_64.html">bind 9.8.2 package for CentOS 6.4</a> and puppet:
+When puppet updates <tt>/etc/named.conf</tt> it's not visible in the
+chroot setup for named. The named startup script uses bind mounts to
+make configuration files visible within the chroot environment.
+<pre class="commandlog">
+root@geodns01:~# <strong>mount | grep named.conf</strong>
+/etc/named.conf on /var/named/chroot/etc/named.conf type none (rw,bind)
+root@geodns01:~# <strong>md5sum /etc/named.conf /var/named/chroot/etc/named.conf</strong>
+d028cfee6cf1a1f77993da7c769273ad  /etc/named.conf
+82d1717bb34db23804f67ad855e090ea  /var/named/chroot/etc/named.conf
+</pre>
+I first thought this was some form of caching, but a suggestion was the
+way the files were replaced by puppet: if puppet creates a new file and then
+renames the old one and the new one, the file will have a different inode
+after that action. I tested for this:
+<pre class="commandlog">
+root@geodns01:~# <strong>mkdir test</strong>
+root@geodns01:~# <strong>touch file.conf</strong>
+root@geodns01:~# <strong>touch /root/test/file.conf</strong>
+root@geodns01:~# <strong>mount --bind file.conf /root/test/file.conf</strong>
+root@geodns01:~# <strong>ls -il /root/file.conf /root/test/file.conf</strong>
+652873 -rw-r--r-- 1 root root 0 Mar 26 19:20 /root/file.conf
+652873 -rw-r--r-- 1 root root 0 Mar 26 19:20 /root/test/file.conf
+root@geodns01:~# <strong>vim --cmd 'set backup' file.conf</strong>
+root@geodns01:~# <strong>ls -li file.conf* test/file.conf</strong>
+652876 -rw-r--r-- 1 root root 7 Mar 26 19:25 file.conf
+652873 -rw-r--r-- 1 root root 0 Mar 26 19:20 file.conf~
+652873 -rw-r--r-- 1 root root 0 Mar 26 19:20 test/file.conf
+</pre>
+This confirms that replace-by-rename will clash with bind mounts being
+actually inode based. The workaround isn't that hard:
+the startup script for named explicitly tests for an existing
+non-zero-byte <tt>/var/named/chroot/etc/named.conf</tt> and will skip the
+mount --bind part in that case. Time to learn puppet about this feature,
+puppet now manages both <tt>/etc/named.conf</tt> and <tt>/var/named/chroot/etc/named.conf</tt>.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/computersarebetterat" title="News items tagged with computersarebetterat" rel="tag">computersarebetterat</a>, <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/work" title="News items tagged with work" rel="tag">work</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-03-18</strong> (<a href="newsitem.cgi/1363637022" title="Permanent link" rel="bookmark">#</a>) <span class="age">5 months ago</span>
+<blockquote>Discussion about imap access from multiple devices made me wonder whether it
+is possible to set up courier-imapd to accept multiple passwords. I can't tell
+my android tablet to not keep my imap password, and I don't like it keeping
+a unix account password that may be able to do more damage. Who knows how
+secure the storage of passwords is on android.
+<p></p>
+This is at home, so a setup with ldap with multiple <tt>userPassword</tt>
+fields is a bit overkill. But I found the right setup: I changed the
+<tt>pam.d/imap</tt> config to have a separate <tt>auth</tt> setup which
+allows multiple password sources while the rest of the settings is still
+default from <tt>pam_unix.so</tt>. The <tt>authdaemonrc</tt> config is
+simple: just use pam.
+<p></p>
+The new <tt>/etc/pam.d/imap</tt>:
+<pre>
+# PAM configuration file for Courier IMAP daemon
+
+auth    sufficient      pam_unix.so
+auth    sufficient      pam_userdb.so db=/etc/courier/extrausers crypt=crypt use_first_pass
+auth    required        pam_deny.so
+@include common-account
+@include common-password
+@include common-session
+</pre>
+I kept running into errors at first:
+<pre class="commandlog">
+Mar 18 20:51:14 greenblatt authdaemond: pam_userdb(imap:auth): user_lookup: could not open database `/etc/courier/extrausers.db': No such file or directory
+</pre>
+Until I read <a href="http://fixunix.com/debian/129361-pam-userdb-auth-issue-pam_userdb-cant-open-database-vsftpd-sarge.html">pam userdb auth issue (pam_userdb can't open database) vsftpd Sarge - Debian</a>
+which explains I have to leave out the <tt>.db</tt> part in the <tt>pam_userdb.so</tt> config (corrected above).
+Generating that <tt>/etc/courier/extrausers.db</tt> file
+is done in two steps, first I use <tt>htpasswd</tt> to change/add an account
+to a <tt>user:pass</tt> textfile:
+<pre class="commandlog">
+root@greenblatt:/etc/courier# <strong>htpasswd extrausers koos</strong>
+New password: 
+Re-type new password: 
+Updating password for user koos
+</pre>
+And to generate the berkeley db file:
+<pre class="commandlog">
+root@greenblatt:/etc/courier# <strong>awk -F: '{print $1; print $2}' < extrausers | db4.6_load -T -t hash extrausers.db</strong>
+</pre>
+This converts the username:cryptedpassword file to the format which db4.6_load
+expects: key and value on alternating lines. It all works when the database
+file has access mode 0600.
+<p></p>
+Now there is a separate password for all devices which insist on keeping the
+password stored.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/security" title="News items tagged with security" rel="tag">security</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-02-01</strong> (<a href="newsitem.cgi/1359748482" title="Permanent link" rel="bookmark">#</a>) <span class="age">6 months ago</span>
+<blockquote>Work uses an exchange 2010 for mail and calendaring. And with all the faults
+exchange has with regard to handling Internet e-mail it is an ok calendar
+solution. But I like Thunderbird as an e-mail client. Thunderbird has a
+<a href="http://www.mozilla.org/projects/calendar/lightning/">calendar plugin Lightning</a> which gives Thunderbird full calendaring options.
+<p></p>
+The hard part is accessing exchange calendaring. But, there is a plugin which
+does just that: <a href="http://www.1st-setup.nl/wordpress/?page_id=133">Exchange 2007/2010 Calendar and Tasks Provider</a>.
+It takes a bit of fiddling to configure right (and the exchange server probably
+has to allow this access via the web interface). And for some reason it
+sometimes asks for my exchange password again and I have to cancel the first
+request and answer the second.</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/work" title="News items tagged with work" rel="tag">work</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-01-29</strong> (<a href="newsitem.cgi/1359485328" title="Permanent link" rel="bookmark">#</a>) <span class="age">6 months ago</span>
+<blockquote>The adobe acrobat pdf plugin almost understands it:
+<pre class="commandlog">
+koos@machiavelli:~$ <strong>ls -l C*txt</strong>
+-rw-r--r-- 1 koos koos 4008500 2013-01-29 16:36 C:\nppdf32Log\debuglog.txt
+</pre></blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-01-26</strong> (<a href="newsitem.cgi/1359214031" title="Permanent link" rel="bookmark">#</a>) <span class="age">7 months ago</span>
+<blockquote>Nowadays our growing child likes sesame street a bit more so I
+<a href="http://idefix.net/~koos/newsitem.cgi/1321874559">record Dutch sesame
+street from dvb-t</a>. But I noticed those don't always play right on the
+<a href="http://idefix.net/~koos/irregular.php/irregular-20090118/using-the-netgear-eva-8000-hd-with-a-linux-server">Netgear EVA 8000HD</a>. Most of the
+time audio wasn't playing. Audio played fine when viewing them with mplayer
+on a linux system. So I looked into conversion options and ended up with
+mencoder. The mencoder commandline I use to convert the program stream
+from dvbstream to a file playable by the netgear:
+<pre class="commandlog">
+koos@thompson:/scratch/sesamstraat$ <strong>for file in *sesamstraat*mpg ; do mencoder $file -ofps 25 -of avi -oac mp3lame -ovc lavc -lavcopts vbitrate=1000:aspect=2 -lameopts abr:br=128 -o ${file%.mpg}.avi; done</strong>
+</pre>
+Gives a good enough quality and reduces the size of the files to about a
+third.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/dvb" title="News items tagged with dvb" rel="tag">dvb</a>, <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/televisie" title="News items tagged with televisie" rel="tag">televisie</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-01-22</strong> (<a href="newsitem.cgi/1358886911" title="Permanent link" rel="bookmark">#</a>) <span class="age">7 months ago</span>
+<blockquote>One of my favourite podcasts, <a href="http://www.chubcreek.com/CC/Podcast/Podcast.html">Chub Creek</a>
+switched to <tt>m4a</tt> audio files and those don't play on my
+<a href="http://idefix.net/~koos/newsitem.cgi/1116016418">iRiver ifp-795 mp3 player</a>
+which means I don't get around to listening to them. Open source and some
+scripting to the rescue can fix this, I found some good hints at <a href="http://wiki.linuxquestions.org/wiki/.m4a_to_.mp3">.m4a to .mp3 - Linuxquestions wiki</a> and tried them.
+<pre class="commandlog">
+koos@thompson:/scratch/mp3/podcast$ <strong>faad CC125.m4a </strong>
+..
+CC125.m4a file info:
+
+LC AAC  2934.618 secs, 2 ch, 44100 Hz
+
+writer: Dave
+title: CC125
+artist: Dave
+album: Chub Creek
+tool: GarageBand 6.0.5
+..
+Decoding CC125.m4a took: 22.10 sec. 132.79x real-time.
+</pre>
+And the next step is easy:
+<pre class="commandlog">
+koos@thompson:/scratch/mp3/podcast$ <strong>lame -q 5 -b 128 --tt 'Chub Creek 125' --ta 'Dave' --tl 'Chub Creek' --add-id3v2 CC125.wav CC125.mp3</strong>
+LAME 3.98.2 32bits (http://www.mp3dev.org/)
+CPU features: MMX (ASM used), SSE (ASM used), SSE2
+Using polyphase lowpass filter, transition band: 16538 Hz - 17071 Hz
+Encoding CC125.wav to CC125.mp3
+Encoding as 44.1 kHz j-stereo MPEG-1 Layer III (11x) 128 kbps qval=5
+    Frame          |  CPU time/estim | REAL time/estim | play/CPU |    ETA 
+112452/112452(100%)|    2:55/    2:55|    2:55/    2:55|   16.785x|    0:00 
+-------------------------------------------------------------------------------
+   kbps        LR    MS  %     long switch short %
+  128.0        2.3  97.7        91.0   4.9   4.1
+Writing LAME Tag...done
+ReplayGain: -3.1dB
+</pre>
+Good way to warm up the CPUs on the computer: I can see from the 'sensors'
+output on which core the calculations are running. With two cores,
+running two processes like these parallel works fine.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/podcasting" title="News items tagged with podcasting" rel="tag">podcasting</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-01-16</strong> (<a href="newsitem.cgi/1358346238" title="Permanent link" rel="bookmark">#</a>) <span class="age">7 months ago</span>
+<blockquote>New and interesting linux problem today: the opensuse installer reporting
+<em>Your system states that it requires an EFI boot setup</em> and stating
+that the only way to install opensuse linux is to throw all msdos
+partitions away (including an already installed Windows 7) and start with
+GPT partitions. Windows 7 was installed with msdos style partitions and
+the plan was to create a multiboot setup without EFI boot (since we have
+some bad experiences with multiboot and EFI).
+<p></p>
+So the solution suggested by the opensuse installer was a bad choice. We
+decided to find out where the installer got the idea that the system stated
+something and changed the boot order in the BIOS to prefer legacy boot
+from network/cd/harddisk, disabling EFI boot options completely.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/work" title="News items tagged with work" rel="tag">work</a></div>
+</div>
+&nbsp;&nbsp;<a href="newstag.cgi/linux/1">Older news items for tag linux ⇒</a><hr class="hider">
+</div>
+</div>
+<div class="addressbox">
+<div class="infloatright"><a href="http://6bone.informatik.uni-leipzig.de/ipv6/stats/stats.php3" title="My homepage reachable via IPv6!"><img src="icons/ipv6-ready.png" style="width:80px; height: 15px; border: none;"><img src="http://6bone.informatik.uni-leipzig.de/ipv6/stats/log.php3?URL=page.idefix.net&ImageId=6" style="width: 1px; height: 1px; border: none; padding: 0px;" alt="IPv6 ready"></a></div>
+<a href="http://idefix.net/" rel="author">Koos van den Hout</a>, reachable as <a href="mailto:koos+website@koos.idefix.net">koos+website@koos.idefix.net</A>.
+<a href="http://pgp.surfnet.nl:11371/pks/lookup?op=vindex&amp;search=0xF0D7C263&amp;fingerprint=on">PGP key DSS/1024 0xF0D7C263</a>
+<a href="/~koos/index.rdf" title="RSS feed" class="rssfeed">RSS</a>
+<br>
+Other webprojects: <a href="http://www.camp-wireless.org/">Camp Wireless, wireless Internet access at campsites</a>,
+<a href="http://www.virtualbookcase.com/">The Virtual Bookcase, book reviews</a>,
+<a href="http://weather.idefix.net/">Weather maps</a>
+</div>
+</body>
+</html>

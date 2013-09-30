@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title> Upstream linux-omap kernel on Nokia N900 </title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+</head>
+<body>
+
+<div class="content">
+<div class="pagetitle"> Upstream linux-omap kernel on Nokia N900? </div>
+
+<p>&nbsp;</p>
+
+<p><font color="red"> The content of this page is provided as is in
+    the hope it will be useful but with no guarantee you will not
+    break your device. You have been warned! </font></p>
+
+<p> A <a href="#changelog">changelog</a> is available at the bottom of
+  the page to follow the progress. </p>
+
+<p> <b>State of the art for Nokia N900:</b> the device is (still)
+  delivered with a 2.6.28-omap kernel. Some time
+  ago, <a href="../n900-custom-kernel.html">I did some work in order 
+  to switch to a 2.6.28.10-omap1-grsec</a>, which my N900 now
+  runs. </p> 
+
+<p> <b>Upstream:</b> Meanwhile, new kernel versions have been
+  released, providing new features and fixing additional security
+  issues. Additionally, <a href="http://www.grsecurity.net/news.php#armdev">
+  official grsecurity/PaX support on ARM</a> has been announced. </p>
+
+<p> <b>What can be done?:</b> I decided to take a look at what is
+  needed (what is missing) in order to get the N900 run current
+  linux-omap kernel. If things go well, this would allow running a 
+  recent <a href="http://www.grsecurity.net/">grsecurity</a>-patched
+  kernel.</p>
+
+<p> <b>This page and you:</b> This page documents the work and
+  associated results, with the hope that it will be useful to others
+  and/or others can help. For instance, if you are familiar with some
+  specific OMAP 3430 features (e.g. GPU, ...), 
+  N900 hardware features (e.g. CMT, ...) or a kernel subsytem
+  (e.g. V4L2, ...) and you can help porting/debugging some of the
+  patches discussed below to run on current kernel, your help is
+  welcome.  </p>  
+
+<p> <b>Work already done:</b> I started working on the HUGE (380000 Lines)
+  patch provided by Nokia for the 2.6.28
+  (kernel_2.6.28-20100903+0m5-orig.diff) in order to see what
+  additional code had been added to support the hardware and required 
+  features (power consumption, ...). I compared that with the content
+  of current l-o tree, extracted single fonctionalities and created
+  updated patches to apply on top of current l-o kernel (pm
+  branch). After some struggle, I got some results. Note that
+  additional work is still needed on what remains from the extraction.
+  Keep reading. </p> 
+
+<p> <b> How you can start playing with the
+  patches:</b> <a href="http://hg.natisbad.org/N900/n900-upstream-omap-patches">All
+  the patches</a> I have (those which apply on top of current l-o pm branch
+  and what remains of Nokia 2.6.28 diff) are provided as a <b>quilt</b>
+  set versioned using <b>mercurial</b>. It contains a <b>series</b>
+  file where you can find useful information and a <b>dot-config</b>
+  file you can use  as a .config to build a working kernel. See below
+  for a practical example. </p>
+
+<p> Note that git, quilt and mercurial are part of my current workflow
+  but I am open to other things if I get some company on the
+  subject.</p>
+
+<p> Here is how you can start (i make the assumption that you are
+  familiar with git and the steps needed
+  to <a href="n900-custom-kernel.html">compile and install a custom
+  kernel for you N900</a>). </p>  
+
+<p> Grab (or update) a copy of linux-omap tree and checkout a local
+  branch following remote pm one: </p>
+
+<pre>
+$ git://git.kernel.org/pub/scm/linux/kernel/git/tmlind/linux-omap-2.6.git
+$ git checkout -b pm origin/pm
+
+$ git log
+commit 721ef8f0c2a6a0406307f0ac5fee9a4aed6ed2c3
+Merge: 16bed77 e4a0eef
+Author: Kevin Hilman &lt;khilman@deeprootsystems.com&gt;
+Date:   Thu Apr 8 10:33:50 2010 -0700
+
+    rebuild PM from branches
+...
+</pre>
+
+<p> Clone the quilt set of patches and apply them </p>
+
+<pre>
+$ hg clone http://hg.natisbad.org/N900/n900-upstream-omap-patches patches
+destination directory: patches
+requesting all changes
+adding changesets
+adding manifests
+adding file changes
+added 1 changesets with 103 changes to 103 files
+updating to branch default
+103 files updated, 0 files merged, 0 files removed, 0 files unresolved
+
+$ quilt push -a 
+Applying patch disabled_cpufreq_compilation_workaround.patch
+patching file arch/arm/mach-omap2/clock.c
+patching file arch/arm/mach-omap2/clock3xxx_data.c
+
+Applying patch boottag.patch
+patching file arch/arm/plat-omap/Kconfig
+patching file arch/arm/plat-omap/common.c
+patching file arch/arm/include/asm/setup.h
+
+Applying patch bootreason.patch
+patching file arch/arm/plat-omap/bootreason.c
+patching file arch/arm/plat-omap/Kconfig
+patching file arch/arm/plat-omap/Makefile
+
+...
+
+Applying patch twl4030-vibra.patch
+patching file drivers/leds/Kconfig
+patching file drivers/leds/Makefile
+patching file drivers/leds/leds-twl4030-vibra.c
+
+Now at patch twl4030-vibra.patch
+</pre>
+
+<p> Copy provided dot-config file as .config and compile the kernel. </p>
+
+<pre>
+$ cp n900-upstream-omap-patches/dot-config .config
+
+$ arm-linux-gnueabi-gcc --version
+arm-linux-gnueabi-gcc (Debian 4.3.2-1.1) 4.3.2
+Copyright (C) 2008 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+$ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make
+</pre>
+
+<p> You do not really need to copy any kernel module on the
+  device before flashing the new kernel. Before doing the following,
+  you should read the content of /sbin/preinit file on the device to
+  understand it and modify it (e.g. call start_shell, use tty0) in
+  order to be sure to get a shell executed at startup. I will try and
+  document all the details in the future in a section on this
+  page. </p> 
+
+<pre>
+$ sudo flasher-3.5 -k arch/arm/boot/zImage -f -R
+</pre>
+
+<p> After the device has rebooted, you get access to a shell. Because
+  hardware watchdogs are enabled by default, the device will stop
+  after 30 seconds. Roger Quadros provided a workaround on l-o ML
+  (<a href="http://thread.gmane.org/gmane.linux.ports.arm.omap/33700">here</a>). To
+  disable the hardware watchdogs (this should prevent any unexpected
+  reset) via flasher: </p>  
+
+<pre>
+$ sudo flasher --set-rd-flags=no-omap-wd,no-ext-wd,no-lifeguard-reset
+</pre>
+
+<p> In order to restore all factory settings, do</p>
+
+<pre>
+$ sudo flasher --disable-rd-mode
+</pre>
+
+<p> Another way (the good one I guess while we manage to get further
+  in the boot process) to deal with the watchdogs is to use a userland
+  daemon as
+  explained <a href="http://alexeytorkhov.blogspot.com/2010/02/running-fedora-arm-on-nokia-n900.html">here</a>.</p>
+
+<p><b> Things that work:</b> not meaning that code is ready for
+  prime time or bug-free. list is not meant to be exhaustive. </p>
+
+<ul>
+<li> Panel (using code pushed upstream by Roger Quadros)</li>
+<li> Accelerometers </li>
+<li> Keyboard backlight </li>
+<li> Ambient Light Sensor </li>
+<li> Temperature sensor </li>
+<li> Led </li>
+<li> ... </li>
+</ul>
+
+<p> <b> Things needing additional work, i.e. on which you can help</b>: </p>
+
+<ul>
+<li> GPU/ISP code from TI (see ti-isp-support.patch and gpu-pvr.patch,
+  i.e. those 66000 lines babies)</li>
+<li> SSI MacSAAB and associated features to interface with the phone
+   stack</li>
+<li> Camera and V4L2 code </li>
+<li> 802.11 code </li>
+<li> ... </li>
+</ul>
+
+<a name="changelog"></a>
+<b>Changelog:</b>
+<ul>
+  <li><b>18/04/10</b>:
+    <ul>
+      <li>first pass on Nokia kernel_2.6.28-20100903+0m5.diff to
+	(get an idea of the size of the mountain and) understand
+	what is missing in current l-o tree. </li>
+      <li> Various patches updated.</li>
+      <li> N900 boots a <b>patched</b> current (2.6.34-rc3 based)
+	linux-omap kernel (pm branch) on console (no X).</li> 
+      <li> Some hardware components and features supported.</li>
+      <li> This page put online!</li>
+    </ul>
+    </li>
+</ul>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,3413 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>The NTP FAQ and HOWTO</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REV="MADE"
+HREF="mailto:Ulrich.Windl@rz.uni-regensburg.de"><LINK
+REL="NEXT"
+TITLE="Time, what Time?"
+HREF="NTP-s-time.htm"><META
+NAME="KEYWORD"
+CONTENT="NTP"><META
+NAME="KEYWORD"
+CONTENT="FAQ"><META
+NAME="KEYWORD"
+CONTENT="HOWTO"><META
+NAME="KEYWORD"
+CONTENT="Network Time Protocol"><META
+NAME="KEYWORD"
+CONTENT="Frequently Asked Questions"><LINK
+REL="STYLESHEET"
+TYPE="text/css"
+HREF="docbook.css"></HEAD
+><BODY
+CLASS="ARTICLE"
+><DIV
+CLASS="NAVHEADER"
+>This is the <A
+HREF="http://support.ntp.org/"
+>NTP home page</A
+> that some people like to see here<HR></DIV
+><DIV
+CLASS="ARTICLE"
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="TITLE"
+><A
+NAME="AEN2"
+>The <ACRONYM
+CLASS="ACRONYM"
+>NTP</ACRONYM
+> <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+> and <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>HOWTO</SPAN
+></SPAN
+></A
+></H1
+><H2
+CLASS="SUBTITLE"
+>Understanding and using the <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Network Time
+Protocol</SPAN
+></SPAN
+> (A first try on a non-technical <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Mini-HOWTO</SPAN
+></SPAN
+>
+and <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+> on <ACRONYM
+CLASS="ACRONYM"
+>NTP</ACRONYM
+>)</H2
+><SPAN
+CLASS="DATE"
+>2006-11-21<BR></SPAN
+><DIV
+CLASS="AUTHORGROUP"
+><A
+NAME="AEN21"
+></A
+><H4
+CLASS="EDITEDBY"
+>Edited by</H4
+><H3
+CLASS="EDITOR"
+>Ulrich Windl</H3
+><H3
+CLASS="AUTHOR"
+><A
+NAME="AEN25"
+>David Dalton</A
+></H3
+><DIV
+CLASS="AFFILIATION"
+><SPAN
+CLASS="ORGNAME"
+>Hewlett-Packard<BR></SPAN
+></DIV
+><H3
+CLASS="AUTHOR"
+><A
+NAME="AEN30"
+>Marc Martinec</A
+></H3
+><DIV
+CLASS="AFFILIATION"
+><SPAN
+CLASS="ORGNAME"
+>Josef Stefan Institute<BR></SPAN
+><DIV
+CLASS="ADDRESS"
+><P
+CLASS="ADDRESS"
+>Jamova 39<br>
+SI-1000&nbsp;Ljubljana,<br>
+Slovenia</P
+></DIV
+></DIV
+><H3
+CLASS="AUTHOR"
+><A
+NAME="AU-UW"
+>Ulrich Windl</A
+></H3
+><H3
+CLASS="AUTHOR"
+><A
+NAME="AEN43"
+>Dale R. Worley</A
+></H3
+></DIV
+><SPAN
+CLASS="RELEASEINFO"
+>This document is not as complete as it should be, but I
+decided to forward it to a wider audience.  Any contributions are welcome.
+Most incomplete sections are marked with "XXX <SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>Note from the editor:</I
+></SPAN
+>".<BR></SPAN
+><P
+CLASS="COPYRIGHT"
+>Copyright &copy; 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006 Ulrich Windl, et al. (see credits)</P
+><DIV
+CLASS="REVHISTORY"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+><TR
+><TH
+ALIGN="LEFT"
+VALIGN="TOP"
+COLSPAN="3"
+><B
+>Revision History</B
+></TH
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 1.0</TD
+><TD
+ALIGN="LEFT"
+>1999-10-16</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Finally, this is called release "1.0".</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 1.1</TD
+><TD
+ALIGN="LEFT"
+>1999-10-26</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Added sub-structure to section "Basic Configuration".  Made more
+specific questions and answers out of the too general "What should I have in
+/etc/ntp.conf?"  Added section on "GPS".</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 1.2</TD
+><TD
+ALIGN="LEFT"
+>1999-11-07</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Added example for huge network configuration.  Added hints for
+Motorola Oncore clock.  Added more technical details about "GPS".</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 1.3</TD
+><TD
+ALIGN="LEFT"
+>1999-12-10</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Added comment from David Dalton about single point of failure.
+Minor improvements on structure and wording.  Added two new questions about
+DCF77 receivers having no power.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 1.4</TD
+><TD
+ALIGN="LEFT"
+>1999-12-28</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Converted all GIF images to PNG to avoid the Unisys patent.
+Added an example for the effects of Selective Availability (GPS).  Added new
+section for specific issues about Windows/NT.  Added new thoughts about the
+concept of time.  Added new question about <SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>supported operating
+systems</I
+></SPAN
+>.  Added some facts from Nelson Minar's NTP survey.  Added
+checklist for public stratum-1 servers.  Added new question about common
+problems with DCF77.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 1.5</TD
+><TD
+ALIGN="LEFT"
+>2000-01-16</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Revised background information on GPS.  Added a quote about
+temperature affecting the frequency of PC clocks.  Added more entries to
+glossary.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 1.6</TD
+><TD
+ALIGN="LEFT"
+>2000-01-29</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Revised general monitoring questions.  Fixed some spelling
+errors.  Added new questions about PCs and ``using ntpdate instead''.  Added
+section about ``Automatic Configuration''.  Added URL for ICD-GPS-200.  Added a
+procedure to determine kernel version.  Added an entry about setting the RTC in
+Linux.  Added a new section for FreeBSD troubleshooting.  Improved layout for
+examples.  Enhanced Meta-FAQ.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 1.7</TD
+><TD
+ALIGN="LEFT"
+>2000-03-04</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Added additional information on how to adjust ``tick'' on
+FreeBSD.  Added routine for date conversion.  Added entry for ``IP Addresses
+vs. Host Names in Configuration File''.  Added new section about ``Various
+Tricks'' (``Mixing Time Protocols'', ``Avoiding Time Steps'').  Revised section
+about ``Computer Clocks''.  Added new entries for ``Solaris'' and ``Linux on
+DEC Alpha''.  Added references to RFC 2783.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 1.8</TD
+><TD
+ALIGN="LEFT"
+>2000-04-10</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Added new entries for ``Opening a Firewall for NTP'' and
+``Used Network Protocols''.  Updated examples for PPS monitoring.  Added more
+words for the question about achievable accuracy.  Added minimal facts about
+``Using virtual Addresses''.  Added an example for a dial-up configuration
+using PPP.  Added info about bugs in Solaris xntpd.  Provided information about
+documentation when using Windows/NT.  Added some policy and naming
+considerations for the ``Meta-FAQ''.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 1.9</TD
+><TD
+ALIGN="LEFT"
+>2000-04-17</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Reorganized section about NTP algorithms.  Added a description
+for ``hardpps()'' and other kernel routines.  Added some entries about update
+and polling intervals.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 2.0</TD
+><TD
+ALIGN="LEFT"
+>2000-04-28</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Changed title of document.  Added new entry about ``limits of
+`minpoll' and `maxpoll'''.  Added facts about long polling intervals.  Added
+explanation of ``reach'' value.  Enhanced entry on ``offering time service''.
+Added new entries about monitoring time offsets.  Enhanced entry about
+statistic files.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 2.1</TD
+><TD
+ALIGN="LEFT"
+>2000-06-27</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Added entry about ``finding the correct pseudo address for
+reference clocks''.  Added new section about broadcasting and multicasting.
+Added new reference for additional information.  Added new material for
+``Selective Availability'', ``Oncore'', ``Linux kernel message'' and benefits
+of time synchronization.  Added list with main components of the NTP software
+distribution.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 2.2</TD
+><TD
+ALIGN="LEFT"
+>2000-07-25</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Corrected several spellings, wordings, omissions and bugs.
+Added new entries to glossary.  Added new subsection for ``Authentication''.
+Various GPS-related updates, most suggested by Mark Martinec.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 2.3</TD
+><TD
+ALIGN="LEFT"
+>2000-08-14</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Added new division dedicated to ``Spurious and unexpected
+Messages'' when troubleshooting.  Added URI for technical papers about
+NTP.  Added a new section on the history of NTP.  Fixed some spellings.  Added
+hyperlinks for authors and contributors.  Added new subsection for
+``Macintosh''.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 2.4</TD
+><TD
+ALIGN="LEFT"
+>2000-10-03</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>New entries for the following topics: ``Error Estimates'',
+``Encoding of NTP time'', ``Where to send Contributions'', ``Public Key
+Authentication'', ``Reference Clock Products'', ``Trouble shooting Oncure
+UT+'', ``Frequency Errors''.  Revised entries for the following topics:
+``Update Procedure'', ``Solaris Bugs'', ``Kernel Clock Discipline'', ``PPS
+Configuration''. A general overview for this document has been added, revising
+the overall look of the document.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 2.5</TD
+><TD
+ALIGN="LEFT"
+>2000-11-14</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Updated section about ``Implementations and Platforms''. Added
+new entries for ``Microsoft's W32time'', ``VMS'', and Solaris' ``ntpdate
+-w''.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.0</TD
+><TD
+ALIGN="LEFT"
+>2001-04-07</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Added new divisions: ``Manycast'' and a short explanation
+thereof, MS-Windows specific troubleshooting.  Added new entries: ``Verifying
+the Kernel Discipline'', ``MS SQL Server''.  Updated entries: ``Why should Time
+be synchronized?'', leap seconds, setting the kernel's time-zone, reconfiguring
+FreeBSD.  Updated some outdated an poor graphs with more current ones.  Many
+minor improvements.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.1</TD
+><TD
+ALIGN="LEFT"
+>2001-05-29</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Various new, enhanced, updated, and corrected entries (Linux,
+Solaris, Windows 2000, LF receivers, synchronization loops, DCF77, NMEA).
+Added substructure for ``General Issues'' in ``Troubleshooting''.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.2</TD
+><TD
+ALIGN="LEFT"
+>2001-09-18</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Added new entries (PPS delay measurement, accuracy of CMOS
+clock, TSIP, speeding up initial synchronization) and divisions (Sun hardware,
+Measuring and Calibration, Multicasting).  Updated entries (autokey, reference
+clocks, NMEA).</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.3</TD
+><TD
+ALIGN="LEFT"
+>2001-12-30</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Fixed some inconsistent links, corrected a few spelling
+errors, brought some version information up to date.  Added a first sponsor to
+``Credits''.  Fixed syntax error in example using authentication keys.  Added
+new entry on ntpdate failing to set the time.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.4</TD
+><TD
+ALIGN="LEFT"
+>2002-02-24</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Fixed some minor errors.  Enhanced information for
+troubleshooting DCF77 and MSF.  Minor updates to generic answers.  Added new
+entries for problems with Windows/XP and ntpdate.  Added hyperlinks for
+additional information.  Updated credits.  Updated division
+``Appearance''.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.5</TD
+><TD
+ALIGN="LEFT"
+>2002-11-05</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>(Delayed because of disk disaster) Refer to a bug in RFC 1305.
+In chapter ``Troubleshooting'': New division ``Incompatibilities'' for
+``General Issues'', ``Syntax Errors'' for ``Messages''.  New section
+``Reporting Bugs''.  New entries: ``How will NTP know about Time Sources?''
+Added divisions for ``Basic Concepts''.  Various minor corrections and
+additions.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.6</TD
+><TD
+ALIGN="LEFT"
+>2003-01-25</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Various minor corrections and additions.  New entries about
+detecting PPS pulses, broken default configurations, maximum allowable clients,
+using BOOTP information, understanding ``autokey'', and frequency errors of
+good clocks.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.7</TD
+><TD
+ALIGN="LEFT"
+>2004-04-09</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Mostly minor fixes in wording and spelling.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.8</TD
+><TD
+ALIGN="LEFT"
+>2004-12-31</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Split sections into smaller chunks to make online navigation and
+reading faster (created new files).  Added answer on how to configure
+autokey.  Other minor changes and updates.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.9</TD
+><TD
+ALIGN="LEFT"
+>2005-10-18</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Answer on configuring autokey v2 has been improved.  Unwanted
+line-breaks have been removed.  Clarification on answer on Linux' ``obsolete
+ADJ_TICKADJ''.  Mention new home at ntp.isc.org.  Added new division on
+troubleshooting ``autokey''.  Added a footnote about wrong mathematics in an
+otherwise correct quote.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision 3.10</TD
+><TD
+ALIGN="LEFT"
+>2006-11-21</TD
+><TD
+ALIGN="LEFT"
+>Revised by: UW</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Revised section ``Encryption''.  Added new section ``The Basics
+of Autokey''.  General revisions on autokey.  Several minor spelling problems
+fixed.</TD
+></TR
+></TABLE
+></DIV
+><DIV
+CLASS="LEGALNOTICE"
+><A
+NAME="AEN58"
+></A
+><P
+><B
+>Copyright</B
+></P
+><P
+>The material in this document is covered by the respective
+contributor's copyright.  &copy; Copyright 1999 - 2005, by the contributors and
+editors of this document.  For details see the list of editors and
+authors.</P
+><P
+>All editors and contributors
+(non-exclusively) grant a perpetual, irrevocable, and royalty free license to
+distribute this document under the terms of the <ACRONYM
+CLASS="ACRONYM"
+>GNU</ACRONYM
+> General Public License as
+published by the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.</P
+><P
+>This document is distributed in the hope that it will be useful,
+but <SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>WITHOUT ANY WARRANTY</I
+></SPAN
+>; without even the implied
+warranty of <SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>MERCHANTABILITY</I
+></SPAN
+> or <SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>FITNESS FOR A
+PARTICULAR PURPOSE</I
+></SPAN
+>.  See the <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+><ACRONYM
+CLASS="ACRONYM"
+>GNU</ACRONYM
+> General Public
+License</SPAN
+></SPAN
+> for more details.</P
+><P
+>If you don't already have the <ACRONYM
+CLASS="ACRONYM"
+>GNU</ACRONYM
+> General Public License at
+hand, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA
+02139, USA.</P
+></DIV
+><HR></DIV
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+>1. <A
+HREF="NTP-a-faq.htm#S-META"
+>About this Document</A
+></DT
+><DD
+><DL
+><DT
+>1.1. <A
+HREF="NTP-a-faq.htm#S-CREDITS"
+>Credits</A
+></DT
+></DL
+></DD
+><DT
+>2. <A
+HREF="NTP-s-time.htm"
+>Time, what Time?</A
+></DT
+><DT
+>3. <A
+HREF="NTP-s-sw-clocks.htm"
+>How do Computer Clocks work?</A
+></DT
+><DD
+><DL
+><DT
+>3.1. <A
+HREF="NTP-s-sw-clocks.htm#S-SW-CLOCKS-BITS"
+>Bits and Registers</A
+></DT
+><DT
+>3.2. <A
+HREF="NTP-s-sw-clocks-tick.htm"
+>Making Time go on</A
+></DT
+><DT
+>3.3. <A
+HREF="NTP-s-sw-clocks-quality.htm"
+>Clock Quality</A
+></DT
+><DD
+><DL
+><DT
+>3.3.1. <A
+HREF="NTP-s-sw-clocks-quality.htm#AEN1182"
+>Frequency Error</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>4. <A
+HREF="NTP-s-def.htm"
+>What is <ACRONYM
+CLASS="ACRONYM"
+>NTP</ACRONYM
+>?</A
+></DT
+><DD
+><DL
+><DT
+>4.1. <A
+HREF="NTP-s-def.htm#S-DEF-OV"
+>Overview</A
+></DT
+><DT
+>4.2. <A
+HREF="NTP-s-def-hist.htm"
+>History</A
+></DT
+><DT
+>4.3. <A
+HREF="NTP-s-def-impl.htm"
+>Implementations and Platforms</A
+></DT
+></DL
+></DD
+><DT
+>5. <A
+HREF="NTP-s-algo.htm"
+>How does it work?</A
+></DT
+><DD
+><DL
+><DT
+>5.1. <A
+HREF="NTP-s-algo.htm#S-ALGO-BASIC"
+>Basic Concepts</A
+></DT
+><DT
+>5.2. <A
+HREF="NTP-s-algo-kernel.htm"
+>The Kernel Discipline</A
+></DT
+><DT
+>5.3. <A
+HREF="NTP-s-algo-real.htm"
+><ACRONYM
+CLASS="ACRONYM"
+>NTP</ACRONYM
+> in real Life</A
+></DT
+><DT
+>5.4. <A
+HREF="NTP-s-algo-crypt.htm"
+>Encryption</A
+></DT
+><DD
+><DL
+><DT
+>5.4.1. <A
+HREF="NTP-s-algo-crypt.htm#S-ALGO-CRYPT-AUTOKEY"
+>The Basics of Autokey</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>6. <A
+HREF="NTP-s-config.htm"
+>Configuration of <B
+CLASS="COMMAND"
+>xntpd</B
+></A
+></DT
+><DD
+><DL
+><DT
+>6.1. <A
+HREF="NTP-s-config.htm#S-CONFIG-BASIC"
+>Basic Configuration</A
+></DT
+><DD
+><DL
+><DT
+>6.1.1. <A
+HREF="NTP-s-config.htm#S-CONFIG-BASIC-MINI"
+>Recommended Minimum</A
+></DT
+><DT
+>6.1.2. <A
+HREF="NTP-s-config.htm#S-CONFIG-BASIC-LAN"
+>Running an isolated Network</A
+></DT
+><DT
+>6.1.3. <A
+HREF="NTP-s-config.htm#S-CONFIG-BASIC-GOODIES"
+>Recommended Goodies</A
+></DT
+><DT
+>6.1.4. <A
+HREF="NTP-s-config.htm#S-CONFIG-BASIC-MISC-HINTS"
+>Miscellaneous Hints</A
+></DT
+></DL
+></DD
+><DT
+>6.2. <A
+HREF="NTP-s-config-adv.htm"
+>Advanced Configuration</A
+></DT
+><DD
+><DL
+><DT
+>6.2.1. <A
+HREF="NTP-s-config-adv.htm#S-CONFIG-ADV-SRVSEL"
+>Server Selection</A
+></DT
+><DT
+>6.2.2. <A
+HREF="NTP-s-config-adv.htm#S-CONFIG-ADV-AUTH"
+>Authentication</A
+></DT
+><DT
+>6.2.3. <A
+HREF="NTP-s-config-adv.htm#S-CONFIG-ADV-BRDCAST"
+>Broadcasting, Multicasting, and Manycasting</A
+></DT
+><DT
+>6.2.4. <A
+HREF="NTP-s-config-adv.htm#S-CONFIG-ADV-PPS"
+><ACRONYM
+CLASS="ACRONYM"
+>PPS</ACRONYM
+> Synchronization</A
+></DT
+><DT
+>6.2.5. <A
+HREF="NTP-s-config-adv.htm#S-CONFIG-ADV-AUTOCONF"
+>Automatic Configuration</A
+></DT
+><DT
+>6.2.6. <A
+HREF="NTP-s-config-adv.htm#S-CONFIG-ADV-SRVPROV"
+>Offering Time Service</A
+></DT
+></DL
+></DD
+><DT
+>6.3. <A
+HREF="NTP-s-config-tricks.htm"
+>Various Tricks</A
+></DT
+><DT
+>6.4. <A
+HREF="NTP-s-compat.htm"
+>Compatibility</A
+></DT
+><DD
+><DL
+><DT
+>6.4.1. <A
+HREF="NTP-s-compat.htm#S-COMPAT-PLL"
+>The Kernel <ACRONYM
+CLASS="ACRONYM"
+>PLL</ACRONYM
+></A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+>7. <A
+HREF="NTP-s-refclk.htm"
+>Reference Clocks</A
+></DT
+><DD
+><DL
+><DT
+>7.1. <A
+HREF="NTP-s-refclk.htm#S-REFCLK-PROD"
+>Products</A
+></DT
+></DL
+></DD
+><DT
+>8. <A
+HREF="NTP-s-trouble.htm"
+>Troubleshooting</A
+></DT
+><DD
+><DL
+><DT
+>8.1. <A
+HREF="NTP-s-trouble.htm#S-TRBL-MONITORING"
+>Monitoring</A
+></DT
+><DT
+>8.2. <A
+HREF="NTP-s-trbl-general.htm"
+>General Issues</A
+></DT
+><DD
+><DL
+><DT
+>8.2.1. <A
+HREF="NTP-s-trbl-general.htm#AEN5568"
+>Messages</A
+></DT
+></DL
+></DD
+><DT
+>8.3. <A
+HREF="NTP-s-trbl-spec.htm"
+>Specific Products</A
+></DT
+><DD
+><DL
+><DT
+>8.3.1. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-HW"
+><ACRONYM
+CLASS="ACRONYM"
+>PC</ACRONYM
+> Hardware</A
+></DT
+><DT
+>8.3.2. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-FREEBSD"
+><SPAN
+CLASS="SYSTEMITEM"
+>FreeBSD</SPAN
+></A
+></DT
+><DT
+>8.3.3. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-IRIX"
+><SPAN
+CLASS="SYSTEMITEM"
+>Irix</SPAN
+></A
+></DT
+><DT
+>8.3.4. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-LINUX"
+><SPAN
+CLASS="SYSTEMITEM"
+>Linux</SPAN
+></A
+></DT
+><DT
+>8.3.5. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-MACINTOSH"
+><SPAN
+CLASS="PRODUCTNAME"
+>Macintosh</SPAN
+></A
+></DT
+><DT
+>8.3.6. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-ONCORE"
+><SPAN
+CLASS="PRODUCTNAME"
+>Oncore</SPAN
+> Compatibles</A
+></DT
+><DT
+>8.3.7. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-SOLARIS"
+><SPAN
+CLASS="SYSTEMITEM"
+>Solaris</SPAN
+></A
+></DT
+><DT
+>8.3.8. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-SUN-HW"
+>Sun Hardware</A
+></DT
+><DT
+>8.3.9. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-TRIMBLE"
+>Trimble Clocks</A
+></DT
+><DT
+>8.3.10. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-TRUETIME"
+><SPAN
+CLASS="PRODUCTNAME"
+>TrueTime</SPAN
+></A
+></DT
+><DT
+>8.3.11. <A
+HREF="NTP-s-trbl-spec.htm#S-TRBL-SPEC-WINNT"
+><SPAN
+CLASS="PRODUCTNAME"
+>Windows/NT</SPAN
+> Family</A
+></DT
+></DL
+></DD
+><DT
+>8.4. <A
+HREF="NTP-s-trbl-bug-reports.htm"
+>Reporting Bugs</A
+></DT
+></DL
+></DD
+><DT
+>9. <A
+HREF="NTP-s-related.htm"
+>Background and Related Information</A
+></DT
+><DD
+><DL
+><DT
+>9.1. <A
+HREF="NTP-s-related.htm#S-GPS-BACKGROUND"
+><ACRONYM
+CLASS="ACRONYM"
+>GPS</ACRONYM
+></A
+></DT
+><DD
+><DL
+><DT
+>9.1.1. <A
+HREF="NTP-s-related.htm#AEN7076"
+>Selective Availability revisited</A
+></DT
+></DL
+></DD
+></DL
+></DD
+><DT
+><A
+HREF="NTP-g-all.htm"
+>Common Terms and Acronyms</A
+></DT
+></DL
+></DIV
+><BLOCKQUOTE
+CLASS="ABSTRACT"
+><DIV
+CLASS="ABSTRACT"
+><P
+></P
+><A
+NAME="AEN208"
+></A
+><P
+>This document tries to explain the most basic features of <ACRONYM
+CLASS="ACRONYM"
+>NTP</ACRONYM
+>, and
+to answer many frequently asked questions.  The intention is to help the
+average user to get a quick start with the official implementation of <ACRONYM
+CLASS="ACRONYM"
+>NTP</ACRONYM
+>.
+Technical issues and mathematics are avoided where possible.  Instead the most
+common questions are tried to be answered, enabling everybody to get a working
+configuration.</P
+><P
+></P
+></DIV
+></BLOCKQUOTE
+><TABLE
+BORDER="0"
+WIDTH="100%"
+CELLSPACING="0"
+CELLPADDING="0"
+CLASS="EPIGRAPH"
+><TR
+><TD
+WIDTH="45%"
+>&nbsp;</TD
+><TD
+WIDTH="45%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><I
+><P
+>All we do here is invent games to pass the time.</P
+></I
+></TD
+></TR
+><TR
+><TD
+WIDTH="45%"
+>&nbsp;</TD
+><TD
+WIDTH="45%"
+ALIGN="RIGHT"
+VALIGN="TOP"
+><I
+><SPAN
+CLASS="ATTRIBUTION"
+>John O' Donohue</SPAN
+></I
+></TD
+></TR
+></TABLE
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="S-META"
+>1. About this Document</A
+></H1
+><BLOCKQUOTE
+CLASS="ABSTRACT"
+><DIV
+CLASS="ABSTRACT"
+><P
+></P
+><A
+NAME="AEN217"
+></A
+><P
+>This section tries to answer questions about the document
+itself.  So we could call it <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Meta-<ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+></SPAN
+></SPAN
+>.  If you like, you can
+call it <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>preface</SPAN
+></SPAN
+> or <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>foreword</SPAN
+></SPAN
+> as
+well.</P
+><P
+></P
+></DIV
+></BLOCKQUOTE
+><P
+>This document is intended for beginners as well as advanced users
+that are looking for for advice.  However, basic skills in system
+administration are required to enjoy this tour.  True experts on the subject
+will probably prefer the original documentation that comes with the software,
+or correct me where I'm wrong.</P
+><P
+>The impatient may want to go directly to the first section, <A
+HREF="NTP-s-time.htm"
+>Section 2</A
+>, where fundamentals of timekeeping are discussed.  The
+next section, <A
+HREF="NTP-s-sw-clocks.htm"
+>Section 3</A
+>, introduces clocks that are
+implemented using computers.  If you are reading sequentially, you should be
+ready for the section that presents <ACRONYM
+CLASS="ACRONYM"
+>NTP</ACRONYM
+> (<A
+HREF="NTP-s-def.htm"
+>Section 4</A
+>).</P
+><P
+>At that point focus is moving from a more theoretical treatment of
+the subject to practical aspects, starting with <A
+HREF="NTP-s-algo.htm"
+>Section 5</A
+>.  Then
+in <A
+HREF="NTP-s-config.htm"
+>Section 6</A
+> we are going into practice, namely configuration
+of the <ACRONYM
+CLASS="ACRONYM"
+>NTP</ACRONYM
+> software.  The following section (<A
+HREF="NTP-s-refclk.htm"
+>Section 7</A
+>) will
+talk about <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>reference clock</SPAN
+></SPAN
+>s.</P
+><P
+>Real life is talked about in <A
+HREF="NTP-s-trouble.htm"
+>Section 8</A
+> where
+procedures, tips and tricks for troubleshooting are presented.  For the
+curious, <A
+HREF="NTP-s-related.htm"
+>Section 9</A
+> will provide further information and
+references to such.  Finally, there is a <A
+HREF="NTP-g-all.htm"
+>glossary</A
+>
+with some terms explained.</P
+><P
+>Those who are still reading sequentially are asked to try some of the
+numerous hyperlinks found not only at the top and bottom of each section.  If
+you got lost, you can always to back to the beginning where the table of
+contents is.</P
+><DIV
+CLASS="QANDASET"
+><DL
+><DT
+>1. <A
+HREF="NTP-a-faq.htm#AEN241"
+>Updating the <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+></A
+></DT
+><DD
+><DL
+><DT
+>1.1.1. <A
+HREF="NTP-a-faq.htm#Q-META-UPDATE"
+>Where can I get a new version of this document?</A
+></DT
+><DT
+>1.1.2. <A
+HREF="NTP-a-faq.htm#AEN292"
+>When will a new version of this document be
+available?</A
+></DT
+></DL
+></DD
+><DT
+>2. <A
+HREF="NTP-a-faq.htm#D-META-NAMING"
+>Naming</A
+></DT
+><DD
+><DL
+><DT
+>1.2.1. <A
+HREF="NTP-a-faq.htm#AEN301"
+>Why is this Document named <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+>?</A
+></DT
+><DT
+>1.2.2. <A
+HREF="NTP-a-faq.htm#AEN309"
+>Why is this Document named
+<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>HOWTO</SPAN
+></SPAN
+>?</A
+></DT
+></DL
+></DD
+><DT
+>3. <A
+HREF="NTP-a-faq.htm#D-META-POLICY"
+>Policies</A
+></DT
+><DD
+><DL
+><DT
+>1.3.1. <A
+HREF="NTP-a-faq.htm#AEN322"
+>Why can't I find information about ... in this
+<ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+>?</A
+></DT
+><DT
+>1.3.2. <A
+HREF="NTP-a-faq.htm#AEN334"
+>Where should a new Entry be put?</A
+></DT
+></DL
+></DD
+><DT
+>4. <A
+HREF="NTP-a-faq.htm#D-META-CONTRIB"
+>Making Contributions</A
+></DT
+><DD
+><DL
+><DT
+>1.4.1. <A
+HREF="NTP-a-faq.htm#AEN346"
+>Why should I contribute?</A
+></DT
+><DT
+>1.4.2. <A
+HREF="NTP-a-faq.htm#Q-HOWTO-CONTRIBUTE"
+>How can I contribute?</A
+></DT
+><DT
+>1.4.3. <A
+HREF="NTP-a-faq.htm#Q-FAQ-SOURCE"
+>In what format should I send contributions?</A
+></DT
+><DT
+>1.4.4. <A
+HREF="NTP-a-faq.htm#AEN395"
+>Where should I send Contributions?</A
+></DT
+><DT
+>1.4.5. <A
+HREF="NTP-a-faq.htm#AEN405"
+>I contributed to this <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+>, but my name is not mentioned
+anywhere.  What's wrong?</A
+></DT
+><DT
+>1.4.6. <A
+HREF="NTP-a-faq.htm#Q-WHY-DOCBOOK"
+>Why <ACRONYM
+CLASS="ACRONYM"
+>SGML</ACRONYM
+> and
+<SPAN
+CLASS="PRODUCTNAME"
+>DocBook</SPAN
+>?</A
+></DT
+><DT
+>1.4.7. <A
+HREF="NTP-a-faq.htm#AEN442"
+>How can I process the <ACRONYM
+CLASS="ACRONYM"
+>SGML</ACRONYM
+> source file?</A
+></DT
+></DL
+></DD
+><DT
+>5. <A
+HREF="NTP-a-faq.htm#D-META-APPEARANCE"
+>Appearance</A
+></DT
+><DD
+><DL
+><DT
+>1.5.1. <A
+HREF="NTP-a-faq.htm#Q-META-CSS-STYLE"
+>I don't like the look of the <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+>.  What can I
+do?</A
+></DT
+><DT
+>1.5.2. <A
+HREF="NTP-a-faq.htm#Q-WHICH-BROWSER"
+>Which Browser is required to read this?</A
+></DT
+><DT
+>1.5.3. <A
+HREF="NTP-a-faq.htm#AEN539"
+>Why are Graphics stored in <ACRONYM
+CLASS="ACRONYM"
+>PNG</ACRONYM
+>
+Format?</A
+></DT
+><DT
+>1.5.4. <A
+HREF="NTP-a-faq.htm#AEN549"
+>Why are some Fonts that huge?</A
+></DT
+><DT
+>1.5.5. <A
+HREF="NTP-a-faq.htm#AEN557"
+>Why are there no Frames?</A
+></DT
+><DT
+>1.5.6. <A
+HREF="NTP-a-faq.htm#AEN562"
+>Why isn't there fancy Script Code?</A
+></DT
+></DL
+></DD
+></DL
+><DIV
+CLASS="QANDADIV"
+><H3
+><A
+NAME="AEN241"
+></A
+>1. Updating the <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+></H3
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="Q-META-UPDATE"
+></A
+><B
+>1.1.1. </B
+>Where can I get a new version of this document?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>The following procedure, developed for the <SPAN
+CLASS="PRODUCTNAME"
+>UNIX</SPAN
+> operating
+system, should provide you with the current version of this document:</P
+><DIV
+CLASS="PROCEDURE"
+><OL
+TYPE="1"
+><LI
+CLASS="STEP"
+><P
+>Make sure you have a working version of
+<ACRONYM
+CLASS="ACRONYM"
+>CVS</ACRONYM
+> for your operating system, and that you can make
+connections to the <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Internet</SPAN
+></SPAN
+>.</P
+><OL
+CLASS="SUBSTEPS"
+TYPE="a"
+><LI
+CLASS="STEP"
+><P
+>If you are going to update an existing version,
+you may directly jump to <A
+HREF="NTP-a-faq.htm#FAQ-STEP-CVS-UPDATE"
+>step 5</A
+>.</P
+></LI
+></OL
+></LI
+><LI
+CLASS="STEP"
+><P
+>For convenience let's set a variable in the shell
+using either <KBD
+CLASS="USERINPUT"
+>set
+FAQREPO=:pserver:anoncvs@www.ntp.org:/cvs/ntp</KBD
+> for the C shell, or
+<KBD
+CLASS="USERINPUT"
+>FAQREPO=:pserver:anoncvs@www.ntp.org:/cvs/ntp</KBD
+> for
+<ACRONYM
+CLASS="ACRONYM"
+>POSIX</ACRONYM
+> compatible shells.</P
+></LI
+><LI
+CLASS="STEP"
+><P
+>Log in to the <ACRONYM
+CLASS="ACRONYM"
+>NTP</ACRONYM
+> repository using
+<KBD
+CLASS="USERINPUT"
+>cvs -d $FAQREPO login</KBD
+>.  The password is
+<TT
+CLASS="LITERAL"
+>anoncvs</TT
+>.  This will allow further commands.</P
+></LI
+><LI
+CLASS="STEP"
+><P
+>Create a subdirectory with all the files using
+<KBD
+CLASS="USERINPUT"
+>cvs -d $FAQREPO checkout ntpfaq</KBD
+>.  Please consult the
+documentation on <ACRONYM
+CLASS="ACRONYM"
+>CVS</ACRONYM
+> for details and available
+options.</P
+></LI
+><LI
+CLASS="STEP"
+><A
+NAME="FAQ-STEP-CVS-UPDATE"
+></A
+><P
+>To save time and bandwidth when updating, simply
+change to the directory containing the <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+> and type <KBD
+CLASS="USERINPUT"
+>cvs
+update</KBD
+>.  That command will update your files according to the
+repository.</P
+></LI
+></OL
+></DIV
+><P
+>An online version should be available at <A
+HREF="http://www.ntp.org/ntpfaq/"
+TARGET="_top"
+><TT
+CLASS="LITERAL"
+>http://www.ntp.org/ntpfaq/</TT
+></A
+>.  The
+current top-level file is <TT
+CLASS="FILENAME"
+>NTP-a-faq.htm</TT
+>.<A
+NAME="FTN-VOLATILE-URL"
+HREF="#FTN.FTN-VOLATILE-URL"
+><SPAN
+CLASS="footnote"
+>[1]</SPAN
+></A
+></P
+><P
+>Please note that checking out the <ACRONYM
+CLASS="ACRONYM"
+>CVS</ACRONYM
+>
+sources will provide the <ACRONYM
+CLASS="ACRONYM"
+>SGML</ACRONYM
+> sources as well as the <ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+>
+pages.  I cannot make a statement about what will be available via
+<ACRONYM
+CLASS="ACRONYM"
+>HTTP</ACRONYM
+>, but I expect that only the <ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+> files are there, and
+listing the directory will not work.</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN292"
+></A
+><B
+>1.1.2. </B
+>When will a new version of this document be
+available?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>I edit this document in my spare time.  My spare time is
+quite rare.  Therefore I rely on contributions to improve this work (see <A
+HREF="NTP-a-faq.htm#Q-HOWTO-CONTRIBUTE"
+>Q: 1.4.2.</A
+>).  Feel free to contact me if you want to make a
+contribution.</P
+><P
+>I hope to update this document as soon as important new stuff
+is available.  The same applies for severe bug fixes.</P
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="QANDADIV"
+><H3
+><A
+NAME="D-META-NAMING"
+></A
+>2. Naming</H3
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN301"
+></A
+><B
+>1.2.1. </B
+>Why is this Document named <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+>?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>This document tries to answer <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>frequently asked
+questions</SPAN
+></SPAN
+> (<ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+>s) that can not (at least virtually) be answered
+easily from the standard documentation.</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN309"
+></A
+><B
+>1.2.2. </B
+>Why is this Document named
+<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>HOWTO</SPAN
+></SPAN
+>?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>In addition to just answering questions that users had, this
+document also tries to give a gentle introduction and guidelines to the
+newcomer.  The authors believe that it's better to use <ACRONYM
+CLASS="ACRONYM"
+>NTP</ACRONYM
+> correctly right
+from the start rather than fixing all the problems after they occur.</P
+><P
+><SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Gentle</SPAN
+></SPAN
+> in the paragraph above means
+<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>not too technical</SPAN
+></SPAN
+> and <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>not too theoretical</SPAN
+></SPAN
+>.
+However some basic, non-trivial understanding of real-life is required at
+several points, so please accept these deviations from the goal.</P
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="QANDADIV"
+><H3
+><A
+NAME="D-META-POLICY"
+></A
+>3. Policies</H3
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN322"
+></A
+><B
+>1.3.1. </B
+>Why can't I find information about ... in this
+<ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+>?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>Unless it simply has not been written yet, there may be other
+reasons:</P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>The editors don't want to copy documentation that is
+publicly available already.  This is especially true for standards,
+specifications and manuals.  The editors think that referring is better than
+copying.  The intention is to avoid redundancy while saving labour at the same
+time.</P
+></LI
+><LI
+><P
+>Either the problem or the solution is too vague to
+document it.  This is true for very special configurations that are not at all
+common.  After all, we want to answer <SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>frequently</I
+></SPAN
+> asked
+questions here.</P
+></LI
+></OL
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN334"
+></A
+><B
+>1.3.2. </B
+>Where should a new Entry be put?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>The answer to this question is quite delicate!  The
+guidelines are probably these:</P
+><P
+></P
+><UL
+><LI
+><P
+>Try to understand the existing structure of the
+document.</P
+></LI
+><LI
+><P
+>If there are similar entries there already, see where
+the new one fits best.  Usually it's right near the existing one, or in a
+corresponding section.  Possibly it makes sense to create a new section or
+division.</P
+></LI
+></UL
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="QANDADIV"
+><H3
+><A
+NAME="D-META-CONTRIB"
+></A
+>4. Making Contributions</H3
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN346"
+></A
+><B
+>1.4.1. </B
+>Why should I contribute?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>In <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>the good old times</SPAN
+></SPAN
+> the <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Internet</SPAN
+></SPAN
+> was a
+valuable source of information, and people were happy to share their
+knowledge.  These days, however, people think of <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>E-Commerce</SPAN
+></SPAN
+>,
+how to make money.</P
+><P
+>I started writing this <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+> not to make money, but to have a
+reference to refer to.  Thus I hope I'll be able to provide the needed
+information to more people more quickly.  Unfortunately I do not know
+everything.  So if you have solved some problem that may be of interest to
+other people as well, please share your experience.</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="Q-HOWTO-CONTRIBUTE"
+></A
+><B
+>1.4.2. </B
+>How can I contribute?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>Contributions are very much appreciated.  Depending on your
+possibilities you can:</P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>Tell me about some error or incomplete information given.
+I call it a <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>minor contribution</SPAN
+></SPAN
+>.  If you want to be listed in
+the hall of fame (also called <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>credits</SPAN
+></SPAN
+>), just tell me when
+contributing.  If you prefer anonymous contributions, they are welcome just the
+same.</P
+></LI
+><LI
+><P
+>You can suggest an addition consisting of a question
+together with its answer.  I call this a <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>major contribution</SPAN
+></SPAN
+>.
+Major contributions are definitely worth being listed as
+<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>author</SPAN
+></SPAN
+> in the header of the document if you like.  Of course
+you can <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>downgrade</SPAN
+></SPAN
+> your contribution to plain
+<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>credits</SPAN
+></SPAN
+> or nothing if you prefer.</P
+><P
+>Contributions are accepted in any format, but I prefer
+plain <ACRONYM
+CLASS="ACRONYM"
+>US-ASCII</ACRONYM
+> or <ACRONYM
+CLASS="ACRONYM"
+>ISO-8859-1</ACRONYM
+>.  If you can
+avoid it, don't send files in some text processing format.</P
+></LI
+><LI
+><P
+>Supplying a valid patch against the source of this
+document will make the most appreciated contribution.  This allows you to be
+listed as <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>co-author</SPAN
+></SPAN
+>.  As before, you can downgrade your
+contribution as you like.  For details see <A
+HREF="NTP-a-faq.htm#Q-FAQ-SOURCE"
+><I
+><I
+>In what format should I send contributions?</I
+></I
+></A
+>.</P
+></LI
+></OL
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="Q-FAQ-SOURCE"
+></A
+><B
+>1.4.3. </B
+>In what format should I send contributions?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>This document is most likely not written in the format you
+are seeing.  The document source is written in <ACRONYM
+CLASS="ACRONYM"
+>SGML</ACRONYM
+>
+(<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Structure Generalized Markup Language</SPAN
+></SPAN
+>,
+<ACRONYM
+CLASS="ACRONYM"
+>ISO-8879</ACRONYM
+>) using the <SPAN
+CLASS="PRODUCTNAME"
+>DocBook</SPAN
+>
+<ACRONYM
+CLASS="ACRONYM"
+>DTD</ACRONYM
+> (<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Document Type Definition</SPAN
+></SPAN
+>).  Therefore
+the source document has a rather fixed structure, much unlike <ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+>.  See also
+<A
+HREF="NTP-a-faq.htm#Q-WHY-DOCBOOK"
+>Q: 1.4.6.</A
+>.</P
+><P
+>So the essence is: Try to learn writing documents conforming
+to the DocBook <ACRONYM
+CLASS="ACRONYM"
+>DTD</ACRONYM
+>.  In the meantime I'll do my best
+converting your input to the proper format (See the more general discussion in
+<A
+HREF="NTP-a-faq.htm#Q-HOWTO-CONTRIBUTE"
+><I
+><I
+>How can I contribute?</I
+></I
+></A
+>).</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN395"
+></A
+><B
+>1.4.4. </B
+>Where should I send Contributions?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>The sources controlled by <SPAN
+CLASS="PRODUCTNAME"
+>CVS</SPAN
+> can
+be updated by various people, but contributions should be sent to the currently
+defined editor.  Every <ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+> file contains a
+<TT
+CLASS="LITERAL"
+>mailto:</TT
+> hyperlink to the editor.  Many browsers allow
+sending comments to the author that way.  Another method is to visit the file
+<TT
+CLASS="FILENAME"
+>ChangeLog</TT
+> found where the sources are (See <A
+HREF="NTP-a-faq.htm#Q-META-UPDATE"
+>Q: 1.1.1.</A
+>).</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN405"
+></A
+><B
+>1.4.5. </B
+>I contributed to this <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+>, but my name is not mentioned
+anywhere.  What's wrong?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>Probably the fault of the editor.  Maybe he thought you don't
+want to be listed, or he simply forgot.  <A
+HREF="NTP-a-faq.htm#S-CREDITS"
+>Section 1.1</A
+> shows the
+names the editor was aware of.</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="Q-WHY-DOCBOOK"
+></A
+><B
+>1.4.6. </B
+>Why <ACRONYM
+CLASS="ACRONYM"
+>SGML</ACRONYM
+> and
+<SPAN
+CLASS="PRODUCTNAME"
+>DocBook</SPAN
+>?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>Well, I'm not getting paid for my work, so I tried to learn
+something new while writing this piece of documentation.
+<ACRONYM
+CLASS="ACRONYM"
+>SGML</ACRONYM
+> is one of the dinosaurs of information technology, an
+endangered species that may be killed by the more agile
+<ACRONYM
+CLASS="ACRONYM"
+>XML</ACRONYM
+>.  So maybe feeding dinosaurs is just cool.</P
+><P
+><SPAN
+CLASS="PRODUCTNAME"
+>DocBook</SPAN
+> is just another monster
+that is used by even larger monsters like <ACRONYM
+CLASS="ACRONYM"
+>HP</ACRONYM
+> for
+documentation.  Definitely it's also animal, because it's used by O'Reilly
+&amp; Associates, Inc.<A
+NAME="AEN423"
+HREF="#FTN.AEN423"
+><SPAN
+CLASS="footnote"
+>[2]</SPAN
+></A
+>
+Finally it's an open technology: All specifications (and many tools) are freely
+available.</P
+><P
+>Specific output formats are generated by applying
+<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>style sheets</SPAN
+></SPAN
+> within a framework consisting of <A
+HREF="NTP-a-faq.htm#AU-JJC"
+>James Clark</A
+>'s <ACRONYM
+CLASS="ACRONYM"
+>JADE</ACRONYM
+> (<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>James'
+<ACRONYM
+CLASS="ACRONYM"
+>DSSSL</ACRONYM
+> Engine</SPAN
+></SPAN
+>) and <A
+HREF="NTP-a-faq.htm#AU-NDW"
+>Norman Walsh</A
+>'s
+<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Modular DocBook Stylesheets</SPAN
+></SPAN
+>.  While this document probably
+will be used mostly in <ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+> format, other formats like
+<SPAN
+CLASS="PRODUCTNAME"
+>TeX</SPAN
+> and <ACRONYM
+CLASS="ACRONYM"
+>RTF</ACRONYM
+> (<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Rich Text
+Format</SPAN
+></SPAN
+>) can be generated as well.</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN442"
+></A
+><B
+>1.4.7. </B
+>How can I process the <ACRONYM
+CLASS="ACRONYM"
+>SGML</ACRONYM
+> source file?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>I'm editing this document with the <SPAN
+CLASS="SYSTEMITEM"
+>Linux</SPAN
+>/<ACRONYM
+CLASS="ACRONYM"
+>GNU</ACRONYM
+> operating
+system.  Most Linux distributions come with the required tools.  In my
+distribution these tools are in the following packages:</P
+><P
+></P
+><TABLE
+BORDER="0"
+><TBODY
+><TR
+><TD
+><TT
+CLASS="FILENAME"
+>emacs</TT
+> (<SPAN
+CLASS="PRODUCTNAME"
+>GNU
+Emacs</SPAN
+>, the editor)</TD
+></TR
+><TR
+><TD
+><TT
+CLASS="FILENAME"
+>docbook_4</TT
+> (The DocBook
+<ACRONYM
+CLASS="ACRONYM"
+>DTD</ACRONYM
+> and related files)</TD
+></TR
+><TR
+><TD
+><TT
+CLASS="FILENAME"
+>docbook-dsssl-stylesheets</TT
+> (The
+modular style sheets for DocBook)</TD
+></TR
+><TR
+><TD
+><TT
+CLASS="FILENAME"
+>openjade</TT
+> (OpenJade, the follow-up to
+Jade by James Clark's <ACRONYM
+CLASS="ACRONYM"
+>DSSSL</ACRONYM
+>-Engine for
+<ACRONYM
+CLASS="ACRONYM"
+>SGML</ACRONYM
+> Documents)</TD
+></TR
+><TR
+><TD
+><TT
+CLASS="FILENAME"
+>opensp</TT
+> (The OpenJade Group's
+<ACRONYM
+CLASS="ACRONYM"
+>SGML</ACRONYM
+> and <ACRONYM
+CLASS="ACRONYM"
+>XML</ACRONYM
+> Parsing Tools)</TD
+></TR
+><TR
+><TD
+><TT
+CLASS="FILENAME"
+>psgml</TT
+> (Provides
+<ACRONYM
+CLASS="ACRONYM"
+>SGML</ACRONYM
+> knowledge for Emacs.  I would not survive without
+that!)</TD
+></TR
+></TBODY
+></TABLE
+><P
+></P
+><P
+>You might want to have a look at these packages as well:
+<TT
+CLASS="LITERAL"
+>docbook-css-stylesheets</TT
+>, <TT
+CLASS="LITERAL"
+>docbook-tdg</TT
+> (DocBook: The Definitive
+Guide)</P
+><P
+>So if you want to edit and validate any changes you are
+making, try to get the equivalent tools for your operating system as well.  If
+you like the pain, you can use these tools on <SPAN
+CLASS="TRADEMARK"
+>Microsoft
+Windows</SPAN
+>&#8482; as well.</P
+><P
+>Basically the command to generate <ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+> files is
+<KBD
+CLASS="USERINPUT"
+>jade -t sgml -d NTP-FAQ.dsl#html NTP-FAQ.sgml</KBD
+> where the
+environment contains these special settings:</P
+><PRE
+CLASS="SCREEN"
+>SGML_CATALOG_FILES=SGML_CATALOG_FILES=/var/lib/sgml/CATALOG.docbook_4
+SGML_SEARCH_PATH=/usr/share/sgml/docbook/dsssl-stylesheets/html</PRE
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="QANDADIV"
+><H3
+><A
+NAME="D-META-APPEARANCE"
+></A
+>5. Appearance</H3
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="Q-META-CSS-STYLE"
+></A
+><B
+>1.5.1. </B
+>I don't like the look of the <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+>.  What can I
+do?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>You are lucky: Actually the source of the <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+> uses no
+formatting rules at all, even the <ACRONYM
+CLASS="ACRONYM"
+>DSSSL</ACRONYM
+> code relies on
+<ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+> classes and style sheets to do the rendering.  All properties like
+borders, colours, and font attributes are taken from a <SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>cascading style
+sheet</SPAN
+></SPAN
+> (<ACRONYM
+CLASS="ACRONYM"
+>CSS</ACRONYM
+>).</P
+><P
+>In practice, this means you don't have to change the <ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+>
+source to change the appearance.  Instead simply provide your favourite user
+style sheet to do the formatting.  If you prefer no fancy attributes at all,
+just empty the <TT
+CLASS="FILENAME"
+>docbook.css</TT
+> file.<A
+NAME="AEN497"
+HREF="#FTN.AEN497"
+><SPAN
+CLASS="footnote"
+>[3]</SPAN
+></A
+></P
+><P
+>If the output looks extraordinarily odd, you may have a
+broken <ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+> browser.  See also <A
+HREF="NTP-a-faq.htm#Q-WHICH-BROWSER"
+>Q: 1.5.2.</A
+>.</P
+><P
+>If you think colours are inconsistently chosen, please make a
+suggestion for future improvement.  If you dislike single colours or
+combinations thereof, please suggest a change.  Doing that job is more an art
+than a science.</P
+><P
+>I'm aware that some elements are not rendered the best
+possibly way.  As I don't waste much time (at least not even more time) with
+rendering of elements, I strongly rely on <A
+HREF="NTP-a-faq.htm#AU-NDW"
+>Norman Walsh</A
+>'s competence
+in <ACRONYM
+CLASS="ACRONYM"
+>JADE</ACRONYM
+> programming.  I'm hoping that things will improve
+over time.</P
+><DIV
+CLASS="EXAMPLE"
+><A
+NAME="AEN506"
+></A
+><P
+><B
+>Example 1. Style Sheet Entry</B
+></P
+><PRE
+CLASS="SCREEN"
+>*.ACRONYM { color: #5838d0 }</PRE
+><P
+>This entry causes all <ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+> elements with attribute
+<TT
+CLASS="LITERAL"
+>class=ACRONYM</TT
+> (i.e. all acronyms) to be output in a kind of
+royal blue.  The example shown does not use official <ACRONYM
+CLASS="ACRONYM"
+>WWW</ACRONYM
+>
+colours.  It's strongly recommended to use official colours for
+portability.</P
+></DIV
+><P
+>If your browser goes mad, and your vendor allows you to
+report bugs, feel free to report the problems to them.  If you think I went
+mad, feel free to tell me too ;-)</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="Q-WHICH-BROWSER"
+></A
+><B
+>1.5.2. </B
+>Which Browser is required to read this?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>This <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+> is intended to be read with the famous <SPAN
+CLASS="QUOTE"
+>"any
+browser"</SPAN
+>.  It means that standard <ACRONYM
+CLASS="ACRONYM"
+>HTML</ACRONYM
+> is used,
+omitting any fancy extensions.  Still individual browsers may implement
+different subsets of the standard.</P
+><P
+>I usually test the output using the following
+browsers in <SPAN
+CLASS="SYSTEMITEM"
+>Linux</SPAN
+> (roughly ordered by fanciness):</P
+><P
+></P
+><TABLE
+BORDER="0"
+><TBODY
+><TR
+><TD
+><SPAN
+CLASS="PRODUCTNAME"
+>Mozilla</SPAN
+> (<A
+HREF="http://www.mozilla.org/releases/"
+TARGET="_top"
+><TT
+CLASS="LITERAL"
+>http://www.mozilla.org/releases/</TT
+></A
+>)</TD
+></TR
+><TR
+><TD
+><SPAN
+CLASS="PRODUCTNAME"
+>Amaya</SPAN
+></TD
+></TR
+><TR
+><TD
+><SPAN
+CLASS="PRODUCTNAME"
+>w3m</SPAN
+> (text-oriented, supports
+tables)</TD
+></TR
+><TR
+><TD
+><SPAN
+CLASS="PRODUCTNAME"
+>Emacs/W3</SPAN
+> (text-oriented,
+supports tables)</TD
+></TR
+><TR
+><TD
+><SPAN
+CLASS="PRODUCTNAME"
+>Lynx</SPAN
+> (text-oriented,
+<B
+CLASS="COMMAND"
+>vi</B
+>-like)</TD
+></TR
+></TBODY
+></TABLE
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN539"
+></A
+><B
+>1.5.3. </B
+>Why are Graphics stored in <ACRONYM
+CLASS="ACRONYM"
+>PNG</ACRONYM
+>
+Format?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>The popular <ACRONYM
+CLASS="ACRONYM"
+>GIF</ACRONYM
+> format supported by many
+browsers relies on a compression algorithm that is patented, and the owner of
+the patent wants to receive money from everyone making <ACRONYM
+CLASS="ACRONYM"
+>GIF</ACRONYM
+>
+files.  <ACRONYM
+CLASS="ACRONYM"
+>PNG</ACRONYM
+> (<SPAN
+CLASS="phrase"
+><SPAN
+CLASS="PHRASE"
+>Portable Network Graphics</SPAN
+></SPAN
+>)
+uses a different algorithm for compression and does not require payment.</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN549"
+></A
+><B
+>1.5.4. </B
+>Why are some Fonts that huge?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+><SPAN
+CLASS="PRODUCTNAME"
+>Netscape Navigator</SPAN
+> (e.g. version
+4.74) seems to have a bug with relative font scaling.  Try to disable using
+stylesheets, or try a recent <SPAN
+CLASS="PRODUCTNAME"
+>Mozilla</SPAN
+>.  See also
+<A
+HREF="NTP-a-faq.htm#Q-META-CSS-STYLE"
+>Q: 1.5.1.</A
+>.</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN557"
+></A
+><B
+>1.5.5. </B
+>Why are there no Frames?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>Sorry, I have my daily frustration with frames, so I don't
+want any more.  Despite of that I think that most frames just consume valuable
+space on either your screen or on your print-out.</P
+></DIV
+></DIV
+><DIV
+CLASS="QANDAENTRY"
+><DIV
+CLASS="QUESTION"
+><P
+><A
+NAME="AEN562"
+></A
+><B
+>1.5.6. </B
+>Why isn't there fancy Script Code?</P
+></DIV
+><DIV
+CLASS="ANSWER"
+><P
+><B
+> </B
+>Currently scripting is neither fast nor portable, so I don't
+use it.</P
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="S-CREDITS"
+>1.1. Credits</A
+></H2
+><BLOCKQUOTE
+CLASS="ABSTRACT"
+><DIV
+CLASS="ABSTRACT"
+><P
+></P
+><A
+NAME="AEN568"
+></A
+><P
+>If you contributed to this <ACRONYM
+CLASS="ACRONYM"
+>FAQ</ACRONYM
+>, and you could not find your name
+elsewhere, this is where it should be.</P
+><P
+></P
+></DIV
+></BLOCKQUOTE
+><P
+>This is an alphabetical list of contributors:</P
+>Michael Andres <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:ma@suse.de"
+>ma@suse.de</A
+>&#62;</CODE
+>, Tom Van Baak <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:tvb@veritas.com"
+>tvb@veritas.com</A
+>&#62;</CODE
+>, Wolfgang Barth <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:wob@swobspace.rhein.de"
+>wob@swobspace.rhein.de</A
+>&#62;</CODE
+>, Lyle Batema <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:Lyle_Batema@Trimble.COM"
+>Lyle_Batema@Trimble.COM</A
+>&#62;</CODE
+>, Eric W. Bates <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:ericx@vineyard.net"
+>ericx@vineyard.net</A
+>&#62;</CODE
+>, Brian Bergstrand <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:brianb@mac.com"
+>brianb@mac.com</A
+>&#62;</CODE
+>, Peter Boettcher <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:boettcher@ll.mit.edu"
+>boettcher@ll.mit.edu</A
+>&#62;</CODE
+>, Marc Brett <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:Marc.Brett@westgeo.com"
+>Marc.Brett@westgeo.com</A
+>&#62;</CODE
+>, Bill Broadley <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:bill@sphere.math.ucdavis.edu"
+>bill@sphere.math.ucdavis.edu</A
+>&#62;</CODE
+>, Martin Burnicki <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:martin.burnicki@meinberg.de"
+>martin.burnicki@meinberg.de</A
+>&#62;</CODE
+>, Jonathan A. Buzzard <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:jonathan@buzzard.org.uk"
+>jonathan@buzzard.org.uk</A
+>&#62;</CODE
+>, chunkeey <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:chunkeey@web.de"
+>chunkeey@web.de</A
+>&#62;</CODE
+>, James Clark, David Craggs <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:dcraggs@gotadsl.co.uk"
+>dcraggs@gotadsl.co.uk</A
+>&#62;</CODE
+>, David Dalton, John DeDourek, Sven Dietrich <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:Sven_Dietrich@Trimble.COM"
+>Sven_Dietrich@Trimble.COM</A
+>&#62;</CODE
+>, Casper H. Dik, John K. Doyle, Jr., Daniel Drucker <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:ddrucker@easylink.com"
+>ddrucker@easylink.com</A
+>&#62;</CODE
+>, Arthur Darren Dunham <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:add@netcom.com"
+>add@netcom.com</A
+>&#62;</CODE
+>, Philippe Eveque <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:philippe_eveque@grenoble.hp.com"
+>philippe_eveque@grenoble.hp.com</A
+>&#62;</CODE
+>, Jürgen Georgi <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:georgi@BelWue.DE"
+>georgi@BelWue.DE</A
+>&#62;</CODE
+>, Tim Granger <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:Tim.Granger@cl.cam.ac.uk"
+>Tim.Granger@cl.cam.ac.uk</A
+>&#62;</CODE
+>, Benjamin Greenwald <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:beng@lcs.mit.edu"
+>beng@lcs.mit.edu</A
+>&#62;</CODE
+>, James &#38; Charlotte Griffin <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:agriffin@cpcug.org"
+>agriffin@cpcug.org</A
+>&#62;</CODE
+>, Richard M. Hambly <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:rick@cnssys.com"
+>rick@cnssys.com</A
+>&#62;</CODE
+>, John Hay <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:John.Hay@mikom.csir.co.za"
+>John.Hay@mikom.csir.co.za</A
+>&#62;</CODE
+>, Per Hedeland <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:per@erix.ericsson.se"
+>per@erix.ericsson.se</A
+>&#62;</CODE
+>, Kees Hendrikse <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:kees@echelon.nl"
+>kees@echelon.nl</A
+>&#62;</CODE
+>, Martin Herbener <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:mherbene@kde.state.ky.us"
+>mherbene@kde.state.ky.us</A
+>&#62;</CODE
+>, Doug Hogarth <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:DougHo@niceties.com"
+>DougHo@niceties.com</A
+>&#62;</CODE
+>, Andrew Hood, Theo Jakobus <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:jakobus@iaf.fhg.de"
+>jakobus@iaf.fhg.de</A
+>&#62;</CODE
+>, Nicholas Jenkins <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:njenkins@mad.scientist.com"
+>njenkins@mad.scientist.com</A
+>&#62;</CODE
+>, Poul-Henning Kamp <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:phk@freebsd.dk"
+>phk@freebsd.dk</A
+>&#62;</CODE
+>, James Kirkpatrick <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:jimkirk@uwyo.edu"
+>jimkirk@uwyo.edu</A
+>&#62;</CODE
+>, Wolfgang Klische, Steve Kostecke <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:kostecke@ntp.org"
+>kostecke@ntp.org</A
+>&#62;</CODE
+>, Markus Kuhn <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:mgk25@cl.cam.ac.uk"
+>mgk25@cl.cam.ac.uk</A
+>&#62;</CODE
+>, Anand Kumria <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:akumria@acm.org"
+>akumria@acm.org</A
+>&#62;</CODE
+>, Judah Levine, Mark Martinec <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:mark.martinec@ijs.si"
+>mark.martinec@ijs.si</A
+>&#62;</CODE
+>, Terje Mathisen <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:Terje.Mathisen@hda.hydro.com"
+>Terje.Mathisen@hda.hydro.com</A
+>&#62;</CODE
+>, Frank Mayhar <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:frank@exit.com"
+>frank@exit.com</A
+>&#62;</CODE
+>, Professor David L. Mills <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:mills@udel.edu"
+>mills@udel.edu</A
+>&#62;</CODE
+>, Nelson Minar <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:nelson@media.mit.edu"
+>nelson@media.mit.edu</A
+>&#62;</CODE
+>, Jeffrey Mogul <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:mogul@pa.dec.com"
+>mogul@pa.dec.com</A
+>&#62;</CODE
+>, Hal Murray <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:hmurray@suespammers.org"
+>hmurray@suespammers.org</A
+>&#62;</CODE
+>, Dirk A. Niggemann <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:dirk-n@dircon.co.uk"
+>dirk-n@dircon.co.uk</A
+>&#62;</CODE
+>, Mike Nolan <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:mikeynolan@my-deja.com"
+>mikeynolan@my-deja.com</A
+>&#62;</CODE
+>, Johan Fredrik Øhman <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:johanfo@essay.org"
+>johanfo@essay.org</A
+>&#62;</CODE
+>, Rainer Orth <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:ro@TechFak.Uni-Bielefeld.DE"
+>ro@TechFak.Uni-Bielefeld.DE</A
+>&#62;</CODE
+>, Don Payette, William R. Pennock <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:bill.pennock@transquest.com"
+>bill.pennock@transquest.com</A
+>&#62;</CODE
+>, Bruce M. Penrod <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:bpenrod@nbn.com"
+>bpenrod@nbn.com</A
+>&#62;</CODE
+>, Nicolai E M Plum <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:nicolai@esperi.org"
+>nicolai@esperi.org</A
+>&#62;</CODE
+>, John Sager <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:jcs@zoo.bt.co.uk"
+>jcs@zoo.bt.co.uk</A
+>&#62;</CODE
+>, Hans P. Reiser, Thomas Schulz <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:schulz@adi.com"
+>schulz@adi.com</A
+>&#62;</CODE
+>, Michael Sinatra <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:msinatra@uclink4.berkeley.edu"
+>msinatra@uclink4.berkeley.edu</A
+>&#62;</CODE
+>, Greg Smith <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:Greg.Smith@ci.seattle.wa.us"
+>Greg.Smith@ci.seattle.wa.us</A
+>&#62;</CODE
+>, Johan Swenker <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:Johan.Swenker@HetNet.NL"
+>Johan.Swenker@HetNet.NL</A
+>&#62;</CODE
+>, Vladimir Smotlacha <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:vs@cesnet.cz"
+>vs@cesnet.cz</A
+>&#62;</CODE
+>, Harlan Stenn <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:stenn@whimsy.udel.edu"
+>stenn@whimsy.udel.edu</A
+>&#62;</CODE
+>, David J. Taylor <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:david-taylor@blueyonder.co.uk"
+>david-taylor@blueyonder.co.uk</A
+>&#62;</CODE
+>, George Terrone <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:gterrone@itsco.com"
+>gterrone@itsco.com</A
+>&#62;</CODE
+>, Thomas Tornblom, Scott Tuttle <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:scott@crampinhand.com"
+>scott@crampinhand.com</A
+>&#62;</CODE
+>, Brian Utterback <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:Brian.Utterback@East.Sun.COM"
+>Brian.Utterback@East.Sun.COM</A
+>&#62;</CODE
+>, Gilles Vollant, Norman Walsh <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:ndw@nwalsh.com"
+>ndw@nwalsh.com</A
+>&#62;</CODE
+>, David Woolley <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:david@djwhome.demon.co.uk"
+>david@djwhome.demon.co.uk</A
+>&#62;</CODE
+>, Dale R. Worley <CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:worley@shell01.TheWorld.com"
+>worley@shell01.TheWorld.com</A
+>&#62;</CODE
+></DIV
+></DIV
+></DIV
+><H3
+CLASS="FOOTNOTES"
+>Notes</H3
+><TABLE
+BORDER="0"
+CLASS="FOOTNOTES"
+WIDTH="100%"
+><TR
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="5%"
+><A
+NAME="FTN.FTN-VOLATILE-URL"
+HREF="NTP-a-faq.htm#FTN-VOLATILE-URL"
+><SPAN
+CLASS="footnote"
+>[1]</SPAN
+></A
+></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="95%"
+><P
+>Although specified, there's no guarantee that the
+<ACRONYM
+CLASS="ACRONYM"
+>URI</ACRONYM
+> shown will be still valid in the future.  Important resource locations
+should not change if possible.  If they still do, share your complaints with
+the webmaster of the site, and forward the new or corrected <ACRONYM
+CLASS="ACRONYM"
+>URL</ACRONYM
+> to the
+editor.</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="5%"
+><A
+NAME="FTN.AEN423"
+HREF="NTP-a-faq.htm#AEN423"
+><SPAN
+CLASS="footnote"
+>[2]</SPAN
+></A
+></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="95%"
+><P
+>There's a book by
+<A
+HREF="NTP-a-faq.htm#AU-NDW"
+>Norman Walsh</A
+> called <I
+CLASS="CITETITLE"
+>DocBook: The
+definitive Guide</I
+> (ISBN 1-56592-580-7).  If you are really
+interested, you should have at least a look at the online version found at
+<A
+HREF="http://docbook.org"
+TARGET="_top"
+><TT
+CLASS="LITERAL"
+>http://docbook.org</TT
+></A
+>.</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="5%"
+><A
+NAME="FTN.AEN497"
+HREF="NTP-a-faq.htm#AEN497"
+><SPAN
+CLASS="footnote"
+>[3]</SPAN
+></A
+></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="95%"
+><P
+>Of course, this will only work if you have a local
+copy of the files.</P
+></TD
+></TR
+></TABLE
+><DIV
+CLASS="NAVFOOTER"
+><HR>This is the <A
+HREF="http://support.ntp.org/"
+>NTP home page</A
+> that some people like to see here</DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="NTP-s-time.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Time, what Time?</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

@@ -1,0 +1,517 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="must-revalidate" />
+<title>code-in</title>
+
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="../../global.css" type="text/css" />
+<link rel="stylesheet" href="../../style.css" type="text/css" />
+<link rel="stylesheet" href="../../local.css" type="text/css" />
+
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=projects%2Fcode-in&amp;do=edit" />
+
+
+
+
+</head>
+<body><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/toggle.js" type="text/javascript" charset="utf-8"></script><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/relativedate.js" type="text/javascript" charset="utf-8"></script>
+    <div id="centralHeader">
+      <div id="logo">
+        <a href="http://www.NetBSD.org/"><img src="http://www.NetBSD.org/images/NetBSD-smaller.png" alt="[NetBSD Logo]"/></a>
+        <div id="name"><a href="http://www.NetBSD.org/">The NetBSD Project</a></div>
+        <div id="slogan"><a href="http://www.NetBSD.org/">&ldquo;Of course it runs NetBSD&rdquo;</a></div>
+      </div>
+      <div id="headerTools">
+	<div id="headerSearch">
+
+<form method="get" action="https://wiki.netbsd.org/cgi-bin/ikiwiki" id="searchform">
+<div>
+<input class="whiteOnBlack" type="text" id="searchbox" name="P" value="Search" size="12" maxlength="255" onfocus="if(this.value==this.defaultValue ) this.value='';" /> <input type="submit" value="Search" />
+</div>
+</form>
+
+
+	</div>
+      </div>
+    </div>
+
+    <div id="navBar" role="navigation">
+	<span class="doNotDisplay">
+          Navigation:
+        </span>
+	<ul>
+	<li><a href="http://www.NetBSD.org/">
+		  WWW Home</a></li>
+	<li>
+	<a href="http://www.NetBSD.org/">
+		  News &amp; Media</a><ul>
+	<li><a href="http://www.NetBSD.org//changes/">
+		    Recent changes</a></li>
+	<li><a href="http://blog.NetBSD.org/">
+		    NetBSD blog</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/events.html">
+		    Events</a></li>
+	<li><a href="http://www.NetBSD.org/changes/rss.html">
+		    Feeds</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/about/">
+		  About</a><ul>
+	<li><a href="http://www.NetBSD.org/about/">
+		    NetBSD</a></li>
+	<li><a href="http://www.NetBSD.org/foundation/">
+		    The NetBSD Foundation</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/">
+		    Advocacy</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/docs/">
+		  Documentation</a><ul>
+	<li><a href="http://www.NetBSD.org/docs/misc/index.html">
+		    FAQ &amp; HOWTOs</a></li>
+	<li><a href="http://www.NetBSD.org/docs/guide/en/">
+		    The Guide</a></li>
+	<li><a href="http://man.NetBSD.org/">
+		    Manual pages</a></li>
+	<li><a href="http://wiki.NetBSD.org/">
+		    Wiki</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/support/">
+		  Support</a><ul>
+	<li><a href="http://www.NetBSD.org/support/send-pr.html">
+		    Problem report guide</a></li>
+	<li><a href="http://www.NetBSD.org/cgi-bin/sendpr.cgi?gndb=netbsd">
+		    Report a bug</a></li>
+	<li><a href="http://www.NetBSD.org/support/query-pr.html">
+		    Query bug database</a></li>
+	<li><a href="http://www.NetBSD.org/support/security/">
+		    Security</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/community/">
+		  Community</a><ul>
+	<li><a href="http://onetbsd.org/">
+		    Blogs</a></li>
+	<li><a href="http://www.NetBSD.org/mailinglists/">
+		    Mailing lists</a></li>
+	<li><a href="http://mail-index.NetBSD.org/">
+		    List archives</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/developers/">
+		  Developers</a><ul>
+	<li><a href="http://cvsweb.NetBSD.org/">
+		    Browse source</a></li>
+	<li><a href="http://nxr.NetBSD.org/">
+		    Cross-reference</a></li>
+	<li><a href="http://releng.NetBSD.org/">
+		    Release engineering</a></li>
+	<li><a href="http://wiki.NetBSD.org/projects/">
+		    Projects list</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/ports/">
+		  Ports</a><ul>
+	<li><a href="http://www.NetBSD.org/ports/history.html">
+		    History</a></li>
+	<li><a href="http://www.NetBSD.org/ports/emulators.html">
+		    Emulators</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.pkgsrc.org/">
+		Packages</a><ul>
+	<li><a href="http://www.pkgsrc.se/">
+		    Browse packages</a></li>
+	<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+		    Release engineering</a></li>
+	</ul>
+	</li>
+	</ul>
+    </div>
+ 
+      	  
+		  <div class="actions">
+		    <ul>
+			<li><a href="../../">Wiki Home</a></li>
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=projects%2Fcode-in&amp;do=edit" rel="nofollow">Edit</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=projects%2Fcode-in&amp;do=comment">Comment</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=projects%2Fcode-in&amp;do=getsource">Source</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/cvsweb/wikisrc/projects/code-in.mdwn">History</a></li>
+		      
+			<li><a href="../../wiki/new_page" rel="nofollow">New</a></li>
+		      
+			<li><a href="../../recentchanges/">RecentChanges</a></li>
+		      
+		    </ul>
+		  </div>
+    </div>
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+<a href="../../">NetBSD Wiki</a>/<a href="../">projects</a>/
+</span>
+<span class="title">
+code-in
+
+</span>
+</span><!--.header-->
+</div>
+</div>
+
+
+
+<div id="content">
+<p><strong>Contents</strong></p>
+
+<div class="toc">
+<ol>
+	<li class="L1"><a href="#index1h1">Google Code-In (GCI)</a>
+	</li>
+</ol>
+</div>
+
+
+<h1><a name="index1h1"></a>Google Code-In (GCI)</h1>
+
+<p>Google Code-In is a project like Google Summer Of Code. But this time, there are
+not university students, but 13-18 years old people the targeted audience.
+Previous Code-In organisations:
+ * <a href="http://www.google-melange.com/gci/accepted_orgs/google/gci2010">Code-In 2010</a>
+ * <a href="http://www.google-melange.com/gci/accepted_orgs/google/gci2011">Code-In 2011</a>
+ * <a href="http://www.google-melange.com/gci/accepted_orgs/google/gci2011">Code-In 2012</a></p>
+
+<p>Code-In differs from Summer Of Code also in not having a single task for one
+student, but creating a large number of tasks and then having the students pick
+the ones they want to work on. Thus, it is not suited for large projects, but
+for small tasks like writing howtos, fixing bugs.</p>
+
+<p>All the tasks should be completable within hours or up to three days. To get an
+idea of how much a single task should be and what kind of they could be, look
+at <a href="http://code.google.com/p/google-code-in/wiki/GCIExampleTasks">this page</a>.
+There is [information from Google]
+(http://code.google.com/p/google-code-in/wiki/GCIMentorInformation2012) about
+what is suitable as a task for Code-In.</p>
+
+<p><strong>NetBSD participated in Code-In 2012.</strong> You can find the results
+<a href="../code-in_2012/">here</a>. The status of integrating Code-In's work to NetBSD can
+also be read there.</p>
+
+<h2><a name="index1h2"></a>Goals as stated by Google</h2>
+
+<ol>
+<li><strong>Code</strong>: Tasks related to writing or refactoring code</li>
+<li><strong>Documentation/Training</strong>: Tasks related to creating/editing documents and
+helping others learn more</li>
+<li><strong>Outreach/Research</strong>: Tasks related to community management,
+outreach/marketing, or studying problems and recommending solutions</li>
+<li><strong>Quality Assurance</strong>: Tasks related to testing and ensuring code is of high
+quality</li>
+<li><strong>User Interface</strong>: Tasks related to user experience research or user
+interface design and interaction</li>
+</ol>
+
+
+<h2><a name="index2h2"></a>Tasks</h2>
+
+<p>There were some tasks left, and there might be more ideas over the following
+year to participate in Code-In 2013 again.</p>
+
+<h2><a name="index3h2"></a>Used tags</h2>
+
+<p>If you want to search for a tag, just search this site for "Tag: $TAGNAME".
+Used tags are (categories are not tagged):</p>
+
+<ul>
+<li><em>man</em> - tasks related to writing on or working with manpages</li>
+<li><em>network</em> - tasks related to networking (including firewalls)</li>
+<li><em>system</em> - tasks related to the system itself, either kernel or system level
+things</li>
+<li><em>service</em> - tasks involving services running on the system (as compared to
+<em>system</em>)</li>
+<li><em>overview</em> - tasks related to getting and documenting an overview</li>
+<li><em>howto</em> - tasks involving the creation of a howto</li>
+<li><em>comparison</em> - tasks involving the comparison of different solutions</li>
+<li><em>research</em> - tasks involving active research by the student</li>
+<li><em>ui</em> - tasks involving the user interface (mostly graphical)</li>
+<li><em>graphics</em> - tasks related to creating graphics</li>
+</ul>
+
+
+<h2><a name="index4h2"></a>Tasks</h2>
+
+<h3><a name="index1h3"></a>Code</h3>
+
+<ul>
+<li><strong>Task: Create ATF tests</strong>: <span class="createlink"><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=atf&amp;from=projects%2Fcode-in&amp;do=create" rel="nofollow">?</a>atf</span> is the automatic test framework for NetBSD. We strive to have automatic tests for all the important parts of our system: libraries, syscalls, binaries, etc.<br/>
+Your task is to write such tests. You should read the <span class="createlink"><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=atf&amp;from=projects%2Fcode-in&amp;do=create" rel="nofollow">?</a>tutorial</span> about how to write an atf test, and then you can start testing things.<br/>
+As testing is an endless task, here are just a few ideas about which items could be tested:
+
+<ul>
+<li><p><a href="http://netbsd.gw.com/cgi-bin/man-cgi?atomic_ops+3+NetBSD-current">atomic_ops(3)</a></p></li>
+<li><p><a href="http://netbsd.gw.com/cgi-bin/man-cgi?cdbr+3+NetBSD-current">cdbr(3)</a>
+and <a href="http://netbsd.gw.com/cgi-bin/man-cgi?cdbw+3+NetBSD-current">cdbw(3)</a></p></li>
+<li><p><a href="http://netbsd.gw.com/cgi-bin/man-cgi?inet+3+NetBSD-current">inet(3)</a>
+and <a href="http://netbsd.gw.com/cgi-bin/man-cgi?inet_net+3+NetBSD-current">inet_net(3)</a></p></li>
+<li><p><a href="http://netbsd.gw.com/cgi-bin/man-cgi?ethers+3+NetBSD-current">ethers(3)</a>
+, <a href="http://netbsd.gw.com/cgi-bin/man-cgi?iso_addr+3+NetBSD-current">iso_addr(3)</a>
+and <a href="http://netbsd.gw.com/cgi-bin/man-cgi?link_addr+3+NetBSD-current">link_addr(3)</a></p></li>
+<li><p><a href="http://netbsd.gw.com/cgi-bin/man-cgi?strtol+3+NetBSD-current">strtol(3)</a>
+, <a href="http://netbsd.gw.com/cgi-bin/man-cgi?strtoul+3+NetBSD-current">strtoul(3)</a>
+and <a href="http://netbsd.gw.com/cgi-bin/man-cgi?strtoull+3+NetBSD-current">strtoull(3)</a></p></li>
+<li><p><a href="http://netbsd.gw.com/cgi-bin/man-cgi?uuid+3+NetBSD-current">uuid(3)</a></p></li>
+</ul>
+
+
+<p> Though this task is originally rather considered quality assurance, the actual test writing is only coding work (whether the test succeeds or not, is up to the original author of the library or tool).<br/>
+ Every <em>single written test</em> is considered as <strong>one task</strong>. If you think there is another test that should be added, but is not listed here, feel free to contact us.<br/>
+ The tests should be written in either C or sh, depending on the test subject.<br/>
+ <em>Prerequisites</em>: sh or C<br/>
+ <em>Tag</em>: man<br/>
+ <em>Tag</em>: research</p></li>
+</ul>
+
+
+<h3><a name="index2h3"></a>Outreach/Research</h3>
+
+<ul>
+<li><p><strong>Task: Compare NetBSD with other operating systems of its kind</strong>: NetBSD is an operating system which targets people who like the cleanness of a system, and mostly already have Unix or Linux experience.<br/>
+As such, there are other operating systems which fall into the same audience as NetBSD does, which are at least Slackware, Arch Linux, Gentoo, OpenBSD, FreeBSD, DragonFly.<br/>
+This task is about researching what other distros are out there which are close to NetBSD's principles and use cases (distrowatch.org might be a good starting point), and how they are different.<br/>
+After having collected facts, maybe a simple overview of the community (what kind of people are there, what do they want?), you should create an article which lists all those and describes their differences to NetBSD.<br/>
+You could also try interviewing some people what their view of the communities and the operating systems is and try to evolve your own opinion about them all.<br/>
+<em>Tag</em>: comparison<br/>
+<em>Tag</em>: research<br/>
+<em>Tag</em>: system<br/>
+<em>Tag</em>: overview</p></li>
+<li><p><strong>Task: Compare firewall solutions in NetBSD</strong>: NetBSD has several firewall solutions on board: ipf, npf, pf, even more (you should research that).<br/>
+For the beginner, it is not clear what they are capable of, how fast they are and what their syntaxes look like.<br/>
+In this task you should research the differences of these firewalls, create some examples that do the same (so you can view them side-by-side) and provide links to further documentation.<br/>
+<em>Tag</em>: comparison<br/>
+<em>Tag</em>: network<br/>
+<em>Tag</em>: research</p></li>
+<li><p><strong>Task: Survey documentation structure of other projects</strong>: There are many open source projects which exist not only for years, but also for decades (which e.g. NetBSD also nearly does with 19 years). For all of them, documentation is an important issue, and most, if not all projects have not mastered writing documentation.<br/>
+In this task, you have to choose on of the projects listed below. If you want to research another project not listed, please ask a judge about it.<br/>
+Then, you have to research the documentation of these projects (what sources are there, how are they used, which software do they use, which formatting language, etc. (what sources are there, how are they used, which software do they use, which formatting language, etc.), plus finding a way of determining the project's opinion of their documentation (a docs@ mailinglist might be a good start, like e.g. NetBSD-docs@NetBSD.org is). All in all, you should do nearly the same as the task "Create an overview of NetBSD documentation", except that you don't have to be that much in depth, but you should also research the technical and administrational background.<br/>
+In the end, you should write a paper with the results of the survey and a small text, at least one page at all.<br/>
+This task can be fulfilled multiple times, once for each project.<br/>
+<em>Projects</em>: FreeBSD, OpenBSD, DragonFly, Gentoo, Slackware, PostgreSQL<br/>
+<em>Tag</em>: research<br/>
+<em>Tag</em>: comparison<br/>
+<em>Tag</em>: overview</p></li>
+<li><p><strong>Task: Analyze and document (pseudo-)random number generators</strong>: For several purposes like key creation, initial vectors for some protocols, IP sequence numbers, an operating system is required to have a (pseudo) random number generator ((p)rng).<br/>
+Though some are implemented in hardware and the OS gives you the chance to interface them, you most probably just call the function random(3) or open the device /dev/urandom or /dev/random, which is either in hardware or software, depending on what the operating system uses.<br/>
+While the hardware rngs use some random noise as a source for entropy ("randomness"), software rngs use several sources like disk command execution times, network timing, mouse and keyboard usage, depending on the implementation.<br/>
+Your task is to look at the prngs of the great Open Source operating systems, analyze how they work, what input they use, how large their pools are and what exactly is done when input or output occurs.<br/>
+This task is once for each operating system which has a different rng (some operating systems share the same ones), but you should analyze the input sources for all OSes using that rng and do the analysis for NetBSD first.<br/>
+You should write down your result in a paper at least two pages long.<br/>
+While this task might take up more work than a usual task, it is a very interesting and demanding task especially if you are interested in mathematics or cryptography.<br/>
+<em>Tag</em>: research<br/>
+<em>Tag</em>: comparison</p></li>
+</ul>
+
+
+<h3><a name="index3h3"></a>Quality Assurance</h3>
+
+<ul>
+<li><p><strong>Task: Research POSIX compliance</strong>: POSIX is the (more or less) standard all Unixes orient on. It describes libraries to use as well as binaries every Unix should have (like cp, mv) and their behaviour.
+You can find the standard on the Internet. Your task is to look for any non-trivial manpage (i.e., more than a few options) and research whether the NetBSD behaviour of this tool or library conforms to POSIX or not.<br/>
+You should then insert this part into a list and document whether it complies to POSIX and if not, which differences are there.<br/>
+As it is hard to determine the difficulty of a single part of the standard, this will be measured in lines. For every 1000 lines of the NetBSD versions of the manpages, this is one task.<br/>
+The prerequisite is only for looking at libraries.<br/>
+<em>Prerequisite</em>: C (reading)<br/>
+<em>Tag</em>: research</p></li>
+<li><p><strong>Task: Howto: Configure npf</strong>: The new NetBSD packet filter npf is a nice and well-scaling way to configure a firewall. Despite being there and functional, it does not have much documentation.<br/>
+The manpage of npf.conf(5) gives an introduction, but nothing that could be used as a howto: <a href="http://netbsd.gw.com/cgi-bin/man-cgi?npf.conf+5+NetBSD-current">npf.conf(5)</a>.<br/>
+The howto should contain a step-by-step introduction about how npf works, but also an introduction to the technics of npf itself: What kind of rules and tables are there, how they are applied, etc.<br/>
+There is already a <a href="http://www.netbsd.org/~rmind/pub/npf_manual_netbsd_6.pdf">howto by rmind</a>, this would have to be converted and checked against errors, and extended.<br/>
+<em>Tag</em>: howto<br/>
+<em>Tag</em>: network</p></li>
+<li><p><strong>Task: Document integrated tools in NetBSD</strong>: Apart from the famous web server and ftp server choices, there are smaller ones already integrated to NetBSD, as well as other smaller tools a user should know.<br/>
+The goal is to create a comprehensive <img src="../../smileys/idea.png" alt="(!)" /> list of full software packages that are already included in the base distribution.<br/>
+In the document src/doc/3RDPARTY there is already a list of imported software, but there are more tools which are NetBSD-inherent themselves or contained in a larger package that is just listed as a whole there.<br/>
+<em>Tag</em>: overview<br/>
+<em>Tag</em>: research</p></li>
+<li><p><strong>Task: Try out various desktop scenarios, report errors</strong>: Modern desktop environments like Xfce, KDE, Gnome or LXDE are mostly written for Linux. As such, it is important to try them on NetBSD and report their errors. Plus, checking the ease of installation via pkgsrc - which packages have to be installed, how intuitive is their name, their installation? Everything should be as easy as possible.<br/>
+This task also refers to the task of creating a tutorial - maybe doing this first, and then creating the tutorial would be nice. The tutorial could either be updated on the fly when the reported bugs are corrected, or will be held back until the process is as easy as it should be.<br/>
+This also includes bug-checking for light-deskop, the preferred package for a NetBSD desktop.<br/>
+<em>Tag</em>: ui<br/>
+<em>Tag</em>: research</p></li>
+<li><p><strong>Task: Document the installation of the DeforaOS desktop environment</strong>: The DeforaOS desktop is an alternative for a lightweight desktop environment, and is already packaged in NetBSD (via pkgsrc-wip, as the wip/deforaos-desktop meta package). It could use more documentation though, including how to configure it properly.
+Bug reports will also be welcome of course, even more so with fixes.
+<em>Tag</em>: ui
+<em>Tag</em>: research</p></li>
+<li><p><strong>Task: Make NetBSD a music or video player</strong>: NetBSD could as well serve as a music (mpd) or video player. You have to research which packages are needed for such a use case, and document it in a tutorial.<br/>
+Ideally, create a pkgsrc meta package including all the dependencies.<br/>
+Report bugs you find on the way.<br/>
+<em>Tag</em>: ui<br/>
+<em>Tag</em>: research</p></li>
+<li><p><strong>Task: Describe how NetBSD boots</strong>: Build NetBSD on any system (especially non-NetBSD) and try to create a bootable medium without using makefs(8) or integrated wrappers.<br/>
+Creating a bootable disk is possible, but difficult and there is no comprehensive information about this. You have to try much until you get the real results.<br/>
+The affected tools are</p>
+
+<ul>
+<li>fdisk(8)</li>
+<li>installboot(8)</li>
+<li>disklabel(8)</li>
+<li>gpt(8)</li>
+</ul>
+
+
+<p>In the end of this task, a small howto and some corrections for the manpages of the affected tools should be there.<br/>
+<em>Tag</em>: system<br/>
+<em>Tag</em>: howto</p></li>
+<li><p><strong>Task: Describe how to boot NetBSD on a gpt disk</strong>: Currently, NetBSD supports booting from a gpt partition, but you cannot know how.<br/>
+This task is about creating documentation how to use the tool gpt(8) and maybe installboot(8) how to create GPT labels, how they interact with MBRs as created by fdisk(8), how wedges work on this, and how you would make it bootable.<br/>
+You should also describe which problems you have and what people might edge on when trying to create a gpt-bootable disk.<br/>
+<em>Tag</em>: howto<br/>
+<em>Tag</em>: system</p></li>
+</ul>
+
+
+<h3><a name="index4h3"></a>Documentation</h3>
+
+<ul>
+<li><p><strong>Task: Howto: Install additional software in NetBSD</strong>: With NetBSD, you have three major ways to install additional software: pkgsrc, pkg_add and pkgin.<br/>
+Which one is to use for which use case, what are their benefits, their merits? Document them, and give a small introduction of the needed tools and their usage (package installation, package deletion, package information).<br/>
+<em>Tag</em>: howto<br/>
+<em>Tag</em>: system<br/>
+<em>Tag</em>: service</p></li>
+<li><p><strong>Task: Howto: Encrypt the hard disk with NetBSD</strong>: NetBSD has its very nice cryptographic device driver cgd. Apart from being already described in the <a href="http://netbsd.org/docs/guide/en/chap-cgd.html">guide</a>.<br/>
+An explicit howto how to do this (in short) and how to do this during the installation, is the issue of this task.<br/>
+Though cgd will be in sysinst for the next version of NetBSD, the current ones are still without, so there should be a special emphasis of how to add cgd during system installation.<br/>
+<em>Tag</em>: howto<br/>
+<em>Tag</em>: system</p></li>
+<li><p><strong>Task: Howto: Protecting your system with veriexec</strong>: There already is <a href="http://netbsd.org/docs/guide/en/chap-veriexec.html">a chapter in the Guide</a> about veriexec, but there is no comprehensive guide how to activate it and how to check in all files in the distribution (there is <a href="http://netbsd.gw.com/cgi-bin/man-cgi?veriexecgen++NetBSD-current">veriexecgen(8)</a> for this.<br/>
+Your task is to write a howto describing evrything a user needs to know and needs to do to have a secure system with veriexec.<br/>
+<em>Tag</em>: howto<br/>
+<em>Tag</em>: system</p></li>
+<li><p><strong>Task: Convert articles from the website to wiki articles</strong>: There are several articles on the website (like <a href="http://netbsd.org/docs/misc/index.html">this one</a>) which should be converted to wiki articles.<br/>
+On the way, you could separate obsolete articles from newer ones.<br/>
+Though this work could also partially be done by a tool like pandoc, the articles on the website have different format: Sometimes docbook, sometimes html, sometimes a mix of them. And pandoc doesn't result in such good results as hand-conversion might do.<br/>
+<em>Tag</em>: wiki</p></li>
+<li><p><strong>Task: Describe how to use NetBSD as a bluetooth access point</strong>: With bluetooth, you can easily connect your computer to a mobile phone and let the phone use the network connection of the computer.<br/>
+Your task is to describe how to do this: Connecting NetBSD via bluetooth to your phone and then provide different services (especially file transfer and network connection).<br/>
+<em>Tag</em>: howto<br/>
+<em>Tag</em>: system<br/>
+<em>Tag</em>: network<br/>
+<em>Tag</em>: service</p></li>
+<li><p><strong>Task: Describe how to backup NetBSD</strong>: Though NetBSD is much like other Unixes in this respect, backup is still something you should consider specially for every operating system. Which tools are available in the base distribution for backupping, like dump(8) and restore(8)?<br/>
+Which one suits better, pax(1), dump(8) or even just rsync or other special backup solutions? What are their use cases?<br/>
+What is a full, a differential, an incremental backup? What is the estimated space usage of them, depending on the backups?<br/>
+How would you restore your system after a crash, which steps have to be taken to get a working system again?<br/>
+After reading the resulting article, the reader should be able to decide for a backup scheme and solution and implement it without further research.<br/>
+<em>Tag</em>: howto<br/>
+<em>Tag</em>: system<br/>
+<em>Tag</em>: research</p></li>
+<li><p><strong>Task: Describe usage of Multicast DNS in NetBSD</strong>: We have the "Multicast and Unicast DNS daemon" (mdnsd(8)) in NetBSD, which can also be activated directly from the installer (which is one of a few chosen services).<br/>
+To be really able to use it, you have to know what it is and what you can do with it.<br/>
+So, your task is to research what Multicast DNS (or zeroconf) is, and document which of the features is already usable with NetBSD and which ones can be installed via pkgsrc, which ones are completely missing (but relevant).<br/>
+The mdnsd(8) manpage and the Wikipedia page for zeroconf might be a good start for this.<br/>
+<em>Tag</em>: howto<br/>
+<em>Tag</em>: system<br/>
+<em>Tag</em>: service<br/>
+<em>Tag</em>: reserach</p></li>
+<li><p><strong>Task: Describe how to use NetBSD as an appliance</strong>: NetBSD is often used for appliances, i.e. a small server serving only one single purpose. Though, there are no howtos describing how to set up a single appliance serving only one cause.<br/>
+Though these howtos are targeted at creating a single appliance, they can also be used for other purposes.<br/>
+Possible appliances would be:</p>
+
+<ul>
+<li><strong>router</strong> - NetBSD is very well suited for router appliances and often used for that. There is a special task which is about creating a howto how to configure npf and comparing the different firewall solutions NetBSD offers. This task would rather be about everything around, like the routing part, securing the machine, network management (e.g. for wireless access points), and maybe only one example configuration for the firewall (especially NATting). A good example for an existing appliance is pfSense</li>
+<li><strong>file server</strong> - NetBSD is also excellent as a file server, may it be either with nfs, smb, http, ftp or ftp over ssh as the transfer protocol. Your task would be to describe the packages which exist in pkgsrc and in NetBSD's base, and choose one special scenario for each protocol and give example configurations of the services. You should also mention RAIDframe, lvm and cgd briefly and what their use cases are. A good example for an existing appliance is FreeNAS or Apple Time Capsule (already running NetBSD).</li>
+<li><strong>backup server</strong> - though somewhat similar to a file server, a backup server has different requirements. On the one hand, you have to think about how to connect effectively for backups, e.g. with rsync or other special backup protocols. On the other hand, you have to take special care for data integrity and data security. You should also take file system snapshots into account.</li>
+</ul>
+
+
+<p>Every howto for an appliance is considered a single task.<br/>
+As a special task, you could also create a shell script that fulfills the steps you mentioned in your howto, such that the user only has to execute this script to get an appliance. The prerequisite is only for this task.<br/>
+If you can think of more possible appliances, maybe you can also use this as a task. If you want to work on a larger project (i.e. providing a whole derivate with one of these tasks), just tell us.<br/>
+<em>Prerequisites</em>: sh<br/>
+<em>Tag</em>: howto<br/>
+<em>Tag</em>: research<br/>
+<em>Tag</em>: service<br/>
+<em>Tag</em>: system<br/>
+<em>Tag</em>: network</p></li>
+</ul>
+
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=projects%2Fcode-in&amp;do=comment">Add a comment</a>
+</div>
+
+</div>
+
+
+
+		      
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../">projects</a>
+
+
+</div><!-- #backlinks -->
+
+
+
+
+<div class="pagedate">
+Last edited <span class="relativedate" title="Fri, 18 Jan 2013 20:14:26 +0000">late Friday evening, January 18th, 2013</span>
+<!-- Created <span class="relativedate" title="Fri, 18 Jan 2013 20:14:26 +0000">late Friday evening, January 18th, 2013</span> -->
+</div>
+
+
+
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?do=prefs">Preferences | Logout</a>
+
+
+
+</div><!-- #pageinfo -->
+
+
+<!-- from NetBSD Wiki -->
+</div><!-- .pagefooter #footer -->
+
+
+
+</body>
+</html>

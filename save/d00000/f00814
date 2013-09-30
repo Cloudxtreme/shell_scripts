@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta property="fb:page_id" content="171304402911343" />
+<meta charset="UTF-8" />
+<meta name="keywords" content="Hadoop,ビッグデータ,ソリューション,IIJ,GIO,ジオ,クラウド,クラウドコンピューティング,GIOログ">
+<meta name="description" content="2012年10月15日にリリースした「IIJ GIO Hadoopソリューション」を紹介します。IIJ GIOのクラウド上でビッグデータを並列分散・高速処理する環境を提供します。">
+<title>「IIJ GIO Hadoopソリューション」提供開始しました | GIOろぐ</title>
+<!-- Open Graph Tags  -->
+<meta property="og:title" content="「IIJ GIO Hadoopソリューション」提供開始しました" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://giolog.iij.ad.jp/2012/11/08/7486/" />
+<meta property="og:image" content="http://giolog.iij.ad.jp/images/logo_90.gif" />
+<meta property="og:image" content="" />
+<meta property="og:site_name" content="GIOろぐ" />
+<meta property="fb:admins" content="100001654188923" />
+<!-- /Open Graph Tags  -->
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="stylesheet" type="text/css" media="all" href="http://giolog.iij.ad.jp/wp-content/themes/giolog/style.css" />
+<link rel="pingback" href="http://giolog.iij.ad.jp/xmlrpc.php" />
+<link rel="alternate" type="application/rss+xml" title="GIOろぐ &raquo; フィード" href="http://giolog.iij.ad.jp/feed/" />
+<link rel="alternate" type="application/rss+xml" title="GIOろぐ &raquo; コメントフィード" href="http://giolog.iij.ad.jp/comments/feed/" />
+<link rel='stylesheet' id='wordpress-popular-posts-css'  href='http://giolog.iij.ad.jp/wp-content/plugins/wordpress-popular-posts/style/wpp.css?ver=3.5.2' type='text/css' media='all' />
+<script type='text/javascript' src='http://giolog.iij.ad.jp/wp-includes/js/comment-reply.min.js?ver=3.5.2'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://giolog.iij.ad.jp/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://giolog.iij.ad.jp/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='IIJ GIOの中の人に聞いてみた（その4）' href='http://giolog.iij.ad.jp/2012/10/31/7443/' />
+<link rel='next' title='vForum2012出展レポート' href='http://giolog.iij.ad.jp/2012/11/14/7505/' />
+<meta name="generator" content="WordPress 3.5.2" />
+<link rel='canonical' href='http://giolog.iij.ad.jp/2012/11/08/7486/' />
+<link rel='shortlink' href='http://giolog.iij.ad.jp/?p=7486' />
+<script type='text/javascript' src='http://giolog.iij.ad.jp/wp-includes/js/jquery/jquery.js?ver=1.8.3'></script>
+<!-- Wordpress Popular Posts v2.3.2 -->
+<script type="text/javascript">
+    /* <![CDATA[ */				
+	jQuery.post('http://giolog.iij.ad.jp/wp-admin/admin-ajax.php', {action: 'wpp_update', token: '7c38739ba4', id: 7486}, function(data){/*alert(data);*/});
+    /* ]]> */
+</script>
+<!-- End Wordpress Popular Posts v2.3.2 -->
+            <style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><script type="text/javascript" src="http://giolog.iij.ad.jp/scripts/clicktag.js"></script>
+</head>
+
+<body class="single single-post postid-7486 single-format-standard">
+<div id="wrapper" class="hfeed">
+<div id="giolog-inner">
+	<div id="header">
+    	<!-- LOGO -->
+		<div id="masthead">
+        <h3 id="giolog-logo"><a href="http://giolog.iij.ad.jp/" title="GIOろぐ" rel="home"><img src="/wp-content/themes/giolog/images/logo.gif" width="150" height="143" alt="GIOろぐ"></a></h3>
+        <!--/ LOGO -->
+        <!-- IPv6 icon -->
+        <p id="giolog-ipv6">
+<a href="http://www.iij.ad.jp/IPv6/ipv4v6.html" target="_blank"><img src="http://www.iij.ad.jp/common/images/hd_btn02.gif" width="112" height="13" alt="IPv4/v6アイコン"></a>
+        </p>
+        <!--/ IPv6 icon -->
+        
+        <div id="branding" role="banner">
+								<div id="site-title">
+					<span>
+						<a href="http://giolog.iij.ad.jp/" title="GIOろぐ" rel="home">GIOろぐ</a>
+					</span>
+				</div>
+				<div id="site-description">日本のクラウド「IIJ GIO（ジオ）」の公式ブログ</div>
+			</div><!-- #branding -->
+
+			<div id="access" role="navigation">
+			  				<div class="skip-link screen-reader-text"><a href="#content" title="コンテンツへ移動">コンテンツへ移動</a></div>
+								<div class="menu"><ul><li ><a href="http://giolog.iij.ad.jp/" title="ホーム">ホーム</a></li><li class="page_item page-item-2"><a href="http://giolog.iij.ad.jp/about/">このブログについて</a></li></ul></div>
+                <p id="giolog-rss"><a href="http://giolog.iij.ad.jp/feed/"><img src="/wp-content/themes/giolog/images/btn_rss.gif" width="56" height="20"></a></p>
+			</div><!-- #access -->
+		</div><!-- #masthead -->
+	</div><!-- #header -->
+
+	<div id="main">
+		<div id="container">
+			<div id="content" role="main">
+
+
+				<div id="nav-above" class="navigation">
+					<div class="nav-previous"><a href="http://giolog.iij.ad.jp/2012/10/31/7443/" rel="prev"><span class="meta-nav">&larr;</span> IIJ GIOの中の人に聞いてみた（その4）</a></div>
+					<div class="nav-next"><a href="http://giolog.iij.ad.jp/2012/11/14/7505/" rel="next">vForum2012出展レポート <span class="meta-nav">&rarr;</span></a></div>
+				</div><!-- #nav-above -->
+                
+                
+
+				<div id="post-7486" class="post-7486 post type-post status-publish format-standard hentry category-service category-bigdata">
+                
+                	<div class="giolog-title-bg">
+                    
+					<h1 class="entry-title">「IIJ GIO Hadoopソリューション」提供開始しました</h1>
+
+					<div class="entry-meta">
+						<span class="meta-prep meta-prep-author">投稿日:</span> <a href="http://giolog.iij.ad.jp/2012/11/08/7486/" title="10:00 AM" rel="bookmark"><span class="entry-date">2012年11月8日</span></a> <span class="meta-sep">作成者:</span> <span class="author vcard"><a class="url fn n" href="http://giolog.iij.ad.jp/author/takadate/" title="takadate の投稿をすべて表示">takadate</a></span>					</div><!-- .entry-meta -->
+                    
+                    <div class="entry-utility">
+
+						カテゴリー: <a href="http://giolog.iij.ad.jp/category/service/" title="サービス情報 の投稿をすべて表示" rel="category tag">サービス情報</a>, <a href="http://giolog.iij.ad.jp/category/service/bigdata/" title="ビッグデータ の投稿をすべて表示" rel="category tag">ビッグデータ</a> &nbsp; <a href="http://giolog.iij.ad.jp/2012/11/08/7486/" title="「IIJ GIO Hadoopソリューション」提供開始しました へのパーマリンク" rel="bookmark">パーマリンク</a>						
+<div class="socialbox">
+<!-- hatena -->
+<a href="http://b.hatena.ne.jp/entry/http://giolog.iij.ad.jp/2012/11/08/7486/" class="hatena-bookmark-button" data-hatena-bookmark-title="「IIJ GIO Hadoopソリューション」提供開始しました" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+<!-- /hatena -->
+<!-- twitter -->
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://giolog.iij.ad.jp/2012/11/08/7486/" data-text="「IIJ GIO Hadoopソリューション」提供開始しました[GIOろぐ] #IIJGIO" data-count="horizontal" data-lang="ja">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<!-- /twitter -->
+<!-- facebook -->
+<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fgiolog.iij.ad.jp%2F2012%2F11%2F08%2F7486%2F&amp;layout=button_count&amp;show_faces=true&amp;width=90&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:150px; height:21px;" allowTransparency="true"></iframe>
+<!-- /facebook -->
+</div><!-- /socialbox -->
+
+					</div><!-- .entry-utility -->
+                    
+                    </div><!-- giolog-title-bg -->
+
+					<div class="entry-content">
+						<p>初めまして。アプリケーションソリューション部の高舘と申します。<br />
+2012年10月15日、IIJ GIO上でビッグデータを並列分散・高速処理する環境を提供する「IIJ GIO Hadoopソリューション」をリリースしました。</p>
+<p><img src="http://giolog.iij.ad.jp/wp-content/uploads/2012/11/2362a05feb0d16ee079d2383f9fc81ba.jpg" alt="IIJ GIO×Hadoop" title="IIJ GIO×Hadoop" width="460" height="69" class="aligncenter size-full wp-image-7490" /></p>
+<h2>Hadoopとビッグデータ</h2>
+<p>最初に、並列分散環境を提供するソフトウェア「Hadoop」について軽く触れておきます。Hadoopの提供する機能を以下の2点にまとめました。</p>
+<ul>
+<li>複数のノードに分散してデータを配置するファイルシステム（HDFS）</li>
+<li>複数のノードに配置したデータを並列に処理するフレームワーク（MapReduce）</li>
+</ul>
+<p>上記のHDFSとMapReduceを合わせたものがHadoopですが、HDFSをストレージとしてのみ利用し、MapReduceを利用しないパターンもあります。</p>
+<p>Hadoopに適合する処理として挙げられるのが、大規模データの処理です。いわゆる「ビッグデータ」を処理対象として扱います。ビッグデータというとTB、PB、あるいはEBクラスの容量をイメージしますが、数百GBのデータを対象にしてもHadoopの恩恵を受けることができます。</p>
+<p>Hadoopはデータと処理を複数ノードに分散することによって、大規模データの格納と処理の高速性を実現しています。より大規模なデータを処理対象とする場合はノード数を拡大する必要があります。IIJ GIOを利用するメリットのひとつが、このノード数の拡大にあります。</p>
+<h2>なぜクラウドか</h2>
+<p>前述したようなビッグデータを処理する際、ボトルネックとなるのがディスクI/O性能です。あるサーバのローカルディスクのスループットが約100MB/secであった場合、単純計算で1TBのデータを読み込むのに約160分程度はかかってしまうことになります。一方、Hadoopを使用して10台のノードで並列に読み込むことができれば、1,000MB/secのスループットになり、約16分で1TBのデータを読み込むことができます。（各ノードに振り分ける処理のオーバーヘッドは除いて考えた場合です）</p>
+<p>しかし実際の業務では、将来的なデータ容量や、そのデータを処理する時間を予測できないケースが多いと思われます。そのため、設備を確保したもののオーバースペックで無駄にコストがかかってしまったり、逆に設置スペースが足りなくなったりすることもあります。</p>
+<p>従って、データ容量の拡大や計算能力の向上が必要になった段階で、ノード数を増加させるのが最適な取り組みと言えます。IIJ GIOを利用すれば、クラウド環境上でノード数の増減に柔軟に対応できるのです。</p>
+<h2>Hadoopプラットフォームの構築・運用</h2>
+<p>私達はIIJ GIO上でHadoopを構築・運用してきた実績から、その手間や難しさを痛感してきました。Hadoopプラットフォームをより良いかたちでご提供できないか、という考えがIIJ GIO Hadoopソリューションが誕生したきっかけでもあります。いくつかの事例を用いて、本ソリューションのポイントを挙げてみます。</p>
+<h3>柔軟な構成パターン</h3>
+<p>Hadoopでシステムを構築する際、Hadoopディストリビューションや導入する周辺ソフトウェアの組み合わせによってシステムで実現できる範囲が決まります。本ソリューションでは、特徴・機能の異なる3つのHadoopディストリビューション（CDH、Cloudera Enterprise、Greenplum MR）をはじめ、モニタリングツール（Ganglia）、Hadoopジョブ管理ツール（Oozie）、DSL/ライブラリ（Pig/Hive/Cascading/Asakusa Framework）などの周辺ソフトウェアを柔軟に組み合わせることが可能です。お客様の要件に基づき、最適な構成をご提案することも可能です。</p>
+<h3>大量ノードの管理</h3>
+<p>Hadoopは管理対象のノード数が多くなる傾向にあります。大量ノードに対して手作業を行うのは大変ですし、オペレーションミスが発生する可能性も高くなります。本ソリューションではプロビジョニングツール（Puppet）をご提供し、わずかなコマンド実行で大量ノードの設定をすることを可能にしました。設定内容はPuppetで一元管理されているため、ノード間での設定差異も発生しません。</p>
+<h3>クラウド環境での処理性能</h3>
+<p>MapReduce処理のボトルネックはディスクI/Oであり、HadoopはそのI/O負荷をノード間で分散させるように設計されています。しかし、共有ディスク構成の仮想サーバでは、ノード間でリソースの競合が発生し性能が出ません。Hadoopの標準的なベンチマークツールであるgridmix2で検証した結果、物理的に独立した占有サーバである<a href="http://www.iij.ad.jp/GIO/service/component/server/" target="_blank" class="new">IIJ GIOコンポーネントサービス Xシリーズ</a>は、ほぼ同スペックのCPU/メモリが割り当てられた共有ディスク構成の仮想サーバの6倍の性能を示しました。この結果より、IIJ GIO HadoopソリューションではXシリーズを採用するのが最適と判断しました。更に、Xシリーズ向けにHadoopパラメータの最適化を行うことで処理性能を30%近く改善し、より少ない台数で性能を引き出すことに成功しています。</p>
+<p>Hadoopが本格的な普及期に入り、多くの利用実績が生まれている一方、実際の構築・運用に関わる情報量はそれほど多くありません。従って、専門的な技術や経験を要する人員の確保は必須になりますが、Hadoop構築・運用にリソースを割くよりも、本来の目的であるデータ分析などの業務を優先するべきと考えます。IIJ GIO Hadoopソリューションに構築・運用をお任せいただくことで、お客様の業務をサポートできるのではないかと思います。</p>
+<p>以上、IIJ GIO Hadoopソリューションについて簡単にご説明しました。<br />
+ぜひご検討いただければと思います。</p>
+<ul class="link">
+<li><a href="http://www.iij.ad.jp/GIO/service/hadoop/" target="_blank" class="new">IIJ GIO Hadoopソリューション（IIJ GIOサービスページ）</a></li>
+</ul>
+<p>（アプリケーションソリューション部　高舘）</p>
+											</div><!-- .entry-content -->
+
+
+				<div id="nav-below" class="navigation">
+					<div class="nav-previous"><a href="http://giolog.iij.ad.jp/2012/10/31/7443/" rel="prev"><span class="meta-nav">&larr;</span> IIJ GIOの中の人に聞いてみた（その4）</a></div>
+					<div class="nav-next"><a href="http://giolog.iij.ad.jp/2012/11/14/7505/" rel="next">vForum2012出展レポート <span class="meta-nav">&rarr;</span></a></div>
+				</div><!-- #nav-below -->
+
+                </div><!-- #post-## -->
+                
+				
+			<div id="comments">
+
+
+	<p class="nocomments">コメントは受け付けていません。</p>
+
+
+								
+</div><!-- #comments -->
+
+
+			</div><!-- #content -->
+		</div><!-- #container -->
+
+
+		<div id="primary" class="widget-area" role="complementary">
+			<ul class="xoxo">
+
+<li id="text-3" class="widget-container widget_text"><h3 class="widget-title">関連サイト</h3>			<div class="textwidget"><ul id="giolog-sns-accounts"><li id="twitter"><ul><li><a href="http://twitter.com/IIJGIO" target="_blank">@IIJGIO</a><p>IIJ GIOの公式アカウント。GIOろぐの更新情報もお届けします。</p></li></ul></li>
+<li id="facebook" target="_blank"><ul><li><a href="http://www.facebook.com/IIJGIO">IIJ GIO<br/>ファンページ</a></li></ul></li>
+<li id="accounts"><a href="http://www.iij.ad.jp/socialmedia/index.html" target="_blank">ソーシャルメディア公式アカウント一覧</a></li></ul></div>
+		</li><li id="linkcat-9" class="widget-container widget_links"><h3 class="widget-title">関連リンク</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="http://techlog.iij.ad.jp/" target="_blank">IIJエンジニアのブログ「てくろぐ」</a></li>
+<li><a href="http://www.iij.ad.jp/" target="_blank">IIJホームページ</a></li>
+<li><a href="http://www.iij.ad.jp/GIO/" target="_blank">クラウドサービス「IIJ GIO」のサイト</a></li>
+
+	</ul>
+</li>
+<li id="search-3" class="widget-container widget_search"><h3 class="widget-title">ブログ内検索</h3><form role="search" method="get" id="searchform" action="http://giolog.iij.ad.jp/" >
+	<div><label class="screen-reader-text" for="s">検索:</label>
+	<input type="text" value="" name="s" id="s" />
+	<input type="submit" id="searchsubmit" value="検索" />
+	</div>
+	</form></li>		<li id="recent-posts-2" class="widget-container widget_recent_entries">		<h3 class="widget-title">最近の記事</h3>		<ul>
+					<li>
+				<a href="http://giolog.iij.ad.jp/2013/08/09/10143/" title="こちら松江DCP。ただいま拡張工事中（第1回）">こちら松江DCP。ただいま拡張工事中（第1回）</a>
+						</li>
+					<li>
+				<a href="http://giolog.iij.ad.jp/2013/07/23/10033/" title="データ活用の第一歩は「IIJ GIOビッグデータラボ」から">データ活用の第一歩は「IIJ GIOビッグデータラボ」から</a>
+						</li>
+					<li>
+				<a href="http://giolog.iij.ad.jp/2013/07/04/9689/" title="九州でゲーム会社向けセミナーを開催しました">九州でゲーム会社向けセミナーを開催しました</a>
+						</li>
+					<li>
+				<a href="http://giolog.iij.ad.jp/2013/07/01/9853/" title="CISIS 2013（中国・大連）出展レポート">CISIS 2013（中国・大連）出展レポート</a>
+						</li>
+					<li>
+				<a href="http://giolog.iij.ad.jp/2013/06/24/9629/" title="自治体クラウドも2nd stepへ">自治体クラウドも2nd stepへ</a>
+						</li>
+					<li>
+				<a href="http://giolog.iij.ad.jp/2013/06/20/9570/" title="こちら松江DCP。ただいま拡張工事中（予告編）">こちら松江DCP。ただいま拡張工事中（予告編）</a>
+						</li>
+					<li>
+				<a href="http://giolog.iij.ad.jp/2013/06/13/9617/" title="中国、大連で開催されるCISISに出展します">中国、大連で開催されるCISISに出展します</a>
+						</li>
+					<li>
+				<a href="http://giolog.iij.ad.jp/2013/05/24/9338/" title="SQに乗って日本のクラウドを考える">SQに乗って日本のクラウドを考える</a>
+						</li>
+					<li>
+				<a href="http://giolog.iij.ad.jp/2013/05/24/9278/" title="クラウドアジア2013 出展レポート">クラウドアジア2013 出展レポート</a>
+						</li>
+					<li>
+				<a href="http://giolog.iij.ad.jp/2013/05/20/9239/" title="クラウド コンピューティングEXPO春 出展レポート">クラウド コンピューティングEXPO春 出展レポート</a>
+						</li>
+				</ul>
+		</li><li id="categories-2" class="widget-container widget_categories"><h3 class="widget-title">カテゴリ</h3>		<ul>
+	<li class="cat-item cat-item-3"><a href="http://giolog.iij.ad.jp/category/iij/" title="IIJについて に含まれる投稿をすべて表示">IIJについて</a> (13)
+</li>
+	<li class="cat-item cat-item-4"><a href="http://giolog.iij.ad.jp/category/info/" title="お知らせ に含まれる投稿をすべて表示">お知らせ</a> (10)
+</li>
+	<li class="cat-item cat-item-5"><a href="http://giolog.iij.ad.jp/category/event/" title="イベント に含まれる投稿をすべて表示">イベント</a> (68)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://giolog.iij.ad.jp/category/service/" title="サービス情報 に含まれる投稿をすべて表示">サービス情報</a> (67)
+<ul class='children'>
+	<li class="cat-item cat-item-29"><a href="http://giolog.iij.ad.jp/category/service/pos/" title="POS に含まれる投稿をすべて表示">POS</a> (2)
+</li>
+	<li class="cat-item cat-item-32"><a href="http://giolog.iij.ad.jp/category/service/vw%e3%82%b7%e3%83%aa%e3%83%bc%e3%82%ba/" title="VWシリーズ に含まれる投稿をすべて表示">VWシリーズ</a> (6)
+</li>
+	<li class="cat-item cat-item-30"><a href="http://giolog.iij.ad.jp/category/service/win/" title="Windowsサーバ に含まれる投稿をすべて表示">Windowsサーバ</a> (6)
+</li>
+	<li class="cat-item cat-item-34"><a href="http://giolog.iij.ad.jp/category/service/%e3%82%b3%e3%83%b3%e3%83%86%e3%83%8a%e5%9e%8b%e3%83%87%e3%83%bc%e3%82%bf%e3%82%bb%e3%83%b3%e3%82%bf%e3%83%bc/" title="コンテナ型データセンター に含まれる投稿をすべて表示">コンテナ型データセンター</a> (8)
+</li>
+	<li class="cat-item cat-item-35"><a href="http://giolog.iij.ad.jp/category/service/acceleration/" title="コンテンツアクセラレーション に含まれる投稿をすべて表示">コンテンツアクセラレーション</a> (1)
+</li>
+	<li class="cat-item cat-item-15"><a href="http://giolog.iij.ad.jp/category/service/component/" title="コンポーネント に含まれる投稿をすべて表示">コンポーネント</a> (1)
+</li>
+	<li class="cat-item cat-item-24"><a href="http://giolog.iij.ad.jp/category/service/garoon/" title="サイボウズ ガルーン SaaS に含まれる投稿をすべて表示">サイボウズ ガルーン SaaS</a> (2)
+</li>
+	<li class="cat-item cat-item-17"><a href="http://giolog.iij.ad.jp/category/service/storage/" title="ストレージ に含まれる投稿をすべて表示">ストレージ</a> (8)
+</li>
+	<li class="cat-item cat-item-22"><a href="http://giolog.iij.ad.jp/category/service/socialapp/" title="ソーシャルアプリ に含まれる投稿をすべて表示">ソーシャルアプリ</a> (5)
+</li>
+	<li class="cat-item cat-item-26"><a href="http://giolog.iij.ad.jp/category/service/bigdata/" title="ビッグデータ に含まれる投稿をすべて表示">ビッグデータ</a> (2)
+</li>
+	<li class="cat-item cat-item-16"><a href="http://giolog.iij.ad.jp/category/service/hosting/" title="ホスティングパッケージ に含まれる投稿をすべて表示">ホスティングパッケージ</a> (7)
+</li>
+	<li class="cat-item cat-item-25"><a href="http://giolog.iij.ad.jp/category/service/desktop/" title="仮想デスクトップ に含まれる投稿をすべて表示">仮想デスクトップ</a> (1)
+</li>
+	<li class="cat-item cat-item-23"><a href="http://giolog.iij.ad.jp/category/service/global/" title="海外展開 に含まれる投稿をすべて表示">海外展開</a> (7)
+</li>
+	<li class="cat-item cat-item-27"><a href="http://giolog.iij.ad.jp/category/service/uom/" title="統合運用管理 に含まれる投稿をすべて表示">統合運用管理</a> (1)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-33"><a href="http://giolog.iij.ad.jp/category/partner/" title="パートナー に含まれる投稿をすべて表示">パートナー</a> (7)
+</li>
+	<li class="cat-item cat-item-8"><a href="http://giolog.iij.ad.jp/category/tech/" title="技術情報 に含まれる投稿をすべて表示">技術情報</a> (22)
+</li>
+	<li class="cat-item cat-item-14"><a href="http://giolog.iij.ad.jp/category/backstory/" title="編集こぼれ話 に含まれる投稿をすべて表示">編集こぼれ話</a> (7)
+</li>
+	<li class="cat-item cat-item-36"><a href="http://giolog.iij.ad.jp/category/%e8%87%aa%e6%b2%bb%e4%bd%93%e3%82%af%e3%83%a9%e3%82%a6%e3%83%89/" title="自治体クラウド に含まれる投稿をすべて表示">自治体クラウド</a> (1)
+</li>
+		</ul>
+</li><li id="archives-2" class="widget-container widget_archive"><h3 class="widget-title">アーカイブ</h3>		<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'> <option value="">月を選択</option> 	<option value='http://giolog.iij.ad.jp/2013/08/'> 2013年8月 &nbsp;(1)</option>
+	<option value='http://giolog.iij.ad.jp/2013/07/'> 2013年7月 &nbsp;(3)</option>
+	<option value='http://giolog.iij.ad.jp/2013/06/'> 2013年6月 &nbsp;(3)</option>
+	<option value='http://giolog.iij.ad.jp/2013/05/'> 2013年5月 &nbsp;(3)</option>
+	<option value='http://giolog.iij.ad.jp/2013/04/'> 2013年4月 &nbsp;(5)</option>
+	<option value='http://giolog.iij.ad.jp/2013/03/'> 2013年3月 &nbsp;(3)</option>
+	<option value='http://giolog.iij.ad.jp/2013/02/'> 2013年2月 &nbsp;(3)</option>
+	<option value='http://giolog.iij.ad.jp/2013/01/'> 2013年1月 &nbsp;(5)</option>
+	<option value='http://giolog.iij.ad.jp/2012/12/'> 2012年12月 &nbsp;(4)</option>
+	<option value='http://giolog.iij.ad.jp/2012/11/'> 2012年11月 &nbsp;(4)</option>
+	<option value='http://giolog.iij.ad.jp/2012/10/'> 2012年10月 &nbsp;(6)</option>
+	<option value='http://giolog.iij.ad.jp/2012/09/'> 2012年9月 &nbsp;(5)</option>
+	<option value='http://giolog.iij.ad.jp/2012/08/'> 2012年8月 &nbsp;(3)</option>
+	<option value='http://giolog.iij.ad.jp/2012/07/'> 2012年7月 &nbsp;(5)</option>
+	<option value='http://giolog.iij.ad.jp/2012/06/'> 2012年6月 &nbsp;(1)</option>
+	<option value='http://giolog.iij.ad.jp/2012/05/'> 2012年5月 &nbsp;(3)</option>
+	<option value='http://giolog.iij.ad.jp/2012/04/'> 2012年4月 &nbsp;(4)</option>
+	<option value='http://giolog.iij.ad.jp/2012/03/'> 2012年3月 &nbsp;(6)</option>
+	<option value='http://giolog.iij.ad.jp/2012/02/'> 2012年2月 &nbsp;(5)</option>
+	<option value='http://giolog.iij.ad.jp/2012/01/'> 2012年1月 &nbsp;(3)</option>
+	<option value='http://giolog.iij.ad.jp/2011/12/'> 2011年12月 &nbsp;(3)</option>
+	<option value='http://giolog.iij.ad.jp/2011/11/'> 2011年11月 &nbsp;(7)</option>
+	<option value='http://giolog.iij.ad.jp/2011/10/'> 2011年10月 &nbsp;(13)</option>
+	<option value='http://giolog.iij.ad.jp/2011/09/'> 2011年9月 &nbsp;(6)</option>
+	<option value='http://giolog.iij.ad.jp/2011/08/'> 2011年8月 &nbsp;(3)</option>
+	<option value='http://giolog.iij.ad.jp/2011/07/'> 2011年7月 &nbsp;(5)</option>
+	<option value='http://giolog.iij.ad.jp/2011/06/'> 2011年6月 &nbsp;(4)</option>
+	<option value='http://giolog.iij.ad.jp/2011/05/'> 2011年5月 &nbsp;(10)</option>
+	<option value='http://giolog.iij.ad.jp/2011/04/'> 2011年4月 &nbsp;(18)</option>
+	<option value='http://giolog.iij.ad.jp/2011/03/'> 2011年3月 &nbsp;(7)</option>
+	<option value='http://giolog.iij.ad.jp/2011/02/'> 2011年2月 &nbsp;(3)</option>
+ </select>
+</li><li id="text-5" class="widget-container widget_text">			<div class="textwidget"><a href="http://cloudsleuth.net/global-provider-view?utmp=cs_web_app_250x150_DETAIL_84_IIJ_GIO_JP-EAST_-_TOKYO_TOKYO_-_NTT_6H" target="_blank" onClick="javascript:ac_tracer(11048, '/giolog/cloudsleuth');"><img src="https://www.cloudsleuth.net/widget?widgetId=cs_web_app_250x150_DETAIL_84_IIJ_GIO_JP-EAST_-_TOKYO_TOKYO_-_NTT_6H" width="200px" height="120px" /></a><br>
+<a href="http://giolog.iij.ad.jp/2011/12/14/5171/" onClick="javascript:ac_tracer(11048, '/giolog/cloudsleuth_widget');">このウィジェットは?</a></div>
+		</li>			</ul>
+		</div><!-- #primary .widget-area -->
+
+	<div id="giolog-page-top"><a href="#">ページの先頭へ↑</a></div>
+	</div><!-- #main -->
+    </div><!-- #giolog inner -->
+</div><!-- #wrapper -->
+
+	<div id="footer" role="contentinfo">
+		<div id="colophon">
+
+
+
+			<div id="footer-widget-area" role="complementary">
+
+				<div id="first" class="widget-area">
+					<ul class="xoxo">
+						<li id="text-4" class="widget-container widget_text">			<div class="textwidget"><img src="/wp-content/themes/giolog/images/footer_iijlogo.gif" class="giolog-iijlogo"><p class="giolog-credit">この「GIOろぐ」は株式会社インターネットイニシアティブが運営しています。<br />&copy; 2011-2013 Internet Initiative Japan Inc.</p><p class="giolog-footerlink""><a href="http://giolog.iij.ad.jp/sitemap.xml" target="_blank">サイトマップ</a>｜<a href="http://www.iij.ad.jp/contact/index.html" target="_blank">お問い合わせ</a></ul></div>
+		</li>					</ul>
+				</div><!-- #first .widget-area -->
+
+
+
+
+			</div><!-- #footer-widget-area -->
+
+			<div id="site-info">
+				<a href="http://giolog.iij.ad.jp/" title="GIOろぐ" rel="home">
+					GIOろぐ				</a>
+			</div><!-- #site-info -->
+
+			<div id="site-generator">
+								<a href="http://ja.wordpress.org/"
+						title="セマンティックなパブリッシングツール" rel="generator">
+					Proudly powered by WordPress.				</a>
+			</div><!-- #site-generator -->
+
+		</div><!-- #colophon -->
+	</div><!-- #footer -->
+
+
+
+<!-- start of ac cruiser tag S/N acct11102010 
+ Copyright (c) 2005-2010 activecore Inc, All rights reserved. 
+ http://www.activecore.jp 
+--> 
+<script type="text/javascript"> 
+   var _cid = 11048;
+   var _entry_js = '//tracer02.a-cast.jp/entry.js?cid='; 
+   var _proto = window.location.protocol; 
+   if (_proto != 'http:' && _proto != 'https:') { 
+      _proto = 'http:'; 
+   }  
+   document.write('<scr' + 'ipt type="text/javascript" ' 
+      + 'language="JavaScript" src="' 
+      + _proto + _entry_js + _cid + '" ></' + 'scr' + 'ipt>'); 
+</script> 
+<!-- end of ac cruiser tag --> 
+
+</body>
+</html>

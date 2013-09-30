@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html
+xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head
+profile="http://gmpg.org/xfn/11"><meta
+http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Amazon AWS Route 53 GEO DNS Configurations</title><meta
+name="robots" content="noodp, noydir" /><meta
+name="description" content="Explains how to configure ROUTE 53 Geo DNS using Latency Based Routing (LBR) features to route visitors to the AWS endpoint or any other IP/CNAME." /><meta
+name="keywords" content="DNS Servers, Geotargeting, Route 53, Wordpress" /><link
+rel="stylesheet" href="http://s13.cyberciti.org/cms/mini_layout_v02.css" type="text/css" media="screen, projection" /> <!--[if lte IE 8]><link
+rel="stylesheet" href="http://s13.cyberciti.org/cms/mini_ie_v01.css" type="text/css" media="screen, projection" /><![endif]--><link
+rel="canonical" href="http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/" /><link
+rel="alternate" type="application/rss+xml" title="nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format RSS Feed" href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" /><link
+rel="pingback" href="http://www.cyberciti.biz/cms/xmlrpc.php" /><link
+rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.cyberciti.biz/cms/xmlrpc.php?rsd" /><link
+rel="alternate" type="application/rss+xml" title="nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format &raquo; Amazon AWS Route 53 GEO DNS Configurations Comments Feed" href="http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/feed/" /> <script type='text/javascript' src='http://www.cyberciti.biz/cms/wp-includes/js/comment-reply.min.js?ver=3.6'></script> <script type="text/javascript"></script> <link
+rel="shortcut icon" href="http://s0.cyberciti.org/static/legacy/i/favicon.ico"><meta
+name="robots" content="noarchive" /> <script type='text/javascript'>var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+var gads = document.createElement('script');
+gads.async = true;
+gads.type = 'text/javascript';
+var useSSL = 'https:' == document.location.protocol;
+gads.src = (useSSL ? 'https:' : 'http:') +
+'//www.googletagservices.com/tag/js/gpt.js';
+var node = document.getElementsByTagName('script')[0];
+node.parentNode.insertBefore(gads, node);
+})();</script> <script type='text/javascript'>googletag.cmd.push(function() {
+googletag.defineSlot('/1010897/CBZ_ARTICLE_GAS_LAR_SKY_B', [300, 600], 'div-gpt-ad-1364634124258-0').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_GAS_MED_RECT_B', [300, 250], 'div-gpt-ad-1364634124258-1').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_LEADERBOARD_A', [728, 90], 'div-gpt-ad-1364634124258-2').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_MED_RECT_A', [300, 250], 'div-gpt-ad-1364634124258-3').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_MED_RECT_B', [300, 250], 'div-gpt-ad-1364634124258-4').addService(googletag.pubads());
+googletag.pubads().enableSingleRequest();
+googletag.pubads().collapseEmptyDivs();
+googletag.pubads().set("page_url", "http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/");
+googletag.enableServices();
+});</script> <!--
+	generated 109 seconds ago
+	generated in 0.274 seconds
+	served from batcache in 0.001 seconds
+	expires in 1391 seconds
+-->
+</head><body
+class="custom"><div
+id="container"><div
+id="page"><div
+class="menu-home-container"><ul
+id="menu-home" class="menu"><li
+id="menu-item-32" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-32"><a
+href="http://www.cyberciti.biz/topics/">Main Menu</a><ul
+class="sub-menu"><li
+id="menu-item-34" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-34"><a
+href="http://www.cyberciti.biz/topics/datacenter/">Datacenter</a></li><li
+id="menu-item-35" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35"><a
+href="http://www.cyberciti.biz/topics/hardware/">Hardware</a></li><li
+id="menu-item-38" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-38"><a
+href="http://www.cyberciti.biz/topics/security/">IT / Linux Security</a></li><li
+id="menu-item-37" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-37"><a
+href="http://www.cyberciti.biz/topics/open-source/">Open source</a></li><li
+id="menu-item-31" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-31"><a
+href="http://www.cyberciti.biz/topics/reviews/">Reviews</a></li><li
+id="menu-item-39" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-39"><a
+href="http://www.cyberciti.biz/topics/storage/">Storage</a></li><li
+id="menu-item-40" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40"><a
+href="http://www.cyberciti.biz/topics/virtualization/">Virtualization</a></li><li
+id="menu-item-33" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-33"><a
+href="http://www.cyberciti.biz/topics/cloud-computing/">Cloud Computing</a><ul
+class="sub-menu"><li
+id="menu-item-85" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-85"><a
+title="CDN " href="http://www.cyberciti.biz/topics/cloud-computing/content-delivery-network/">Content delivery network</a></li></ul></li><li
+id="menu-item-41" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-41"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/">Mobile</a><ul
+class="sub-menu"><li
+id="menu-item-42" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-42"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/android/">Android</a></li><li
+id="menu-item-43" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-43"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/ios/">iOS</a></li></ul></li><li
+id="menu-item-36" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a
+href="http://www.cyberciti.biz/topics/networking/">Networking</a></li><li
+id="menu-item-28" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-28"><a
+href="http://www.cyberciti.biz/#">Programming</a><ul
+class="sub-menu"><li
+id="menu-item-29" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-29"><a
+title="Linux Shell Scripting Tutorial" href="http://bash.cyberciti.biz/guide/Main_Page">Linux Shell Scripting</a></li><li
+id="menu-item-30" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30"><a
+title="Python programming  tutorials" href="http://www.cyberciti.biz/topics/python-tutorials/">Python</a></li></ul></li><li
+id="menu-item-377" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-377"><a
+title="See all topics by Category or Month" href="http://www.cyberciti.biz/topics/">See all topics</a></li></ul></li><li
+id="menu-item-378" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-378"><a
+title="Linux How-To Articles, Tips, and Guides" href="http://www.cyberciti.biz/faq/">Linux How-To &#038; Tutorials</a></li><li
+id="menu-item-6" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6"><a
+title="Linux / Unix and Shell Scripting Forum" href="http://nixcraft.com/forum.php">Forums</a></li><li
+id="menu-item-62" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-62"><a
+title="About us" href="http://www.cyberciti.biz/tips/about-us">About</a></li><li
+id="menu-item-63" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-63"><a
+title="Email us " href="http://www.cyberciti.biz/tips/contact-us">Contact us</a></li><li
+id="menu-item-65" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-65"><a
+title="Various aspects of nixCraft can be monitored with RSS feeds." href="http://www.cyberciti.biz/nixcraft-rss-feed-syndication/">RSS/Feed</a></li></ul></div><div
+id="header"><div
+id="leaderboard"><div
+id="lbtop"><div
+id='div-gpt-ad-1364634124258-2'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-2'); });</script> </div></div></div><div
+id="crumbslogo"><a
+href="/" title="Home page">nixcraft - insight into linux admin work</a></div></div><div
+id="content_box"><div
+id="content" class="hfeed"><div
+class="post-369 post type-post status-publish format-standard hentry category-aws tag-dns-servers tag-geotargeting tag-route-53 tag-wordpress post_box top" id="post-369"><div
+class="headline_area"><h1 class="entry-title">Amazon AWS Route 53 GEO DNS Configurations</h1><p
+class="headline_meta">by <span
+class="author vcard"><a
+href="http://www.cyberciti.biz/tips/about-us" rel="author" class="url fn">nixCraft</a></span> on <abbr
+class="published" title="2013-04-28">April 28, 2013</abbr> &middot; <span><a
+href="http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/#comments" rel="nofollow"><span
+class="dsq-postid" rel="369 http://www.cyberciti.biz/?p=369">0 comments</span></a></span>&middot; <span>Last updated <abbr
+class="updated" title="2013-04-28">April 28, 2013</abbr><span></p><p
+class="headline_meta">in <span><a
+href="http://www.cyberciti.biz/topics/cloud-computing/aws/" title="View all posts in Amazon Web Services" rel="category tag">Amazon Web Services</a></span></p></div><div
+class="format_text entry-content"><p><span
+class="drop_cap">Y</span>ou can send visitors to different servers based on country of their IP address using Amazon Route 53 cloud based dns server. For example, if you have a server in Amsterdam, a server in America, and a server in Singapore, then you can easily route traffic for visitors in Europe to the Amsterdam server, people in Asia go to the Singapore server and those in the rest of the world be served by the American server. This will results into the various kinds of benefits such as:</p><ol><li><strong>Better performance</strong> as you are sending web site visitors to their nearest web server.</li><li><strong>Reduced load</strong> on origin.</li><li><strong>Geomarketing</strong>/online advertising.</li><li><strong>Restricting content</strong> to those geolocated in specific countries (I am not a big fan of DRM).</li><li>In some cases you can get potentially <strong>lower costs</strong> and more.</li></ol><p>In this post, I will explain how to configure and test GeoDNS using AWS Route 53 service.<br
+/> <span
+id="more-369"></span></p><h2>Our sample setup</h2><p><div
+class="wp-caption aligncenter" style="width: 603px"><a
+href="http://www.cyberciti.biz/topics/cloud-computing/aws/"><img
+src="http://s0.cyberciti.org/images/faq/2013/04/geodns.sample.setup.png" width="593" height="127" alt="Fig.01: Sample geodns setup for HTTP/SMTP service" class /></a><p
+class="wp-caption-text">Fig.01: Sample geodns setup for HTTP/SMTP service</p></div><br
+/> Please note that IPs (1.1.1.1) or CNAMEs (w.usa.cyberciti.biz) can be hosted by AWS or your own server anywhere in the world.</p><h2>AWS Route 53 routing policy</h2><p>From the Route 53 documents:</p><blockquote><p>If your application is hosted on Amazon EC2 instances in multiple EC2 regions, you can reduce latency for your end users by serving their requests from the EC2 region for which network latency is lowest. Route 53 latency-based routing lets you use DNS to route end-user requests to the EC2 region that will give your users the fastest response.</p></blockquote><p>It is possible to use Route 53's Latency Based Routing (LBR) feature with non-AWS endpoints or IP address. Route 53 don't restrict what IPs or CNAMEs you can tag with a region. AWS dns server will route traffic to those IPs/CNAMEs "as if" those IPs or CNAMEs were hosted in whichever AWS region you choose to tag. The following is the current list of regions supported by Route 53 LBR:</p><ol><li>Nothern Virginia, US: us-east-1</li><li>Nothern California, US: us-west-1</li><li>Oregon, US: us-west-2</li><li>Ireland, EU: eu-west-1</li><li>Singapore, Asia: ap-southeast-1</li><li>Tokyo, Asia:  ap-northeast-1</li><li>Sydney, Asia: ap-southeast-2</li><li>Sao Paulo, South America: sa-east-1</li></ol><h2>Configuration</h2><p>First, open the Amazon Route 53 console at <a
+href="https://console.aws.amazon.com/route53/">https://console.aws.amazon.com/route53/</a> > Choose your existing domain > Click on the <strong>Go to Record Sets</strong> button > Click on the <strong>Create Record Set</strong> button.</p><h3>CNAME geodns settings for USA Dallas server</h3><ol><li>Set <strong>Name</strong> to <kbd>www.l</kbd>.</li><li>Choose <strong>Type</strong> to <kbd>CNAME</kbd>.</li><li>Set <strong>TTL</strong> to <kbd>30</kbd> seconds.</li><li>Set <strong>Value</strong> to <kbd>w.usa.cyberciti.biz.</kbd> seconds.</li><li>Set <strong>Routing Policy</strong> to <kbd>Latency</kbd>.</li><li>Set <strong>Region</strong> to <kbd>us-west-1</kbd>.</li><li>Set <strong>ID</strong> to <kbd>Dallas, TX, Data Center</kbd>.</li><li>Click the <strong>Create Record set</strong> button to save the changes.</li></ol><div
+class="wp-caption aligncenter" style="width: 419px"><a
+href="http://s0.cyberciti.org/images/faq/2013/04/aws.route53.geodns.1.png"><img
+src="http://s0.cyberciti.org/images/faq/2013/04/aws.route53.geodns.1.png" width="409" height="598" alt="Fig.02: CNAME geodns settings for Dallas/USA server." class /></a><p
+class="wp-caption-text">Fig.02: CNAME geodns settings for Dallas/USA server.</p></div><h3>Set an IP address for CNAME <kbd>w.usa.cyberciti.biz</kbd></h3><p>Visit the Amazon Route 53 console at <a
+href="https://console.aws.amazon.com/route53/">https://console.aws.amazon.com/route53/</a> > Choose your existing domain > Click on the <strong>Go to Record Sets</strong> button > Click on the <strong>Create Record Set</strong> button.</p><ol><li>Set <strong>Name</strong> to <kbd>w.usa</kbd>.</li><li>Set <strong>Type</strong> to <kbd>A - IPv4 address</kbd>.</li><li>Set <strong>TTL</strong> to <kbd>30</kbd> seconds.</li><li>Set <strong>Value</strong> to <kbd>1.1.1.1</kbd>. Please replace IP address 1.1.1.1 with your actual AWS endpoint or any other valid public IP address in US.</li><li>Set <strong>Routing Policy</strong> to <kbd>Simple</kbd>.</li><li>Click the <strong>Create Record set</strong> button to save the changes.</li></ol><div
+class="wp-caption aligncenter" style="width: 416px"><a
+href="http://s0.cyberciti.org/images/faq/2013/04/aws.route53.geodns.cname-ip.png"><img
+src="http://s0.cyberciti.org/images/faq/2013/04/aws.route53.geodns.cname-ip.png" width="406" height="388" alt="Fig.03: Set an IP address for CNAME w.usa.cyberciti.biz." class /></a><p
+class="wp-caption-text">Fig.03: Set an IP address for CNAME w.usa.cyberciti.biz.</p></div><p><strong>Repeat this process </strong> for the rest of your HTTP and SMTP services. At the end, your setup should look like as follows:<br
+/><div
+class="wp-caption aligncenter" style="width: 603px"><a
+href="http://s0.cyberciti.org/images/faq/2013/04/aws.cname.large.png"><img
+src="http://s0.cyberciti.org/images/faq/2013/04/aws.cname.png" width="593" height="223" alt="Fig.04: Showing all CNAME and AWS geo mapping for each region (click to enlarge)." class /></a><p
+class="wp-caption-text">Fig.04: Showing all CNAME and AWS geo mapping for each region (click to enlarge).</p></div></p><div
+class="wp-caption aligncenter" style="width: 601px"><a
+href="http://s0.cyberciti.org/images/faq/2013/04/aws.cnames-to-ip.png"><img
+src="http://s0.cyberciti.org/images/faq/2013/04/aws.cnames-to-ip.png" width="591" height="77" alt="Fig.05: IP address for all CNAMEs." class /></a><p
+class="wp-caption-text">Fig.05: IP address for all CNAMEs.</p></div><h2>Test it</h2><p>Use the following <a
+href="http://www.cyberciti.biz/faq/unix-linux-dns-lookup-command/">dig or host dns lookup command line utilities</a> to verify new settings:<br
+/> <code>% dig +short  www.l.cyberciti.biz.</code><br
+/> Sample outputs from various locations:</p><pre class="bash"><span style="color: #808080; font-style: italic;">## Asia  ##</span>
+<span style="color: #c20cb9; font-weight: bold;">w</span>.sg.asia.cyberciti.biz.
+<span style="color: #000000;">3.3</span><span style="color: #000000;">.3</span><span style="color: #000000;">.3</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">## Office <span style="color: #000000; font-weight: bold;">in</span> UK ## </span>
+<span style="color: #c20cb9; font-weight: bold;">w</span>.europe.cyberciti.biz.
+<span style="color: #000000;">2.2</span><span style="color: #000000;">.2</span><span style="color: #000000;">.2</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">## IDC <span style="color: #000000; font-weight: bold;">in</span> US ##</span>
+<span style="color: #c20cb9; font-weight: bold;">w</span>.usa.cyberciti.biz.
+<span style="color: #000000;">1.1</span><span style="color: #000000;">.1</span><span style="color: #000000;">.1</span>
+&nbsp;</pre><p>The following images shows the accuracy of geo name-to-IP address resolutions around the world for www.l.cyberciti.biz:<br
+/><div
+class="wp-caption aligncenter" style="width: 602px"><a
+href="http://just-ping.com/index.php?vh=www.l.cyberciti.biz&c=&s=ping%21"><img
+src="http://s0.cyberciti.org/images/faq/2013/04/aws.geo.location.result.png" width="592" height="739" alt="Fig.06: Route 53 geo location accuracy" class /></a><p
+class="wp-caption-text">Fig.06: Route 53 geo location accuracy</p></div></p><h2>Limitations</h2><p>Use of proxy servers, third party DNS servers other than your ISPs and VPN may give a false geo location to end-users.</p><div
+class="wp-caption aligncenter" style="width: 603px"><a
+href="http://xkcd.com/713/"><img
+src="http://s0.cyberciti.org/images/faq/2013/04/geoip.png" width="593" height="229" alt="GeoIP limitations - Credit XKCD " class /></a><p
+class="wp-caption-text">GeoIP limitations - Credit XKCD</p></div><p>The <a
+href="http://theos.in/windows-xp/free-fast-public-dns-server-list/">dig command output from my home using Google free DNS servers</a>:<br
+/> <code>% dig +short www.l.cyberciti.biz. @8.8.8.8</code><br
+/> Sample outputs:</p><pre>w.sg.asia.cyberciti.biz.
+3.3.3.3</pre><p>However, OpenDNS sent visitor to EU data center<br
+/> <code>% dig +short www.l.cyberciti.biz. @208.67.222.222</code><br
+/> Sample outputs:</p><pre>w.europe.cyberciti.biz.
+2.2.2.2</pre><h2>Conclusion</h2><p>The Route 53 provides a simple, and accurate geo targeting based on LBR. This is useful to direct traffic to a server geographically closer to the end-user. The server can be hosted with AWS or anywhere else in the world. The next logical step is to set up a database replication and upload your Python/PHP/Perl and other files (JS/CSS/Images) to servers so that end users can view the same content.</p><h5>References</h5><ul><li><a
+target="_blank" href="http://aws.amazon.com/documentation/route53/">Amazon Route 53 documentation</a></li><li>man pages - dig and host.</li></ul><p
+class="post_tags">Tagged as: <a
+href="http://www.cyberciti.biz/tutorials/dns-servers/" rel="tag">DNS Servers</a>, <a
+href="http://www.cyberciti.biz/tutorials/geotargeting/" rel="tag">Geotargeting</a>, <a
+href="http://www.cyberciti.biz/tutorials/route-53/" rel="tag">Route 53</a>, <a
+href="http://www.cyberciti.biz/tutorials/wordpress/" rel="tag">Wordpress</a></p><ul
+class="share"><li
+class="tweeter"><a
+href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/" data-via="nixcraft">Tweet</a></li><li
+class="googleplus"><g:plusone size="medium" href="http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/"></g:plusone></script></li><li
+class="facebook"><iframe
+src="//www.facebook.com/plugins/like.php?href=http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe></li><li
+class="stubleupon"><su:badge layout="2" location="http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/"></su:badge></li><li
+class="reddit"><a
+href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false"> <img
+src="http://s0.cyberciti.org/images/misc/spreddit7.gif" alt="submit to reddit" border="0" /> </a></li><li
+class="pdfdl"><a
+href="http://www.cyberciti.biz/view/pdf/cms/369.php"><img
+src="http://s0.cyberciti.org/images/misc/pdfdlv1.jpg" alt="Download this as pdf"></a></li></ul> <br/><br/><p
+class="my_social_follow"> If you would like to be kept up to date with our posts, you can follow us on <a
+href="https://twitter.com/nixcraft" title="Find us on twitter">Twitter</a>, <a
+href="https://facebook.com/nixcraft" title="Find us on Facebook">Facebook</a>, <a
+href="https://plus.google.com/104257421720370350735" rel="publisher" title="Find us on Google+">Google+</a>, or even by subscribing to our <a
+href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks">RSS Feed</a>.</p> <br/><div
+class='my_featured_articles_0'> Featured Articles:<ul><li><a
+href="http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html">30 Handy Bash Shell Aliases For Linux / Unix / Mac OS X</a></li><li><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/">Top 30 Nmap Command Examples For Sys/Network Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/php-security-best-practices-tutorial.html">25 PHP Security Best Practices For Sys Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/top-linux-monitoring-tools.html">20 Linux System Monitoring Tools Every SysAdmin Should Know</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-security.html">20 Linux Server Hardening Security Tips</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-iptables-examples.html">Linux: 20 Iptables Examples For New SysAdmins</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html">Top 20 OpenSSH Server Best Security Practices </a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html">Top 20 Nginx WebServer Best Security Practices</a><li><A
+href="http://www.cyberciti.biz/tips/check-unix-linux-configuration-file-for-syntax-errors.html">20 Examples: Make Sure Unix / Linux Configuration Files Are Free From Syntax Errors</a><li><a
+href="http://www.cyberciti.biz/open-source/best-terminal-applications-for-linux-unix-macosx/">15 Greatest Open Source Terminal Applications Of 2012</a> <img
+style="verticalp-align: text-top; padding-left: 1px;" src="http://s0.cyberciti.org/static/legacy/i/new_post.png" alt="" border="0"></li><li><a
+href="http://www.cyberciti.biz/tips/my-10-unix-command-line-mistakes.html">My 10 UNIX Command Line Mistakes</a></li><li><a
+href="http://www.cyberciti.biz/tips/open-source-project-management-software.html">Top 10 Open Source Web-Based Project Management Software</a></li><li><a
+href="http://www.cyberciti.biz/tips/download-email-client-for-linux-mac-osx-windows.html">Top 5 Email Client For Linux, Mac OS X, and Windows Users</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-laptop.html">The Novice Guide To Buying A Linux Laptop</a></li></ul></div></div></div><div
+id="disqus_thread"></div> <script type="text/javascript">/*<![CDATA[*//*  */
+    var disqus_url = 'http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/';
+    var disqus_identifier = '369 http://www.cyberciti.biz/?p=369';
+    var disqus_container_id = 'disqus_thread';
+    var disqus_domain = 'disqus.com';
+    var disqus_shortname = 'cyberciti';
+    var disqus_title = "Amazon AWS Route 53 GEO DNS Configurations";
+        var disqus_config = function () {
+        var config = this; // Access to the config object
+        config.language = '';
+        /*
+           All currently supported events:
+            * preData — fires just before we request for initial data
+            * preInit - fires after we get initial data but before we load any dependencies
+            * onInit  - fires when all dependencies are resolved but before dtpl template is rendered
+            * afterRender - fires when template is rendered but before we show it
+            * onReady - everything is done
+         */
+        config.callbacks.preData.push(function() {
+            // clear out the container (its filled for SEO/legacy purposes)
+            document.getElementById(disqus_container_id).innerHTML = '';
+        });
+                config.callbacks.onReady.push(function() {
+            // sync comments in the background so we don't block the page
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = '?cf_action=sync_comments&post_id=369';
+            var firstScript = document.getElementsByTagName( "script" )[0];
+            firstScript.parentNode.insertBefore(script, firstScript);
+        });
+                    };
+/*  *//*]]>*/</script> <script type="text/javascript">/*  */
+    var DsqLocal = {
+        'trackbacks': [
+        ],
+        'trackback_url': "http:\/\/www.cyberciti.biz\/cloud-computing\/aws\/route-53-geodns-tutorial\/trackback\/"    };
+/*  */</script> <script type="text/javascript">/*<![CDATA[*//*  */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.' + 'disqus.com' + '/embed.js?pname=wordpress&pver=2.74';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+/*  *//*]]>*/</script> <div
+class="prev_next post_nav"><p
+class="previous">Previous post: <a
+href="http://www.cyberciti.biz/programming/linux-memory-forensics-analysis-tools/" rel="prev">Top 8 Tools To Search Memory Under Linux / Unix [ Forensics Analysis ]</a></p><p>Next post: <a
+href="http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/" rel="next">Apache / Nginx: Visualize Web Server Access  Log In Real Time</a></p></div></div><div
+id="sidebars"><div
+id="multimedia_box" class="custom_box"><div
+id="custom_box"><div
+style='color: #555555; text-align:center; line-height: 200%;'> <span
+style='font-size: 22px; font-weight:bold;'>GET FREE TIPS &amp; NEWS</span> <br/> <span
+style='font-style:italic;'>Make the most of Linux Sysadmin work!</span> <br
+/></div><center><form
+action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=Nixcraft-LinuxFreebsdSolarisTipsTricks', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">&nbsp;&nbsp;&nbsp;&nbsp;<input
+type="text" class="text_input" name="email" value="Enter your email" id="name" onclick="if (this.value=='Enter your email') {this.value=''};" onblur="if (this.value=='') {this.value='Enter your email';}"/><input
+type="hidden" value="Nixcraft-LinuxFreebsdSolarisTipsTricks" name="uri"/> <input
+type="hidden" name="loc" value="en_US"/><input
+value="Join" class="form_submit" type="submit"></form> <br/> <span
+style="font-size: 12px;"> <a
+target="_blank" title="Connect with nixCraft on Youtube to see all our Linux video tutorials" href="https://www.youtube.com/user/nixcraftcom">Youtube </a> &nbsp; | &nbsp; <a
+target="_blank" href="https://twitter.com/nixcraft" title="Follow nixCraft on Twitter!">Twitter</a> &nbsp; | &nbsp; <a
+target="_blank" title="Connect with nixCraft on Google Plus!!" href="https://plus.google.com/104257421720370350735">Google +</a> </span></center></div></div><div
+id="sidebar_1" class="sidebar"><ul
+class="sidebar_list"><li
+class="widget widget_text" id="text-3"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-3' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-3'); });</script> </div></div></li><li
+class="widget widget_text" id="text-9"><div
+class="textwidget"><div
+id="cse-search-box" style="width: 100%;">Loading</div> <script src="http://www.google.com/jsapi" type="text/javascript"></script> <script type="text/javascript">google.load('search', '1', {language : 'en', style : google.loader.themes.V2_DEFAULT});
+  google.setOnLoadCallback(function() {
+    var customSearchOptions = {};
+    var imageSearchOptions = {};
+    imageSearchOptions['layout'] = google.search.ImageSearch.LAYOUT_POPUP;
+    customSearchOptions['enableImageSearch'] = true;
+    customSearchOptions['imageSearchOptions'] = imageSearchOptions;  var customSearchControl = new google.search.CustomSearchControl(
+      '002165917076592449621:riwi1tlrb1m', customSearchOptions);
+    customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+    var options = new google.search.DrawOptions();
+    options.setAutoComplete(true);
+    options.enableSearchboxOnly("http://www.cyberciti.biz/linux-search.php");
+    customSearchControl.draw('cse-search-box', options);
+  }, true);</script></div></li><li
+class="widget widget_text" id="text-5"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-4' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-4'); });</script> </div></div></li><li
+class="widget widget_text" id="text-7"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-1' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-1'); });</script> </div></div></li><li
+class="widget widget_text" id="text-10"><div
+class="textwidget"><div
+class="g-plus" data-href="//plus.google.com/104257421720370350735" data-rel="publisher"></div></div></li><li
+class="widget widget_wp_related_posts" id="wp_related_posts_widget"><div
+class="wp_rp_wrap  wp_rp_modern" id="wp_rp_first"><div
+class="wp_rp_content"><h3>Related Posts</h3><ul
+class="related_post wp_rp" style="visibility: visible"><li ><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/21.jpg" alt="Amazon Cloudfront Dynamic Content Delivery With A WordPress Blog" /></a><a
+href="http://www.cyberciti.biz/cloud-computing/content-delivery-network/serve-entire-wordpress-blog-using-amazon-cloudfront/" class="wp_rp_title">Amazon Cloudfront Dynamic Content Delivery With A WordPress Blog</a></li><li ><a
+href="http://www.cyberciti.biz/cloud-computing/aws/amazon-glacier-manage-critical-workflow-data-archives/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/23.jpg" alt="Amazon Glacier: Cloud Storage For Archives And Backups Launched" /></a><a
+href="http://www.cyberciti.biz/cloud-computing/aws/amazon-glacier-manage-critical-workflow-data-archives/" class="wp_rp_title">Amazon Glacier: Cloud Storage For Archives And Backups Launched</a></li><li ><a
+href="http://www.cyberciti.biz/cloud-computing/aws/amazon-announces-ssd-storage-based-high-io-ec2-server-instance/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/23.jpg" alt="Amazon Announces SSD Storage Based High I/O EC2 Server / Instance " /></a><a
+href="http://www.cyberciti.biz/cloud-computing/aws/amazon-announces-ssd-storage-based-high-io-ec2-server-instance/" class="wp_rp_title">Amazon Announces SSD Storage Based High I/O EC2 Server / Instance </a></li><li ><a
+href="http://www.cyberciti.biz/open-source/best-terminal-applications-for-linux-unix-macosx/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/16.jpg" alt="15 Greatest Open Source Terminal Applications Of 2012" /></a><a
+href="http://www.cyberciti.biz/open-source/best-terminal-applications-for-linux-unix-macosx/" class="wp_rp_title">15 Greatest Open Source Terminal Applications Of 2012</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/linux-run-command-as-different-user/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/23.jpg" alt="Linux Run Command As Another User " /></a><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/linux-run-command-as-different-user/" class="wp_rp_title">Linux Run Command As Another User </a></li><li ><a
+href="http://www.cyberciti.biz/open-source/html-to-pdf-freeware-linux-osx-windows-software/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/uploads/cms/2013/02/wkhtmltopdf-amd64.output-150x150.jpg" alt="Convert HTML Page To a PDF Using Open Source Tool [ Linux / OS X / Windows ]" /></a><a
+href="http://www.cyberciti.biz/open-source/html-to-pdf-freeware-linux-osx-windows-software/" class="wp_rp_title">Convert HTML Page To a PDF Using Open Source Tool [ Linux / OS X / Windows ]</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/0.jpg" alt="Apache / Nginx: Visualize Web Server Access  Log In Real Time" /></a><a
+href="http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/" class="wp_rp_title">Apache / Nginx: Visualize Web Server Access  Log In Real Time</a></li><li ><a
+href="http://www.cyberciti.biz/linux-news/download-debian-7-cd-dvd-iso/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/8.jpg" alt="Download of The Day: Debian Linux 7 ( Wheezy )" /></a><a
+href="http://www.cyberciti.biz/linux-news/download-debian-7-cd-dvd-iso/" class="wp_rp_title">Download of The Day: Debian Linux 7 ( Wheezy )</a></li><li ><a
+href="http://www.cyberciti.biz/networking/howto-connect-two-wireless-router-wirelessly-bridge-with-open-source-software/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/11.jpg" alt="HowTo: Connect Two Wireless Router Wirelessly ( Bridge ) With Open Source Software" /></a><a
+href="http://www.cyberciti.biz/networking/howto-connect-two-wireless-router-wirelessly-bridge-with-open-source-software/" class="wp_rp_title">HowTo: Connect Two Wireless Router Wirelessly ( Bridge ) With Open Source Software</a></li><li ><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/7.jpg" alt="Top 30 Nmap Command Examples For Sys/Network Admins" /></a><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/" class="wp_rp_title">Top 30 Nmap Command Examples For Sys/Network Admins</a></li></ul></div></div></li><li
+class="widget widget_text" id="text-11"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-0' style='width:300px; height:600px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-0'); });</script> </div> <br/> <a
+href="https://plus.google.com/b/104257421720370350735/" rel="publisher">Find us on Google+</a></div></li></ul></div></div></div><div
+id="footer"><div
+class="idglogo"> <img
+src="http://s0.cyberciti.org/static/legacy/i/idg-logo-new.gif" alt="" border="0" /></div><div
+class="copynotice"> &copy;2004-2013 nixCraft. All rights reserved. Cannot be reproduced without written permission. <br
+/> <a
+href="/tips/privacy">Privacy Policy</a> | <a
+href="/tips/disclaimer">Terms of Service</a> | <a
+href="/tips/contact-us" title="Email us / Contact us">Questions or Comments</a> | <a
+href="/tips/copyright" title="nixCraft copyright information">Copyright Info</a> | <a
+href="/tips/sitemaps" title="nixCraft sitemap">Sitemap</a></div>	</div>
+</div>
+</div>
+<!--[if lte IE 8]>
+<div id="ie_clear"></div>
+<![endif]-->
+<script src="http://www.cyberciti.biz/mint/?js" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-108650-1']);
+  _gaq.push(['_setDomainName', 'www.cyberciti.biz']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = '//apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script type="text/javascript">
+  (function() {
+    var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+    li.src = '//platform.stumbleupon.com/1/widgets.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+  })();
+</script>
+</body>
+</html>

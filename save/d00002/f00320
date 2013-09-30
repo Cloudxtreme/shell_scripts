@@ -1,0 +1,231 @@
+<html> <head>
+<title>Let's make improved Canna Dictionaries.</title>
+</head>
+
+<body bgcolor="#ffffff">
+
+<h1>cannaの辞書を賢くするぜ</h1>
+
+ちょっと更新＠2004/12/08<br>
+ちょっと更新＠2004/06/14<br>
+ちょっと更新＠2003/07/07<br>
+む、Cannaの公式ページからリンクが張られていたんですね。もうちょっと
+頑張って書き足していきます。
+
+<p></p>
+<b>[改装予定] 近々、色々更新しつつ書きたしたいと思っています (07/15/2004)</b>
+<br>
+
+<hr>
+
+<p>
+
+PC-UNIXの世界はそれなりに幸せになってきました。カナ漢字変換も商用の賢
+いソフトが購入できるようになり、それなりに環境整備が進んでいると思いま
+す。「UNIXのカナ漢字変換はぼろい」ということが昔から言われていましたが、
+現在では商用のWnn6とかVJEとかを購入すればそれなりに賢いカナ漢字変
+換環境を手に入れられます。
+
+<p>
+しかし私はcanna使い。ということで、<br>
+<b>「せっかくだから、俺はcannaを賢くするぜ」</b><br>
+などとコンバット越前的叫びをあげつつ、
+Cannaを賢くしてみたいと思います。
+
+<hr>
+
+<h2>最新cannaを入れてますか？</h2>
+
+cannaは元もとNECで開発されていたものですが、開発元での開発が停止し、
+開発は有志に引き継がれています。cannaの開発はsourceforge.jp上で行なわれて
+おり、現在のcannaの公式サイトは、
+<br>
+<a href="http://canna.sourceforge.jp" >canna.sourceforge.jp</a>
+<br>
+です。2003年7月現在の最新版は3.6p3です。
+<br>
+
+FreeBSDではportsから、NetBSDではpkgsrcからインストールできます。
+
+<p>
+さて、古い内容は↓です。
+<p>
+
+&lt;ここから&gt;<br>
+
+私はBSD/OS(2000年末現在 ^_^; 今はNetBSD)使いです。portsに頼って自分が
+使っているソフトのバージョンも知らないような軟弱者(これが多いんだ、最
+近)のことは相手にしません。手でインストールしましょう。というわけで、
+cannaの最新バージョンについてです。
+
+<p>
+cannaの最新版は3.5b2です。本家のページから入手できます。
+
+<ul>
+  <li><a href="http://www.nec.co.jp/japanese/product/computer/soft/canna/">
+       http://www.nec.co.jp/japanese/product/computer/soft/canna/</a>
+</ul>
+
+また、以下のページでは、cannaに対するpatchを紹介しています。
+
+<ul>
+  <li> <a href="http://www.jaist.ac.jp/~fujieda/canna/">http://www.jaist.ac.jp/~fujieda/canna/</a>
+</ul>
+
+FreeBSDのportsのCannaはいまだに3.2.2であることを考えると、自力でインス
+トールする価値はありますね。<br> うそ。<br> なんてことをいっているうち
+に、FreeBSDもportsもNetBSDのpkgsrcも3.5b2になりました。良いことです。
+ただしFreeBSDについてはpackageで転がっているのは3.2.2のままなので注意して
+ください。portsをいれると3.5b2になります。
+
+<br>
+&lt;/ここまで&gt;<br>
+
+<hr>
+<h2>辞書入れてますか？</h2>
+
+辞書を鍛えればcannaもそれなりに賢くなる、という気がするので、
+辞書はばんばん入れてみようと思います。
+
+<hr width="50%" align="left">
+
+<h3>拡張版辞書</h3>
+
+<a href="http://cannadic.oucrc.org/">
+かんな辞書(拡張版)
+</a>のページで、13万語の辞書が公開されています。かなり賢くなります。
+<br>
+この辞書については、FreeBSDのportsになっています。japanese/cannadicがそれで、
+これをmake installしてdics.dirを書き変えて、
+.cannaの辞書の項目に"gcanna", "gcannaf"を追加すれば
+使えるようになります。
+
+<hr width="50%" align="left">
+
+<h3>skkの辞書</h3>
+
+<a href="http://openlab.jp/skk/index-j.html" >skk</a>
+の名詞辞書(
+<a href="http://www.opensource.jp/gpl/gpl.ja.html" >GPL</a>
+にもとづいて配布され、改変、再配布が可能)
+を変換して使うと、名詞や特にcannaが弱い4文字熟語が圧到的
+に強力になります。ただし、上記の拡張辞書と一緒に使うと全体の辞書の項目が大
+きくなりすぎるのか、正しく変換できない言葉が出てきて困ります。そこ
+で、skkの名詞辞書のうち、2文字以上でかつ拡張版かんな辞書を重複していな
+い単語だけを抜きだした辞書を作成してみました(シェイプアップ版)。
+シェイプアップ版でも9万語ほどの名詞が登録されています。
+<br>
+
+とりあえずテキスト版辞書を用意したので、必要ならmkbindicしてください。
+<br>
+(最終更新日：2004年12月8日)<br>
+
+<ul>
+  <li> <a href="gskk-20041208.t.gz">シェイプアップ版(.gz)</a>
+  <li> <a href="gskk.t.gz">シェイプアップ版(.gz) (2001年4月22日版)</a>
+</ul>
+
+mkbindicすると、*.cbdと*.cldができ上がります。これを登録するためには、
+例えばdics.dirに次のように書きます。
+
+<hr>
+<pre>
+gskk.cbd(gskk.mwd)                -gskk---
+gskk.cld(gskk.mwd)                -gskk---
+</pre>
+<hr>
+
+もちろん、各自の~/.cannaの(use-dictionary..)の中に"gskk"
+を追加するようにしてください。<br>
+辞書を追加したら、cannaserverを再起動し、M-x canna-reset(Muleやemcwsの場合。
+yc.elの場合は立ち上げ直し)を実行してください。
+
+<p>
+上記の拡張辞書もこのskk辞書も共通しているのですが、辞書を作成した直後では
+頻度情報がとち狂っています。難しい単語の方が最初にでてくるのではないかと
+思われるくらい。しばらくガリガリ使って、頻度情報を学習させてください。
+
+<p>
+なお、上記の名詞辞書は、オリジナルのSKKのライセンスである
+<a href="http://www.opensource.jp/gpl/gpl.ja.html" >GPL</a>
+に従い、改変と再配布が可能です。
+<p>
+
+<hr width="50%" align="left">
+<h3>i-dic(Idol Dictionally)</h3>
+
+i-dicのダウンロードは
+<a href="http://www.vector.co.jp/soft/data/writing/se001795.html" >こちら</a>
+から。<br>
+インストールするためには、tar.gzをダウンロードして、make cannaを実行するだけ
+です。idic.tというテキスト形式の辞書が出来ます。バイナリ形式に変換したい
+場合はmkbindic idic.tを実行してください。idic.cbd, idic.cldというファイルが
+出来ますので、この二つを${CANNAPREFIX}/dict/canna/canna/にコピーし、
+dics.dirに以下の二行を追加してください。
+<pre>
+idic.cbd(idic.mwd)        -idic---
+idic.cld(idic.mwd)       -idic---
+</pre>
+
+<hr width="50%" align="left">
+<h3>s-dic(Sailormoon Dictionally)</h3>
+
+
+<hr width="50%" align="left">
+<h3>2ch用語辞書</h3>
+
+<a href="http://omaemona.sourceforge.net/" >
+Omaemona 2ch/Linux (DQN)</a>の中で、2ch用語を集めた
+<a href="http://omaemona.sourceforge.net/packages/Canna/" >辞書</a>
+を作っています。テキスト形式の辞書なので、mkbindicしてdics.dirに
+書き加えて使いましょう。
+
+<hr>
+<h2>canna関係リンク集</h2>
+
+<ul>
+  <li>本体
+  <ul>
+    <li>
+    <a href="http://canna.sourceforge.jp" >
+    日本語入力システム「かんな」 (sourceforge.jp)
+    </a>
+    <li>
+    <a href="http://www.nec.co.jp/canna/" >
+    日本語入力システム かんな のページ (NEC)
+    </a>
+    <li>
+    <a href="http://www.jaist.ac.jp/~fujieda/canna/" >
+    『かんな』の部屋 (藤枝さん＠JAIST)
+    </a>
+  </ul>
+  <li>辞書
+  <ul>
+    <li><a href="http://www.kusastro.kyoto-u.ac.jp/%7Ebaba/dic/free-dic.html#dictionaries" >
+    フリーのかな漢字変換辞書たち
+    </a>
+    <li>
+    <a href="http://www-nuclth.phys.sci.osaka-u.ac.jp/network_and_computers/net3/node69.html" >
+    日本語入力を凄くしたい!
+    </a>
+    <li>
+    <a href="http://cannadic.oucrc.org/" >
+    かんな辞書 cannadic
+    </a>
+    <li>
+    <a href="http://openlab.ring.gr.jp/edict/" >
+    電子辞書オープンラボ
+    </a>
+    <li>
+    <a href="http://www.vector.co.jp/vpack/filearea/data/writing/dic/index.html" >
+    Vectorの各種辞書のページ
+    </a>
+  </ul>
+</ul>
+
+
+
+<hr>
+<address><a href="mailto:kimoto@ohnolab.org">Masahiko KIMOTO &lt;kimoto@ohnolab.org&gt;</a></address>
+<!-- hhmts start --> Last modified: Wed Dec  8 22:21:29 JST 2004 <!-- hhmts end -->
+</body> </html>

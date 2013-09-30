@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="iso-8859-1">
+
+<meta name="author" content="CERT.br" />
+<meta name="description" content="Contas e senhas" />
+<meta name="keywords" content="segurança, Internet, prevenção, autenticação, autorização, contas, senha, password, elaboração, alteração, gerenciamento, recuperação, códigos maliciosos, malware, phishing, chave mestra" />
+
+<link rel="stylesheet" type="text/css" media="screen" href="/css/cartilha.css" />
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+<script type="text/javascript" src="/js/modernizr.js"></script>
+
+<title>Cartilha de Segurança -- Contas e senhas</title>
+
+</head>
+
+<body>
+
+<!-- ************************************************************ -->
+<!-- ******* Begin header *************************************** -->
+
+<header>
+<section id="header-cert">
+
+<h1>
+<a href="http://www.cert.br/">
+<img src="/images/logo_cert.png" alt="CERT.br" />
+</a>
+</h1>
+<span><a href="http://www.cert.br/">Centro de Estudos, Resposta e
+Tratamento de<br />Incidentes de Segurança no Brasil</a></span>
+
+<div id="header-cgi-nic">
+<a href="http://www.nic.br/" title="Núcleo de Informação e Coordenação do Ponto BR">
+<img src="/images/logo_nic.png" alt="NIC.br" class="logo-nic" />
+</a>
+<a href="http://www.cgi.br/" title="Comitê Gestor da Internet no Brasil">
+<img src="/images/logo_cgi.png" alt="CGI.br" />
+</a>
+</div>
+
+</section>
+
+<section class="topo">
+
+<h2>
+<a href="/" accesskey="1">
+<img src="/images/logo_cartilha.png"
+alt="Cartilha de Segurança para Internet" class="logo-cartilha" />
+</a>
+</h2>
+
+<nav>
+<ul>
+  <li><a href="/">Início</a></li>
+  <li><a href="/livro/">Livro</a></li>
+  <li><a href="/fasciculos/">Fascículos</a></li>
+  <li><a href="/sobre/">Sobre</a></li>
+</ul>
+</nav>
+
+<form method="get" class="search-form" action="http://www.google.com/search" >
+  <input type="text" value="Buscar" name="q" size="20"
+         class="searchInput" />
+  <input type="hidden" name="sitesearch" value="cartilha.cert.br" />
+  <input type="image" name="submit" class="searchButton"
+         src="/images/button_search.png" alt="Search" />
+</form>
+
+<span class="ir-conteudo"><a href="#content" accesskey="2">Ir para o
+conteúdo</a></span>
+
+<div class="breadcrumb">
+  Você está em: <a href="/">Cartilha</a> &gt;
+  <strong>8. Contas e senhas</strong>
+</div>
+
+</section>
+</header>
+
+<!-- ******* End header ***************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin sumario ************************************** -->
+
+<aside>
+  <nav>
+    <div class="menu-navigation-container">
+      <p>Sumário</p>
+      <ul id="menu-navigation" class="menu">
+        <li><a href="/seguranca/">1. Segurança na Internet</a></li>
+        <li><a href="/golpes/">2. Golpes na Internet</a></li>
+        <li><a href="/ataques/">3. Ataques na Internet</a></li>
+        <li><a href="/malware/">4. Códigos Maliciosos (Malware)</a></li>
+        <li><a href="/spam/">5. Spam</a></li>
+        <li><a href="/riscos/">6. Outros riscos</a></li>
+        <li><a href="/mecanismos/">7. Mecanismos de segurança</a></li>
+        <li class="on"><a href="/senhas/">8. Contas e senhas</a></li>
+        <li><a href="/criptografia/">9. Criptografia</a></li>
+        <li><a href="/uso-seguro/">10. Uso seguro da Internet</a></li>
+        <li><a href="/privacidade/">11. Privacidade</a></li>
+        <li><a href="/computadores/">12. Segurança de computadores</a></li>
+        <li><a href="/redes/">13. Segurança de redes</a></li>
+        <li><a href="/dispositivos-moveis/">14. Segurança em dispositivos móveis</a></li>
+        <li><a href="/glossario/">Glossário</a></li>
+      </ul>
+    </div>
+  </nav>
+</aside>
+
+<!-- ******* End sumario **************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin conteudo ************************************* -->
+
+<a name="content"></a>
+
+<!-- ************************************************************ -->
+
+<article id="chapter_8">
+
+<div class="posicaoConteudo">
+<div class="conteudoLateralEsquerda">
+<div class="conteudoLateralDireita">
+<div class="inicioConteudo"></div>
+<div class="conteudo">
+
+<h3>
+<a name="8"></a>
+8. Contas e senhas
+</h3>
+
+  <img class="ilustracao-r" src="/images/situacoes/contas-senhas.jpg"
+       alt="[Contas e senhas]" title="Contas e senhas" />
+
+<p>
+Uma conta de usuário, também chamada de "nome de usuário", "nome de
+<i>login</i>" e <i>username</i>, corresponde à identificação única de um
+usuário em um computador ou serviço. Por meio das contas de usuário é
+possível que um mesmo computador ou serviço seja compartilhado por
+diversas pessoas, pois permite, por exemplo, identificar unicamente cada
+usuário, separar as configurações específicas de cada um e controlar as
+permissões de acesso.
+</p>
+
+<p>
+A sua conta de usuário é de conhecimento geral e é o que permite a sua
+identificação. Ela é, muitas vezes, derivada do seu próprio nome, mas
+pode ser qualquer sequência de caracteres que permita que você seja
+identificado unicamente, como o seu endereço de <i>e-mail</i>. Para
+garantir que ela seja usada apenas por você, e por mais ninguém, é que
+existem os mecanismos de autenticação.
+</p>
+
+<p>
+Existem três grupos básicos de mecanismos de autenticação, que se
+utilizam de: aquilo que você é (informações biométricas, como a sua
+impressão digital, a palma da sua mão, a sua voz e o seu olho), aquilo
+que apenas você possui (como seu cartão de senhas bancárias e um
+<i>token</i> gerador de senhas) e, finalmente, aquilo que apenas você
+sabe (como perguntas de segurança e suas senhas).
+</p>
+
+<p>
+Uma senha, ou <i>password</i>, serve para autenticar uma conta, ou seja,
+é usada no processo de verificação da sua identidade, assegurando que
+você é realmente quem diz ser e que possui o direito de acessar o
+recurso em questão. É um dos principais mecanismos de autenticação
+usados na Internet devido, principalmente, a simplicidade que possui.
+</p>
+
+<p>
+Se uma outra pessoa souber a sua conta de usuário e tiver acesso à sua
+senha ela poderá usá-las para se passar por você na Internet e realizar
+ações em seu nome, como:
+</p>
+
+<ul>
+
+  <li> acessar a sua conta de correio eletrônico e ler seus
+  <i>e-mails</i>, enviar mensagens de <i>spam</i> e/ou contendo
+  <i>phishing</i> e códigos maliciosos, furtar sua lista de contatos e
+  pedir o reenvio de senhas de outras contas para este endereço de
+  <i>e-mail</i> (e assim conseguir acesso a elas);
+
+  <li> acessar o seu computador e obter informações sensíveis nele
+  armazenadas, como senhas e números de cartões de crédito;
+
+  <li> utilizar o seu computador para esconder a real identidade desta
+  pessoa (o invasor) e, então, desferir ataques contra computadores de
+  terceiros;
+
+  <li> acessar <i>sites</i> e alterar as configurações feitas por você,
+  de forma a tornar públicas informações que deveriam ser privadas;
+
+  <li> acessar a sua rede social e usar a confiança que as pessoas da
+  sua rede de relacionamento depositam em você para obter informações
+  sensíveis ou para o envio de boatos, mensagens de <i>spam</i> e/ou
+  códigos maliciosos.
+
+</ul>
+
+
+<!-- ************************************************************ -->
+
+<section id="section_8_1">
+
+<h4>
+<a name="8.1"></a>
+8.1. Uso seguro de contas e senhas
+</h4>
+
+<p>
+Algumas das formas como a sua senha pode ser descoberta são:
+</p>
+
+<ul>
+
+  <li> ao ser usada em computadores infectados. Muitos códigos
+  maliciosos, ao infectar um computador, armazenam as teclas digitadas
+  (inclusive senhas), espionam o teclado pela <i>webcam</i> (caso você
+  possua uma e ela esteja apontada para o teclado) e gravam a posição da
+  tela onde o <i>mouse</i> foi clicado (mais detalhes na Seção <a
+  href="/malware/#4.4">4.4</a> do Capítulo <a href="/malware/">Códigos
+  Maliciosos (<i>Malware</i>)</a>);
+
+  <li> ao ser usada em <i>sites</i> falsos. Ao digitar a sua senha em um
+  <i>site</i> falso, achando que está no <i>site</i> verdadeiro, um
+  atacante pode armazená-la e, posteriormente, usá-la para acessar o
+  <i>site</i> verdadeiro e realizar operações em seu nome (mais detalhes
+  na Seção <a href="/golpes/#2.3">2.3</a> do Capítulo <a
+  href="/golpes/">Golpes na Internet</a>);
+
+  <li> por meio de tentativas de adivinhação (mais detalhes na Seção <a
+  href="/ataques/#3.5">3.5</a> do Capítulo <a href="/ataques/">Ataques
+  na Internet</a>);
+
+  <li> ao ser capturada enquanto trafega na rede, sem estar
+  criptografada (mais detalhes na Seção <a href="/ataques/#3.4">3.4</a>
+  do Capítulo <a href="/ataques/">Ataques na Internet</a>);
+
+  <li> por meio do acesso ao arquivo onde a senha foi armazenada caso
+  ela não tenha sido gravada de forma criptografada (mais detalhes no
+  Capítulo <a href="/criptografia/">Criptografia</a>);
+
+  <li> com o uso de técnicas de engenharia social, como forma a
+  persuadi-lo a entregá-la voluntariamente;
+
+  <li> pela observação da movimentação dos seus dedos no teclado ou dos
+  cliques do <i>mouse</i> em teclados virtuais.
+
+</ul>
+
+<p>
+<b>Cuidados a serem tomados ao usar suas contas e senhas:</b>
+</p>
+
+<ul>
+
+  <li> certifique-se de não estar sendo observado ao digitar as suas
+  senhas;
+
+  <li> não forneça as suas senhas para outra pessoa, em hipótese alguma;
+
+  <li> certifique-se de fechar a sua sessão ao acessar <i>sites</i> que
+  requeiram o uso de senhas. Use a opção de sair (<i>logout</i>), pois
+  isto evita que suas informações sejam mantidas no navegador;
+
+  <li> elabore boas senhas, conforme descrito na Seção <a
+  href="#8.2">8.2</a>;
+
+  <li> altere as suas senhas sempre que julgar necessário, conforme
+  descrito na Seção <a href="#8.3">8.3</a>;
+
+  <li> não use a mesma senha para todos os serviços que acessa (dicas de
+  gerenciamento de senhas são fornecidas na Seção <a
+  href="#8.4">8.4</a>);
+
+  <li> ao usar perguntas de segurança para facilitar a recuperação de
+  senhas, evite escolher questões cujas respostas possam ser facilmente
+  adivinhadas (mais detalhes na Seção <a href="#8.5">8.5</a>);
+
+  <li> certifique-se de utilizar serviços criptografados quando o acesso
+  a um <i>site</i> envolver o fornecimento de senha (mais detalhes na
+  Seção <a href="/uso-seguro/#10.1">10.1</a> do Capítulo <a
+  href="/uso-seguro/">Uso seguro da Internet</a>);
+
+  <li> procure manter sua privacidade, reduzindo a quantidade de
+  informações que possam ser coletadas sobre você, pois elas podem ser
+  usadas para adivinhar a sua senha, caso você não tenha sido cuidadoso
+  ao elaborá-la (mais detalhes no Capítulo <a
+  href="/privacidade/">Privacidade</a>);
+
+  <li> mantenha a segurança do seu computador (mais detalhes no Capítulo
+  <a href="/computadores/">Segurança de computadores</a>);
+
+  <li> seja cuidadoso ao usar a sua senha em computadores potencialmente
+  infectados ou comprometidos. Procure, sempre que possível, utilizar
+  opções de navegação anônima (mais detalhes na Seção <a
+  href="/computadores/#12.3">12.3</a> do Capítulo <a
+  href="/computadores/">Segurança de computadores</a>).
+
+</ul>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_8_2">
+
+<h4>
+<a name="8.2"></a>
+8.2. Elaboração de senhas
+</h4>
+
+<p>
+Uma senha boa, bem elaborada, é aquela que é difícil de ser descoberta
+(forte) e fácil de ser lembrada. Não convém que você crie uma senha
+forte se, quando for usá-la, não conseguir recordá-la. Também não convém
+que você crie uma senha fácil de ser lembrada se ela puder ser
+facilmente descoberta por um atacante.
+</p>
+
+<p>
+Alguns elementos que você <b>não deve</b> usar na elaboração de suas
+senhas são:
+</p>
+
+<dl>
+
+  <dd> <b>Qualquer tipo de dado pessoal:</b> evite nomes, sobrenomes,
+  contas de usuário, números de documentos, placas de carros, números de
+  telefones e datas<a name="sup_footnote001"></a><a href="#footnote001"
+  class="footnote">1</a> (estes dados podem ser facilmente obtidos e
+  usados por pessoas que queiram tentar se autenticar como você).
+
+  <dd> <b>Sequências de teclado:</b> evite senhas associadas à
+  proximidade entre os caracteres no teclado, como
+  "<code>1qaz2wsx</code>" e "<code>QwerTAsdfG</code>", pois são bastante
+  conhecidas e podem ser facilmente observadas ao serem digitadas.
+
+  <dd> <b>Palavras que façam parte de listas:</b> evite palavras
+  presentes em listas publicamente conhecidas, como nomes de músicas,
+  times de futebol, personagens de filmes, dicionários de diferentes
+  idiomas, etc. Existem programas que tentam descobrir senhas combinando
+  e testando estas palavras e que, portanto, não devem ser usadas (mais
+  detalhes na Seção <a href="/ataques/#3.5">3.5</a> do Capítulo <a
+  href="/ataques/">Ataques na Internet</a>).
+
+</dl>
+
+<p>
+Alguns elementos que você <b>deve</b> usar na elaboração de suas senhas
+são:
+</p>
+
+<dl>
+
+  <dd> <b>Números aleatórios:</b> quanto mais ao acaso forem os números
+  usados melhor, principalmente em sistemas que aceitem
+  <b>exclusivamente</b> caracteres numéricos.
+
+  <dd> <b>Grande quantidade de caracteres:</b> quanto mais longa for a
+  senha mais difícil será descobri-la. Apesar de senhas longas
+  parecerem, a princípio, difíceis de serem digitadas, com o uso
+  frequente elas acabam sendo digitadas facilmente.
+
+  <dd> <b>Diferentes tipos de caracteres:</b> quanto mais "bagunçada"
+  for a senha mais difícil será descobri-la. Procure misturar
+  caracteres, como números, sinais de pontuação e letras maiúsculas e
+  minúsculas. O uso de sinais de pontuação pode dificultar bastante que
+  a senha seja descoberta, sem necessariamente torná-la difícil de ser
+  lembrada.
+
+</dl>
+
+<p>
+Algumas dicas<a name="sup_footnote002"></a><a href="#footnote002"
+class="footnote">2</a> práticas que você pode usar na elaboração de boas
+senhas são:
+</p>
+
+<dl>
+
+  <dd> <b>Selecione caracteres de uma frase:</b> baseie-se em uma frase
+  e selecione a primeira, a segunda ou a última letra de cada palavra.
+  Exemplo: com a frase "<code>O Cravo brigou com a Rosa debaixo de uma
+  sacada</code>" você pode gerar a senha "<code>?OCbcaRddus</code>" (o
+  sinal de interrogação foi colocado no início para acrescentar um
+  símbolo à senha).
+
+  <dd> <b>Utilize uma frase longa:</b> escolha uma frase longa, que faça
+  sentido para você, que seja fácil de ser memorizada e que, se
+  possível, tenha diferentes tipos de caracteres. Evite citações comuns
+  (como ditados populares) e frases que possam ser diretamente ligadas à
+  você (como o refrão de sua música preferida). Exemplo: se quando
+  criança você sonhava em ser astronauta, pode usar como senha "<code>1
+  dia ainda verei os aneis de Saturno!!!</code>".
+
+  <dd> <b>Faça substituições de caracteres:</b> invente um padrão de
+  substituição baseado, por exemplo, na semelhança visual
+  ("<code>w</code>" e "<code>vv</code>") ou de fonética
+  ("<code>ca</code>" e "<code>k</code>") entre os caracteres. Crie o seu
+  próprio padrão pois algumas trocas já são bastante óbvias. Exemplo:
+  duplicando as letras "<code>s</code>" e "<code>r</code>", substituindo
+  "<code>o</code>" por "<code>0</code>" (número zero) e usando a frase
+  "<code>Sol, astro-rei do Sistema Solar</code>" você pode gerar a senha
+  "<code>SS0l, asstrr0-rrei d0 SSisstema SS0larr</code>".
+
+</dl>
+
+<p>
+Existem serviços que permitem que você teste a complexidade de uma senha
+e que, de acordo com critérios, podem classificá-la como sendo, por
+exemplo, "<code>muito fraca</code>", "<code>fraca</code>",
+"<code>forte</code>" ou "<code>muito forte</code>". Ao usar estes
+serviços é importante ter em mente que, mesmo que uma senha tenha sido
+classificada como "<code>muito forte</code>", pode ser que ela não seja
+uma boa senha caso contenha dados pessoais que não são de conhecimento
+do serviço, mas que podem ser de conhecimento de um atacante.
+</p>
+
+<p>
+Apenas você é capaz de definir se a senha elaborada é realmente boa!
+</p>
+
+<div class="textoFootnote">
+<a name="footnote001"></a>
+<strong>[1]</strong> Qualquer data que possa estar relacionada a você,
+como a data de seu aniversário ou de seus familiares.
+<span class="voltarTopo"><a href="#sup_footnote001">voltar</a></span>
+<br />
+<a name="footnote002"></a>
+<strong>[2]</strong> As senhas e os padrões usados para ilustrar as
+dicas, tanto nesta como nas versões anteriores da Cartilha, não devem
+ser usados pois já são de conhecimento público. Você deve adaptar estas
+dicas e criar suas próprias senhas e padrões.
+<span class="voltarTopo"><a href="#sup_footnote002">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_8_3">
+
+<h4>
+<a name="8.3"></a>
+8.3. Alteração de senhas
+</h4>
+
+<p>
+Você deve alterar a sua senha <b>imediatamente</b> sempre que desconfiar
+que ela pode ter sido descoberta ou que o computador no qual você a
+utilizou pode ter sido invadido ou infectado.
+</p>
+
+<p>
+Algumas situações onde você deve alterar <b>rapidamente</b> a sua senha
+são:
+</p>
+
+<ul>
+
+  <li> se um computador onde a senha esteja armazenada tenha sido
+  furtado ou perdido;
+
+  <li> se usar um padrão para a formação de senhas e desconfiar que uma
+  delas tenha sido descoberta. Neste caso, tanto o padrão como todas as
+  senhas elaboradas com ele devem ser trocadas pois, com base na senha
+  descoberta, um atacante pode conseguir inferir as demais;
+
+  <li> se utilizar uma mesma senha em mais de um lugar e desconfiar que
+  ela tenha sido descoberta em algum deles. Neste caso, esta senha deve
+  ser alterada em todos os lugares nos quais é usada;
+
+  <li> ao adquirir equipamentos acessíveis via rede, como roteadores
+  Wi-Fi, dispositivos <i>bluetooth</i> e <i>modems</i> ADSL
+  (<i><b>A</b>symmetric <b>D</b>igital <b>S</b>ubscriber
+  <b>L</b>ine</i>). Muitos destes equipamentos são configurados de
+  fábrica com senha padrão, facilmente obtida em listas na Internet, e
+  por isto, sempre que possível, deve ser alterada (mais detalhes no
+  Capítulo <a href="/redes/">Segurança de redes</a>).
+
+</ul>
+
+<p>
+Nos demais casos é importante que a sua senha seja alterada
+<b>regularmente</b>, como forma de assegurar a confidencialidade. Não há
+como definir, entretanto, um período ideal para que a troca seja feita,
+pois depende diretamente de quão boa ela é e de quanto você a expõe
+(você a usa em computadores de terceiros? Você a usa para acessar outros
+<i>sites</i>? Você mantém seu computador atualizado?).
+</p>
+
+<p>
+Não convém que você troque a senha em períodos muito curtos (menos de um
+mês, por exemplo) se, para conseguir se recordar, precisará elaborar uma
+senha fraca ou anotá-la em um papel e colá-lo no monitor do seu
+computador. Períodos muito longos (mais de um ano, por exemplo) também
+não são desejáveis pois, caso ela tenha sido descoberta, os danos
+causados podem ser muito grandes.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_8_4">
+
+<h4>
+<a name="8.4"></a>
+8.4. Gerenciamento de contas e senhas
+</h4>
+
+<p>
+Você já pensou em quantas contas e senhas diferentes precisa memorizar e
+combinar para acessar todos os serviços que utiliza e que exigem
+autenticação? Atualmente, confiar apenas na memorização pode ser algo
+bastante arriscado.
+</p>
+
+<p>
+Para resolver este problema muitos usuários acabam usando técnicas que
+podem ser bastante perigosas e que, sempre que possível, devem ser
+evitadas. Algumas destas técnicas e os cuidados que você deve tomar
+caso, mesmo ciente dos riscos, opte por usá-las são:
+</p>
+
+<dl>
+
+  <dd> <b>Reutilizar as senhas:</b> usar a mesma senha para acessar
+  diferentes contas pode ser bastante arriscado, pois basta ao atacante
+  conseguir a senha de uma conta para conseguir acessar as demais contas
+  onde esta mesma senha foi usada.
+
+  <ul>
+
+    <li> procure não usar a mesma senha para assuntos pessoais e
+    profissionais;
+
+    <li> jamais reutilize senhas que envolvam o acesso a dados
+    sensíveis, como as usadas em <i>Internet Banking</i> ou
+    <i>e-mail</i>.
+
+  </ul>
+
+  <dd> <b>Usar opções como "Lembre-se de mim" e "Continuar
+  conectado":</b> o uso destas opções faz com que informações da sua
+  conta de usuário sejam salvas em <i>cookies</i> que podem ser
+  indevidamente coletados e permitam que outras pessoas se autentiquem
+  como você.
+
+  <ul>
+
+    <li> use estas opções somente nos <i>sites</i> nos quais o risco
+    envolvido é bastante baixo;
+
+    <li> jamais as utilize em computadores de terceiros.
+
+  </ul>
+
+  <dd> <b>Salvar as senhas no navegador <i>Web</i>:</b> esta prática é
+  bastante arriscada, pois caso as senhas não estejam criptografadas com
+  uma chave mestra, elas podem ser acessadas por códigos maliciosos,
+  atacantes ou outras pessoas que venham a ter acesso ao computador.
+
+  <ul>
+
+    <li> assegure-se de configurar uma chave mestra;
+
+    <li> seja bastante cuidadoso ao elaborar sua chave mestra, pois a
+    segurança das demais senhas depende diretamente da segurança dela;
+
+    <li> <b>não esqueça sua chave mestra</b>.
+
+  </ul>
+
+</dl>
+
+<p>
+Para não ter que recorrer a estas técnicas ou correr o risco de esquecer
+suas contas/senhas ou, pior ainda, ter que apelar para o uso de senhas
+fracas, você pode buscar o auxílio de algumas das formas de
+gerenciamento disponíveis.
+</p>
+
+<p>
+Uma forma bastante simples de gerenciamento é listar suas contas/senhas
+em um papel e guardá-lo em um local seguro (como uma gaveta trancada).
+Neste caso, a segurança depende diretamente da dificuldade de acesso ao
+local escolhido para guardar este papel (de nada adianta colá-lo no
+monitor, deixá-lo embaixo do teclado ou sobre a mesa). Veja que é
+preferível usar este método a optar pelo uso de senhas fracas pois,
+geralmente, é mais fácil garantir que ninguém terá acesso físico ao
+local onde o papel está guardado do que evitar que uma senha fraca seja
+descoberta na Internet.
+</p>
+
+<p>
+Caso você considere este método pouco prático, pode optar por outras
+formas de gerenciamento como as apresentadas a seguir, juntamente com
+alguns cuidados básicos que você deve ter ao usá-las:
+</p>
+
+<dl>
+
+  <dd> <b>Criar grupos de senhas, de acordo com o risco envolvido:</b>
+  você pode criar senhas únicas e bastante fortes e usá-las onde haja
+  recursos valiosos envolvidos (por exemplo, para acesso a <i>Internet
+  Banking</i> ou <i>e-mail</i>). Outras senhas únicas, porém um pouco
+  mais simples, para casos nos quais o valor do recurso protegido é
+  inferior (por exemplo, <i>sites</i> de comércio eletrônico, desde que
+  suas informações de pagamento, como número de cartão de crédito, não
+  sejam armazenadas para uso posterior) e outras simples e reutilizadas
+  para acessos sem risco (como o cadastro para baixar um determinado
+  arquivo).
+
+  <ul>
+
+    <li> reutilize senhas apenas em casos nos quais o risco envolvido é
+    bastante baixo.
+
+  </ul>
+
+  <dd> <b>Usar um programa gerenciador de contas/senhas:</b> programas,
+  como 1Password<a name="sup_footnote003"></a><a href="#footnote003"
+  class="footnote">3</a> e KeePass<a name="sup_footnote004"></a><a
+  href="#footnote004" class="footnote">4</a>, permitem armazenar grandes
+  quantidades de contas/senhas em um único arquivo, acessível por meio
+  de uma chave mestra.
+
+  <ul>
+
+    <li> seja bastante cuidadoso ao elaborar sua chave mestra, pois a
+    segurança das demais senhas depende diretamente da segurança dela;
+
+    <li> <b>não esqueça sua chave mestra</b> (sem ela, não há como você
+    acessar os arquivos que foram criptografados, ou seja, todas as suas
+    contas/senhas podem ser perdidas);
+
+    <li> assegure-se de obter o programa gerenciador de senhas de uma
+    fonte confiável e de sempre mantê-lo atualizado;
+
+    <li> evite depender do programa gerenciador de senhas para acessar a
+    conta do <i>e-mail</i> de recuperação (mais detalhes na Seção <a
+    href="#8.5">8.5</a>).
+
+  </ul>
+
+  <dd> <b>Gravar em um arquivo criptografado:</b> você pode manter um
+  arquivo criptografado em seu computador e utilizá-lo para cadastrar
+  manualmente todas as suas contas e senhas.
+
+  <ul>
+
+    <li> assegure-se de manter o arquivo sempre criptografado;
+
+    <li> assegure-se de manter o arquivo atualizado (sempre que alterar
+    uma senha que esteja cadastrada no arquivo, você deve lembrar de
+    atualizá-lo);
+
+    <li> faça <i>backup</i> do arquivo de senhas, para evitar perdê-lo
+    caso haja problemas em seu computador.
+
+  </ul>
+
+</dl>
+
+<div class="textoFootnote">
+<a name="footnote003"></a>
+<strong>[3]</strong> 1Password - <a
+href="https://agilebits.com/onepassword">https://agilebits.com/onepassword</a>.
+<span class="voltarTopo"><a href="#sup_footnote003">voltar</a></span>
+<br />
+<a name="footnote004"></a>
+<strong>[4]</strong> KeePass - <a
+href="http://keepass.info/">http://keepass.info/</a>.
+<span class="voltarTopo"><a href="#sup_footnote004">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_8_5">
+
+<h4>
+<a name="8.5"></a>
+8.5. Recuperação de senhas
+</h4>
+
+<p>
+Mesmo que você tenha tomado cuidados para elaborar a sua senha e
+utilizado mecanismos de gerenciamento, podem ocorrer casos, por inúmeros
+motivos, de você perdê-la. Para restabelecer o acesso perdido, alguns
+sistemas disponibilizam recursos como:
+</p>
+
+<ul>
+
+  <li> permitir que você responda a uma pergunta de segurança
+  previamente determinada por você;
+
+  <li> enviar a senha, atual ou uma nova, para o <i>e-mail</i> de
+  recuperação previamente definido por você;
+
+  <li> confirmar suas informações cadastrais, como data de aniversário,
+  país de origem, nome da mãe, números de documentos, etc;
+
+  <li> apresentar uma dica de segurança previamente cadastrada por você;
+
+  <li> enviar por mensagem de texto para um número de celular
+  previamente cadastrado por você.
+
+</ul>
+
+<p>
+Todos estes recursos podem ser muito úteis, desde que cuidadosamente
+utilizados, pois assim como podem permitir que você recupere um acesso,
+também podem ser usados por atacantes que queiram se apossar da sua
+conta. Alguns cuidados que você deve tomar ao usá-los são:
+</p>
+
+<ul>
+
+  <li> cadastre uma dica de segurança que seja vaga o suficiente para
+  que ninguém mais consiga descobri-la e clara o bastante para que você
+  consiga entendê-la. Exemplo: se sua senha for "<code>SS0l,
+  asstrr0-rrei d0 SSisstema SS0larr</code>"<a
+  name="sup_footnote005"></a><a href="#footnote005"
+  class="footnote">5</a>, pode cadastrar a dica "<code>Uma das notas
+  musicais</code>", o que o fará se lembrar da palavra
+  "<code>Sol</code>" e se recordar da senha;
+
+  <li> seja cuidadoso com as informações que você disponibiliza em
+  <i>blogs</i> e redes sociais, pois podem ser usadas por atacantes para
+  tentar confirmar os seus dados cadastrais, descobrir dicas e responder
+  perguntas de segurança (mais detalhes no Capítulo <a
+  href="/privacidade/">Privacidade</a>);
+
+  <li> evite cadastrar perguntas de segurança que possam ser facilmente
+  descobertas, como o nome do seu cachorro ou da sua mãe. Procure criar
+  suas próprias perguntas e, de preferência, com respostas falsas.
+  Exemplo: caso você tenha medo de altura, pode criar a pergunta
+  "<code>Qual seu esporte favorito?</code>" e colocar como resposta
+  "<code>paraquedismo</code>" ou "<code>alpinismo</code>";
+
+  <li> ao receber senhas por <i>e-mail</i> procure alterá-las o mais
+  rápido possível. Muitos sistemas enviam as senhas em texto claro, ou
+  seja, sem nenhum tipo de criptografia e elas podem ser obtidas caso
+  alguém tenha acesso à sua conta de <i>e-mail</i> ou utilize programas
+  para interceptação de tráfego (mais detalhes na Seção <a
+  href="/ataques/#3.4">3.4</a> do Capítulo <a href="/ataques/">Ataques
+  na Internet</a>);
+
+  <li> procure cadastrar um <i>e-mail</i> de recuperação que você acesse
+  regularmente, para não esquecer a senha desta conta também;
+
+  <li> procure não depender de programas gerenciadores de senhas para
+  acessar o <i>e-mail</i> de recuperação (caso você esqueça sua chave
+  mestra ou, por algum outro motivo, não tenha mais acesso às suas
+  senhas, o acesso ao <i>e-mail</i> de recuperação pode ser a única
+  forma de restabelecer os acessos perdidos);
+
+  <li> preste muita atenção ao cadastrar o <i>e-mail</i> de recuperação
+  para não digitar um endereço que seja inválido ou pertencente a outra
+  pessoa. Para evitar isto, muitos <i>sites</i> enviam uma mensagem de
+  confirmação assim que o cadastro é realizado. Tenha certeza de
+  recebê-la e de que as eventuais instruções de verificação tenham sido
+  executadas.
+
+</ul>
+
+<div class="textoFootnote">
+<a name="footnote005"></a>
+<strong>[5]</strong> Esta senha foi sugerida na Seção <a
+href="#8.2">8.2</a>.
+<span class="voltarTopo"><a href="#sup_footnote005">voltar</a></span>
+<br />
+</div>
+</section>
+
+</div>
+</div>
+</div>
+</div>
+
+</article>
+
+<!-- ******* End content **************************************** -->
+<!-- ************************************************************ -->
+
+<div id="rodape">
+  <ul>
+    <li><a href="/cc/">Licença</a></li>
+    <li><a href="/creditos/">Créditos</a></li>
+    <li><a href="/avisos/">Avisos</a></li>
+    <li><a href="/downloads/">Downloads</a></li>
+    <li class="last"><a href="/divulgue/">Divulgue</a></li>
+  </ul>
+  <p>
+    <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/br/">
+    <img src="/images/ic_creativeCommons.png"
+    alt="Licença Creative Commons CERT.br">
+    </a>
+    Cartilha de Segurança para Internet - CERT.br - $Date: 2012/06/03 01:41:42 $
+  </p>
+    <div class="selosRodape">
+      <a href="http://ipv6.br/">
+      <img src="/images/ic_ipv6.png"
+      alt="Site acessível via IPv6" title="Site acessível via IPv6">
+      </a>
+      <a href="http://jigsaw.w3.org/css-validator">
+      <img src="/images/ic_css.png" alt="CSS Válido" title="CSS Válido">
+      </a>
+      <img src="/images/ic_html5.png" alt="Desenvolvido em HTML 5"
+      title="Desenvolvido em HTML 5">
+    </div>
+</div>
+
+</body>
+</html>

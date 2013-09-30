@@ -1,0 +1,418 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+<link rel="stylesheet" href="/pub/TWiki/JQueryPlugin/jquery-all.css" type="text/css" media="all" />
+<script type="text/javascript" src="/pub/TWiki/JQueryPlugin/jquery-all.js"></script>
+<link rel="stylesheet" href="http://ntp.br/pub/TWiki/ImagePlugin/style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="http://ntp.br/pub/TWiki/ImageGalleryPlugin/style.css" type="text/css" media="all" />
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/pub/NTP/WebModeloNicTemplate/ntp.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/pub/NTP/WebModeloNicTemplate/home.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="/pub/NTP/WebModeloNicTemplate/print.css" />
+	<link rel="stylesheet" type="text/css" media="handheld" href="/pub/NTP/WebModeloNicTemplate/handheld.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="NTP.br, ntp, ntp" />
+	<meta name="description" content="NTP.br" />
+	<!-- <meta http-equiv="pragma" content="no-cache" /> -->
+	<script type="text/javascript" src="scripts.js"></script>
+	<script type="text/javascript" src="/pub/NTP/WebModeloNicTemplate/css3-mediaqueries.js"></script>
+	<title>NTP.br - Hora Certa via Internet - Guia Linux/BSD</title>
+<!--TABLEPLUGIN_table1--><style type="text/css" media="all">
+.tableSortIcon img {padding-left:.3em; vertical-align:text-bottom;}
+</style></head>
+<body>
+	<div class="header-ceptro">
+		<h1><a href="http://www.ceptro.br/"><img src="/pub/NTP/WebModeloNicTemplate/logo-ceptro-top.gif" alt="ceptro.br" width="82" height="28" longdesc="Centro de Estudos e Pesquisas em Tecnologia de Redes e Operações" /></a></h1> 
+		<span><a href="http://www.ceptro.br/">Centro de Estudos e Pesquisas em Tecnologia de Redes e Operações</a></span>
+		<div class="header-cgi-nic">
+			<a href="http://www.on.br/" title="Observatório Nacional"><img src="/pub/NTP/WebModeloNicTemplate/logo-on-top.gif" alt="Observatório Nacional" width="121" height="26" /></a><span class="invisible">|</span>
+		    <a href="http://www.cgi.br/" title="Comitê Gestor da Internet no Brasil"><img src="/pub/NTP/WebModeloNicTemplate/logo-cgi-top.gif" alt="CGI.br" width="43" height="27" /></a><span class="invisible">|</span>
+		    <a href="http://www.nic.br/" title="Núcleo de Informação e Coordenação do Ponto BR"><img src="/pub/NTP/WebModeloNicTemplate/logo-nic-top.gif" alt="NIC.br" width="41" height="27" /></a>
+		</div>
+	</div><!--.header-ceptro-->
+	<div class="topo">
+	  <h2><a href="http://www.ntp.br/" accesskey="1"><img src="/pub/NTP/WebModeloNicTemplate/logo-ntp.gif" alt="NTP.br" class="logo-ntp" width="256" height="58" /></a></h2>
+		<span class="ir-conteudo"><a href="#content" accesskey="2">Ir para o conteúdo</a></span>
+		<ul>
+		    <li><a href="http://pcdsh01.on.br/">Divisão da Hora do Observatório Nacional</a></li>
+		    <li><a href="http://www.nic.br/imprensa">Imprensa</a></li>
+		    <li class="last"><a href="http://www.ceptro.br/CEPTRO/EnglishHome#NTP_br_Brazilian_Legal_Time_over">English</a></li>
+		</ul>
+	</div><!--.topo-->
+	<div class="container">
+		<div class="menu-esq">
+		<ul class="menu">
+<li><a href="/NTP/MenuNTPIntroducao" class="twikiLink">Introdução</a></li>
+<li><a href="/NTP/MenuNTPWindows" class="twikiLink">Guia Windows</a></li>
+<li><a href="/NTP/MenuNTPLinuxBSD" class="twikiCurrentTopicLink twikiLink">Guia Linux/BSD</a></li>
+<li><a href="/NTP/MenuNTPMac" class="twikiLink">Guia MAC</a></li>
+<li><a href="/NTP/MenuNTPRoteadores" class="twikiLink">Guia Roteadores</a></li>
+<li><a href="/NTP/MenuNTPTempo" class="twikiLink">O Tempo</a></li>
+<li><a href="/NTP/MenuNTPNtp" class="twikiLink">O NTP</a></li>
+<li><a href="/NTP/MenuNTPEstrutura" class="twikiLink">Estrutura</a></li>
+<li><a href="/NTP/MenuNTPGrafico" class="twikiLink">Gráficos</a></li>
+<li><a href="/NTP/MenuNTPAvancado" class="twikiLink">Conf. Avançada</a></li>
+<li><a href="/NTP/MenuNTPVocabulario" class="twikiLink">Vocabulário</a></li>
+<li><a href="/NTP/MenuNTPFaq" class="twikiLink">FAQ</a></li>
+<li><a href="/NTP/MenuNTPLinks" class="twikiLink">Links</a></li>
+<li><a href="/NTP/MenuNTPBanners" class="twikiLink">Banners</a></li>
+<li><a href="/NTP/MenuNTPContato" class="twikiLink">Contato</a></li>          
+</ul>
+				<form method="get" action="http://www.google.com/search" title="Busca no site">
+			<fieldset>
+				<label for="busca"><span class="busca-txt">Busca</span><br />
+				<input type="text" size="17" name="q" maxlength="255" value="Buscar por..." id="busca" onfocus="clearDefault(this)" class="busca-campo" /></label>
+				<input type="hidden" name="domains" value="cgi.br;nic.br;registro.br;ceptro.br;cetic.br;ceptro.br;w3c.br" /><input type="hidden" name="ie" value="iso-8859-1" /><input type="hidden" name="oe" value="iso-8859-1" /><input type="button" name="sa" value="ok" alt="ok" class="busca-btn" />
+				<label class="invisivel" for="busca-no-site">Selecione o site</label>
+				<select name="sitesearch" id="busca-no-site" title="Selecione o site" class="busca-select">
+					<option value="ntp.br" selected="selected">Buscar em NTP.br...</option>
+				    <option value="cgi.br">Buscar em CGI.br</option>
+					<option value="nic.br">Buscar em NIC.br</option>
+					<option value="registro.br">Buscar em Registro.br</option>
+					<option value="cetic.br">Buscar em CETIC.br</option>
+					<option value="ceptro.br">Buscar em CEPTRO.br</option>
+					<option value="w3c.br">Buscar em W3C.br</option>
+				</select>
+			</fieldset>
+			</form>  
+<p />
+			<span class="acessibilidade"><a href="http://validator.w3.org/check?uri=referer">V&aacute;lido XHTML</a> </span>
+			<span class="acessibilidade"><a href="http://jigsaw.w3.org/css-validator/check/referer">V&aacute;lido CSS</a> </span>
+			<span class="acessibilidade"><a href="http://www.ntp.br/NTP/AcessibilidadeSitio" accesskey="3">Acessibilidade do sítio</a></span>
+		</div><!--.menu-esq-->
+		<div class="conteudo">
+			<div class="breadcrumb">
+				Você está em: <strong>NTP.br -&gt; Guia Linux/BSD</strong>
+				<div class="seu-ip">Seu <acronym title="Internet Protocol">IP</acronym>: 2001:0:53aa:64c:18ca:5d94:2471:e895 </div>
+			</div><!--.breadcrumb-->
+<div class="subcontent">
+			<a name="content"></a>
+<p /><h3><a name="Guia_Linux_BSD"></a> Guia Linux/BSD </h3>
+<a name="VolTar"></a> 
+<div class="twikiToc"> <ul>
+<li> <a href="#Guia_Linux_BSD"> Guia Linux/BSD</a> <ul>
+<li> <a href="#Introdu_o"> Introdução</a>
+</li> <li> <a href="#Instala_o_para_GNU_Linux_e_outro"> Instalação para GNU/Linux e outros sistemas baseados em Unix.</a>
+</li> <li> <a href="#Instala_o_do_NTP_partir_dos_font"> Instalação do NTP à partir dos fontes</a>
+</li> <li> <a href="#Ferramentas_de_Monitora_o"> Ferramentas de Monitoração</a>
+</li></ul> 
+</li></ul> 
+</div>
+<div class="voltar"><a href="/NTP/MenuNTPLinuxBSD#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Introdu_o"></a> Introdução </h4>
+<p />
+Uma característica básica e ao mesmo tempo importante do tempo é que ele sempre avança. O tempo não para e não volta para trás. Vários programas de computador fazem uso dessa característica e podem ter seu funcionamento comprometido se o relógio do computador inesperadamente passar a indicar um horário errado, especialmente se for um horário no passado. Isso se complica ainda mais na Internet, com vários computadores trocando informações entre si!
+<p />
+Infelizmente os relógios dos computadores são imprecisos e se adiantam ou se atrasam com o passar do tempo. É muito fácil também trocar seu horário para o passado ou para o futuro, mesmo acidentalmente.
+<p />
+O NTP é um protocolo para sincronização dos relógios dos computadores, ou seja, ele define um jeito para um grupo de computadores conversar entre si e acertar seus relógios, baseados em alguma fonte precisa de tempo, como os relógios atômicos do Observatório Nacional, que definem a Hora Legal Brasileira.
+<p />
+Em sua versão mais completa, o NTP é bastante robusto e preciso. Ele consulta vários outros computadores para saber a hora certa, e consegue distinguir os que falam a verdade e os que estão enganados. Ele também aprende se o relógio de seu computador é viciado em adiantar-se ou atrasar-se e usa essa informação para ajustá-lo constantemente.
+<p />
+Com o NTP é fácil manter o relógio do computador sempre com a hora certa, com exatidão de alguns milésimos de segundo, e só há vantagens em se fazer isso!
+<p />
+O <strong>NTP.br</strong> através de seus servidores públicos ajuda a manter seu computador sincronizado com a <strong>Hora Legal Brasileira</strong> e com o <strong>Tempo Universal Coordenado (UTC)</strong>. Siga as instruções do seu equipamento ou sistema operacional e utilize os servidores do NTP.br, ou consulte os próximos itens, para algumas configurações mais comuns.
+<p />
+Os servidores do NTP.br são os seguintes:
+<table cellspacing="0" id="table1" cellpadding="0" class="twikiTable" rules="none" border="1">
+	<thead>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<th valign="top" class="twikiTableCol0 twikiFirstCol"> Nome </th>
+			<th valign="top" class="twikiTableCol1 twikiLastCol"> Endereço </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> a.st1.ntp.br </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> 200.160.7.186 e 2001:12ff:0:7::186 </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> b.st1.ntp.br </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> 201.49.148.135 </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> c.st1.ntp.br </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> 200.186.125.195 </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> d.st1.ntp.br </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> 200.192.232.8 </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> a.ntp.br </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> 200.160.0.8 e 2001:12ff::8 </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> b.ntp.br </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> 200.189.40.8 </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> c.ntp.br </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> 200.192.232.8 </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> gps.ntp.br </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> 200.160.7.193 e  2001:12ff:0:7::193 </td>
+		</tr>
+	</tbody></table>
+<p />
+<div class="voltar"><a href="/NTP/MenuNTPLinuxBSD#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Instala_o_para_GNU_Linux_e_outro"></a> Instalação para GNU/Linux e outros sistemas baseados em Unix. </h4>
+<p />
+Para GNU/Linux, FreeBSD, OpenBSD e outros sistemas baseados em Unix, utilize o método de instalação apropriado para sua distribuição. Para algumas distribuições a tabela abaixo indica uma das possíveis formas de instalação. Pode haver métodos alternativos para a instalação, por isso é recomendável consultar a documentação da sua distribuição.
+<p />
+Pode-se também realizar a instalação manual, baseada nos fontes. Se você estiver instalando o ntp com a finalidade de ser um servidor de tempo para sua rede, é recomendável fazer a instalação à partir dos fontes.
+<p />
+<table cellspacing="0" id="table2" cellpadding="0" class="twikiTable" rules="none" border="1">
+	<thead>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<th valign="top" class="twikiTableCol0 twikiFirstCol"> Sistema </th>
+			<th valign="top" class="twikiTableCol1 twikiLastCol"> Instalação </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> Debian GNU/Linux e sistemas que usam apt (Ubuntu, Kurumin, Conectiva, etc) </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> root@host# apt-get update <br />  root@host# apt-get install ntp </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> RedHat GNU/Linux e sistemas que usam rpm (Fedora, etc): </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> root@host# yum install ntp </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> Gentoo GNU/Linux: </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> root@host# emerge sync <br />  root@host# emerge ntp </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> Slackware GNU/Linux: </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> root@host# slackpkg update <br />  root@host# slackpkg install ntp </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> FreeBSD e OpenBSD </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> # cd /usr/ports/net/ntp <br />  # make install </td>
+		</tr>
+	</tbody></table>
+<p />
+As distribuições acima podem ter métodos alternativos para a instalação, verifique a documentação de sua distribuição. Para outras distribuições verifique o método de instalação recomendado na documentação. 
+<p />
+Após instalar o ntp, crie o arquivo ntp.drift com o comando:
+<p />
+<pre><b>
+       # touch /etc/ntp.drift
+</b></pre>
+<p />
+Se a hora de seu computador estiver com um erro maior do que 16min o ntp pode não funcionar. Se for o caso, ajuste a hora manualmente, antes de iniciar o <em>ntpd</em>. Ou então execute o <em>ntpd</em> com os parâmetros abaixo, para um primeiro ajuste, e depois inicie o serviço:
+<p />
+<pre>
+       # ntpd -q -g 
+</pre>
+<p />
+Substitua o conteúdo do arquivo de configuração padrão <code>/etc/ntp.conf</code> pela configuração abaixo. 
+<p />
+<pre>
+        <span class="marrom"># "memoria" para o escorregamento de frequencia do micro
+        # pode ser necessario criar esse arquivo manualmente com
+        # o comando touch ntp.drift
+        driftfile /etc/ntp.drift</span>
+
+        <span class="marrom"># estatisticas do ntp que permitem verificar o historico
+        # de funcionamento e gerar graficos</span>
+        statsdir /var/log/ntpstats/
+        statistics loopstats peerstats clockstats
+        filegen loopstats file loopstats type day enable
+        filegen peerstats file peerstats type day enable
+        filegen clockstats file clockstats type day enable
+        
+        <span class="marrom"># servidores publicos do projeto ntp.br</span>
+        server a.st1.ntp.br iburst
+        server b.st1.ntp.br iburst
+        server c.st1.ntp.br iburst
+        server d.st1.ntp.br iburst
+        server gps.ntp.br iburst
+        server a.ntp.br iburst
+        server b.ntp.br iburst
+        server c.ntp.br iburst
+         
+        <span class="marrom"># outros servidores
+        # server outro-servidor.dominio.br iburst
+    
+        # configuracoes de restricao de acesso</span>
+        restrict default kod notrap nomodify nopeer
+        restrict -6 default kod notrap nomodify nopeer  
+</pre>
+<p />
+Após modificar a configuração é preciso reiniciar o <em>ntpd</em>.
+<p />
+<a href="/NTP/VerificadorNTP" class="twikiLink">Verifique sua instalação.</a>
+<p />
+<p />
+Assista a um mini tutorial em vídeo que mostra a instalação num sistema Debian GNU/Linux:
+<p />
+<div id='zappiens_container4'><div id='zappiens_no_flash_or_script' class='NoScriptFlash'><noscript>Para poder visualizar este conteudo, devera ativar o <span class="twikiNewLink">JavaScript<a href="/bin/edit/NTP/JavaScript?topicparent=NTP.MenuNTPLinuxBSD" rel="nofollow" title="Create this topic">?</a></span>  no seu browser e instalar o Adobe Flash Player<BR/></noscript><script type='text/javascript'>document.write('Para poder visualizar este conteudo, devera instalar o Adobe Flash Player<BR/>');</script></div><script type='text/javascript' src='http://200.160.7.139/players/JWP/swfobject.js'></script><script type='text/javascript'>function Show_Player(){try{var s14 = new SWFObject('http://200.160.7.139/players/JWP/player.swf','ply', '352','288','9','#FFFFFF');s14.addParam('allowfullscreen',   'true');s14.addParam('allowscriptaccess', 'always');s14.addParam('autostart',         'false');s14.addParam('flashvars', 'file=cgiFIt_iF3fLR4K19FNNDanPAaG_b6kOyI6vQDBG6XiZ6E.FLV&streamer=http://200.160.7.139/ZappStream.PHP?AuthCode=100&autostart=false&logolink=http://www.zappiens.br/portal/VisualizarVideo.do?_EntityIdentifier=cgiFIt_iF3fLR4K19FNNDanPAaG_b6kOyI6vQDBG6XiZ6E.%26_InstanceIdentifier=0%26idRepositorio=0&logopath=http://www.zappiens.br/portal/imgs/player-marca-zappiens-br.gif'); s14.write   ('zappiens_container4');} catch (e) { }}Show_Player();</script></div>
+<br/>
+<p />
+<div class="voltar"><a href="/NTP/MenuNTPLinuxBSD#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Instala_o_do_NTP_partir_dos_font"></a> Instalação do NTP à partir dos fontes </h4>
+<p />
+A instalação à partir dos fontes permite trabalhar com a última versão do ntp. Permite também ter certeza de que se está rodando o software padrão, sem modificações de terceiros. Verifique no site do NTP <a href="http://www.ntp.org/downloads.html">http://www.ntp.org/downloads.html</a> qual o link para o download da versão mais recente. Na época em que essa página foi escrita a versão mais recente era 4.2.4p4.
+<p />
+Faça o download do arquivo, descompacte-o, entre na pasta criada e então rode o script de configuração, compile e instale:
+<pre><b>
+       root@servidor# wget http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2.4p4.tar.gz
+       root@servidor# tar zxvf ntp-4.2.4p4.tar.gz
+       root@servidor# cd ntp-4.2.4p4
+       root@servidor:~/ntp-4.2.4p4# ./configure
+       root@servidor:~/ntp-4.2.4p4# make
+       root@servidor:~/ntp-4.2.4p4# make install
+</b></pre>
+Substitua o conteúdo do arquivo de configuração padrão <code>/etc/ntp.conf</code> pela configuração abaixo.
+<pre><b>
+       root@servidor:~/ntp-4.2.4p4# wget http://www.ntp.br/xnix/ntp.conf
+       root@servidor:~/ntp-4.2.4p4# cp ./ntp.conf /etc/ntp.conf
+</b></pre>
+<p />
+<pre>
+       <span class="vermelho"># "memoria" para o escorregamento de frequencia do micro
+       # pode ser necessario criar esse arquivo manualmente com
+       # o comando touch ntp.drift</span>
+       driftfile /etc/ntp.drift
+
+       <span class="vermlho"># estatisticas do ntp que permitem verificar o historico
+       # de funcionamento e gerar graficos</span>
+       statsdir /var/log/ntpstats/
+       statistics loopstats peerstats clockstats
+       filegen loopstats file loopstats type day enable
+       filegen peerstats file peerstats type day enable
+       filegen clockstats file clockstats type day enable
+
+       <span class="vermelho"># servidores publicos do projeto ntp.br</span>
+       server a.st1.ntp.br iburst
+       server b.st1.ntp.br iburst
+       server c.st1.ntp.br iburst
+       server d.st1.ntp.br iburst
+       server gps.ntp.br iburst
+       server a.ntp.br iburst
+       server b.ntp.br iburst
+       server c.ntp.br iburst
+
+       <span class="vermelho"># outros servidores
+       # server outro-servidor.dominio.br iburst
+
+       # configuracoes de restricao de acesso</span>
+       restrict default kod notrap nomodify nopeer
+       restrict -6 default kod notrap nomodify nopeer
+</pre>
+A hora do seu computador pode ser ajustada inicialmente com o seguinte comando:
+<pre><b>
+       #/usr/local/bin/ntpd -q -g 
+</b></pre>
+<p />
+Isso permite que o ntp ajuste seu relógio mesmo que ele tenha um erro de tempo absurdamente alto (maior que 16 min). O daemon ntp pode ser executado então:
+<pre><b>
+       #/usr/local/bin/ntpd
+</b></pre>
+<p />
+Arquivos de inicialização apropriados podem ser criados conforme o padrão de sua distribuição.
+<p />
+Assista a um mini tutorial em vídeo mostrando essa instalação:
+<p />
+<div id='zappiens_container'><div id='zappiens_no_flash_or_script' class='NoScriptFlash'><noscript>Para poder visualizar este conteudo, devera ativar o <span class="twikiNewLink">JavaScript<a href="/bin/edit/NTP/JavaScript?topicparent=NTP.MenuNTPLinuxBSD" rel="nofollow" title="Create this topic">?</a></span>  no seu browser e instalar o Adobe Flash Player<BR/></noscript><script type='text/javascript'>document.write('Para poder visualizar este conteudo, devera instalar o Adobe Flash Player<BR/>');</script></div><script type='text/javascript' src='http://200.160.7.139/players/JWP/swfobject.js'></script><script type='text/javascript'>function Show_Player(){try{var s1 = new SWFObject('http://200.160.7.139/players/JWP/player.swf','ply', '352','288','9','#FFFFFF');s1.addParam('allowfullscreen',   'true');s1.addParam('allowscriptaccess', 'always');s1.addParam('autostart',         'false');s1.addParam('flashvars', 'file=cgipiU7e89n9cAgIMau63adixDvsyU9iwQrcIrJL8fJsqY.FLV&streamer=http://200.160.7.139/ZappStream.PHP?AuthCode=100&autostart=false&logolink=http://www.zappiens.br/portal/VisualizarVideo.do?_EntityIdentifier=cgipiU7e89n9cAgIMau63adixDvsyU9iwQrcIrJL8fJsqY.%26_InstanceIdentifier=0%26idRepositorio=0&logopath=http://www.zappiens.br/portal/imgs/player-marca-zappiens-br.gif'); s1.write   ('zappiens_container');} catch (e) { }}Show_Player();</script></div>
+<p />
+<div class="voltar"><a href="/NTP/MenuNTPLinuxBSD#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Ferramentas_de_Monitora_o"></a> Ferramentas de Monitoração </h4>
+<p />
+O ntp traz consigo algumas ferramentas que permitem monitorar seu funcionamento. A mais importante é o ntpq. A seguir são apresentados dois comandos do ntpq que permitem visualizar algumas variáveis importantes do ntp:
+<p />
+<strong>ntpq -c pe</strong>
+<p class="tabulacao">
+Se for obtida uma resposta como:</p>
+<pre><b>
+         server:/home/moreiras# ntpq -c pe
+         ntpq: read: Connection refused
+</b></pre>
+<p class="tabulacao">
+Significa que o serviço ntp não está funcionando. Uma reposta normal se parece com essa:</p>
+<p />
+<pre><b>
+      remote        refid         st   t  when  poll  reach  delay   offset  jitter
+    ================================================================================
+    +a.ntp.br     200.160.7.192    2   u   10    64    337  294.756  35.596   0.521
+    +b.ntp.br     200.160.7.186    2   u    8    64    377  226.294   2.658   0.229
+    *c.ntp.br     200.160.7.192    2   u    -    64    377  208.758   4.026   0.424
+</b></pre>
+<p />
+<p class="tabulacao">
+Pode-se ver os 3 servidores do projeto ntp.br:</p>
+<p />
+<pre>
+      <span class="vermelho"><b>remote</b></span>        refid         st   t  when  poll  reach  delay   offset  jitter
+    ================================================================================
+    <span class="vermelho"><b>+a.ntp.br</b></span>     200.160.7.192    2   u   10    64    337  294.756  35.596   0.521
+    <span class="vermelho"><b>+b.ntp.br</b></span>     200.160.7.186    2   u    8    64    377  226.294   2.658   0.229
+    <span class="vermelho"><b>*c.ntp.br</b></span>     200.160.7.192    2   u    -    64    377  208.758   4.026   0.424 
+</pre>
+<p />
+<p class="tabulacao">
+O * em c.ntp.br significa que ele foi escolhido como <em>system peer</em>, ou seja, a principal referência na sincronização do sistema. Os + em a.ntp.br e b.ntp.br, significa que eles também estão sendo usados, mas com peso menor, para obter a hora certa.
+<br /> 
+Pode-se observar também o <em>offset</em>, ou deslocamento, <em>delay</em>, ou atraso, e o <em>jitter</em>, ou variação, todos em milisegundos:</p>
+<p />
+<pre>
+      remote        refid         st   t  when  poll  reach  <b>delay   offset  jitter</b>
+    ================================================================================
+    +a.ntp.br     200.160.7.192    2   u   10    64    337  <span class="vermelho"><b>294.756  35.596   0.521</b></span>
+    +b.ntp.br     200.160.7.186    2   u    8    64    377  <span class="vermelho"><b>226.294   2.658   0.229</b></span>
+    *c.ntp.br     200.160.7.192    2   u    -    64    377  <span class="vermelho"><b>208.758   4.026   0.424</b></span>
+</pre>
+<p />
+<p class="tabulacao">
+O atraso significa o tempo de ida e volta dos pacotes. O valor do atraso não é tão importante, mas o ntp é sensível à simetria da rede. Ou seja, o ntp espera que o tempo de ida dos pacotes seja igual ao da volta. Isso geralmente está relacionado a atrasos pequenos.
+<br /> 
+O deslocamento significa o quanto o relógio local tem de ser adiantado ou atrasado para se igualar ao relógio do servidor. Quanto menor o valor, melhor. Valores de alguns milisegundos podem ser considerados normais.
+<br /> 
+A variação é calculada à partir de diversas medidas de deslocamento. Representa o quanto essas medidas variam entre si. Valores pequenos são melhores. Valores grandes podem indicar problemas de conectividade.
+<br /> 
+A variável <em>reach</em> é um número octal que indica o resultado das últimas 8 tentativas de acesso ao servidor.</p>
+<p />
+<pre>
+      remote        refid         st   t  when  poll  <b>reach</b>  delay   offset  jitter
+    ================================================================================
+    +a.ntp.br     200.160.7.192    2   u   10    64    <span class="vermelho"><b>337</b></span>  294.756  35.596   0.521
+    +b.ntp.br     200.160.7.186    2   u    8    64    <span class="vermelho"><b>377</b></span>  226.294   2.658   0.229
+    *c.ntp.br     200.160.7.192    2   u    -    64    <span class="vermelho"><b>377</b></span>  208.758   4.026   0.424 
+</pre>
+<p />
+<p class="tabulacao">
+O valor 377 indica que as últimas 8 consultas ao servidor obtiveram sucesso. Outros valores indicam falhas.</p>
+<p />
+<strong>ntpq -c rl</strong>
+<p class="tabulacao">
+Uma reposta normal se parece com essa:</p>
+<p />
+<pre><b>
+          server:/home/moreiras# ntpq -c rl
+
+          assID=0 status=0654 leap_none, sync_ntp, 5 events, event_peer/strat_chg,
+          <span class="verde-escuro">version="ntpd 4.2.2p4@1.1585-o Sun Mar  4 13:21:35 UTC 2007 (1)",</span>
+          processor="i686", system="Linux/2.6.9-023stab043.1-smp", leap=00,
+          <span class="vermelho">stratum=3</span>, precision=-20, rootdelay=224.336, rootdispersion=35.121,
+          peer=4764, refid=200.192.232.8,
+          reftime=cb30d5b2.559c02d8  Thu, Jan 10 2008 15:34:42.334, poll=7,
+          clock=cb30d6d8.ee2e88ee  Thu, Jan 10 2008 15:39:36.930, state=4,
+          <span class="azul">offset=10.396</span>, frequency=0.000, jitter=14.973, noise=8.978,
+          stability=0.000, tai=0
+</b></pre>
+<p />
+Dentre as várias informações obtidas, pode-se destacar a <span class="verde-escuro">versão do ntp</span>, em verde; <span class="vermelho">o estrato</span>, em vermelho (3 é o nível esperado, já que os servidores públicos do ntp.br são estrato 2); e o <span class="azul">deslocamento</span>, em milisegundos, em azul, que indica quanto o relógio local tem de ser adiantado ou atrasado para chegar à hora certa.
+<div class="voltar"><a href="/NTP/MenuNTPLinuxBSD#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+		</div><!--.conteudo-->
+</div>
+	</div><!--.container-->
+	<noscript><p>Script para limpar os campos de formulario</p></noscript>
+</body>
+</html>

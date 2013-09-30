@@ -1,0 +1,125 @@
+<html>
+<head>
+<title>FreeBSD SysVR4 Emulation</title>
+</head>
+<body bgcolor="#ffffff">
+<center>
+<table border=0 cols=2>
+<tr>
+<td><img src="svr4.gif"></td>
+<td align=center>
+  <h1>FreeBSD SysVR4 Emulation</h1></h1>
+  <i>Mark Newton,
+     <a href="mailto:newton@atdot.dotat.org">newton@atdot.dotat.org</a>
+     </i>
+</td>
+</tr>
+</table>
+</center>
+<hr>
+<p>
+<h2>More info on Solaris 2.6 and Solaris 7 emulation</h2>
+It appears that Sun have changed syscall conventions on us.  Solaris
+2.5.1 and earlier uses the system call interface FreeBSD provides
+for legacy code which utilizes intersegment jumps into segment 0x07.
+Solaris 2.6 appears to use 0x27.
+<p>
+Some email on the subject is reproduced below.
+<p>
+Unfortunately, FreeBSD uses the corresponding LDT entry for something
+else, so it'll take a bit of work to hack around it.  I have some vacation
+time coming up, so I'll be working on it...
+<p>
+<h2>STOP PRESS</h2>
+There's a <a href="segpatch">patch</a> which changes FreeBSD's <tt>LUDATA_SEL</tt> from 
+4 to 5 and provides <tt>LSOL26CALLS_SEL</tt> as LDT entry 4 as an alternative
+system call entrypoint.
+<p>
+This patch, or something like it, will be committed to FreeBSD at the
+appropriate time (whenever that is).  In the meantime, download it and
+apply it with <tt>patch -p < segpatch</tt> in <i>/usr/src</i>.
+
+<p>
+<i><a href="index.html#todo">Back</a></i><p>
+<hr>
+
+<pre>
+From newton Mon Dec 21 21:23:46 1998
+Subject: Re: What's an lcall? :-)
+To: mike@smith.net.au (Mike Smith)
+Date: Mon, 21 Dec 1998 21:23:46 +1030 (CST)
+Cc: peter@freebsd.org, sef@freebsd.org, jlemon@freebsd.org
+In-Reply-To: <199812210958.BAA01247@dingo.cdrom.com> from "Mike Smith" at Dec 21, 98 01:58:24 am
+X-Mailer: ELM [version 2.4 PL25]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Length: 3058      
+Status: OR
+
+Mike Smith wrote:
+
+ > Mark Newton wrote:
+ > > 0x4000dfba <_end+939271110>:    movl   $0x18,%eax
+ > > 0x4000dfbf <_end+939271115>:    lcall  0x27,0x0
+ > > 0x4000dfc6 <_end+939271122>:    ret    
+ > > The lcall instruction is at the program counter indicated by gdb
+ > > when the program gets SIGBUS.
+ > 
+ > lcall is an intersegment jump; in this case it's almost certainly a
+ > change in the system call interface.  As I undertand it, it's trying to
+ > use the 27th segment descriptor as a call gate to get into the kernel;
+ > we use either the 7th or (faster) int 0x80.
+
+Right -- From /usr/include/sys/segment.h on a Solaris/x86 2.6
+system I can telnet to:
+
+/* user selectors */
+#define	USER_CS		0x17	/* user's code segment */
+#define	USER_DS		0x1F	/* user's data segment */
+#define	USER_SCALL	0x07	/* call gate for system calls */
+#define	USER_SIGCALL	0x0F	/* call gate for sigreturn */
+#define	USER_ALTSCALL	0x27	/* alternate call gate for system calls */
+#define	USER_ALTSIGCLEAN 0x2F	/* alternate call gate for sigreturn */
+
+So it looks like Mike was right when he said it was a change to
+the system call interface.
+
+Any ideas on why they would use 0x27?  Assuming the value they're loading
+into %eax is a system call number, it looks like they might be calling
+getuid() here, anyway. I wonder if the semantics for making system calls
+through segment 0x27 are the same as for 0x07?  If so, (a) Sun's change
+seems even more stupid, and (b) it might be fairly simple to MakeItWork
+by handing 0x27 in the same way as 0x07 in our kernel.
+
+The down side is that this'll have to be a kernel option, which casts
+doubt on the usefulness of implementing the emulator as an LKM/KLD.
+If you need to build a custom kernel anyway then why bother modloading
+something else? :-/  Unless we handle 0x07 and 0x27 equivalently
+by default, but I doubt I'll ever get that past anyone on -hackers
+because...
+
+ > This is a bit icky; normally we don't fill in any descriptors that high
+ > up because application programs like to use them.
+
+Yer, because of that.
+
+ > I'm not familiar 
+ > enough with the way that the GDT/LDT fit together, but I *think* that 
+ > you'll have to construct an LDT for the process that catches the new 
+ > syscall and arrange to have it inserted when appropriate.
+
+Thanks for the pointer;  I'll start having a look at it as soon as
+South Park finishes <grin>
+
+More later.
+
+Cheers,
+
+    - mark
+
+--------------------------------------------------------------------
+I tried an internal modem,                    newton@atdot.dotat.org
+     but it hurt when I walked.                          Mark Newton
+----- Voice: +61-4-1958-3414 ------------- Fax: +61-8-83034403 -----
+</pre>

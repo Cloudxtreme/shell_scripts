@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Unit Testing Ember Data Models | SoftLayer Development Network</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/sites/all/themes/softlayer/favicon.ico" type="image/x-icon" />
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/ldap_integration/ldaphelp/ldaphelp.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/default/files/ctools/css/12dfdd8531d529d29afe344e45bf1830.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/aggregator/aggregator.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/node/node.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/defaults.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/system.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/system-menus.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/user/user.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/apachesolr_autocomplete/apachesolr_autocomplete.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/apachesolr_autocomplete/jquery-autocomplete/jquery.autocomplete.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/cck/theme/content-module.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/ctools/css/ctools.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/dhtml_menu/dhtml_menu.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/geshifilter/geshifilter.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/panels/css/panels.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/rate/rate.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/tableofcontents/tableofcontents.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/cck/modules/fieldgroup/fieldgroup.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/views/css/views.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/panels/plugins/layouts/flexible/flexible.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/flagger/css/flagger.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/softlayer/style.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/softlayer/css/black.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/softlayer/css/suckerfish_black.css?s" />
+  <script type="text/javascript"> </script>
+  <!--[if lte IE 6]>
+<script type="text/javascript"> 
+    $(document).ready(function(){ 
+        $(document).pngFix(); 
+    }); 
+</script> 
+<![endif]-->
+    <!--[if IE]>
+<style type="text/css" media="all">@import "/sites/all/themes/softlayer/css/ie.css";</style>
+<![endif]-->
+      <!--[if lte IE 6]>
+<script type="text/javascript" src="http://sldn.softlayer.com/sites/all/themes/softlayer/js/suckerfish.js"></script>
+<![endif]-->
+        <script type="text/javascript" src="http://sldn.softlayer.com/sites/all/themes/softlayer/js/pickstyle.js"></script>
+</head>
+<body class="sidebar-left">
+  
+  <div id="header" class="clear-block">
+      <div id="logo-title">
+                              <a href="/" title="SoftLayer.com"> <img src="/sites/all/themes/softlayer/logo.png" alt="Home" id="logo" /> </a>
+                        </div><!-- /logo-title -->
+      <div id="name-and-slogan">
+        
+              </div><!-- /name-and-slogan -->
+            <form action="/blog/jbrown/Unit-Testing-Ember-Data-Models"  accept-charset="UTF-8" method="post" id="search-theme-form">
+<div><div id="search" class="container-inline">
+  <div class="form-item" id="edit-search-theme-form-1-wrapper">
+ <label for="edit-search-theme-form-1">Search this site: </label>
+ <input type="text" maxlength="128" name="search_theme_form" id="edit-search-theme-form-1" size="15" value="" title="Enter the terms you wish to search for." class="form-text apachesolr-autocomplete unprocessed" />
+</div>
+<input type="submit" name="op" id="edit-submit-6" value="Search"  class="form-submit" />
+<input type="hidden" name="form_build_id" id="form-5c17921c10a8e43943f4b2bbbd21d493" value="form-5c17921c10a8e43943f4b2bbbd21d493"  />
+<input type="hidden" name="form_id" id="edit-search-theme-form" value="search_theme_form"  />
+</div>
+
+</div></form>
+      
+
+      <!-- Needs to be fixed, only temporary fix for now -->
+              <div style="clear:both"></div>
+        <div id="suckerfishmenu" class="clear-block">   <div class="block block-menu" id="block-menu-primary-links">
+  <h2 class="title">Primary links</h2>  <div class="content"><ul class="menu"><li class="leaf first dhtml-menu "><a href="/articles" title="" id="dhtml_menu-1452">Articles</a></li>
+<li class="leaf  dhtml-menu "><a href="/blog" title="" id="dhtml_menu-3611">Blog</a></li>
+<li class="leaf  dhtml-menu "><a href="/reference/overview" title="" id="dhtml_menu-713">Reference</a></li>
+<li class="leaf last dhtml-menu "><a href="https://forums.softlayer.com/forumdisplay.php?f=27" title="Forums" id="dhtml_menu-714">Forums</a></li>
+</ul></div></div>
+ </div>
+          </div><!-- /header -->
+
+
+  <div id="page">
+    <div id="sub-banner">
+        <div class="navtext">
+          <div class="homelink"><a href="/" class="homelink">SLDN</a></div>
+          <div class="sectionsep"> | </div> 
+          <div class="sectionlink"><a href="/blog" class="sectionlink">Blog</a></div>
+        </div>
+    </div><!--/hero-banner -->
+            <div id="middlecontainer">
+              <div id="sidebar-left"><div class="sidebar-spacer"></div>  <div class="block block-views" id="block-views-Blogs-block_2">
+  <h2 class="title">Popular Blogs</h2>  <div class="content"><div class="view view-Blogs view-id-Blogs view-display-id-block_2 view-dom-id-1">
+    
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/blog/jbrown/Technical-Debt">Technical Debt</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-2 views-row-even">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/blog/apunjani/New-Features-ExtJS-4-Model-Class">New Features In the ExtJS 4 Model Class</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-3 views-row-odd">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/blog/jbrown/Unit-Testing-Ember-Data-Models" class="active">Unit Testing Ember Data Models</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-4 views-row-even">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/blog/phil/Getting-Started-Firewalls">Getting Started - Firewalls</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-5 views-row-odd">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/blog/klandreth/New-DevOps-tools-SoftLayer">New DevOps tools for SoftLayer</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-6 views-row-even">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/blog/jbrown/Zend-Framework-1xWithout-Inhaling">Zend Framework 1.x...Without Inhaling</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-7 views-row-odd">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/blog/phil/Getting-started-DNS">Getting started with DNS</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-8 views-row-even">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/blog/phil/Getting-started-CCIs">Getting started with CCIs</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-9 views-row-odd">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/blog/phil/How-Solve-Error-fetching-http-headers">How to Solve: Error fetching http headers</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-10 views-row-even views-row-last">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/blog/kmcdonald/FTPSFTP-SoftLayer-Object-Storage">FTP/SFTP for SoftLayer Object Storage</a></span>
+  </div>
+  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div> </div></div>
+</div>
+            <div id="main">
+        <div id="squeeze">
+                                    <div id="breadcrumb"> <div class="breadcrumb"></div> </div>
+                                          <div id="squeeze-content">
+            <div id="inner-content">
+             
+                              <div id="service-links">Share this article:   <div class="block block-service_links" id="block-service_links-service_links">
+    <div class="content"><div class="service-links"><a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fsldn.softlayer.com%2Fblog%2Fjbrown%2FUnit-Testing-Ember-Data-Models&amp;title=Unit+Testing+Ember+Data+Models" title="Digg this post on digg.com" class="service-links-digg" rel="nofollow"><img src="/sites/all/modules/service_links/images/digg.png" alt="Digg" title="" width="16" height="16" /></a> <a href="http://reddit.com/submit?url=http%3A%2F%2Fsldn.softlayer.com%2Fblog%2Fjbrown%2FUnit-Testing-Ember-Data-Models&amp;title=Unit+Testing+Ember+Data+Models" title="Submit this post on reddit.com." class="service-links-reddit" rel="nofollow"><img src="/sites/all/modules/service_links/images/reddit.png" alt="Reddit" title="" width="16" height="16" /></a> <a href="http://twitter.com/share?url=http%3A%2F%2Fsldn.softlayer.com%2Fblog%2Fjbrown%2FUnit-Testing-Ember-Data-Models&amp;text=Unit%20Testing%20Ember%20Data%20Models" title="Share this on Twitter" class="service-links-twitter" rel="nofollow"><img src="/sites/all/modules/service_links/images/twitter.png" alt="Twitter" title="" width="16" height="16" /></a> <a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fsldn.softlayer.com%2Fblog%2Fjbrown%2FUnit-Testing-Ember-Data-Models&amp;t=Unit+Testing+Ember+Data+Models" title="Share on Facebook." class="service-links-facebook" rel="nofollow"><img src="/sites/all/modules/service_links/images/facebook.png" alt="Facebook" title="" width="16" height="16" /></a> <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Fsldn.softlayer.com%2Fblog%2Fjbrown%2FUnit-Testing-Ember-Data-Models&amp;title=Unit+Testing+Ember+Data+Models&amp;summary=%5BEmber.js%5D%28http%3A%2F%2Femberjs.com%2F%29+is+a+JavaScript+%5BMVC%5D%28http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FModel%25E2%2580%2593view%25E2%2580%2593controller%29+framework+for+creating+ambitious+web+applications+and+is+one+that%2C+along+with+the+Ember+Data+library%27s+models%2C+SoftLayer+uses+for+its+projects.++The+%22M%22+in+MVC+stands+for+model+which+is+the+most+important+layer+in+an+application%2C+for+if+the+data+models+are+not+correctly+architected+anything+built+on+top+of+them+will+inherit+their+deficiencies.&amp;source=SoftLayer+Development+Network" title="Publish this post to LinkedIn" class="service-links-linkedin" rel="nofollow"><img src="/sites/all/modules/service_links/images/linkedin.png" alt="LinkedIn" title="" width="16" height="16" /></a> <a href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Fsldn.softlayer.com%2Fblog%2Fjbrown%2FUnit-Testing-Ember-Data-Models&amp;title=Unit+Testing+Ember+Data+Models" title="Thumb this up at StumbleUpon" class="service-links-stumbleupon" rel="nofollow"><img src="/sites/all/modules/service_links/images/stumbleit.png" alt="StumbleUpon" title="" width="16" height="16" /></a></div></div></div>
+</div>
+                <div style="clear:both;"></div>
+              
+              <h1 class="title">Unit Testing Ember Data Models</h1>
+              <div class="tabs"></div>
+                                          <div class="panel-flexible panels-flexible-10 clear-block" >
+<div class="panel-flexible-inside panels-flexible-10-inside">
+<div class="panels-flexible-region panels-flexible-region-10-center panels-flexible-region-first panels-flexible-region-last">
+  <div class="inside panels-flexible-region-inside panels-flexible-region-10-center-inside panels-flexible-region-inside-first panels-flexible-region-inside-last">
+<div class="panel-pane pane-node-content" >
+  
+  
+  
+  <div class="pane-content">
+    <div class="node">
+    
+  
+      <!-- <span class="submitted"></span> <span class="taxonomy"></span> -->
+  
+  <div class="content"><p><a href="http://emberjs.com/">Ember.js</a> is a JavaScript <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> framework for creating ambitious web applications and is one that, along with the Ember Data library's models, SoftLayer uses for its projects.  The "M" in MVC stands for model which is the most important layer in an application, for if the data models are not correctly architected anything built on top of them will inherit their deficiencies.  While this post is not going to discuss how to architect your data models in Ember.js it is going to propose a way in which you can Unit Test your model's definitions so that you keep any incongruent changes from being introduced into them.</p>
+<p>When we write our Unit Tests we want them to be able to completely test the definition of our data models.  This includes properties, their type, any relationships they have with other data models, the generated result of any computed properties and the properties computed properties are observing.  Take, for example, the following model definition:</p>
+<div class="geshifilter">
+<pre class="javascript geshifilter-javascript" style="font-family:monospace;">App.<span style="color: #660066;">User</span> <span style="color: #339933;">=</span> DS.<span style="color: #660066;">Model</span>.<span style="color: #660066;">extend</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#123;</span>
+    firstName<span style="color: #339933;">:</span> DS.<span style="color: #660066;">attr</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'string'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">,</span>
+    lastName<span style="color: #339933;">:</span>  DS.<span style="color: #660066;">attr</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'string'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">,</span>
+    account<span style="color: #339933;">:</span>   DS.<span style="color: #660066;">belongsTo</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'App.Account'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">,</span>
+&nbsp;
+    fullName<span style="color: #339933;">:</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #000066; font-weight: bold;">return</span> <span style="color: #000066; font-weight: bold;">this</span>.<span style="color: #660066;">get</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'firstName'</span> <span style="color: #009900;">&#41;</span> <span style="color: #339933;">+</span> <span style="color: #3366CC;">' '</span> <span style="color: #339933;">+</span> <span style="color: #000066; font-weight: bold;">this</span>.<span style="color: #660066;">get</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'lastName'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span>.<span style="color: #660066;">property</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'firstName'</span><span style="color: #339933;">,</span> <span style="color: #3366CC;">'lastName'</span> <span style="color: #009900;">&#41;</span>
+<span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>Let's start with simply checking that the properties we expect to exist in our model definition in fact actually do.  We use Mocha.js, accompanied by Chai.js, to perform our Unit Tests, which is the syntax you see below:</p>
+<div class="geshifilter">
+<pre class="javascript geshifilter-javascript" style="font-family:monospace;">describe<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'User Model'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'property: `firstName`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #003366; font-weight: bold;">var</span> property <span style="color: #339933;">=</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">metaForProperty</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'firstName'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'property: `lastName`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #003366; font-weight: bold;">var</span> property <span style="color: #339933;">=</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">metaForProperty</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'lastName'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'property: `account`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #003366; font-weight: bold;">var</span> property <span style="color: #339933;">=</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">metaForProperty</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'account'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>You may notice that we haven't written any test conditions to test for the properties existence.  This is because in order to get the meta data of the model we're testing you have to first call the metaForProperty() method before we could even write any test conditions.  If the call to metaForProperty() fails due to the property not existing then our test will fail and we have achieved what we set out to do.   We could write a test condition that specifically tests for the property name, such as like:</p>
+<div class="geshifilter">
+<pre class="javascript geshifilter-javascript" style="font-family:monospace;">it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'property: `firstName`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    <span style="color: #003366; font-weight: bold;">var</span> property <span style="color: #339933;">=</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">metaForProperty</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'firstName'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    expect<span style="color: #009900;">&#40;</span> property.<span style="color: #000066;">name</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'firstName'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>but I hope you can see how this is redundant.  We do want to check for other properties of each individual property though, such as its type and whether or not Ember sees the property as an attribute on the model.  The following adds these tests in:</p>
+<div class="geshifilter">
+<pre class="javascript geshifilter-javascript" style="font-family:monospace;">describe<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'User Model'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'property: `firstName`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #003366; font-weight: bold;">var</span> property <span style="color: #339933;">=</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">metaForProperty</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'firstName'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">type</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'string'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">isAttribute</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #003366; font-weight: bold;">true</span><span style="color: #339933;">,</span> <span style="color: #3366CC;">'Expected attribute'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'property: `lastName`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #003366; font-weight: bold;">var</span> property <span style="color: #339933;">=</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">metaForProperty</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'lastName'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">type</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'string'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">isAttribute</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #003366; font-weight: bold;">true</span><span style="color: #339933;">,</span> <span style="color: #3366CC;">'Expected attribute'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>The 'account' property on our model is not what Ember considers to be an attribute but is rather a relationship.  We can setup our tests for this as follows:</p>
+<div class="geshifilter">
+<pre class="javascript geshifilter-javascript" style="font-family:monospace;">it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'property: `account`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    <span style="color: #003366; font-weight: bold;">var</span> property <span style="color: #339933;">=</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">metaForProperty</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'account'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">type</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'App.Account'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">isRelationship</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #003366; font-weight: bold;">true</span><span style="color: #339933;">,</span> <span style="color: #3366CC;">'Expected relationship'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">kind</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'belongsTo'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>The 'fullName' property is a computed property and it should be tested a little differently than the other properties we have tested so far.  A computed property can observe other properties so we need to test that this is configured correctly.  Also, up to this point we have been able to test everything about the model without any need for any mock data, relying solely on the metadata information Ember is able to provide about our model.  Most of your computed properties will likely act upon actual data so we need mock data to be able to accurately test our computed properties function.  An example of how to do this is below:</p>
+<div class="geshifilter">
+<pre class="javascript geshifilter-javascript" style="font-family:monospace;">it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'computed property: `fullName`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    expect<span style="color: #009900;">&#40;</span> <span style="color: #009900;">&#91;</span> <span style="color: #3366CC;">'firstName'</span><span style="color: #339933;">,</span> <span style="color: #3366CC;">'lastName'</span> <span style="color: #009900;">&#93;</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">eql</span><span style="color: #009900;">&#40;</span> Ember.<span style="color: #660066;">meta</span><span style="color: #009900;">&#40;</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">proto</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">descs</span><span style="color: #009900;">&#91;</span> <span style="color: #3366CC;">'fullName'</span> <span style="color: #009900;">&#93;</span>._dependentKeys <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #003366; font-weight: bold;">var</span> store <span style="color: #339933;">=</span> DS.<span style="color: #660066;">Store</span>.<span style="color: #660066;">create</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#123;</span>
+        revision<span style="color: #339933;">:</span> <span style="color: #CC0000;">12</span><span style="color: #339933;">,</span>
+        adapter<span style="color: #339933;">:</span> DS.<span style="color: #660066;">Adapter</span>.<span style="color: #660066;">create</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    store.<span style="color: #660066;">load</span><span style="color: #009900;">&#40;</span> App.<span style="color: #660066;">User</span><span style="color: #339933;">,</span> <span style="color: #009900;">&#123;</span>
+        id<span style="color: #339933;">:</span>        <span style="color: #CC0000;">1</span><span style="color: #339933;">,</span>
+        firstName<span style="color: #339933;">:</span> <span style="color: #3366CC;">'Jeremy'</span><span style="color: #339933;">,</span>
+        lastName<span style="color: #339933;">:</span>  <span style="color: #3366CC;">'Brown'</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #003366; font-weight: bold;">var</span> user <span style="color: #339933;">=</span> store.<span style="color: #660066;">find</span><span style="color: #009900;">&#40;</span> App.<span style="color: #660066;">User</span><span style="color: #339933;">,</span> <span style="color: #CC0000;">1</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    expect<span style="color: #009900;">&#40;</span> user.<span style="color: #660066;">get</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'fullName'</span> <span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">be</span>.<span style="color: #660066;">a</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'string'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    user.<span style="color: #660066;">get</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'fullName'</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">should</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'Jeremy Brown'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>So there you have it – an approach to unit testing Ember Data models that does not require mock data (except for where required) and that tests everything we need to: properties, their type, any relationships they have with other data models, the generated result of any computed properties and the properties computed properties are observing.  I leave you with a final code example below that puts all of these examples together into one and happy testing!</p>
+<div class="geshifilter">
+<pre class="javascript geshifilter-javascript" style="font-family:monospace;">describe<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'User Model'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'property: `firstName`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #003366; font-weight: bold;">var</span> property <span style="color: #339933;">=</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">metaForProperty</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'firstName'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">type</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'string'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">isAttribute</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #003366; font-weight: bold;">true</span><span style="color: #339933;">,</span> <span style="color: #3366CC;">'Expected attribute'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'property: `lastName`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #003366; font-weight: bold;">var</span> property <span style="color: #339933;">=</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">metaForProperty</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'lastName'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">type</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'string'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">isAttribute</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #003366; font-weight: bold;">true</span><span style="color: #339933;">,</span> <span style="color: #3366CC;">'Expected attribute'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'property: `account`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #003366; font-weight: bold;">var</span> property <span style="color: #339933;">=</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">metaForProperty</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'account'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">type</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'App.Account'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">isRelationship</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #003366; font-weight: bold;">true</span><span style="color: #339933;">,</span> <span style="color: #3366CC;">'Expected relationship'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        expect<span style="color: #009900;">&#40;</span> property.<span style="color: #660066;">kind</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'belongsTo'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    it<span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'computed property: `fullName`'</span><span style="color: #339933;">,</span> <span style="color: #003366; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        expect<span style="color: #009900;">&#40;</span> <span style="color: #009900;">&#91;</span> <span style="color: #3366CC;">'firstName'</span><span style="color: #339933;">,</span> <span style="color: #3366CC;">'lastName'</span> <span style="color: #009900;">&#93;</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">eql</span><span style="color: #009900;">&#40;</span> Ember.<span style="color: #660066;">meta</span><span style="color: #009900;">&#40;</span> App.<span style="color: #660066;">User</span>.<span style="color: #660066;">proto</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">descs</span><span style="color: #009900;">&#91;</span> <span style="color: #3366CC;">'fullName'</span> <span style="color: #009900;">&#93;</span>._dependentKeys <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+        <span style="color: #003366; font-weight: bold;">var</span> store <span style="color: #339933;">=</span> DS.<span style="color: #660066;">Store</span>.<span style="color: #660066;">create</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#123;</span>
+            revision<span style="color: #339933;">:</span> <span style="color: #CC0000;">12</span><span style="color: #339933;">,</span>
+            adapter<span style="color: #339933;">:</span> DS.<span style="color: #660066;">Adapter</span>.<span style="color: #660066;">create</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span>
+        <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+        store.<span style="color: #660066;">load</span><span style="color: #009900;">&#40;</span> App.<span style="color: #660066;">User</span><span style="color: #339933;">,</span> <span style="color: #009900;">&#123;</span>
+            id<span style="color: #339933;">:</span>        <span style="color: #CC0000;">1</span><span style="color: #339933;">,</span>
+            firstName<span style="color: #339933;">:</span> <span style="color: #3366CC;">'Jeremy'</span><span style="color: #339933;">,</span>
+            lastName<span style="color: #339933;">:</span>  <span style="color: #3366CC;">'Brown'</span>
+        <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+        <span style="color: #003366; font-weight: bold;">var</span> user <span style="color: #339933;">=</span> store.<span style="color: #660066;">find</span><span style="color: #009900;">&#40;</span> App.<span style="color: #660066;">User</span><span style="color: #339933;">,</span> <span style="color: #CC0000;">1</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+        expect<span style="color: #009900;">&#40;</span> user.<span style="color: #660066;">get</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'fullName'</span> <span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">to</span>.<span style="color: #660066;">be</span>.<span style="color: #660066;">a</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'string'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        user.<span style="color: #660066;">get</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'fullName'</span> <span style="color: #009900;">&#41;</span>.<span style="color: #660066;">should</span>.<span style="color: #660066;">equal</span><span style="color: #009900;">&#40;</span> <span style="color: #3366CC;">'Jeremy Brown'</span> <span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>-Jeremy</p>
+<div class="flagger">
+					<span class="flaggertitle">Was this helpful?</span>
+					<div class="flaggeroption"><a id="flaggeryes" href="#">Yes</a></div>
+					<div class="flaggeroption"><a id="flaggerno" href="#">No</a></div>
+					<form id="flaggerform" method="post">
+					<div style="display:none;" class="flaggermessage">Thank you! If you'd like to leave a comment, please use the form below: <div class="flaggercomment"><textarea class="flaggertext" name="flaggertext"></textarea><input type="submit" class="submit" id="flaggersubmit" value="Submit" /></div></div><div style="display:none" class="flaggersuccess">Your comment has been submitted! Thank you for your feedback.</div>
+					</form>
+				</div>
+				<div id="flaggerget" style="display:none;"></div>
+				<div id="flaggernode" style="display:none;">270292</div></div>
+  <div class="clear-block clear"></div>
+
+      <div class="links"><ul class="links inline"><li class="comment_forbidden first last"></li>
+</ul></div>
+  
+</div>
+  </div>
+
+  
+  </div>
+  </div>
+</div>
+</div>
+</div>
+ 
+                                        </div><!-- /inner-content -->
+          </div><!-- /squeeze-content -->
+        </div><!-- /squeeze -->
+      </div><!-- /main -->
+          </div><!-- /middle-container -->
+    <div style="clear:both"></div>
+            <div id="footer">
+              <div id="footer-region">  <div class="block block-block" id="block-block-3">
+    <div class="content"><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-22553883-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></div></div>
+</div>
+                  
+      &copy; 2013 SoftLayer Technologies, Inc. All rights reserved.
+    </div><!-- /footer -->
+  <div style="clear:both"></div>
+  <script type="text/javascript" src="/sites/all/modules/jquery_update/replace/jquery.min.js?s"></script>
+<script type="text/javascript" src="/misc/drupal.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/apachesolr_autocomplete/apachesolr_autocomplete.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/apachesolr_autocomplete/jquery-autocomplete/jquery.autocomplete.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/dhtml_menu/dhtml_menu.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/panels/js/panels.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/tableofcontents/jquery.scrollTo-min.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/tableofcontents/jquery.localscroll-min.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/tableofcontents/tableofcontents.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/flagger/js/flagger.js?s"></script>
+<script type="text/javascript" src="/misc/collapse.js?s"></script>
+<script type="text/javascript" src="/misc/tableheader.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/views/js/base.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/views/js/ajax_view.js?s"></script>
+<script type="text/javascript" src="/sites/all/themes/softlayer/js/jquery.pngFix.js?s"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "apachesolr_autocomplete": { "path": "/apachesolr_autocomplete" }, "dhtmlMenu": { "slide": "slide", "clone": "clone" }, "views": { "ajax_path": "/views/ajax", "ajaxViews": [ { "view_name": "Blogs", "view_display_id": "block_2", "view_args": "", "view_path": "node/270292", "view_base_path": "blog/feed", "view_dom_id": 1, "pager_element": 0 } ] } });
+//--><!]]>
+</script>
+    </div> <!-- /page -->
+</body>
+</html>

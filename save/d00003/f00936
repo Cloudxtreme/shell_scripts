@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <TITLE>HA and Rapid Recovery Services</TITLE>
+ </HEAD>
+
+<!-- Background white, links blue (unvisited), navy (visited), red (active) -->
+ <BODY
+  BGCOLOR="#FFFFFF"
+  TEXT="#000000"
+  LINK="#0000FF"
+  VLINK="#000080"
+  ALINK="#FF0000"
+ >
+  <H1 ALIGN="CENTER">
+   HA and Rapid Recovery Services
+  </H1>
+  <P>
+
+<h2>INTRODUCTION</h2>
+
+Central network services operated by ISC Networking can be broadly
+classified into two categories in terms of their availability and
+tolerance to failure.
+
+<h3>1. High Availability services</h3>
+
+These are services that are continuously available for a very extended
+period of time. They can survive hardware failure, storage failure, 
+network failure, building failure etc and also component/server upgrades.
+
+<p>
+
+Some strategies employed to achive High Availability include:
+
+<ul>
+<li>Hardware component and server level redundancy
+<li>Storage redundancy
+<li>Multiple servers<br>
+   (housed in different physical locations, connected to different networks)
+<li>Redundant power and A/C
+<li>Application protocols that can transparently failover to
+  alternate servers.
+<li>Secondary offsite hosting (of some services like DNS)
+</ul>
+
+Examples: Central Authentication (Kerberos), RADIUS, DNS, DHCP etc.
+ 
+<h3>2. Rapid Recovery services</h3>
+
+These services are not necessarily continuously available to the same
+degree as the first category. There are specific failure modes that 
+could result in total downtime. But the systems are deployed in a 
+manner such that they can be quickly resurrected, possibly on an
+alternate set of standby systems. The Application services that might 
+be deployed on such systems typically don't have an easy way to perform 
+transparent failover.
+
+<p>
+
+Examples: E-mail, Web (WWW)
+
+<h2>DETAILED DESCRIPTION</h2>
+
+<h3>1. HIGH AVAILABILITY SERVICES</h3>
+
+
+<img src="HA.jpg">
+
+<p>
+
+1a. Central Authentication (Kerberos servers, aka KDC's)
+
+<p>
+
+The Kerberos central authentication service runs on a set of three
+machines (kdc1, kdc2, kdc3). All are multiprocessor systems with
+internal storage redundancy via RAID. They support the Kerberos
+Authentication (AS) and Ticket Granting service (TGS). No other
+externally reachable services run on them. Each server is housed in a
+different machine room in a different campus building, on a different
+physical network which is in turn connected to a different campus core
+router. The Kerberos protocol supports multiple servers with automatic
+failover.  Hence the authentication service continues to function even
+if any two of the servers are down or unreachable.
+
+<p>
+
+1b. Other core infrastructure services (RADIUS, DNS, DHCP, NTP, PennNames)
+
+<p>
+
+These services run on the set of three central infrastructure servers 
+known as the "NOC" systems (NOC1, NOC2 and NOC3). All are multi-
+processor systems with internal storage redundancy via RAID. Each 
+server is housed in a different machine room in a different campus
+building. For historical reasons, they are located on two different
+physical networks (instead of three different networks as in the case
+of the newer Kerberos servers). However a plan is in place to migrate 
+the third NOC system onto a third network to further increase the
+level of redundancy and availability of these services. The DNS, RADIUS,
+DHCP and NTP services support automatic failover at the protocol level.
+The PennNames service is a homegrown service that doesn't yet support 
+transparent failover. For this reason, loss of the primary NOC server
+necessitates a manual procedure by which a secondary NOC server 
+additionally assumes the identity of the primary server. This manual
+reconfiguration process takes about 15 minutes of staff time.
+
+
+<h3>1. RAPID RECOVERY SERVICES</h3>
+
+<img src="RR.jpg">
+<p>
+
+The E-mail and web service is designed in the following way: Each
+set of servers and associated storage is replicated at two sites.
+One of the sites houses the primary ("active") servers and the
+primary storage. The second site houses the set of standy servers
+and replicated storage. Data from the first site is replicated 
+synchronously (in "real time") to the storage system at the second
+site. Two separate fibre channel storage area networks (SAN)
+interconnect the systems and storage. Each server has a separate
+link into each fibrechannel network and can reach the storage at
+either site. Additionally each storage system has internal
+redundancy via RAID. The servers are located on the primary
+infrastucture services network (the NOC1 network), which is triply
+connected via three different buildings to three distinct campus
+core routers.
+
+<p>
+
+In the event of a catastrophic failure of a server or storage system
+at either site, the system can be manually reconfigured by staff to 
+use the alternate standy servers and/or the secondary storage. This
+procedure takes about half an hour.
+
+<p>
+
+It may be possible in the future to deploy a more advanced system that
+employs server and storage "clustering". This will enable continuous
+operation in the event of server/storage element failure. However,
+significant systems and software development and testing effort would
+need to happen first, to make sure all the applications can be made
+to operate in the clustered environment.
+
+<h2>CONCLUSION</h2>
+
+The central services described in this document satisfy our current
+continuous (or near continuous) operation requirements by employing
+the designs of high availability (transparent failover) and rapid recovery 
+(quick manual reconfiguration). The services are resistant to hardware 
+component failure, storage failure, network failure, and campus area
+building failure. All data associated with the services are backed up
+every night to secondary tape storage. Since the servers and backup
+devices are currently replicated only in the campus environment, they do 
+not offer metropolitan area disaster recovery.
+
+<hr>
+<ADDRESS>
+        Shumon Huque</A><BR>
+        Last Updated: 2003-08-01
+</ADDRESS>
+
+ </BODY>
+</HTML>

@@ -1,0 +1,407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Membership Levels &amp; Categories</title>
+<link rel="stylesheet" href="../../includes/bw/styles/2.css" type="text/css" media="screen" title="I2style" />
+
+<link rel="stylesheet" href="../../includes/bw/master-style-1k-new.css" type="text/css" media="screen" title="I2style" />
+<link rel="stylesheet" href="../../includes/bw/print.css" type="text/css" media="print" title="I2style" />
+<link rel="shortcut icon" href="http://www.internet2.edu/images/favicon.jpg" type="image/x-icon" />
+<script language="javascript" type="text/javascript" src="../../includes/js/showText.js"></script>
+<script type="text/javascript" src="../../includes/bw/js/expandable.js"></script>
+<script type="text/javascript">
+var feedtitle = '<a href="https://blogs.internet2.edu/">News Feed</a>';
+	var bloglink =  '<a href="https://blogs.internet2.edu/">Internet2 Blog</a>';
+    var datafile = '/includes/php/parser/index-confluence.php?limit=3&doDesc=false&doDate=TRUE';
+	var rssURL = '<a href="https://blogs.internet2.edu/feed" title="Subscribe to Internet2 blog feed"><img src="/includes/bw/images/rss20.gif" class="noborder" alt="rss2.0" /></a>';
+</script>
+<!--for strategy portal-->
+  <link rel="stylesheet" type="text/css" href="../../includes/js/yui/build/fonts/fonts-min.css" />
+  <link rel="stylesheet" type="text/css" href="../../includes/js/yui/build/tabview/assets/skins/sam/tabview.css" />
+<!--for fx-->
+  <link rel="stylesheet" type="text/css" href="../../includes/js/yui/build/container/assets/skins/sam/container.css">
+  <link rel="stylesheet" type="text/css" href="membership_structure-new.css">
+  <script type="text/javascript" src="../../includes/js/yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+  <script type="text/javascript" src="../../includes/js/yui/build/element/element-min.js"></script>
+  <script type="text/javascript" src="../../includes/js/yui/build/tabview/tabview-min.js"></script>
+  <!--for accordion-->
+<script type="text/javascript" src="../../includes/js/yui/build/utilities/utilities.js"></script>
+<script type="text/javascript" src="../../includes/js/bubbling/build/bubbling/bubbling-min.js"></script>
+<script type="text/javascript" src="../../includes/js/bubbling/build/accordion/accordion-min.js"></script>
+  <script type="text/javascript" src="../../includes/js/yui/build/animation/animation-min.js"></script>
+	<script>
+	//to avoid Safari "empty pane" syndrome, store HTML content, then restore it at end of function
+	var checkIt = "";
+	var xsltProcessor;
+	var xmlSource;
+		function runTransform(){
+			if(document.implementation && document.implementation.createDocument){
+				// Mozilla
+		
+				xsltProcessor = new XSLTProcessor();
+				
+				// load the xslt file
+				var myXMLHTTPRequest = new XMLHttpRequest();
+				myXMLHTTPRequest.open("GET", "membership_structure.xsl", false);
+				myXMLHTTPRequest.send(null);
+				
+				// get the XML document
+				xslStylesheet = myXMLHTTPRequest.responseXML;
+				xsltProcessor.importStylesheet(xslStylesheet);
+				
+				// load the xml file
+				myXMLHTTPRequest = new XMLHttpRequest();
+				myXMLHTTPRequest.open("GET", "membership_structure.xml", false);
+				myXMLHTTPRequest.send(null);
+				
+				xmlSource = myXMLHTTPRequest.responseXML;
+				
+				//transform
+				 var resultDocument = xsltProcessor.transformToFragment(xmlSource, document);
+				document.getElementById("levels_xml").appendChild(resultDocument);
+				
+				//set new param and transform for categories tab
+				xsltProcessor.setParameter(null, "mode", "categories");
+				 var resultDocument = xsltProcessor.transformToFragment(xmlSource, document);
+				document.getElementById("categories_xml").appendChild(resultDocument);
+
+				xsltProcessor.setParameter(null, "mode", "members_level_sort");
+				 var resultDocument = xsltProcessor.transformToFragment(xmlSource, document);
+				document.getElementById("members_xml").appendChild(resultDocument);
+
+				xsltProcessor.setParameter(null, "mode", "benefits");
+				 var resultDocument = xsltProcessor.transformToFragment(xmlSource, document);
+				document.getElementById("benefits_xml").appendChild(resultDocument);
+
+				xsltProcessor.setParameter(null, "mode", "expectations");
+				 var resultDocument = xsltProcessor.transformToFragment(xmlSource, document);
+				document.getElementById("expectations_xml").appendChild(resultDocument);
+				
+			}else if(window.ActiveXObject){
+				// IE
+				
+				// Load XML
+				xml = new ActiveXObject("MSXML2.DOMDocument");
+				xml.async = false
+				xml.load("membership_structure.xml")
+				if (xml.parseError.errorCode != 0) {
+				// error found so show error message and stop
+					levels_xml.innerHTML = showError(xml);
+				return false;
+				}
+				
+				// Load XSL
+				xsl = new ActiveXObject('MSXML2.FreeThreadedDOMDocument.3.0'); //.4.0
+				xsl.async = false;
+				xsl.load("membership_structure.xsl");
+				if (xsl.parseError.errorCode != 0) {
+				// error found so show error message and stop
+					levels_xml.innerHTML = showError(xsl);
+				return false;
+				}
+				// Create processor
+				cache = new ActiveXObject("Msxml2.XSLTemplate.3.0"); //.4.0
+				cache.stylesheet = xsl;
+				processor = cache.createProcessor();
+				processor.input = xml;
+			
+				// Transform
+				processor.transform();
+				document.getElementById("levels_xml").innerHTML = processor.output;
+				
+				processor.addParameter("mode", "categories");
+				processor.transform();
+				document.getElementById("categories_xml").innerHTML = processor.output;
+				
+				processor.addParameter("mode", "members_level_sort");
+				processor.transform();
+				document.getElementById("members_xml").innerHTML = processor.output;
+				
+				processor.addParameter("mode", "benefits");
+				processor.transform();
+				document.getElementById("benefits_xml").innerHTML = processor.output;
+				
+				processor.addParameter("mode", "expectations");
+				processor.transform();
+				document.getElementById("expectations_xml").innerHTML = processor.output;
+
+			
+			}else{
+				// Browser unknown
+				alert("Browser unknown");
+			}
+			var fadeInAnim = new YAHOO.util.Anim(document.getElementById('detail_frame_lev'), { opacity: {to: 1} }, 1 );
+			fadeInAnim.animate();
+
+		}
+
+
+function showError(objDocument) {
+	// create the error message
+	var strError = new String;
+	strError = 'Invalid XML file !<br />'
+	   + 'File URL: ' + objDocument.parseError.url + '<br />'
+	   + 'Line No.: ' + objDocument.parseError.line + '<br />'
+	   + 'Character: ' + objDocument.parseError.linepos + '<br />'
+	   + 'File Position: ' + objDocument.parseError.filepos + '<br />'
+	   + 'Source Text: ' + objDocument.parseError.srcText + '<br />'
+	   + 'Error Code: ' + objDocument.parseError.errorCode + '<br />'
+	   + 'Description: ' + objDocument.parseError.reason
+	return strError;
+}
+
+function scrollDetailPane() {
+//get cross-browser browser window width
+var browserWinWidth = 0;
+//var browserWinHeight = 0;
+if( typeof( window.innerWidth ) == 'number' ) {
+//Non-IE
+browserWinWidth = window.innerWidth;
+//browserWinHeight = window.innerHeight;
+} else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+//IE 6+ in 'standards compliant mode'
+browserWinWidth = document.documentElement.clientWidth;
+//browserWinHeight = document.documentElement.clientHeight;
+} else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+//IE 4 compatible
+browserWinWidth = document.body.clientWidth;
+//browserWinHeight = document.body.clientHeight;
+}
+    var pageY;
+		var detailPane;
+    if(typeof(window.pageYOffset)=='number') {
+       pageY=window.pageYOffset;
+    }
+    else {
+       pageY=document.documentElement.scrollTop;
+    }
+		if (document.getElementById("levels").className != "yui-hidden") {
+			detailPane = document.getElementById("detail_frame_lev");
+		}
+		else if (document.getElementById("categories").className != "yui-hidden") {
+			detailPane = document.getElementById("detail_frame_cat");
+		}
+		else if (document.getElementById("members").className != "yui-hidden") {
+			detailPane = document.getElementById("detail_frame_mem");
+		}
+		else if (document.getElementById("benefits").className != "yui-hidden") {
+			detailPane = document.getElementById("detail_frame_ben");
+		}
+		else {
+			detailPane = document.getElementById("detail_frame_exp");
+		}
+		//detailPane.innerHTML = pageY + '<br/>getElementById("cms-body").tagName ' + document.getElementById("cms-body").tagName + ' offsetWidth ' + document.getElementById("cms-body").offsetWidth + '<br/>browserWinWidth ' + browserWinWidth;
+		//figure fixed position left setting, depending on window width
+		var newLeft = ((document.getElementById("cms-body").offsetWidth/2)-2) + 'px';//97
+		if (pageY > 500) {//416
+			//position:fixed !important; position: absolute; /*ie6 and above*/
+			detailPane.style.position = 'fixed';
+			detailPane.style.top = '0px';
+			detailPane.style.left = newLeft;//448
+		} else {
+			detailPane.style.position = 'absolute';
+			detailPane.style.top = '0';
+			detailPane.style.left = '440px';
+		}		
+}
+function checkUserInput(type,frameID,itemID){
+	if (checkIt) clearTimeout(checkIt);
+	checkIt = setTimeout(function(){showDetails(type,frameID,itemID)},350);
+}
+function showDetails(type,frameID,itemID) {
+	var detailFrame = document.getElementById(frameID);
+	detailFrame.style.opacity = "0";
+	//detailFrame.style.-moz-opacity = "0";
+	//detailFrame.style.filter: alpha(opacity=0);
+	
+	if (document.implementation && document.implementation.createDocument){
+		//Mozilla - set new param and transform for task details inside strategy tab
+			xsltProcessor.setParameter(null, "mode", type);
+			xsltProcessor.setParameter(null, "selectID", itemID);
+		var resultDocument = xsltProcessor.transformToFragment(xmlSource, document);
+		detailFrame.innerHTML = "";
+		detailFrame.appendChild(resultDocument);
+	} else {
+		processor.addParameter("mode", type);
+		processor.addParameter("selectID", itemID);
+	processor.transform();
+	detailFrame.innerHTML = processor.output;
+	}
+	var fadeInAnim = new YAHOO.util.Anim(frameID, { opacity: {to: 1} }, .5 );
+	fadeInAnim.animate();
+	//set containing div height based on new detail pane height
+	var yuiContentHeight = ((detailFrame.offsetHeight + 11) + 'px');
+	detailFrame.parentNode.style.height = yuiContentHeight;
+}
+</script>
+
+</head>
+<body id="cms-body" class="yui-skin-sam" onLoad="runTransform()" onscroll="scrollDetailPane()">
+<div id="page">
+	<div id="header">
+		<img src="../../includes/bw/images/I2whitetext_blk.gif" id="shadowlogo" class="shadowlogo" alt="Internet2" />
+		<a href="http://www.internet2.edu"><img src="../../includes/bw/images/top2-med.png" id="logo" class="logo" alt="Internet2" /></a> 
+		<div id="nav1">
+		<a href="http://www.internet2.edu/membership/"><span class="selected">Membership</span></a>
+			<a href="http://www.internet2.edu/communities/">Communities</a> 
+			<a href="http://www.internet2.edu/network/">Network</a> 
+			<a href="http://www.internet2.edu/services/">NET+</a>
+			<a href="http://www.internet2.edu/projects/">Research</a> 
+			<a href="http://events.internet2.edu/">Events</a>
+			<a href="http://www.internet2.edu/news/">News</a>
+			<a href="http://www.internet2.edu/about/">About</a>
+			
+		</div> 	<!-- end nav1-->
+		<div id="nav2" class="membership"> <a href="http://www.internet2.edu/membership/resources.html" class="four">Resources</a>
+			<a href="http://www.internet2.edu/membership/membership_structure.cfm" class="two">Levels & Categories</a>
+			<a href="http://www.internet2.edu/membership/dues.html" class="one">Dues</a>	
+			<a href="http://www.internet2.edu/membership/apply/" class="three">Apply Now</a>
+			<a href="http://www.internet2.edu/membership/login.html" class="five">Login</a>
+		  </div> 
+		<!-- end nav2-->
+	</div> <!--end header -->
+  <div id="content" class="narrowcolumn">
+	
+	<div class="topclear">
+<!--end #include -->
+		  <h2 class="page-title">Membership Levels &amp; Categories</h2>
+		  <p>The Board of Trustees at its July, 2009, meeting approved a revised membership structure for Internet2. The new model put forth by the Membership Committee of the Board recommended the changes to the Internet2 membership structure because:</p>
+      <ul>
+        <li>The current &ldquo;one size fits all&rdquo; fee structure is a deterrent to existing and prospective members.</li>
+      <li>The practice of having separate billings for membership dues and network participation fees is difficult to understand and to administer.</li>
+      <li>The lack of a uniform application of Sponsored Participant guidelines over Internet2&rsquo;s history has led to the inconsistent assignment of connected organizations.</li>
+      <li>The absence of different levels of participation has excluded many SEGP and smaller organizations from Internet2 membership.</li>
+      </ul>
+
+<p>Take a drive through the interactive Membership Portal and find out more about this membership structure for Internet2. For more information, see:</p>
+	<ul>
+    	<li><a href="docs/MembershipStructureFAQ.pdf">Membership Structure FAQ</a> <em>(PDF)</em></li>
+        <li>See <a href="dues.html">Dues and Fees</a> for details on the new membership financial structure</li>
+        <!-- <li><a href="docs/Internet2 Membership Structure.pptx">Internet2 Membership Structure Presentation</a> <em>(PowerPoint)</em></li> -->
+    </ul>
+</div><!-- end .topclear -->
+		<div id="membership_portal_container">
+		  <div id="membership_portal" class="yui-navset">
+        <ul class="yui-nav">
+            <li class="selected"><a href="#levels"><em>Levels</em></a></li>
+            <li><a href="#categories"><em>Membership Categories</em></a></li>
+            <li><a href="#members"><em>Member List</em></a></li>
+            <li><a href="#benefits"><em>Benefits</em></a></li>
+            <li><a href="#expectations"><em>Expectations</em></a></li>
+        </ul>            
+        <div id="yui_content" class="yui-content">
+            <div id="levels"><div id="levels_xml"></div>
+          </div>
+            <div id="categories"><div id="categories_xml"></div>
+          </div>
+            <div id="members"><div id="members_xml"></div>
+          </div>
+            <div id="benefits"><div id="benefits_xml"></div>
+          </div>
+            <div id="expectations"><div id="expectations_xml"></div>
+          </div>
+        </div>
+  		</div>
+    </div><!--/#membership_portal_container-->
+<div class="note"><p style="margin-bottom:20px;">Note: Please use Firefox 3 or above, or Safari 3 or above if possible.</p></div>
+
+	<script>
+  (function() {
+      var tabView = new YAHOO.widget.TabView('membership_portal');
+  })();
+
+  </script>					
+
+		
+    
+	</div> 	<!-- end content -->
+
+  <div id="sidebar">
+  		
+		<form action="http://websearch.internet2.edu/query.html" method="get" name="search" accept-charset="iso-8859-1" id="searchform">
+			<label for="searchsubmit"></label><input type="image" id="searchsubmit" src="/includes/bw/images/search.jpg" name="Search"  alt="Search" maxlength="1991" />
+			<br />
+			<label for="seek1.search"></label><input type="text" value="" name="qt" id="seek1.search" size="28" class="s" />
+			<input type="hidden" name="col" value="i2sites" />
+			<input type="hidden" name="charset" value="iso-8859-1" />
+		</form>
+
+		<div id="icons">
+		  
+		  <a href="#" onclick="window.print();return false;"><img src="/includes/bw/images/print.gif" width="16" height="16" alt="Print this doc" title="Print" /></a>
+		
+
+		  <a href="javascript:popupMessage(location.href, document.title)">
+		  <img src="/includes/bw/images/envelope.gif" width="16" height="16" alt="Email this doc" title="Email" /></a>
+		
+		  <!-- <a href="http://del.icio.us/post" 
+		  onclick="window.open('http://del.icio.us/post?v=4&noui&jump=close&url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title), 'delicious','toolbar=no,width=700,height=400'); return false;">		  
+		  <img src="/includes/bw/images/delicious-16x16.png" width="16" height="16" alt="del.icio.us" title="del.icio.us" /></a> -->
+          
+          <a href="http://www.twitter.com/Internet2" target="_blank"><img src="/includes/bw/images/Twitter-16x16.png" width="16px" alt="Follow us on Twitter" title="Follow us on Twitter" /></a>
+          <a href="http://www.facebook.com/pages/Internet2/139036148088" target="_blank"><img src="/includes/bw/images/FaceBook-16x16.png" width="16px" alt="Join us on FaceBook" title="Friend us on FaceBook" /></a>
+		</div>
+
+		<h3><script type="text/javascript">document.write(feedtitle);</script></h3>
+
+		<span id="recent_posts"> 
+		<script type="text/javascript">
+			document.write('<img src="/includes/bw/images/load.gif" alt="..." /> Loading <br />');
+		</script>
+		<noscript>
+		Javascript must be enabled for this feature.
+		</noscript>
+		</span>
+		<br />
+		
+		<p class="rss-link"><script type="text/javascript">document.write(rssURL);</script></p>
+		<p class="blog-link"><script type="text/javascript">document.write(bloglink);</script></p>
+
+	
+	<script type="text/javascript">
+		function addLoadEvent(func) {
+  var oldonload = window.onload;
+  if (typeof window.onload != 'function') {
+    window.onload = func;
+  } else {
+    window.onload = function() {
+      if (oldonload) {
+        oldonload();
+      }
+      func();
+    }
+  }
+}
+	addLoadEvent(getTheFeed(datafile));
+	</script>
+
+  </div> <!-- end sidebar -->
+
+        <!--include virtual="/includes/bw/footer.html" -->
+<div class="clearall">
+<img src="../../includes/bw/images/footer-spectrum.jpg" id="spectrum" alt="spectrum"/>
+</div>
+<div id="footer">
+	
+	<p>
+	<a href="http://www.internet2.edu/privacy.html">Privacy</a>|
+	<a href="http://www.internet2.edu/search/siteindex.cfm">Site Map</a>|
+	<a href="http://www.internet2.edu/termsofuse.html">Terms of Use</a>|
+	<a href="http://www.internet2.edu/about/contact/">Contact Us</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;Copyright 2011 Internet <img src="../../includes/bw/images/small2.gif" alt="2"/>	</p>
+</div> <!-- end footer -->
+</div> <!-- end page -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-349565-1");
+pageTracker._setDomainName("internet2.edu");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body>
+</html>    
+   <!-- end #include -->
+

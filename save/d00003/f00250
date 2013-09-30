@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>MikroTik Routers and Wireless</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="description" content="Mikrotik develops high performance routers and wireless ISP systems, providing both hardware and software for most countries around the world." />
+		<meta name="keywords" content="mikrotik, routeros, RouterOS, mikrotikls, routerboard, mtcna, mtctce, mtcwe, mtcre, dude, winbox, wireless, router, mum, mikrotik user meeting, wifi, microtik, hotspot, server, proxy, network, firewall, dhcp, bandwidth, nat, radius, pppoe, mikrotic, software, queue, bridge, snmp, eoip, manual, interface, gateway, install, isp, software, hardware" />
+		<link href="/css/960/960.css" rel="stylesheet" />
+		<link href="/css/style.2.css" rel="stylesheet" />	
+		<link rel="shortcut icon" href="/img/favicon.ico" />
+		<link rel="alternate" type="application/rss+xml" href="http://www.mikrotik.com/download.rss" title="RouterOS downloads feed" />
+		<script type="text/javascript" src="/js/jquery-default.js"></script>
+		<script type="text/javascript" src="/js/m.js"></script>
+<script type="text/javascript">
+//google analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-10927155-4']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+		<script type="text/javascript" language="javascript">
+function showOnly( status, country, continent ) {
+	var fadeTime = 1.0;
+	var appearTime = 1.0;
+	var doc = document.getElementsByTagName('dl');
+	var myReg1 = new RegExp( "country_" );
+	var myReg2 = new RegExp( "country_" + country + "_" + continent + "_" );
+  for (var i = 0; i < doc.length; i++){
+    if (doc[i].id.match( myReg1 ) ) {
+      if ( doc[i].id.match( myReg2 ) ) {
+        if (status == 1) {
+          $("#"+doc[i].id).fadeIn(appearTime);
+        }
+      } else {
+        if (status == 0) {
+          $("#"+doc[i].id).fadeOut(fadeTime);
+        }
+      }
+    }
+  }
+  var doc = document.getElementsByTagName('h3');
+  var myReg1 = new RegExp( "continent_" );
+  var myReg2 = new RegExp( "continent_" + continent );
+  for (var i = 0; i < doc.length; i++){
+    if (doc[i].id.match( myReg1 ) ) {
+      if ( doc[i].id.match( myReg2 ) ) {
+        if (status == 1) {
+          $("#"+doc[i].id).fadeIn(appearTime);
+        }
+      } else {
+        if (status == 0) {
+          $("#"+doc[i].id).fadeOut(appearTime);
+        }
+      }
+    }
+  }
+if(status == 0){
+setTimeout( "showOnly( 1, '" + country + "', '" + continent + "')", (fadeTime * 1000) + 100 );
+}
+}
+
+function showOnly2(status, continent, country) {
+	var appearTime = 1.0;
+	$('dl[id*="country_"]').fadeOut(appearTime);
+	$('h3[id*="continent_"]').fadeOut(appearTime);
+	if (country!='') {
+		$('dl[id^="country_'+continent+'_'+country+'"]').fadeIn(appearTime);
+		$('h3[id^="continent_'+continent+'"]').fadeIn(appearTime);
+	} else if (continent!='') {
+		$('h3[id^="continent_'+continent+'"]').fadeIn(appearTime);
+		$('dl[id^="country_3_"]').fadeIn(appearTime);
+	} else {
+		$('dl[id*="country_"]').fadeIn(appearTime);
+		$('h3[id*="continent_"]').fadeIn(appearTime);
+	}
+}
+	
+function showAll2() {
+	showOnly2(0, '', '');
+}
+
+function readyacademy(){
+if ($("a.galleryimg").length != 0){
+$("a.galleryimg").fancybox({"overlayShow":false,"hideOnContentClick":true});
+}
+}
+
+$(document).ready(function(){readyacademy();});
+		
+function showAll() {
+  showOnly( 0, '[a-zA-Z0-9]*', '[0-9]*' );
+}
+</script><script type="text/javascript">
+function openBigMap(){
+$("#minimap").hide();
+$("#largemap").show();
+
+$("#largemap").html('<iframe width="800" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"'
+		+'src="/web_contacts/googleMap3.php?site=1&part=4"></iframe><br/>');
+
+//lh = $("#largemap").width();
+//$("#largemap").width(300);
+//$("#largemap").width(lh);
+
+return false;
+}
+function showMore() {
+if($("#extraButton").val()=="Show more"){
+$("#extraButton").val("Show less");
+$("#hiddenExtra").show();
+}else{
+$("#extraButton").val("Show more");
+$("#hiddenExtra").hide();
+}
+}
+function loadSite(t,name){
+	$('.trainingLinks > a').attr("class","");
+	$(t).attr("class","clicked");
+	$.post(
+		"/client/ajax.php",
+		{action:"changeTraining",type:name},
+		function(data){
+			//alert(data);
+			$("#trainingResultBlock").html(data);
+		}
+	);
+	fn = window['ready'+name];
+	fnExists = typeof fn === 'function';
+	if (fnExists){
+		fn();
+	}
+	return false;
+}
+</script>
+<style type="text/css">
+.trainingLinks{margin-top:20px;position:relative;}
+.trainingLinks .border{
+	height:1px;position:absolute;z-index:-1;border-bottom:1px solid black;display:box;width:100%;
+	bottom:0px;
+}
+.trainingLinks a{
+	color:#818181;
+	display:block;width:185px;margin:0 0 0 10px;padding:3px;
+	outline:none;float:left;text-align:center;
+	baackground:#ddd;
+	background: #f1f1f1;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), to(#fefefe));
+	background: -moz-linear-gradient(top, #f1f1f1, #fefefe);
+	baorder-bottom:1px solid black;
+	border-left:1px solid black;
+	border-right:1px solid black;
+	border-top:1px solid black;
+}
+.trainingLinks a:hover,
+.trainingLinks .clicked{
+	font-weight:bold;background:white;
+background: #f1f1f1;
+background: -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), to(#fefefe));
+background: -moz-linear-gradient(top, #f1f1f1, #fefefe);
+text-decoration:none;
+}
+</style>
+	</head>
+	<body>
+		<div class="container_12">
+			<div class="grid_12">
+				
+				<div class="logo">
+					<a href="http://www.mikrotik.com"><img src="/img/header/sitelogo.png" alt="" /></a>
+				</div>
+				<div class="wrap_head_right">
+					<div class="wrap_logo_search">
+						<div class="s2"><img src="/img/header/routersandwireless.png" alt="" /></div>
+						<div class="search">					
+							<form target="_blank" action="http://www.google.com/cse" id="cse-search-box" name="cse-search-box">
+								<input name="q" id="q" size="21" maxlength="20" value="Search..." class="search_input" onfocus="checkFill(&#39;Search...&#39;, this);" onblur="fillDefault(&#39;Search...&#39;, this);" />
+								<input type="hidden" name="cx" value="014341547594717591594:ibqznhgxcku" />
+								<input type="hidden" name="ie" value="UTF-8" />
+								<input class="goimage" type="image" name="img" src="/img/header/gogo.png" />
+							</form>											
+						</div>
+					</div>
+					<div id="header">
+						 <ul>
+						 
+						 <li ><a href="http://www.mikrotik.com/index.html">home</a></li>
+						 
+						 <li ><a href="http://www.mikrotik.com/software.html">software</a></li>
+						 
+						 <li ><a href="http://routerboard.com">hardware</a></li>
+						 
+						 <li ><a href="http://www.mikrotik.com/support.html">support</a></li>
+						 
+						 <li ><a href="http://www.mikrotik.com/download">downloads</a></li>
+						 
+						 <li ><a href="/buy">purchase</a></li>
+						 
+						 <li id="on"><a href="http://www.mikrotik.com/training/">training</a></li>
+						 
+						 <li ><a href="https://www.mikrotik.com/client/">account</a></li>
+						 
+						</ul>
+					</div>
+					
+					<div class="submenu">
+					<div class="corner"></div>
+						<ul>
+							
+							<li class="current"><a href="http://www.mikrotik.com/training/">Overview</a></li>
+							
+							<li ><a href="http://www.mikrotik.com/training/offers">Mikrotik Training</a></li>
+							
+						</ul>
+					</div>					
+				</div>
+			</div>
+			
+			<div class="grid_12 space"></div>
+		</div>
+		<div class="container_12"><div class="grid_12 bodyholder"><h2>MikroTik Training events and institutions around the world:</h2>
+<div style="position:relative;text-align:justify;">
+	<div id="largemap" style="display:none;">
+	</div>
+	<div id="topictext" style="float:left;padding:20px;width:60%">
+	<p><b>MikroTik Training Centers (MTC)</b> are separate entities (companies or individuals) conducting intensive public or private training sessions and certification tests according to the official MikroTik Training Outline. MTC's are not affiliated with each other and with MikroTik in any form. They use their own training materials and bear sole responsibility for the training sessions offered. Please contact the MikroTik Training Centers directly regarding their offers.</p>
+	<p><b>MikroTik Academies (MA)</b> are educational institutions such as universities, technical schools, colleges, vocational schools, and other educational institutions offering semester time based Internet networking courses for their academic students using MikroTik RouterOS as a learning tool.</p>
+	</div>
+	<div id="minimap" style="float:left;position:relative;">
+			
+		<a href="" onclick="openBigMap();return false;">
+		<div style="position:absolute;width:200px;height:200px;display:block;z-index:5;"></div>
+		</a>
+		
+		<iframe width="200" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+		src="/web_contacts/googleMap3.php?site=1&part=4&small=1"></iframe><br/>
+		
+	</div>
+	<div style="clear:both;"></div>
+</div>
+
+<div class="trainingLinks" >
+	<a href="/training/schedule" class="clicked" onclick="return loadSite(this,'schedule');">Schedule</a>
+	<a href="/training/centers" class="" onclick="return loadSite(this,'centers');">Training centers & Trainers</a>
+	<a href="/training/academy" class="" onclick="return loadSite(this,'academy');">Academies</a>
+	<a href="/training/history" class="" onclick="return loadSite(this,'history');">Past trainings</a>
+	<div class="border"></div>
+	<div style="clear:both;"></div>
+</div>
+
+<div id="trainingResultBlock"><!-- <h2>Training schedule</h2> -->
+<div>
+<p>MikroTik training sessions are organized and provided by MikroTik Training Centers 
+at various locations around the World. They are attended by network engineers, 
+integrators and managers, who would like to learn about routing and managing wired 
+and wireless networks using MikroTik RouterOS.</p>
+<p>Approved MikroTik training programs and certificates:</p>
+<ul>
+	<li><b>MTCNA</b> - MikroTik Certified Network Associate (<a href="/pdf/MTCNA_Outline.pdf">view outline</a>)</li> 
+	<li><b>MTCRE</b> - MikroTik Certified Routing Engineer (<a href="/pdf/MTCRE_Outline.pdf">view outline</a>)</li>
+	<li><b>MTCWE</b> - MikroTik Certified Wireless Engineer (<a href="/pdf/MTCWE_Outline.pdf">view outline</a>)</li>
+	<li><b>MTCTCE</b> - MikroTik Certified Traffic Control Engineer (<a href="/pdf/MTCTCE_Outline.pdf">view outline</a>)</li>
+	<li><b>MTCUME</b> - MikroTik Certified User Management Engineer (<a href="/pdf/MTCUME_Outline.pdf">view outline</a>)</li>
+	<li><b>MTCINE</b> - MikroTik Certified Inter-networking Engineer (<a href="/pdf/MTCINE_Outline.pdf">view outline</a>)</li>
+</ul>
+</div>
+
+<a name="NorthAmerica"><h2>North America</h2></a><ul class="training_mum"><li>September 07-10, Canada, Saskatoon, <a href="http://www.sk-netware.ca" target="_blank">Hani Rahrouh-Wireless Netware</a> <span style="font-weight:bold;">(MTCNA, Introduction,MikroTik SXT Workshop), English</span></li><li>September 09-13, USA, St. Louis, <a href="http://www.wlan1.com/RouterOS_Training_p/5d-stl-training-sept2013.htm" target="_blank">Link Technologies, Inc</a> <span style="font-weight:bold;">(MTCNA, MTCWE, MTCRE, MTCTCE), English</span></li><li>September 09-12, Canada, Vancouver, <a href="http://solimedia.net/mikrotik-training-certs/100-mtcna-mtcre-training.html" target="_blank">Amin Dashti - Mikrotik Info</a> <span style="font-weight:bold;">(MTCNA, MTCRE), English</span></li><li>September 16-18, USA, MUM - St. Louis, MO, <a href="http://shop.mpl.com/index.php?route=product/product&path=82&product_id=88" target="_blank">Chris Brown - MPL Corporation</a> <span style="font-weight:bold;">(MTCTCE, MTCRE), English</span></li><li><b>September 16-18, USA, St. Louis, MO, <a href="http://www.mikrotik.com/training/offers" target="_blank">MikroTik</a> <span style="font-weight:bold;">(TRAINER), English</span></b></li><li>September 16-18, USA, MUM - St Louis, Mo, <a href="http://www.learnmikrotik.com/index.php?option=com_content&view=article&id=169" target="_blank">Steve Discher - LearnMikroTik.com</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>October 12-14, USA, Las Vegas, NV, <a href="http://mikrotikinfo.com/lasvegas-mikrotik-training/" target="_blank">Amin Dashti - Mikrotik Info</a> <span style="font-weight:bold;">(MTCTCE, MTCNA), English</span></li><li>December 09-12, USA, Los Angeles, <a href="http://mikrotikinfo.com" target="_blank">Amin Dashti - Mikrotik Info</a> <span style="font-weight:bold;">(MTCNA, MTCRE), English</span></li></ul><a name="LatinAmerica"><h2>Latin America</h2></a><ul class="training_mum"><li>August 27-29, Brazil, São Paulo, <a href="http://www.fs.com.br" target="_blank">FS Internet - Provedor, Cursos e Consultoria</a> <span style="font-weight:bold;">(MTCRE), Portuguese</span></li><li>August 30-September 01, Brazil, Feira de Santana/BA, <a href="http://www.alivesolutions.com.br/Alive/Listagem.aspx?CHAVE_CATEGORIA=ee56ba4e-c0d6-43d5-99db-7b247cf72843" target="_blank">Alive Solutions - Alivesolutions.com.br</a> <span style="font-weight:bold;">(MTCNA), Portuguese</span></li><li>September 02-05, Chile, Santiago - LinkStore, <a href="http://academia.linkstore.cl" target="_blank">Ing. Jorge Filippo - Optimix.com.ar</a> <span style="font-weight:bold;">(MTCWE, MTCNA), Spanish</span></li><li>September 04-06, Ecuador, Guayaquil, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), Spanish</span></li><li>September 06-08, Brazil, Goiânia, <a href="http://www.redesbrasil.com/site/index.php/component/jevents/icalrepeat.detail/2013/09/06/10/-/mtcna-06-07-e-08092013" target="_blank">Redes Brasil</a> <span style="font-weight:bold;">(MTCNA), Portuguese</span></li><li>September 09-10, Ecuador, Guayaquil, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCTCE), Spanish</span></li><li>September 09-11, Venezuela, Caracas, <a href="http://www.widuitcorp.com/cursos-mikrotik.html" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCNA), Spanish</span></li><li>September 09-12, Argentina, Buenos Aires, <a href="http://capacitacion.lq.com.ar" target="_blank">Laufquen</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>September 10-11, Argentina, BUENOS AIRES, <a href="http://www.solutionbox.com.ar" target="_blank">SOLUTION BOX - CIBERNEK</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>September 11-12, Ecuador, Guayaquil, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCWE), Spanish</span></li><li>September 12-13, Venezuela, Caracas, <a href="http://www.widuitcorp.com/cursos-mikrotik.html" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>September 19-20, Argentina, Mendoza Capital, <a href="http://www.solutionbox.com.ar" target="_blank">SOLUTION BOX - CIBERNEK</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>September 23-27, Brazil, Fortaleza - CE, <a href="http://lancoreacademy.com.br/" target="_blank">Lancore Networks</a> <span style="font-weight:bold;">(MTCNA, MTCWE), Portuguese</span></li><li>September 23-25, Mexico, Mexico DF - Mk-Mx, <a href="http://www.mikrotik-mexico.com.mx" target="_blank">Ing. Jorge Filippo - Optimix.com.ar</a> <span style="font-weight:bold;">(MTCWE, MTCNA), Spanish</span></li><li>September 23-25, Mexico, Mexico DF, <a href="http://www.academyxperts.com.mx" target="_blank">Alive Solutions - Alivesolutions.com.br</a> <span style="font-weight:bold;">(MTCINE), Spanish</span></li><li>September 24-25, Mexico, Mexico DF, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCRE), Spanish</span></li><li>September 24-25, Mexico, Mexico DF, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCTCE), Spanish</span></li><li>September 25-28, Argentina, Buenos Aires, <a href="http://capacitacion.lq.com.ar" target="_blank">Laufquen</a> <span style="font-weight:bold;">(MTCTCE, MTCRE, MTCWE), English</span></li><li>October 02-04, Colombia, Bogotá, <a href="http://www.itelkom.co/index.php?option=com_content&view=article&layout=edit&id=60" target="_blank">INTELIOFFICE S.A.</a> <span style="font-weight:bold;">(MTCRE, MTCWE, MTCNA, Introduction), Spanish</span></li><li>October 02-04, Ecuador, Guayaquil, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), Spanish</span></li><li>October 04-06, Colombia, Cali, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCNA, The Dude), Spanish</span></li><li>October 07-08, Colombia, Cali, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCRE), Spanish</span></li><li>October 07-08, Ecuador, Guayaquil, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCRE), Spanish</span></li><li>October 08-09, Argentina, BUENOS AIRES, <a href="http://www.solutionbox.com.ar" target="_blank">SOLUTION BOX - CIBERNEK</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>October 10-14, Bolivia, La Paz - TecTel, <a href="http://www.tectelbo.com" target="_blank">Ing. Jorge Filippo - Optimix.com.ar</a> <span style="font-weight:bold;">(MTCTCE, MTCRE, MTCWE, MTCNA), Spanish</span></li><li>October 11-13, Bolivia, La Paz - INOVA, <a href="http://www.inova.com.bo" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCNA), Spanish</span></li><li>October 14-15, Bolivia, La Paz - INOVA, <a href="http://www.inova.com.bo" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCUME), Spanish</span></li><li>October 16-17, Bolivia, La Paz - INOVA, <a href="http://www.inova.com.bo" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCRE), Spanish</span></li><li>October 18-20, Bolivia, La Paz - INOVA, <a href="http://www.inova.com.bo" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCINE), Spanish</span></li><li>October 28-29, Venezuela, Maracay, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCRE), Spanish</span></li><li>October 28-29, Venezuela, Maracay, <a href="http://mikrotikxperts.com/" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCWE), Spanish</span></li><li>October 30-31, Argentina, Cordoba - Capital, <a href="http://www.solutionbox.com.ar" target="_blank">SOLUTION BOX - CIBERNEK</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>November 04-06, Brazil, Curitiba-PR, <a href="http://mdbrasil.com.br/curso-treinamentos-mikrotik/agenda-cursos" target="_blank">MD Brasil - Information Technology</a> <span style="font-weight:bold;">(MTCNA, MTCRE), Portuguese</span></li><li>November 06-09, Brazil, Curitiba-PR, <a href="http://mdbrasil.com.br/curso-treinamentos-mikrotik" target="_blank">MD Brasil - Information Technology</a> <span style="font-weight:bold;">(MTCNA), Portuguese</span></li><li>November 06-10, Brazil, Curitiba/PR, <a href="http://www.alivesolutions.com.br/Alive/Interna.aspx?CHAVE_NOTICIA=d93d83d1-a6fd-402c-8f09-e7c758b1ac5f" target="_blank">Alive Solutions - Alivesolutions.com.br</a> <span style="font-weight:bold;">(MTCINE, MTCRE), Portuguese</span></li><li>November 07-09, Brazil, Curitiba-PR, <a href="http://mdbrasil.com.br/curso-treinamentos-mikrotik/agenda-cursos" target="_blank">MD Brasil - Information Technology</a> <span style="font-weight:bold;">(MTCNA, MTCINE, MTCRE), Portuguese</span></li><li>November 10-12, Ecuador, Quito, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCNA), Spanish</span></li><li>November 10-11, Ecuador, Quito, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCRE), Spanish</span></li><li>November 12-14, Ecuador, Quito, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCINE), Spanish</span></li><li>November 13-14, Ecuador, Quito, <a href="http://www.mikrotikxperts.com/" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCTCE), Spanish</span></li><li>November 13-16, Brazil, Curitiba-PR, <a href="http://mdbrasil.com.br/curso-treinamentos-mikrotik/agenda-cursos" target="_blank">MD Brasil - Information Technology</a> <span style="font-weight:bold;">(MTCNA, MTCWE), Portuguese</span></li><li>November 18-20, Honduras, San Pedro Sula, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCNA, The Dude), Spanish</span></li><li>November 19-23, Argentina, Rosario - Santa Fe, <a href="http://www.solutionbox.com.ar" target="_blank">SOLUTION BOX - CIBERNEK</a> <span style="font-weight:bold;">(MTCWE, MTCNA), English</span></li><li>November 20-23, Cuba, Havana, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>November 21-22, Honduras, San Pedro Sula, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCWE), Spanish</span></li><li>November 23-24, Honduras, San Pedro Sula, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCRE), Spanish</span></li><li>December 09-11, Costa Rica, San José, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCNA, The Dude), Spanish</span></li><li>December 12-13, Costa Rica, San José, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCRE), Spanish</span></li><li>December 14-16, Costa Rica, San José, <a href="http://www.mikrotikxperts.com" target="_blank">MikroTik Xperts - Academy Xperts</a> <span style="font-weight:bold;">(MTCINE), Spanish</span></li></ul><a name="Africa"><h2>Africa</h2></a><ul class="training_mum"><li>August 29-September 01, Kenya, Nairobi, <a href="http://sumocomputers.net/index.php?option=com_content&view=article&id=60&Itemid=64" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>September 02-04, Kenya, Nairobi, <a href="http://sumocomputers.net/index.php?option=com_content&view=article&id=60&Itemid=64" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>September 06-09, Congo The Democratic Republic of The, Goma, <a href="http://www.kivucomputersolutions.com/index.php" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>September 10-13, Rwanda, Kigali, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>September 16-19, Nigeria, ibadan, <a href="http://www.nistechltd.com" target="_blank">NISTech Ltd</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>September 17-20, South Africa, Midrand, <a href="http://www.miro.co.za" target="_blank">Hannes Willemse</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>September 17-21, Cameroon, YAOUNDE, <a href="http://www.infogenie.cm" target="_blank">INFOGENIE</a> <span style="font-weight:bold;">(MTCNA), French</span></li><li>September 17-20, Nigeria, Kaduna, <a href="http://www.skolakresourcesltd.net" target="_blank">SKOLAK RESOURCES LTD</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>September 26-28, Cameroon, YAOUNDE, <a href="http://www.infogenie.cm" target="_blank">INFOGENIE</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>October 07-09, Cameroon, Douala, <a href="http://www.mikrotik4me.com" target="_blank">MikroTik 4 Middle East</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>October 10-12, Cameroon, Douala, <a href="http://www.mikrotik4me.com" target="_blank">MikroTik 4 Middle East</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>October 14-16, Cameroon, Douala, <a href="http://www.mikrotik4me.com" target="_blank">MikroTik 4 Middle East</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>October 17-18, Cameroon, Douala, <a href="http://www.mikrotik4me.com" target="_blank">MikroTik 4 Middle East</a> <span style="font-weight:bold;">(MTCTCE), English</span></li><li>October 20-23, Egypt, القاهره, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>October 22-25, Morocco, Rabat, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>October 28-31, Tunisia, Tunis, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>November 03-06, Liberia, Monrovia, <a href="http://liberiamikrotik.blogspot.com" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>November 07-10, Guinea, Conakry, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>November 12-15, Uganda, Kampala, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>December 01-09, Libya, بنغازي, <a href="http://www.umarasat.com" target="_blank">Umarasat</a> <span style="font-weight:bold;">(MTCRE, MTCNA, Introduction,The Dude,MikroTik SXT Workshop), English</span></li><li>December 03-06, Nigeria, Kaduna, <a href="http://www.skolakresourcesltd.net" target="_blank">SKOLAK RESOURCES LTD</a> <span style="font-weight:bold;">(MTCNA, MTCRE, Introduction), English</span></li><li>December 10-14, Cameroon, YAOUNDE, <a href="http://www.infogenie.cm" target="_blank">INFOGENIE</a> <span style="font-weight:bold;">(MTCNA), French</span></li></ul><a name="Europe"><h2>Europe</h2></a><ul class="training_mum"><li>August 27-28, Germany, Freiburg, <a href="http://www.mikrotik-shop.de/Training:::92.html" target="_blank">FMS Internetservice GmbH</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>August 27-27, Republic of Moldova, Chisinau, <a href="http://www.mikrotik4me.com" target="_blank">MikroTik 4 Middle East</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>August 28-30, Poland, Bytom, <a href="http://www.idea4pro.pl/mikrotik/mtcna.html" target="_blank">Inter Projekt S.A.</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>August 29-30, Germany, Freiburg, <a href="http://www.mikrotik-shop.de/Training:::92.html" target="_blank">FMS Internetservice GmbH</a> <span style="font-weight:bold;">(MTCUME), English</span></li><li>August 30-September 02, Georgia, Tbilisi, <a href="http://www.mikrotiktrain.com/index.php/uzbekistan-kazakhstan/" target="_blank">Hamed Ghaseri</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>September 10-12, Italy, Caronno Pert. (VA), <a href="http://www.wi4net.it" target="_blank">Totalconn srl</a> <span style="font-weight:bold;">(MTCTCE), English</span></li><li>September 11-13, Russia, Moscow, <a href="http://routerz.ru/obuchenie/" target="_blank">Routerz</a> <span style="font-weight:bold;">(MTCNA), Russian</span></li><li>September 11-13, United Kingdom, Banbury, <a href="http://www.ip-pro.eu/trainings/mtcna_092013.html" target="_blank">IP-PRO / MS-DIST</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>September 15-17, Georgia, Tbilisi, <a href="http://mymikrotik.net/ge/training.php" target="_blank">Micronet</a> <span style="font-weight:bold;">(MTCNA), Georgian</span></li><li>September 16-18, Switzerland, Geneva, <a href="http://www.engitech.ch/cours2_mikrotik.html" target="_blank">Engitech</a> <span style="font-weight:bold;">(MTCNA), French</span></li><li>September 16-18, Russia, Moscow, <a href="http://routerz.ru/obuchenie/" target="_blank">Routerz</a> <span style="font-weight:bold;">(MTCRE), Russian</span></li><li>September 17-20, Germany, Freiburg, <a href="http://www.mikrotik-shop.de/Training:::92.html" target="_blank">FMS Internetservice GmbH</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>September 18-20, Slovenia, DOT2 Murska Sobota, <a href="http://www.centerbrezzicnosti.si/mikrotik-izobrazevanja/249-mikrotik-mtcna.html" target="_blank">E-TE-CO d.o.o.</a> <span style="font-weight:bold;">(MTCNA), Slovenian</span></li><li>September 23-25, United Kingdom, Claydon, Ipswich, <a href="http://linitx.com/category/1037" target="_blank">LinITX</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>September 23-25, Bosnia and Herzegowina, Travnik, Vlašić, <a href="http://wirac.ba/mikrotik-trening/" target="_blank">WiracNet d.o.o.</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>September 24-26, Norway, Oslo, <a href="http://avantis.no/articles/kurs-2013.aspx" target="_blank">Avantis</a> <span style="font-weight:bold;">(MTCNA), Norwegian</span></li><li>September 24-25, Switzerland, Geneva, <a href="http://www.engitech.ch/cours4_mikrotik.html" target="_blank">Engitech</a> <span style="font-weight:bold;">(MTCRE), French</span></li><li>September 26-28, Bosnia and Herzegowina, Travnik, Vlašić, <a href="http://wirac.ba/mikrotik-trening/" target="_blank">WiracNet d.o.o.</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>September 26-28, Bosnia and Herzegowina, Travnik, Vlašić, <a href="http://wirac.ba/mikrotik-trening/" target="_blank">WiracNet d.o.o.</a> <span style="font-weight:bold;">(MTCTCE), English</span></li><li>September 27-29, Greece, Athens, <a href="http://linkshop.gr/shop/training/mtcwe-mikrotik-certified-wireless-engineer-peiraias-athina-ellada-27-29-septembrou-2013.html" target="_blank">Georgios Argyrides</a> <span style="font-weight:bold;">(MTCWE), Greek</span></li><li>September 30-October 01, Slovakia, Snina, <a href="http://training.atris.sk" target="_blank">Atris spol. s r.o.</a> <span style="font-weight:bold;">(MTCWE, IPv6 Training), English</span></li><li>October 01-02, Switzerland, Geneva, <a href="http://www.engitech.ch/cours5_mikrotik.html" target="_blank">Engitech</a> <span style="font-weight:bold;">(MTCRE), French</span></li><li>October 08-10, Slovakia, Snina, <a href="http://training.atris.sk" target="_blank">Atris spol. s r.o.</a> <span style="font-weight:bold;">(MTCNA, IPv6 Training), English</span></li><li>October 08-10, Italy, Caronno Pert. (VA), <a href="http://www.wi4net.it" target="_blank">Totalconn srl</a> <span style="font-weight:bold;">(MTCNA, MTCWE), English</span></li><li>October 15-16, Germany, Freiburg, <a href="http://www.mikrotik-shop.de/Training:::92.html" target="_blank">FMS Internetservice GmbH</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>October 15-18, Ukraine, Kiev, <a href="http://mikrotik.in.ua/courses" target="_blank">NTema SERVICE</a> <span style="font-weight:bold;">(MTCNA), Russian</span></li><li>October 17-18, Germany, Freiburg, <a href="http://www.mikrotik-shop.de/Training:::92.html" target="_blank">FMS Internetservice GmbH</a> <span style="font-weight:bold;">(MTCTCE), English</span></li><li>October 23-25, United Kingdom, Claydon, Ipswich, <a href="http://linitx.com/category/1037" target="_blank">LinITX</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>November 01-03, Bulgaria, Sofia, <a href="http://www.logix.bg/training" target="_blank">Petar Dimitrov</a> <span style="font-weight:bold;">(MTCRE), Bulgarian</span></li><li>November 04-07, Croatia, MEV Čakovec, <a href="http://www.centerbrezzicnosti.si/attachment.php?id_attachment=139" target="_blank">E-TE-CO d.o.o.</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>November 06-08, United Kingdom, Banbury, <a href="http://www.ip-pro.eu/trainings/mtcre_112013.html" target="_blank">IP-PRO / MS-DIST</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>November 11-13, United Kingdom, Banbury, <a href="http://www.ip-pro.eu/trainings/mtcine_112013.html" target="_blank">IP-PRO / MS-DIST</a> <span style="font-weight:bold;">(MTCINE), English</span></li><li>November 12-14, Italy, Caronno Pert. (VA), <a href="http://www.wi4net.it" target="_blank">Totalconn srl</a> <span style="font-weight:bold;">(MTCINE), English</span></li><li>November 13-15, Serbia, Kladovo, <a href="http://www.intercom.rs" target="_blank">InterCom Computers</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>November 18-20, Serbia, Kladovo, <a href="http://www.intercom.rs" target="_blank">InterCom Computers</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>November 18-20, United Kingdom, Claydon, Ipswich, <a href="http://linitx.com/category/1037" target="_blank">LinITX</a> <span style="font-weight:bold;">(MTCTCE), English</span></li><li>November 19-22, Germany, Freiburg, <a href="http://www.mikrotik-shop.de/Training:::92.html" target="_blank">FMS Internetservice GmbH</a> <span style="font-weight:bold;">(MTCINE), English</span></li><li>November 20-22, Serbia, Kladovo, <a href="http://www.intercom.rs" target="_blank">InterCom Computers</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>December 02-04, United Kingdom, Claydon, Ipswich, <a href="http://linitx.com/category/1037" target="_blank">LinITX</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>December 10-11, Germany, Freiburg, <a href="http://www.mikrotik-shop.de/Training:::92.html" target="_blank">FMS Internetservice GmbH</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>December 12-13, Germany, Freiburg, <a href="http://www.mikrotik-shop.de/Training:::92.html" target="_blank">FMS Internetservice GmbH</a> <span style="font-weight:bold;">(MTCUME), English</span></li></ul><a name="Oceania"><h2>Oceania</h2></a><ul class="training_mum"><li>November 05-08, Australia, Perth, <a href="http://training.duxtel.com.au/course/?id=1&q=&enrolment.id=" target="_blank">Philip Dohna</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>November 27-30, New Zealand, Wellington, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>December 03-06, Australia, Sydney, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li></ul><a name="Asia"><h2>Asia</h2></a><ul class="training_mum"><li>August 26-29, Malaysia, Petaling Jaya, <a href="http://www.mikrotik.landasan.com.my/" target="_blank">Landasan Teknologi</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>August 26-28, Nepal, Kathmandu, <a href="http://www.blinknet.in" target="_blank">Blinknet Solutions Pvt Ltd</a> <span style="font-weight:bold;">(MTCWE, MikroTik SXT Workshop), English</span></li><li>August 26-31, Indonesia, Jakarta, <a href="http://www.training-mikrotik.com" target="_blank">Rofiq Fauzi, ID-Networkers</a> <span style="font-weight:bold;">(MTCINE), English</span></li><li>August 26-28, Lebanon, بيروت, <a href="http://www.mikrotik4me.com" target="_blank">MikroTik 4 Middle East</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>August 27-29, Nepal, Kathmandu, <a href="http://mikrotik.com.np/" target="_blank">M.IT.S Co. - Mani Raissdana</a> <span style="font-weight:bold;">(MTCINE), English</span></li><li>August 27-30, United Arab Emirates, رضا مقدم, <a href="http://ipexperts.ir/?product=%d8%ab%d8%a8%d8%aa-%d9%86%d8%a7%d9%85-%d8%af%d9%88%d8%b1%d9%87-%d8%a8%db%8c%d9%86-%d8%a7%d9%84%d9%85%d9%84%db%8c-%d9%85%db%8c%da%a9%d8%b1%d9%88%d8%aa%db%8c%da%a9-mtcna" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCNA), Persian</span></li><li>August 27-30, Indonesia, Surabaya, <a href="http://www.belajarmikrotik.com" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span style="font-weight:bold;">(MTCRE), Bahasa indonesia</span></li><li>August 28-30, Bangladesh, Motijheel, Dhaka, <a href="http://www.banglanetbd.com/training.html" target="_blank">Syed Abu Saleh, Banglanet</a> <span style="font-weight:bold;">(MTCNA), Bengali</span></li><li>August 28-31, Indonesia, Makassar, <a href="http://www.trainingmikrotik.co.id" target="_blank">Spectrum Indonesia</a> <span style="font-weight:bold;">(MTCNA), Bahasa indonesia</span></li><li>August 28-30, Philippines, Makati City, <a href="http://www.netexperts.ir/en/trainingcourses/mikrotik/38-makaticity-mtcwe-training.html" target="_blank">Mohammad Hassibi</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>August 28-30, Thailand, Chiangmai, <a href="http://www.mikrotikthai.com" target="_blank">MikrotikTHAI</a> <span style="font-weight:bold;">(MTCNA, MikroTik SXT Workshop,IPv6 Training), English</span></li><li>August 28-September 01, Indonesia, Bandung, <a href="http://www.router.co.id" target="_blank">Bambang</a> <span style="font-weight:bold;">(MTCRE, MTCNA), Bahasa indonesia</span></li><li>August 29-31, Lebanon, بيروت, <a href="http://www.mikrotik4me.com" target="_blank">MikroTik 4 Middle East</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>August 30-September 01, India, Kolkata, <a href="http://www.blinknet.in" target="_blank">Blinknet Solutions Pvt Ltd</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>August 30-September 01, Nepal, Kathmandu, <a href="http://mikrotik.com.np/" target="_blank">M.IT.S Co. - Mani Raissdana</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>August 31-September 04, Indonesia, Jakarta, <a href="http://www.training-mikrotik.com" target="_blank">Rofiq Fauzi, ID-Networkers</a> <span style="font-weight:bold;">(MTCRE, MTCNA), Bahasa indonesia</span></li><li>September 01-05, Iraq, اربيل, <a href="http://www.umarasat.com" target="_blank">Umarasat</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>September 01-04, Pakistan, Karachi, <a href="http://www.netexperts.ir/en/trainingcourses/registration.html" target="_blank">Mohammad Hassibi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>September 03-06, Indonesia, Jakarta, <a href="http://www.belajarmikrotik.com" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span style="font-weight:bold;">(MTCNA, Introduction), Bahasa indonesia</span></li><li>September 03-06, Indonesia, Jakarta, <a href="http://www.trainingmikrotik.co.id" target="_blank">Spectrum Indonesia</a> <span style="font-weight:bold;">(MTCNA), Bahasa indonesia</span></li><li>September 03-06, Indonesia, Yogyakarta, <a href="http://www.mikrotik.co.id/training.php" target="_blank">Citraweb Nusa Infomedia</a> <span style="font-weight:bold;">(MTCNA), Bahasa indonesia</span></li><li>September 04-05, Philippines, Makati City, <a href="http://www.netexperts.ir/en/trainingcourses/mikrotik/37-makaticity-mtcre-training.html" target="_blank">Mohammad Hassibi</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>September 05-08, United Arab Emirates, رضا مقدم, <a href="http://www.IPExperts.ir" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCNA), Persian</span></li><li>September 06-08, Philippines, Makati City, <a href="http://www.netexperts.ir/en/trainingcourses/mikrotik/39-makaticity-mtctce-training.html" target="_blank">Mohammad Hassibi</a> <span style="font-weight:bold;">(MTCTCE), English</span></li><li>September 06-09, China, Beijing, <a href="http://www.mikrotiktrain.com/index.php/uzbekistan-kazakhstan/" target="_blank">Hamed Ghaseri</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>September 06-10, Indonesia, Jakarta, <a href="http://www.router.co.id" target="_blank">Bambang</a> <span style="font-weight:bold;">(MTCRE, MTCNA), Bahasa indonesia</span></li><li>September 06-08, Mongolia, Ulaanbaatar, <a href="http://www.mits-co.com/content/mtcna-ulaanbaatarmongolia-september-6-8-2013" target="_blank">M.IT.S Co. - Mani Raissdana</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>September 07-07, Bangladesh, Motijheel, Dhaka, <a href="http://www.banglanetbd.com/mikrotik/registration.html" target="_blank">Syed Abu Saleh, Banglanet</a> <span style="font-weight:bold;">(Introduction), Bengali</span></li><li>September 08-10, Pakistan, Karachi, <a href="http://www.netexperts.ir/en/trainingcourses/registration.html" target="_blank">Mohammad Hassibi</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>September 09-13, Indonesia, Surabaya - Academy, <a href="http://www.belajarmikrotik.com" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span style="font-weight:bold;">(MTCRE, MTCNA), Bahasa indonesia</span></li><li>September 09-10, United Arab Emirates, رضا مقدم, <a href="http://www.IPExperts.ir" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCRE), Persian</span></li><li>September 09-11, Mongolia, Ulaanbaatar, <a href="http://www.mits-co.com" target="_blank">M.IT.S Co. - Mani Raissdana</a> <span style="font-weight:bold;">(MTCTCE), English</span></li><li>September 10-13, Indonesia, Surabaya, <a href="http://www.trainingmikrotik.co.id" target="_blank">Spectrum Indonesia</a> <span style="font-weight:bold;">(MTCNA), Bahasa indonesia</span></li><li>September 10-12, Indonesia, Surabaya, <a href="http://www.trainingmikrotik.co.id" target="_blank">Spectrum Indonesia</a> <span style="font-weight:bold;">(MTCTCE), Bahasa indonesia</span></li><li>September 11-15, Indonesia, Malang, <a href="http://www.router.co.id" target="_blank">Bambang</a> <span style="font-weight:bold;">(MTCRE, MTCNA), Bahasa indonesia</span></li><li>September 15-18, China, Shanghai, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>September 15-20, Iraq, babylon, <a href="http://www.umarasat.com" target="_blank">Umarasat</a> <span style="font-weight:bold;">(MTCRE, MikroTik SXT Workshop), English</span></li><li>September 16-20, Indonesia, Jakarta, <a href="http://www.training-mikkrotik.com" target="_blank">Rofiq Fauzi, ID-Networkers</a> <span style="font-weight:bold;">(MTCRE, MTCNA), English</span></li><li>September 17-20, Indonesia, Jakarta, <a href="http://www.mikrotik.co.id/training.php" target="_blank">Citraweb Nusa Infomedia</a> <span style="font-weight:bold;">(MTCTCE), Bahasa indonesia</span></li><li>September 18-22, Indonesia, Bali, <a href="http://www.router.co.id" target="_blank">Bambang</a> <span style="font-weight:bold;">(MTCRE, MTCNA), Bahasa indonesia</span></li><li>September 19-21, China, Shanghai, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>September 20-24, Iraq, كردستان, <a href="http://www.umarasat.com" target="_blank">Umarasat</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>September 20-23, United Arab Emirates, رضا مقدم, <a href="http://www.IPExperts.ir" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCNA), Persian</span></li><li>September 20-22, India, Anand, <a href="http://eleconinfotech.com/Mikrotik-Training1.pdf" target="_blank">NIlesh Prajapati,Elecon Information Technology Ltd</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>September 23-26, Cambodia, Phnom Penh, <a href="http://mikrotik-reg.maxbit.biz/" target="_blank">Rofiq Fauzi, ID-Networkers</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>September 24-26, Indonesia, Surabaya, <a href="http://www.trainingmikrotik.co.id" target="_blank">Spectrum Indonesia</a> <span style="font-weight:bold;">(MTCWE), Bahasa indonesia</span></li><li>September 25-28, United Arab Emirates, رضا مقدم, <a href="http://www.IPExperts.ir" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCWE), Persian</span></li><li>September 25-28, Thailand, Ayutthaya, <a href="https://secure.thaimikrotik.com/training/" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>September 27-30, Indonesia, BOOTCAMP - Malang, <a href="http://www.belajarmikrotik.com" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span style="font-weight:bold;">(MTCWE, MikroTik SXT Workshop), Bahasa indonesia</span></li><li>September 29-October 01, Thailand, Ayutthaya, <a href="https://secure.thaimikrotik.com/training/" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCWE, MikroTik SXT Workshop), English</span></li><li>October 01-04, Indonesia, Medan, <a href="http://www.mikrotik.co.id/training.php" target="_blank">Citraweb Nusa Infomedia</a> <span style="font-weight:bold;">(MTCNA), Bahasa indonesia</span></li><li>October 01-06, Iraq, babylon, <a href="http://www.umarasat.com" target="_blank">Umarasat</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>October 01-02, China, Shenzhen, <a href="http://www.netexperts.ir/en/trainingcourses/mikrotik/41-shenzhen-mtcume-training.html" target="_blank">Mohammad Hassibi</a> <span style="font-weight:bold;">(MTCUME), English</span></li><li>October 03-06, Laos, Vientiane, <a href="https://secure.thaimikrotik.com/training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>October 04-06, Malaysia, Kuala Lumpur, <a href="http://www.router.co.id" target="_blank">Bambang</a> <span style="font-weight:bold;">(MTCTCE), Bahasa indonesia</span></li><li>October 07-09, India, Bangalore, <a href="http://www.mits-co.com/content/mtcna-bangalorindia-october-7-9-2013" target="_blank">M.IT.S Co. - Mani Raissdana</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>October 08-11, Indonesia, Jakarta, <a href="http://www.mikrotik.co.id/training.php" target="_blank">Citraweb Nusa Infomedia</a> <span style="font-weight:bold;">(MTCNA), Bahasa indonesia</span></li><li>October 08-11, Indonesia, Surabaya, <a href="http://www.trainingmikrotik.co.id" target="_blank">Spectrum Indonesia</a> <span style="font-weight:bold;">(MTCNA), Bahasa indonesia</span></li><li>October 08-11, Taiwan, New Taipei, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>October 10-12, India, Bangalore, <a href="http://www.mits-co.com/content/mtcwe-bangalorindia-october-10-12-2013" target="_blank">M.IT.S Co. - Mani Raissdana</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>October 11-13, India, MUMBAI, <a href="http://www.blinknet.in" target="_blank">Blinknet Solutions Pvt Ltd</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>October 13-16, Japan, Tokyo, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>October 13-14, India, Bangalore, <a href="http://www.mits-co.com/content/mtcre-bangalorindia-october-13-14-2013" target="_blank">M.IT.S Co. - Mani Raissdana</a> <span style="font-weight:bold;">(MTCRE), English</span></li><li>October 14-16, India, MUMBAI, <a href="http://www.blinknet.in" target="_blank">Blinknet Solutions Pvt Ltd</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>October 15-18, Philippines, Pasig City, <a href="http://www.mikrotikphilippines.com/mp/index.php/mikrotik-mtcna-certification-training" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>October 15-20, United Arab Emirates, الشارقة, <a href="http://www.umarasat.com" target="_blank">Umarasat</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>October 15-23, Philippines, Pasig City, <a href="http://www.mikrotikphilippines.com/mp/index.php/mikrotik-combo-mtcna-mtcre-training" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span style="font-weight:bold;">(MTCRE, MTCNA), English</span></li><li>October 15-17, India, Bangalore, <a href="http://www.mits-co.com" target="_blank">M.IT.S Co. - Mani Raissdana</a> <span style="font-weight:bold;">(MTCINE), English</span></li><li>October 18-20, India, Bangalore, <a href="http://www.blinknet.in" target="_blank">Blinknet Solutions Pvt Ltd</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>October 21-23, Philippines, Pasig City, <a href="http://www.mikrotikphilippines.com/mp/index.php/mikrotik-mtcre-certification-training" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span style="font-weight:bold;">(MTCRE, IPv6 Training), English</span></li><li>October 22-25, Indonesia, Manado, <a href="http://www.trainingmikrotik.co.id" target="_blank">Spectrum Indonesia</a> <span style="font-weight:bold;">(MTCNA), Bahasa indonesia</span></li><li>October 28-31, Malaysia, Petaling Jaya, <a href="http://www.mikrotik.landasan.com.my/" target="_blank">Landasan Teknologi</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>October 29-30, China, Shenzhen, <a href="http://www.netexperts.ir/en/trainingcourses/mikrotik/40-shenzhen-mtctce-training.html" target="_blank">Mohammad Hassibi</a> <span style="font-weight:bold;">(MTCTCE), English</span></li><li>November 01-09, Malaysia, Kuala Lumpur, <a href="http://www.umarasat.com" target="_blank">Umarasat</a> <span style="font-weight:bold;">(MTCRE, MTCNA, Introduction,The Dude), English</span></li><li>November 02-06, Malaysia, Johor, <a href="http://www.training-mikrotik.com" target="_blank">Rofiq Fauzi, ID-Networkers</a> <span style="font-weight:bold;">(MTCRE, MTCINE), Bahasa indonesia</span></li><li>November 11-13, Malaysia, Kuala Lumpur, <a href="http://www.belajarmikrotik.com/en/schedule" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span style="font-weight:bold;">(MTCWE), English</span></li><li>November 14-16, Malaysia, Kuala Lumpur, <a href="http://www.belajarmikrotik.com/en/schedule" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span style="font-weight:bold;">(MTCRE, IPv6 Training), English</span></li><li>November 16-19, Qatar, Doha, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>November 19-23, Indonesia, Medan Combo Bootcamp, <a href="http://www.trainingmikrotik.co.id" target="_blank">Spectrum Indonesia</a> <span style="font-weight:bold;">(MTCWE, MTCNA), Bahasa indonesia</span></li><li>November 23-28, Indonesia, Yogyakarta, <a href="http://www.training-mikkrotik.com" target="_blank">Rofiq Fauzi, ID-Networkers</a> <span style="font-weight:bold;">(MTCINE), English</span></li><li>November 25-28, Indonesia, Yogyakarta, <a href="http://www.mikrotik.co.id/training.php" target="_blank">Citraweb Nusa Infomedia</a> <span style="font-weight:bold;">(MTCUME), Bahasa indonesia</span></li><li>November 25-28, Indonesia, Yogyakarta, <a href="http://www.mikrotik.co.id/training.php" target="_blank">Citraweb Nusa Infomedia</a> <span style="font-weight:bold;">(MTCNA), Bahasa indonesia</span></li><li>November 25-28, Indonesia, Yogyakarta, <a href="http://www.belajarmikrotik.com" target="_blank">Herry Darmawan - BelajarMikroTik.COM</a> <span style="font-weight:bold;">(MTCTCE), Bahasa indonesia</span></li><li>November 26-28, Indonesia, Yogyakarta, <a href="http://www.router.co.id" target="_blank">Bambang</a> <span style="font-weight:bold;">(MTCRE), Bahasa indonesia</span></li><li>November 26-29, Indonesia, Yogyakarta, <a href="http://www.mikrotiktrain.com/index.php/uzbekistan-kazakhstan/" target="_blank">Hamed Ghaseri</a> <span style="font-weight:bold;">(MTCNA, Introduction), English</span></li><li>December 01-04, United Arab Emirates, رضا مقدم, <a href="http://ipexperts.ir" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCRE, MTCNA), Persian</span></li><li>December 05-06, United Arab Emirates, رضا مقدم, <a href="http://ipexperts.ir" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCNA, MTCRE), Persian</span></li><li>December 07-09, United Arab Emirates, رضا مقدم, <a href="http://ipexperts.ir" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCWE), Persian</span></li><li>December 09-12, Malaysia, Petaling Jaya, <a href="http://www.mikrotik.landasan.com.my/" target="_blank">Landasan Teknologi</a> <span style="font-weight:bold;">(MTCNA), English</span></li><li>December 10-12, United Arab Emirates, رضا مقدم, <a href="http://ipexperts.ir" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCTCE), Persian</span></li><li>December 12-15, Bangladesh, Dhaka, <a href="http://en.karmaniait.com/register-training" target="_blank">Wi-Fi The Wireless Co. Ltd-Hamed Farnoudi</a> <span style="font-weight:bold;">(MTCNA, Introduction,The Dude), English</span></li><li>December 13-14, United Arab Emirates, رضا مقدم, <a href="http://ipexperts.ir" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCUME), Persian</span></li><li>December 15-18, United Arab Emirates, رضا مقدم, <a href="http://ipexperts.ir" target="_blank">Reza Moghadam - IPExperts</a> <span style="font-weight:bold;">(MTCINE), Persian</span></li><li>December 16-20, Malaysia, Johor, <a href="http://www.training-mikrotik.com" target="_blank">Rofiq Fauzi, ID-Networkers</a> <span style="font-weight:bold;">(MTCINE, MTCRE), Bahasa indonesia</span></li><li>December 20-22, India, Chennai, <a href="http://www.blinknet.in" target="_blank">Blinknet Solutions Pvt Ltd</a> <span style="font-weight:bold;">(MTCRE, Introduction), English</span></li></ul><br/><hr style="border:1px solid #888;"/></div></div>		</div>
+		<div class="container_12">
+			<div class="grid_12 space footer">
+				<a style="float: left" href="http://www.mikrotik.com/trademark">©</a>
+				<a href="http://www.mikrotik.com">Mikrotik</a> :				
+				<a href="http://www.routerboard.com">RouterBOARD</a> : 
+				<a href="http://forum.mikrotik.com">Forum</a> : 
+				<a href="http://mum.mikrotik.com">MUM</a> : 
+				<a href="http://training.mikrotik.com">Training</a> : 
+				<a href="http://wiki.mikrotik.com/wiki/Main_Page">Wiki</a> : 
+				<a href="http://wiki.mikrotik.com/wiki/MikroTik_News">Newsletters</a> : 
+				<a href="http://twitter.com/mikrotik_com">Twitter</a>
+				<a href="http://english-145815446642.spampoison.com" style="display: none">Click Here</a>
+			</div>
+		</div>
+	</body>
+</html>

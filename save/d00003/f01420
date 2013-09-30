@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  <head>
+    <title>
+      SystemNotesOpenBSD50 – BIND 10 Development
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="search" href="/search" />
+        <link rel="help" href="/wiki/TracGuide" />
+        <link rel="alternate" href="/wiki/SystemNotesOpenBSD50?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="/wiki" />
+        <link rel="stylesheet" href="/chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="/chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="/search/opensearch" title="Search BIND 10 Development" />
+    <script type="text/javascript" src="/chrome/common/js/jquery.js"></script><script type="text/javascript" src="/chrome/common/js/babel.js"></script><script type="text/javascript" src="/chrome/common/js/messages/en_US.js"></script><script type="text/javascript" src="/chrome/common/js/trac.js"></script><script type="text/javascript" src="/chrome/common/js/search.js"></script><script type="text/javascript" src="/chrome/common/js/folding.js"></script>
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="/chrome/common/js/ie_pre7_hacks.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://www.isc.org"><img src="/isc-logo-hack.png" alt="ISC Logo" /></a>
+      </div>
+      <form id="search" action="/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="/login">Login</a></li><li><a href="/prefs">Preferences</a></li><li><a href="/wiki/TracGuide">Help/Guide</a></li><li><a href="/about">About Trac</a></li><li><a href="/register">Register</a></li><li class="last"><a href="/reset_password">Forgot your password?</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="/wiki">Wiki</a></li><li><a href="/timeline">Timeline</a></li><li><a href="/roadmap">Roadmap</a></li><li><a href="/report">View Tickets</a></li><li class="last"><a href="/search">Search</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="/wiki">wiki:</a><a class="pathentry" href="/wiki/SystemNotesOpenBSD50" title="View SystemNotesOpenBSD50">SystemNotesOpenBSD50</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+          <ul>
+              <li class="first"><a href="/wiki/WikiStart">Start Page</a></li><li><a href="/wiki/TitleIndex">Index</a></li><li class="last"><a href="/wiki/SystemNotesOpenBSD50?action=history">History</a></li>
+          </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          
+          <div class="trac-modifiedby"><a href="/wiki/SystemNotesOpenBSD50?action=diff&amp;version=12" title="Version 12 by muks: Build python library as a shared library on OpenBSD">Last modified</a> <a class="timeline" href="/timeline?from=2012-03-22T15%3A52%3A11Z&amp;precision=second" title="2012-03-22T15:52:11Z in Timeline">17 months</a> ago</div>
+          <div id="wikipage"><p>
+Here are some preliminary instructions for OpenBSD 5.0.
+</p>
+<ul><li>Install OpenBSD 5.0 and pick defaults.
+</li><li>The compiler collection (gcc and g++) is installed by default.
+</li><li>You'll need to install packages using the following command:
+</li></ul><pre class="wiki"># export PKG_PATH=ftp://your.ftp.mirror/pub/OpenBSD/5.0/packages/`machine -a`/
+export PKG_PATH=http://ftp.openbsd.org/pub/OpenBSD/5.0/packages/`machine -a`/
+pkg_add -v &lt;pkg-name&gt;
+</pre><p>
+Here are the packages to install:
+</p>
+<pre class="wiki">automake-1.11.1p2
+bzip2 # to extract bzip2 compressed tarballs
+boost
+git
+gtest
+libtool
+python-2.7.1p9 # for botan
+</pre><p>
+The following dependencies may not have pre-built binary packages, so you may have to compile them from source:
+</p>
+<ul><li>Python 3.2 (enable building it as a shared library)
+</li><li>log4cplus
+</li><li>Botan (when compiling Botan, you may have to <tt>--disable-asm</tt> as the assembler complains about the syntax used)
+</li></ul><p>
+After these are installed in <tt>/usr/local</tt>, clone the Bind 10 git repository:
+</p>
+<pre class="wiki">git clone git://git.bind10.isc.org/bind10 
+</pre><p>
+Then, build Bind 10:
+</p>
+<pre class="wiki">cd bind10
+export AUTOCONF_VERSION=2.65
+export AUTOMAKE_VERSION=1.11
+autoreconf --install
+./configure --prefix=/usr/local --with-log4cplus=/usr/local --with-gtest=/usr/local
+make
+make install
+</pre></div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="/wiki/SystemNotesOpenBSD50?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="/chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="/about"><strong>Trac 0.12.2</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right">Visit the <a href="https://www.isc.org/bind10">BIND 10</a> pages.</p>
+    </div>
+  </body>
+</html>

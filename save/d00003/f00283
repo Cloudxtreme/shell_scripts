@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Bug #2251: cron provider doesn&#x27;t correctly employ user property for resource existence checks. - Puppet - Puppet Labs</title>
+<meta name="description" content="Redmine" />
+<meta name="keywords" content="issue,bug,tracker" />
+<meta content="authenticity_token" name="csrf-param" />
+<meta content="TxSK4iXyZVTA4Vkh2gdyAjip4sqQc1XbYmmRB0NTv1U=" name="csrf-token" />
+<link rel='shortcut icon' href='/favicon.ico?1363307366' />
+<link href="/stylesheets/jquery/jquery-ui-1.8.21.css?1357934870" media="all" rel="stylesheet" type="text/css" />
+<link href="/themes/puppetlabs_redmine_theme/stylesheets/application.css?1358972821" media="all" rel="stylesheet" type="text/css" />
+
+<script src="/javascripts/jquery-1.7.2-ui-1.8.21-ujs-2.0.3.js?1357934870" type="text/javascript"></script>
+<script src="/javascripts/application.js?1357934870" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+$(window).load(function(){ warnLeavingUnsaved('The current page contains unsaved text that will be lost if you leave this page.'); });
+//]]>
+</script>
+
+<link href="/plugin_assets/redmine_vote/stylesheets/stylesheet.css?1358364479" media="screen" rel="stylesheet" type="text/css" />
+<!-- page specific tags -->
+    <link href="http://projects.puppetlabs.com/issues/2251.atom" rel="alternate" title="Puppet - Bug #2251: cron provider doesn&#x27;t correctly employ user property for resource existence checks." type="application/atom+xml" />
+<script src="/javascripts/context_menu.js?1357934869" type="text/javascript"></script><link href="/stylesheets/context_menu.css?1357934869" media="screen" rel="stylesheet" type="text/css" /></head>
+<body class="theme-Puppetlabs redmine theme controller-issues action-show">
+<div id="wrapper">
+<div id="wrapper2">
+<div id="wrapper3">
+<div id="top-menu">
+    <div id="account">
+        <ul><li><a href="/login" class="login">Sign in</a></li>
+<li><a href="/account/register" class="register">Register</a></li></ul>    </div>
+    
+    <ul><li><a href="http://puppetlabs.com" class="puppetlabs">Puppet Labs Site</a></li>
+<li><a href="http://docs.puppetlabs.com" class="documentation">Documentation</a></li>
+<li><a href="http://www.puppetlabs.com/resources/customer-support" class="support">Support</a></li>
+<li><a href="http://www.puppetlabs.com/company/#contact" class="contact">Contact Us</a></li>
+<li><a href="http://www.puppetlabs.com/resources/downloads" class="download">Download</a></li>
+<li><a href="/" class="home">Home</a></li>
+<li><a href="/projects" class="projects">Projects</a></li>
+<li><a href="http://www.redmine.org/guide" class="help">Help</a></li></ul></div>
+
+<div id="header">
+    <div id="quick-search">
+        <form accept-charset="UTF-8" action="/projects/puppet/search" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+        <input name="issues" type="hidden" value="1" />
+        <label for='q'>
+          <a href="/projects/puppet/search" accesskey="4">Search</a>:
+        </label>
+        <input accesskey="f" class="small" id="q" name="q" size="20" type="text" />
+</form>        
+    </div>
+
+    <h1>Puppet</h1>
+
+    <div id="main-menu">
+        <ul><li><a href="/projects/puppet" class="overview">Overview</a></li>
+<li><a href="/projects/puppet/activity" class="activity">Activity</a></li>
+<li><a href="/projects/puppet/roadmap" class="roadmap">Roadmap</a></li>
+<li><a href="/projects/puppet/issues" class="issues selected">Issues</a></li>
+<li><a href="/projects/puppet/wiki" class="wiki">Wiki</a></li></ul>
+    </div>
+</div>
+
+<div id="main" class="">
+    <div id="sidebar">
+          <h3>Issues</h3>
+<a href="/projects/puppet/issues?set_filter=1">View all issues</a><br />
+<a href="/projects/puppet/issues/report">Summary</a><br />
+
+
+
+
+<h3>Custom queries</h3><a href="/projects/puppet/issues?query_id=272" class="query">Accepted but Unowned - Patches Welcome!</a><br /><a href="/projects/puppet/issues?query_id=95" class="query">All tickets</a><br /><a href="/projects/puppet/issues?query_id=289" class="query">Backlog Query</a><br /><a href="/projects/puppet/issues?query_id=98" class="query">Open cron issues</a><br /><a href="/projects/puppet/issues?query_id=304" class="query">Platform Report - 2 Week Activity</a><br /><a href="/projects/puppet/issues?query_id=199" class="query">Puppet Solaris issues</a><br /><a href="/projects/puppet/issues?query_id=107" class="query">Ruby 1.9 Issues</a><br /><a href="/projects/puppet/issues?query_id=145" class="query">Support Customer Tickets</a><br /><a href="/projects/puppet/issues?query_id=177" class="query">Support Tickets</a><br /><a href="/projects/puppet/issues?query_id=262" class="query">Telly Deprecations</a><br /><a href="/projects/puppet/issues?query_id=176" class="query">Tickets - Assigned to Me</a><br /><a href="/projects/puppet/issues?query_id=131" class="query">Tickets - Authored by Me</a><br /><a href="/projects/puppet/issues?query_id=173" class="query">Tickets - By Priority</a><br /><a href="/projects/puppet/issues?query_id=64" class="query">Tickets - In Topic Branch Pending Review</a><br /><a href="/projects/puppet/issues?query_id=147" class="query">Tickets - Top by votes</a><br /><a href="/projects/puppet/issues?query_id=29" class="query">Tickets - Unassigned to a target release</a><br /><a href="/projects/puppet/issues?query_id=19" class="query">Tickets - Unreviewed</a><br /><a href="/projects/puppet/issues?query_id=198" class="query">Tickets - unreviewed and outside SLA</a><br /><a href="/projects/puppet/issues?query_id=208" class="query">Tickets - waiting for action</a><br /><a href="/projects/puppet/issues?query_id=201" class="query">Tickets with simple fixes</a>
+
+
+
+    <div id="watchers">
+      
+<h3>Watchers (4)</h3>
+
+<ul><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/560785b80dbf9b35fcac5a7dbd6cdaf3?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/404" class="user active">Marc Fournier</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/9482a1c5a9c64c5d7296971f030165b7?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/367" class="user active">R.I. Pienaar</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/06d4928edbddfc5e0dee0c39f3e7b719?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/454" class="user active">Jeffrey Hulten</a></li><li><img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=16&amp;default=" ssl="false" title="" /><a href="/users/1698" class="user active">Felix Frank</a></li></ul>
+
+    </div>
+
+        
+    </div>
+
+    <div id="content">
+        
+        <div class="contextual">
+
+
+<span class="issue-2251-watcher"></span>
+
+
+</div>
+
+
+<h2>Bug #2251</h2>
+
+<div class="issue status-5 priority-4 priority-default closed details">
+
+  <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/560785b80dbf9b35fcac5a7dbd6cdaf3?rating=PG&amp;size=50&amp;default=" ssl="false" title="" />
+
+<div class="subject">
+<div><h3>cron provider doesn&#x27;t correctly employ user property for resource existence checks.</h3></div>
+</div>
+        <p class="author">
+        Added by <a href="/users/404" class="user active">Marc Fournier</a> <a href="/projects/puppet/activity?from=2009-05-13" title="05/12/2009 08:16 pm">over 4 years</a> ago.
+        Updated <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:18 pm">4 months</a> ago.
+        </p>
+
+<table class="attributes">
+<tr><th class="status">Status:</th><td class="status">Closed</td><th class="start-date">Start date:</th><td class="start-date">05/12/2009</td></tr><tr><th class="priority">Priority:</th><td class="priority">Normal</td><th class="due-date">Due date:</th><td class="due-date"></td></tr><tr><th class="assigned-to">Assignee:</th><td class="assigned-to">-</td><th class="progress">% Done:</th><td class="progress"><table class="progress" style="width: 80px;"><tr><td class="todo" style="width: 100%;"></td></tr></table><p class="pourcent">0%</p></td></tr><tr><th class="category">Category:</th><td class="category">cron</td><th></th><td></td></tr><tr><th class="fixed-version">Target version:</th><td class="fixed-version"><a href="/versions/371">3.2.0</a></td><th></th><td></td></tr>
+<tr>
+	<th>Affected Puppet version:</th><td>0.24.8</td>
+	<th>Branch:</th><td>https://github.com/puppetlabs/puppet/pull/1582/files</td>
+</tr>
+<tr>
+	<th>Keywords:</th><td></td>
+</tr>
+
+    <tr><td><b>
+
+
+
+
+    </td></tr>
+
+</table>
+
+<hr />
+<div class="description">
+  <div class="contextual">
+  
+  </div>
+
+  <p><strong>Description</strong></p>
+  <div class="wiki">
+  <p>If I change the &ldquo;user&rdquo; parameter of a cron{} resource, the previous user will still have the cron listed in his crontab.</p>
+
+<p>Assuming the resource name stays the same, I would have expected changing the &ldquo;user&rdquo; parameter to be as transparent as changing &ldquo;hour&rdquo;, &ldquo;minute&rdquo;, etc.</p>
+
+<p>This is a possible workaround, but it may not be desirable in every case:</p>
+
+<pre>
+resource { "cron": purge => true }
+</pre>
+
+
+  </div>
+</div>
+
+
+
+
+
+<hr />
+<div id="relations">
+<div class="contextual">
+</div>
+
+<p><strong>Related issues</strong></p>
+
+<form>
+<table class="list issues">
+<tr class="issue hascontextmenu" id="relation-4154">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="16121" /></td>
+<td class="subject">Related to 
+    Puppet - 
+    <a href="/issues/16121" class="issue status-5 priority-4 priority-default closed">Bug #16121</a>: Cron user change results in duplicate entries on target user
+</td>
+<td class="status">Closed</td>
+<td class="start_date">08/25/2012</td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+<tr class="issue hascontextmenu" id="relation-1049">
+<td class="checkbox"><input name="ids[]" type="checkbox" value="6990" /></td>
+<td class="subject">Blocks 
+    Puppet - 
+    <a href="/issues/6990" class="issue status-8 priority-4 priority-default">Bug #6990</a>: Rehabilitate cron provider
+</td>
+<td class="status">Accepted</td>
+<td class="start_date">04/06/2011</td>
+<td class="due_date"></td>
+<td class="buttons"></td>
+</tr>
+</table>
+</form>
+
+<form accept-charset="UTF-8" action="/issues/2251/relations" class="new_relation" data-remote="true" id="new-relation-form" method="post" style="display: none;"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="TxSK4iXyZVTA4Vkh2gdyAjip4sqQc1XbYmmRB0NTv1U=" /></div>
+
+
+<p><select id="relation_relation_type" name="relation[relation_type]" onchange="setPredecessorFieldsVisibility();"><option value="relates">Related to</option>
+<option value="duplicates">Duplicates</option>
+<option value="duplicated">Duplicated by</option>
+<option value="blocks">Blocks</option>
+<option value="blocked">Blocked by</option>
+<option value="precedes">Precedes</option>
+<option value="follows">Follows</option>
+<option value="copied_to">Copied to</option>
+<option value="copied_from">Copied from</option></select>
+Issue #<input id="relation_issue_to_id" name="relation[issue_to_id]" size="10" type="text" />
+<span id="predecessor_fields" style="display:none;">
+Delay: <input id="relation_delay" name="relation[delay]" size="3" type="text" /> days
+</span>
+<input name="commit" type="submit" value="Add" />
+<a href="#" onclick="$(&quot;#new-relation-form&quot;).hide();; return false;">Cancel</a>
+</p>
+
+<script type="text/javascript">
+//<![CDATA[
+observeAutocompleteField('relation_issue_to_id', '/issues/auto_complete?project_id=puppet&scope=all')
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setPredecessorFieldsVisibility();
+//]]>
+</script>
+
+</form>
+</div>
+
+</div>
+
+
+<div id="history">
+<h3>History</h3>
+  <div id="change-7403" class="journal has-details">
+    <div id="note-1">
+    <h4><a href="/issues/2251#note-1" class="journal-link">#1</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/31cc2100279326dd6148a7e163692097?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/27" class="user active">James Turnbull</a> <a href="/projects/puppet/activity?from=2009-05-18" title="05/18/2009 07:38 am">over 4 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Unreviewed</i> to <i>Accepted</i></li>
+       <li><strong>Assignee</strong> set to <i>Puppet Community</i></li>
+       <li><strong>Target version</strong> set to <i>0.25.0</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-7815" class="journal has-details">
+    <div id="note-2">
+    <h4><a href="/issues/2251#note-2" class="journal-link">#2</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/31cc2100279326dd6148a7e163692097?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/27" class="user active">James Turnbull</a> <a href="/projects/puppet/activity?from=2009-06-12" title="06/12/2009 03:45 pm">about 4 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Assignee</strong> deleted (<del><i>Puppet Community</i></del>)</li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-8403" class="journal has-notes has-details">
+    <div id="note-3">
+    <h4><a href="/issues/2251#note-3" class="journal-link">#3</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/89ddb77a11819c8165f37f7526193395?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2" class="user active">Luke Kanies</a> <a href="/projects/puppet/activity?from=2009-07-25" title="07/25/2009 12:07 am">about 4 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> deleted (<del><i>0.25.0</i></del>)</li>
+    </ul>
+    <div class="wiki" id="journal-8403-notes"><p>Until someone is willing to take responsibility for this, it&rsquo;s bumped.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-9793" class="journal has-notes">
+    <div id="note-4">
+    <h4><a href="/issues/2251#note-4" class="journal-link">#4</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/9482a1c5a9c64c5d7296971f030165b7?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/367" class="user active">R.I. Pienaar</a> <a href="/projects/puppet/activity?from=2009-10-06" title="10/06/2009 09:46 am">almost 4 years</a> ago</h4>
+
+    <div class="wiki" id="journal-9793-notes"><p>Ran into the same, except its even worse in that it leaves the cronjob in the original users crontab, adds it to the new users cron tab.</p>
+
+<p>Then each time it runs puppet it does it again:</p>
+
+<pre>
+Oct  6 09:16:16 box puppetd[3015]: (//Node[box.foo.com]/cron::oneoffcrons/Cron[cleanemail]/user) user changed 'nobody' to 'root'
+Oct  6 09:16:16 box puppetd[3015]: (//Node[box.foo.com]/cron::oneoffcrons/Cron[cleanemail]/target) target changed 'nobody' to 'root'
+Oct  6 09:45:16 box puppetd[5545]: (//Node[box.foo.com]/cron::oneoffcrons/Cron[cleanemail]/user) user changed 'nobody' to 'root'
+Oct  6 09:45:16 box puppetd[5545]: (//Node[box.foo.com]/cron::oneoffcrons/Cron[cleanemail]/target) target changed 'nobody' to 'root'
+</pre>
+
+
+<p>End result was 260+ cron jobs all the same in the root users crontab.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-11360" class="journal has-details">
+    <div id="note-5">
+    <h4><a href="/issues/2251#note-5" class="journal-link">#5</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d3bcb48eb7c81b50b4eac82f009001dd?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/685" class="user active">Markus Roberts</a> <a href="/projects/puppet/activity?from=2009-12-24" title="12/24/2009 12:00 am">over 3 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> set to <i>0.25.3</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-11581" class="journal has-details">
+    <div id="note-6">
+    <h4><a href="/issues/2251#note-6" class="journal-link">#6</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d3bcb48eb7c81b50b4eac82f009001dd?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/685" class="user active">Markus Roberts</a> <a href="/projects/puppet/activity?from=2010-01-08" title="01/08/2010 02:20 am">over 3 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> changed from <i>0.25.3</i> to <i>0.25.4</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-11814" class="journal has-details">
+    <div id="note-7">
+    <h4><a href="/issues/2251#note-7" class="journal-link">#7</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/31cc2100279326dd6148a7e163692097?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/27" class="user active">James Turnbull</a> <a href="/projects/puppet/activity?from=2010-01-14" title="01/14/2010 03:09 am">over 3 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> changed from <i>0.25.4</i> to <i>0.25.5</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-13609" class="journal has-details">
+    <div id="note-8">
+    <h4><a href="/issues/2251#note-8" class="journal-link">#8</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/31cc2100279326dd6148a7e163692097?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/27" class="user active">James Turnbull</a> <a href="/projects/puppet/activity?from=2010-04-14" title="04/14/2010 01:49 am">over 3 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> changed from <i>0.25.5</i> to <i>49</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-21424" class="journal has-details">
+    <div id="note-9">
+    <h4><a href="/issues/2251#note-9" class="journal-link">#9</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/31cc2100279326dd6148a7e163692097?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/27" class="user active">James Turnbull</a> <a href="/projects/puppet/activity?from=2010-11-17" title="11/16/2010 08:03 pm">almost 3 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> deleted (<del><i>49</i></del>)</li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-27733" class="journal has-details">
+    <div id="note-10">
+    <h4><a href="/issues/2251#note-10" class="journal-link">#10</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/702c996f0e78f2ebb05b927b115fa22b?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/380" class="user active">Nigel Kersten</a> <a href="/projects/puppet/activity?from=2011-03-24" title="03/23/2011 08:25 pm">over 2 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> set to <i>2.6.x</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-28036" class="journal has-notes has-details">
+    <div id="note-11">
+    <h4><a href="/issues/2251#note-11" class="journal-link">#11</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/702c996f0e78f2ebb05b927b115fa22b?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/380" class="user active">Nigel Kersten</a> <a href="/projects/puppet/activity?from=2011-03-31" title="03/30/2011 05:21 pm">over 2 years</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Subject</strong> changed from <i>cron doesn&#x27;t clean crontab when changing user</i> to <i>cron provider doesn&#x27;t correctly employ user property for resource existence checks.</i></li>
+    </ul>
+    <div class="wiki" id="journal-28036-notes"><p>user is actually a property of the provider, not a parameter, so we&rsquo;re not going to be automatically cleaning up crontab entries when you change user.</p>
+
+<p>Think of packages. When you change a resource to install &lsquo;foo&rsquo; rather than &lsquo;bar&rsquo;, we don&rsquo;t uninstall &lsquo;bar&rsquo;.</p>
+
+<p>There&rsquo;s definitely a bug here though, which I believe is captured by RI&rsquo;s update in note 4.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-51832" class="journal has-notes has-details">
+    <div id="note-12">
+    <h4><a href="/issues/2251#note-12" class="journal-link">#12</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/fa147ffde386565a674bc13453dc6f8d?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/297" class="user active">Michael Stahnke</a> <a href="/projects/puppet/activity?from=2012-01-21" title="01/21/2012 10:47 am">over 1 year</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> changed from <i>2.6.x</i> to <i>2.7.x</i></li>
+    </ul>
+    <div class="wiki" id="journal-51832-notes"><p>2.6.x is closed.  Moving to 2.7.x</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-64783" class="journal has-notes">
+    <div id="note-13">
+    <h4><a href="/issues/2251#note-13" class="journal-link">#13</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/250acd87a83b13036523667f0d45bb3f?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/5245" class="user active">Casey Brown</a> <a href="/projects/puppet/activity?from=2012-06-11" title="06/11/2012 03:08 pm">about 1 year</a> ago</h4>
+
+    <div class="wiki" id="journal-64783-notes"><p>I can verify this issue is still around and causing trouble.</p>
+
+<pre>
+[root@foo tmp]# puppet --version
+2.7.5
+
+[root@foo tmp]# cat first.pp
+cron { 'dupe':
+  command => '/bin/true',
+  user => 'foo',
+  minute => "10",
+}
+
+[root@foo tmp]# cat dupe.pp
+cron { 'dupe':
+  command => '/bin/true',
+  user => 'root',
+  minute => "10",
+}
+cron { 'blank':
+  command => '/bin/true',
+  user => 'foo',
+  minute => "10",
+}
+
+[root@foo tmp]# crontab -r
+
+[root@foo tmp]# crontab -r -u foo
+
+[root@foo tmp]# puppet apply first.pp
+notice: /Stage[main]//Cron[dupe]/ensure: created
+notice: Finished catalog run in 1.06 seconds
+
+[root@foo tmp]# crontab -l
+no crontab for root
+
+[root@foo tmp]# crontab -l -u foo
+# HEADER: This file was autogenerated at Mon Jun 11 16:12:57 -0500 2012 by puppet.
+# HEADER: While it can still be managed manually, it is definitely not recommended.
+# HEADER: Note particularly that the comments starting with 'Puppet Name' should
+# HEADER: not be deleted, as doing so could cause duplicate cron jobs.
+# Puppet Name: dupe
+10 * * * * /bin/true
+
+[root@foo tmp]# puppet apply dupe.pp
+notice: /Stage[main]//Cron[dupe]/ensure: created
+notice: Finished catalog run in 1.06 seconds
+
+[root@foo tmp]# crontab -l -u foo
+# HEADER: This file was autogenerated at Mon Jun 11 16:12:57 -0500 2012 by puppet.
+# HEADER: While it can still be managed manually, it is definitely not recommended.
+# HEADER: Note particularly that the comments starting with 'Puppet Name' should
+# HEADER: not be deleted, as doing so could cause duplicate cron jobs.
+# Puppet Name: dupe
+10 * * * * /bin/true
+
+[root@foo tmp]# crontab -l
+# HEADER: This file was autogenerated at Mon Jun 11 16:13:37 -0500 2012 by puppet.
+# HEADER: While it can still be managed manually, it is definitely not recommended.
+# HEADER: Note particularly that the comments starting with 'Puppet Name' should
+# HEADER: not be deleted, as doing so could cause duplicate cron jobs.
+# Puppet Name: dupe
+10 * * * * /bin/true
+
+[root@foo tmp]# puppet apply dupe.pp
+notice: /Stage[main]//Cron[blank]/ensure: created
+notice: /Stage[main]//Cron[dupe]/user: user changed 'foo' to 'root'
+notice: /Stage[main]//Cron[dupe]/target: target changed 'foo' to 'root'
+notice: Finished catalog run in 1.07 seconds
+
+[root@foo tmp]# crontab -l
+# HEADER: This file was autogenerated at Mon Jun 11 16:14:08 -0500 2012 by puppet.
+# HEADER: While it can still be managed manually, it is definitely not recommended.
+# HEADER: Note particularly that the comments starting with 'Puppet Name' should
+# HEADER: not be deleted, as doing so could cause duplicate cron jobs.
+# Puppet Name: dupe
+10 * * * * /bin/true
+# Puppet Name: dupe
+10 * * * * /bin/true
+</pre>
+
+</div>
+    </div>
+  </div>
+  
+  <div id="change-80215" class="journal has-details">
+    <div id="note-14">
+    <h4><a href="/issues/2251#note-14" class="journal-link">#14</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/36ccf398adbe1a4264d57b32917b990c?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/4316" class="user active">Andrew Parker</a> <a href="/projects/puppet/activity?from=2013-01-04" title="01/04/2013 03:45 pm">8 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Target version</strong> deleted (<del><i>2.7.x</i></del>)</li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-87294" class="journal has-notes">
+    <div id="note-15">
+    <h4><a href="/issues/2251#note-15" class="journal-link">#15</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2013-03-20" title="03/20/2013 05:59 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87294-notes"><p>Nigel Kersten wrote:</p>
+
+<blockquote><p>user is actually a property of the provider, not a parameter, so we&rsquo;re not going to be automatically cleaning up crontab entries when you change user.</p></blockquote>
+
+<p>Is that really how that works? I&rsquo;m still a bit fuzzy on &ldquo;property vs. parameter&rdquo;. Some readme explained it as &ldquo;properties are the parts that &lsquo;do&rsquo; things as opposed to merely stating how to do things&rdquo;.</p>
+
+<p>So, if the provider deems it necessary to (as puppet will exclaim) to change the user from e.g., &lsquo;root&rsquo; to &lsquo;nobody&rsquo;, that sounds like actually doing something, &ldquo;change&rdquo; as in &ldquo;move from A to B&rdquo;.</p>
+
+<blockquote><p>Think of packages. When you change a resource to install &lsquo;foo&rsquo; rather than &lsquo;bar&rsquo;, we don&rsquo;t uninstall &lsquo;bar&rsquo;.</p></blockquote>
+
+<p>Hmm, that&rsquo;s different. You&rsquo;re changing the name var and start managing a different resource altogether. bar becomes truly unmanaged at this point.</p>
+
+<blockquote><p>There&rsquo;s definitely a bug here though, which I believe is captured by RI&rsquo;s update in note 4.</p></blockquote>
+
+<p>Definitely.</p>
+
+<p>I will even concede that removing now orphaned (although still &ldquo;# Puppet name"d) cronjobs may not be the safe thing to do (although users <em>will</em> be surprised the orphans linger, trust me).</p>
+
+<p>The implication is that cronjobs in different files are separate entities and not to be handled together. So the bug is this: The provider prefetches all cronjobs from disk and falsely links the now orphaned entry to the resource that is now trying to manage a different resource altogether: A job of the same name, but for a different user.</p>
+
+<p>I have a fix that will make puppet abandon the orphans. There is a design desicion here though &ndash; I believe we could fail the run upon tripping over one such (duplicate) orphan. That way, the user cannot be surprised by the lingerin orphan.</p>
+
+<p>This will be easier to discuss once the pull request is up. Stand by.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87373" class="journal has-notes">
+    <div id="note-16">
+    <h4><a href="/issues/2251#note-16" class="journal-link">#16</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2013-03-21" title="03/21/2013 02:19 am">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87373-notes"><p>There is a pull request now: https://github.com/puppetlabs/puppet/pull/1540</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87428" class="journal has-notes">
+    <div id="note-17">
+    <h4><a href="/issues/2251#note-17" class="journal-link">#17</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/5d6e14c36040d17e0ae22f281b997ad2?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2645" class="user active">Adrien Thebo</a> <a href="/projects/puppet/activity?from=2013-03-21" title="03/21/2013 01:31 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87428-notes"><p>I remain unconvinced that we should be wiping out old crontab entries if the user is changed.</p>
+
+<p>Given the following file resource:</p>
+
+<pre>
+file { "http_conf":
+  ensure => present,
+  path => '/etc/apache2/httpd.conf',
+}
+</pre>
+
+
+<p>Suppose we change the path:</p>
+
+<pre>
+file { "http_conf":
+  ensure => present,
+  path => '/etc/apache2/apache.conf',
+}
+</pre>
+
+
+<p>Right now we don&rsquo;t programmatically remove the old file, <code>/etc/apache2/httpd.conf</code>. It&rsquo;s no longer being managed, but we don&rsquo;t automatically wipe the old file because we&rsquo;re changed the path. If that behavior is desired, you have to explicitly remove it. Since each crontab has a unique title this isn&rsquo;t exactly identical, but it&rsquo;s similar enough to warrant some caution.</p>
+
+<p>This brings to mind a couple of questions:</p>
+
+<ul>
+<li>Is there ever a case where we would <strong>not</strong> want to wipe a cron entry with a matching title but a different user?</li>
+<li>What if the cron type and provider had a <code>unique</code> parameter or something equivalent that would enable this behavior?</li>
+</ul>
+
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87434" class="journal has-notes">
+    <div id="note-18">
+    <h4><a href="/issues/2251#note-18" class="journal-link">#18</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2013-03-21" title="03/21/2013 02:30 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87434-notes"><p>Adrien Thebo wrote:</p>
+
+<blockquote><p>I remain unconvinced that we should be wiping out old crontab entries if the user is changed.</p></blockquote>
+
+<p>Right. The proposed fix won&rsquo;t.</p>
+
+<blockquote><ul>
+<li>Is there ever a case where we would <strong>not</strong> want to wipe a cron entry with a matching title but a different user?</li>
+</ul>
+</blockquote>
+
+<p>Certainly. Suppose that long-forgotten (but crucial) cronjob happens to still bear that same name you&rsquo;re now giving to a new one&hellip;</p>
+
+<p>Then again, if that happens to you, and you manage to not pick a different user, you will loose the old job anyway.</p>
+
+<blockquote><ul>
+<li>What if the cron type and provider had a <code>unique</code> parameter or something equivalent that would enable this behavior?</li>
+</ul>
+</blockquote>
+
+<p>Hmm, interesting idea. Principle of least surprise would still demand a warning or notice to the user, so they are made aware that without that parameter, puppet may not be doing what they may suppose it is.</p>
+
+<p>At the moment, I think I would prefer for puppet to complain incessantly until the user manually removes the naming conflict. But I&rsquo;m not sure I&rsquo;ll think that, say, a week from now.</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87437" class="journal has-notes">
+    <div id="note-19">
+    <h4><a href="/issues/2251#note-19" class="journal-link">#19</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/085070b2074edcce07bc4381c7b5d635?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/1698" class="user active">Felix Frank</a> <a href="/projects/puppet/activity?from=2013-03-21" title="03/21/2013 02:41 pm">5 months</a> ago</h4>
+
+    <div class="wiki" id="journal-87437-notes"><p>Huh, interesting &ndash; I just stumbled over <a href="/issues/746" class="issue status-8 priority-5 priority-high3" title="Create Cron provider for /etc/cron.d entries (Accepted)">#746</a>. Maybe I should just go for that and we can deprecate the crontab provider ;&ndash;)</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-87852" class="journal has-details">
+    <div id="note-20">
+    <h4><a href="/issues/2251#note-20" class="journal-link">#20</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/0877c3568ad22ac948626ce8808d1fce?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/6471" class="user active">Charlie Sharpsteen</a> <a href="/projects/puppet/activity?from=2013-04-01" title="04/01/2013 10:55 am">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Accepted</i> to <i>In Topic Branch Pending Review</i></li>
+       <li><strong>Keywords</strong> deleted (<del><i>cron</i></del>)</li>
+       <li><strong>Branch</strong> set to <i>https://github.com/puppetlabs/puppet/pull/1540</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-88026" class="journal has-notes has-details">
+    <div id="note-21">
+    <h4><a href="/issues/2251#note-21" class="journal-link">#21</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/5d6e14c36040d17e0ae22f281b997ad2?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/2645" class="user active">Adrien Thebo</a> <a href="/projects/puppet/activity?from=2013-04-03" title="04/03/2013 04:16 pm">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>In Topic Branch Pending Review</i> to <i>Merged - Pending Release</i></li>
+    </ul>
+    <div class="wiki" id="journal-88026-notes"><p>Merged into master as f85ec37.</p>
+
+<p>This should be released in 3.2.0.</p>
+
+<p>Thanks again for the contribution!</p>
+
+<p>-Adrien</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-88973" class="journal has-details">
+    <div id="note-22">
+    <h4><a href="/issues/2251#note-22" class="journal-link">#22</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-04-09" title="04/09/2013 01:40 pm">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Merged - Pending Release</i> to <i>In Topic Branch Pending Review</i></li>
+       <li><strong>Target version</strong> set to <i>3.2.0</i></li>
+       <li><strong>Branch</strong> changed from <i>https://github.com/puppetlabs/puppet/pull/1540</i> to <i>https://github.com/puppetlabs/puppet/pull/1582/files</i></li>
+    </ul>
+    
+    </div>
+  </div>
+  
+  <div id="change-88976" class="journal has-notes has-details">
+    <div id="note-23">
+    <h4><a href="/issues/2251#note-23" class="journal-link">#23</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/d2e375016f15692c49ad3aa4c91f6c52?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/78" class="user active">Jeff McCune</a> <a href="/projects/puppet/activity?from=2013-04-09" title="04/09/2013 01:55 pm">5 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>In Topic Branch Pending Review</i> to <i>Merged - Pending Release</i></li>
+    </ul>
+    <div class="wiki" id="journal-88976-notes"><p>summary: Merged into master as a9c4cdb.  This should be released in Puppet 3.2.  Thanks again for the contribution!</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-89461" class="journal has-notes has-details">
+    <div id="note-24">
+    <h4><a href="/issues/2251#note-24" class="journal-link">#24</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/aafd0d5beaa872e15092084e9bab49c9?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3206" class="user active">Matthaus Owens</a> <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:17 pm">4 months</a> ago</h4>
+
+    <ul class="details">
+       <li><strong>Status</strong> changed from <i>Merged - Pending Release</i> to <i>Closed</i></li>
+    </ul>
+    <div class="wiki" id="journal-89461-notes"><p>Released in Puppet 3.2.0-rc1</p>
+</div>
+    </div>
+  </div>
+  
+  <div id="change-89518" class="journal has-notes">
+    <div id="note-25">
+    <h4><a href="/issues/2251#note-25" class="journal-link">#25</a>
+    <img alt="" class="gravatar" default="" rating="PG" src="http://www.gravatar.com/avatar/aafd0d5beaa872e15092084e9bab49c9?rating=PG&amp;size=24&amp;default=" ssl="false" title="" />
+    Updated by <a href="/users/3206" class="user active">Matthaus Owens</a> <a href="/projects/puppet/activity?from=2013-04-18" title="04/18/2013 03:18 pm">4 months</a> ago</h4>
+
+    <div class="wiki" id="journal-89518-notes"><p>Released in Puppet 3.2.0-rc1</p>
+</div>
+    </div>
+  </div>
+  
+
+
+</div>
+
+
+<div style="clear: both;"></div>
+<div class="contextual">
+
+
+<span class="issue-2251-watcher"></span>
+
+
+</div>
+
+
+<div style="clear: both;"></div>
+
+<p class="other-formats">Also available in:  <span><a href="/issues/2251.atom" class="atom" rel="nofollow">Atom</a></span>
+  <span><a href="/issues/2251.pdf" class="pdf" rel="nofollow">PDF</a></span>
+</p>
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+contextMenuInit('/issues/context_menu')
+//]]>
+</script>
+
+        
+        <div style="clear:both;"></div>
+    </div>
+</div>
+</div>
+
+<div id="ajax-indicator" style="display:none;"><span>Loading...</span></div>
+<div id="ajax-modal" style="display:none;"></div>
+
+<div id="footer">
+  <div class="bgl"><div class="bgr">
+    Powered by <a href="http://www.redmine.org/">Redmine</a> &copy; 2006-2012 Jean-Philippe Lang
+  </div></div>
+</div>
+</div>
+</div>
+<script src="/javascripts/leadcapture.js?1328214688" type="text/javascript"></script>
+
+<!-- BEGIN: MARKETO TRACKING -->
+    <script src="https://munchkin.marketo.net/munchkin.js
+type="text/javascript"></script>
+<script>mktoMunchkin("307-QLA-991");</script>
+ <!-- END: MARKETO TRACKING --> <!-- Begin Google Analytics Asynch-->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1537572-5']);
+  _gaq.push(['_setDomainName', 'puppetlabs.com']);
+  _gaq.push(['_addIgnoredRef', 'puppetlabs.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  <!-- End Google Analytics -->
+
+</body>
+</html>

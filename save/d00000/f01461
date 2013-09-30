@@ -1,0 +1,539 @@
+<!doctype html>
+  <head>
+  <!--Metas-->
+  <meta charset="ISO-8859-1">
+  <meta http-equiv="Content-Language" content="fr" />
+<meta name="Revisit-after" content="1" />
+<meta name="robots" content="index,follow" />
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<META NAME="ROBOTS" CONTENT="ALL"> 
+<link rel="shortcut icon" href="http://www.free.fr/favicon.ico" type="image/x-icon"/>
+<link rel="icon" href="http://www.free.fr/favicon.ico" type="image/x-icon"/>
+
+<!--Javascripts-->
+<script type="text/javascript" src="/js/lib/jquery/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="/js/lib/jquery/jquery.defaultvalue.min.js"></script>
+<script type="text/javascript" src="/adsl/swf/Scripts/swfobject.js"></script>
+<script type="text/javascript" src="/js/general.js"></script>
+
+<!-- Typo -->
+<script  type="text/javascript" src="/js/typo/cufon-yui.js"></script>
+<script  type="text/javascript" src="/js/typo/segoe-ui_400.font.js"></script>
+
+
+  <meta name="keywords" content="Free, freebox, télévision, bouquet, chaine, packs, canal+, canalsat, magnétoscope numérique, vod, vidéo à la demnde, freebox V6, freebox révolution, freebox revolution" />
+  <meta name="description" content="L'offre comprend plus de 100 chaînes et services ainsi que de nombreuses chaînes à option, vendues soit par bouquet soit à l'unité sans durée d'engagement." />
+  <title>Freebox Révolution en détail</title>
+  <!--Styles-->
+  <link rel="stylesheet" type="text/css" href="/css/lib/tripoli/reset.css" />
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+  <link rel="stylesheet" type="text/css" href="/css/pages/freebox_revolution.css" />
+  <!--Components-->
+  <!--[if lt IE 7]><link href="/css/components/layouts/base_ie.css" rel="stylesheet" type="text/css" /><![endif]-->
+  <script type="text/javascript">
+  		// on stocke la position de ports de chaque FBX
+		var serv,play = new Array;
+		serv = [110,151,250,350,394,441,476,630];
+		play = [79,120,169,210,255,299,342,427];
+	
+		try{
+			
+		$(function(){
+		// document.ready()	
+			/* INIT ----------------------*/
+			$('.indicator').each(function(){
+				// on charge le premier descriptif de la liste dans l'interface
+				var lyrics = $(this).parent().find('.item:first').children('p').html();
+				//on place le cuseur sur le premier port
+				if($(this).parent().attr('id') === "fbx_server"){
+						$(this).css('left',serv[0]-30).fadeIn().parent().find('.content').html(lyrics);
+				}else{
+						$(this).css('left',play[0]-30).fadeIn().parent().find('.content').html(lyrics);
+				}
+				
+			})
+				
+			/* USERCLICK ----------------------*/	
+			$('.item').bind('click',function(){
+				var btn = $(this);
+				var BlocK =btn.closest('.navigator');
+				if( btn.attr('class') === "item up"){
+					// cas bouton déjà select
+					return false;
+				}else{
+					btn.addClass('up').siblings('.item.up').removeClass("up");
+					// on charge le descriptif du bouton cliqué dans l'interface
+						if (BlocK.attr('id') === "fbx_server"){
+							BlocK.find('.indicator').animate({'left':serv[btn.index()]-30+'px'},'fast').fadeIn();
+						}else{
+							BlocK.find('.indicator').animate({'left':play[btn.index()]-30+'px'},'fast').fadeIn();	
+						}
+					BlocK.find('.content').html(btn.find('p').html());
+				}
+				
+			});//!userclick
+			
+
+			
+				
+		});// end ready
+		}catch(err){
+			
+			console.log(err);
+			
+		}
+	</script>
+  </head>
+  <body>
+    <div id="body">
+      <!-- top.html -->
+<!-- barre nav Header -->
+
+<div id="chrome_head" class="shortcut" >
+  <ul>
+    <li class="a5 widget"> <a href="https://subscribe.free.fr/login/" class="capt"  title="Acc&eacute;der &agrave; votre compte">Mon Compte</a> </li>
+    <li class="a4 widget"> <a href="http://imp.free.fr/" class="capt"  title="Le webmail Free">Webmail</a> </li>
+    <li class="a3 widget"> <a href="http://pagesperso.free.fr/" class="capt"  title="Pages personnelles Freenautes">Pages Perso</a> </li>
+    <li class="a2 widget"> <a href="http://subscribe.free.fr/accesgratuit/index.html" class="capt"  title="L'offre bas d&eacute;bit">Bas d&eacute;bit</a> </li>
+    <li class="a1 widget"> <a href="http://portail.free.fr/" class="capt" title="Le portail Free"  >Portail</a> </li>
+  </ul>
+</div>
+<!-- // barre nav  Header -->
+<div id="top">
+  <a id="topAnchor" class="spot" title="Haut de page"></a> 
+  <a href="/adsl/index.html" id="top-logo" title="Retour &agrave; l'accueil"> <span>Free</span> </a>
+  <div id="top-menu">
+    <ul id="top-menu-main">
+      <li> <a id="top-menu-main-internet" href="/adsl/internet.html"> <span>Internet</span> </a> </li>
+      <li> <a id="top-menu-main-mobile" href="http://mobile.free.fr"> <span>Mobile</span> </a> </li>
+      <li> <a id="top-menu-main-telephone" href="/adsl/telephone.html"> <span>T&eacute;l&eacute;phone</span> </a> </li>
+      <li> <a id="top-menu-main-television" href="/adsl/television.html"> <span>T&eacute;l&eacute;vision</span> </a> </li>
+      <li> <a id="top-menu-main-multimedia" href="/adsl/multimedia.html"> <span>Multimedia</span> </a> </li>
+      <li> <a id="top-menu-main-assistance" href="/assistance/"> <span>Assistance</span> </a> </li>
+    </ul>
+  </div>
+</div>
+<!-- top.html -->
+
+      <div  id="main">
+        <div id="fbx_head" itemscope itemtype="http://schema.org/Product">
+          <a name="freerevo" id="freerevo" title="Freebox Révolution"  ></a>
+          <h1 itemprop="name" >Freebox Révolution by STARCK</h1>
+          <p>
+            <img itemprop="image" src="/im/components/freebox_revolution/freebox_revolution_head.png" alt='Freebox v6 aka révolution, freebox server, freebox player, télécommande' />
+            <img src="/im/components/freebox_revolution/freebox_revolution_player.png" alt='Ports arrière de la Freebox Révolution Player aka freebox v6' />
+          </p>
+        </div>
+        <div id="fbx_trans">
+          <h2>Freebox Révolution change avec vous</h2>
+          <p>
+            <img itemprop="image" src="/im/components/freebox_revolution/freebox_revolution_trans.png" alt='Freebox Révolution peut se monter selon trois angles: vertical, 45°, et à plat, grâce au support métallique optionnel' />
+          </p>
+        </div>
+        <div id="fbx_server" class="navigator"   itemscope itemtype="http://schema.org/Product">
+          <a name="freeserv" id="freeserv" title="Freebox Server" ></a>
+          <h2 itemprop="name">Freebox Revolution Server est le centre de votre r&eacute;seau.</h2>
+          <ul class="onglets"  itemprop="description">
+            <li class="item up">
+              <h3>ADSL</h3>
+              <p>
+                <strong>Port XDSL pour vous connecter en ADSL jusqu'à 28 Megas sur une ligne téléphonique!</strong><br />
+                Si vous n'êtes pas éligible à la Fibre by Free, et même si vous n'avez pas de ligne téléphonique, nous vous raccordons en ADSL.<br/>
+                <a href="/adsl/internet.html" class="detail">PLUS DE DETAIL SUR L'OFFRE ADSL FREE </a>
+              </p>
+            </li>
+            <li class="item">
+              <h3>FIBRE</h3>
+              <p>
+                <strong> Port Optique gigabit pour vous connecter en fibre optique jusqu'à 100 Megas en Download et 50 Megas en Upload</strong><br />
+                Si vous êtes éligible à la Fibre by Free, nous vous raccordons avec le débit décuplé que permet la technologie optique: en plus de télécharger à 100 Mégas garantis, vous pourrez envoyer des fichiers ( upload ) à une vitesse tout simplement incroyable! <br/>
+                <a href="http://ftth.free.fr/offre_fibre.html" target="_blank" class="detail">ILLUSTRATION DU DEBIT PERMIT PAR LA FIBRE</a><br/>
+                <a href="/adsl/internet.html" class="detail">PLUS DE DETAIL SUR L'OFFRE FIBRE FREE </a>
+              </p>
+            </li>
+            <li class="item">
+              <h3>SWITCH</h3>
+              <p>
+                <strong>Grâce au switch ethernet intégré, vous pouvez connecter jusqu'à quatre ordinateurs, chacun sur un cable ethernet dédié, sans ajouter d'autre matériel à votre installation.</strong> C'est particulièrement pratique pour les N.A.S., les serveurs domestiques, la gestion de votre routeur, ou tout simplement pour que chaque poste de votre foyer bénéficie du maximum de bande passante.
+              </p>
+            </li>
+            <li class="item">
+              <h3>E/S AUDIO</h3>
+              <p>
+                <strong> Entrées et Sorties Audio Analogiques: c'est ici que vous pourrez connecter une source audio, un amplificateur ou un casque.</strong>
+              </p>
+            </li>
+            <li class="item">
+              <h3>USB/ESATA</h3>
+              <p>
+                <strong>Ici, vous pouvez connecter de nombreux périphériques USB ou ESATA. SI vous connectez un disque dur portable, le contenu de celui-ci devient accessible sur votre réseau domestique et sur votre téléviseur. </strong> Une des prise USB est utilisée pour la prise usb de facade, intégrée aux supports standards ( modèle présenté sur la <a href="http://www.free.fr">page d'accueil</a> ) ainsi qu'aux supports circulaires aluminium en option ( modèle présenté sur cette page ).
+              </p>
+            </li>
+            <li class="item">
+              <h3>TELEPHONE</h3>
+              <p>
+                <strong> Sur cette prise vous connectez votre téléphone afin de profiter des 104 DESTINATIONS INTERNATIONALES INCLUSES, des appels vers LES PORTABLES INCLUS, ainsi que de la tarification internationale avantageuse offerte par le forfait téléphonique Free</strong><br />
+                <a href="/adsl/telephone.html" class="detail">PLUS DE DETAIL SUR L'OFFRE TELEPHONIQUE FREE </a>
+              </p>
+            </li>
+            <li class="item">
+              <h3>ALIMENTATION</h3>
+              <p>
+                <strong>Ce port est la source d'alimentation de votre Freebox Server, c'est l'endroit où se connectent les FREEPLUGS.</strong><br />
+                Deux Freeplugs sont inclus dans votre abonnement: ils servent à relier les deux boitiers via la prise éléctrique, sans cable supplémentaire.<br />
+                <a href="#freeplugs" class="detail widget">PLUS DE DETAIL SUR LES FREEPLUGS </a>
+              </p>
+            </li>
+            <li class="item">
+              <h3>EXTENSIONS</h3>
+              <p>
+                <strong>L'avenir, c'est aujourd'hui et plus que personne nous le savons chez Free</strong><br />
+                Freebox server intègre une baie d'extension afin de pourvoir supporter les technologies du futur sans changer de boîtier.
+              </p>
+            </li>
+          </ul>
+          <div class="clearer">
+            <!--Clear-->
+            
+          </div>
+          <div id="serv" class="content">
+            <img itemprop="image" src="/im/components/freebox_revolution/freebox_revolution_server.png" alt='Ports arrière de la Freebox Révolution server aka freebox v6' />
+          </div>
+          <div class="indicator">
+          </div>
+        </div>
+        <div id="fbx_player"  class="navigator"   itemscope itemtype="http://schema.org/Product">
+          <a name="freeplay" id="freeplay" title="Freebox Player"  ></a>
+          <h2 itemprop="name">Freebox Revolution Player est votre centre de divertissement.</h2>
+          <ul class="onglets"  itemprop="description">
+            <li class="item up">
+              <h3>ALIMENTATION</h3>
+              <p>
+                <strong>Ce port est la source d'alimentation de votre Freebox Player, c'est l'endroit où se connectent les FREEPLUGS.</strong><br />
+                Deux Freeplugs sont inclus dans votre abonnement: ils servent à relier les deux boitiers via la prise éléctrique, sans cable supplémentaire.<br />
+                <a href="#freeplugs" class="detail widget">PLUS DE DETAIL SUR LES FREEPLUGS </a>
+              </p>
+            </li>
+            <li class="item">
+              <h3>USB/ESATA</h3>
+              <p>
+                <strong>Ici, vous pouvez connecter de nombreux périphériques USB ou ESATA. SI vous connectez un disque dur portable, le contenu de celui-ci devient accessible sur votre réseau domestique et sur votre téléviseur. </strong> Une des prise USB est utilisée pour la prise usb de facade, intégrée aux supports standards ( modèle présenté sur la <a href="http://www.free.fr">page d'accueil</a> ) ainsi qu'aux supports circulaires aluminium en option ( modèle présenté sur cette page ).
+              </p>
+            </li>
+            <li class="item">
+              <h3>TNT</h3>
+              <p>
+                <strong>Entrée antenne pour la TNT / TNTHD</strong><br />
+                l'intégration de la TNT vient en complément du bouquet TV Free: plus de 400 chaînes de TV dont 195 incluses!<br />
+                <a href="/adsl/television.html" class="detail">PLUS DE DETAIL SUR L'OFFRE TELEVISION FREE </a>
+              </p>
+            </li>
+            <li class="item">
+              <h3>ETHERNET</h3>
+              <p>
+                <strong>Le port ethernet de la freebox Player est l'endroit où se connecte le deuxième FreePlug afin de relier les deux boîtier par les prises électriques, sans autre cable.</strong>
+              </p>
+            </li>
+            <li class="item">
+              <h3>PERITEL</h3>
+              <p>
+                <strong>Si votre télévision ne dispose pas de port HDMI, vous pouvez la connecter en PERITEL ou en COMPOSITE grâce à cette prise.</strong>
+              </p>
+            </li>
+            <li class="item">
+              <h3>HDMI</h3>
+              <p>
+                <strong> Cette sortie HDMI&reg; vous permet de de connecter toutes sortes de périphériques, dont des téléviseurs Haute Définition et ainsi profiter du maximum de qualité restituée et des chaînes de TVHD.</strong>
+              </p>
+            </li>
+            <li class="item">
+              <h3>SPDIF</h3>
+              <p>
+                <strong>Ce port est une sortie audio numérique, son usage typique est d'être relié à l'entrée amplificateur de votre Home-Cinema, et ainsi de délivrer une qualité sonore incomparable avec une source analogique.</strong>
+              </p>
+            </li>
+            <li class="item">
+              <h3>RESET</h3>
+              <p>
+                <strong>En cas de problême, ce petit bouton permet de réinitialiser le boîtier aux valeurs d'usine.</strong>
+              </p>
+            </li>
+          </ul>
+          <div class="clearer">
+            <!--Clear-->
+            
+          </div>
+          <div id="play" class="content">
+            <img itemprop="image" src="/im/components/freebox_revolution/freebox_revolution_player.png" alt='Ports arrière de la Freebox Révolution Player aka freebox v6' />
+          </div>
+          <div class="indicator">
+          </div>
+        </div>
+        <div id="fplugs"  >
+          <a name="freeplugs" id="freeplugs" title="FreePlugs"  ></a>
+          <h2>Freeplugs</h2>
+          <p>
+            <strong>Les Freeplugs, une solution pratique pour relier les deux boîtiers de la Freebox Révolution, composée d'un Server (Internet &amp; téléphonie) et d'un Player (services audiovisuels):</strong><br/>
+            Les Freeplugs utilisent la technologie CPL (courant porteur en ligne) qui simplifie la connexion entre le Server et le Player : plus besoin de faire passer des câbles dans la maison, les deux box communiquent entre elles grâce au réseau électrique du foyer.
+          </p>
+          <p>
+            Les avantages sont multiples:
+          </p>
+          <ul>
+            <li>
+              <strong> Praticité: </strong> Les Freeplugs regroupent en un seul élément le nécessaire pour la communication CPL et l'alimentation électrique du boîtiers, offrant au freenaute un gain de place appréciable.
+            </li>
+            <li>
+              <strong>Simplicité: </strong> Aucun paramétrage n'est nécessaire et les freeplugs sont immédiatement opérationnels car pré-associés. Il vous suffit donc de brancher le Player et son Freeplug à une prise électrique proche de votre téléviseur pour bénéficier instantanément du service de télévision.
+            </li>
+            <li>
+              <strong>Flexibilité :</strong> Chaque prise électrique de votre logement devient un point de connexion potentiel. Ainsi vous pouvez profiter des services offerts par votre Player où vous voulez et le déplacer sans être contraint de choisir un emplacement proche du Server.
+            </li>
+            <li>
+              <strong>Sécurité:</strong> Le réseau établi entre les deux Freeplugs utilisant le réseau électrique domestique est sécurisé. Personne ne peut donc récupérer les données transitant sur ce réseau. Seuls d'autres Freeplugs peuvent être ajoutés et accéder au réseau créé.
+            </li>
+            <li>
+              <strong>Performance / Qualité:</strong> La liaison établie entre les deux boîtiers de la Freebox Révolution est équivalente à une liaison par câble Ethernet et offre des débits théoriques allant jusqu'à 200Mbit/s .
+            </li>
+          </ul>
+          <p>
+            Plus de problèmes de freezes et une qualité d'images TV constante quelle que soit la distance séparant les deux boîtiers !
+            
+            Grâce aux Freeplugs, vous pouvez désormais profiter en toute quiétude des services audiovisuels de votre Freebox Révolution !
+          </p>
+        </div>
+      </div>
+      <div id="bottom">
+      <!--SITEMAP-->
+      <div id="bottom-links">
+        <h1> Plan du site </h1>
+        <div class="first">
+          <h2> <a href="http://www.free.fr/adsl/index.html">Accueil</a> </h2>
+          <ul>
+           
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/accueil/carte-de-degroupage.html">Carte de d&eacute;groupage</a>
+            </li>
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/accueil/carte-de-debits-adsl.html">Carte de debits ADSL</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2> <a href="http://www.free.fr/adsl/internet.html">Internet</a> </h2>
+          <ul>
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/internet/connexion.html">Connexion</a>
+            </li>
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/internet/votre-web.html">Votre web</a>
+            </li>
+            <li class="indent-0">
+              <a href="http://imp.free.fr">Webmail</a>
+            </li>
+            <li class="indent-0">
+              <a href="http://pagesperso.free.fr">Pages Perso</a>
+            </li>
+            <li class="indent-0">
+              <a href="http://dl.free.fr">Envoi de gros fichiers</a>
+            </li>
+            <!-- <li class="indent-0"><a href="http://www.free.fr/reseau/">Etat du R&eacute;seau</a> </li>-->
+          </ul>
+        </div>
+        <div>
+          <h2> <a href="http://www.free.fr/adsl/telephone.html">T&eacute;l&eacute;phone</a> </h2>
+          <ul>
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/telephone/tarifs-telephonie.html">Les tarifs de la t&eacute;l&eacute;phonie</a>
+            </li>
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/telephone/services-de-telephonie.html">Services de t&eacute;l&eacute;phonie</a>
+              <ul>
+                <li class="indent-15">
+                  <a href="http://annuaire.freebox.fr/annuaire/">Annuaire t&eacute;l&eacute;phonique</a>
+                </li>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/telephone/services-de-telephonie/la-messagerie-vocale.html">La messagerie vocale</a>
+                </li>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/telephone/services-de-telephonie/les-services-lies-aux-appels-entrants.html">Les services li&eacute;s aux appels entrants</a>
+                </li>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/telephone/services-de-telephonie/les-services-lies-aux-appels-sortants.html">Les services li&eacute;s aux appels sortants</a>
+                </li>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/telephone/services-de-telephonie/les-autres-services-inclus.html">Les autres services inclus</a>
+                </li>
+              </ul>
+            </li>
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/telephone/ligne-telephonique-incluse.html">Ligne t&eacute;l&eacute;phonique incluse</a>
+              <ul>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/telephone/ligne-telephonique-incluse/sans-abonnement-telephonique.html">Sans abonnement t&eacute;l&eacute;phonique</a>
+                </li>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/telephone/ligne-telephonique-incluse/portabilite-du-numero-geographique.html">Portabilit&eacute; du num&eacute;ro g&eacute;ographique</a>
+                </li>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/telephone/ligne-telephonique-incluse/migrer-vers-le-degroupage-total.html">Migrer vers le d&eacute;groupage total</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2> <a href="http://www.free.fr/adsl/television.html">T&eacute;l&eacute;vision</a> </h2>
+          <ul>
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/television/services-de-television.html">Services de t&eacute;l&eacute;vision</a>
+              <ul>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/television/services-de-television/acces-a-plus-250-chaines.html">Acc&egrave;s &agrave; 436 chaines</a>
+                </li>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/television/services-de-television/magnetoscope-numerique.html">Magn&eacute;toscope num&eacute;rique</a>
+                </li>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/television/services-de-television/services-inclus.html">Services inclus</a>
+                </li>
+              </ul>
+            </li>
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/television/services-de-vod.html">Services de VOD</a>
+              <!--ul>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/television/services-de-vod/free-home-video.html">FHV</a>
+                </li>
+                <li class="indent-15">
+                  <a href="http://www.free.fr/adsl/pages/television/services-de-vod/autres-services-de-vod.html">Les autres services VOD</a>
+                </li>
+              </ul-->
+            </li>
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/television/tv-perso.html">TV Perso</a>
+            </li>
+            <li class="indent-0">
+              <a href="http://www.free.fr/adsl/pages/television/telesites.html">T&eacute;l&eacute;sites</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--SITEMAP-->
+      <div id="bottom-infos">
+        <div id="reminder">
+        </div>
+        <h2> <span>Informations l&eacute;gales</span> </h2>
+        <ul>
+          <li>
+            <a href="http://www.free.fr/pdf/cnc_guide_interactif.pdf" title="Fiche d'information standardis&eacute;e" target="_blank">Guide Pratique des <br />
+            communications &eacute;lectroniques</a>
+          </li>
+          <!-- ///////////////////////////////////////////////////////////////////////////// -->
+          <li>
+            <a href="http://adsl.free.fr/cgv/last/fis.html" title="Fiche d'information standardis&eacute;e" target="_blank">Fiche d'information standardis&eacute;e</a>
+          </li>
+          <li>
+            <a href="http://adsl.free.fr/cgv/last/cgv.html" title="Conditions G&eacute;n&eacute;rales de Vente" target="_blank">Conditions G&eacute;n&eacute;rales de Vente</a>
+          </li>
+          <li>
+            Conditions Sp&eacute;cifiques<br />
+            <a href="http://adsl.free.fr/cgv/last/CS_IP.html">Internet</a> , <a href="http://adsl.free.fr/cgv/last/CS_TV.html">TV</a> , <a href="http://adsl.free.fr/cgv/last/CS_AV.html">Audiovisuel</a> , <br />
+            <a href="http://adsl.free.fr/cgv/last/CS_FS.html">Freestore</a> et <a href="http://adsl.free.fr/cgv/last/CS_TEL.html">T&eacute;l&eacute;phone</a>
+          </li>
+          <li>
+            <a href="http://adsl.free.fr/cgv/last/brochure_tarifaire.html" title="Brochure tarifaire" target="_blank">Brochure tarifaire</a>
+          </li>
+          <!-- ///////////////////////////////////////////////////////////////////////////// -->
+          <li>
+            <a href="http://www.free.fr/adsl/pages/informations-legales/signaler-un-contenu.html" title="Signaler un contenu illicite">Signaler un contenu illicite</a>
+          </li>
+          <li>
+            <a href="http://www.free.fr/adsl/pages/informations-legales/protection-de-l-enfance.html" title="Protection de l'enfance">Protection de l'enfance</a>
+          </li>
+          <li>
+            <a href="http://www.free.fr/adsl/pages/informations-legales/free-la-societe.html" title="Free, la soci&eacute;t&eacute;"><span class="bold">Free, la soci&eacute;t&eacute;</span></a>
+          </li>
+          <li>
+            <a href="http://www.free.fr/adsl/pages/informations-legales/info.html" title="Free, la soci&eacute;t&eacute;"><span class="bold">Informations l&eacute;gales</span></a>
+          </li>
+          <li>
+            <a href="http://www.free.fr/adsl/pages/informations-legales/free-recrute.html" title="Free recrute"><span class="bold">Free recrute</span></a>
+          </li>
+          <li>
+            <a href="http://www.free.fr/adsl/pages/informations-legales/nous-contacter.html" title="Nous contacter"><span class="bold">Nous contacter</span></a>
+          </li>
+        </ul>
+      </div>
+      <div class="clearer">
+        <!--Clear-->
+      </div>
+    </div>
+    <div id="bottom-mentions" style="margin-top:100px;">
+      <p>Offre soumise &aacute; conditions, sous r&eacute;serve d'&eacute;ligibilit&eacute;, hors prestations tarif&eacute;es &aacute; l'acte ou optionnelles.<br/><br/>  D&eacute;bit ATM, soit 22,4 en IP.<br/><br/>Socle Freebox Revolution en sus disponible dans l'espace boutique.<br/><br/>  Appels inclus depuis la Freebox R&eacute;volution vers les fixes de 108 destinations**, hors appels vers les num&eacute;ros sp&eacute;ciaux ou support de services autres que communications interpersonnelles et vers les num&eacute;ros mobiles de tous les op&eacute;rateurs mobiles nationaux en France dont DOM  depuis un t&eacute;l&eacute;phone raccord&eacute; &aacute; la Freebox conform&eacute;ment aux conditions g&eacute;n&eacute;rales de vente du Forfait Freebox R&eacute;volution  et sous r&eacute;serve d'un usage appropri&eacute; et en bon p&egrave;re de famille.<br/><br/>   Appels inclus dans le cadre d'une utilisation non abusive vers les postes fixes : -au Maroc, hors appels vers num&eacute;ros &aacute; mobilit&eacute; restreinte de l'op&eacute;rateur Wana, cad No Wana commen&ccedil;ant par 212526, 212527, 212533, 212534, 212540, 212546, 212547, 212550 et 212553. - en Alg&eacute;rie, hors appels vers num&eacute;ros commen&ccedil;ant par 2135, 2136, 2137, 2138 et 21359.<br/><br/> Si ces derniers devaient revoir leur conditions d'interconnexion &aacute; la hausse, Free se r&eacute;serve la possibilit&eacute; de revenir au tarif ant&eacute;rieur, apr&egrave;s avoir inform&eacute; l'abonn&eacute; conform&eacute;ment aux dispositions l&eacute;gales en vigueur.<br/><br/>   Offre de service TV soumise &aacute; conditions et r&eacute;serv&eacute;e aux nouveaux abonn&eacute;s &eacute;ligibles au service.<br/><br/>  Freebox compatible Haute D&eacute;finition sous r&eacute;serve d'utiliser un &eacute;quipement terminal ad&eacute;quat. R&eacute;ception TNT sous r&eacute;serve d'&ecirc;tre en zone de couverture TNT et de disposer d'une installation antenne ad&eacute;quate.<br/><br/> Communications vers l'assistance incluses dans le forfait Freebox R&eacute;volution pour les appels pass&eacute;s depuis une ligne Freebox.<br/><br/> Intervention gratuite dans le cadre de l'Assistance Technique de Proximit&eacute; sous 10 heures ouvr&eacute;es uniquement lorsque le probl&egrave;me technique n'a pu &ecirc;tre r&eacute;solu par t&eacute;l&eacute;phone et sous r&eacute;serve d'&ecirc;tre situ&eacute; dans une zone couverte par l'Assistance Technique de Proximit&eacute;. D&eacute;lai d'intervention garanti, sous r&eacute;serve d'acceptation par l'abonn&eacute; du cr&eacute;neau de rendez-vous propos&eacute;, &aacute; compter de la confirmation de prise en charge de la demande donnant droit &aacute; compensation &aacute; hauteur d'1 euro par heure de retard dans la limite de 10 euros par mois.<br/><br/>Modalit&eacute;s de remboursement, d&eacute;finition des heures ouvr&eacute;es et listes des zones consultables sur http://www. free.fr/assistance/.<br/><br/> ** Sous r&eacute;serve de validation des CGVs du 23/01/13, depuis votre interface de gestion en ligne &quot;mon compte&quot;: https://subscribe.free.fr/login/, rubrique &quot;t&eacute;l&eacute;phonie&quot;. L'application de la nouvelle grille tarifaire sera effective dans un d&eacute;lai de 24 heures &agrave; compter de la validation des nouvelles CGVs. <br/>
+      </p>
+      <p>Ce produit utilise la technologie Cinavia pour limiter l'utilisation de reproductions ill&eacute;gales de certains films et vid&eacute;os disponibles dans le commerce et de leur bande sonore. Lorsqu'une utilisation ill&eacute;gale ou une reproduction interdite est d&eacute;tect&eacute;e, un message s'affiche et la lecture ou la reproduction s'interrompt. De plus amples informations sur la technologie Cinavia sont disponibles aupr&egrave;s du Centre d'information des consommateurs en ligne de Cinavia sur le sitehttp://www.cinavia.com. Pour obtenir des informations suppl&eacute;mentaires par courrier sur Cinavia, envoyez votre demande avec votre adresse au : Centre Cinavia d'information des consommateurs, P.O. Box 86851, San Diego, CA, 92138, &Eacute;tats-Unis. Ce produit comprend une technologie exclusive sous licence de Verance Corporation et est prot&eacute;g&eacute; par le brevet d'invention am&eacute;ricain 7 369 677 et d'autres brevets d'invention am&eacute;ricains et internationaux attribu&eacute;s et en attente d'attribution. Il est &eacute;galement prot&eacute;g&eacute; par les droits d'auteur et le secret commercial pour certains aspects de cette technologie. Cinavia est une marque de Verance Corporation. Droits d'auteur 2004-2012 Verance Corporation. Tous droits r&eacute;serv&eacute;s par Verance. L'analyse par r&eacute;trotechnique ou le d&eacute;sossage de cette technologie sont interdits. Copyright 2004-2012 Verance Corporation. Cinavia&reg; est une marque d&eacute;pos&eacute;e de Verance Corporation. Prot&eacute;g&eacute;e par le brevet am&eacute;ricain 7 369 677 et des brevets mondiaux attribu&eacute;s et en attente d'attribution sous licence de Verance Corporation. Tous droits r&eacute;serv&eacute;s.</p>
+      <p>&nbsp;</p>
+    </div>
+    <!-- barre nav  footer --> 
+    <a id="bottomAnchor" class="spot" title="Mentions L&eacute;gales"></a>
+    <div id="chrome_footer" class="shortcut" >
+      <ul>
+      </ul>
+    </div>
+    <!-- // barre nav  footer --> 
+    
+    </div>
+    <!-- Piwik --> 
+<script type="text/javascript"> 
+var _paq = _paq || [];
+var niceUrl = document.domain+'->'+document.URL.split('free.fr/')[1].replace('/','->').split('.html')[0]; 
+(function(){ var u=(("https:" == document.location.protocol) ? "https://statsweb.proxad.net/" : "http://statsweb.proxad.net/"); 
+_paq.push(['setSiteId', 2]); 
+_paq.push(['setTrackerUrl', u+'piwik.php']);
+_paq.push(['trackPageView']); 
+_paq.push(['enableLinkTracking']); 
+_paq.push(['setDocumentTitle', document.domain+'->'+document.location.href.split('free.fr/')[1].replace('/','->').split('.html')[0] ]);
+var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript'; g.defer=true; g.async=true; g.src=u+'piwik.js'; 
+s.parentNode.insertBefore(g,s); })();
+
+
+	$('#fmBanner').bind('click',function(){
+		//piwik
+		_paq.push(['setCustomVariable',1,'HomeLinks','FreeMobile']);
+	})
+	$('#blockhome').bind('click',function(){
+		
+		//piwik
+		_paq.push(['setCustomVariable',1,'HomeLinks','freebox_detail']);
+	})
+	$('.a1').bind('click',function(){
+		
+		//piwik
+		_paq.push(['setCustomVariable',1,'HomeLinks','Portail']);
+	})
+	$('form').bind('submit',function(){
+		
+		//piwik
+		_paq.push(['setCustomVariable',1,'HomeLinks','Subscribe_numero']);
+	})
+	$('#pasdeligne').bind('click',function(){
+		
+		//piwik
+		_paq.push(['setCustomVariable',1,'HomeLinks','Pasdeligne']);
+	})
+	$('.focus').bind('click',function(){
+		
+		//piwik
+		_paq.push(['setCustomVariable',1,'HomeLinks','Focus_Open']);
+	})
+	$('#banouze').bind('click',function(){
+		
+		//piwik
+		//_paq.push(['setCustomVariable',1,'HomeLinks','CanalSat-27-05-2013']); 
+	})
+</script>
+<!-- Piwik -->
+  </body>
+</html>

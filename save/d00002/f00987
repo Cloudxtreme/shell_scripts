@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class="no-js" lang="ja">
+	<head>
+				<link rel="profile" href="http://gmpg.org/xfn/11" />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+		<title>てくろぐ: IIJmio高速モバイル/DでのIPv6対応環境について </title>
+		
+				<link rel="alternate" type="application/rss+xml" title="てくろぐ &raquo; フィード" href="http://techlog.iij.ad.jp/feed" />
+<link rel="alternate" type="application/rss+xml" title="てくろぐ &raquo; コメントフィード" href="http://techlog.iij.ad.jp/comments/feed" />
+<link rel='stylesheet' id='tw-bootstrap-css'  href='http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/css/bootstrap.min.css?ver=2.0.3' type='text/css' media='all' />
+<link rel='stylesheet' id='the-bootstrap-css'  href='http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/style.min.css?ver=2.0.1-t1' type='text/css' media='all' />
+<script type='text/javascript' src='http://techlog.iij.ad.jp/wp-includes/js/jquery/jquery.js?ver=1.10.2'></script>
+<script type='text/javascript' src='http://techlog.iij.ad.jp/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://techlog.iij.ad.jp/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://techlog.iij.ad.jp/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='中の人が語るMVNO (スマ勉＠関東発表資料)' href='http://techlog.iij.ad.jp/archives/394' />
+<link rel='next' title='IPv6専用スピードテストサイト、公開しました' href='http://techlog.iij.ad.jp/archives/428' />
+<meta name="generator" content="WordPress 3.6" />
+<link rel='canonical' href='http://techlog.iij.ad.jp/archives/411' />
+<link rel='shortlink' href='http://techlog.iij.ad.jp/?p=411' />
+
+<!-- Using Simple Yearly Archive Plugin v1.4.3 | http://www.schloebe.de/wordpress/simple-yearly-archive-plugin/ // -->
+		<style type="text/css">
+						ol.footnotes li {list-style-type:decimal;}
+						ol.footnotes{font-size:0.8em; color:#666666;}		</style>
+			<style type="text/css">
+				#site-description {
+			color: #ffffff !important;
+		}
+			</style>
+	<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #EFEFEF; }
+</style>
+	<!--[if lt IE 9]>
+		<script src="http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/js/html5shiv.min.js" type="text/javascript"></script>
+		<script src="http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/js/respond.min.js" type="text/javascript"></script>
+	<![endif]-->
+	        <!-- techlog -->
+        <link rel="stylesheet" href="/wp-content/themes/techlog-bootstrap/techlog.css" type="text/css" media="all">
+        <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+          {lang: 'ja'}
+        </script>
+                        <meta name="keyword" content="てくろぐ IIJ IIJGIO IIJmio インターネット クラウド MVNO" />
+        <meta name="description" content="5/22 追記L-02CでIPv6をご利用の方へ本文中にもあるとおり、L-02Cでは機器の仕様上IPv6のDNSサーバ情報を自動的に取得することができません。(L-03Dでは自動的に取得することができます)L-02CでIPv6のDNSサーバを手動で設定する方法をこの記事の末尾に追記しましたので、ご覧下さい。5/22からIPv6提供します先日「IIJmio高速モバイル/DでIPv6対応」という発表をおこないました。Twitte..." />
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@IIJ_doumae">
+        <meta property="og:title" content="IIJmio高速モバイル/DでのIPv6対応環境について " />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="http://techlog.iij.ad.jp/archives/411" />
+        <meta property="og:description" content="5/22 追記L-02CでIPv6をご利用の方へ本文中にもあるとおり、L-02Cでは機器の仕様上IPv6のDNSサーバ情報を自動的に取得することができません。(L-03Dでは自動的に取得することができます)L-02CでIPv6のDNSサーバを手動で設定する方法をこの記事の末尾に追記しましたので、ご覧下さい。5/22からIPv6提供します先日「IIJmio高速モバイル/DでIPv6対応」という発表をおこないました。Twitte..." />
+        <meta name="twitter:description" content="5/22 追記L-02CでIPv6をご利用の方へ本文中にもあるとおり、L-02Cでは機器の仕様上IPv6のDNSサーバ情報を自動的に取得することができません。(L-03..." />
+        <meta property="og:image" content="http://techlog.iij.ad.jp/images/og-icon.png" />
+                <meta property="og:site_name" content="てくろぐ" />
+        <meta property="fb:admins" content="100001724110528" />
+        <!-- /techlog -->
+	</head>
+	
+	<body class="single single-post postid-411 single-format-standard custom-background content-sidebar">
+		<div class="container">
+			<div id="page" class="hfeed row">
+								<header id="branding" role="banner" class="">
+					<nav class="subnav clearfix"><ul id="menu-header-menu" class="nav nav-pills pull-right"><li id="menu-item-639" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-639"><a href="http://techlog.iij.ad.jp/">ホーム</a></li>
+<li id="menu-item-637" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-637"><a href="http://techlog.iij.ad.jp/archives">過去の記事一覧</a></li>
+<li id="menu-item-638" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-638"><a href="http://techlog.iij.ad.jp/about">このblogについて</a></li>
+</ul></nav>					<hgroup>
+						<h1 id="site-title">
+							<a href="http://techlog.iij.ad.jp/" title="てくろぐ" rel="home">
+								<span>てくろぐ</span>
+							</a>
+						</h1>
+						<h2 id="site-description">てくろぐ = techlog。IIJエンジニアの堂前がお送りします。</h2>
+					</hgroup>
+					
+					
+					<nav id="access" role="navigation">
+						<h3 class="assistive-text">Main menu</h3>
+						<div class="skip-link"><a class="assistive-text" href="#content" title="Skip to primary content">Skip to primary content</a></div>
+						<div class="skip-link"><a class="assistive-text" href="#secondary" title="Skip to secondary content">Skip to secondary content</a></div>
+											</nav><!-- #access -->
+									</header><!-- #branding -->
+<section id="primary" class="span8">
+	
+		<div id="content" role="main">
+		<article id="post-411" class="post-411 post type-post status-publish format-standard hentry category-ipv6 category-20">
+		
+	<header class="page-header">
+		<h1 class="entry-title">IIJmio高速モバイル/DでのIPv6対応環境について</h1>		<div class="entry-meta pull-right"><span class="sep">Posted on </span><a href="http://techlog.iij.ad.jp/archives/411" title="11:53" rel="bookmark"><time class="entry-date" datetime="2012-05-15T11:53:09+00:00" pubdate>2012年5月15日</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="http://techlog.iij.ad.jp/archives/author/doumae" title="View all posts by doumae" rel="author">doumae</a></span></span></div><!-- .entry-meta -->
+        <div class="clearfix"></div>
+                <div class="socialbox clearfix">
+        <span class="socialbox_hatena pull-right"><a href="http://b.hatena.ne.jp/entry/http://techlog.iij.ad.jp/archives/411" class="hatena-bookmark-button" data-hatena-bookmark-title="IIJmio高速モバイル/DでのIPv6対応環境について" data-hatena-bookmark-layout="standard" title="このエントリーを>はてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブック
+マークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></span>
+        <span class="socialbox_facebook pull-right"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftechlog.iij.ad.jp%2Farchives%2F411&amp;layout=button_count&amp;show_faces=true&amp;width=110&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span>
+        <span class="socialbox_twitter pull-right"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-related="IIJ_doumae" data-lang="ja" data-url="http://techlog.iij.ad.jp/archives/411" data-text="IIJmio高速モバイル/DでのIPv6対応環境について #IIJ">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></span>
+        <span class="socialbox_google pull-right"><g:plusone size="medium" href="http://techlog.iij.ad.jp/archives/411"></g:plusone></span>
+        </div>
+	</header><!-- .entry-header -->
+
+	<div class="entry-content clearfix">
+		<blockquote><p>
+5/22 追記<br />
+<strong>L-02CでIPv6をご利用の方へ</strong><br />
+本文中にもあるとおり、L-02Cでは機器の仕様上IPv6のDNSサーバ情報を自動的に取得することができません。(L-03Dでは自動的に取得することができます)<br />
+<a href="#l02c_dns">L-02CでIPv6のDNSサーバを手動で設定する方法をこの記事の末尾に追記しました</a>ので、ご覧下さい。
+</p></blockquote>
+<h2>5/22からIPv6提供します</h2>
+<p>先日「<a href="http://www.iij.ad.jp/news/pressrelease/2012/0425.html?i=techlogiijweb">IIJmio高速モバイル/DでIPv6対応</a>」という発表をおこないました。Twitterでも呟いたりしたのですが、がががっとRTしていただき、ご注目＆ご期待頂いているんだなと言うのを感じています。</p>
+<p><a href="http://www.attn.jp/worldipv6launch/">World IPv6 Launch</a>(2012.06.06～)の足音も聞こえてきていますので、間に合って良かった、かな？</p>
+<p>さて、プレスリリースにも書いているのですが、高速モバイル/DでIPv6を使うための環境は5/22以降順次発表する予定でした。もちろん、サービス開発側ではどういう環境で利用できるかは把握しているのですが、お客様に「これで動きます」とお伝えする前にはサポート担当者が改めて実機でねっちりと検証しますので、そのために少々お時間を頂く予定でした。</p>
+<p>が、予想外に皆さんにご注目頂けているようですので、まだ実機での確認が済んでいないのですが、<strong>仕様上これは使えるはず</strong>という環境を先行してご紹介いたします。あくまで仕様上で判断していますので、このあと実機で確認してみて「やっぱ使えないっす」となるかもしれませんが、お許し下さい。</p>
+<h2>IPv6が利用可能な条件</h2>
+<p>プレスリリースでも触れていますが、「<strong>LTEに対応した</strong>」が重要です。3Gのみの機種ではIPv6を利用できません。ただし、<strong>LTEに対応した端末であれば、非LTEエリア(3Gエリア)でもIPv6が使えます</strong>。紛らわしいのでご注意下さい。</p>
+<p>具体的に整理してみましょう。</p>
+<table>
+<tr>
+<th width="10%">&nbsp;</th>
+<th width="30%" style="text-align:center;">データ通信端末</th>
+<th width="30%" style="text-align:center;">モバイルルータ</th>
+<th width="30%" style="text-align:center;">スマートフォン・タブレット</th>
+</tr>
+<tr>
+<td rowspan="2">条件</td>
+<td colspan="3" style="text-align:center;">通信モジュールがLTEに対応していること<br />認証方式(PDN Type)としてIPv6もしくはIPv4/IPv6が指定できる事</td>
+</tr>
+<tr>
+<td style="text-align:center;">OS、ドライバがIPv6に対応していること</td>
+<td style="text-align:center;">Neighbor Discovery Proxyを実装し、IPv6をブリッジできること</td>
+<td style="text-align:center;">Android4.0(たぶん)</td>
+</tr>
+<tr>
+<td>対応機種</td>
+<td style="text-align:center;">
+docomo <a href="http://www.nttdocomo.co.jp/product/data/l02c/index.html">L-02C</a><br />
+docomo <a href="http://www.nttdocomo.co.jp/product/data/l03d/index.html">L-03D</a><br />
+docomo <a href="http://www.nttdocomo.co.jp/product/data/f06c/index.html">F-06C</a>
+</td>
+<td style="text-align:center;"><strong>なし</strong></td>
+<td style="text-align:center;"><strong>なし</strong></td>
+</tr>
+</table>
+<p>……大変恐縮ですが、2012年5月初頭で「使えそう」な端末はこれだけしかありません。</p>
+<p>Android端末は、2.x/3.0でもPDN Type(APNプロトコル)が設定できればIPv6に対応できそうなのですが、OS標準では設定画面で変更することができません。今年の夏モデルでは、LTEが乗ったAndroid4.0端末が出てくると思われますので、たぶんその辺は使えるんじゃないかと期待しています。</p>
+<p>ちなみに、iPad 3rd generation(新しいiPad)のSIMフリー版はLTE対応の通信モジュールが搭載されている<sup><a href="#footnote_0_411" id="identifier_0_411" class="footnote-link footnote-identifier-link" title="ややこしいですが、LTE通信モジュールが乗っているだけで国内のLTE網に接続できるわけではありません。">1</a></sup>のですが、iOS5.1.1で確認したところPDN Type=IPv4IPv6を指定することができなかったため、IPv6は使えません。</p>
+<p>モバイルルータも今のところ対応機種がありません。IIJmioで販売している<a href="https://www.iijmio.jp/guide/outline/hdr/?i=techlogiijweb">NI-760S</a>も対応予定はありません。</p>
+<p>このあたりの技術的な背景については、IIJの公式ホームページ内<a href="http://www.iij.ad.jp/company/development/tech/activities/index.html?i=techlogiijweb">最新の技術動向</a>コーナーで紹介する予定で、現在担当者が記事を書いています。掲載されましたらこのblogやTwitterで紹介しますので、少々お待ち下さい。</p>
+<blockquote><p>
+5/22 追記<br />
+<a href="http://www.iij.ad.jp/company/development/tech/activities/lte_ipv6/index.html?i=techlogiijweb">LTEによるIPv6接続</a>(最新の技術動向)に掲載されました。
+</p></blockquote>
+<h2>繋いでみる</h2>
+<p>気を取り直して！手元にあった対応端末で接続してみました。(皆さんにご利用頂いている環境ではまだIPv6を有効にしていませんので、テスト環境に繋いでいます)なお、いずれもOSはWindows Vista SP2を使用しています。もちろんWindows7でも大丈夫な筈です。なお、詳しい設定方法は後日IIJmioホームページに掲載される予定なので、そちらも参照して下さい。</p>
+<h3>L-02Cの場合</h3>
+<figure id="attachment_412" class="wp-caption thumbnail alignright" style="width: 262px;">
+				<a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/l02c-soft.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/l02c-soft-262x300.png" alt="L-02C接続ソフト" title="L-02C接続ソフト" width="262" height="300" class="size-medium wp-image-412" /></a>
+				<figcaption class="wp-caption-text">L-02C接続ソフト</figcaption>
+			</figure>
+<p>特に気にすることなく「L-02C接続ソフト」で「接続方式」を「IPv6」または「IPv4IPv6」に変更するとIPv6が利用できます。ふつうはIPv4もIPv6もどちらも使える(デュアルスタック)「IPv4IPv6」に設定しておけばいいのですが、IPv6に設定するとv6 onlyにする事も可能です。</p>
+<p><br clear="all"/><br />
+<figure id="attachment_413" class="wp-caption thumbnail alignright" style="width: 300px;">
+				<a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/l02c-ipconfig.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/l02c-ipconfig-300x217.png" alt="L-02Cで接続中 (IPv4IPv6)" title="L-02Cで接続中 (IPv4IPv6)" width="300" height="217" class="size-medium wp-image-413" /></a>
+				<figcaption class="wp-caption-text">L-02Cで接続中 (IPv4IPv6)</figcaption>
+			</figure></p>
+<p>一つ注意しておきたいのは、L-02Cでは機器の仕様上、IPv6のDNSサーバを自動的に取得することができない点です。右の画面は「IPv4IPv6」で接続した際のipconfigの結果ですが、「DNSサーバー」の項目にIPv4しか出てきていないところに注目して下さい。なので、v6 only環境にする場合は、手動でIPv6のDNSサーバを指定してやる必要があります。</p>
+<p><br clear="all"/></p>
+<h3>L-03Dの場合</h3>
+<figure id="attachment_414" class="wp-caption thumbnail alignright" style="width: 295px;">
+				<a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/l03d-network-v6.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/l03d-network-v6-295x300.png" alt="L-03D ネットワークインターフェース" title="L-03D ネットワークインターフェース" width="295" height="300" class="size-medium wp-image-414" /></a>
+				<figcaption class="wp-caption-text">L-03D ネットワークインターフェース</figcaption>
+			</figure>
+<p>L-03Dもあまり気にすることはありません。この端末は、OSからはネットワークインターフェースとして見えるため、接続方式を変更する時は注意が必要です。L-03D Connection Managerでは接続方式を変更することができません。もし、これを変更したい場合は、<strong>回線を接続状態にしたままで、ネットワークインターフェースのプロパティから設定を変更し、回線を接続し直す</strong>必要があります。おそらくほとんどの環境では最初から「IPv4IPv6」になっていると思いますので、v6を使いたいだけなら問題ありませんが、v6 onlyを試したい方はご注意下さい。</p>
+<p><br clear="all"/><br />
+<figure id="attachment_415" class="wp-caption thumbnail alignright" style="width: 300px;">
+				<a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/l03d-ipconfig-v6only.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/l03d-ipconfig-v6only-300x217.png" alt="L-03Dで接続中 (IPv6 only)" title="L-03Dで接続中 (IPv6 only)" width="300" height="217" class="size-medium wp-image-415" /></a>
+				<figcaption class="wp-caption-text">L-03Dで接続中 (IPv6 only)</figcaption>
+			</figure>
+<p>なお、L-03DではIPv6のDNSサーバもきちんと取得されますので、v6 only環境でもDNSサーバを手動で設定する必要はありません。</p>
+<p><br clear="all"/></p>
+<p>ということで。一日でも早くモバイルでIPv6を試してみたい方は、この記事を参考に今のうちに端末を調達して下さいね！</p>
+<p><br clear="all"/></p>
+<h2>本日の関連コンテンツ</h2>
+<ul>
+<li><a href="https://www.iijmio.jp/guide/outline/hdd/?i=techlogiijweb">IIJmio高速モバイル/D</a></li>
+<li><a href="http://www.iij.ad.jp/company/development/tech/activities/lte_mvno/index.html?i=techlogiijweb">MVNOによるLTE接続</a> (最新の技術動向)</li>
+<li><a href="http://www.iij.ad.jp/company/development/tech/activities/lte_ipv6/index.html?i=techlogiijweb">LTEによるIPv6接続</a>(最新の技術動向)</li>
+<li><a href="http://www.iij.ad.jp/svcsol/ipv6-schedule/index.html?i=techlogiijweb">IIJサービス IPv6対応計画</a></li>
+</ul>
+<p><span id="more-411"></span></p>
+<hr />
+<h2><a name="l02c_dns">docomo L-02CでのIPv6のDNSを手動設定する方法</a></h2>
+<p>Windows7での設定方法を紹介します。<br />
+IPv6DNSサーバのアドレスは<a href="https://www.iijmio.jp/service/detail/hdd/?i=techlogiijweb">IIJmioのページ</a>(会員専用)で確認して下さい。</p>
+<ol>
+<li>コントロールパネルから、「ネットワークとインターネット」を開く</li>
+<li>「ネットワークと共有センター」を開く</li>
+<li><a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/miov6-3a.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/miov6-3a-300x187.png" alt="" title="miov6-3a" width="300" height="187" class="alignright size-medium wp-image-424" /></a>「アダプター設定の変更」を開く<br clear="all"/></li>
+<li><a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/miov6-4a.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/miov6-4a-300x209.png" alt="" title="miov6-4a" width="300" height="209" class="alignright size-medium wp-image-425" /></a>L-02Cを選択し、「プロパティ」を開く<br clear="all"/></li>
+<li>このあと、管理者権限でのアクセスを許可するかどうか確認が表示されるので「はい」をクリック</li>
+<li>「インターネットプロトコルバージョン6 (TCP/IPv6)」を選択し、プロパティを開きます</li>
+<li><a href="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/miov6-7.png"><img src="http://techlog.iij.ad.jp/wp-content/uploads/2012/05/miov6-7-300x200.png" alt="" title="miov6-7" width="300" height="200" class="alignright size-medium wp-image-426" /></a>「次のDNSサーバのアドレスを使う」を選択、「優先DNSサーバ」「代替DNSサーバ」にIPv6DNSサーバのアドレスを入力する<br clear="all"/></li>
+</ol>
+<p><br clear="all"/></p>
+<p>この設定を行わない場合、L-02CではIPv6のDNSサーバが利用できません。適切にIPv6通信を行うためにも、是非、IPv6 DNSサーバを設定して下さい。</p>
+<p>なお、この設定が必要なのは現在確認している限りではL-02Cのみです。L-03Dでは自動的に設定が行われるため、手動設定は不要です。</p>
+<hr />
+<ol class="footnotes"><li id="footnote_0_411" class="footnote">ややこしいですが、LTE通信モジュールが乗っているだけで国内のLTE網に接続できるわけではありません。 [<a href="#identifier_0_411" class="footnote-link footnote-back-link">&#8617;</a>]</li></ol>	</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<span class="cat-links block">Posted in <a href="http://techlog.iij.ad.jp/archives/category/ipv6" title="IPv6 の投稿をすべて表示" rel="category tag">IPv6</a>, <a href="http://techlog.iij.ad.jp/archives/category/%e3%83%a2%e3%83%90%e3%82%a4%e3%83%ab" title="モバイル の投稿をすべて表示" rel="category tag">モバイル</a>.</span>            <div class="socialbox clearfix">
+        <span class="socialbox_hatena pull-right"><a href="http://b.hatena.ne.jp/entry/http://techlog.iij.ad.jp/archives/411" class="hatena-bookmark-button" data-hatena-bookmark-title="IIJmio高速モバイル/DでのIPv6対応環境について" data-hatena-bookmark-layout="standard" title="このエントリーを>はてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブック
+マークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></span>
+        <span class="socialbox_facebook pull-right"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftechlog.iij.ad.jp%2Farchives%2F411&amp;layout=button_count&amp;show_faces=true&amp;width=110&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span>
+        <span class="socialbox_twitter pull-right"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-related="IIJ_doumae" data-lang="ja" data-url="http://techlog.iij.ad.jp/archives/411" data-text="IIJmio高速モバイル/DでのIPv6対応環境について #IIJ">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></span>
+        <span class="socialbox_google pull-right"><g:plusone size="medium" href="http://techlog.iij.ad.jp/archives/411"></g:plusone></span>
+        </div>
+	</footer><!-- .entry-footer -->
+	
+	</article><!-- #post-411 -->
+							<p class="nocomments">Comments are closed.</p>
+						
+		<nav id="nav-single" class="pager">
+			<h3 class="assistive-text">Post navigation</h3>
+			<span class="next"><a href="http://techlog.iij.ad.jp/archives/428" rel="next">Next Post <span class="meta-nav">&rarr;</span></a></span>
+			<span class="previous"><a href="http://techlog.iij.ad.jp/archives/394" rel="prev"><span class="meta-nav">&larr;</span> Previous Post</a></span>
+		</nav><!-- #nav-single -->
+		
+			</div><!-- #content -->
+	</section><!-- #primary -->
+
+<section id="secondary" class="widget-area span4" role="complementary">
+	<aside id="text-4" class="widget well widget_text">			<div class="textwidget"><div align="center"><a href="http://www.iij.ad.jp/" target="_blank"><img src="/images/iij_logo.gif" width="242" height="140"></a></div></div>
+		</aside><aside id="linkcat-4" class="widget well widget_links"><h2 class="widget-title">IIJ Websites</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.iij.ad.jp/development/" target="_blank">IIJの研究・開発について</a></li>
+<li><a href="https://www.seil.jp/community/" target="_blank">SEIL/SMFコミュニティ</a></li>
+<li><a href="http://www.iij.ad.jp/" target="_blank">IIJ Webサイト</a></li>
+<li><a href="http://giolog.iij.ad.jp/" target="_blank">IIJ GIO公式blog</a></li>
+<li><a href="http://blog.ruby.iijgio.com/" target="_blank">もごろぐ (MOGOK)</a></li>
+<li><a href="https://sect.iij.ad.jp/" target="_blank">IIJセキュリティ情報統括室スタッフblog</a></li>
+
+	</ul>
+</aside>
+		<aside id="recent-posts-3" class="widget well widget_recent_entries">		<h2 class="widget-title">最近の投稿</h2>		<ul>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/iijnews117" title="インターネット・トリビア　あなたのパスワード、大丈夫ですか？">インターネット・トリビア　あなたのパスワード、大丈夫ですか？</a>
+						</li>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/iijnews116" title="インターネット・トリビア インターネットと広告">インターネット・トリビア インターネットと広告</a>
+						</li>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/673" title="IIJバックボーン、ロンドン上陸">IIJバックボーン、ロンドン上陸</a>
+						</li>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/iijnews115" title="インターネット・トリビア 「遅延」ってなに？ (工夫編)">インターネット・トリビア 「遅延」ってなに？ (工夫編)</a>
+						</li>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/iijnews114" title="インターネット・トリビア 電話とインターネット">インターネット・トリビア 電話とインターネット</a>
+						</li>
+					<li>
+				<a href="http://techlog.iij.ad.jp/archives/617" title="【速報】iOS 6.1 IIJmio高速モバイル/D対応状況・全機種実験">【速報】iOS 6.1 IIJmio高速モバイル/D対応状況・全機種実験</a>
+						</li>
+				</ul>
+		</aside><aside id="text-3" class="widget well widget_text"><h2 class="widget-title">執筆者</h2>			<div class="textwidget"><p><img name="doumaeicon" src="/images/doumae.png" width="100" height="100" align="right" onMouseOver="document.doumaeicon.src='/images/doumae-nohat.png';" onMouseOut="document.doumaeicon.src='/images/doumae.png';"><br />
+堂前 清隆 (どうまえ きよたか)<br />
+株式会社インターネットイニシアティブ(IIJ)<br />
+プロダクト本部 プロダクト推進部<br />
+コンテナDCの開発からソーシャルメディア活動まで、インターネットに関係する事をわりと何でもやっています。一応エンジニア。</p>
+<p>twitter: <a href="http://twitter.com/IIJ_doumae" target="_blank">http://twitter.com/IIJ_doumae</a><br />
+Facebook: <a href="http://www.facebook.com/kdoumae" target="_blank">http://www.facebook.com/kdoumae</a></p>
+<p><a href="https://twitter.com/IIJ_doumae" class="twitter-follow-button" data-show-count="false" data-lang="ja">@IIJ_doumaeをフォロー</a><br />
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></p>
+</div>
+		</aside><aside id="text-5" class="widget well widget_text">			<div class="textwidget"><a class="twitter-timeline" href="https://twitter.com/search?q=techlog.iij.ad.jp" data-widget-id="303459923260477440">techlog.iij.ad.jp に関するツイート</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+		</aside><aside id="rss-5" class="widget well widget_rss"><h2 class="widget-title"><a class='rsswidget' href='http://www.iij.ad.jp/rss-temp/devinfo/index.xml' title='このサイトを RSS で購読'><img style='border:0' width='14' height='14' src='http://techlog.iij.ad.jp/wp-includes/images/rss.png' alt='RSS' /></a> <a class='rsswidget' href='http://www.iij.ad.jp/index.html' title='株式会社インターネットイニシアティブ　Webサイト　（IIJホームページ）'>IIJ 技術情報</a></h2><ul><li><a class='rsswidget' href='http://www.iij.ad.jp/company/development/tech/activities/spdy/index.html' title='GoogleがWebの表示を高速化するために開発した新しいプロトコル「SPDY」がどういう目的で開発され、どのような仕組みで、どんな効果をもたらしているのか、そして次世代のHTTP/2.0ではどうなるのかを解説します。'>「最新の技術動向」に「Web表示の高速化を実現するSPDYとHTTP/2.0の標準化」を掲載しました。</a></li><li><a class='rsswidget' href='http://techlog.iij.ad.jp/archives/iijnews117' title=''>IIJエンジニアによるブログ「てくろぐ」に「インターネット・トリビア　あなたのパスワード、大丈夫ですか？」を掲載しました。</a></li><li><a class='rsswidget' href='http://www.iij.ad.jp/company/development/tech/activities/saw1-02/index.html' title='2013年1月に発表したSACMをベースとした機能課金モデルで無償提供するサービスアダプタ「SA-W1」の開発について、「SEIL(ザイル)シリーズ」での経験を交えてご紹介します。'>「最新の技術動向」に「クラウド環境でのルータ設定（後編）」を掲載しました。</a></li><li><a class='rsswidget' href='http://www.iij.ad.jp/company/development/tech/activities/saw1-01/index.html' title='2013年1月に発表したSACMをベースとした機能課金モデルで無償提供するサービスアダプタ「SA-W1」の開発について、「SEIL(ザイル)シリーズ」での経験を交えてご紹介します。'>「最新の技術動向」に「クラウド環境でのルータ設定（前編）」を掲載しました。</a></li><li><a class='rsswidget' href='https://sect.iij.ad.jp/d/2013/07/056557.html' title='以前の記事、BHEK2による大量改ざん、BHEK2を悪用した国内改ざん事件の続報 の続報です。現在も日本国内で繰り返し Web 改ざんが行われており、マルウェア感染の被害は継続、終息の兆しは見られません。'>「Security Diary」に「継続する Web 改ざんと Exploit Kit によるドライブバイダウンロード」を掲載しました。</a></li></ul></aside></section><!-- #secondary .widget-area -->
+				<footer id="colophon" role="contentinfo" class="span12">
+										<div id="page-footer" class="well clearfix">
+                                                <span class="pull-right"><a href="/feed">RSS feed</a></span>
+                        <span>&copy; 2010-2013 Internet Initiative Japan Inc.</span>
+					</div><!-- #page-footer .well .clearfix -->
+									</footer><!-- #colophon -->
+							</div><!-- #page -->
+		</div><!-- .container -->
+	<!-- 34 queries. 19.028 seconds. -->
+	<script type='text/javascript' src='http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/js/bootstrap.min.js?ver=2.0.3'></script>
+<script type='text/javascript' src='http://techlog.iij.ad.jp/wp-content/themes/techlog-bootstrap/js/the-bootstrap.min.js?ver=2.0.1-t1'></script>
+<!-- google analytics -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20986420-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- google analytics -->
+	</body>
+</html>

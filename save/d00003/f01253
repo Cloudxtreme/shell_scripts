@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- Edit only through cvs -->
+<html>
+<head>
+<title>The Arla project, SuSE</title>
+</head>
+<h2>The Arla project, SuSE releases</h2>
+
+<h3>Suse 9.1</h3>
+<body bgcolor="ffffff">
+
+The current RPM (arla-0.36-4) is based on arla-0.36 source release
+with SuSE specific bugfixes. It includes support for the
+kernels marked with ok:
+<p>
+
+<table><td WIDTH=20%>&nbsp<td>
+<table border=1>
+
+<tr> <th> &nbsp;     <th> default <th> smp    <th>  bigsmp <td> comment
+<tr> <td> 2.6.4-27   <td> -       <td> no src <td> no src  <td> No kernel source, no arla.
+<tr> <td> 2.6.4-29   <td> OK      <td> -      <td> -       <td>
+<tr> <td> 2.6.4-34   <td> OK      <td> OK     <td> OK      <td>
+<tr> <td> 2.6.4-52   <td> OK      <td> OK     <td> OK      <td>
+<tr> <td> 2.6.4-54.3 <td> OK      <td> OK     <td> OK      <td>
+<tr> <td> 2.6.4-54.5 <td> OK      <td> OK     <td> OK      <td>
+<tr> <td> 2.6.5-7.75 <td> OK      <td> OK     <td> OK      <td>
+
+</table>
+</table>
+
+<p>
+
+You find the RPM's you need for running 
+<a href="ftp://ftp.stacken.kth.se/pub/arla/distributions/SuSE-9.1/">
+arla on Suse 9.1 here</a> <BR>
+Use the lastest of the arla RPMs. If your kernel
+is not supported by the RPM, you can try to build
+your own RPM from the SRPM.
+<p>
+<h4> Known Issues </h4>
+<ul>
+  <li>
+  You will also need to install the "heimdal" and "heimdal-lib" packages from SuSE.
+  The easiest way is to search for "heimdal" in YaST and install all of them.
+  <li>
+  Arla does not work stabely when the cache partition resides on a
+  filesystem other than ext2 or ext3. As the default file system type
+  is reiserfs, you will probably need to create a new partition with 
+  ext2 or ext3.
+  The arla start script checks that your cache partiton mounted at 
+  <tt>/var/cache/arla</tt>
+  is of the correct type. If you know what you are doing, and you
+  want to change that, edit the startup script to fit your needs.
+  <li>
+  The SuSE folks did something new when they made the 2.6.5 kernels. You can't
+  build modules against these "as usual" so if you have these kernels installed
+  and build RPMs from the SRPM a new <tt>/lib/modules/VERSION/build.arla/</tt> 
+  directory will be made from your <tt>/lib/modules/VERSION/source/</tt> and
+  <tt>/lib/modules/VERSION/build/</tt> directories. You may want to clean
+  up that directory yourself when you are done.
+</ul>
+
+
+<h3>Older versions of SuSE</h3>
+
+There are no RPM's for those releases, try the SRPM or build from the source.
+The spec file in the SRPM tries to build a nnpfs kernel module for every
+kernel that has kernel source installed.
+
+</body>
+</html>

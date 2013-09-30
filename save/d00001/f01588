@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="must-revalidate" />
+<title>how to use pkgsrc on linux</title>
+
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="../../global.css" type="text/css" />
+<link rel="stylesheet" href="../../style.css" type="text/css" />
+<link rel="stylesheet" href="../../local.css" type="text/css" />
+
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_linux&amp;do=edit" />
+
+
+
+
+</head>
+<body><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/toggle.js" type="text/javascript" charset="utf-8"></script><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/relativedate.js" type="text/javascript" charset="utf-8"></script>
+    <div id="centralHeader">
+      <div id="logo">
+        <a href="http://www.NetBSD.org/"><img src="http://www.NetBSD.org/images/NetBSD-smaller.png" alt="[NetBSD Logo]"/></a>
+        <div id="name"><a href="http://www.NetBSD.org/">The NetBSD Project</a></div>
+        <div id="slogan"><a href="http://www.NetBSD.org/">&ldquo;Of course it runs NetBSD&rdquo;</a></div>
+      </div>
+      <div id="headerTools">
+	<div id="headerSearch">
+
+<form method="get" action="https://wiki.netbsd.org/cgi-bin/ikiwiki" id="searchform">
+<div>
+<input class="whiteOnBlack" type="text" id="searchbox" name="P" value="Search" size="12" maxlength="255" onfocus="if(this.value==this.defaultValue ) this.value='';" /> <input type="submit" value="Search" />
+</div>
+</form>
+
+
+	</div>
+      </div>
+    </div>
+
+    <div id="navBar" role="navigation">
+	<span class="doNotDisplay">
+          Navigation:
+        </span>
+	<ul>
+	<li><a href="http://www.NetBSD.org/">
+		  WWW Home</a></li>
+	<li>
+	<a href="http://www.NetBSD.org/">
+		  News &amp; Media</a><ul>
+	<li><a href="http://www.NetBSD.org//changes/">
+		    Recent changes</a></li>
+	<li><a href="http://blog.NetBSD.org/">
+		    NetBSD blog</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/events.html">
+		    Events</a></li>
+	<li><a href="http://www.NetBSD.org/changes/rss.html">
+		    Feeds</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/about/">
+		  About</a><ul>
+	<li><a href="http://www.NetBSD.org/about/">
+		    NetBSD</a></li>
+	<li><a href="http://www.NetBSD.org/foundation/">
+		    The NetBSD Foundation</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/">
+		    Advocacy</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/docs/">
+		  Documentation</a><ul>
+	<li><a href="http://www.NetBSD.org/docs/misc/index.html">
+		    FAQ &amp; HOWTOs</a></li>
+	<li><a href="http://www.NetBSD.org/docs/guide/en/">
+		    The Guide</a></li>
+	<li><a href="http://man.NetBSD.org/">
+		    Manual pages</a></li>
+	<li><a href="http://wiki.NetBSD.org/">
+		    Wiki</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/support/">
+		  Support</a><ul>
+	<li><a href="http://www.NetBSD.org/support/send-pr.html">
+		    Problem report guide</a></li>
+	<li><a href="http://www.NetBSD.org/cgi-bin/sendpr.cgi?gndb=netbsd">
+		    Report a bug</a></li>
+	<li><a href="http://www.NetBSD.org/support/query-pr.html">
+		    Query bug database</a></li>
+	<li><a href="http://www.NetBSD.org/support/security/">
+		    Security</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/community/">
+		  Community</a><ul>
+	<li><a href="http://onetbsd.org/">
+		    Blogs</a></li>
+	<li><a href="http://www.NetBSD.org/mailinglists/">
+		    Mailing lists</a></li>
+	<li><a href="http://mail-index.NetBSD.org/">
+		    List archives</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/developers/">
+		  Developers</a><ul>
+	<li><a href="http://cvsweb.NetBSD.org/">
+		    Browse source</a></li>
+	<li><a href="http://nxr.NetBSD.org/">
+		    Cross-reference</a></li>
+	<li><a href="http://releng.NetBSD.org/">
+		    Release engineering</a></li>
+	<li><a href="http://wiki.NetBSD.org/projects/">
+		    Projects list</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/ports/">
+		  Ports</a><ul>
+	<li><a href="http://www.NetBSD.org/ports/history.html">
+		    History</a></li>
+	<li><a href="http://www.NetBSD.org/ports/emulators.html">
+		    Emulators</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.pkgsrc.org/">
+		Packages</a><ul>
+	<li><a href="http://www.pkgsrc.se/">
+		    Browse packages</a></li>
+	<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+		    Release engineering</a></li>
+	</ul>
+	</li>
+	</ul>
+    </div>
+ 
+      	  
+		  <div class="actions">
+		    <ul>
+			<li><a href="../../">Wiki Home</a></li>
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_linux&amp;do=edit" rel="nofollow">Edit</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_linux&amp;do=comment">Comment</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_linux&amp;do=getsource">Source</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/cvsweb/wikisrc/pkgsrc/how_to_use_pkgsrc_on_linux.mdwn">History</a></li>
+		      
+			<li><a href="../../wiki/new_page" rel="nofollow">New</a></li>
+		      
+			<li><a href="../../recentchanges/">RecentChanges</a></li>
+		      
+		    </ul>
+		  </div>
+    </div>
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+<a href="../../">NetBSD Wiki</a>/<a href="../">pkgsrc</a>/
+</span>
+<span class="title">
+how to use pkgsrc on linux
+
+</span>
+</span><!--.header-->
+</div>
+</div>
+
+
+
+<div id="content">
+<p><strong>This page should use cross references to avoid duplicate content. Please help us by cleaning it up. ?</strong></p>
+
+<p><strong>Contents</strong></p>
+
+<div class="toc">
+<ol>
+	<li class="L1"><a href="#index1h1">See</a>
+	</li>
+	<li class="L1"><a href="#index2h1">Software requirements</a>
+	</li>
+	<li class="L1"><a href="#index3h1">Troubleshooting bootstrap</a>
+	<ol>
+		<li class="L2"><a href="#index1h2">Shell's echo command is not BSD-compatible</a>
+		</li>
+		<li class="L2"><a href="#index2h2">ARG_MAX undeclared</a>
+		</li>
+		<li class="L2"><a href="#index3h2">FORTIFY_SOURCE</a>
+		</li>
+		<li class="L2"><a href="#index4h2">libncurses not installed</a>
+		</li>
+	</ol>
+	</li>
+</ol>
+</div>
+
+
+<h1><a name="index1h1"></a>See</h1>
+
+<p><a href="http://www.netbsd.org/docs/pkgsrc/">Documentation</a>
+<a href="http://www.netbsd.org/docs/pkgsrc/platforms.html#linux">Linux-specific documentation</a>
+<a href="ftp://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/bootstrap/README.Linux">README.Linux</a></p>
+
+<h1><a name="index2h1"></a>Software requirements</h1>
+
+<p>Before you can use pkgsrc, you may need a few packages installed on your Linux system upfront.</p>
+
+<ul>
+<li>gcc (and libstdc++)</li>
+<li>libncurses-devel</li>
+<li>zlib and zlib-devel</li>
+<li>openssl-devel (optional but required for some packages)</li>
+</ul>
+
+
+<p>The names may vary, depending on what Linux distribution you are using. Also be mindful of the platform you are using (eg. i686 vs. x86_64 - some have different pre-required packages). Also note that some very basic tools such as file, patch, sed, and others are required, as well.</p>
+
+<h1><a name="index3h1"></a>Troubleshooting bootstrap</h1>
+
+<h2><a name="index1h2"></a>Shell's echo command is not BSD-compatible</h2>
+
+<p>If you see this error</p>
+
+<pre><code>ERROR: Your shell's echo command is not BSD-compatible.
+</code></pre>
+
+<p>This error is known to occur if /bin/sh is linked to /bin/dash (recent Ubuntu versions).</p>
+
+<p>The fix is to issue the following before commencing bootstrap: export SH=/bin/bash</p>
+
+<h2><a name="index2h2"></a>ARG_MAX undeclared</h2>
+
+<p>If bootstrap stops at</p>
+
+<pre><code>In file included from glob.c:12:                                                
+__glob13.c: In function globextend:                                             
+__glob13.c:836: error: ARG_MAX undeclared (first use in this function)
+</code></pre>
+
+<p>Then apply this patch <a href="http://mail-index.netbsd.org/pkgsrc-bugs/2008/06/21/msg026977.html">1</a></p>
+
+<h2><a name="index3h2"></a>FORTIFY_SOURCE</h2>
+
+<p>If bootstrap stops at</p>
+
+<pre><code>/usr/pkgsrc/bootstrap/work/bmake/arch.c: In function 'Arch_Touch':
+/usr/pkgsrc/bootstrap/work/bmake/arch.c:1038: warning: ignoring return
+value of 'fwrite', declared with attribute warn_unused_result
+*** Error code 1
+</code></pre>
+
+<p>This error occurs because Linux uses -DFORTIFY_SOURCES by default. Bootstrap can be achieved by:</p>
+
+<pre><code>CFLAGS="-U_FORTIFY_SOURCE" ./bootstrap 
+</code></pre>
+
+<h2><a name="index4h2"></a>libncurses not installed</h2>
+
+<p>If bootstrap stops at</p>
+
+<pre><code>ERROR: This package has set PKG_FAIL_REASON:
+ERROR: No usable termcap library found on the system.
+</code></pre>
+
+<p>Then install the libncurses-dev package</p>
+
+<p>On an RPM based system this might be via 'yum install ncurses-devel', and on a debia/ubuntu system 'apt-get install ncurses5-dev'</p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=pkgsrc%2Fhow_to_use_pkgsrc_on_linux&amp;do=comment">Add a comment</a>
+</div>
+
+</div>
+
+
+
+		      
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../how_to_use_pkgsrc/">how to use pkgsrc</a>
+
+
+</div><!-- #backlinks -->
+
+
+
+
+<div class="pagedate">
+Last edited <span class="relativedate" title="Fri, 08 Feb 2013 05:22:47 +0000">terribly early Friday morning, February  8th, 2013</span>
+<!-- Created <span class="relativedate" title="Fri, 08 Feb 2013 05:22:47 +0000">terribly early Friday morning, February  8th, 2013</span> -->
+</div>
+
+
+
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?do=prefs">Preferences | Logout</a>
+
+
+
+</div><!-- #pageinfo -->
+
+
+<!-- from NetBSD Wiki -->
+</div><!-- .pagefooter #footer -->
+
+
+
+</body>
+</html>

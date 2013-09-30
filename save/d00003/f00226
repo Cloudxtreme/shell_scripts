@@ -1,0 +1,501 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>News items for tag shiny - Koos van den Hout</title>
+<base href="http://idefix.net/~koos/">
+<meta name="description" content="Koos van den Hout Homepage">
+<meta name="keywords" content="Koos van den Hout">
+<meta name="Author" content="Koos van den Hout">
+<link href="koos.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="alternate" title="Koos van den Hout" type="application/rss+xml" href="/~koos/index.rdf">
+</head>
+<body>
+<div class="blockcontainer">
+<h1>News items for tag shiny - Koos van den Hout</h1>
+<div class="entry">
+
+<div class="generalitem newsitem"><strong>2013-02-11</strong> (<a href="newsitem.cgi/1360583111" title="Permanent link" rel="bookmark">#</a>) <span class="age">6 months ago</span>
+<blockquote>Browsing from one hamradio web log to the other I came across this gem:
+<a href="http://www.kb6nu.com/humorous-repeater-ids/">Humorous Repeater IDs - <span class="callsign">KB6NU</span>'s Ham Radio Blog</a>.
+Don <span class="callsign">AE5DW</span> of Amateur Radio Newsline recorded some humourous IDs for
+repeaters.
+<p></p>
+Repeaters have to announce themselves on their output frequency on a regular
+basis (the rules for this can differ per country). Default is an output of
+the callsign in morse code or synthesized voice, but the above is
+what you get when you let someone with a good voice and experience in
+radio making.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/broadcast" title="News items tagged with broadcast" rel="tag">broadcast</a>, <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/hamradio" title="News items tagged with hamradio" rel="tag">hamradio</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-01-04</strong> (<a href="newsitem.cgi/1357327859" title="Permanent link" rel="bookmark">#</a>) <span class="age">7 months ago</span>
+<blockquote><img src="http://idefix.net/~koos/pics/chirp-screengrab.png" title="CHIRP screengrab" alt="CHIRP screengrab" style="width: 475px; height: 184px;" class="imgfloatrightclear">
+After <a href="http://idefix.net/~koos/newsitem.cgi/1356605905">trying owx
+to talk to my Wouxun KG-UVD1P transceiver</a> a co-worker who is a licensed
+radio amateur showed me <a href="http://chirp.danplanet.com/">CHIRP: an open
+source programming tool for amateur radio</a> which does the programming of
+memory channels for different types of amateur radio sets with a friendly
+and easier to understand user-interface. For example I can select a set of
+channels from another channel list and paste them in my list.
+<p></p>
+Installing it on my <a href="http://idefix.net/~koos/dell-d630.html">laptop with Ubuntu</a> was easy since <a href="http://chirp.danplanet.com/projects/chirp/wiki/Running_Under_Linux">chirp is available via the ubuntu-hams-updates ppa</a>.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/hamradio" title="News items tagged with hamradio" rel="tag">hamradio</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-12-27</strong> (<a href="newsitem.cgi/1356605905" title="Permanent link" rel="bookmark">#</a>) <span class="age">8 months ago</span>
+<blockquote>As a christmas present I got a hamradio transceiver, a Wouxun KG-UVD1P.
+I should not use it until I get the right amateur radio license! All
+the more reason to study for it and pass the exam.
+<p></p>
+<div class="photokader"><img src="http://idefix.net/~koos/pics/Wouxun_KG-UVD1P.jpg" alt="Wouxon KG-UVD1P" title="Wouxon KG-UVD1P" style="width: 200px; height:424px;"><br>
+<a href="http://radiopics.com/Dreams/-%20By%20Manufacturer%20%28A-Z%29/Wouxun_KG-UVD1P.htm">Wouxon KG-UVD1P image from RadioPics Database</a>
+</div>
+I plan to use it to work FM repeaters when I get my license. I hope to do
+long rides on the recumbent again and using this radio at the same time.
+It is a small radio, it fits in my hand. The speaker microphone should make use
+on the recumbent easy.
+<p></p>
+Otherwise I'm getting myself familiarized with it and trying to
+understand it all. I bought it with a speaker microphone and a programming cable
+and software. The software with the programming cable came on a recordable
+small-format CD-ROM and only mentioned Midland product numbers so I had to
+look up that the Wouxon KG-UVD1P is also known as the Midland CT790. This is
+Windows software and since the cable has a PL2303 serial/usb convertor you
+also need a driver for that. Programming repeater names and frequencies into
+the radio using the software is easy.
+<p></p>
+Having to use Windows isn't my idea of very usable hardware, so I searched
+whether someone had already done something and I found 
+<a href="http://owx.chmurka.net/">Open Wouxon (OWX)</a> which allows reading
+the radio and writing it from Linux and other Unix versions. Reading over
+the serial/usb cable worked the first time:
+<pre class="commandlog">
+$ <strong>owx-check -p /dev/ttyUSB0 </strong>
+Found radio: KG669V
+$ <strong>owx-get -p /dev/ttyUSB0 -o file.bin</strong>
+Found radio: KG669V
+Reading address 0x1FC0 (99% done)
+$ <strong>cp file.bin backup.bin</strong>
+$ <strong>owx-export -i file.bin -o wouxon.csv</strong>
+$ <strong>vim wouxon.csv</strong>
+</pre>
+and I was able to make some edits,
+writing data back gave me timeouts on the first few tries where the
+<tt>owx-check</tt> utility showed perfect communication with the radio.
+<pre class="commandlog">
+$ <strong>owx-put -p /dev/ttyUSB0 -i file.bin -r backup.bin </strong>
+owx: Radio not responding
+$ <strong>owx-check -p /dev/ttyUSB0 </strong>
+Found radio: KG669V
+$ <strong>owx-put -p /dev/ttyUSB0 -i file.bin -r backup.bin </strong>
+owx: Radio not responding
+$ <strong>owx-check -p /dev/ttyUSB0 </strong>
+Found radio: KG669V
+$ <strong>owx-put -p /dev/ttyUSB0 -i file.bin -r backup.bin </strong>
+Found radio: KG669V
+Skipping address 0x1FF0 (99% done) 
+</pre>
+Strange, but in the end it all works.
+<p></p>
+The manual of the Wouxon KG-UVD1P gives me the idea that this radio is
+one where a lot is done in software. It can be programmed to go outside
+hamradio bands for other uses.  The manual is somewhat terse and the
+English used isn't too great, but it works for me.
+<p></p>
+I found this <a href="http://n9ewo.angelfire.com/kguvd1p.html">review of the Wouxon KG-UVD1P by N9EWO</a>
+which has more on longer use and compares it with other amateur radio
+sets. I'll post updates on this after I get to actually use it.
+<br>
+<a href="http://www.eham.net/reviews/detail/8524">Reviews of the Wouxon KG-UVD1P at eham.net</a>
+<p></p>
+<a href="http://www.wouxun.com/Two-Way-Radio/kg-uvd1P.htm">Wouxon KG-UVD1P manufacturer webpage</a>
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/hamradio" title="News items tagged with hamradio" rel="tag">hamradio</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-12-23</strong> (<a href="newsitem.cgi/1356299044" title="Permanent link" rel="bookmark">#</a>) <span class="age">8 months ago</span>
+<blockquote>Vandaag een PTT Ericsson model 51 DTMF geleerd met behulp van
+<a href="http://www.picbasic.nl/frameload.htm?http://www.picbasic.nl/ericsson-telefoon.htm">de DTMF omzetter van picbasic.nl met ondersteuning voor PTT Ericsson model 51</a>.
+Een wandtoestel wat een ontwerp is uit 1951. Het toestel wat we onderhanden
+hadden had een productiedatum 'VII 1964', vermoedelijk dus juli 1964. De
+PTT W65 is de opvolger hiervan.
+<p></p>
+Na het werkend krijgen van de DTMF omzetter hebben we het toestel aangesloten
+op een Cisco ATA 186 die gekoppeld is met de asterisk testcentrale zodat
+we de <a href="http://idefix.net/~koos/asterisk/002.html">sprekende klok in
+asterisk</a> en het <a href="http://idefix.net/~koos/asterisk/metarinasterisk.html">weerbericht in asterisk</a> konden bellen.
+En natuurlijk de telefoon laten rinkelen!
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/asterisk" title="News items tagged with asterisk" rel="tag">asterisk</a>, <a href="newstag.cgi/nederlands" title="News items tagged with nederlands" rel="tag">nederlands</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a>, <a href="newstag.cgi/voip" title="News items tagged with voip" rel="tag">voip</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-11-26</strong> (<a href="newsitem.cgi/1353960081" title="Permanent link" rel="bookmark">#</a>) <span class="age">9 months ago</span>
+<blockquote><blockquote class="webquote">
+One thing I love to do here at BA HQ is feature beautiful, time-lapse videos of the night sky. The advent of high-definition digital cameras has led to an explosion of these videos. If the photographer takes care, the result can be an ethereally lovely and (ironically) other-worldly feel to the animation.
+<p></p>
+My pal <a href="http://www.christophmalin.com/">Christoph Malin</a> is one such photographer. He is a member of <a href="http://www.twanight.org/newTWAN/index.asp">The World At Night</a>, a global effort to make more people aware of the beauty of the night sky. Over the past year and a half, he’s been traveling to the volcano island of La Palma, one of the Canary Islands off the coast of Morocco, filming the landscape and skyscape there. He generated over a terabyte of raw images (!!) and put them together to create this gorgeous time lapse video, <a href="http://vimeo.com/53845425">Island in the Sky</a>.
+</blockquote>
+<iframe src="http://player.vimeo.com/video/53845425?autoplay=0" width="398" height="224" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> You want to watch this in HD and fullscreen.
+<br>
+<span class="itemvia">Via <a href="http://www.slate.com/blogs/bad_astronomy/2012/11/26/time_lapse_video_clouds_and_stars_over_the_volcanic_la_palma_canary_island.html">Time-lapse video: clouds and stars over the volcanic La Palma Canary Island</a></span>
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/pictures" title="News items tagged with pictures" rel="tag">pictures</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-11-26</strong> (<a href="newsitem.cgi/1353897096" title="Permanent link" rel="bookmark">#</a>) <span class="age">9 months ago</span>
+<blockquote>Interesting article/presentation:
+<a href="http://www.scmagazine.com.au/News/323897,pen-tester-builds-wifi-war-bike.aspx">Pen tester builds wifi war-bike</a> about a motorcycle with
+war-driving capabilities based on kismet coupled with a heads-up display
+driven via a Raspberry Pi.
+<p></p>
+The video in the article of the presentation is not very good, and I can't
+find a website about this project at the moment.</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a>, <a href="newstag.cgi/wardriving" title="News items tagged with wardriving" rel="tag">wardriving</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-11-21</strong> (<a href="newsitem.cgi/1353522677" title="Permanent link" rel="bookmark">#</a>) <span class="age">9 months ago</span>
+<blockquote>Ik heb meegedaan aan de hackcontest ter ere van 20 jaar SURFcert. Ik vond het
+belangrijk om mee te doen omdat de Universiteit Utrecht betrokken is geweest
+bij de opzet van SURFcert.
+<p></p>
+De contest bestond uit twee delen: een eerste deel waarin een ketting van
+puzzels opgelost moesten worden. Deze challenge was afgeleid van een van
+de <a href="http://www.dragonresearchgroup.org/challenges/">Dragon Research
+Group challenges</a>. Elke stap leverde een URL op naar de volgende stap.
+Een stap met een qr-code met een gemenigheidje er in
+(de meeste qr-code software leest geen gespiegelde qr-codes), een stap met
+een .pcap file waar een sessie met urls uit gehaald moesten worden, een stap
+met een .exe file die een ROT-47 versleutelde url bevatte (waarbij de wat
+meer op windows gerichte onderzoeker een decompiler zou gebruiken) en een
+jpg file met een url erin gestopt met steganografie met encryptie.
+<p></p>
+Het tweede deel was een 'capture the flag': het inbreken in een niet
+geheel up-to-date windows computer met metasploit en dan het daarop
+vinden van 5 'flag files'. De inbraak lukte met een msrpc exploit en daarna
+ging het vinden van de eerste 2 files vlot voor mij. De 3e en de 4e kon ik
+vinden nadat ik van de meest recent ingelogde gebruiker op het systeem alle
+'Recent Document' links aan het volgen was.
+<p></p>
+Het eindresultaat was dat ik gewonnen heb! Surfnet maakte het gelijk bekend:
+<a href="http://www.surfnet.nl/nl/nieuws/Pages/SpannendehackcontestSURFcertgewonnendoor.aspx">Spannende hackcontest SURFcert gewonnen door Koos van den Hout</a>.
+<br>
+Juist die gedachtensprongen die nodig waren om alles op te lossen maakte het
+leuk en uitdagend voor me.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/nederlands" title="News items tagged with nederlands" rel="tag">nederlands</a>, <a href="newstag.cgi/security" title="News items tagged with security" rel="tag">security</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-11-05</strong> (<a href="newsitem.cgi/1352144226" title="Permanent link" rel="bookmark">#</a>) <span class="age">9 months ago</span>
+<blockquote><img src="http://idefix.net/~koos/pics/google-ad-thankyou-for-helping-us-measure-ipv6.png" alt="Google ad: Thank you for helping us measure IPv6"
+title="Google ad: Thank you for helping us measure IPv6">
+<br>
+Interesting google ad: "Thank you for helping us measure IPv6", linking to
+<a href="http://labs.apnic.net/ipv6-measurement/">Measuring IPv6 - APNIC</a>.
+Yes, that was a session over IPv6 from home.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-10-15</strong> (<a href="newsitem.cgi/1350325638" title="Permanent link" rel="bookmark">#</a>) <span class="age">10 months ago</span>
+<blockquote>Opvallend artikel: <a href="http://www.pi4raz.nl/index.php?option=com_content&amp;task=view&amp;id=3055&amp;Itemid=43">Portofoon steeds meer een smartphone - PI4RAZ</a> met als opmerkingen:
+<blockquote class="webquote">Portofoons en smartphones lijken steeds meer op elkaar. Zowel het uiterlijk, het gebruik als de functionaliteiten komen samen. Een logische ontwikkeling, vindt Arend Massier, Sales Manager bij Motorola-dealer Selecsys: "Een portofoon kan soms te intimiderend overkomen."</blockquote>
+Mijn eigen gedachte is dat die ontwikkeling vooral komt omdat de professionele
+portofoons steeds meer digitale netwerk functies krijgen, zoals de in het
+artikel genoemde ticket management en e-mail. Dat ze dan minder op een
+portofoon lijken is in sommige omgevingen (zoals de genoemde hotels)
+inderdaad een voordeel.
+<p></p>
+Grappig is dat ik me vandaag juist op de fiets afvroeg of ik met een
+portofoon voor amateur-radio toepassingen misschien over zou komen als
+beveiliger of agent, wat in het verkeer niet altijd even handig zou zijn.
+Als ik het radio-amateur examen gehaald heb wil ik wel beginnen met wat
+experimenten met een portofoon op de ligfiets. Maar: eerst maar eens
+dat examen halen!
+<p></p>
+<span class="itemvia">Gevonden via <a href="https://twitter.com/Wilboard/status/257822026910298112">Beste mederadiozendamateurs, een portofoon is intimiderend. Daarom gaan ze steeds meer lijken op smartphones. http://www.pi4raz.nl/index.php?option=com_content&amp;task=view&amp;id=3055&amp;Itemid=43 …</a></span>
+<p></p>
+<strong>Update 2013-02-19:</strong>
+Ik kwam ook een opmerking van Hans PD0AC tegen in
+<a href="http://hamgear.wordpress.com/2012/07/21/i-have-been-scammed/">I have been scammed! - Ham Radio Blog PD0AC</a>:
+<blockquote class="webquote">
+Every time I'm driving my car for example, holding a microphone or
+some hand-held, people slam on their brakes. I can see the wives yell
+"Slow down, it might be police!" to their husbands.
+</blockquote>
+Dus de gedachte "aangezien worden voor beveiliger of agent" is niet zo vreemd.
+Maar met een auto is die kans natuurlijk stukken groter dan met een fiets.
+Om op de fiets aangezien te worden voor politie-agent moet ik op een
+witte mountainbike door voetgangersgebieden gaan rijden.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/hamradio" title="News items tagged with hamradio" rel="tag">hamradio</a>, <a href="newstag.cgi/nederlands" title="News items tagged with nederlands" rel="tag">nederlands</a>, <a href="newstag.cgi/recumbent" title="News items tagged with recumbent" rel="tag">recumbent</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-10-09</strong> (<a href="newsitem.cgi/1349781273" title="Permanent link" rel="bookmark">#</a>) <span class="age">10 months ago</span>
+<blockquote>I just found <a href="http://elmercat.org/phone/intercept/">Intercept Service with Jane Barbe</a> where <a href="http://elmercat.org/">ElmerCat</a> has
+put a lot of time and energy into saving, splitting and digitizing phone
+phreaking recordings. My first thought was to take the Jane Barbe recordings
+and set up a few intercepts of my own. Maybe for playing with the people
+who try to break in to my asterisk testserver or (more constructive) to
+set up a Jane Barbe intercept service which can be used on <a href="https://www.ckts.info/">Collectors*Net</a>.
+<br>
+<span class="itemvia">Found (unsurprisingly) via <a href="http://blog.historyofphonephreaking.org/2012/10/1000-abstract-machines-and-a-new-generation-of-phone-phreaks.html">"1000 Abstract Machines" ... and a New Generation of Phone Phreaks? - The History Of Phone Phreaking</a>.</span>
+<p></p>
+<strong>Update:</strong>
+Ok, using the 'Jane Barbe' digits in Asterisk isn't very hard. Download the
+.mp3 files from soundcloud and convert them to the asterisk .gsm format:
+<pre class="commandlog">
+$ <strong>mkdir janebarbe</strong>
+$ <strong>sox JB-0-neutral.mp3 -r 8000 -c 1 janebarbe/0.gsm</strong>
+</pre>
+..
+<pre class="commandlog">
+$ <strong>sox JB-is-not-in-service.mp3 -r 8000 -c 1 janebarbe/is-not-in-service.gsm </strong>
+$ <strong>sox JB-the-number-you-have-reached.mp3 -r 8000 -c 1 janebarbe/the-number-you-have-reached.gsm</strong>
+</pre>
+And put that entire janebarbe directory in the directory where asterisk
+expects the digit files for language 'janebarbe' which is
+<tt>/usr/share/asterisk/sounds/digits/janebarbe/</tt> in the 'old' directory
+structure and <tt>/usr/share/asterisk/sounds/janebarbe/digits/</tt> in the
+'new' directory structure. Look at <a href="http://www.voip-info.org/wiki/view/Asterisk+multi-language">Asterisk multi-language - voip-info.org</a> for
+details on directory structures.
+<p></p>
+Using the digits is now simple, a test:
+<pre>
+exten =&gt; s,1,Answer()
+exten =&gt; s,n,Wait(1)
+exten =&gt; s,n,Playback(digits/janebarbe/the-number-you-have-reached)
+exten =&gt; s,n,Set(CHANNEL(language)=janebarbe)
+exten =&gt; s,n,SayDigits(1234567890)
+exten =&gt; s,n,Playback(digits/janebarbe/is-not-in-service)
+exten =&gt; s,n,Hangup
+</pre>
+Will have Jane Barbe telling you what you expect. This can be used as an
+invalid-number intercept.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/asterisk" title="News items tagged with asterisk" rel="tag">asterisk</a>, <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/phreaking" title="News items tagged with phreaking" rel="tag">phreaking</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a>, <a href="newstag.cgi/voip" title="News items tagged with voip" rel="tag">voip</a>, <a href="newstag.cgi/vroegah" title="News items tagged with vroegah" rel="tag">vroegah</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-10-05</strong> (<a href="newsitem.cgi/1349460966" title="Permanent link" rel="bookmark">#</a>) <span class="age">10 months ago</span>
+<blockquote>I'm preparing a presentation and I got distracted by the possibility of
+a remote presenter. Bluetooth presenters that act as a human input device are
+available but somewhat expensive for the few presentations I give. So I
+looked at the other option: use a mobile phone as bluetooth device. On the
+<a href="http://idefix.net/~koos/nokia-e71.html">Nokia E71</a> a wireless
+presenter is included (WiPresenter) but it needs a local program on the
+laptop which only has versions for Windows. A bit of google searching found
+me <a href="http://code.google.com/p/amora/">Amora: A Mobile Remote Assistant,
+using a symbian60 phone as presenter on Linux</a>.
+<p></p>
+It works, although I note something: the app wants to use the numeric keys
+but the keyboard is in normal mode, so I have to type function+number for
+special keys, but the middle key of the navigation pad works to get to the
+next slide. Now back to working on the presentation....
+<p></p>
+<strong>Update:</strong>
+Presentation went fine. Things I noticed about amora: the actions aren't
+noticed by the screensaver, so the laptop screen went dark a few times.
+Disabling your screensaver is always a good idea for presentations.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a>, <a href="newstag.cgi/work" title="News items tagged with work" rel="tag">work</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-10-04</strong> (<a href="newsitem.cgi/1349341415" title="Permanent link" rel="bookmark">#</a>) <span class="age">10 months ago</span>
+<blockquote><iframe width="560" height="315" src="http://www.youtube.com/embed/FDoDk4D2RAw" frameborder="0" allowfullscreen></iframe>
+<p></p>
+Another awesome timelampse,
+<span class="itemvia">Via <a href="https://plus.google.com/108952536790629690817/posts/26x5Uhkz9DB">Faces turned upward, a telescope array scans the southern skies</a> Philip Plait</span>
+<p></p>
+Night landscapes and the Milky Way always work very good in timelapses.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-09-28</strong> (<a href="newsitem.cgi/1348863229" title="Permanent link" rel="bookmark">#</a>) <span class="age">11 months ago</span>
+<blockquote>I found <a href="https://addons.mozilla.org/en-US/firefox/addon/ipvfox/">IPvFox</a>,
+a firefox extension which lists all servers involved in a page and their
+IPv6/IPv4 addresses. The use-case is seeing how much of those use IPv6, but
+it's also interesting to see how many hosts are involved in a webpage. With
+images, frames, scripts which can all come from different places some pages
+have interesting dependencies. From a few sites which I tried the one which
+had the most servers involved turned out to be
+<a href="http://www.cbc.ca/north/">CBC North</a> with 23 servers. With
+a few dual-stack servers, including a trackingserver for
+<a href="http://www.visualrevenue.com/">visual revenue</a>, a company
+measuring web traffic for media companies, who seem to be interested in
+IPv6 traffic measurements.
+<p></p>
+<strong>Update:</strong>
+There is one detail.. as stated on the webpage:
+<blockquote class="webquote">IPvFox provides a panel listing the hosts from which the current page and its resources were loaded.</blockquote>
+So this is interesting in an environment with outside IPv4 and IPv6
+connections. When I use a proxy which can be connected via IPv6 the display
+gets very boring: the address of the host from which the resource was loaded
+is always the IPv6 address of the proxy.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a>, <a href="newstag.cgi/web" title="News items tagged with web" rel="tag">web</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-09-17</strong> (<a href="newsitem.cgi/1347894104" title="Permanent link" rel="bookmark">#</a>) <span class="age">11 months ago</span>
+<blockquote>The latest debian iso images support both USB and CD booting, the image
+can both be burned to cd and copied to a USB key, simply as
+<pre class="commandlog">
+# <strong>cat debian.iso > /dev/disk/by-path/..usb..; sync</strong>
+</pre>
+I was wondering how that was done, and found
+<a href="http://mjg59.dreamwidth.org/4957.html">Further adventures in EFI booting - mjg59</a> which mentions <a href="http://www.syslinux.org/wiki/index.php/Doc/isolinux#HYBRID_CD-ROM.2FHARD_DISK_MODE">Hybrid cd-rom/harddisk mode in isolinux</a> and a simple explanation at <a href="http://wiki.geteasypeasy.com/Hybrid_ISO/IMG_format#How_the_Hybrid_ISO.2FIMG_works"> How the Hybrid ISO/IMG works</a>.
+<p></p>
+It's an interesting trick. And with <tt>isohybrid</tt> it's easy to implement.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-09-07</strong> (<a href="newsitem.cgi/1347017159" title="Permanent link" rel="bookmark">#</a>) <span class="age">11 months ago</span>
+<blockquote>Another beautiful timelapse compilation... watch it in HD + fullscreen.
+<p></p>
+<iframe src="http://player.vimeo.com/video/48787310" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href="http://vimeo.com/48787310">Purely Pacific Northwest</a> from <a href="http://vimeo.com/theartoftimelapse">John Eklund</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+This must have cost a lot of cold nights out. And some of those timelapses
+will have been really difficult to get the exposure time right for balanced
+amounts of light.
+<p></p>
+I got around to browsing the rest of the videos by John Eklund and his
+website and it's all awesome stuff.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/pictures" title="News items tagged with pictures" rel="tag">pictures</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-08-22</strong> (<a href="newsitem.cgi/1345638886" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 year ago</span>
+<blockquote>Home automation and monitoring with ideas I like:
+<a href="http://kaikreuzer.blogspot.de/2012/08/openhab-1.html">openHAB 1.0 - Home Automation For Geeks</a>. One thing quite notable to me is the option
+for privacy in measuring:
+<blockquote class="webquote">Persistence and Charting – Store your values and states anywhere you like: In a local database (classic or round-robin), in dedicated log files or even in an Internet-of-Things cloud service. Use the persisted data for defining complex automation logic or for dynamic chart generation.</blockquote>
+So you don't have to export all your data exactly logging your daily life to
+some external service. Very good! Lots better than all those devices that
+ship your data out first and give access to you and who else later, like
+the 'smart meter'.
+<p></p>
+The current user-interface options are very modern-gadget centric
+(android mobile browser or apple mobile device browser) but given the
+fact that it also has a clearly defined REST api, developers can write
+other user interfaces.
+<p></p>
+<span class="itemvia">Via <a href="https://twitter.com/jpmens/status/238205226992144384">openHAB 1.0 - Home Automation For Geeks - Jan-Piet Mens</a></span></blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/privacy" title="News items tagged with privacy" rel="tag">privacy</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-07-07</strong> (<a href="newsitem.cgi/1341666682" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 year ago</span>
+<blockquote>Interesting article: <a href="http://arstechnica.com/tech-policy/2012/07/how-software-defined-radio-could-revolutionize-wireless/">How software-defined radio could revolutionize wireless - Ars technica</a> about new hardware for
+software defined radio (SDR). <a href="http://pervices.com/">Per Vices</a>
+is introducing the <a href="http://pervices.com/about.html">Phi PCIe software
+defined radio</a> with quite interesting technical specifications:
+receive and transmit up to 200 MHz of bandwidth from 100 kHz to 4 GHz.
+<p></p>
+It's still at a price ($745 - $849) where you don't simply buy one to
+find out later what you are going to do with it but according to the
+article Per Vices hopes for prices to drop once interest rises. This is
+one good point of this hardware: this means 'competition' in high-end
+gnuradio hardware.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/hamradio" title="News items tagged with hamradio" rel="tag">hamradio</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-05-04</strong> (<a href="newsitem.cgi/1336160317" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 year ago</span>
+<blockquote>Awesome time lapse video by Shawn Reeder with images from
+Yosemite National Park:<br>
+<iframe src="http://player.vimeo.com/video/40802206?title=0&amp;byline=0&amp;portrait=0" width="400" height="225" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><a href="http://vimeo.com/40802206">Yosemite Range of Light</a> from <a href="http://vimeo.com/shawnreeder">Shawn Reeder</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+<span class="itemvia">Via <a href="http://blogs.discovermagazine.com/badastronomy/2012/05/04/yosemite-time-lapse/">Yosemite time lapse - Bad Astronomy</a></span>
+<p></p>
+And on the subject of time lapse, a NASA video of Aurora activity set to
+music:<br>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/NaiG5f1nbEs?rel=0" frameborder="0" allowfullscreen></iframe>
+<br>
+<span class="itemvia">Via <a href="http://blogs.discovermagazine.com/badastronomy/2012/04/03/the-green-fire-of-the-aurora-seen-from-space/">The green fire of the aurora, seen from space - Bad Astronomy</a></span>
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-01-09</strong> (<a href="newsitem.cgi/1326097946" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 year ago</span>
+<blockquote>Interesting videos in wired: <a href="http://www.wired.com/rawfile/2012/01/urban-underground/">Short Films Expose Cities' Subterranean Spaces - Raw file - Wired</a>.
+<p></p>
+The articles links to several sites for urban explorers. The collection
+of photographs and videos at <a href="http://www.silentuk.com/">Silent UK Urban
+exploration and underground photography</a> is awesome. I've spent quite
+some time this weekend browsing the stories and photographs. I would buy a
+poster of the fourth photograph in <a href="http://www.silentuk.com/?p=1559">Northern City Line - Silent UK</a>.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/pictures" title="News items tagged with pictures" rel="tag">pictures</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2011-08-11</strong> (<a href="newsitem.cgi/1313087660" title="Permanent link" rel="bookmark">#</a>) <span class="age">2 years ago</span>
+<blockquote>I'm browsing offerings of DAB radio tuners. Not because a lot of radio
+services are available already, but I am interested in transmission technology
+and somebody has to be the first.
+<p>
+</p>
+Currently I should be able to receive the public radio stations and a thematic
+station (Radio Top 2000) according to
+<a href="http://radio-tv-nederland.nl/dab/dab.html">T-DAB netwerk van de Publieke Omroep</a>. Frequencies have been allocated for the commercial radio
+stations and they will use DAB+ according to
+<a href="http://radio-tv-nederland.nl/dab/dab-plus.html">T-DAB+ netwerk van de publiek regionale, de landelijke en niet-landelijke commerciele omroepen</a>
+<p>
+</p>
+There is not a lot on offer. Nothing in the physical shops I see, some
+offerings in webshops. But technical details are really sparse in the webshops.
+A simple detail like 'DAB+ support' which is needed to be a bit future-proof,
+or which frequencies can be received. Licenses have been given out in the
+Netherlands for Band III VHF (174-240 MHz) and L band (1452-1492 MHz). There
+is a frequency allocation for local radio stations in the L-band, but it will
+take years before anything happens there. If I invest any money in this
+experiment, I want it to be future-proof.
+<p>
+</p>
+I looked at the following:
+<ul>
+<li><a href="http://link.marktplaats.nl/1000915745">Acoustic Solutions SP111 DAB FM Tuner met RDS on marktplaats</a>. Searching and searching for specs finds
+<a href="http://www.ads-worldwide.net/products/dab_fm_tuner_acoustic_solutions_quality_hifi_separate_value.php">Acoustic Solutions SP 111 DAB / FM Tuner</a>
+which lists the bands received, but I miss DAB+ support. Which seems
+to be the issue with most second-hand equipment.
+<li><a href="http://www1.conrad.nl/scripts/wgate/zcop_nl3/?~template=pcat_product_details_document&object_guid=32141749BDE6432CE10000000A0103A0&master_guid=&master_typ=&no_brotkrumennavi=&ownrow=8&p_load_area=1310101&p_artikelbilder_mode=Ein&p_sortopt=object_description&page=1&p_catalog_max_results=20&cachedetail=#">Sangean DAB radio draagbaar DPR 99 conrad</a>
+which has DAB+ but only Band III support.
+</ul>
+Lots of information about DAB at <a href="http://en.wikipedia.org/wiki/Digital_Audio_Broadcasting">Digital Audio Broadcasting - Wikipedia</a>
+<p>
+</p>
+Ideal would be to have an interface for my laptop to receive DAB/DAB+ metadata
+and audio so I can scan services even at other locations, but there is
+nothing available at the moment. It seems the hardware developed for
+<a href="http://www.lrr.in.tum.de/Par/arch/dab/">DAB receiving and monitoring hardware with Linux support</a> has been discontinued.
+<p>
+</p>
+Maybe I need to get involved with <a href="http://wiki.hx2.org/Radio">Hx2 radio</a> and work to add a DAB transmitter for the next hacker conference in
+the Netherlands on an 'event' and/or 'experimental' license.
+There is a complete toolchain for generating DAB/DAB+ radio
+streams using Linux at <a href="http://www.opendigitalradio.org/index.php/Main_Page">Open digital radio</a>. Funny: transmitting DAB+ with Linux is easier
+than receiving it.
+<p></p>
+<strong>Update:</strong>
+Carefully browsing the manuals for all the products in the DAB-radio's category
+at conrad.nl shows me <em>none of them</em> supports L-band DAB. I predict
+L-band local radio (for which there is a frequency allotment, see
+<a href="http://radio-tv-nederland.nl/dab/dab-lband.pdf.pdf">L-band planning lokale omroep - radio-tv-nederland.nl</a>) will have a very difficult start
+when most receivers can't receive them.
+<p></p>
+<strong>Update 2011-08-15:</strong>
+Browsing some on-line sellers found the answer for a simple DAB/DAB+ and Band III / <strike><abbr title="No, read the updates :-(">L-Band</abbr></strike> capable DAB radio: The <a href="http://www.pure.com/products/product.asp?Product=VL-61028&amp;Category=">Pure One Mini</a>.
+But in order to buy it with the right powerplug and the right firmware I had
+to shop via Germany. Simple solution ... <a href="http://www.virtualbookcase.com/scripts/redir.php?lnkid=20&amp;isbn=B0029F2W3W">Pure One Mini Tragbares Radio (DAB/DAB+/UKW-Tuner, 1,6 Watt RMS) schwarz - Amazon.de</a>.
+<p></p>
+<strong>Update:</strong>
+And now I discover there is a Dutch webshop which offers DAB+ radio's,
+including Pure models. For the next person looking: <a href="http://www.radiowinkel.com/">De radiowinkel</a>.
+<p></p>
+<strong>Update 2011-08-16:</strong>
+No the Pure One Mini is <strong>NOT</strong> L-band capable. I thought I
+checked thoroughly, but I guess I assumed something wrong.
+<p></p>
+<strong>Update 2011-08-18:</strong>
+I asked Pure technical support about making the listings clearer for L-band
+support. The answer is that L-band support is being phased out, but radios
+sold to countries where L-band is in use will support it. Too bad there is
+no Pure Netherlands website (yet).
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/broadcast" title="News items tagged with broadcast" rel="tag">broadcast</a>, <a href="newstag.cgi/dab" title="News items tagged with dab" rel="tag">dab</a>, <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/hamradio" title="News items tagged with hamradio" rel="tag">hamradio</a>, <a href="newstag.cgi/rant" title="News items tagged with rant" rel="tag">rant</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+&nbsp;&nbsp;<a href="newstag.cgi/shiny/1">Older news items for tag shiny ⇒</a><hr class="hider">
+</div>
+</div>
+<div class="addressbox">
+<div class="infloatright"><a href="http://6bone.informatik.uni-leipzig.de/ipv6/stats/stats.php3" title="My homepage reachable via IPv6!"><img src="icons/ipv6-ready.png" style="width:80px; height: 15px; border: none;"><img src="http://6bone.informatik.uni-leipzig.de/ipv6/stats/log.php3?URL=page.idefix.net&ImageId=6" style="width: 1px; height: 1px; border: none; padding: 0px;" alt="IPv6 ready"></a></div>
+<a href="http://idefix.net/" rel="author">Koos van den Hout</a>, reachable as <a href="mailto:koos+website@koos.idefix.net">koos+website@koos.idefix.net</A>.
+<a href="http://pgp.surfnet.nl:11371/pks/lookup?op=vindex&amp;search=0xF0D7C263&amp;fingerprint=on">PGP key DSS/1024 0xF0D7C263</a>
+<a href="/~koos/index.rdf" title="RSS feed" class="rssfeed">RSS</a>
+<br>
+Other webprojects: <a href="http://www.camp-wireless.org/">Camp Wireless, wireless Internet access at campsites</a>,
+<a href="http://www.virtualbookcase.com/">The Virtual Bookcase, book reviews</a>,
+<a href="http://weather.idefix.net/">Weather maps</a>
+</div>
+</body>
+</html>

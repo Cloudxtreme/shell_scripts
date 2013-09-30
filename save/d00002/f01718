@@ -1,0 +1,243 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <title>useful scripts and other contributed files for gnuplot</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="hands and eyes">
+   <link text="text/css" href="../gnuplot.css" rel="stylesheet">
+</head>
+<body>
+
+<hr>
+<h1>contributed scripts and other files for gnuplot</h1>
+
+Table of contents:
+<ul>
+    <li>
+    <a href="#postscript-prologue">Post-processing postscript files</a>
+    </li>
+    <li>
+    <a href="#postprocess-postscript">Post-processing postscript files</a>
+    </li>
+    <li>
+    <a href="#tricks-here">Helpful gnuplot scripts hosted here</a>
+    </li>
+    <li>
+    <a href="#tricks-web">Helpful gnuplot scripts hosted on the web</a>
+    </li>
+    <li>
+    <a href="#fun">Fun gnuplot scripts hosted here</a>
+    </li>
+    <li>
+    <a href="#palettes">User-defined palettes</a>
+</ul>
+
+<p><hr><p>
+
+<a name="postscript-prologue">
+<h2>PostScript prolog files</h2>
+<ul>
+    <li>
+    The PostScript terminal driver in gnuplot version 4.2 loads prolog information
+    from external files into each PostScript file output by gnuplot.  This allows
+    local customization of the default page settings, encodings, color usage, and so
+    on.  Here are contributed prolog files.
+	<dl>
+	<dt><a href="files/cp1252.ps">cp1252.ps</a>
+	<dd>Encoding vector approximating code page 1252 (ISO-LATIN1 + a few special symbols).
+	    See discussion of 
+	    <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=1734995&group_id=2055&atid=302055">
+	    Patchset #1734995</a>. Contributed by Thomas Henlich.  </dd>
+	<dt><a href="files/prologue_newpointtypes.ps">prologue_newpointtypes.ps</a>
+	<dd>Replacement for the default prologue.ps file that redefines point types 16-24.
+	    See discussion of
+	    <a href="http://sourceforge.net/tracker/index.php?func=detail&aid=1958517&group_id=2055&atid=352055">
+	    Feature Request #1958517</a>. Output of 'test' command showing the new types 
+	    <a href="files/test_newpointtypes.ps">test_newpointtypes.ps</a>  </dd>
+	</dl>
+    </li>
+</ul>
+</a>
+
+<p><hr><p>
+
+<a name="postprocess-postscript">
+<h2>Post-processing PostScript files</h2>
+</a>
+
+<ul>
+    <li>
+    <a href="files/fixbb">fixbb</a>:
+    This script fixes bounding box size of (encapsulated) postscript files
+    (useful not only for gnuplot output, works also on multipage documents). It
+    is needed as most postscript-producing applications do not estimate the box
+    size correctly, and the size is a must for figure inclusion to other
+    documents, for example LaTeX.
+    Usage:
+	<pre>
+	fixbb *.eps
+	</pre>
+    </li>
+
+    <li>
+    <a href="files/pm3dCompress.awk">pm3dCompress.awk</a>:
+    This awk script tries to shorten postscript file with a <tt>pm3d</tt> map or
+    surface. It replaces most frequent commands by short definitions, making the
+    file size twice smaller.
+    Usage:
+	<pre>
+	awk -f pm3dCompress.awk _original_.ps >reduced.ps
+	</pre>
+    </li>
+
+    <li>
+    <a href="files/pm3dConvertToImage.awk">pm3dConvertToImage.awk</a>:
+    This awk script tries to shorten maps in a postscript file created by
+    <tt>set pm3d map</tt>. If the input data formed a rectangular equidistant grid
+    (matrix), then its postscript representation is converted into an image
+    operator with 256 levels of gray or colour. This conversion makes the image
+    20 times smaller.
+    Usage from within gnuplot and from your command line shell, respectively:
+	<pre>
+	gnuplot> set out "|awk -f pm3dConvertToImage.awk >image.ps"
+
+        ~/work$ awk -f pm3dConvertToImage.awk <map.ps >image.ps
+	</pre>
+    </li>
+
+</ul>
+
+
+<p><hr><p>
+
+
+<a name="tricks-here">
+<h2>Helpful gnuplot scripts hosted here</h2>
+</a>
+
+
+<ul>
+    <li>
+    <a href="files/gpsavediff">gpsavediff</a>:
+    Script to strip default <tt>set</tt> values from a given gnuplot input
+    file; usually used to shorten a file created by gnuplot's <tt>save</tt>
+    command. Usage:
+    <pre>
+	gpsavediff [gnuplot_save_file]
+    </pre>
+    If no file given, then take standard input. Result is printed on standard output.
+    Examples:
+    <pre>
+	~/work$ gpsavediff sinc.gp >new_sinc.gp
+
+	gnuplot> save "|gpsavediff >sinc.gp"
+    </pre>
+    </li>
+
+    <li>
+    <a href="files/colorpts.zip">colorpts</a>:
+    The enclosed script <tt>colorpts.awk</tt> draws list of 3D points (3D
+    coordinates) as colour rectangles in <tt>set pm3d map</tt> with colour
+    according to the point z-coordinate and any specified lateral size. Try the
+    enclosed <tt>colorpts-demo.gp</tt>. You may find this script useful, even though
+    gnuplot supports something similar by <tt>splot 'a.dat' with points palette</tt>
+    (using predefined point shapes).
+    </li>
+
+    <li>
+    <a href="files/label_contours.awk">label_contours.awk</a>:
+    The enclosed script <tt>label_contours.awk</tt> generates gnuplot script
+    containing text labels to label contours found in a file generated by
+    a gnuplot splot command with output to the table terminal. The output should be
+    redirected to another file and then be loaded into gnuplot; this results in a
+    contour plot.<br>
+    Example of use (from gnuplot):
+<pre>
+    set contour base; set cntrparam levels 15; unset surface
+    set table "contour.dat"
+    splot x*x+y*y
+    unset table
+    !awk -f label_contours.awk -v nth=10 textcolor=-1 inclt=1 contour.dat >tmp.gp
+    reset; set key outside left; load "tmp.gp"
+</pre>
+    </li>
+
+</ul>
+
+<p><hr><p>
+
+<a name="tricks-web">
+<h2>Helpful gnuplot scripts hosted on the web</h2>
+</a>
+
+<ul>
+   <li>The <a href="http://ricardo.ecn.wfu.edu/~cottrell/qplot/">Qplot</a>
+   package to plot quarterly time data
+   </li>
+
+   <li>A <a href="http://www.uni-leipzig.de/~biopsych/widmann/boxfill-0.2.tar.gz">perl script</a>
+   to create filled boxes with the postscript terminal, by Andreas Widmann. The
+   script draws boxed keys, and fills (and outlines) boxes by post-processing
+   gnuplot postscript output. This is new in comparison to the patches of Steve
+   Cumming and Bernhard Reiter since it works for postscript output (Steve
+   Cummings patch only works well only on non-vector oriented terminals) and
+   you don't have to go through fig which implies some heavy restrictions.
+   <br>
+   Note: gnuplot 4.0 has native support for filled boxes.
+
+   <li><a href="files/dat2latex.pl">dat2latex.pl</a>: 
+    a script that converts columns of a data file into LaTeX table(s).
+    (Note: script formerly called gp2tex.gpl.)
+    </li>
+   
+</ul>
+
+<p><hr><p>
+
+<a name="platform-specific">
+<h2>Contributed patches for specific platforms</h2>
+</a>
+
+<ul>
+   <li><a href="files/ultrix-sprintf.patch">ultrix-sprintf.patch</a>: Needed in order to compile mousing support under Ultrix or SunOS 4, or any other system with an oddball sprintf() that does not return the number of characters written.
+</ul>
+
+<p>
+<hr>
+
+<a name="fun">
+<h2>Fun scripts</h2>
+</a>
+<ul>
+    <li>Gnuplot and gtk scripts to save plot layout information along with
+	a PNG plot so that it can be displayed later on in gtk with interactive
+	mousing. Contributed by Allin Cottrell.
+	<a href="gp-gtk.tgz">gp-gtk-tgz</a> (uses new features in 4.3)
+    <li>Gnuplot script to plot and sing "99 Bottles of Beer on the Wall"
+	<a href="99bottles.gp">ascii art version (set term dumb)</a>
+	and
+	<a href="99bottles_animated.gp">animated (screen, gif) version</a>.
+    </li>
+</ul>
+
+<a name="palettes">
+<h2>Color palettes for compatibility with other applications</h2>
+<ul>
+    <li>The <a href="http://soliton.vm.bytemark.co.uk/pub/cpt-city/">cpt-city</a>
+    site is an archive of colour gradients for cartography,
+    technical illustration and design.
+    Palettes are loaded into gnuplot using the "set palette file" command.
+    </li>
+</ul>
+
+<p>
+<hr>
+
+<a href="../index.html">Go back</a> to gnuplot homepage.
+<hr>
+
+<font size="-1">Version: July 2009.</font>
+
+
+</body>
+</html>

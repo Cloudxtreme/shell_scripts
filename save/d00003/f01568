@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+
+<HEAD>
+    <TITLE>PennNet IPv6 Addressing Plan</TITLE>
+    <meta name="author"
+          content="Shumon Huque">
+
+    <meta name="description"
+          content="University of Pennsylvania IPv6 Addressing Plan,
+          Shumon Huque, University of Pennsylvania">
+
+    <meta name="keywords"
+          content="IPv6, University of Pennsylvania, Addressing Plan, 
+	  Routing Plan, Huque, Shumon, Shumon Huque, Network Engineer, 
+	  MAGPI GigaPoP, Internet2">
+    <link rel="stylesheet" type="text/css" href="/~shuque/style/document1.css">
+</HEAD>
+
+<!-- Background white, links blue (unvisited), navy (visited), red (active) -->
+ <BODY
+  BGCOLOR="#FFFFFF"
+  TEXT="#000000"
+  LINK="#0000FF"
+  VLINK="#000080"
+  ALINK="#FF0000"
+ >
+  <H1>
+   Univ of Pennsylvania IPv6 Addressing Plan
+  </H1>
+  <P>
+
+<i>
+Shumon Huque<br>
+Networking &amp; Telecommunications<br>
+2005-07-08 (with minor updates since then)<br>
+</i>
+
+<p>
+
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="#Intro">Introduction</a>
+<li><a href="#Scheme">General Scheme</a>
+<li><a href="#Routing">Routing Design</a>
+<li><a href="#DNS">DNS Configuration</a>
+<li><a href="#Future">Future Work</a>
+<li><a href="#References">References</a>
+</ul>
+
+<p>
+<b>UPDATE:</b> <i>This document is historical. In 2008, the University 
+acquired a portable (Provider-Independent) IPv6 allocation from the 
+regional registry, ARIN <b>2607:f470::/32</b>, and has developed
+a new addressing plan, replacing the one described here.</i>
+</p>
+
+<a name="Intro">
+<h2>Introduction</h2>
+
+This document describes the preliminary IPv6 addressing plan for PennNet,
+the University of Pennsylvania's campus data network.
+
+<p>
+
+Penn's IPv6 address block is <b>2001:0468:1802::/48</b>, which is allocated 
+by the MAGPI GigaPoP out of it's 2001:0468:1800::/40 space. The
+MAGPI allocation in turn was received from it's provider, Abilene,
+the Internet2 backbone network. The university is contemplating applying
+for a portable allocation from ARIN to aid in future multi-homing.
+
+<p>
+In Penn's case, the structure of an IPv6 address looks like
+the following (see RFC 3513):
+
+<pre>
+    |         48 bits         | 16   bits |       64 bits              |
+    +-------------------------+-----------+----------------------------+
+    | global routing prefix   | subnet ID |       interface ID         |
+    +-------------------------+-----------+----------------------------+
+
+</pre>
+
+where the global routing prefix is 2001:0468:1802::
+
+<p>
+
+<a name="Scheme">
+<h2>General Scheme</h2>
+
+The University's /48 allocation is sufficient to number 65,536
+(2 ** 16) /64 sized subnets. However, the first /64 prefix,
+2001:0468:1802::/64 is treated specially.
+
+<p>
+Certain specialized subnets do not need to consume so much space, 
+such as point to point links between routers, router only broadcast 
+networks in the core of PennNet etc. For such networks, smaller 
+subnet allocations of size /112 will be made from the first /64
+prefix.
+<p>
+In addition, the first /112 sized prefix, 2001:0468:1802::/112,
+is reserved for router loopback addresses and other host routes. 
+The remaining 65,535 /64 prefixes will be employed for general 
+campus subnets.
+
+<h3>Router Loopback Addresses</h3>
+
+Router loopback addresses are /128 bit host routes allocated in
+the prefix 2001:0468:1802::/112. Some initial allocations are:
+
+<pre>
+        Address                                         Router
+
+        2001:0468:1802:0000:0000:0000:0000:0001/128     external1
+        2001:0468:1802:0000:0000:0000:0000:0002/128     external2
+        2001:0468:1802:0000:0000:0000:0000:0003/128     external3
+        2001:0468:1802:0000:0000:0000:0000:0004/128     vag2
+        2001:0468:1802:0000:0000:0000:0000:0005/128     modv2
+        2001:0468:1802:0000:0000:0000:0000:0006/128     huntsman2
+        2001:0468:1802:0000:0000:0000:0000:0007/128     nichols1
+        2001:0468:1802:0000:0000:0000:0000:0008/128     chnr4
+        2001:0468:1802:0000:0000:0000:0000:0009/128     chnr5
+        2001:0468:1802:0000:0000:0000:0000:000a/128	eisenschwein     
+        2001:0468:1802:0000:0000:0000:0000:000b/128     
+        2001:0468:1802:0000:0000:0000:0000:000d/128     
+</pre>
+
+<h3>Point-to-Points and other special networks</h3>
+
+These networks typically comprise only router interfaces which
+do not use EUI-64 style auto-configuration. Hence subnets smaller
+than a /64 can be used. These networks are /112 sized allocations 
+made in the prefix 2001:0468:1802::/96. Excluding the /112 allocation 
+already reserved for router loopbacks, this provides the ability to
+number 65,535 such networks.
+
+<pre>
+        Address                                         Network
+
+        2001:0468:1802:0000:0000:0000:0001::/112        Core 1
+        2001:0468:1802:0000:0000:0000:0002::/112        Core 2
+
+        2001:0468:1802:0000:0000:0000:0003::/112        reserved
+        2001:0468:1802:0000:0000:0000:0004::/112        reserved
+        2001:0468:1802:0000:0000:0000:0005::/112        reserved
+        2001:0468:1802:0000:0000:0000:0006::/112        reserved
+        2001:0468:1802:0000:0000:0000:0007::/112        reserved
+        2001:0468:1802:0000:0000:0000:0008::/112        reserved
+        2001:0468:1802:0000:0000:0000:0009::/112        reserved
+        2001:0468:1802:0000:0000:0000:000a::/112        reserved
+        2001:0468:1802:0000:0000:0000:000b::/112        reserved
+        2001:0468:1802:0000:0000:0000:000c::/112        reserved
+        2001:0468:1802:0000:0000:0000:000d::/112        reserved
+        2001:0468:1802:0000:0000:0000:000e::/112        reserved
+        2001:0468:1802:0000:0000:0000:000f::/112        reserved
+
+[p2p links:]
+
+        2001:0468:1802:0000:0000:0000:0010::/112        reserved
+        2001:0468:1802:0000:0000:0000:0011::/112	SEASNet link
+        2001:0468:1802:0000:0000:0000:0012::/112
+        etc etc ..
+</pre>
+
+
+<h3>Reserved ranges</h3>
+
+The remaining space in 2001:0468:1802::/64 is reserved for future
+use.
+
+<h3>General campus subnets</h3>
+
+General campus subnets are all /64 sized networks excluding
+the first /64 prefix, ie.
+<pre>
+        2001:0468:1802:0001::/64               ISC N&T Suite Network
+        2001:0468:1802:0002::/64               ISC N&T Engineering Lab
+        2001:0468:1802:0003::/64               Streaming Server Network
+        2001:0468:1802:0004::/64               ISC N&T Suite Wireless Network
+        2001:0468:1802:0005::/64
+        2001:0468:1802:0006::/64
+        2001:0468:1802:0007::/64
+        2001:0468:1802:0008::/64
+        2001:0468:1802:0009::/64
+        2001:0468:1802:000a::/64
+        2001:0468:1802:000b::/64
+        2001:0468:1802:000c::/64
+        2001:0468:1802:000d::/64
+        2001:0468:1802:000e::/64
+        2001:0468:1802:000f::/64
+        2001:0468:1802:0010::/64
+        2001:0468:1802:0011::/64               VoIP Servers 1
+        2001:0468:1802:0012::/64               VoIP Servers 2
+	[...]
+        2001:0468:1802:0101::/64               NOC1 Network
+        2001:0468:1802:0102::/64               NOC2 Network
+        2001:0468:1802:0103::/64               NOC3 Network
+	[...]
+        2001:0468:1802:ffff::/64
+</pre>
+
+There is currently no general strategy of where in the range
+a particular /64 subnet allocation will be made. Topological
+assignment may not provide much benefit in terms of it's route
+aggregation possibilities because end user subnets are increasingly
+multihomed to the PennNet core.
+
+<h3>Delegations to other departments</h3>
+
+Large schools, institutes or departments that need their own
+allocation will be provided a chunk of contiguous space from 
+the allocation for general campus subnets. Examples include
+the Engineering school (SEASnet) and Resnet. Typically, an 
+aggregate advertisement for these spaces will be made at their 
+points of attachment to the campus routing core.
+
+<pre>
+        2001:0468:1802:1000::/54               Test Networks
+	2001:0468:1802:1400::/54	       (unassigned)
+	2001:0468:1802:1800::/54	       (unassigned)
+	2001:0468:1802:1c00::/54	       (unassigned)
+
+	2001:0468:1802:d000::/54	       ResNet
+	2001:0468:1802:d400::/54	       (unassigned)
+	2001:0468:1802:d800::/54	       (unassigned)
+	2001:0468:1802:dc00::/54	       (unassigned)
+	2001:0468:1802:e000::/54	       SEAS
+	2001:0468:1802:e400::/54	       (unassigned)
+	2001:0468:1802:e800::/54	       Wharton School
+	2001:0468:1802:ec00::/54	       (unassigned)
+	2001:0468:1802:f000::/54	       (unassigned)
+	2001:0468:1802:f400::/54	       (unassigned)
+	2001:0468:1802:f800::/54	       (unassigned)
+	2001:0468:1802:fc00::/54	       (unassigned)
+</pre>
+
+<a name="Routing">
+<h2>Routing Design</h2>
+
+<b>Integrated IS-IS</b> is configured as the interior routing protocol 
+for IPv6. It is configured to initially carry IPv6 routes only in order
+to separate it from the production IPv4 network which runs OSPF version
+2. At some point in the future, IS-IS will likely be employed to route 
+IPv4 also. A single flat level-2 IS-IS area  is initially deployed. A 
+multi area design will likely emerge with increased deployment of IPv6 
+on campus.
+<p>
+<b>Multi-protocol BGP</b> is used for inter-domain peering with external
+IPv6 networks. At the current time, Penn's sole IPv6 peer is the
+MAGPI GigaPoP. Additionally, an IPv6 Internal-BGP mesh is configured 
+between all the IPv6 enabled Penn core and border routers. 
+<p>
+Address configuration for endstations is performed via stateless 
+address auto-configuration (RFC 2461). Stateful DHCPv6 service
+may be deployed at a future date to centrally manage host address
+assignments.
+
+<a name="DNS">
+<h2>DNS Configuration</h2>
+
+The Penn DNS servers support AAAA and IPv6 (long) PTR records. One
+of the authoritative servers (noc3.dccs.upenn.edu) currently supports
+DNS queries over IPv6 transport. An initial set of IPv6 ranges and 
+their associated DNS domain names have been configured in the DNS 
+management application (Assignments). A new third level domain, 
+<b>v6.upenn.edu</b>, has been created, for use by hosts that want 
+to maintain a separate domain name for their IPv6 addresses.
+
+<a name="Future">
+<h2>Future Work</h2>
+
+<ul>
+<li>Integrated IS-IS for both IPv4 and IPv6 interior routing
+<li>IPv6 Multicast routing
+<li>Stateful auto-configuration using DHCPv6
+<li>Testing of IPv6 Enabled Applications
+</ul>
+
+<a name="References">
+<h2>References</h2>
+
+<ul>
+<li><a href="http://ipv6.internet2.edu/">Internet2 IPv6 Working Group</a>
+<li><a href="http://www.ietf.org/rfc/rfc4291.txt">
+    RFC 4291: Internet Protocol Version 6 (IPv6) Addressing Architecture</a>
+<li><a href="http://www.ietf.org/rfc/rfc3587.txt">
+    RFC 3587: IPv6 Global Unicast Address Format</a>
+<li><a href="http://www.ietf.org/rfc/rfc3177.txt">
+    RFC 3177: IAB/IESG Recommendations on IPv6 Address Allocations to Sites</a>
+<li><a href="http://www.ietf.org/rfc/rfc3627.txt">
+    RFC 3627: Use of /127 Prefix Length Between Routers Considered Harmful</a>
+<li><a href="http://www.ietf.org/rfc/rfc1195.txt">
+    RFC 1195: Use of IS-IS for Routing TCP/IP and Dual Environments</a>
+<li><a href="http://www.ietf.org/internet-drafts/draft-ietf-isis-ipv6-05.txt">
+    draft-ietf-isis-ipv6: Routing IPv6 with IS-IS</a>
+<li><a href="http://www.ietf.org/rfc/rfc2283.txt">
+    RFC 2283: Multiprotocol Extensions for BGP-4</a>
+<li><a href="http://www.ietf.org/rfc/rfc2461.txt">
+    RFC 2461: Neighbor Discovery for IP Version 6 (IPv6)</a>
+<li><a href="http://www.ietf.org/rfc/rfc2462.txt">
+    RFC 2462: IPv6 Stateless Address Autoconfiguration</a>
+<li><a href="http://www.ietf.org/rfc/rfc2545.txt">
+    RFC 2545: Use of BGP-4 Multiprotocol Extensions for IPv6 Inter-Domain Routing</a>
+<li><a href="http://www.ietf.org/rfc/rfc2893.txt">
+    RFC 2893: Transition Mechanisms for IPv6 Hosts and Routers</a>
+</ul>
+
+<p>
+</BODY>
+</HTML>
+

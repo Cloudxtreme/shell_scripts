@@ -1,0 +1,845 @@
+<!doctype html>
+
+<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
+<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"><![endif]-->
+<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"><![endif]-->
+
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Network Security Solutions  - Networking  Performance Optimization</title>
+<meta name="keywords" content="networking, security, networking security, networking and security, juniper networks, Juniper Networks Inc., juniper, NetScreen, professional services, routing hardware, routing software, routers, switching">
+<meta name="description" content="Juniper Networks offers high-performance network solutions that help service providers, enterprises, and public sector organizations create value and accelerate business success.">
+<meta name="summary" content="">
+<meta name="category" content="">
+<meta name="WT.cg_n" content="">
+<meta name="WT.cg_s" content="">
+<meta name="DCSext.country_origin" content="">
+<meta http-equiv="cleartype" content="on">
+
+
+<link rel="stylesheet" href="http://cloud.webtype.com/css/627adba2-0d7b-4e07-bfe9-adaca2f78bc5.css">
+
+<link rel="stylesheet" href="/shared/framework/css/reset.css">
+<link rel="stylesheet" href="/shared/framework/css/global.css">
+<link rel="stylesheet" href="/shared/framework/css/home.css">
+<!--[if gte IE 9]><style type="text/css">.gradient{filter:none}</style><![endif]-->
+
+
+
+<script src="/shared/framework/js/libs/modernizr.min.js"></script>
+
+<style type="text/css">
+
+area {
+    cursor: pointer;
+    cursor: hand;
+}
+#footer {height:175px;}
+</style>
+
+</head>
+<body id="index">
+<div id="container">
+<header>
+<div class="wrapper">
+
+<div class="left" id="header">
+<div class="topLogo left">
+<a tabindex="1" title="Juniper Networks" href="/de/de/">
+<img alt="Juniper Networks" src="/shared/img/header/logo-top-m.gif"/>
+</a>
+</div>
+<div class="topMenu left">
+<div class="right">
+<div class="topItem left hideLogin">
+<a tabindex="2" title="Log in" href="#">Log in</a>
+</div>
+<div class="topPipe hideLogin">|</div>
+<div class="topItem left">
+<a tabindex="3" title="Kauf" href="/de/de/how-to-buy/">Kauf</a>
+</div>
+<div class="topPipe">|</div>
+<div class="topItem left">
+<a tabindex="4" title="Kontakt " href="/de/de/contact-us/">Kontakt </a>
+</div>
+<div class="topPipe">|</div>
+<div class="topItemEnds left">Deutschland&nbsp;<a tabindex="5" href="javascript:void(0)" id="countryChange">(ändern)</a>
+</div>
+<div class="topCountry left">
+<a tabindex="6" href="javascript:void(0)" title="Choose Country" id="countryMap">
+<img border="0" alt="Choose Country" src="/shared/img/header/country-map.gif"/>
+</a>
+</div>
+</div>
+</div>
+<div class="topSearchBox left">
+<form method="get" action="/ExternalSearch/search/header">
+<input value="" name="searchSubgroup" id="searchSubgroup" type="hidden"/>
+<input maxlength="100" onfocus="this.value=''" value="Suchen" name="query" class="searchTxt left" type="text"/>
+<input value="" name="locale" id="locale" type="hidden"/>
+<input alt="Submit Search" src="/shared/img/header/icon_search.gif" class="searchBtn left" id="submit" name="submit" type="image"/>
+</form>
+</div>
+</div>
+<div id="CountrySelectorBG" style="display:none;">
+<div id="CountrySelector">
+<input name="selected" id="userSelectedCntry" type="hidden"/>
+<img src="/shared/img/global/btn-country-close.gif" id="closeButton" alt="Close"/>
+<div id="countryContainer">
+<h2>Choose Country</h2>
+<div class="countryCol">
+<h3>North America</h3>
+<ul>
+<li id="-us-en-">
+<a title="United States" class="countryLink" href="/us/en/">United States</a>
+</li>
+</ul>
+</div>
+<div class="countryCol ccBg">
+<h3>Europe</h3>
+<ul>
+<li id="-de-de-">
+<a title="Deutschland - Germany" class="countryLink" href="/de/de/">Deutschland - Germany</a>
+</li>
+<li id="-es-es-">
+<a title="España - Spain" class="countryLink" href="/es/es/">España - Spain</a>
+</li>
+<li id="-fr-fr-">
+<a title="France" class="countryLink" href="/fr/fr/">France</a>
+</li>
+<li id="-it-it-">
+<a title="Italia - Italy" class="countryLink" href="/it/it/">Italia - Italy</a>
+</li>
+<li id="-ru-ru-">
+<a title="Россия - Russia" class="countryLink" href="/ru/ru/">Россия - Russia</a>
+</li>
+<li id="-uk-en-">
+<a title="United Kingdom" class="countryLink" href="/uk/en/">United Kingdom</a>
+</li>
+</ul>
+</div>
+<div class="countryCol ccBg">
+<h3>Asia Pacific</h3>
+<ul>
+<li id="-as-en-">
+<a title="Asia Region" class="countryLink" href="/as/en/">Asia Region</a>
+</li>
+<li id="-au-en-">
+<a title="Australia" class="countryLink" href="/au/en/">Australia</a>
+</li>
+<li id="-cn-zh-">
+<a title="中国 - China" class="countryLink" href="/cn/zh/">中国 - China</a>
+</li>
+<li id="-in-en-">
+<a title="India" class="countryLink" href="/in/en/">India</a>
+</li>
+<li id="-jp-jp-">
+<a title="日本 - Japan" class="countryLink" href="/jp/jp/">日本 - Japan</a>
+</li>
+<li id="-kr-kr-">
+<a title="대한민국 - Korea" class="countryLink" href="/kr/kr/">대한민국 - Korea</a>
+</li>
+<li id="-tw-tc-">
+<a title="台灣 - Taiwan" class="countryLink" href="/tw/tc/">台灣 - Taiwan</a>
+</li>
+</ul>
+</div>
+<div id="choice">
+<label for="countryselect" class="label_check">
+<input type="checkbox" value="0" id="countryselect" name="countryselect"/>Remember my choice</label>
+<label class="choice" for="mychoice"/>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="left" id="navbar">
+<div class="navbarItem1 navbarDrop left" onmouseover="showNav('flyout1','_solutions_', 'topbarlink1' )" onmouseout="hideNav()" onclick="document.location='/de/de/solutions/'" id="_solutions_">
+<a href="/de/de/solutions/" id="topbarlink1">Lösungen</a>
+</div>
+<div class="navbarItem2 navbarDrop left" onmouseover="showNav('flyout2','_products-services_', 'topbarlink2' )" onmouseout="hideNav()" onclick="document.location='/de/de/products-services/'" id="_products-services_">
+<a href="/de/de/products-services/" id="topbarlink2">Produkte und Services</a>
+</div>
+<div class="navbarItem3 navbarDrop left" onmouseover="showNav('flyout3','_company_', 'topbarlink3' )" onmouseout="hideNav()" onclick="document.location='/de/de/company/'" id="_company_">
+<a href="/de/de/company/" id="topbarlink3">Unternehmen</a>
+</div>
+<div class="navbarItem4 left" id="_partners_">
+<a href="/de/de/partners/" id="topbarlink4">Partner</a>
+</div>
+<div class="navbarItem5 left" id="_customers_support_">
+<a href="/customers/support/" id="topbarlink5">Support</a>
+</div>
+<div class="navbarItemEnds left" id="_training_">
+<a href="/de/de/training/" id="topbarlink6">Education</a>
+</div>
+<div style="display:none;" id="_community_">
+<a href="/de/de/community/" id="topbarlink7">Community</a>
+</div>
+<div class="navbarItem left" style="display:none;" id="_security_">
+<a href="/de/de/security/" id="topbarlink8">Security Intelligence Center</a>
+</div>
+</div>
+
+</div>
+</header>
+<section id="home-hero">
+
+<section class="home-hero-item">
+<div class="item-background" style="background-image:url(/shared/img/homepage/home-page-hero-bg-btb-sliver.jpg);"/></div>
+<div class="item-content"><a href="/de/de/dm/byod/?utm_source=promo&utm_medium=de_home_page&utm_content=carousel&utm_campaign=byod-0613" target="_self" alt="Learn more" />
+<img src="/de/de/local/img/homepage/home-page-hero-btb-hero2.jpg" width="960" height="440" border="0"  /> </a></div>
+</section>
+
+<section class="home-hero-item">
+<div class="item-background" style="background-image:url(/shared/img/homepage/home-page-hero-bg-dc.jpg);"/></div>
+<div class="item-content"><a href="/de/de/dm/enterprise-data-center/?utm_source=hero&utm_medium=de_home_page&utm_campaign=edcmay2013" target="_self" alt="Learn more" />
+<img src="/de/de/local/img/homepage/home-page-hero-dc1.jpg" width="960" height="440" border="0"  /> </a></div>
+</section>
+
+<section class="home-hero-item">
+<div class="item-background" style="background-image:url(/us/en/hp-modules/kepler2012/Kepler_Hero_bg.png);"/></div>
+<div class="item-content"><a href="/de/de/dm/sdn/?utm_source=hero&amp;utm_medium=de_home_page&amp;utm_campaign=sdn" target="_self" alt="Learn more" />
+<img src="/de/de/local/img/homepage/home_page_promo_SDN_hero.jpg" width="960" height="440" border="0"  /> </a></div>
+</section>
+
+</section>
+<section id="home-social-bar">
+<div class="content">
+<script>function newsTickerInit(){}function addToOnload(){};</script>
+
+<script type="text/javascript">	var newsItems = 3;	var eventItems = 3; 	var currentTickerObj;	var tickerInterval;	var tickerItemArray = new Array();	addToOnload(newsTickerInit);</script>
+<div id="tickerHome" class="tickerHome">
+<div id="tickerHd" class="tickerHd">
+<a title="RSS Feeds" href="http://rss.juniper.net">
+<img alt="RSS Feeds" height="14" width="14" class="png" src="/shared/img/global/feed-icon-14x14.png"/>
+</a>
+</div>
+<div class="tickerBody" id="news1">Listings 				Aug 22, 2013 				<a href="http://newsroom.juniper.net/press-releases/study-federal-it-pros-becoming-technology-early-a-nyse-jnpr-1045000?feed=bd46d819-1175-4f73-bc79-34a8768bcc31">Study: Federal IT Pros Becoming Technology Early Adopters to Help Address Cost Cuts, Efficiencies, Federal Mandates as FY14 Budget Looms </a>
+</div>
+<div class="tickerBodyOff" id="news2">Aug 21, 2013 				<a href="http://newsroom.juniper.net/press-releases/juniper-networks-announces-date-and-webcast-inform-nyse-jnpr-1044618?feed=bd46d819-1175-4f73-bc79-34a8768bcc31">Juniper Networks Announces Date and Webcast Information for Upcoming Investor Conference </a>
+</div>
+<div class="tickerBodyOff" id="news3">Aug 20, 2013 				<a href="http://newsroom.juniper.net/press-releases/columbus-networks-selects-juniper-networks-to-adva-nyse-jnpr-1044051?feed=bd46d819-1175-4f73-bc79-34a8768bcc31">Columbus Networks Selects Juniper Networks to Advance Communications and Service Delivery Infrastructure </a>
+</div>
+<div id="event1" class="tickerBodyOff">Aug 26, 2013 <a href="/us/en/company/events/#events|us|130826-vmworld">Vmworld</a>
+</div>
+<div id="event2" class="tickerBodyOff">Aug 28, 2013 <a href="/us/en/company/events/#events|us|130828-bajug">Bay Area Juniper Users Group (BAJUG)</a>
+</div>
+<div id="event3" class="tickerBodyOff">Sep 9, 2013 <a href="/us/en/company/events/#events||130909-peering-forum">European Peering Forum</a>
+</div>
+<div id="tickerNav" class="tickerNav">
+<a class="left" title="Previous" href="javascript:newsTickerClick(-1)">
+<img alt="Previous" src="/shared/img/global/arrow-ticker_prev-25.gif"/>
+</a>
+<a class="right" title="Next" href="javascript:newsTickerClick(1)">
+<img alt="Next" src="/shared/img/global/arrow-ticker_next-25.gif"/>
+</a>
+</div>
+</div>
+<div id="socialMedia">
+<ul>
+<li>
+<a href="http://www.juniper.net/jnet" title="J-Net Forums">
+<img src="/shared/img/homepage/icon-small-jnet.gif" alt="J-Net Forums" width="25" height="50" border="0"/>
+</a>
+</li>
+<li>
+<a href="http://www.juniper.net/youtube" title="Juniper YouTube Channel">
+<img src="/shared/img/homepage/icon-small-youtube.gif" alt="Juniper YouTube Channel" width="25" height="50" border="0"/>
+</a>
+</li>
+<li>
+<a href="http://www.juniper.net/twitter" title="Juniper Twitter">
+<img src="/shared/img/homepage/icon-small-twitter.gif" alt="Juniper Twitter" width="25" height="50" border="0"/>
+</a>
+</li>
+<li>
+<a href="http://www.juniper.net/facebook" title="Juniper Facebook Page">
+<img src="/shared/img/homepage/icon-small-facebook.gif" alt="Juniper Facebook Page" width="25" height="50" border="0"/>
+</a>
+</li>
+</ul>
+</div>
+
+
+
+</div>
+</section>
+<section id="home-promo">
+<div id="home-promo-mask">
+
+<h2 class="home-promo-item"><a href="http://www.juniper.net/de/de/dm/topofrack/?utm_source=promo&amp;utm_medium=home_page&amp;utm_content=carousel&amp;utm_campaign=topofrack" target="_self"><img src="/de/de/hp-modules/homepage-images/home_promo_divider.gif" alt="Topofrack"/></a></h2>
+
+<h2 class="home-promo-item"><a href="http://forms.juniper.net/forms/Q412_AMER_DC_Top5Questions10GbE_WhitePaper_Gate?referrer=jn" target="_blank"><img src="/de/de/hp-modules/homepage-images/home-page-promo-10gbe-datacenter-de.png" alt="10GBE Data Center"/></a></h2>
+
+<h2 class="home-promo-item"><a href="http://www.juniper.net/us/en/dm/enterprise-mobile-security/?utm_source=promo&utm_medium=home_page&utm_content=carousel&utm_campaign=field_mobile_security_0712" target="_self"><img src="/de/de/hp-modules/homepage-images/amer_sem_homepage_promo-de.png" alt="Mobile Threats"/></a></h2>
+
+<h2 class="home-promo-item"><a href="http://www.juniper.net/us/en/dm/vgw-trial/?utm_source=promo&utm_medium=home_page&utm_campaign=vgw_032012" target="_self"><img src="/de/de/hp-modules/homepage-images/home_page_promo_vgw-de.png" alt="VGW Promo"/></a></h2>
+
+<h2 class="home-promo-item"><a href="http://www.juniper.net/us/en/dm/gartner-mq-dc-2013/?utm_source=promo&utm_medium=home_page&utm_content=carousel&utm_campaign=gartnermq" target="_self"><img src="/de/de/local/img/homepage/home-page-promo-gartner.jpg" alt=""/></a></h2>
+
+<h2 class="home-promo-item"><a href="http://www.juniper.net/us/en/dm/mobile-lte/" target="_self"><img src="/de/de/local/img/homepage/home_page_promo_mobile.jpg" alt=""/></a></h2>
+
+</div>
+</section>
+<footer>
+
+
+<!--begin footer fragment-->
+<div id="seperator">&nbsp;</div>
+<div id="footer">
+<div id="footerLinksAbout">
+<ul>
+<li class="footerLinksTitle" style="list-style: none;">Über Juniper</li>
+<li>
+<a href="/de/de/company/investor-relations/">Investor Relations</a>
+</li>
+<li>
+<a href="/de/de/company/press-center/press-releases/">Pressemitteilungen</a>
+</li>
+<li>
+<a href="/de/de/company/newsletters/">Newsletter</a>
+</li>
+<li>
+<a href="/de/de/contact-us/sales-offices/">Niederlassungen von Juniper</a>
+</li>
+<li>
+<a href="/de/de/company/citizenship-sustainability/green/">Umweltfreundliches Networking</a>
+</li>
+</ul>
+</div>
+<div id="footerLinksResources">
+<ul>
+<li class="footerLinksTitle">Ressourcen</li>
+<li>
+<a href="/de/de/how-to-buy/">Kauf</a>
+</li>
+<li>
+<a href="/de/de/partners/locator/">Partnersuche</a>
+</li>
+<li>
+<a href="/de/de/company/press-center/images/image-library/">Bildbibliothek</a>
+</li>
+<li>
+<a href="/de/de/products-services/icons-stencils/">Visio-Vorlagen</a>
+</li>
+<li>
+<a href="http://www.juniper.net/security">Sicherheitszentrum</a>
+</li>
+</ul>
+</div>
+<div id="footerLinksCommunity">
+<ul>
+<li class="footerLinksTitle">Community</li>
+<li>
+<a href="http://forums.juniper.net/">Foren</a>
+</li>
+<li>
+<a href="/de/de/community/blogs/">Blogs</a>
+</li>
+<li>
+<a href="/de/de/community/junos/">Junos Central</a>
+</li>
+<li>
+<a href="/de/de/community/social/">Soziale Medien</a>
+</li>
+<li>
+<a href="https://developer.juniper.net/">Entwickler</a>
+</li>
+</ul>
+</div>
+<div id="footerLinksSupport">
+<ul>
+<li class="footerLinksTitle">Support</li>
+<li>
+<a href="/techpubs/">Technische Dokumentation</a>
+</li>
+<li>
+<a href="http://kb.juniper.net">Wissensdatenbank</a>
+</li>
+<li>
+<a href="/support/products/">Software-Downloads</a>
+</li>
+<li>
+<a href="/generate_license/">Produktlizenzen</a>
+</li>
+<li>
+<a href="/support/requesting-support.html">Kontakt mit dem Support</a>
+</li>
+</ul>
+</div>
+<div id="footerLinksFollowUs">
+<ul>
+<li class="footerLinksTitle">Folgen Sie uns</li>
+<li>
+<a rel="me" href="http://forums.juniper.net/">
+<img src="/shared/img/global/icon_j-net.png" alt="j-net" width="39px" height="39px" border="0"/>
+</a>
+</li>
+<li>
+<a rel="me" href="http://www.youtube.com/junipernetworks">
+<img src="/shared/img/global/icon_youtube.png" alt="YouTube" width="39px" height="39px" border="0"/>
+</a>
+</li>
+<li>
+<a rel="me" href="http://www.twitter.com/Juniper_DE ">
+<img src="/shared/img/global/icon_twitter.png" alt="Twitter" width="39px" height="39px" border="0"/>
+</a>
+</li>
+<li>
+<a rel="me" href="http://www.facebook.com/JuniperNetworks/">
+<img src="/shared/img/global/icon_facebook.png" alt="Facebook" width="39px" height="39px" border="0"/>
+</a>
+</li>
+<li>
+<a rel="me" href="http://rss.juniper.net/p/subscribe/">
+<img src="/shared/img/global/icon_rss.png" alt="RSS" width="39px" height="39px" border="0"/>
+</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="bottomLine">
+<div id="bottomLineLinks">
+<a href="/de/de/site-map/">Seitenübersicht</a> / <a href="http://rss.juniper.net">RSS Feeds</a> / <a href="/de/de/company/careers/">Karriere</a> / <a href="/de/de/accessibility/">Erreichbarkeit</a> / <a href="/cgi-bin/feedback">Feedback</a> / <a href="/de/de/privacy-policy/">Datenschutz</a> / <a href="/de/de/legal-notices/">Rechtliche Hinweise</a>
+</div>
+<div id="copyrightText">Copyright&copy; 1999-2013 Juniper Networks, Inc. Alle Rechte vorbehalten.</div>
+</div>
+<!--end footer fragment-->
+
+
+
+<div class="footerBottom clear"></div>
+
+<!--stopindex--><!--[if lte IE 6]><iframe class="ie6Iframe" id="iframeflyout1" src="/shared/img/global/clear.gif" style="display:none;"></iframe><![endif]-->
+<div onmouseout="hideNav()" onmouseover="clearTimeout(hideNavTimeout)" id="flyout1" class="navpanel">
+<div class="navpanel_cont"><div class="navColMenu" id="foSolutionMain">
+<h3>
+<a id="foSolutionMain1" href="javascript:void(0)" class="h3Selected foSolutionNav">Unternehmen</a>
+</h3>
+<h3>
+<a id="foSolutionMain2" href="javascript:void(0)" class="foSolutionNav">Service Provider</a>
+</h3>
+<h3>
+<a id="foSolutionMain3" href="javascript:void(0)" class="foSolutionNav">Öffentlicher Sektor</a>
+</h3>
+</div>
+<div id="foSolutionNav1" class="navColFlyout foSolutionCol">
+<h3>Unternehmensbedarf&nbsp;</h3>
+<ul>
+<li>
+<a title="Applikationsinfrastruktur" href="/de/de/solutions/enterprise/application-infrastructure/">Applikationsinfrastruktur</a>
+</li>
+<li>
+<a title="Business Continuity" href="/de/de/solutions/enterprise/business-continuity/">Business Continuity</a>
+</li>
+<li>
+<a title="Mobility" href="/de/de/solutions/enterprise/mobility/">Mobility</a>
+</li>
+<li>
+<a title="Netzwerkinfrastruktur" href="/de/de/solutions/enterprise/network-infrastructure/">Netzwerkinfrastruktur</a>
+</li>
+<li>
+<a title="Sicherheit und Compliance" href="/de/de/solutions/enterprise/security-compliance/">Sicherheit und Compliance</a>
+</li>
+</ul>
+<h3>Standorte/Architekturen&nbsp;</h3>
+<ul>
+<li>
+<a title="Zweigstellen" href="/de/de/solutions/enterprise/branch/">Zweigstellen</a>
+</li>
+<li>
+<a title="Campus" href="/de/de/solutions/enterprise/campus/">Campus</a>
+</li>
+<li>
+<a title="Cloud-fähige Rechenzentren" href="/de/de/solutions/enterprise/data-center/">Cloud-fähige Rechenzentren</a>
+</li>
+<li>
+<a title="Remote Users" href="/de/de/solutions/enterprise/extended-remote/">Remote Users</a>
+</li>
+<li>
+<a title="VPNs und WAN" href="/de/de/solutions/enterprise/vpns-wan/">VPNs und WAN</a>
+</li>
+</ul>
+<h3>Industriezweige&nbsp;</h3>
+<ul>
+<li>
+<a title="Energie- und Versorgungsunternehmen" href="/de/de/solutions/enterprise/energy-utilities/">Energie- und Versorgungsunternehmen</a>
+</li>
+<li>
+<a title="Finanzdienstleister" href="/de/de/solutions/enterprise/financial-services/">Finanzdienstleister</a>
+</li>
+<li>
+<a title="Government" href="/de/de/solutions/enterprise/government/">Government</a>
+</li>
+<li>
+<a title="Gesundheitswesen" href="/de/de/solutions/enterprise/healthcare/">Gesundheitswesen</a>
+</li>
+<li>
+<a title="Forschung und Bildung" href="/de/de/solutions/enterprise/research-education/">Forschung und Bildung</a>
+</li>
+</ul>
+<h3>Powered by Junos&nbsp;</h3>
+<ul>
+<li>
+<a title="Kundenreferenzen" href="/de/de/solutions/stories/">Kundenreferenzen</a>
+</li>
+</ul>
+</div>
+<div id="foSolutionNav2" class="navColFlyout foSolutionCol" style="display: none;">
+<h3>Unternehmensbedarf&nbsp;</h3>
+<ul>
+<li>
+<a title="Managed Service Provider" href="/de/de/solutions/service-provider/managed-sp/">Managed Service Provider</a>
+</li>
+<li>
+<a title="Netzwerkinfrastruktur" href="/de/de/solutions/service-provider/network-infrastructure/">Netzwerkinfrastruktur</a>
+</li>
+<li>
+<a title="Netzwerksicherheit" href="/de/de/solutions/service-provider/network-security/">Netzwerksicherheit</a>
+</li>
+<li>
+<a title="Netzwerk- und Service-Management" href="/de/de/solutions/service-provider/network-service-management/">Netzwerk- und Service-Management</a>
+</li>
+<li>
+<a title="Private Nutzer" href="/de/de/solutions/service-provider/residential/">Private Nutzer</a>
+</li>
+<li>
+<a title="Telepräsenz" href="/de/de/solutions/service-provider/telepresence/">Telepräsenz</a>
+</li>
+</ul>
+<h3>Standorte/Architekturen&nbsp;</h3>
+<ul>
+<li>
+<a title="Core" href="/de/de/solutions/service-provider/core/">Core</a>
+</li>
+<li>
+<a title="Packet Transport" href="/de/de/solutions/service-provider/packet-transport/">Packet Transport</a>
+</li>
+<li>
+<a title="Cloud-basierte Netzwerke für Rechenzentren" href="/de/de/solutions/service-provider/data-center/">Cloud-basierte Netzwerke für Rechenzentren</a>
+</li>
+<li>
+<a title="Universal Edge" href="/de/de/solutions/service-provider/universal-edge/">Universal Edge</a>
+</li>
+</ul>
+<h3>Segments&nbsp;</h3>
+<ul>
+<li>
+<a title="Cable Operator" href="/de/de/solutions/service-provider/cable/">Cable Operator</a>
+</li>
+<li>
+<a title="Wireline Carrier" href="/de/de/solutions/service-provider/carrier/">Wireline Carrier</a>
+</li>
+<li>
+<a title="Content Service Provider" href="/de/de/solutions/service-provider/content-service-provider/">Content Service Provider</a>
+</li>
+<li>
+<a title="Wireless Carrier" href="/de/de/solutions/service-provider/wireless-carrier/">Wireless Carrier</a>
+</li>
+</ul>
+</div>
+<div id="foSolutionNav3" class="navColFlyout foSolutionCol" style="display: none;">
+<h3>Unternehmensbedarf&nbsp;</h3>
+<ul>
+<li>
+<a title="Anwendungsinfrastruktur" href="/de/de/solutions/public-sector/application-infrastructure/">Anwendungsinfrastruktur</a>
+</li>
+<li>
+<a title="Notfallwiederherstellung / Geschäftskontinuität" href="/de/de/solutions/public-sector/disaster-recovery/">Notfallwiederherstellung / Geschäftskontinuität</a>
+</li>
+<li>
+<a title="Netzwerkinfrastruktur" href="/de/de/solutions/public-sector/network-infrastructure/">Netzwerkinfrastruktur</a>
+</li>
+<li>
+<a title="Sicherheit und Compliance" href="/de/de/solutions/public-sector/security-compliance/">Sicherheit und Compliance</a>
+</li>
+</ul>
+<h3>Standorte/Architekturen&nbsp;</h3>
+<ul>
+<li>
+<a title="Zweigstellen" href="/de/de/solutions/public-sector/branch/">Zweigstellen</a>
+</li>
+<li>
+<a title="Campus" href="/de/de/solutions/public-sector/campus/">Campus</a>
+</li>
+<li>
+<a title="Cloud-fähige Rechenzentren" href="/de/de/solutions/public-sector/data-center/">Cloud-fähige Rechenzentren</a>
+</li>
+<li>
+<a title="Erweitertes Unternehmensumfeld und Fernzugriff" href="/de/de/solutions/public-sector/extended-remote/">Erweitertes Unternehmensumfeld und Fernzugriff</a>
+</li>
+<li>
+<a title="Wide AreaNetzwerk (WAN)" href="/de/de/solutions/public-sector/vpns-wan/">Wide AreaNetzwerk (WAN)</a>
+</li>
+</ul>
+<h3>Industriezweige&nbsp;</h3>
+<ul>
+<li>
+<a title="Öffentliche Verwaltung" href="/de/de/solutions/public-sector/central-government/">Öffentliche Verwaltung</a>
+</li>
+<li>
+<a title="Bundesbehörden" href="/de/de/solutions/public-sector/federal-government/">Bundesbehörden</a>
+</li>
+<li>
+<a title="Energie- und Versorgungssektor" href="/de/de/solutions/public-sector/energy-utilities/">Energie- und Versorgungssektor</a>
+</li>
+<li>
+<a title="Gesundheitswesen" href="/de/de/solutions/public-sector/healthcare/">Gesundheitswesen</a>
+</li>
+<li>
+<a title="Forschung und Bildung" href="/de/de/solutions/public-sector/research-education/">Forschung und Bildung</a>
+</li>
+<li>
+<a title="Landes- und Kommunalebene" href="/de/de/solutions/public-sector/state-local-government/">Landes- und Kommunalebene</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="flyoutBase">
+<img src="/shared/img/global/clear.gif"/>
+</div>
+</div>
+<!--startindex--><!--stopindex--><!--[if lte IE 6]><iframe class="ie6Iframe" id="iframeflyout2" src="/shared/img/global/clear.gif" style="display:none;"></iframe><![endif]-->
+<div onmouseout="hideNav()" onmouseover="clearTimeout(hideNavTimeout)" id="flyout2" class="navpanel">
+<div class="navpanel_cont">
+<div class="navColFlyout navProduct" id="foProductCol1"><div class="section clear left">
+<h3>Produktkategorien</h3>
+<div class="flSubCol">
+<ul>
+<li>
+<a title="Anwendungs-beschleunigung" href="/de/de/products-services/application-acceleration/">Anwendungs-beschleunigung</a>
+</li>
+<li>
+<a title="Content und Media Delivery" href="/de/de/products-services/content-media/">Content und Media Delivery</a>
+</li>
+<li>
+<a title="Rechenzentrums-Fabric" href="/de/de/products-services/data-center-fabric/">Rechenzentrums-Fabric</a>
+</li>
+<li>
+<a title="Identitäts- und Richtlinienkontrolle" href="/de/de/products-services/ipc/">Identitäts- und Richtlinienkontrolle</a>
+</li>
+<li>
+<a title="Junos-Entwicklertools" href="/de/de/products-services/junos-developer/">Junos-Entwicklertools</a>
+</li>
+<li>
+<a title="Mobile Infrastruktur" href="/de/de/products-services/mobile-infrastructure/">Mobile Infrastruktur</a>
+</li>
+<li>
+<a title="Netzwerk-Management" href="/de/de/products-services/network-management/">Netzwerk-Management</a>
+</li>
+<li>
+<a title="Netzwerkbetriebssystem" href="/de/de/products-services/nos/">Netzwerkbetriebssystem</a>
+</li>
+<li>
+<a title="Paketübertragung" href="/de/de/products-services/packet-transport/">Paketübertragung</a>
+</li>
+<li>
+<a title="Routing" href="/de/de/products-services/routing/">Routing</a>
+</li>
+<li>
+<a title="Sicherheit" href="/de/de/products-services/security/">Sicherheit</a>
+</li>
+<li>
+<a title="Software" href="/de/de/products-services/software/">Software</a>
+</li>
+<li>
+<a title="Switching" href="/de/de/products-services/switching/">Switching</a>
+</li>
+<li>
+<a title="Zeitsynchronisation" href="/de/de/products-services/time-synchronization/">Zeitsynchronisation</a>
+</li>
+<li>
+<a title="Drahtlos" href="/de/de/products-services/wireless/">Drahtlos</a>
+</li>
+<li>
+<a title="End-of-Sale" href="/de/de/products-services/end-of-sale/">End-of-Sale</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="section left">
+<h3>Services</h3>
+<div class="flSubCol">
+<ul>
+<li>
+<a title="Beratungsservices" href="/de/de/products-services/consulting-services/">Beratungsservices</a>
+</li>
+<li>
+<a title=" Installations- und Konfigurationsservices" href="/de/de/products-services/install-configuration-services/"> Installations- und Konfigurationsservices</a>
+</li>
+<li>
+<a title="Technische Dienste" href="/de/de/products-services/technical-services/">Technische Dienste</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="clear">
+<div id="h3Spacing" style="white-space: nowrap;" class="left">
+<h3>A-Z Page Address</h3>
+<a title="A" href="/de/de/products-services/a-z/#A">A</a>
+<a title="B" href="/de/de/products-services/a-z/#B">B</a>
+<a title="C" href="/de/de/products-services/a-z/#C">C</a>
+<a title="D" href="/de/de/products-services/a-z/#D">D</a>
+<a title="E" href="/de/de/products-services/a-z/#E">E</a>
+<a title="F" href="/de/de/products-services/a-z/#F">F</a>
+<a title="G" href="/de/de/products-services/a-z/#G">G</a>
+<a title="H" href="/de/de/products-services/a-z/#H">H</a>
+<a title="I" href="/de/de/products-services/a-z/#I">I</a>
+<a title="J" href="/de/de/products-services/a-z/#J">J</a>
+<a title="K" href="/de/de/products-services/a-z/#K">K</a>
+<a title="L" href="/de/de/products-services/a-z/#L">L</a>
+<a title="M" href="/de/de/products-services/a-z/#M">M</a>
+<a title="N" href="/de/de/products-services/a-z/#N">N</a>
+<a title="O" href="/de/de/products-services/a-z/#O">O</a>
+<a title="P" href="/de/de/products-services/a-z/#P">P</a>
+<a title="Q" href="/de/de/products-services/a-z/#Q">Q</a>
+<a title="R" href="/de/de/products-services/a-z/#R">R</a>
+<a title="S" href="/de/de/products-services/a-z/#S">S</a>
+<a title="T" href="/de/de/products-services/a-z/#T">T</a>
+<a title="U" href="/de/de/products-services/a-z/#U">U</a>
+<a title="V" href="/de/de/products-services/a-z/#V">V</a>
+<a title="W" href="/de/de/products-services/a-z/#W">W</a>
+<a title="X" href="/de/de/products-services/a-z/#X">X</a>
+<a title="Y" href="/de/de/products-services/a-z/#Y">Y</a>
+<a title="Z" href="/de/de/products-services/a-z/#Z">Z</a>
+</div>
+</div>
+</div>
+</div>
+<div class="flyoutBase">
+<img src="/shared/img/global/clear.gif"/>
+</div>
+</div>
+<!--startindex--><!--stopindex--><!--[if lte IE 6]><iframe class="ie6Iframe" id="iframeflyout3" src="/shared/img/global/clear.gif" style="display:none;"></iframe><![endif]-->
+<div onmouseout="hideNav()" onmouseover="clearTimeout(hideNavTimeout)" id="flyout3" class="navpanel">
+<div class="navpanel_cont"><div class="navColMenu" id="foCompanyMain"><h3>
+<a id="foCompanyMain1" href="javascript:void(0)" class="h3Selected foCompanyNav">Über Juniper</a>
+</h3>
+<h3>
+<a id="foCompanyMain2" href="javascript:void(0)" class="foCompanyNav">Aktuelles und Informationen</a>
+</h3>
+<h3>
+<a id="foCompanyMain3" href="javascript:void(0)" class="foCompanyNav">Das Besondere an Juniper</a>
+</h3>
+</div>
+<div id="foCompanyNav1" class="navColFlyout foCompanyCol">
+<ul>
+<li>
+<a href="/de/de/company/profile/" title="Unternehmensprofil">Unternehmensprofil</a>
+</li>
+<li>
+<a href="/de/de/company/leadership/" title="Führend am Markt">Führend am Markt</a>
+</li>
+<li>
+<a href="/de/de/company/partners/" title="Hauptgeschäftspartner">Hauptgeschäftspartner</a>
+</li>
+<li>
+<a href="/de/de/company/careers/" title="Stellen">Stellen</a>
+</li>
+<li>
+<a href="/de/de/contact-us/" title="Kontakt">Kontakt</a>
+</li>
+</ul>
+</div>
+<div id="foCompanyNav2" class="navColFlyout foCompanyCol" style="display: none;">
+<ul>
+<li>
+<a href="/de/de/company/analyst-relations/" title="Analysten">Analysten</a>
+</li>
+<li>
+<a href="/de/de/company/press-center/" title="Pressezentrum">Pressezentrum</a>
+</li>
+<li>
+<a href="/de/de/company/events/" title="Veranstaltungen">Veranstaltungen</a>
+</li>
+<li>
+<a href="/de/de/company/subscriptions/" title="Abonnements">Abonnements</a>
+</li>
+<li>
+<a href="http://investor.juniper.net/" title="Anleger">Anleger</a>
+</li>
+</ul>
+</div>
+<div id="foCompanyNav3" class="navColFlyout foCompanyCol" style="display: none;">
+<ul>
+<li>
+<a href="/de/de/company/innovation/" title="Innovationen">Innovationen</a>
+</li>
+<li>
+<a href="/de/de/company/awards/" title="Auszeichnungen">Auszeichnungen</a>
+</li>
+<li>
+<a href="/de/de/company/recognition/" title="Analysten Bewertungen">Analysten Bewertungen</a>
+</li>
+<li>
+<a href="/de/de/company/industry/" title="Fallstudien und Kundenzitate">Fallstudien und Kundenzitate</a>
+</li>
+<li>
+<a href="/de/de/company/citizenship-sustainability/" title="Gesellschaftliche Verantwortung">Gesellschaftliche Verantwortung</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="flyoutBase">
+<img src="/shared/img/global/clear.gif"/>
+</div>
+</div>
+<!--startindex-->
+
+
+
+<div id="loggedTop">
+<div class="left">
+<a title="Help" href="https://www.juniper.net/customers/csc/help/index.jsp">Help</a>
+</div>
+<div class="hSep left">
+|
+</div>
+<div class="left">
+<a title="My Account" href="https://www.juniper.net/customers/csc/administer/">My Account</a>
+</div>
+<div class="hSep left">
+|
+</div>
+<div class="left">
+<a title="Log Out" href="https://www.juniper.net/customers/support/logout.jsp">Log Out</a>
+</div>
+</div>
+
+</footer>
+</div> 
+
+<script src="/shared/framework/js/libs/jquery.global.min.js"></script>
+
+<script src="/shared/framework/js/global.js"></script>
+<script src="/shared/framework/js/home.js"></script>
+
+
+<script src="/shared/framework/js/libs/mdetect.min.js"></script>
+<script src="/us/en/dm/ipad-1on1-promo/js/ipad_promo_homepage.js"></script>
+
+
+			<script type="text/javascript" src="//www.juniper.net/assets/js/webtrends.js"></script>
+			<script type="text/javascript">var _tag=new WebTrends();_tag.dcsGetId();</script>
+			<script type="text/javascript">_tag.dcsCollect();</script>
+
+			<noscript>
+				<div>
+					<img src="http://statse.webtrendslive.com/dcsq7njin00000clw0vb9dfg3_6h4t/njs.gif?dcsuri=/nojavascript&amp;WT.js=No&amp;WT.tv=8.6.0" height="1" width="1" id="DCSIMG" alt="DCSIMG" />
+				</div>
+			</noscript>
+
+		<!-- google analytics -->
+<script src="/assets/js/google/gacode.js"></script> 
+		<!-- end google analytics -->
+
+
+<!--[if lt IE 7 ]><script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+		<script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})});</script><![endif]-->
+</body>
+</html>

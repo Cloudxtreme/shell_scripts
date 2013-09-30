@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>Girotel Online met OpenBSD</title>
+</head>
+<body>
+<p><i>This page is in Dutch, as it pertains to the use of the online banking site of a Dutch bank (Postbank) under OpenBSD.</i>
+<p><i>UPDATE - de Postbank heeft per 1 oktober 2005 haar gebruikers gedwongen over te stappen op hun nieuwe online banking systeem, '<a href="https://mijn.postbank.nl">Mijn Postbank</a>'. Afgezien van de afgrijselijk populaire benaming en wat regressies sinds Girotel werkt deze website voor zover ik kan beoordelen goed samen met "afwijkende" browsers en besturingssystemen, in ieder geval kan ik met een recente OpenBSD-installatie de voor mij belangrijke financiele handelingen verrichten. Onderstaande tekst wordt behouden om historische redenen.</i>
+<hr>
+<p>Girotel Online .. ik noem het ook wel Gribus Online. Om van deze online bank gebruik te kunnen maken was het jaren lang noodzakelijk om Windows te draaien. Voor mij, als OpenBSD gebruiker, hield dat in dat ik mijn systemen dualboot moest houden en steeds als ik geld over wilde maken moest rebooten. Of met VNC andere windows systemen overnemen om zo gebruik te kunnen maken van Girotel. Complot theorieen dat de Postbank samenwerkte met Microsoft om zo de monopolie positie van Windows in stand te houden zijn mij dan ook meermaals door het hoofd geschoten.
+<p>Gelukkig was ik niet de enige met dit probleem. Gebruikers van verschillende besturingssystemen (Linux, FreeBSD, NetBSD, OpenBSD) hadden allen pech. De Postbank bleek niet in staat tot het bouwen van een website die zich aan de op het internet geldende standaarden houdt, hierdoor konden mensen die geen Internet Explorer gebruikten (en dus Windows draaiden) geen geld overmaken. Een online petitie werd opgezet op <a href="http://www.girotel4all.nl/">http://www.girotel4all.nl/</a> (de oplettende lezer zal hier ook mijn naam tussen zien staan) om de Postbank er toe te bewegen haar website zo aan te passen, dat deze ook met andere besturingssystemen zou werken.
+<p>Dit bleek te werken. Na de nodige <a href="http://www.webwereld.nl/nieuws/15847.phtml">media-aandacht</a> voor het probleem heeft de Postbank toen uiteindelijk haar website aangepast. Een beetje jammer dat er pas wat gebeurt als ze slecht in het nieuws komen, maar het gaat nu even om het resultaat. Op <a href="http://www.postbank.nl/ing/pp/page/faq/detail/0,2813,1859_377090,00.html">de postbank site</a> staat nu dan ook te lezen :
+<pre>
+	Girotel functioneert goed met een drietal Linux varianten:
+	
+		* Linux Redhat 9.0 + Mozilla 1.2.1
+		* Linux Knoppix 3.2 + Mozilla 1.3
+		* Linux Knoppix 3.2 + Konquerer 3.1.1
+
+	Bij onze testen hebben we gebruik gemaakt van Java Sun 1.4.1.
+</pre>
+<p>Dit zijn de besturingssystemen/browsers waar de Postbank de werking van haar site mee heeft getest. Vele gebruikers waren nu <a href="http://www.xs4all.nl/~koospol/nl/gto/index.html">tevreden</a>.
+<p>Helaas is hiermee de kous nog niet af. Nog steeds negeert de Postbank belangrijke internet standaarden. De mensen achter de online petitie girotel4all hebben daarom mensen <a href="http://www.girotel4all.nl/nieuws.php">opgeroepen</a> de postbank te bedanken voor hun aanpassing maar ook te vragen de W3C-standaarden te respecteren en dus de website meer standaard te maken. Door nu te kijken of een bezoeker 'Linux' gebruikt, wordt de site aangepast, hiermee is het symptoom verholpen - het probleem blijft bestaan.
+<p>Ik zat ook met dat probleem. Na het installeren van <a href="http://www.mozilla.org/products/firefox/">Firefox 0.8</a> vanuit de portstree en vervolgens de <a href="http://marc.theaimsgroup.com/?l=openbsd-ports&m=107538994923632&w=2">native jdk port</a> kon ik met mijn systeem prima <a href="http://www.map24.nl">geavanceerde java sites</a> bezoeken...
+<p>...girotel online werkte echter nog steeds niet.
+<p>Na wat zoekwerk vond ik uiteindelijk de website van <a href="http://gto.streefland.net/">Dick Streefland</a>. Dick had dit probleem uitgebreid onderzocht en er een slimme technische work-around voor bedacht. Maar ik las ook de voor mij openbarende woorden :
+<pre>
+	Ze doen dit niet voor Gecko browsers, maar voor alle browsers met de woorden Linux of Mac in de User-Agent header.
+</pre>
+<p>Mijn browser stuurt per default de volgende User-Agent string mee : <tt>Mozilla/5.0 (X11; U; OpenBSD i386; en-US; rv:1.6) Gecko/20040611 Firefox/0.8</tt>. Deze bevat dus niet de woorden Linux of Mac. Snel opende ik de URL <a href="about:config">about:config</a>, helaas - geen standaard setting voor de User-Agent string. Wat google'n leerde mij dat ik hiervoor een extra key "general.useragent.override" moest toevoegen. Na deze de waarde <tt>Mozilla/5.0 (X11; U; OpenBSD i386 (not Linux); en-US; rv:1.6) Gecko/20040611 Firefox/0.8</tt> te hebben gegeven kon ik gebruik maken van de Girotel site ! De truuc was dus simpelweg het toevoegen van het woord "Linux" in de User-Agent string.
+<hr>
+<p>Ik wil graag Dick Streefland bedanken voor zijn onderzoek naar de werking van de Girotel Online site. Ook de girotel4all-mensen hartelijk bedankt.
+<p>En voor de postbank - natuurlijk is het voor een bank (of welke organisatie dan ook) schier onmogelijk om alle mogelijke combinaties van besturingssysteem en browser te testen. Dat is dan ook helemaal niet nodig, hier zijn standaarden voor ontwikkeld. Wanneer een website zich aan de standaarden houdt zal de bezoeker geen probleem hebben met het gebruik van die pagina's. Zodra er dan met een bepaalde combinatie een probleem is, kan daar de oorzaak worden gezocht. Door alleen Internet Explorer te ondersteunen leg je niet alleen je klanten beperkingen op, je maakt het voor jezelf ook moeilijker, <a href="http://www.spaink.net/parool/20030701.html">bijvoorbeeld wanneer Internet Explorer wordt aangepast</a>
+<p>Een quote van de hierboven gelinkte column van Karin Spaink :
+<pre>
+	Sinds wanneer kan een bank uitmaken met wat voor computersysteem ik werk ?
+</pre>
+<p>Paul 'WEiRD' de Weerd<br>Amsterdam, 13 juni 2004
+<br>
+<p><a href="../">Back to OpenBSD stuff</a>
+<p align="right"><a href="http://www.openbsd.org/"><img border="0" src="../../images/openbsd_pb.gif" alt="Powered by OpenBSD" width="150" height="40"></a>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title> Scapy extensions </title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+</head>
+<body>
+
+<div class="content">
+<div class="pagetitle"> Scapy extensions </div>
+
+<!-- Scapy6 -->
+<p>&nbsp;</p>
+<hr/>
+<a name="scapy6"></a>
+<h1> IPv6 (Scapy6) <font color="red">[merged upstream]</font> </h1>
+
+<p> In 2006, <a href="http://www.valadon.net">Guillaume Valadon</a>
+  and I started working on IPv6 support for Scapy. This resulted on a
+  parallel IPv6-enabled version
+  of <a href="http://secdev.org/projects/scapy">Scapy</a>
+  named <a href="http://hg.natisbad.org/scapy6/"><b>Scapy6</b></a>. </p>
+
+<p> Support for most of the protocols associated with IPv6 (ICMPv6,
+  Neighbor Discovery, MLD, MRD, DHCPv6, MIPv6 ...) was progressively
+  added to the extension. </p> 
+
+<p> In August 2008, <a href="http://secdev.org/">Phil</a>
+  started <a href="http://hg.secdev.org/scapy/log?rev=82433a4af9f3">merging</a>
+  our work in version 2.0 of <a href="http://hg.secdev.org/scapy/">Scapy</a> and quickly
+  completed that merge. </p>
+
+<p> As a conclusion, <b>Scapy6 is now deprecated </b> and you can
+    benefit from IPv6 protocol suite support directly
+    in <a href="http://hg.secdev.org/scapy/">Scapy</a>. </p>
+
+<pre>
+$ <b>hg clone http://hg.secdev.org/scapy</b>
+destination directory: scapy
+requesting all changes
+adding changesets
+adding manifests
+adding file changes
+added 1195 changesets with 1641 changes to 145 files
+updating working directory
+129 files updated, 0 files merged, 0 files removed, 0 files unresolved
+
+$ <b>cd scapy/</b>
+
+$ <b>sudo ./run_scapy</b>
+Welcome to Scapy (2.1.0-dev)
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>traceroute6("www.google.com", maxttl=15)</b>
+Begin emission:
+.....*..*..*..*..*....*******.*.***Finished to send 30 packets.
+**......*.***...*..**.......................................................
+Received 158 packets, got 10 answers, remaining 5 packets
+   2a00:1450:8002:0000:0000:0000:0000:0068   :tcpwww 
+1  2001:7a8:8:8::8                            3      
+2  2001:7a8:0:c951::1                         3      
+3  2001:7a8:1:131::1                          3      
+4  2001:7a8:1:30::2                           3      
+5  2001:860:0:6:0:1:5169:1                    3      
+6  2001:4860:0:1::25                          3      
+7  2a00:1450:8002::68                         SA     
+8  2a00:1450:8002::68                         SA     
+9  2a00:1450:8002::68                         SA     
+10 2a00:1450:8002::68                         SA     
+(&lt;<span><font color="red">Traceroute</font></span>: <span><font color="blue">TCP</font></span>:<span><font color="#FE2EF7">4</font></span> <span><font color="blue">UDP</font></span>:<span><font color="#FE2EF7">0</font></span> <span><font color="blue">ICMP</font></span>:<span><font color="#FE2EF7">0</font></span> <span><font color="blue">Other</font></span>:6&gt;, &lt;<span><font color="red">Unanswered</font></span>: <span><font color="blue">TCP</font></span>:<span><font color="#FE2EF7">5</font></span> <span><font color="blue">UDP</font></span>:<span><font color="#FE2EF7">0</font></span> <span><font color="blue">ICMP</font></span>:<span><font color="#FE2EF7">0</font></span> <span><font color="blue">Other</font></span>:<span><font color="#FE2EF7">0</font></span>&gt;)
+</pre>
+
+<!-- X.509 RSA Certificates and keys extension for Scapy -->
+<p>&nbsp;</p>
+<hr/>
+<a name="cert"></a>
+<h1> X.509 Cert, CRL and Key <span><font color="red">[merged upstream]</font></span> </h1>
+
+<p> A while ago (I was still using CVS at that time), I was
+  working on extensions which required support for X.509
+  Certificates, Keys and CRL. The idea was to be able to 
+  import X.509 certificates, CRL and keys as objects in Python scripts
+  (and Scapy obviously) and benefit from useful methods to sign, verify,
+  encrypt, decrypt and do a lot more. I started writing a standalone pure
+  Python module for that purpose: <b> cert.py </b></p> 
+
+<p> You might be wondering why I did not simply reused existing
+  frameworks to do that (python-crypto, M2crypto, pyOpenSSL,  ...). They were
+  limited on some aspects and most importantly I wanted to spend time
+  on the protocols
+  (<a href="http://www.rsa.com/rsalabs/node.asp?id=2125">PKCS#1</a>,
+  <a href="http://tools.ietf.org/html/rfc3447">RFC 3447</a>,
+  <a href="http://tools.ietf.org/html/rfc5280">RFC 5280</a> ...) and
+  come with a pure Python implementation of the useful methods in
+  order to be able to modify them at will. </p>
+
+<p> As I did not want to deal with the ASN.1 parsing directly (ASN.1
+  support was not yet in Scapy and I also did not want the module to depend
+  on Scapy at that time anyway), I decided to implement a <b>temporary
+  (scurvy) hack for X.509 certificates, CRL and keys import</b>: depend
+  on <b>openssl</b> binary and parse the output of its subcommands for
+  that purpose. Import could be improved later without breaking the API
+  provided by the module. The benefit is that you can drop cert.py
+  on a system with OpenSSL installed and start using it directly.</p>
+
+<p> Anyway, if you want to use the module: </p>
+<ul>
+<li> <b>in Scapy</b>: <a href="http://secdev.org/">Phil</a>
+  has <a href="http://hg.secdev.org/scapy/rev/42db888aaf7b">added
+  cert.py upstream</a> so you can simply import it like any other
+  Scapy internal module (using something like <b>from
+  scapy.crypto.cert import *</b> </li> 
+<li> <b>in a standalone project</b>: clone the repository (<b>hg clone
+  <a href="http://hg.natisbad.org/cert">http://hg.natisbad.org/cert</a></b>)
+  to get cert.py and then do a simple <b>import cert</b> in your
+  Python code.</li>
+</ul>
+
+<p> The 3 main classes are Cert, Key and CRL. The code is commented
+  and IMHO easy to read. All main methods have associated docstrings
+  so it is pretty easy to understand what can be done. If you need
+  examples, you can clone the repository (<b>hg
+  clone <a href="http://hg.natisbad.org/cert">http://hg.natisbad.org/cert</a></b>)
+  and take a look at cert.uts file.  Don't hesitate to bug me by email
+  or post a message
+  on <a href="http://www.secdev.org/projects/scapy/index.html#ml">Scapy
+  Mailing List</a> if you have additional questions. </p>
+
+<p>Here is a small overview of what the module can be used for:</p>
+
+<pre>
+arno@small:/tmp/$ <b>hg clone http://hg.secdev.org/scapy</b>          # clone Scapy
+destination directory: scapy
+requesting all changes
+adding changesets
+adding manifests
+adding file changes
+added 1195 changesets with 1641 changes to 145 files
+updating to branch default
+129 files updated, 0 files merged, 0 files removed, 0 files unresolved
+
+arno@small:/tmp/scapy$ <b>openssl genrsa 4096 >  key.pem</b>          # generate a RSA key pair
+Generating RSA private key, 4096 bit long modulus
+....................................................................................++
+..........................................................++
+unable to write 'random state'
+e is 65537 (0x10001)
+
+                                                               # Generate a self signed cert
+arno@small:/tmp/scapy$ <b>openssl req -new -x509 -nodes -sha1 -days 365 -key key.pem > cert.pem</b>
+Country Name (2 letter code) [AU]:FR
+State or Province Name (full name) [Some-State]:France
+Locality Name (eg, city) []:Paris
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:natisbad.org
+Organizational Unit Name (eg, section) []:PKI Services Unit
+Common Name (eg, YOUR name) []:Arnaud Ebalard
+Email Address []:arno@natisbad.org
+
+arno@small:/tmp/scapy$ <b>./run_scapy </b>                            # launch scapy
+Welcome to Scapy (2.1.0-dev)
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>from scapy.crypto.cert import *</b>                            # import cert module
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>c = Cert("cert.pem")</b>                                       # import our self signed cert as c
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>c.show()</b>
+Serial: 827EA38F7A0E025A
+Issuer: C=FR, ST=France, L=Paris, ... , CN=Arnaud Ebalard/emailAddress=arno@natisbad.org
+Subject: C=FR, ST=France, L=Paris, ... , CN=Arnaud Ebalard/emailAddress=arno@natisbad.org
+Validity: 01/01/10 to 01/01/11
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>k=Key("key.pem")</b>                                           # import associated key pair as k
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>help(k.sign)</b>                                               # How does .sign() work?
+Help on method sign in module scapy.crypto.cert:
+
+sign(self, M, t=None, h=None, mgf=None, sLen=None) method of scapy.crypto.cert.Key instance
+    Sign message 'M' using 't' signature scheme where 't' can be:
+    
+    - None: the message 'M' is directly applied the RSASP1 signature
+            primitive, as described in PKCS#1 v2.1, i.e. RFC 3447 Sect
+            5.2.1. Simply put, the message undergo a modular exponentiation
+            using the private key. Additionnal method parameters are just
+            ignored.
+    
+    - 'pkcs': the message 'M' is applied RSASSA-PKCS1-v1_5-SIGN signature
+            scheme as described in Sect. 8.2.1 of RFC 3447. In that context,
+            the hash function name is passed using 'h'. Possible values are
+            "md2", "md4", "md5", "sha1", "tls", "sha224", "sha256", "sha384"
+            and "sha512". If none is provided, sha1 is used. Other additionnal 
+            parameters are ignored.
+    
+    - 'pss' : the message 'M' is applied RSASSA-PSS-SIGN signature scheme as
+            described in Sect. 8.1.1. of RFC 3447. In that context,
+    
+            o 'h' parameter provides the name of the hash method to use.
+               Possible values are "md2", "md4", "md5", "sha1", "tls", "sha224",
+               "sha256", "sha384" and "sha512". if none is provided, sha1
+               is used. 
+    
+            o 'mgf' is the mask generation function. By default, mgf
+               is derived from the provided hash function using the
+               generic MGF1 (see pkcs_mgf1() for details).
+    
+            o 'sLen' is the length in octet of the salt. You can overload the
+              default value (the octet length of the hash value for provided
+              algorithm) by providing another one with that parameter.
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>M = "message to be signed"</b>
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>k.sign(M, t="pss")</b>                                         # sign M (pss w/ SHA1)
+"\xb6[\x820\xff\xf4V\xc1\x130\xd8\x80 ... \xf4rYaq\xb1\xbd\xdc'\xcaZoo\xf4"
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>S=_</b>
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>c.verify(M, S, t="pss")</b>                                    # verify signature
+True
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>M = "message to be encrypted"</b>
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>c.encrypt(M, t='oaep')</b>                                     # (public) encrypt M
+'r\x08~\x9b\xeb\xcd\x80\xc2\xbb\x0e_V ... \xff\xbf\xa4H%\xffr(\x83\xa5\x80'
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>C=_</b>
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>k.decrypt(C, t='oaep')</b>                                     # (private) decrypt C
+'message to be encrypted'
+
+                                                               # Overview of Cert methods
+<span><font color="blue">&gt;&gt;&gt;</font></span> c.           # TAB TAB (i.e. hit tabulation twice for completion)
+c.__doc__                    c.dercert                    c.output
+c.__init__                   c.encrypt                    c.pemcert
+c.__module__                 c.exponent                   c.possible_fields
+c.__repr__                   c.export                     c.possible_fields_count
+c.__str__                    c.extKeyUsage                c.pubKeyAlg
+c._apply_ossl_cmd            c.format                     c.rawcert
+c._rsaep                     c.isIssuerCert               c.remainingDays
+c._rsaes_oaep_encrypt        c.isSelfSigned               c.serial
+c._rsaes_pkcs1_v1_5_encrypt  c.is_revoked                 c.show
+c._rsassa_pkcs1_v1_5_verify  c.issuer                     c.sig
+c._rsassa_pss_verify         c.key                        c.sigAlg
+c._rsavp1                    c.keyHash                    c.sigLen
+c.asn1parsecert              c.keyUsage                   c.subject
+c.authorityInfoAccess        c.modulus                    c.subjectKeyID
+c.authorityKeyID             c.modulusLen                 c.tbsCertificate
+c.authorityKeyID_dirname     c.modulus_hexdump            c.textcert
+c.authorityKeyID_keyid       c.notAfter                   c.verify
+c.authorityKeyID_serial      c.notAfter_str               c.verifychain
+c.basicConstraints           c.notAfter_str_simple        c.verifychain_from_cafile
+c.basicConstraintsCritical   c.notBefore                  c.verifychain_from_capath
+c.cRLDistributionPoints      c.notBefore_str              c.version
+c.certpath                   c.notBefore_str_simple       
+c.chain                      c.osslcmdbase                
+
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>c.isSelfSigned()</b>
+True
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>c.notAfter</b>
+(2011, 1, 1, 17, 40, 59, 5, 1, 0)
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>c.notAfter_str</b>
+'Jan  1 17:40:59 2011 GMT'
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>c.remainingDays()</b>
+364.91947916666669
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>c.version</b>
+3
+
+                                                                    # Overview of Key methods
+<span><font color="blue">&gt;&gt;&gt;</font></span> k.           # TAB TAB (i.e. hit tabulation twice for completion)
+k.__doc__                    k._rsassa_pss_sign           k.modulusLen
+k.__init__                   k._rsassa_pss_verify         k.osslcmdbase
+k.__module__                 k._rsavp1                    k.pemkey
+k.__str__                    k.asn1parsekey               k.possible_fields
+k._apply_ossl_cmd            k.coefficient                k.possible_fields_count
+k._rsadp                     k.decrypt                    k.prime1
+k._rsaep                     k.derkey                     k.prime2
+k._rsaes_oaep_decrypt        k.encrypt                    k.privExp
+k._rsaes_oaep_encrypt        k.exponent1                  k.pubExp
+k._rsaes_pkcs1_v1_5_decrypt  k.exponent2                  k.rawkey
+k._rsaes_pkcs1_v1_5_encrypt  k.format                     k.sign
+k._rsasp1                    k.key                        k.textkey
+k._rsassa_pkcs1_v1_5_sign    k.keypath                    k.verify
+k._rsassa_pkcs1_v1_5_verify  k.modulus                    
+
+                                                                    # CRL is left as exercise
+                                                                    # for curious reader
+</pre>
+
+<p> One (IMHO) interesting direction that I have currently no time to
+  follow would be to progressively remove the dependency of cert.py
+  on <b>openssl</b> binary in Scapy in order to replace it by the now
+  available internal ASN.1 support. This would allow modifying
+  (e.g. fuzzing) certificates and CRL structure for instance: if you
+  have the time, I bet this is almost guaranteed to allow you to find
+  bugs in various crypto frameworks. </p>
+
+<p> <b> Disclaimer: the module has been developed as a
+    convenience for testing purposes only. Do not rely on it for real
+    security needs (e.g. production apps). You have been
+    warned. </b> </p>
+
+
+<!-- PF_KEYv2 -->
+<p>&nbsp;</p>
+<hr/>
+<a name="pfkey"></a>
+<h1> PF_KEY </h1>
+
+<p> While performing MIPv6 and IPsec related work under Linux, I
+  often had the need to monitor what was going on at PF_KEY
+  level. Even if <b>ip xfrm monitor</b> or <b>setkey -x</b> are of
+  some help on that aspect, they are also very limited when you are
+  used to <b>tcpdump</b>, <b>wireshark</b> or <b>Scapy</b>. They also
+  do not allow injecting PF_KEY messages. </p>
+
+<p> So, I started adding support for PF_KEY to Scapy (more precisely
+  to Scapy6 because IPv6 support had not been merged upstream at that
+  time). I used <a href="http://tools.ietf.org/html/rfc2367">RFC
+  2367</a>, <a href="http://www.kame.net/newsletter/20021210/">KAME
+  extensions for policy management</a> and Linux kernel code as a
+  basis for that work. </p>
+
+<p> One of the direct advantage of having PF_KEY support in Scapy is
+  that you not only have the ability to monitor but also the ability
+  to interact (i.e. inject PF_KEY traffic). </p>
+
+<p> So, if you have a need, my old mercurial repo
+  is <a href="http://hg.natisbad.org/scapy6-pfkey/">here</a>. If you
+  find the extension useful and you think it would be interesting to
+  have it available upstream in Scapy, then drop me an email and I'll
+  see what I can do to update it for current version of Scapy. At the
+  moment, it fits my needs. </p> 
+
+<p> Short example of how you can start playing with it: </p>
+
+<pre>
+arno@small:/tmp$ <b>hg clone http://hg.natisbad.org/scapy6-pfkey</b>
+destination directory: scapy6-pfkey
+requesting all changes
+adding changesets
+adding manifests
+adding file changes
+added 918 changesets with 947 changes to 24 files
+updating to branch default
+18 files updated, 0 files merged, 0 files removed, 0 files unresolved
+
+arno@small:/tmp/scapy6-pfkey$ <b>sudo ./scapy6-pfkey.py</b>
+Welcome to Scapy (1.2.0.2)
+Scapy6 - PF_KEYv2 add-on (Using PID 3467)
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>l=pfkey_sniff()</b>                                            # Ctrl-C to stop the capture
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>l.show()</b>
+...
+<span><font color="blue">0044</font></span> SADB_X_MIGRATE / SADB_EXT_X_KMADDRESS / SADB_EXT_ADDRESS_SRC / ... / SADB_EXT_X_POLICY
+...
+<span><font color="blue">0054</font></span> SADB_ACQUIRE: ESP 2001:db8:1::1/128 0/any -&gt; 2001:db8:2::2/128 0/any ...
+...
+<span><font color="blue">&gt;&gt;&gt;</font></span> <b>l[44].show()</b>
+###[ <span><font color="red">PF_KEY SADB_X_MIGRATE message</font></span> ]###
+  <span><font color="blue">version</font></span>= <span><font color="#FE2EF7">2</font></span>
+  <span><font color="blue">type</font></span>= <span><font color="#FE2EF7">SADB_X_MIGRATE</font></span>
+  <span><font color="blue">errno</font></span>= <span><font color="#FE2EF7">0</font></span>
+  <span><font color="blue">satype</font></span>= <span><font color="#FE2EF7">SADB_SATYPE_ESP</font></span>
+  <span><font color="blue">len</font></span>= <span><font color="#FE2EF7">40</font></span>
+  <span><font color="blue">res</font></span>= <span><font color="#FE2EF7">0</font></span>
+  <span><font color="blue">seq</font></span>= <span><font color="#FE2EF7">0</font></span>
+  <span><font color="blue">pid</font></span>= <span><font color="#FE2EF7">0</font></span>
+###[ <span><font color="red">PF_KEY Key Manager Addresses extension</font></span> ]###
+     <span><font color="blue">len</font></span>= <span><font color="#FE2EF7">8</font></span>
+     <span><font color="blue">type</font></span>= <span><font color="#FE2EF7">SADB_EXT_X_KMADDRESS</font></span>
+     <span><font color="blue">res</font></span>= <span><font color="#FE2EF7">0</font></span>
+     \local\
+      |###[ <span><font color="red">sockaddr_in6 structure - Linux version</font></span> ]###
+      |  <span><font color="blue">sin6_family</font></span>= <span><font color="#FE2EF7">AF_INET6</font></span>
+      |  <span><font color="blue">sin6_port</font></span>= <span><font color="#FE2EF7">0</font></span>
+      |  <span><font color="blue">sin6_flowinfo</font></span>= <span><font color="#FE2EF7">0</font></span>
+      |  <span><font color="blue">sin6_addr</font></span>= <span><font color="#FE2EF7">2001:db8:3::3</font></span>
+      |  <span><font color="blue">sin6_scope_id</font></span>= <span><font color="#FE2EF7">0</font></span>
+     \remote\
+      |###[ <span><font color="red">sockaddr_in6 structure - Linux version</font></span> ]###
+      |  <span><font color="blue">sin6_family</font></span>= <span><font color="#FE2EF7">AF_INET6</font></span>
+      |  <span><font color="blue">sin6_port</font></span>= <span><font color="#FE2EF7">0</font></span>
+      |  <span><font color="blue">sin6_flowinfo</font></span>= <span><font color="#FE2EF7">0</font></span>
+      |  <span><font color="blue">sin6_addr</font></span>= <span><font color="#FE2EF7">2001:db8:2::1</font></span>
+      |  <span><font color="blue">sin6_scope_id</font></span>= <span><font color="#FE2EF7">0</font></span>
+###[ <span><font color="red">PF_KEY IPv4/IPv6 source address extension</font></span> ]###
+        <span><font color="blue">len</font></span>= <span><font color="#FE2EF7">5</font></span>
+        <span><font color="blue">type</font></span>= <span><font color="#FE2EF7">SADB_EXT_ADDRESS_SRC</font></span>
+        <span><font color="blue">proto</font></span>= <span><font color="#FE2EF7">Mobility Header</font></span>
+        <span><font color="blue">plen</font></span>= <span><font color="#FE2EF7">128</font></span>
+        <span><font color="blue">res</font></span>= <span><font color="#FE2EF7">0</font></span>
+        \addr\
+         |###[ <span><font color="red">sockaddr_in6 structure - Linux version</font></span> ]###
+         |  <span><font color="blue">sin6_family</font></span>= <span><font color="#FE2EF7">AF_INET6</font></span>
+         |  <span><font color="blue">sin6_port</font></span>= <span><font color="#FE2EF7">0</font></span>
+         |  <span><font color="blue">sin6_flowinfo</font></span>= <span><font color="#FE2EF7">0</font></span>
+         |  <span><font color="blue">sin6_addr</font></span>= <span><font color="#FE2EF7">2001:db8:2::2</font></span>
+         |  <span><font color="blue">sin6_scope_id</font></span>= <span><font color="#FE2EF7">0</font></span>
+###[ <span><font color="red">PF_KEY IPv4/IPv6 destination address extension</font></span> ]###
+           <span><font color="blue">len</font></span>= <span><font color="#FE2EF7">5</font></span>
+           <span><font color="blue">type</font></span>= <span><font color="#FE2EF7">SADB_EXT_ADDRESS_DST</font></span>
+           <span><font color="blue">proto</font></span>= <span><font color="#FE2EF7">Mobility Header</font></span>
+           <span><font color="blue">plen</font></span>= <span><font color="#FE2EF7">128</font></span>
+           <span><font color="blue">res</font></span>= <span><font color="#FE2EF7">0</font></span>
+           \addr\
+            |###[ <span><font color="red">sockaddr_in6 structure - Linux version</font></span> ]###
+            |  <span><font color="blue">sin6_family</font></span>= <span><font color="#FE2EF7">AF_INET6</font></span>
+            |  <span><font color="blue">sin6_port</font></span>= <span><font color="#FE2EF7">0</font></span>
+            |  <span><font color="blue">sin6_flowinfo</font></span>= <span><font color="#FE2EF7">0</font></span>
+            |  <span><font color="blue">sin6_addr</font></span>= <span><font color="#FE2EF7">2001:db8:2::1</font></span>
+            |  <span><font color="blue">sin6_scope_id</font></span>= <span><font color="#FE2EF7">0</font></span>
+###[ <span><font color="red">PF_KEY POLICY extension</font></span> ]###
+              <span><font color="blue">len</font></span>= <span><font color="#FE2EF7">20</font></span>
+              <span><font color="blue">type</font></span>= <span><font color="#FE2EF7">SADB_EXT_X_POLICY</font></span>
+              <span><font color="blue">poltype</font></span>= <span><font color="#FE2EF7">IPsec</font></span>
+              <span><font color="blue">dir</font></span>= <span><font color="#FE2EF7">OUT</font></span>
+              <span><font color="blue">res</font></span>= <span><font color="#FE2EF7">0</font></span>
+              <span><font color="blue">id</font></span>= <span><font color="#FE2EF7">0</font></span>
+              <span><font color="blue">prio</font></span>= <span><font color="#FE2EF7">0</font></span>
+              \reqs\
+               |###[ <span><font color="red">IPsec Request (sadb_x_ipsecrequest)</font></span> ]###
+               |  <span><font color="blue">len</font></span>= <span><font color="#FE2EF7">72</font></span>
+               |  <span><font color="blue">proto</font></span>= <span><font color="#FE2EF7">ESP</font></span>
+               |  <span><font color="blue">mode</font></span>= <span><font color="#FE2EF7">Transport</font></span>
+               |  <span><font color="blue">level</font></span>= <span><font color="#FE2EF7">Require</font></span>
+               |  <span><font color="blue">res1</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |  <span><font color="blue">id</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |  <span><font color="blue">res2</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |  \sockaddr1\
+               |   |###[ <span><font color="red">sockaddr_in6 structure - Linux version</font></span> ]###
+               |   |  <span><font color="blue">sin6_family</font></span>= <span><font color="#FE2EF7">AF_INET6</font></span>
+               |   |  <span><font color="blue">sin6_port</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |   |  <span><font color="blue">sin6_flowinfo</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |   |  <span><font color="blue">sin6_addr</font></span>= <span><font color="#FE2EF7">::</font></span>
+               |   |  <span><font color="blue">sin6_scope_id</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |  \sockaddr2\
+               |   |###[ <span><font color="red">sockaddr_in6 structure - Linux version</font></span> ]###
+               |   |  <span><font color="blue">sin6_family</font></span>= <span><font color="#FE2EF7">AF_INET6</font></span>
+               |   |  <span><font color="blue">sin6_port</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |   |  <span><font color="blue">sin6_flowinfo</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |   |  <span><font color="blue">sin6_addr</font></span>= <span><font color="#FE2EF7">::</font></span>
+               |   |  <span><font color="blue">sin6_scope_id</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |###[ <span><font color="red">IPsec Request (sadb_x_ipsecrequest)</font></span> ]###
+               |  <span><font color="blue">len</font></span>= <span><font color="#FE2EF7">72</font></span>
+               |  <span><font color="blue">proto</font></span>= <span><font color="#FE2EF7">ESP</font></span>
+               |  <span><font color="blue">mode</font></span>= <span><font color="#FE2EF7">Transport</font></span>
+               |  <span><font color="blue">level</font></span>= <span><font color="#FE2EF7">Require</font></span>
+               |  <span><font color="blue">res1</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |  <span><font color="blue">id</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |  <span><font color="blue">res2</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |  \sockaddr1\
+               |   |###[ <span><font color="red">sockaddr_in6 structure - Linux version</font></span> ]###
+               |   |  <span><font color="blue">sin6_family</font></span>= <span><font color="#FE2EF7">AF_INET6</font></span>
+               |   |  <span><font color="blue">sin6_port</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |   |  <span><font color="blue">sin6_flowinfo</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |   |  <span><font color="blue">sin6_addr</font></span>= <span><font color="#FE2EF7">2001:db8:3::3</font></span>
+               |   |  <span><font color="blue">sin6_scope_id</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |  \sockaddr2\
+               |   |###[ <span><font color="red">sockaddr_in6 structure - Linux version</font></span> ]###
+               |   |  <span><font color="blue">sin6_family</font></span>= <span><font color="#FE2EF7">AF_INET6</font></span>
+               |   |  <span><font color="blue">sin6_port</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |   |  <span><font color="blue">sin6_flowinfo</font></span>= <span><font color="#FE2EF7">0</font></span>
+               |   |  <span><font color="blue">sin6_addr</font></span>= <span><font color="#FE2EF7">2001:db8:2::1</font></span>
+               |   |  <span><font color="blue">sin6_scope_id</font></span>= <span><font color="#FE2EF7">0</font></span>
+&gt;&gt;&gt;
+</pre>
+
+<!-- Secure Neighbor Discovery (SEND, RFC 3971 / RFC 3972) extension -->
+<!-- 
+<p>&nbsp;</p>
+<hr/>
+<h1> Secure Neighbor Discovery (SEND) </h1>
+
+<p><span><font color="red"> FIXME </font></span> 
+  <a href="http://tools.ietf.org/html/rfc3971">RFC 3971</a>,
+  <a href="http://tools.ietf.org/html/rfc3972">RFC 3972</a>,
+  <a href="http://tools.ietf.org/html/rfc3756">RFC 3756</a>
+</p>
+-->
+</div>
+
+</body>
+</html>
+

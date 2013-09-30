@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Rating and Filtering Information Page</title> 
+
+	<meta http-equiv="PICS-Label" content='(PICS-1.1 "http://www.iajapan.org/rating/" l comment "Self-rating with SafetyOnline2"  r (lv 0))' />
+	<meta http-equiv="PICS-Label" content='(PICS-1.1 "http://pics.enc.or.jp/ratingsv01.html" l comment "Self-rating with SafetyOnline"  r (e 0 l 0 n 0 s 0 v 0))' />
+	<meta http-equiv="pics-label" content='(pics-1.1 "http://www.icra.org/ratingsv02.html" l gen true for "http://www.iajapan.org/rating/" r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true for "http://www.iajapan.org/rating/" r (n 0 s 0 v 0 l 0))' />
+
+	<style type="text/css">
+	<!--
+
+		body	{background: white no-repeat fixed top left; color: black; }
+		h1		{background: white; color: #00b; font-size: 240%; margin-bottom: 0}
+		h2		{background: #00b ; color: white; text-align: center; margin-top: 0em; font: normal bold 160% "平成角ゴシック","ＭＳ ゴシック";}
+		h3		{margin: 1em 1em 0em 1em; background: #e6e6fa; color: black; padding: 3px 3px 1px 1em}
+
+		.Abstract	{background: #ffefd5; color: black ; margin: 1em 3em 1em 3em; padding: 3px 1em 3px 1em; border: 1px solid #00b;}
+		.datetime	{background: white; color: black ; text-align: right ; font-size: 80% ;padding-right: 2%;}
+		.footer		{background: white; color: black}
+
+		a:hover		{color: blue; background: yellow }
+		a:active	{color: red; background: yellow }
+		br.clearall	{clear: left} 
+
+		.box		{background: #F0F8FF; color: black; border: 1px solid #00b; margin: 1%; padding: 1%;}
+		.box3		{background: #F0F8FF; color: black; float: left; width: 27%; border: 1px solid #00f; margin: 1%;}
+		.box4		{background: #F0F8FF; color: black; float: left; width: 37%; border: 1px solid #00f; margin: 1%;}
+		.box5		{background: #F0F8FF; color: black; float: left; width: 47%; border: 1px solid #00f; margin: 1%;}
+		.box5w		{background: white  ; color: black; float: left; width: 47%; margin: 1%;}
+		.box6		{background: #F0F8FF; color: black; float: left; width: 57%; border: 1px solid #00f; margin: 1%;}
+		.box100		{background: #F0F8FF; color: black; width: 100%; border: 1px solid #00f; margin: 0 0 1% 0;}
+
+		.note		{color:red; font: normal normal 100% "平成角ゴシック","ＭＳ ゴシック";}
+		.new		{color:red; font: italic bold 100% "平成角ゴシック","ＭＳ ゴシック";}
+		.press		{color:red; font: normal normal 100% "平成角ゴシック","ＭＳ ゴシック";}
+
+		li			{list-style-type: square;margin: 0.1em 1em 0.3em 1em}
+		img.noline	{float:left; border: none}
+		img.chartop	{float:left; border: 1px solid #00f}
+
+		.f6 		{background: #F0F8FF ; color: black; font-size:  80%}
+		.button		{background-color: #ffefd5; color: #00b; }
+		.button1	{border: 1px solid aqua; background-color: silver; color: navy; padding: 2px}
+
+		p			{margin: 1em}
+
+		div.Quest	{background: #ffffe0 ; color: black;  width: 33em; border: 1px solid #00f; padding: 0em; margin: 1em}
+		.ipt		{margin: 0em 0em 0em 2em; padding: 3px;}
+		.ipt_f6		{margin: 1em 1em 1em 3em; padding: 3px;background: #F0F8FF ; color: black; font-size:  80%}
+		.f			{font-size:  80%}
+	-->
+	</style>
+
+	<script language="javascript" type="text/javascript">
+	<!--
+		function quest_check(){
+			ret = new Boolean(false);
+			form1 = document.forms["quest"];
+			var i;
+			chkFlg = new Boolean(false);
+			for (i = 0; i < form1.I_Q1.length; i++) {if (form1.I_Q1[i].checked==true){chkFlg = true;}}	if(chkFlg==false){alert("Q1 の回答を選択してください。");form1.I_Q1[0].focus();return( false );}chkFlg = false;
+			for (i = 0; i < form1.I_Q2.length; i++) {if (form1.I_Q2[i].checked==true){chkFlg = true;}}	if(chkFlg==false){alert("Q2 の回答を選択してください。");form1.I_Q2[0].focus();return( false );}chkFlg = false;
+			for (i = 0; i < form1.I_Q3.length; i++) {if (form1.I_Q3[i].checked==true){chkFlg = true;}}	if(chkFlg==false){alert("Q3 の回答を選択してください。");form1.I_Q3[0].focus();return( false );}chkFlg = false;
+			for (i = 0; i < form1.I_Q4.length; i++) {if (form1.I_Q4[i].checked==true){chkFlg = true;}}	if(chkFlg==false){alert("Q4 の回答を選択してください。");form1.I_Q4[0].focus();return( false );}chkFlg = false;
+			for (i = 0; i < form1.I_Q5.length; i++) {if (form1.I_Q5[i].checked==true){chkFlg = true;}}	if(chkFlg==false){alert("Q5 の回答を選択してください。");form1.I_Q5[0].focus();return( false );}chkFlg = false;
+			for (i = 0; i < form1.I_Q6.length; i++) {if (form1.I_Q6[i].checked==true){chkFlg = true;}}	if(chkFlg==false){alert("Q6 の回答を選択してください。");form1.I_Q6[0].focus();return( false );}chkFlg = false;
+			for (i = 0; i < form1.I_Q7.length; i++) {if (form1.I_Q7[i].checked==true){chkFlg = true;}}	if(chkFlg==false){alert("Q7 の回答を選択してください。");form1.I_Q7[0].focus();return( false );}chkFlg = false;
+			ret = confirm("アンケート送付します");
+			if(ret == false)
+				return( false );
+		}
+	//-->
+	</script>
+
+</head>
+
+
+<body>
+<!-- ■タイトル -->
+<!--
+<h1><a name="tof" href="http://www.iajapan.org/enc/rating/smallblue2.jpg"><img class="noline" src="http://www.iajapan.org/enc/rating/img/smallblue2s.jpg" alt="[SafetyOnline2]"  /></a>
+-->
+<h1><a name="tof" href="/rating/image/smallblue2.jpg"><img class="noline" src="/rating/image/smallblue2s.jpg" alt="[SafetyOnline2]"  /></a>
+フィルタリング情報ページ
+<span style="font-size: 60%; margin-bottom: 0"><br />フィルタリングでインターネットをもっと楽しく</span></h1>
+<div><a href="eindex.html" title="English Page">[English]</a></div>
+
+<div class="datetime">（更新日　2011年10月25日）</div><br class="clearall" />
+
+<!--
+<span class="note"><strong>ご注意</strong></span>：サーバメンテナンスのため、<span class="note">2010年12月27日（月）18時00分 ～ 12月28日（火）18時00分頃、</span>フィルタリングサービス、メール配信など全てのサーバ業務が停止します。ご迷惑をお掛けいたします。
+-->
+
+
+<p align="center"><strong><a href="../rating/renraku.html"><font size="6" style="background-color:#FF0000">重要！サービス終了に伴うご案内</font>
+</a></strong></p>
+
+
+
+<!-- ■アブストラクト -->
+<div class="Abstract">
+このホームページでは、フィルタリングに関する情報提供、ソフトウェアやサービスの無償提供を行っています。<br />
+なお、その利用は保護者・管理者の判断にまかせられています(<a href="#pgdetail">このページの趣旨</a>)。
+
+<!--
+また、<a href="#ank" title="アンケート">アンケートにご協力ください</a>。<br />
+-->
+
+</div>
+
+
+<div class="box5w">
+
+<!-- ■■■左のボックス -->
+
+<!-- ■メニュー -->
+<div class="box100"><h2>メニュー</h2>
+<ul>
+    <li>2009年5月12日 <a href="../filtering/press/20090512-press.html">「青少年の安全なインターネット利用環境の整備を目指して関係者に望まれる取組みについて～書き込み可能なCGMサイト増加への対応～の策定について</a>公表しました。</li>
+    <li>2008年10月17日 <a href="../filtering/press/20081017-press.html">「青少年の安全なインターネット利用環境の整備を目指して関係者に望まれる取組みについて～書き込み可能なCGMサイト増加への対応～（中間とりまとめ）」に関する意見の募集について</a>公表しました。</li>
+    <li>2008年8月27日 <a href="press/20080827-press.html">「フィルタリング普及啓発アクションプラン 2007」に基づく取組の成果及び今後の取組について</a>公表しました。</li>
+
+    <li>2008年4月24日 <a href="../filtering/press/20080424-press.html">「レイティング／フィルタリング連絡協議会研究会」の開催について～フィルタリング等によりインターネット上のコンテンツを選択するための
+新たな分類・格付け基準SafetyOnline4を目指して～ </a>公表しました。</li>
+    <li>2008年2月 <a href="../filtering/leaflet2008.html">～インターネットの有害サイトから子どもを守るために～リーフレット『フィルタリングを知っていますか？』（第2版の発行）</a></li>
+	<li><a href="#whatsnew">
+新着情報の続き</a></li>
+</ul>
+
+<h3>フィルタリングを使いたい方へ</h3>
+<ul>
+<li><b><a href="http://www.iajapan.org/enc/rating/details/letsuse.html" name="down" title="Let's Use the Filter">フィルタリングソフトを利用する</a><span class="f6">（ダウンロード等）</span></b></li>
+<li><a href="nihongo.html" name="market" title="Filtering Software">日本語対応フィルタリング</a>のご案内</li>
+<li><a href="leaflet.html"		name="leaflet"	title="leaflet"			>フィルタリングってなに？</a><span class="f6">（パンフレット）</span></li>
+<li><a href="http://www.iajapan.org/enc/rating/sfs-faq.html"		name="faq"	title="frequently asked questions">よくある質問FAQ</a></li>
+<li><a href="http://www.iajapan.org/enc/rating/info/sys_01.html"		name="system"	title="About Sustem"		>システム概要</a></li>
+<li><a href="http://www.iajapan.org/enc/rating/details/support.html"	name="supp"	title="Technical Support"	>技術サポート情報</a></li>
+<li><a href="http://www.iajapan.org/enc/rating/details/harmfulreq.html"	name="detreq"	title="Harmful URL Report"	>有害と思われるWebページの連絡窓口</a></li>
+</ul>
+
+<h3>ウェブサイトを作る方へ</h3>
+
+<ul>
+<li><a href="http://www.iajapan.org/enc/rating/details/selfrating.html"	name="selfrat"	title="Self-Rating"		>Webサイト作成者の方へ</a><br /><span class="f6">（セルフレイティングのすすめ）</span></li>
+</ul>
+
+<h3>フィルタリングについて調べたい方へ</h3>
+<ul>
+<li><a href="http://www.iajapan.org/rating/leaflet.html"		name="leaflet2"	title="leaflet"			>フィルタリングってなに？</a><span class="f6">（パンフレット）</span></li>
+<li><a href="http://www.iajapan.org/enc/rating/details/documents.html"	name="docs"	title="Documents"		>講演資料と報告書</a></li>
+<li><a href="http://www.iajapan.org/enc/rating/details/lawguide.html"	name="lawguide"	title="Raw and guidelines"	>法律、ガイドラインと関連情報</a></li>
+<li><a href="http://www.iajapan.org/trans2japanese/w3c/index.html"	name="trans"	title="translations"		>W3C関連ドキュメントの和訳</a></li>
+
+<li><a href="http://www.iajapan.org/enc/rating/details/support.html"	name="supp2"	title="Technical Support"	>技術サポート情報</a></li>
+<li><a href="http://www.iajapan.org/enc/rating/details/links.html"	name="links"	title="Other links"		>リンク</a></li>
+</ul>
+
+
+<h3>当協会の活動について</h3>
+<ul>
+<li><a href="http://www.iajapan.org/rfcouncil/"	name="council"	title="IAjapan/rfcouncil"	>レイティング／フィルタリング連絡協議会</a></li>
+<li><a href="http://www.iajapan.org/enc/rating/details/activity.html"	name="actv"	title="IAjapan/NMDA Activities"	>フィルタリングに関する活動内容</a></li>
+<li><a href="../rating/details/newsinf.html"	name="news"	title="News and Press-Release"	>お知らせとプレスリリース</a></li>
+<li><a href="http://www.iajapan.org/rating/mobilefiltering/index.html"	name="mobile"	title="MobilePhone Demo"	>SFSブラウザ</a><br /><span class="f6">（携帯電話におけるフィルタリングのデモンストレーション）</span></li>
+
+<li><a href="../contact/filtering.html">連絡先</a></li>
+<li><a href="http://www.iajapan.org/enc/rating/sitemap.html"		name="sitemap"	title="Site map        "	>サイトマップ</a></li>
+</ul>
+
+</div>
+
+
+<!-- ■新着情報 -->
+<a name="whatsnew"> </a>
+<div class="box100"><h2>新着情報</h2>
+<ul style="margin:0em 1em 1em 1em">
+    <li>2009年5月12日 <span class="press">プレスリリース</span><a href="../filtering/press/20090512-press.html">「青少年の安全なインターネット利用環境の整備を目指して関係者に望まれる取組みについて～書き込み可能なCGMサイト増加への対応～の策定について</a>公表しました。</li>
+    <li>2008年10月17日 <span class="press">プレスリリース</span><a href="../filtering/press/20081017-press.html">「青少年の安全なインターネット利用環境の整備を目指して関係者に望まれる取組みについて～書き込み可能なCGMサイト増加への対応～（中間とりまとめ）」に関する意見の募集について</a>公表しました。</li>
+    <li>2008年8月27日 <span class="press">プレスリリース</span><a href="press/20080827-press.html">「フィルタリング普及啓発アクションプラン 2007」に基づく取組の成果及び今後の取組について</a>公表しました。</li>
+    <li>2008年4月24日 <span class="press">プレスリリース</span><a href="../filtering/press/20080424-press.html">「レイティング／フィルタリング連絡協議会研究会」の開催について～フィルタリング等によりインターネット上のコンテンツを選択するための
+新たな分類・格付け基準SafetyOnline4を目指して～ </a>公表しました。</li>
+    <li>2008年2月 <a href="../filtering/leaflet2008.html">～インターネットの有害サイトから子どもを守るために～リーフレット『フィルタリングを知っていますか？』（第2版の発行）</a></li>
+    <li>2007年6月1日<span class="press">プレスリリース</span> <a href="press/20070601-press.html">「フィルタリング普及啓発アクションプラン 2007」について </a>公表しました。</li>
+
+    <li>2007年4月3日 <span class="press">プレスリリース</span><a href="../filtering/press/20070403-press.html">インターネット上の有害コンテンツの多様化に対応した新たな格付け基準SafetyOnline3の策定</a>公表しました。</li>
+    <li>2007年3月30日<a href="../rfcouncil/2006/np_061124598502s.pdf" target="_blank">インターネットを利用している子どもの保護者　アンケート結果2006年度版（フィルタリングソフトの認知状況や使用状況、保護者の意識等）</a> <a href="../rfcouncil/2006/np_061124598502.pdf" target="_blank">詳細版</a></li>
+	<li>2007年1月10日<span class="press">プレスリリース</span><a href="../filtering/press/20070110-press.html">～インターネットの有害サイトから子どもを守るために～リーフレット『フィルタリングを知っていますか？』の発行（フィルタリング連絡協議会）</a></li>
+
+	<li>2006年6月30日  <a href="http://www.iajapan.org/rating/details/stopserv.html"><span class="note">【重要】</span>「フィルタリングサービス一部終了のお知らせ」</a>を掲載しました。</li>
+	<li>2005年6月10日  <a href="http://www.iajapan.org/enc/rating/details/newsinf.html#sfs32arel">SFS3.02 の新たなクロスサイトスクリプティング脆弱性へ対応したSFS3.02a、および3.02aへのアップデートモジュール</a>の提供を開始しました。</li>
+	<li>2005年2月1日  <a href="http://pics.enc.or.jp/mob/" target="_blank">携帯電話のフィルタリングに関するアンケート</a>の実施期間を平成17年2月28日まで延長しました。<a href="http://pics.enc.or.jp/mob/" target="_blank">アンケート</a>は携帯電話のフィルタリングに関するニーズを把握するために、保護者や子どもを対象としたものです。</li>
+
+	<li>2005年1月25日  <a href="http://www.iajapan.org/enc/rating/details/rawguide.html">「法律、ガイドラインと関連情報」</a>を更新しました。</li>
+	<li>2004年12月27日  <span class="press">プレスリリース</span> <a href="http://www.iajapan.org/rating/press/20041227-press.html" title="press">携帯電話において不適切な情報のフィルタリングを実現するデモンストレーションシステムの充実－出会い系サイトなどへのアクセス制御の実現－</a></li>
+	<li>2004年12月27日  携帯電話のフィルタリングに関するニーズを把握するため、保護者や子どもを対象とした<a href="http://pics.enc.or.jp/mob/" target="_blank">アンケート調査</a>を平成16年12月27日～平成17年1月31日の間実施しています。</li>
+	<li>2004年7月6日  <a href="http://www.iajapan.org/rfcouncil/">レイティング／フィルタリング連絡協議会における資料</a>を公開しました。「<a href="http://www.iajapan.org/enc/rating/details/documents.html">講演資料と報告書</a>」からご覧ください。</li>
+
+	<li><a href="details/newsinf.html" target="_blank">過去のお知らせ</a></li>
+</ul>
+</div>
+
+
+
+</div>
+<!-- ■■■左のボックスここまで -->
+
+
+
+
+
+
+
+<!-- ■■■右のボックス -->
+<div class="box5w">
+
+<!-- ■お役立ち情報メニュー -->
+<div class="box100"><h2>お役立ち情報</h2>
+<div style="text-align:center"><img style="border: none" src="http://www.iajapan.org/rating/image/filteringboytop.jpg" alt="フィルタリング君" /></div>
+	<p style="margin: 1em"><a href="leaflet.html">		<img class="chartop" src="http://www.iajapan.org/rating/image/katei.jpg" alt="ご家庭/Home" /></a>	分かりやすい「<a href="leaflet.html">パンフレット</a>」を使ってフィルタリングの説明をします。パンフレットは「<a href="leaflet.html">２種類</a>」あります。</p>
+	<p style="margin: 1em">実際にフィルタリングソフトを使うには「<a href="http://www.iajapan.org/enc/rating/details/letsuse.html" title="Let's Use the Filter">フィルタリングソフトを利用する</a>」をみてください。	<br class="clearall" /></p>
+
+	<p style="margin: 1em">パンフレット<br />「<a href="pamphlet2005.html">インターネット上に氾濫する有害情報は今、どうなっている？</a>」<br /><span class="f6">インターネット上の子どもに見せたくない情報について取り上げ、次にそれらの情報への対応策として、自主規制、技術的対策、法規制、ホットライン、メディアリテラシーといった取組みを紹介しています。最後に、海外各国で行われている法規制や自主規制に関する取組みを紹介しています。</span> <br class="clearall" /><br class="clearall" /></p>
+	<p style="margin: 1em"><a href="http://www.iajapan.org/enc/rating/school_org/school.html"><img class="chartop" src="http://www.iajapan.org/rating/image/scho2.jpg" alt="学校/School" /></a>		学校関係者向けの情報を掲載しています。<br class="clearall" /><br class="clearall" /></p>
+	<p style="margin: 1em"><a href="http://www.iajapan.org/enc/rating/school_org/org.html">	<img class="chartop" src="http://www.iajapan.org/rating/image/org2.jpg" alt="自治体、団体/Organization" /></a>自治体、団体向けの情報を掲載しています。<br class="clearall" /><br class="clearall" /></p>
+
+</div>
+
+
+<div class="box100">
+<a name="pgdetail"> </a>
+<h2>このページの趣旨</h2>
+<p>フィルタリングソフトは、情報を受け取る側がホームページの閲覧をコントロールするためのソフトウェアです。</p>
+
+<p>フィルタリングソフトを使うと、情報を発信する人の<span class="note">表現の自由を奪うことなく</span>、
+情報を受け取る側にとって不適切なホームページの<span class="note">閲覧を拒否する</span>ことができます。
+なお、フィルタリングソフトは万全ではなく、ブロックできないページもあります。
+</p>
+
+<p>
+フィルタリングは<span class="note">唯一の手段ではありません</span>。子供の自由な発想を制限したくないと考える保護者の方もいるかも知れません。
+このホームページでは、フィルタリングソフトに関する情報提供や、フィルタリングソフト／サービスの無償提供を行っていますが、
+その利用にあたっては、<span class="note">保護者・管理者の判断</span>にまかせられています。</p>
+
+
+<p>当協会は、保護者の方が子どもに見せたくない情報を拒否したいと思ったときに活用することができる<span class="note">方法の一つ</span>を提供しています。
+ご家庭や学校などで、必要に応じてご検討くだされば幸いです。</p>
+</div>
+
+
+</div>
+<!-- ■■■右のボックスここまで -->
+
+
+
+
+<br class="clearall" />
+<br class="clearall" />
+
+<!-- ■アンケート -->
+
+<a name="ank"></a>
+
+<p>このページの情報はお役に立ちましたか？ フィルタリングに関するアンケートにご協力ください。</p>
+
+<div class="Quest"><h2>フィルタリングに関するアンケート </h2>
+
+<form name="quest" method="post" action="http://pics.enc.or.jp/cgi-bin/quest/quest.cgi" onsubmit="return quest_check()">
+
+Q1.家庭や学校でホームページをフィルタリングするソフトは？<br />
+	<input class="ipt" type="radio" name="I_Q1" value="1" />導入する必要がある<br />
+	<input class="ipt" type="radio" name="I_Q1" value="2" />必要だが、ネット利用ルールの教育が優先<br />
+	<input class="ipt" type="radio" name="I_Q1" value="3" />ソフト導入は必要ない<br />
+
+<hr />
+Q2.ホームページをフィルタリングする方式で適切だと思うのは？<br />
+
+	<input class="ipt" type="radio" name="I_Q2" value="1" />ブラックリスト（<a href="http://www.iajapan.org/rating/ohanashi10.html" target="_blank">説明</a>）<br />
+	<input class="ipt" type="radio" name="I_Q2" value="2" />ホワイトリスト（<a href="http://www.iajapan.org/rating/ohanashi11.html" target="_blank">説明</a>）<br />
+	<input class="ipt" type="radio" name="I_Q2" value="3" />レイティング方式（<a href="http://www.iajapan.org/rating/ohanashi9.html" target="_blank">説明</a>）<br />
+<!--
+	<input class="ipt" type="radio" name="I_Q2" value="4" />第三者レイティング（<a href="http://www.iajapan.org/rating/ohanashi9.html" target="_blank">説明</a>）<br />
+	<input class="ipt" type="radio" name="I_Q2" value="5" />セルフレイティング（<a href="http://www.iajapan.org/rating/ohanashi8.html" target="_blank">説明</a>）<br />
+	<input class="ipt" type="radio" name="I_Q2" value="6" />全ての方式<br />
+-->
+	<input class="ipt" type="radio" name="I_Q2" value="9" />わからない<br />
+
+<hr />
+Q3.掲示板に対するフィルタリングする方式で適切だと思うのは？<br />
+	<input class="ipt" type="radio" name="I_Q3" value="1" />ブラックリスト化する（有害なテーマ内容の掲示板のみ）<br />
+	<input class="ipt" type="radio" name="I_Q3" value="2" />ブラックリスト化する（健全なテーマ内容であっても一律）<br />
+	<input class="ipt" type="radio" name="I_Q3" value="3" />ホワイトリスト化する（健全な内容をテーマとした掲示板のみ）<br />
+	<input class="ipt" type="radio" name="I_Q3" value="9" />わからない<br />
+
+<hr />
+Q4.携帯電話向けのフィルタリングソフトやサービスは必要？<br />
+	<input class="ipt" type="radio" name="I_Q4" value="1" />必要（ブラックリスト方式）<br />
+	<input class="ipt" type="radio" name="I_Q4" value="2" />必要（ホワイトリスト方式）<br />
+	<input class="ipt" type="radio" name="I_Q4" value="3" />必要ない<br />
+
+<hr />
+Q5.出会い系サイトに対するフィルタリング方式で適切だと思うのは？<br />
+	<input class="ipt" type="radio" name="I_Q5" value="1" />ブラックリスト化する（異性との交際を目的としたサイトのみ）<br />
+
+	<input class="ipt" type="radio" name="I_Q5" value="2" />ブラックリスト化する（友達や相談相手を探すサイトも含め）<br />
+	<input class="ipt" type="radio" name="I_Q5" value="3" />ホワイトリスト化する（健全な内容の出会い系サイトのみ）<br />
+
+<hr />
+Q6.この「フィルタリング情報ページ」は参考になりましたか。<br />
+	<input class="ipt" type="radio" name="I_Q6" value="1" />とても参考になった<br />
+	<input class="ipt" type="radio" name="I_Q6" value="2" />参考になった<br />
+	<input class="ipt" type="radio" name="I_Q6" value="3" />普通<br />
+
+	<input class="ipt" type="radio" name="I_Q6" value="4" />難しかった<br />
+	<input class="ipt" type="radio" name="I_Q6" value="5" />どちらとも言えない<br />
+
+<hr />
+Q7．あなたが回答された立場を教えてください<br />
+	<input class="ipt" type="radio" name="I_Q7" value="1" />子ども<br />
+	<input class="ipt" type="radio" name="I_Q7" value="2" />親やPTAなど保護者の立場として<br />
+	<input class="ipt" type="radio" name="I_Q7" value="3" />先生など教育者の立場から<br />
+
+	<input class="ipt" type="radio" name="I_Q7" value="4" />国や公共団体など公益な立場から<br />
+	<input class="ipt" type="radio" name="I_Q7" value="5" />フィルタリングに関係する営利目的事業の立場から<br />
+	<input class="ipt" type="radio" name="I_Q7" value="6" />その他<br />
+
+<hr />
+Q8．その他、上記回答の理由、ご意見などをご自由にお書きください。<br />
+	<textarea class="ipt" name="I_Q7_comment" rows="4" cols="48"></textarea>
+
+<br />
+
+<br />
+<center>
+		<input type="submit" value="アンケートを送付" />&nbsp;&nbsp;
+		<input type="reset"  value="クリア" />
+</center>
+</form>
+
+
+
+
+</div>
+
+
+
+
+<div class="footer">
+    <p>
+	<br class="clearall" />
+	<input class="button" type="button" value="プライバシーポリシー" onclick="location='../ppolicy-ja.html'" /><br />
+	&nbsp;<span class="f"><a href="../contact/filtering.html">問い合わせ</a></span><br />
+	<a href="..index.html"><img class="noline" src="iajapan(c).gif" alt="Internet Association Japan" /></a><br />
+	<a href="http://validator.w3.org/check/referer"><img class="noline" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" /></a>
+	<br class="clearall" />
+    </p>
+
+</div>
+
+<div style="padding: 1em 1em 50em 1em"><p>&nbsp;</p></div>
+
+</body>
+</html>

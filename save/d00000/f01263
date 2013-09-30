@@ -1,0 +1,554 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="must-revalidate" />
+<title>tutorials</title>
+
+<link rel="icon" href="../favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="../global.css" type="text/css" />
+<link rel="stylesheet" href="../style.css" type="text/css" />
+<link rel="stylesheet" href="../local.css" type="text/css" />
+
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=tutorials&amp;do=edit" />
+
+
+
+
+</head>
+<body><script src="../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../ikiwiki/toggle.js" type="text/javascript" charset="utf-8"></script><script src="../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../ikiwiki/relativedate.js" type="text/javascript" charset="utf-8"></script>
+    <div id="centralHeader">
+      <div id="logo">
+        <a href="http://www.NetBSD.org/"><img src="http://www.NetBSD.org/images/NetBSD-smaller.png" alt="[NetBSD Logo]"/></a>
+        <div id="name"><a href="http://www.NetBSD.org/">The NetBSD Project</a></div>
+        <div id="slogan"><a href="http://www.NetBSD.org/">&ldquo;Of course it runs NetBSD&rdquo;</a></div>
+      </div>
+      <div id="headerTools">
+	<div id="headerSearch">
+
+<form method="get" action="https://wiki.netbsd.org/cgi-bin/ikiwiki" id="searchform">
+<div>
+<input class="whiteOnBlack" type="text" id="searchbox" name="P" value="Search" size="12" maxlength="255" onfocus="if(this.value==this.defaultValue ) this.value='';" /> <input type="submit" value="Search" />
+</div>
+</form>
+
+
+	</div>
+      </div>
+    </div>
+
+    <div id="navBar" role="navigation">
+	<span class="doNotDisplay">
+          Navigation:
+        </span>
+	<ul>
+	<li><a href="http://www.NetBSD.org/">
+		  WWW Home</a></li>
+	<li>
+	<a href="http://www.NetBSD.org/">
+		  News &amp; Media</a><ul>
+	<li><a href="http://www.NetBSD.org//changes/">
+		    Recent changes</a></li>
+	<li><a href="http://blog.NetBSD.org/">
+		    NetBSD blog</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/events.html">
+		    Events</a></li>
+	<li><a href="http://www.NetBSD.org/changes/rss.html">
+		    Feeds</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/about/">
+		  About</a><ul>
+	<li><a href="http://www.NetBSD.org/about/">
+		    NetBSD</a></li>
+	<li><a href="http://www.NetBSD.org/foundation/">
+		    The NetBSD Foundation</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/">
+		    Advocacy</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/docs/">
+		  Documentation</a><ul>
+	<li><a href="http://www.NetBSD.org/docs/misc/index.html">
+		    FAQ &amp; HOWTOs</a></li>
+	<li><a href="http://www.NetBSD.org/docs/guide/en/">
+		    The Guide</a></li>
+	<li><a href="http://man.NetBSD.org/">
+		    Manual pages</a></li>
+	<li><a href="http://wiki.NetBSD.org/">
+		    Wiki</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/support/">
+		  Support</a><ul>
+	<li><a href="http://www.NetBSD.org/support/send-pr.html">
+		    Problem report guide</a></li>
+	<li><a href="http://www.NetBSD.org/cgi-bin/sendpr.cgi?gndb=netbsd">
+		    Report a bug</a></li>
+	<li><a href="http://www.NetBSD.org/support/query-pr.html">
+		    Query bug database</a></li>
+	<li><a href="http://www.NetBSD.org/support/security/">
+		    Security</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/community/">
+		  Community</a><ul>
+	<li><a href="http://onetbsd.org/">
+		    Blogs</a></li>
+	<li><a href="http://www.NetBSD.org/mailinglists/">
+		    Mailing lists</a></li>
+	<li><a href="http://mail-index.NetBSD.org/">
+		    List archives</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/developers/">
+		  Developers</a><ul>
+	<li><a href="http://cvsweb.NetBSD.org/">
+		    Browse source</a></li>
+	<li><a href="http://nxr.NetBSD.org/">
+		    Cross-reference</a></li>
+	<li><a href="http://releng.NetBSD.org/">
+		    Release engineering</a></li>
+	<li><a href="http://wiki.NetBSD.org/projects/">
+		    Projects list</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/ports/">
+		  Ports</a><ul>
+	<li><a href="http://www.NetBSD.org/ports/history.html">
+		    History</a></li>
+	<li><a href="http://www.NetBSD.org/ports/emulators.html">
+		    Emulators</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.pkgsrc.org/">
+		Packages</a><ul>
+	<li><a href="http://www.pkgsrc.se/">
+		    Browse packages</a></li>
+	<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+		    Release engineering</a></li>
+	</ul>
+	</li>
+	</ul>
+    </div>
+ 
+      	  
+		  <div class="actions">
+		    <ul>
+			<li><a href="../">Wiki Home</a></li>
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=tutorials&amp;do=edit" rel="nofollow">Edit</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=tutorials&amp;do=comment">Comment</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=tutorials&amp;do=getsource">Source</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/cvsweb/wikisrc/tutorials.mdwn">History</a></li>
+		      
+			<li><a href="../wiki/new_page" rel="nofollow">New</a></li>
+		      
+			<li><a href="../recentchanges/">RecentChanges</a></li>
+		      
+		    </ul>
+		  </div>
+    </div>
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+<a href="../">NetBSD Wiki</a>/
+</span>
+<span class="title">
+tutorials
+
+</span>
+</span><!--.header-->
+</div>
+</div>
+
+
+
+<div id="content">
+<h2>NetBSD setup</h2>
+
+<ul>
+<li><a href="../amazon_ec2/">Amazon EC2</a></li>
+<li><a href="./x11/">X11</a></li>
+<li><a href="./services/">Services</a></li>
+</ul>
+
+
+<h2>Guide and HOWTO's</h2>
+
+<ul>
+<li><a href="../optical_media/">Optical media</a></li>
+<li><a href="../set-up_raidframe/">set-up raidframe</a></li>
+<li><a href="./latex_in_netbsd/">LaTeX in NetBSD</a></li>
+<li><a href="./how_to_use_snapshots/">How to use snapshots</a></li>
+<li><a href="./how_to_set_up_a_xen_dom0/">How to set up a Xen Dom0 running NetBSD 6.1</a></li>
+</ul>
+
+
+<h2>Pkgsrc</h2>
+
+<ul>
+<li><a href="./pkgsrc/">pkgsrc</a></li>
+</ul>
+
+
+<h2>System</h2>
+
+<ul>
+<li><a href="./how_to_enable_and_run_dtrace/">How to enable and run DTrace</a></li>
+<li><a href="./how_to_create_an_l2tp_ipsec_tunnel_between_an_android_or_iphone_or_ios_device_to_netbsd/">How to create an L2TP IPSEC tunnel between an Android or iPhone or iOS device to NetBSD</a></li>
+</ul>
+
+
+<h2>Developers Corner</h2>
+
+<h3>NetBSD</h3>
+
+<ul>
+<li><span class="createlink"><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=Lua_in_NetBSD&amp;from=tutorials&amp;do=create" rel="nofollow">?</a>Lua in NetBSD</span></li>
+<li><a href="../curses_in_netbsd/">curses in NetBSD</a></li>
+</ul>
+
+
+<h3>Kernel</h3>
+
+<ul>
+<li><a href="../kernel_debugging_with_qemu/">kernel debugging with QEMU</a></li>
+<li><a href="../netbsd_kernel_development_setup/">NetBSD kernel development Setup</a></li>
+</ul>
+
+
+<h3>Testing</h3>
+
+<ul>
+<li><a href="./atf/">atf</a></li>
+<li><a href="./continuous_building_and_testing_netbsd_with_buildbot/">Continuous building and testing netbsd with buildbot</a></li>
+</ul>
+
+
+<h3>Procedural</h3>
+
+<ul>
+<li><a href="../developer_key_signing/">Developer Key Signing</a></li>
+</ul>
+
+
+<h2>everything</h2>
+
+<div class="map">
+<ul>
+<li><a href="./altqd_traffic_shaping_example/" class="mapitem">altqd traffic shaping example</a>
+</li>
+<li><a href="./atf/" class="mapitem">atf</a>
+</li>
+<li><a href="./bus_space_tutorial/" class="mapitem">bus space tutorial</a>
+</li>
+<li><a href="./continuous_building_and_testing_netbsd_with_buildbot/" class="mapitem">continuous building and testing netbsd with buildbot</a>
+</li>
+<li><a href="./cpu_frequency_scaling/" class="mapitem">cpu frequency scaling</a>
+</li>
+<li><a href="./easy_embedded_development/" class="mapitem">easy embedded development</a>
+</li>
+<li><a href="./faking_a_mac_address/" class="mapitem">faking a mac address</a>
+</li>
+<li><a href="./getting_images_from_digital_camera/" class="mapitem">getting images from digital camera</a>
+</li>
+<li><a href="./hide_other_user__39__s_processes/" class="mapitem">hide other user&#39;s processes</a>
+</li>
+<li><a href="./how_to_access_a_netbsd_partition_under_windows/" class="mapitem">how to access a netbsd partition under windows</a>
+</li>
+<li><a href="./how_to_access_webdav_on_netbsd/" class="mapitem">how to access webdav on netbsd</a>
+</li>
+<li><a href="./how_to_add_usb_audio_to_the_nslu2/" class="mapitem">how to add usb audio to the nslu2</a>
+</li>
+<li><a href="./how_to_balance_cpu_performance__44___temperature_and_power_drawn/" class="mapitem">how to balance cpu performance&#44; temperature and power drawn</a>
+</li>
+<li><a href="./how_to_blank_and_unblank_screens_on_lid_close__92__open/" class="mapitem">how to blank and unblank screens on lid close&#92;open</a>
+</li>
+<li><a href="./how_to_blank_the_screen_on_the_console/" class="mapitem">how to blank the screen on the console</a>
+</li>
+<li><a href="./how_to_build_install_sets__44___when_you_can__39__t_build_install_floppies/" class="mapitem">how to build install sets&#44; when you can&#39;t build install floppies</a>
+</li>
+<li><a href="./how_to_build_netbsd-current/" class="mapitem">how to build netbsd-current</a>
+</li>
+<li><a href="./how_to_check_the_smart_status_of_your_harddisk/" class="mapitem">how to check the smart status of your harddisk</a>
+</li>
+<li><a href="./how_to_configure_mercurial_over_https/" class="mapitem">how to configure mercurial over https</a>
+</li>
+<li><a href="./how_to_contribute_to_the_netbsd_documentation/" class="mapitem">how to contribute to the netbsd documentation</a>
+</li>
+<li><a href="./how_to_create_an_l2tp_ipsec_tunnel_between_an_android_or_iphone_or_ios_device_to_netbsd/" class="mapitem">how to create an l2tp ipsec tunnel between an android or iphone or ios device to netbsd</a>
+</li>
+<li><a href="./how_to_create_bootable_netbsd_image/" class="mapitem">how to create bootable netbsd image</a>
+</li>
+<li><a href="./how_to_customize_keyboard_mappings_in_x/" class="mapitem">how to customize keyboard mappings in x</a>
+</li>
+<li><a href="./how_to_determine_the_scheduler/" class="mapitem">how to determine the scheduler</a>
+</li>
+<li><a href="./how_to_enable_and_run_dtrace/" class="mapitem">how to enable and run dtrace</a>
+</li>
+<li><a href="./how_to_encrypt_iscsi_devices/" class="mapitem">how to encrypt iscsi devices</a>
+</li>
+<li><a href="./how_to_gather_network_information_on_netbsd/" class="mapitem">how to gather network information on netbsd</a>
+</li>
+<li><a href="./how_to_get_support/" class="mapitem">how to get support</a>
+</li>
+<li><a href="./how_to_install__40__boot__41___netbsd_using_pxelinux/" class="mapitem">how to install&#40;boot&#41; netbsd using pxelinux</a>
+</li>
+<li><a href="./how_to_install_a_server_with_a_root_lfs_partition/" class="mapitem">how to install a server with a root lfs partition</a>
+</li>
+<li><a href="./how_to_install_laser_printer_samsung_ml-1640/" class="mapitem">how to install laser printer samsung ml-1640</a>
+</li>
+<li><a href="./how_to_install_netbsd_2.0.2_on_an_nec_mobilepro_780/" class="mapitem">how to install netbsd 2.0.2 on an nec mobilepro 780</a>
+</li>
+<li><a href="./how_to_install_netbsd_from_an_usb_memory_stick/" class="mapitem">how to install netbsd from an usb memory stick</a>
+</li>
+<li><a href="./how_to_install_netbsd_on_a_nec_mobilepro_790/" class="mapitem">how to install netbsd on a nec mobilepro 790</a>
+</li>
+<li><a href="./how_to_install_netbsd_on_a_power_macintosh_7300/" class="mapitem">how to install netbsd on a power macintosh 7300</a>
+</li>
+<li><a href="./how_to_install_netbsd_on_a_power_macintosh_g4___40__grey__41__/" class="mapitem">how to install netbsd on a power macintosh g4 &#40;grey&#41;</a>
+</li>
+<li><a href="./how_to_install_netbsd_on_an_apple_macbook_with_core2duo/" class="mapitem">how to install netbsd on an apple macbook with core2duo</a>
+</li>
+<li><a href="./how_to_install_netbsd_on_hpcarm/" class="mapitem">how to install netbsd on hpcarm</a>
+</li>
+<li><a href="./how_to_install_netbsd_on_hpcsh/" class="mapitem">how to install netbsd on hpcsh</a>
+</li>
+<li><a href="./how_to_install_netbsd_on_kurobox_pro/" class="mapitem">how to install netbsd on kurobox pro</a>
+</li>
+<li><a href="./how_to_install_netbsd_on_raid1_using_raidframe/" class="mapitem">how to install netbsd on raid1 using raidframe</a>
+</li>
+<li><a href="./how_to_install_netbsd_on_the_linksys_nslu2___40__slug__41___without_a_serial_port__44___using_nfs_and_telnet/" class="mapitem">how to install netbsd on the linksys nslu2 &#40;slug&#41; without a serial port&#44; using nfs and telnet</a>
+</li>
+<li><a href="./how_to_mount_ffs_partition_under_linux/" class="mapitem">how to mount ffs partition under linux</a>
+</li>
+<li><a href="./how_to_mount_iso_images/" class="mapitem">how to mount iso images</a>
+</li>
+<li><a href="./how_to_mount_iso_images_via_loopback/" class="mapitem">how to mount iso images via loopback</a>
+</li>
+<li><a href="./how_to_poweroff_at_shutdown/" class="mapitem">how to poweroff at shutdown</a>
+</li>
+<li><a href="./how_to_read_css_protected_dvds/" class="mapitem">how to read css protected dvds</a>
+</li>
+<li><a href="./how_to_reduce_kernel_size/" class="mapitem">how to reduce kernel size</a>
+</li>
+<li><a href="./how_to_reduce_libc_size/" class="mapitem">how to reduce libc size</a>
+</li>
+<li><a href="./how_to_run_maple_on_netbsd__92__i386/" class="mapitem">how to run maple on netbsd&#92;i386</a>
+</li>
+<li><a href="./how_to_run_matlab_r14.3_on_netbsd__92__i386/" class="mapitem">how to run matlab r14.3 on netbsd&#92;i386</a>
+</li>
+<li><a href="./how_to_run_netbeans_ide_on_netbsd/" class="mapitem">how to run netbeans ide on netbsd</a>
+</li>
+<li><a href="./how_to_run_oracle_express_on_netbsd/" class="mapitem">how to run oracle express on netbsd</a>
+</li>
+<li><a href="./how_to_run_tet_framework/" class="mapitem">how to run tet framework</a>
+</li>
+<li><a href="./how_to_secure_samba_with_stunnel/" class="mapitem">how to secure samba with stunnel</a>
+</li>
+<li><a href="./how_to_set_up_a_carp_enabled_firewall/" class="mapitem">how to set up a carp enabled firewall</a>
+</li>
+<li><a href="./how_to_set_up_a_dhcp_server/" class="mapitem">how to set up a dhcp server</a>
+</li>
+<li><a href="./how_to_set_up_a_guest_os_using_xen3/" class="mapitem">how to set up a guest os using xen3</a>
+</li>
+<li><a href="./how_to_set_up_a_samba_server/" class="mapitem">how to set up a samba server</a>
+</li>
+<li><a href="./how_to_set_up_a_samba_server_using_swat/" class="mapitem">how to set up a samba server using swat</a>
+</li>
+<li><a href="./how_to_set_up_a_xen_dom0/" class="mapitem">how to set up a xen dom0</a>
+</li>
+<li><a href="./how_to_set_up_nfs_and_nis/" class="mapitem">how to set up nfs and nis</a>
+</li>
+<li><a href="./how_to_set_up_per-user_timezones/" class="mapitem">how to set up per-user timezones</a>
+</li>
+<li><a href="./how_to_setup_a_cvs_server/" class="mapitem">how to setup a cvs server</a>
+</li>
+<li><a href="./how_to_setup_a_printer_with_lpd/" class="mapitem">how to setup a printer with lpd</a>
+</li>
+<li><a href="./how_to_setup_a_webserver/" class="mapitem">how to setup a webserver</a>
+</li>
+<li><a href="./how_to_setup_cups_in_netbsd/" class="mapitem">how to setup cups in netbsd</a>
+</li>
+<li><a href="./how_to_share_an_ext2_partition_with_linux/" class="mapitem">how to share an ext2 partition with linux</a>
+</li>
+<li><a href="./how_to_stop_x11_from_listening_on_port_6000/" class="mapitem">how to stop x11 from listening on port 6000</a>
+</li>
+<li><a href="./how_to_swap_cap_lock_with_escape/" class="mapitem">how to swap cap lock with escape</a>
+</li>
+<li><a href="./how_to_take_screenshots_from_the_console/" class="mapitem">how to take screenshots from the console</a>
+</li>
+<li><a href="./how_to_turn_off_console_beep/" class="mapitem">how to turn off console beep</a>
+</li>
+<li><a href="./how_to_update_a_netbsd_system_with_haze/" class="mapitem">how to update a netbsd system with haze</a>
+</li>
+<li><a href="./how_to_use_5.1_surround_sound_with_netbsd/" class="mapitem">how to use 5.1 surround sound with netbsd</a>
+</li>
+<li><a href="./how_to_use_a_samsung_yepp_k3_on_netbsd/" class="mapitem">how to use a samsung yepp k3 on netbsd</a>
+</li>
+<li><a href="./how_to_use_anti-aliased_fonts_in_linux_emulation/" class="mapitem">how to use anti-aliased fonts in linux emulation</a>
+</li>
+<li><a href="./how_to_use_encrypted_swap_over_nfs/" class="mapitem">how to use encrypted swap over nfs</a>
+</li>
+<li><a href="./how_to_use_fuse_in_netbsd/" class="mapitem">how to use fuse in netbsd</a>
+</li>
+<li><a href="./how_to_use_gtk_applications_with_lightweight_window_managers___42__box__44___e17__44___etc./" class="mapitem">how to use gtk applications with lightweight window managers &#42;box&#44; e17&#44; etc.</a>
+</li>
+<li><a href="./how_to_use_iscsi_to_support_an_apple_time_machine/" class="mapitem">how to use iscsi to support an apple time machine</a>
+</li>
+<li><a href="./how_to_use_lvm_on_netbsd/" class="mapitem">how to use lvm on netbsd</a>
+</li>
+<li><a href="./how_to_use_midi_devices_with_netbsd/" class="mapitem">how to use midi devices with netbsd</a>
+</li>
+<li><a href="./how_to_use_no_bitmapped_fonts/" class="mapitem">how to use no bitmapped fonts</a>
+</li>
+<li><a href="./how_to_use_nokia_6230i_over_bluetooth_as_a_gprs_modem/" class="mapitem">how to use nokia 6230i over bluetooth as a gprs modem</a>
+</li>
+<li><a href="./how_to_use_ptyfs/" class="mapitem">how to use ptyfs</a>
+</li>
+<li><a href="./how_to_use_snapshots/" class="mapitem">how to use snapshots</a>
+</li>
+<li><a href="./how_to_use_thumb_mode_on_arm/" class="mapitem">how to use thumb mode on arm</a>
+</li>
+<li><a href="./how_to_use_tmpfs/" class="mapitem">how to use tmpfs</a>
+</li>
+<li><a href="./how_to_use_ttf_fonts_in_xterm/" class="mapitem">how to use ttf fonts in xterm</a>
+</li>
+<li><a href="./how_to_use_wpa_supplicant/" class="mapitem">how to use wpa supplicant</a>
+</li>
+<li><a href="./kqueue_tutorial/" class="mapitem">kqueue tutorial</a>
+</li>
+<li><a href="./latex_in_netbsd/" class="mapitem">latex in netbsd</a>
+</li>
+<li><a href="./netbsd_command-line_cheat-sheet/" class="mapitem">netbsd command-line cheat-sheet</a>
+</li>
+<li><a href="./openldap_authentication_on_netbsd/" class="mapitem">openldap authentication on netbsd</a>
+</li>
+<li><a href="./per_file_build_options_override/" class="mapitem">per file build options override</a>
+</li>
+<li><a href="./pkgsrc/" class="mapitem">pkgsrc</a>
+<ul>
+<li><a href="./pkgsrc/build_ccache_distcc/" class="mapitem">build ccache distcc</a>
+</li>
+<li><a href="./pkgsrc/cross_compile_distcc/" class="mapitem">cross compile distcc</a>
+</li>
+<li><a href="./pkgsrc/pbulk/" class="mapitem">pbulk</a>
+</li>
+<li><a href="./pkgsrc/pkg_comp_pkg_chk/" class="mapitem">pkg comp pkg chk</a>
+</li>
+</ul>
+</li>
+<li><a href="./pkgsrc_clang/" class="mapitem">pkgsrc clang</a>
+</li>
+<li><a href="./services/" class="mapitem">services</a>
+<ul>
+<li><a href="./services/3nmp/" class="mapitem">3nmp</a>
+</li>
+<li><a href="./services/sendmail_auth_tls/" class="mapitem">sendmail auth tls</a>
+</li>
+</ul>
+</li>
+<li><a href="./speedtouch_330_adsl_modem_in_netbsd/" class="mapitem">speedtouch 330 adsl modem in netbsd</a>
+</li>
+<li><a href="./tuning_netbsd_for_performance/" class="mapitem">tuning netbsd for performance</a>
+</li>
+<li><a href="./user_management/" class="mapitem">user management</a>
+</li>
+<li><a href="./using_ccache_with_build_sh/" class="mapitem">using ccache with build sh</a>
+</li>
+<li><a href="./using_git_to_track_netbsd_cvs_source_repository/" class="mapitem">using git to track netbsd cvs source repository</a>
+</li>
+<li><a href="./using_pulseaudio/" class="mapitem">using pulseaudio</a>
+</li>
+<li><a href="./using_the_nand_emulator_and_chfs/" class="mapitem">using the nand emulator and chfs</a>
+</li>
+<li><a href="./x11/" class="mapitem">x11</a>
+<ul>
+<li><a href="./x11/compiz/" class="mapitem">compiz</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=tutorials&amp;do=comment">Add a comment</a>
+</div>
+
+</div>
+
+
+
+		      
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../">index</a>
+
+
+</div><!-- #backlinks -->
+
+
+
+
+<div class="pagedate">
+Last edited <span class="relativedate" title="Wed, 03 Jul 2013 23:19:38 +0000">Wednesday night, July  3rd, 2013</span>
+<!-- Created <span class="relativedate" title="Sun, 26 May 2013 12:57:43 +0000">at lunch time on Sunday, May 26th, 2013</span> -->
+</div>
+
+
+
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?do=prefs">Preferences | Logout</a>
+
+
+
+</div><!-- #pageinfo -->
+
+
+<!-- from NetBSD Wiki -->
+</div><!-- .pagefooter #footer -->
+
+
+
+</body>
+</html>

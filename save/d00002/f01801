@@ -1,0 +1,251 @@
+<!-- : head.html,v 1.8 2013/07/08 00:38:55 johnl Exp $ -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+ <title>Internet and e-mail policy and practice</title>
+<link rel=stylesheet type="text/css" href="//img.jl.ly/jrlblog.css" />
+<link rel="alternate" 
+        type="application/rss+xml" 
+        title="RSS 0.91" 
+        href="http://jl.ly/index.rss" />
+<META name="verify-v1" content="F7B+AIT5fSZWHlLBzJSYReVDxeWANyU1oj6L2KjZI24=" /></head>
+<body class=fr>
+<table cellpadding=10><tr><td width="10%"> </td>
+<td><img src="http://img.jl.ly/jrl2008-60.jpeg"></td>
+<td><img src="http://img.jl.ly/jrlname.gif" valign="middle"></td>
+<td><h2 class=fr><font size="3">&nbsp;</font><br />Internet and e-mail policy and practice<br /><font size="3">including Notes on Internet E-mail</font></h2>
+</td></tr></table>
+<hr size="1" class=fr noshade />
+<p />
+<table width="100%" cellpadding=20>
+<tr><td width="10%" valign=top>
+<table class="year-calendar"><caption class="year-calendar-head"><a title="2012 (32)" href="http://www.jl.ly/2012/">&larr;</a><a title="2013 (21)" href="http://jl.ly/2013/">2013</a>&rarr;</caption><tr><th class="year-calendar-subhead" colspan="2">Months</th></tr>
+<tr>
+<td class="year-calendar-month-link"><a title="January 2013 (2)" href="http://jl.ly/2013/01/">Jan</a></td>
+<td class="year-calendar-month-nolink">Feb</td>
+</tr>
+<tr>
+<td class="year-calendar-month-link"><a title="March 2013 (2)" href="http://jl.ly/2013/03/">Mar</a></td>
+<td class="year-calendar-month-link"><a title="April 2013 (3)" href="http://jl.ly/2013/04/">Apr</a></td>
+</tr>
+<tr>
+<td class="year-calendar-month-link"><a title="May 2013 (4)" href="http://jl.ly/2013/05/">May</a></td>
+<td class="year-calendar-month-link"><a title="June 2013 (3)" href="http://jl.ly/2013/06/">Jun</a></td>
+</tr>
+<tr>
+<td class="year-calendar-month-link"><a title="July 2013 (5)" href="http://jl.ly/2013/07/">Jul</a></td>
+<td class="year-calendar-this-month"><a title="August 2013 (2)" href="http://jl.ly/2013/08/">Aug</a></td></tr>
+<tr>
+<td class="year-calendar-month-future">Sep</td>
+<td class="year-calendar-month-future">Oct</td>
+</tr>
+<tr>
+<td class="year-calendar-month-future">Nov</td>
+<td class="year-calendar-month-future">Dec</td>
+</tr>
+</table>
+
+<p class="story-title">
+Click the comments link on any
+story to see comments or add your own.
+</p>
+<hr>
+<h3 class=fr>Subscribe to this blog</h3>
+<p class=fr><a target=side class=fr href="/index.rss"><img src="http://www.taugh.com/xml.gif"><br />RSS feed</a></p>
+<p class=fr>
+<a href="http://add.my.yahoo.com/content?url=http://jl.ly/index.rss"><img src="http://us.i1.yimg.com/us.yimg.com/i/us/my/addtomyyahoo4.gif" width="91" height="17" border="0" align=middle alt="Add to My Yahoo!"></a></p>
+<p class=fr>
+<a href="http://www.bloglines.com/sub/http://jl.ly/index.rss">
+<img src="http://www.bloglines.com/images/sub_modern1.gif" border="0" alt="Subscribe with Bloglines" />
+</a></p>
+<hr>
+<p class=fr>
+<a href="http://www.feedvalidator.org/check.cgi?url=http://jl.ly/index.rss"><img src="http://www.taugh.com/valid-rss.png" alt="[Valid RSS]" title="Validate my RSS feed" width="88" height="31" /></a></p>
+</td>
+<td width="80%" bgcolor=white valign=top>
+<p class=fr><a href="/">Home</a> :: <a href="/ICANN">ICANN</a></p>
+<!-- : date.html,v 1.3 2008/06/29 00:18:34 johnl Exp $ -->
+<h3>12 Aug 2013</h3>
+<!-- : story.html,v 1.4 2013/07/08 00:38:55 johnl Exp $ -->
+<p><a name="weirds13"><table width="100%"><tr><td alight=left><b><a href="http://jl.ly/ICANN/weirds13.html">What's up with WEIRDS?</a></b></a></td>
+<td align=right><font size=-1>ICANN</font></td></tr></table>
+<font size="-1"><p>The IETF WEIRDS working group is defining a follow-on to WHOIS.
+Since this is the IETF, it's working on the technical issues about
+which it can deal with, not policy which is up to ICANN and the
+country registries.</p>
+
+<p>Somewhat to my surprise, the group is making steady progress.  We've
+agreed that the basic model is RESTful, with queries via http, and
+responses as JSON data structures.  
+The protocol is named RDAP for Registration Data Access Protocol,
+or maybe RESTful Data Access protocol.
+<!-- see more below --></p>
+
+<p>Each request asks one question and requests the response in JSON.
+(If a server wants to respond with
+something else like a human-readable web page for requests that don't
+ask for a JSON response, that's fine but it's also beyond the scope of
+the spec.)  If a different server has the answer, e.g., a registry
+referring to a registrar, a normal web redirect handles that.</p>
+
+<p>The query and response formats are mostly worked out, both for the
+numbers registries (IP addresses and related data) and names
+(registrations in top level domains and the like.)  My concern was that
+the group would get bogged down in nitpicky details, but they seem
+pretty well under control.</p>
+
+<p>Last week there was a skirmish about search options.
+ICANN did a WHOIS survey a while ago, and when they asked people what search options they wanted,
+complex patterns, combinations of fields, pagination to return answers
+in chunks when there were too many to return all at once,
+not surprisingly people wanted all of them.
+Someone claimed these were requirements, which they're not.
+Of the existing servers that provide any searching at all, they do
+a simple prefix match on specific fields, like <tt>abc*</tt> to match
+names that start with <tt>abc</tt>, with a fixed maximum number of
+results, usually 50.
+I suggested that's all we should put in the spec unless we can identify
+specific registries that plan to implement something fancier, and after
+a couple of rounds and no registry offering anything fancy, that seems
+to be the plan.
+There are still technical details to work out, like how to distinguish
+searches for ASCII names from Unicode names, but that shouldn't be
+too hard.</p>
+
+<p>We've also had long discussions about bootstrapping, how to decide
+which server to ask for each query.
+For numbers, the assignments of numbers to registries changes very slowly,
+less than once a year,
+and the five regional registries (RIRs) know each other and can refer
+queries to each other, so the bootstrap
+hardly matters.
+If a client program has a built in set of ranges and registries, or just
+sends all the queries to the local registry, it'll get redirected if the
+answer is somewhere else.</p>
+
+<p>For names, the bootstrap is a little harder since there are currently
+over 300 TLDs, and in the next year or so the number is likely to increase
+to about 2000.
+Different TLD registries don't usually have relationships with each other,
+so if a query is initially sent to the wrong registry, it has no incentive
+to redirect to the right one.
+Given the number of TLDs, a fixed bootstrap would quickly get out of date.</p>
+
+<p>My suggestion was until recently that IANA, the branch of ICANN that among
+other things handles the names in the root zone, publish the server names
+in a fixed place in the DNS, e.g., the server for the <tt>.foo</tt> domain would
+be at <tt>foo.rdap.arpa</tt>, so the URL could be something like</p>
+
+<pre>http://foo.rdap.arpa/domain/somename.foo</pre>
+
+<p>Other proposals were a downloadable web page at IANA, a pool of bootstrap servers
+(plausible for numbers but completely unworkable for names)
+or putting the bootstrap
+info in the TLD itself with a SRV or NAPTR DNS record.
+I wasn't thrilled about SRV or NAPTR since they aren't easily usable from
+javascript or shell scripts and was pushing for the <tt>rdap.arpa</tt> approach
+until at the IETF meeting two weeks ago people from several different TLDs said
+that dealing with IANA is so tedious that they <i>REALLY</i> don't want to go
+that route.
+So we'll probably have SRV records in the TLDs.
+For the benefit of lazy shell and javascript programmers, I've reserved
+<tt>rdap-servers.net</tt> and hope I can make it work as an informal equivalent of
+<tt>rdap.arpa</tt>, extracting the host names from the SRV records.</p>
+
+<p>At this point there are a fair number of technical details left, but nothing that
+looks terribly hard to work out, so with any luck, we'll have a new WHOIS design
+ready to go around the time the new ICANN domains go live early next year.</p>
+
+</font>
+<br />
+<table>
+<tr><td width="95">
+<iframe src="//www.facebook.com/plugins/like.php?href=http://jl.ly/ICANN/weirds13.html&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21"
+  scrolling="no" frameborder="0"
+      style="border:none; overflow:hidden; width:90px; height:21px;"
+	allowTransparency="true"></iframe>
+</td><td width="50">
+<a href="//pinterest.com/pin/create/button/?url=http://jl.ly/ICANN/weirds13.html&media=http%3A%2F%2Fimg.jl.ly%2Fjrl2008-100.jpeg&description=Pin%20me%3A%20baby"
+   data-pin-do="buttonPin"
+   data-pin-config="none"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png"
+   /></a>
+</td><td>
+<font size="-1">posted at: 00:50 :: <a href="http://jl.ly/ICANN/weirds13.html">permanent link to this entry</a> ::
+<!-- A link to the WriteBacks flavour (this flavour) with WriteBack counts -->
+<a href="http://jl.ly/ICANN/weirds13.writeback">0 comments</a>
+</td></tr>
+</table>
+<font size="-2">Trackback link is http://jl.ly/ICANN/weirds13.trackback</font>
+</font>
+<!-- TrackBack auto-discovery bits -->
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+
+  <rdf:Description
+    rdf:about="http://jl.ly/ICANN/weirds13.html"
+    dc:identifier="http://jl.ly/ICANN/weirds13.html"
+    dc:title="What's up with WEIRDS?"
+    trackback:ping="http://jl.ly/ICANN/weirds13.trackback" />
+
+</rdf:RDF>
+-->
+<br clear="right" />
+<hr></p>
+<!-- : foot.html,v 1.12 2013/07/07 23:48:12 johnl Exp johnl $ -->
+</td><td width="10%" valign=top>
+<h2 class=fr>Topics</h2>
+<ul class="categorytree">
+<li class="categorytree_item"><a href="http://jl.ly/Copyright_Law">Copyright Law</a> - 17</li>
+<li class="categorytree_item"><a href="http://jl.ly/Email">Email</a> - 197</li>
+<li class="categorytree_item"><a href="http://jl.ly/ICANN">ICANN</a> - 91</li>
+<li class="categorytree_item"><a href="http://jl.ly/Internet">Internet</a> - 35</li>
+<li class="categorytree_item"><a href="http://jl.ly/Money">Money</a> - 16</li>
+</ul>
+<br />
+<script type="text/javascript"><!--
+amazon_ad_tag="theinvincibleele"; 
+amazon_ad_width="180"; 
+amazon_ad_height="150"; 
+amazon_color_background="BBF6BE"; 
+amazon_color_border="C80109"; 
+amazon_color_logo="FFFFFF"; 
+amazon_color_link="DC1D25"; 
+amazon_ad_logo="hide"; 
+amazon_ad_link_target="new"; 
+amazon_ad_title="My Books at Amazon"; //--></script>
+<script type="text/javascript" src="http://www.assoc-amazon.com/s/asw.js"></script>
+<h3 class=fr>My other sites</h3>
+<p class=fr><a class=fr href="http://www.johnlevine.com/">Who is this guy?</a></p>
+<p class=fr><a class=fr href="http://airinfo.travel">Airline ticket info</a></p>
+<p class=fr><a class=fr href="http://www.taugh.com/">Taughannock Networks</a></p>
+
+<h3 class=fr>Other blogs</h3>
+<p class="bloglist"><a class="fr" href="http://www.cauce.org/">CAUCE</a><br /><span class="bloglist_info"><a class="fr" href="http://feedproxy.google.com/~r/CAUCE/~3/7O0HjFafwbc/sexism-in-the-tech-sector-time-to-grow-up-speak-out.html">Sexism in The Tech Sector : Time to Grow Up & Speak Out</a><br /><i>22 days ago</i></span></p>
+<p class="bloglist"><a class="fr" href="http://obvious.services.net/">A keen grasp of the obvious</a><br /><span class="bloglist_info"><a class="fr" href="http://obvious.services.net/2013/07/better-have-big-pockets-if-you-want.html">Better have big pockets if you want your bank account to be secure</a><br /><i>41 days ago</i></span></p>
+
+
+<h3 class=fr>Related sites</h3>
+
+<p class=fr><a target=side class=fr href="http://www.cauce.org">Coalition Against Unsolicited Commercial E-mail</a></p>
+</p>
+<p class=fr><a target=side class=fr href="http://www.abuse.net">Network Abuse Clearinghouse</a></p>
+<hr size="1" class=fr noshade />
+<p class=fr>
+<div id="dopplr-blog-badge"><script src="http://www.dopplr.com/blogbadge/script/2563c67bd126a4326359e1d1ecab52bc"></script></div>
+</p>
+
+</td>
+</tr></table>
+<p />
+<hr size="1" class=fr noshade />
+<p class="fr">&copy; 2005-2013 John R. Levine.
+<br />
+CAN SPAM address harvesting notice: the operator of this website will
+not give, sell, or otherwise transfer addresses maintained by this
+website to any other party for the purposes of initiating, or enabling
+others to initiate, electronic mail messages.
+</p>
+</body>
+</html>

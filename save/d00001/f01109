@@ -1,0 +1,428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+<link rel="stylesheet" href="/pub/TWiki/JQueryPlugin/jquery-all.css" type="text/css" media="all" />
+<script type="text/javascript" src="/pub/TWiki/JQueryPlugin/jquery-all.js"></script>
+<link rel="stylesheet" href="http://ntp.br/pub/TWiki/ImagePlugin/style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="http://ntp.br/pub/TWiki/ImageGalleryPlugin/style.css" type="text/css" media="all" />
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/pub/NTP/WebModeloNicTemplate/ntp.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/pub/NTP/WebModeloNicTemplate/home.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="/pub/NTP/WebModeloNicTemplate/print.css" />
+	<link rel="stylesheet" type="text/css" media="handheld" href="/pub/NTP/WebModeloNicTemplate/handheld.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="NTP.br, ntp, ntp" />
+	<meta name="description" content="NTP.br" />
+	<!-- <meta http-equiv="pragma" content="no-cache" /> -->
+	<script type="text/javascript" src="scripts.js"></script>
+	<script type="text/javascript" src="/pub/NTP/WebModeloNicTemplate/css3-mediaqueries.js"></script>
+	<title>NTP.br - Hora Certa via Internet - Conf. Avançada</title>
+<!--TABLEPLUGIN_table1--><style type="text/css" media="all">
+.tableSortIcon img {padding-left:.3em; vertical-align:text-bottom;}
+</style></head>
+<body>
+	<div class="header-ceptro">
+		<h1><a href="http://www.ceptro.br/"><img src="/pub/NTP/WebModeloNicTemplate/logo-ceptro-top.gif" alt="ceptro.br" width="82" height="28" longdesc="Centro de Estudos e Pesquisas em Tecnologia de Redes e Operações" /></a></h1> 
+		<span><a href="http://www.ceptro.br/">Centro de Estudos e Pesquisas em Tecnologia de Redes e Operações</a></span>
+		<div class="header-cgi-nic">
+			<a href="http://www.on.br/" title="Observatório Nacional"><img src="/pub/NTP/WebModeloNicTemplate/logo-on-top.gif" alt="Observatório Nacional" width="121" height="26" /></a><span class="invisible">|</span>
+		    <a href="http://www.cgi.br/" title="Comitê Gestor da Internet no Brasil"><img src="/pub/NTP/WebModeloNicTemplate/logo-cgi-top.gif" alt="CGI.br" width="43" height="27" /></a><span class="invisible">|</span>
+		    <a href="http://www.nic.br/" title="Núcleo de Informação e Coordenação do Ponto BR"><img src="/pub/NTP/WebModeloNicTemplate/logo-nic-top.gif" alt="NIC.br" width="41" height="27" /></a>
+		</div>
+	</div><!--.header-ceptro-->
+	<div class="topo">
+	  <h2><a href="http://www.ntp.br/" accesskey="1"><img src="/pub/NTP/WebModeloNicTemplate/logo-ntp.gif" alt="NTP.br" class="logo-ntp" width="256" height="58" /></a></h2>
+		<span class="ir-conteudo"><a href="#content" accesskey="2">Ir para o conteúdo</a></span>
+		<ul>
+		    <li><a href="http://pcdsh01.on.br/">Divisão da Hora do Observatório Nacional</a></li>
+		    <li><a href="http://www.nic.br/imprensa">Imprensa</a></li>
+		    <li class="last"><a href="http://www.ceptro.br/CEPTRO/EnglishHome#NTP_br_Brazilian_Legal_Time_over">English</a></li>
+		</ul>
+	</div><!--.topo-->
+	<div class="container">
+		<div class="menu-esq">
+		<ul class="menu">
+<li><a href="/NTP/MenuNTPIntroducao" class="twikiLink">Introdução</a></li>
+<li><a href="/NTP/MenuNTPWindows" class="twikiLink">Guia Windows</a></li>
+<li><a href="/NTP/MenuNTPLinuxBSD" class="twikiLink">Guia Linux/BSD</a></li>
+<li><a href="/NTP/MenuNTPMac" class="twikiLink">Guia MAC</a></li>
+<li><a href="/NTP/MenuNTPRoteadores" class="twikiLink">Guia Roteadores</a></li>
+<li><a href="/NTP/MenuNTPTempo" class="twikiLink">O Tempo</a></li>
+<li><a href="/NTP/MenuNTPNtp" class="twikiLink">O NTP</a></li>
+<li><a href="/NTP/MenuNTPEstrutura" class="twikiLink">Estrutura</a></li>
+<li><a href="/NTP/MenuNTPGrafico" class="twikiLink">Gráficos</a></li>
+<li><a href="/NTP/MenuNTPAvancado" class="twikiCurrentTopicLink twikiLink">Conf. Avançada</a></li>
+<li><a href="/NTP/MenuNTPVocabulario" class="twikiLink">Vocabulário</a></li>
+<li><a href="/NTP/MenuNTPFaq" class="twikiLink">FAQ</a></li>
+<li><a href="/NTP/MenuNTPLinks" class="twikiLink">Links</a></li>
+<li><a href="/NTP/MenuNTPBanners" class="twikiLink">Banners</a></li>
+<li><a href="/NTP/MenuNTPContato" class="twikiLink">Contato</a></li>          
+</ul>
+				<form method="get" action="http://www.google.com/search" title="Busca no site">
+			<fieldset>
+				<label for="busca"><span class="busca-txt">Busca</span><br />
+				<input type="text" size="17" name="q" maxlength="255" value="Buscar por..." id="busca" onfocus="clearDefault(this)" class="busca-campo" /></label>
+				<input type="hidden" name="domains" value="cgi.br;nic.br;registro.br;ceptro.br;cetic.br;ceptro.br;w3c.br" /><input type="hidden" name="ie" value="iso-8859-1" /><input type="hidden" name="oe" value="iso-8859-1" /><input type="button" name="sa" value="ok" alt="ok" class="busca-btn" />
+				<label class="invisivel" for="busca-no-site">Selecione o site</label>
+				<select name="sitesearch" id="busca-no-site" title="Selecione o site" class="busca-select">
+					<option value="ntp.br" selected="selected">Buscar em NTP.br...</option>
+				    <option value="cgi.br">Buscar em CGI.br</option>
+					<option value="nic.br">Buscar em NIC.br</option>
+					<option value="registro.br">Buscar em Registro.br</option>
+					<option value="cetic.br">Buscar em CETIC.br</option>
+					<option value="ceptro.br">Buscar em CEPTRO.br</option>
+					<option value="w3c.br">Buscar em W3C.br</option>
+				</select>
+			</fieldset>
+			</form>  
+<p />
+			<span class="acessibilidade"><a href="http://validator.w3.org/check?uri=referer">V&aacute;lido XHTML</a> </span>
+			<span class="acessibilidade"><a href="http://jigsaw.w3.org/css-validator/check/referer">V&aacute;lido CSS</a> </span>
+			<span class="acessibilidade"><a href="http://www.ntp.br/NTP/AcessibilidadeSitio" accesskey="3">Acessibilidade do sítio</a></span>
+		</div><!--.menu-esq-->
+		<div class="conteudo">
+			<div class="breadcrumb">
+				Você está em: <strong>NTP.br -&gt; Conf. Avançada</strong>
+				<div class="seu-ip">Seu <acronym title="Internet Protocol">IP</acronym>: 2001:0:53aa:64c:18ca:5d94:2471:e895 </div>
+			</div><!--.breadcrumb-->
+<div class="subcontent">
+			<a name="content"></a>
+<p /><h3><a name="Configura_es_Avan_adas"></a> Configurações Avançadas </h3>
+<a name="VolTar"></a>
+<div class="twikiToc"> <ul>
+<li> <a href="#Configura_es_Avan_adas"> Configurações Avançadas</a> <ul>
+<li> <a href="#Instala_o_do_NTP_partir_dos_font"> Instalação do NTP à partir dos fontes</a>
+</li> <li> <a href="#Topologia"> Topologia</a>
+</li> <li> <a href="#Interpretando_o_ntpq"> Interpretando o ntpq</a>
+</li> <li> <a href="#Interpretando_os_logs"> Interpretando os logs</a>
+</li> <li> <a href="#Gerando_gr_ficos"> Gerando gráficos</a>
+</li></ul> 
+</li></ul> 
+</div>
+<div class="voltar"><a href="/NTP/MenuNTPAvancado#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Instala_o_do_NTP_partir_dos_font"></a> Instalação do NTP à partir dos fontes </h4>
+<p />
+A instalação à partir dos fontes permite trabalhar com a última versão do ntp. Permite também ter certeza de que se está rodando o software padrão, sem modificações de terceiros. Verifique no site do NTP <a href="http://www.ntp.org/downloads.html">http://www.ntp.org/downloads.html</a> qual o link para o download da versão mais recente. Na época em que essa página foi escrita a versão mais recente era 4.2.4p4.
+<p />
+Faça o download do arquivo, descompacte-o, entre na pasta criada e então rode o script de configuração, compile e instale:
+<pre><b>
+       root@servidor# wget http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2.4p4.tar.gz
+       root@servidor# tar zxvf ntp-4.2.4p4.tar.gz
+       root@servidor# cd ntp-4.2.4p4
+       root@servidor:~/ntp-4.2.4p4# ./configure
+       root@servidor:~/ntp-4.2.4p4# make
+       root@servidor:~/ntp-4.2.4p4# make install
+</b></pre>
+Substitua o conteúdo do arquivo de configuração padrão <code>/etc/ntp.conf</code> pela configuração abaixo.
+<pre><b>
+       root@servidor:~/ntp-4.2.4p4# wget http://www.ntp.br/xnix/ntp.conf
+       root@servidor:~/ntp-4.2.4p4# cp ./ntp.conf /etc/ntp.conf
+</b></pre>
+<p />
+<pre>
+       <span class="vermelho"># "memoria" para o escorregamento de frequencia do micro
+       # pode ser necessario criar esse arquivo manualmente com
+       # o comando touch ntp.drift</span>
+       driftfile /etc/ntp.drift
+
+       <span class="vermlho"># estatisticas do ntp que permitem verificar o historico
+       # de funcionamento e gerar graficos</span>
+       statsdir /var/log/ntpstats/
+       statistics loopstats peerstats clockstats
+       filegen loopstats file loopstats type day enable
+       filegen peerstats file peerstats type day enable
+       filegen clockstats file clockstats type day enable
+
+       <span class="vermelho"># servidores publicos do projeto ntp.br</span>
+       server a.st1.ntp.br iburst
+       server b.st1.ntp.br iburst
+       server c.st1.ntp.br iburst
+       server d.st1.ntp.br iburst
+       server gps.ntp.br iburst
+       server a.ntp.br iburst
+       server b.ntp.br iburst
+       server c.ntp.br iburst
+
+       <span class="vermelho"># outros servidores
+       # server outro-servidor.dominio.br iburst
+
+       # configuracoes de restricao de acesso</span>
+       restrict default kod notrap nomodify nopeer
+       restrict -6 default kod notrap nomodify nopeer
+</pre>
+A hora do seu computador pode ser ajustada inicialmente com o seguinte comando:
+<pre><b>
+       #/usr/local/bin/ntpd -q -g 
+</b></pre>
+<p />
+Isso permite que o ntp ajuste seu relógio mesmo que ele tenha um erro de tempo absurdamente alto (maior que 16 min). O daemon ntp pode ser executado então:
+<pre><b>
+       #/usr/local/bin/ntpd
+</b></pre>
+<p />
+Arquivos de inicialização apropriados podem ser criados conforme o padrão de sua distribuição.
+<p />
+Assista a um mini tutorial em vídeo mostrando essa instalação:
+<p />
+<div id='zappiens_container'><div id='zappiens_no_flash_or_script' class='NoScriptFlash'><noscript>Para poder visualizar este conteudo, devera ativar o <span class="twikiNewLink">JavaScript<a href="/bin/edit/NTP/JavaScript?topicparent=NTP.MenuNTPAvancado" rel="nofollow" title="Create this topic">?</a></span>  no seu browser e instalar o Adobe Flash Player<BR/></noscript><script type='text/javascript'>document.write('Para poder visualizar este conteudo, devera instalar o Adobe Flash Player<BR/>');</script></div><script type='text/javascript' src='http://200.160.7.139/players/JWP/swfobject.js'></script><script type='text/javascript'>function Show_Player(){try{var s1 = new SWFObject('http://200.160.7.139/players/JWP/player.swf','ply', '352','288','9','#FFFFFF');s1.addParam('allowfullscreen',   'true');s1.addParam('allowscriptaccess', 'always');s1.addParam('autostart',         'false');s1.addParam('flashvars', 'file=cgipiU7e89n9cAgIMau63adixDvsyU9iwQrcIrJL8fJsqY.FLV&streamer=http://200.160.7.139/ZappStream.PHP?AuthCode=100&autostart=false&logolink=http://www.zappiens.br/portal/VisualizarVideo.do?_EntityIdentifier=cgipiU7e89n9cAgIMau63adixDvsyU9iwQrcIrJL8fJsqY.%26_InstanceIdentifier=0%26idRepositorio=0&logopath=http://www.zappiens.br/portal/imgs/player-marca-zappiens-br.gif'); s1.write   ('zappiens_container');} catch (e) { }}Show_Player();</script></div>
+<p />
+<div class="voltar"><a href="/NTP/MenuNTPAvancado#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Topologia"></a> Topologia </h4>
+<p />
+Se você é um usuário doméstico, ou sua rede é muito pequena, com menos do que 3 equipamentos, use a configuração sugerida no item anterior e sincronize cada equipamento com o ntp.br diretamente.
+<p />
+Caso contrário, é recomendado que você escolha 3 equipamentos para serem servidores de tempo. Eles estarão sincronizados com o NTP.br, e os demais equipamentos de sua rede se sincronizarão com eles, conforme ilustra a figura a seguir:
+<div class="img-centro"><img src="http://ntp.br/pub/NTP/MenuNTPAvancado/img_MenuNTPUtilizando_3.gif" alt=""/></div>
+<p />
+Melhores resultados são obtidos com servidores baseados em Unix, como FreeBSD, OpenBSD e Linux, contudo é possível utilizar também servidores Windows.
+<p />
+Acrescente então ao arquivo de configuração o seguinte:
+<pre>
+       peer outro-serv.suarede.com.br
+       peer outro-serv.suarede.com.br
+</pre>
+Dessa forma, cada um dos seus servidores se comunicará com os outros dois, podendo atuar tanto consultando o tempo como fornecendo. Caso algum deles perca a conexão com a Internet essa configuração fará a redundância.
+<div class="voltar"><a href="/NTP/MenuNTPAvancado#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Interpretando_o_ntpq"></a> Interpretando o ntpq </h4>
+<p />
+O ntp traz consigo algumas ferramentas que permitem monitorar seu funcionamento. A mais importante é o ntpq. A seguir são apresentados dois comandos do ntpq que permitem visualizar algumas variáveis importantes do ntp:
+<p />
+<code><b>ntpq -c pe</b></code>
+<p />
+Uma reposta normal se parece com essa:
+<pre><b>
+       ntpq -c pe
+
+            remote           refid      st t when poll reach   delay   offset  jitter
+       ==============================================================================
+       *ttm.nic.br      .GPS.            1 u    8   16  377    0.320   -0.008   1.340
+       +server20.pop-df .GPS.            1 u   11   16  377   15.608   -0.002   0.491
+        201.63.254.68   .INIT.          16 u    -   16    0    0.000    0.000   0.000
+       +santuario.pads. .GPS.            1 u   59   64  377    6.852   -0.002   0.045
+       xtime.nist.gov   .ACTS.           1 u   56   64  377  282.494  -45.091   1.718
+       -ntp2.usno.navy. .USNO.           1 u   52   64  377  135.380    4.391   7.449
+       -a.ntp.br        200.160.7.192    2 u   15   16  377    0.362    0.424   0.048
+       -b.ntp.br        200.160.7.186    2 u   17   16  376   17.544    1.562   0.134
+       -c.ntp.br        200.160.7.192    2 u   10   16  377   15.680    0.393   0.012
+       -clock.trit.net  192.12.19.20     2 u   42   64  377  296.580  -29.083   0.574
+       -Stone.Rodents.M 65.71.16.189     3 u   47   64  377  249.918   -7.678   0.963
+       -rbi0261.giga-dn 192.53.103.104   2 u   49   64  377  262.197   18.316   0.845
+       -einstein.postre 66.187.233.4     2 u   43   64  377  341.553   34.962  38.449
+</b></pre>
+A primeira coluna apresenta os tally codes, que significam o seguinte:
+<p /> <ul>
+<li> *o system peer, par do sistema, ou principal fonte de sincronização
+</li> <li> *o system peer, par do sistema, ou principal fonte de sincronização, mas apenas se a fonte for o sinal de um pulso por segundo (PPS)
+</li> <li> <strong>+</strong> candidate, ou um relógio sobrevivente, indica que é uma boa fonte de sincronização e que está sendo utilizada no momento, juntamente com o par do sistema, para ajustar o relógio local
+</li> <li> <strong>-</strong> outlyer, ou relógio afastado, indica que é uma boa fonte de sincronização, mas não sobreviveu ao algorítmo de agrupamento, ou seja, no momento há opções melhores e ela não está sendo utilizada
+</li> <li> <strong>x</strong> falseticker, ou relógio falso, indica que não é uma boa fonte de sincronização, foi descartada já no algorítmo de seleção de relógios por discordar muito das outras fontes
+</li> <li> . excess, excesso: a fonte foi rejeitada por não estar entre as 10 melhores
+</li> <li>    (espaço em branco) reject, relógio rejeitado porque não responde, porque há um loop na sincronização, ou porque ele apresenta uma distância na sincronização enorme
+</li></ul> 
+<p />
+Mais informações podem ser obtidas na página do <a href="http://www.eecis.udel.edu/%7Emills/ntp/html/ntpq.html">ntpq</a>.
+<p />
+A tabela a seguir mostra o significado das demais colunas:
+<table cellspacing="0" id="table1" cellpadding="0" class="twikiTable" rules="none" border="1">
+	<thead>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<th valign="top" class="twikiTableCol0 twikiFirstCol"> Coluna </th>
+			<th valign="top" class="twikiTableCol1 twikiLastCol"> Significado </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> remote </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> nome ou IP da fonte de tempo </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> refid </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> a referência (par do sistema) à qual o servidor de tempo remoto está sincronizado </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> st </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> o estrato da fonte de tempo </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> when </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> quanto segundos se passaram desde a última consulta à essa fonte de tempo </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> poll </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> de quantos em quantos segundos essa fonte é consultada </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> reach </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> um registrador de 8 bits que vai girando para a esquerda representado na forma octal, que mostra o resultado das últimas 8 consultas à fonte de tempo: 377 = 11.111.111 significa que todas as consultass foram bem sucedidas; outros número indicam falhas, por exemplo 375 = 11.111.101, indica que a penúltima consulta falhou </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> delay </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> atrasou, ou tempo de ida e volta, em milisegundos, dos pacotes até essa fonte de tempo </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> offset </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> deslocamento, ou quanto o relógio local tem de ser adiantado ou atrasado, em milisegundos, para ficar igual ao da fonte de tempo </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> jitter </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> a variação, em milisegundos, entre as diferentes medidas de deslocamento para essa fonte de tempo </td>
+		</tr>
+	</tbody></table>
+<p />
+<code><b>ntpq -c rl</b></code>
+<p />
+Uma reposta normal se parece com essa:
+<pre><b>
+       %ntpq -c rl
+
+       status=0674 leap_none, sync_ntp, 7 events, event_peer/strat_chg,
+       version="ntpd 4.2.2p4@1.1585-o Fri Dec 21 12:11:30 UTC 2007 (1)",
+       processor="i386", system="FreeBSD/6.2-RELEASE-p9", leap=00, stratum=2,
+       precision=-19, rootdelay=0.190, rootdispersion=9.288, peer=55053,
+       refid=200.160.7.165,
+       reftime=cb30fba4.4923180b  Thu, Jan 10 2008 18:16:36.285, poll=4,
+       clock=cb30fc19.0b973e9e  Thu, Jan 10 2008 18:18:33.045, state=4,
+       offset=-0.107, frequency=31.729, jitter=0.039, noise=0.016,
+       stability=0.007, tai=0
+</b></pre>
+Enquanto o <strong>ntpq -c pe</strong> apresenta as variáveis relacionadas a cada associação, ou seja, a cada fonte de tempo, o <strong>ntpq -c rl</strong> apresenta as variáveis (globais) do sistema. As mais importantes estão indicadas na tabela a seguir:
+<table cellspacing="0" id="table2" cellpadding="0" class="twikiTable" rules="none" border="1">
+	<thead>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<th valign="top" class="twikiTableCol0 twikiFirstCol"> Variável </th>
+			<th valign="top" class="twikiTableCol1 twikiLastCol"> Significado </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> version </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> versão do ntp </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> stratum </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> estrato do servidor local </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> precision </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> precisão indicada com o expoente de um número base 2 </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> rootdelay </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> atraso ou tempo de ida e volta dos pacotes até o estrato 0, em milisegundos </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> rootdispersão </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> erro máximo da medida de offset em relação ao estrato 0, em milisegundos </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> refid </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> o par do sistema, ou principal referência </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol"> offset </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol"> deslocamento, quanto o relógio local tem de ser adiantado ou atrasado para chegar à hora certa (hora igual à do estrato 0) </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> frequency </td>
+			<td valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> erro na freqüência do relógio local, em relação à freqüência do estrato 0, em partes por milhão (PPM) </td>
+		</tr>
+	</tbody></table>
+<div class="voltar"><a href="/NTP/MenuNTPAvancado#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Interpretando_os_logs"></a> Interpretando os logs </h4>
+<p />
+Os principais logs do ntp são o <strong><em>loopstats</em></strong>, que apresenta as informações do loop local, ou seja, as variáveis do sistema, e o <strong><em>peerstats</em></strong>, que apresenta as informações de cada associação.
+<p />
+<strong><em>loopstats</em></strong>
+<p class="tabulacao">
+Seu formato é o seguinte:
+</p>
+<pre><b>
+      day, second, offset, drift compensation, estimated error, stability, polling interval
+      dia, segundo, deslocamento, escorregamento, erro estimado, estabilidade, e intervalo de consulta
+</b></pre>
+<p class="tabulacao">
+Exemplo:
+</p>
+<pre>
+      54475 73467.286 -0.000057852 31.695 0.000015298 0.006470 4
+      54475 73548.286 -0.000084064 31.688 0.000017049 0.006471 4
+      54475 73682.286 -0.000077221 31.678 0.000016130 0.006988 4
+      54475 73698.286 -0.000077448 31.677 0.000015103 0.006550 4
+      54475 73761.286 -0.000083230 31.672 0.000014275 0.006376 4
+      54475 73889.286 -0.000059100 31.665 0.000015846 0.006487 4
+      54475 74004.285 -0.000045825 31.660 0.000015548 0.006324 4
+      54475 74086.286 -0.000038670 31.657 0.000014762 0.006011 4
+      54475 74156.285 -0.000052920 31.653 0.000014699 0.005759 4
+      54475 74251.285 -0.000053223 31.649 0.000013766 0.005651 4
+      54475 74268.286 -0.000062545 31.648 0.000013292 0.005298 4
+</pre>
+<p />
+<strong><em>peerstats</em></strong>
+<p class="tabulacao">
+Seu formato é o seguinte:
+</p>
+<pre><b>
+      day, second, address, status, offset, delay, dispersion, skew (variance)
+      dia, segundo, endereço, estado, deslocamento, atraso, dispersão, variância
+</b></pre>
+<p class="tabulacao">
+Exemplo:
+</p>
+<pre>
+      54475 34931.294 200.20.186.75 9074 0.009958844 0.008390600 0.000390895 0.000132755
+      54475 34931.301 200.192.232.43 f0f4 0.000348814 0.015550265 0.001120348 0.000023645
+      54475 34932.303 200.189.40.28 f0f4 0.000810708 0.017701986 0.188995109 0.000043145
+      54475 34934.286 200.160.0.28 f0d4 0.000332344 0.000271801 0.000620139 0.000037467
+      54475 34935.286 200.160.7.165 9614 0.000003557 0.000216088 0.000826694 0.000022076
+      54475 34935.301 200.19.119.69 9334 0.002667663 0.015740055 0.001858731 0.001733883
+      54475 34935.303 200.186.125.200 f034 0.004857359 0.016764821 0.000719509 0.000303380
+      54475 34936.301 200.189.40.42 f0b4 -0.000738445 0.015510523 0.000390094 0.000039731
+      54475 34936.301 200.19.119.120 9434 0.000009164 0.015505927 0.000447001 0.000030319
+      54475 34938.301 200.192.232.28 f0f4 0.000363627 0.015584684 0.063231626 0.000020460
+      54475 34939.286 200.160.0.8 f054 0.000368748 0.000334013 0.000484437 0.000013953
+      54475 34939.286 200.160.0.43 f034 0.000325615 0.000260201 0.000849475 0.000039634
+</pre>
+<div class="voltar"><a href="/NTP/MenuNTPAvancado#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+<h4><a name="Gerando_gr_ficos"></a> Gerando gráficos </h4>
+<p />
+A interpretação dos arquivos de log fica bastante facilitada com o uso de gráficos. E uma vez que se conhece seu formato fica muito fácil gerá-los. Várias ferramentas podem ser utilizadas para isso, mas recomenda-se o uso do <strong>gnuplot</strong>. Foge do escopo desse site dar informações detalhadas sobre a instalação ou uso dessa ferramenta, então consulte <a href="http://www.gnuplot.info/">http://www.gnuplot.info/</a> para mais informações. O software funciona em GNU/Linux, FreeBSD, Windows e outros sistemas.
+<p />
+Segue um exemplo de uso, no GNU/Linux com interface gráfica, que permitirá aos interessados entender o processo:
+<p class="tabulacao">
+Cria-se um arquivo chamado deslocamento.txt com o seguinte conteúdo:
+</p>
+<pre>
+          set term gif
+          set output '| display'
+          set title "Deslocamento"
+          plot "/var/log/ntpstats/loopstats" using 2:3 t"deslocamento" with linespoints lt rgb "#d0d0d0";
+</pre>
+<p class="tabulacao">
+Observe-se que o comando plot faz referência ao arquivo loopstats, e usa suas colunas 2 e 3, 2 representa o tempo, no dia, em segundos; e 3 representa o deslocamento, em milisegundos.
+<br /> <br /> 
+Executa-se o seguinte comando:
+</p>
+<pre><b>
+          gnuplot deslocamento.txt
+</b></pre>
+E pronto, como a saída esta redirecionada para display, vê-se o gif gerado na tela:
+<p />
+<div class="img-centro"><img src="http://ntp.br/pub/NTP/MenuNTPAvancado/img_MenuNTPUtilizando_4.gif" alt=""/></div>
+Assista a um mini tutorial em vídeo mostrando o uso do gnuplot no Windows:
+<p />
+<div id='zappiens_container2'><div id='zappiens_no_flash_or_script' class='NoScriptFlash'><noscript>Para poder visualizar este conteudo, devera ativar o <span class="twikiNewLink">JavaScript<a href="/bin/edit/NTP/JavaScript?topicparent=NTP.MenuNTPAvancado" rel="nofollow" title="Create this topic">?</a></span>  no seu browser e instalar o Adobe Flash Player<BR/></noscript><script type='text/javascript'>document.write('Para poder visualizar este conteudo, devera instalar o Adobe Flash Player<BR/>');</script></div><script type='text/javascript' src='http://200.160.7.139/players/JWP/swfobject.js'></script><script type='text/javascript'>function Show_Player(){try{var s12 = new SWFObject('http://200.160.7.139/players/JWP/player.swf','ply', '352','288','9','#FFFFFF');s12.addParam('allowfullscreen',   'true');s12.addParam('allowscriptaccess', 'always');s12.addParam('autostart',         'false');s12.addParam('flashvars', 'file=cgi7ryYQLcYEdS5_bMDLVkZUQTz7CNbwiY1VD8vLoH4cJs.FLV&streamer=http://200.160.7.139/ZappStream.PHP?AuthCode=100&autostart=false&logolink=http://www.zappiens.br/portal/VisualizarVideo.do?_EntityIdentifier=cgi7ryYQLcYEdS5_bMDLVkZUQTz7CNbwiY1VD8vLoH4cJs.%26_InstanceIdentifier=0%26idRepositorio=0&logopath=http://www.zappiens.br/portal/imgs/player-marca-zappiens-br.gif'); s12.write   ('zappiens_container2');} catch (e) { }}Show_Player();</script></div>
+<br/>
+<p />
+<div class="voltar"><a href="/NTP/MenuNTPAvancado#VolTar" class="twikiCurrentTopicLink twikiAnchorLink">Voltar</a></div>
+<hr />
+		</div><!--.conteudo-->
+</div>
+	</div><!--.container-->
+	<noscript><p>Script para limpar os campos de formulario</p></noscript>
+</body>
+</html>

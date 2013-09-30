@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="must-revalidate" />
+<title>graphic chart</title>
+
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="../../global.css" type="text/css" />
+<link rel="stylesheet" href="../../style.css" type="text/css" />
+<link rel="stylesheet" href="../../local.css" type="text/css" />
+
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=wiki%2Fgraphic_chart&amp;do=edit" />
+
+
+
+
+</head>
+<body><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/toggle.js" type="text/javascript" charset="utf-8"></script><script src="../../ikiwiki/ikiwiki.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../ikiwiki/relativedate.js" type="text/javascript" charset="utf-8"></script>
+    <div id="centralHeader">
+      <div id="logo">
+        <a href="http://www.NetBSD.org/"><img src="http://www.NetBSD.org/images/NetBSD-smaller.png" alt="[NetBSD Logo]"/></a>
+        <div id="name"><a href="http://www.NetBSD.org/">The NetBSD Project</a></div>
+        <div id="slogan"><a href="http://www.NetBSD.org/">&ldquo;Of course it runs NetBSD&rdquo;</a></div>
+      </div>
+      <div id="headerTools">
+	<div id="headerSearch">
+
+<form method="get" action="https://wiki.netbsd.org/cgi-bin/ikiwiki" id="searchform">
+<div>
+<input class="whiteOnBlack" type="text" id="searchbox" name="P" value="Search" size="12" maxlength="255" onfocus="if(this.value==this.defaultValue ) this.value='';" /> <input type="submit" value="Search" />
+</div>
+</form>
+
+
+	</div>
+      </div>
+    </div>
+
+    <div id="navBar" role="navigation">
+	<span class="doNotDisplay">
+          Navigation:
+        </span>
+	<ul>
+	<li><a href="http://www.NetBSD.org/">
+		  WWW Home</a></li>
+	<li>
+	<a href="http://www.NetBSD.org/">
+		  News &amp; Media</a><ul>
+	<li><a href="http://www.NetBSD.org//changes/">
+		    Recent changes</a></li>
+	<li><a href="http://blog.NetBSD.org/">
+		    NetBSD blog</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/events.html">
+		    Events</a></li>
+	<li><a href="http://www.NetBSD.org/changes/rss.html">
+		    Feeds</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/about/">
+		  About</a><ul>
+	<li><a href="http://www.NetBSD.org/about/">
+		    NetBSD</a></li>
+	<li><a href="http://www.NetBSD.org/foundation/">
+		    The NetBSD Foundation</a></li>
+	<li><a href="http://www.NetBSD.org/gallery/">
+		    Advocacy</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/docs/">
+		  Documentation</a><ul>
+	<li><a href="http://www.NetBSD.org/docs/misc/index.html">
+		    FAQ &amp; HOWTOs</a></li>
+	<li><a href="http://www.NetBSD.org/docs/guide/en/">
+		    The Guide</a></li>
+	<li><a href="http://man.NetBSD.org/">
+		    Manual pages</a></li>
+	<li><a href="http://wiki.NetBSD.org/">
+		    Wiki</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/support/">
+		  Support</a><ul>
+	<li><a href="http://www.NetBSD.org/support/send-pr.html">
+		    Problem report guide</a></li>
+	<li><a href="http://www.NetBSD.org/cgi-bin/sendpr.cgi?gndb=netbsd">
+		    Report a bug</a></li>
+	<li><a href="http://www.NetBSD.org/support/query-pr.html">
+		    Query bug database</a></li>
+	<li><a href="http://www.NetBSD.org/support/security/">
+		    Security</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/community/">
+		  Community</a><ul>
+	<li><a href="http://onetbsd.org/">
+		    Blogs</a></li>
+	<li><a href="http://www.NetBSD.org/mailinglists/">
+		    Mailing lists</a></li>
+	<li><a href="http://mail-index.NetBSD.org/">
+		    List archives</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/developers/">
+		  Developers</a><ul>
+	<li><a href="http://cvsweb.NetBSD.org/">
+		    Browse source</a></li>
+	<li><a href="http://nxr.NetBSD.org/">
+		    Cross-reference</a></li>
+	<li><a href="http://releng.NetBSD.org/">
+		    Release engineering</a></li>
+	<li><a href="http://wiki.NetBSD.org/projects/">
+		    Projects list</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.NetBSD.org/ports/">
+		  Ports</a><ul>
+	<li><a href="http://www.NetBSD.org/ports/history.html">
+		    History</a></li>
+	<li><a href="http://www.NetBSD.org/ports/emulators.html">
+		    Emulators</a></li>
+	</ul>
+	</li>
+	<li>
+	<a href="http://www.pkgsrc.org/">
+		Packages</a><ul>
+	<li><a href="http://www.pkgsrc.se/">
+		    Browse packages</a></li>
+	<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+		    Release engineering</a></li>
+	</ul>
+	</li>
+	</ul>
+    </div>
+ 
+      	  
+		  <div class="actions">
+		    <ul>
+			<li><a href="../../">Wiki Home</a></li>
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=wiki%2Fgraphic_chart&amp;do=edit" rel="nofollow">Edit</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=wiki%2Fgraphic_chart&amp;do=comment">Comment</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=wiki%2Fgraphic_chart&amp;do=getsource">Source</a></li>
+		      
+		      
+			<li><a href="https://wiki.netbsd.org/cgi-bin/cvsweb/wikisrc/wiki/graphic_chart.mdwn">History</a></li>
+		      
+			<li><a href="../../wiki/new_page" rel="nofollow">New</a></li>
+		      
+			<li><a href="../../recentchanges/">RecentChanges</a></li>
+		      
+		    </ul>
+		  </div>
+    </div>
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+<a href="../../">NetBSD Wiki</a>/<a href="../../">wiki</a>/
+</span>
+<span class="title">
+graphic chart
+
+</span>
+</span><!--.header-->
+</div>
+</div>
+
+
+
+<div id="content">
+
+
+<div class="toc">
+<ol>
+	<li class="L1"><a href="#index1h1">Introduction</a>
+	</li>
+	<li class="L1"><a href="#index2h1">On textual conventions</a>
+	</li>
+	<li class="L1"><a href="#index3h1">On the usage of links</a>
+	</li>
+	<li class="L1"><a href="#index4h1">Specific layouts</a>
+	</li>
+	<li class="L1"><a href="#index5h1">References</a>
+	</li>
+</ol>
+</div>
+
+
+<h1><a name="index1h1"></a>Introduction</h1>
+
+<p>The purpose of the following document is to propose a graphic chart regarding the NetBSD htdocs site, including this wiki, and give some examples so they can be reused quickly anywhere else.</p>
+
+<hr />
+
+<h1><a name="index2h1"></a>On textual conventions</h1>
+
+<p>Remember that this is a <a href="https://en.wikipedia.org/wiki/wiki">wiki</a>; its base syntax, <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>, is more limited than the one you have when writing down man pages using packages like <a href="http://netbsd.gw.com/cgi-bin/man-cgi?mdoc+7+NetBSD-current">mdoc(7)</a>
+, where data types (variables, pathnames, flags, functions, return values, ...) have each their associated types, or document markup language like <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a>.</p>
+
+<p>This does not mean that we should not care about conventions, though. For convenience, prefer using the ones that are chosen by the HTML output of the .</p>
+
+<h2><a name="index1h2"></a>Quoting</h2>
+
+<p>When quoting text from an outside source, use double quotes "...", and explicitly indicate its reference.</p>
+
+<p>When you want to quote specific character(s), use single quotes. For example: all sentences end with a '.'.</p>
+
+<h2><a name="index2h2"></a>Files and directories</h2>
+
+<p>Files and directories (and in a wider sense, <em>paths</em>) should be <em>emphasized</em>, e.g. <em>fstab</em> and <em>rc.conf</em> are found under <em>/etc/</em>.</p>
+
+<h2><a name="index3h2"></a>Commands, options names and flags</h2>
+
+<p>When a command, or an executable, are referenced, they should be <strong>strongly emphasized</strong>; same goes for their optional flags and arguments, e.g. <strong>ls</strong> can be used to list the content of a directory, and, together with its <strong>-a</strong> flag, will output entries that start with a dot.</p>
+
+<h2><a name="index4h2"></a>Functions, or specific part of code</h2>
+
+<p>Functions reference should be <em>simply emphasized</em>. It is preferable to give the associated file explicitly, to avoid confusions; in that case, use a colon `:' to separate file name from function name. Same goes when you want to pinpoint to specific zone in source files, like lines.</p>
+
+<p>For example, the <em>src/bin/print.c:printlong</em> function is responsible for printing the long output from <a href="http://netbsd.gw.com/cgi-bin/man-cgi?ls+1+NetBSD-current">ls(1)</a>
+.</p>
+
+<h1><a name="index3h1"></a>On the usage of links</h1>
+
+<p>You can find multiple types of links within the wiki:</p>
+
+<ol>
+<li>links to other pages of this <a href="../sitemap/">wiki</a>:
+
+<ol>
+<li><a href="../../">index</a></li>
+<li><span class="selflink">graphic chart</span> (this page)</li>
+</ol>
+</li>
+<li>explicit URLs:
+
+<ol>
+<li>with a label:</li>
+<li>or without:</li>
+</ol>
+</li>
+<li>last but not least, various services regarding NetBSD:
+
+<ol>
+<li><p>problem reports: <a href="http://gnats.netbsd.org/1">PR #1</a></p></li>
+<li><p>: <a href="http://netbsd.gw.com/cgi-bin/man-cgi?intro+1+NetBSD-current">intro(1)</a>
+, <a href="http://netbsd.gw.com/cgi-bin/man-cgi?hier+7+NetBSD-current">hier(7)</a></p></li>
+<li><p> 's packages: <a href="http://pkgsrc.se/www/apache">www/apache</a>
+, <a href="http://pkgsrc.se/security/netpgp">security/netpgp</a></p></li>
+</ol>
+</li>
+</ol>
+
+
+<p>Always prefer using <a href="../../templates/">templates</a> rather than hard-coding paths for external URLs. This helps both maintainability and readability.</p>
+
+<h1><a name="index4h1"></a>Specific layouts</h1>
+
+<p>The wiki support different commands, <a href="../../shortcuts/">shortcuts</a> and <a href="../../templates/">templates</a> that can help controlling the layout.</p>
+
+<h2><a name="index5h2"></a>Code</h2>
+
+<p>TBC</p>
+
+<h2><a name="index6h2"></a>Terminal/console-like output</h2>
+
+<p>If you want to write series of commands, eventually with their output, you can use the <a href="../../templates/programlisting/">programlisting template</a>.</p>
+
+<pre class="programlisting">$ uname
+NetBSD
+$ cat /etc/fstab
+# See /usr/share/examples/fstab/ for more examples.
+/dev/wd0a   /     ffs      rw,log   1 1
+/dev/wd0b   none      swap     sw       0 0
+kernfs      /kern     kernfs   rw
+ptyfs       /dev/pts  ptyfs    rw
+procfs      /proc     procfs   rw
+/dev/cd0a   /cdrom    cd9660   ro,noauto</pre>
+
+
+<h2><a name="index7h2"></a>File content</h2>
+
+<p>If you want to display the content of a file, and make a proper distinction with terminal output, use the <a href="../../templates/filecontent/">filecontent template</a>.</p>
+
+<p><fieldset>
+<legend>/etc/fstab</legend></p>
+
+<pre>
+# See /usr/share/examples/fstab/ for more examples.
+/dev/wd0a   /     ffs      rw,log   1 1
+/dev/wd0b   none      swap     sw       0 0
+kernfs      /kern     kernfs   rw
+ptyfs       /dev/pts  ptyfs    rw
+procfs      /proc     procfs   rw
+/dev/cd0a   /cdrom    cd9660   ro,noauto
+</pre>
+
+
+<p></fieldset></p>
+
+<h2><a name="index8h2"></a>Warnings and notes</h2>
+
+<h3><a name="index1h3"></a>Warnings</h3>
+
+<p>TBC Provide a "warning" template, with a nice-looking icon and appropriate framing (light red fieldset, for example). Investigate Tango icons. Needs some CSS tweaking.</p>
+
+<h3><a name="index2h3"></a>Notes</h3>
+
+<p>TBC Provide a "note" template, similar to the "warning" one (yellow-greyish maybe).</p>
+
+<hr />
+
+<h1><a name="index5h1"></a>References</h1>
+
+<p>Last, some references:</p>
+
+<ul>
+<li>TBD</li>
+<li>TBD</li>
+</ul>
+
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?page=wiki%2Fgraphic_chart&amp;do=comment">Add a comment</a>
+</div>
+
+</div>
+
+
+
+		      
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../start/">start</a>
+
+
+</div><!-- #backlinks -->
+
+
+
+
+<div class="pagedate">
+Last edited <span class="relativedate" title="Mon, 07 Feb 2011 03:42:30 +0000">in the wee hours of Sunday night, February  7th, 2011</span>
+<!-- Created <span class="relativedate" title="Mon, 07 Feb 2011 03:42:30 +0000">in the wee hours of Sunday night, February  7th, 2011</span> -->
+</div>
+
+
+
+<a href="https://wiki.netbsd.org/cgi-bin/ikiwiki?do=prefs">Preferences | Logout</a>
+
+
+
+</div><!-- #pageinfo -->
+
+
+<!-- from NetBSD Wiki -->
+</div><!-- .pagefooter #footer -->
+
+
+
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<title>Cross-development with NetBSD</title>
+</head>
+<body bgcolor="white" link="black" vlink="black">
+
+<font size="-1" color="red">
+This document was written for
+<a href="http://www.daemonnews.org/"><font color="red">Daemonnews</font></a>
+and <a href="http://ezine.daemonnews.org/200211/xdevnetbsd.html"><font color="red">published</font></a>
+in <A HREF="http://ezine.daemonnews.org/200211/"><font color="red">DaemonNews, November 2002</font></A> issue.
+</font>
+
+<hr noshade>
+<br>
+
+
+<center>
+<hr noshade width="90%">
+ <font size="+2" color="green">Cross-Development with NetBSD</font><br>
+ <font size="+1" color="green">Using NetBSD's new toolchain to develop for an embedded device</font><br>
+ <font size="-1">Hubert Feyrer, October 2002</font>
+<hr noshade width="90%">
+</center>
+<br>
+
+
+<h1>Introduction</h1>
+
+When targeting a product for an embedded platform, it's not feasible
+to have all the development tools available on that same platform. 
+Instead, some method of crosscompiling is usually used today. NetBSD 1.6
+will contain (and NetBSD-current has today) a new framework to build both
+the operating system's kernel
+and the whole userland for either the same platform that the compiler
+runs on, or for a different platform, using crosscompiling. 
+Crosscompiling requires assembler, linker, compiler etc. to be available
+and built for the target platform. The new build scheme will take care
+of creating these tools for a given platform, and make them available
+ready to use to do development work. 
+<p>
+
+
+<h1>Grabbing sources</h1>
+
+As an example, we will examine how to make a kernel for a Shark
+(StrongARM based system) from a machine running NetBSD/i386 in this
+article. The only requirement is that there is a fresh source tree of
+NetBSD-current checked out from CVS. "Fresh" here means that there
+should be no stale object files etc. in the tree - these can really
+get in the way here! The following commands can be used to get a copy
+of the -current branch checked out in /usr/cvs/src-current:
+<p>
+
+<pre>
+# <b>mkdir /usr/cvs</b>
+# <b>cd /usr/cvs</b>
+# <b>env CVS_RSH=ssh cvs -d anoncvs@anoncvs.netbsd.org:/cvsroot co src</b>
+# <b>mv src src-current</b>
+</pre>
+
+The process of crosscompiling a kernel consists of three steps, which
+we will describe in more detail below:
+<p>
+
+<ol>
+<li> Create toolchain for crosscompiling (compiler, assembler, linker, ...)
+<li> Configure kernel
+<li> Build
+</ol>
+
+<h1> Creating the Crosscompiler</h1>
+
+The first step to do cross-development is to get all the necessary tools
+available. In NetBSD terminology, this is called the "toolchain", and it
+includes BSD-compatible make(1), C/C++ compilers, linker, assembler, config(8),
+as well as a fair number of tools that are only required when crosscompiling
+a full NetBSD release, which we won't cover here. 
+<p>
+
+The command to create the toolchain is quite simple, using NetBSD's new
+src/build.sh script:
+<p>
+
+<pre>
+# <b>cd /usr/cvs/src-current</b>
+# <b>./build.sh -m shark -u -t</b>
+</pre>
+
+This will build all the tools for the named target platform. 
+Arguments used here are:
+<p>
+
+<ul>
+<li> -m: define the machine, MACHINE
+<li> -u: update - only build files that have changed since last build
+<li> -t: only build the toolchain (i.e. the crosscompiler!)
+</ul>
+
+During the build, object directories are used consistently, i.e. 
+special directories are kept that keep the platform-specific object
+files and compile results. In our example, they will be kept in
+directories named "obj.shark" as we build for a Shark as target platform.
+<p>
+
+The toolchain itself is part of this, but as it's hosted and compiled
+for a i386 system, it will get placed in it's own directory indicating
+where to cross-build <em>from</em>. Here's where our crosscompiler
+tools are located:
+
+<pre>
+miyu# <b>pwd</b>
+/usr/cvs/src-current
+miyu# <b>ls tools/obj.shark/</b>
+tools.NetBSD-1.6-i386
+</pre>
+
+So the general rule of thumb is for a given "host" and "target" system
+combination, the crosscompiler will be placed in the
+"src/tools/obj.<i>target</i>/tools.<i>host</i>" directory by default.
+A full list of all tools created for crosscompiling the whole NetBSD
+operating system includes:
+
+<pre>
+miyu# <b>ls tools/obj.shark/tools.NetBSD-1.6-i386/bin/</b>
+arm--netbsdelf-addr2line  arm--netbsdelf-strings    nbmakefs
+arm--netbsdelf-ar         arm--netbsdelf-strip      nbmakeinfo
+arm--netbsdelf-as         nbasn1_compile            nbmakewhatis
+arm--netbsdelf-c++        nbcap_mkdb                nbmenuc
+arm--netbsdelf-c++filt    nbcompile_et              nbmkdep
+arm--netbsdelf-cpp        nbconfig                  nbmklocale
+arm--netbsdelf-dbsym      nbcrunchgen               nbmsgc
+arm--netbsdelf-g++        nbctags                   nbmtree
+arm--netbsdelf-g77        nbeqn                     nbpax
+arm--netbsdelf-gasp       nbgencat                  nbpic
+arm--netbsdelf-gcc        nbgroff                   nbpwd_mkdb
+arm--netbsdelf-gcov       nbhost-mkdep              nbrefer
+arm--netbsdelf-ld         nbindxbib                 nbrpcgen
+arm--netbsdelf-lint       nbinfo                    nbsoelim
+arm--netbsdelf-mdsetimage nbinstall                 nbtbl
+arm--netbsdelf-nm         nbinstall-info            nbtexi2dvi
+arm--netbsdelf-objcopy    nblex                     nbtexindex
+arm--netbsdelf-objdump    nblorder                  nbtsort
+arm--netbsdelf-ranlib     nbm4                      nbuudecode
+arm--netbsdelf-readelf    nbmake                    nbyacc
+arm--netbsdelf-size       nbmake-shark              nbzic
+</pre>
+
+As you can see, most of the tools that are available natively on
+NetBSD are also available, with some program prefix to identify
+the target platform. (The naming here is a bit redundant due to
+the directory structure containing all the information, but the
+program names are created by the GNU based toolchain and were
+chosen not to be changed). 
+<p>
+
+One important tool that should be pointed out here is "nbmake-shark".
+This is a shell wrapper for a BSD compatible make(1) command that's
+setup to use all the right commands from the crosscompiler toolchain.
+Using this wrapper instead of /usr/bin/make allows crosscompiling programs
+that were written using the NetBSD Makefile infrastructure (see
+src/share/mk). We will use this make(1) wrapper in a second!
+<p>
+
+
+<h1> Configuring the kernel </h1>
+
+Now that we have a working crosscompiler available, the "usual" steps
+for building a kernel are needed - config, then build. As the config(8)
+program used to create header files and Makefile for a kernel build is
+platform specific, we need to use the "nbconfig" program that's part
+of our new toolchain. That aside, the procedure is just as like compiling
+a "native" NetBSD kernel. Commands involved here are:
+
+<pre>
+# <b>cd /usr/cvs/src-current/sys/arch/shark/conf/</b>
+# <b>/usr/cvs/src-current/tools/obj.shark/tools.NetBSD-1.6-i386/bin/nbconfig GENERIC</b>
+</pre>
+
+That's all. This command has created a directory "../compile/GENERIC"
+with a number of header files defining information about devices
+to compile into the kernel, a Makefile that is setup to build all the
+needed files for the kernel, and link them together. As the Shark
+port uses ELF as execution format but the Shark's OpenFirmware can
+only load a.out kernels, that Makefile will also convert the kernel
+from ELF to a.out once it's built.
+<p>
+
+More information about building NetBSD kernels can be found at 
+<a href="http://www.netbsd.org/Documentation/kernel/"><font color="black">http://www.netbsd.org/Documentation/kernel/</font></a>.
+<p>
+
+
+<h1> Crosscompiling the kernel </h1>
+
+We have all the files and tools available to crosscompile our ARM-based
+kernel from our Intel-based host system, so let's get to it!
+After changing in the directory created in the previous step, we need
+to use the crosscompiler toolchain's "nbmake-shark" shell wrapper, which
+just calls make(1) with all the necessary settings for crosscompiling for
+a shark:
+
+<pre>
+# <b>cd ../compile/GENERIC/</b>
+# <b>/usr/cvs/src-current/tools/obj.shark/tools.NetBSD-1.6-i386/bin/nbmake-shark</b>
+</pre>
+
+This will churn away a bit, then spit out a kernel:
+
+<pre>
+...
+text    data    bss     dec     hex     filename
+1687520 69632   184576  1941728 1da0e0  netbsd.aout
+miyu# <b>ls -la netbsd.aout</b>
+-rwxr-xr-x  1 root  wheel  1757216 Mar 27 02:55 netbsd.aout
+miyu# <b>file netbsd.aout</b>
+netbsd.aout:    NetBSD/arm32 demand paged executable
+</pre>
+
+Now the a.out(!) kernel can either be transferred to a shark (via NFS,
+FTP, scp, etc.) and booted from a possible harddisk, or directly
+from our cross-development machine using NFS. Be sure to actually use the 
+a.out kernel, as the Shark's firmware cannot use the one in ELF format.
+<p>
+
+
+
+<h1>Crosscompiling the whole Operating System</h1>
+
+Of course you can not only crosscompile the NetBSD kernel, but the
+whole system. This is as easy as:
+
+<pre>
+$ <b>./build.sh -m shark -d \
+                -D /usr/tmp/shark-root \
+                -R /usr/tmp/shark-release</b> </pre>
+
+This command will first build a crosscompiler, as described
+above. After that it will crosscompile the whole operating system
+including all libraries, binaries, etc. To make things complete,
+kernels for installing and running the systems will be built, and
+everything will be packed into distribution sets & install media, so a
+full NetBSD release is available i /usr/tmp/shark-release after that
+command!
+<p>
+
+Too easy? Sorry, but that's NetBSD! :-)
+<p>
+
+
+<h1>Summary</h1>
+
+So much for our small example on how to use the new build framework to
+do cross development of a kernel for and with NetBSD.  Let me
+re-emphasize at this point again that the toolchain produced in the
+first step is capable of (re)building the complete NetBSD operating
+system including libraries and programs, not only the kernel. More
+information on building the whole operating system can be found in
+src/BUILDING. More documentation is also available as
+src/tools/compat/README, which has special emphasize on setting up
+crosscompiling from various host operating systems, i.e. Solaris and
+Linux besides NetBSD.
+<p>
+
+
+<hr noshade>
+
+(c) Copyright 20020110 Hubert Feyrer<br>
+$Id: xdev.html,v 1.6 2002/10/15 23:46:15 feyrer Exp $
+
+</body>

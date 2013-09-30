@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html lang="ja"> <head>
+<title>歌うTiMidity</title>
+</head>
+
+<body bgcolor="#ffffff">
+<h1>歌うTiMidity</h1>
+
+これは、TiMidityを使って「歌」を歌わせるための音源集です。<br>
+音の素材には「
+<a href="http://reisiu.iamas.ac.jp/" >こえうぇぶ</a>
+」の音を用いています。
+<br>
+
+SoundFontにして他の音源なんかからも使えるようにしようと思いましたが、
+ツールなどの関係で挫折しました。<br>
+ちょっとだけバージョンアップ(5/5/2005)。
+<p>
+
+ダウンロードはこちらから。
+
+<ul>
+  <li><a href="koeweb-0.1.1.tar.gz" >koeweb-0.1.1.tar.gz</a></li>
+</ul>
+
+サンプルはこちら。
+
+<ul>
+  <li><a href="test20040303.mp3" >あいうえお (test20040303.mp3)</a></li>
+  <li><a href="kakko.mp3" > 静かな湖畔 (kakko.mp3)</a></li>
+</ul>
+
+
+0.1.0と0.1.1の違いは以下になります。
+
+<ul>
+  <li> 設定ファイルのバンク番号を16から50に変更した。</li>
+  <li> 設定ファイルのピッチシフトをややまともな値に直した。</li>
+  <li> カナ→プログラムチェンジ変換スクリプトを追加した。</li>
+  <li> サンプル曲「静かな湖畔」を追加した。</li>
+</ul>
+
+<hr>
+00README:
+
+<pre>
+歌うTiMidityいんちき版
+						ver. 0.1.0 (3/16/2004)
+						ver. 0.1.1 (5/5/2005)
+
+1. はじめに
+
+このパッケージはTiMidity++(http://timidity.sourceforge.net/)で歌わせる
+ための音源集です。
+音の素材には「こえうぇぶ」(http://reisiu.iamas.ac.jp/)の音源を利用しています。
+このパッケージに含まれる音声ファイルは、「こえうぇぶ」の音素材に対して、以下の
+編集を加えてあります。
+ ・ AIFF->WAVに変換
+ ・ 音量を上げる
+ ・ 無音部分を削除する
+ ・ ループポイントを指定する
+
+音高が約半音ずれているようだったので、付属のTiMidity用のconfigファイルでは
+半音シフトしてあります。音程のずれについては調整していません。
+
+2. インストール
+
+まず、WAVファイルを直接読んでいるので、新しいTiMidity(TiMidity++-2.13など)が
+必要です。
+
+koeweb-0.1.0.tar.gzを展開すると、koeweb-0.1.0というディレクトリが作成され
+ます。その中にkoewebというディレクトリがあるので、これをTiMidityの音声ファイル
+置き場(例えば/usr/local/share/timidity/instの下)にコピーします。
+
+次にkoeweb.cfgというファイルがあるので、これを設定ファイル置き場(例えば
+/usr/local/share/timidity)にコピーします。
+
+TiMidityの設定ファイルに、koeweb.cfgを読みこむ内容を追加します。
+例：
+ dir /usr/local/share/timidity/inst/koeweb
+
+ include koeweb.cfg
+
+3. 使い方
+
+このパッケージでは、50音の切り替えはプログラムチェンジを使う方法を採用して
+います。
+koeweb.cfgでは、bank 50を設定しているので、bank 50を指定した後、プログラム
+チェンジで発音する音を指定します。例えば「あいうえお」を「ドレミファソ」で発音
+させたい場合をMMLで書くと、以下のようになります。
+
+@0 c4 @1 d4 @2 e4 @3 f4 @4 g4
+
+この指定方法を記述するのは面倒なので、以下の支援スクリプトを用意しました。
+ 1. rom2prg.pl
+  ローマ字をプログラムチェンジ番号(0〜121)に変換します。
+
+ 2. k2prg.pl
+  日本語全角カナ文字をMMLでのプログラムチェンジ表記(@nn)に変換します。
+  カナ混じりのMMLをこのスクリプトに通せば、MML2MIDなどでSMFに変換可能に
+  なります。
+
+ローマ字と日本語カナ文字でどのような表記が使えるかは、それぞれのスクリプト
+のソースを読んでください。
+
+4. サンプル
+
+ 1. aiueo
+
+  50音を順番に発音するサンプルです。aiueo.mmlがMMLのソースで、これを
+  MML2MIDでSMFに変換したものがaiueo.midです。
+
+ 2. kakko
+
+  「かっこう」のサンプルです。以下の手順で再生します。
+
+    - ./k2prg.pl kakko1.mml > kakko2.mml
+    - mml2mid kakko2.mml kakko2.mid x
+    - timidity kakko2.mid
+
+5. 著作権
+
+koewebディレクトリ以下にある音素材については、「こえうぇぶ」の著作権表示に
+従います。それ以外のファイルについては、貼付のCOPYINGファイルに示された
+BSDライセンスに従います。
+
+</pre>
+
+<hr>
+
+関連リンク
+
+<ul>
+  <li> <a href="http://timidity.sourceforge.net/" >TiMidity++</a></li>
+  <li> <a href="http://platz.jp/~mml2mid/" >MML2MID</a></li>
+  <li> <a href="http://swami.sourceforge.net/" >Swami (Opensource SoundFont Editor)</a></li>
+  <li> <a href="http://www.fmjsoft.com/awframe.html" >Awave Studio</a></li>
+</ul>
+
+
+<hr>
+<address><a href="mailto:kimoto@ohnolab.org">Masahiko KIMOTO, Ph. D. &lt;kimoto@ohnolab.org&gt;</a></address>
+<!-- hhmts start --> Last modified: Sat May  7 14:24:42 JST 2005 <!-- hhmts end -->
+<br>
+<img src="timidity-banner-large.gif">
+</body> </html>

@@ -1,0 +1,226 @@
+<?xml version="1.1" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_US" xml:lang="en_US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body {
+	font-family: Gadget, sans-serif;
+	background: #dde;
+}
+#page {
+	margin: 0 auto;
+	width: 800px;
+}
+#header {
+	width: 740px;
+	padding: 10px;
+	margin: 10px 0 10px 0;
+	background: #88d;
+	text-align: center;
+}
+#main {
+	width: 740px;
+	padding: 10px;
+	margin: 10px 0 10px 0;
+	background: #fff;
+}
+.codesample {
+	margin-left: 20px;
+	line-height: 170%;
+	font-size: 1em;
+}
+.codenote {
+	font-family: Gadget, sans-serif;
+	font-style: italic;
+}
+.download {
+	text-align: center;
+}
+.download a {
+	color: #33d;
+	text-decoration: none;
+}
+.download a:visited {
+	color: #33d;
+	text-decoration: none;
+}
+</style>
+<title>TAYGA - NAT64 for Linux</title>
+</head>
+<body>
+
+<div id="page">
+
+<div id="header">
+<h1>TAYGA</h1>
+<h2>Simple, no-fuss NAT64 for Linux</h2>
+</div>
+
+<div id="main">
+
+<h1>TAYGA FAQ</h1>
+
+<p><a href=".">Back to main page</a></p>
+
+<h2>Pre-installation</h2>
+
+<h3>Q1.1. What, exactly, does TAYGA do?</h3>
+
+<p>TAYGA is a daemon that performs translation of packets between IPv4 and
+IPv6.  Officially, this is called "Stateless IP/ICMP Translation (SIIT)" and
+is described in <a
+href="http://tools.ietf.org/html/draft-ietf-behave-v6v4-xlate">draft-ietf-behave-v6v4-xlate</a>.
+Unofficially, this is known as NAT64, but the comparison to traditional
+Network Address Translation (NAT) can cause confusion.</p>
+
+<p>TAYGA is <b>not</b>:</p>
+
+<ul>
+<li>a router</li>
+<li>a tunneling or VPN tool</li>
+<li>a firewall or security measure of any kind</li>
+<li>a DNS translator (use <a
+href="http://www.dillema.net/software/totd.html">TOTD</a> or other DNS64 for
+this)</li>
+<li>a way to "get access" to the IPv6 Internet (see next two questions)</li>
+</ul>
+
+<h3>Q1.2. Can I use TAYGA to connect my IPv6 hosts to the IPv6 Internet?</h3>
+
+<p>TAYGA only handles translation to and from IPv4.  It cannot be used to
+create connectivity between an IPv6-enabled site and IPv6 servers on the wider
+Internet.</p>
+
+<p>The IPv6 Internet is, conceptually, a separate global network from the IPv4
+Internet.  Your organization will need to establish an upstream link to the
+IPv6 Internet which operates in parallel to your existing IPv4 upstream
+link.</p>
+
+<p>Fortunately, there is no need to purchase separate physical infrastructure.
+If your upstream provider supports IPv6 natively, you can request that they
+enable IPv6 on your existing IPv4 link, and both protocols can share the same
+line.  If your upstream provider does not support IPv6, you can create an
+IPv6-in-IPv4 tunnel (similar to a VPN) to a free tunnel broker such as
+<a href="http://tunnelbroker.net/">Hurricane Electric</a> or <a
+href="http://www.sixxs.net/faq/account/?faq=10steps">SixXS</a>.</p>
+
+<h3>Q1.3. I don't want to roll out IPv6 on my internal network; I just want to
+IPv6-enable my border router and use NAT to give my internal clients access to
+the IPv6 Internet.  Can TAYGA do this?</h3>
+
+<p>No.  What you're looking for doesn't really exist.</p>
+
+<p>Some network "experts" have asserted that there is no need for
+organizations to migrate their internal networks to IPv6, and suggest that it
+is possible to use NAT to give IPv4-only clients access to the IPv6 Internet.
+These experts generally decline to describe the technical means as to how this
+could be accomplished, instead advising readers to wait for their equipment
+vendors to come up with the solution.</p>
+
+<p>It is technically impossible for a translation system operating purely at
+the IP layer to allow IPv4 hosts to establish connections to any arbitrary
+IPv6 server.  Such a system would need to represent every IPv6 server on the
+Internet with a unique IPv4 address, which is clearly infeasible given the
+size of the IPv6 address space.</p>
+
+<p>A number of years ago the IETF attempted to standardize a system called
+NAT-PT that used a DNS translation function to assign temporary IPv4 addresses
+to IPv6 servers, giving the appearance of full, bi-directional communication
+between IPv4 and IPv6.  It is perhaps this standard to which the experts above
+were referring.  However, NAT-PT was found to be fundamentally flawed and too
+fragile to use in a production environment, so the IETF deprecated it in
+2007.</p>
+
+<p>The only known method for reliably giving IPv4-only clients access to the
+IPv6 Internet is with application-level proxies, e.g. Squid for HTTP
+traffic.</p>
+
+<h2>Installation</h2>
+
+<h3>Q2.1. Which distributions is TAYGA included in?</h3>
+
+<p>TAYGA 0.9.1 was added to the Debian testing repository on 2011-04-10.</p>
+
+<p>If you are a maintainer for a distribution and need help
+packaging TAYGA, please <a href="mailto:lutchann@litech.org">email</a>.</p>
+
+<h3>Q2.2. Is TAYGA 64-bit-safe?  Big-endian- and little-endian-safe?</h3>
+
+<p>Yes.</p>
+
+<h2>Configuration and Running</h2>
+
+<h3>Q3.1. Why does TAYGA need its own IPv4 and IPv6 addresses?</h3>
+
+<p>When TAYGA is unable to translate a packet (for example, if the destination
+address is invalid), it must send an ICMP error to the packet sender.  TAYGA
+places its own IP address in the source-address field of the ICMP error packet
+to identify that the error was generated by TAYGA.</p>
+
+<p>For diagnostic purposes, TAYGA will also respond to ICMP echo requests
+(pings) destined to its IP addresses.</p> 
+
+<h3>Q3.2. Can TAYGA share the same IP addresses with the host it runs on?</h3>
+
+<p>It is very much not recommended.  Linux hosts are known to behave poorly in
+the presence of duplicate IP address assignments.  If you're a Linux
+networking guru you might get this to work, but otherwise it's an invitation
+for bizarre problems, some of which may not be immediately apparent.</p>
+
+<h3>Q3.3. What addresses should I assign to the nat64 TUN interface?</h3>
+
+<p>You can use any addresses that are assigned to your router's other network
+interfaces, or you can use new addresses that you have allocated specifically
+for this purpose.</p>
+
+<p>Note that if you use addresses from a different interface, you MUST NOT add
+a prefix length to the address when configuring it on the nat64 interface.</p>
+
+<p>Example of <b>correct</b> configuration:</p>
+
+<pre class="codesample">
+# ip addr add 192.168.0.1 dev nat64
+# ip addr add 2001:db8:1::1 dev nat64
+</pre>
+
+<p>Example of <b>wrong</b> configuration:</p>
+
+<pre class="codesample">
+# ip addr add 192.168.0.1/24 dev nat64
+# ip addr add 2001:db8:1::1/64 dev nat64
+</pre>
+
+<h3>Q3.4. I didn't configure any addresses at all on the nat64 interface and
+it seems to work.  Is this okay?</h3>
+
+<p>If you don't configure addresses on your nat64 interface, you may encounter
+subtle problems with ICMP errors.  If the Linux host needs to emit an ICMP
+error out of the nat64 interface, it will arbitrarily choose a source address
+from another interface or it may completely suppress the error.  This could
+cause problems with path MTU discovery, among other issues.</p>
+
+<p>Explicitly configuring an IPv4 address and an IPv6 address on the nat64
+interface is the best way to ensure proper ICMP functionality.</p>
+
+</div>
+</div>
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=6422212; 
+var sc_invisible=1; 
+var sc_security="62e370f3"; 
+</script>
+
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script><noscript><div
+class="statcounter"><a title="weebly analytics"
+href="http://statcounter.com/weebly/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/6422212/0/62e370f3/1/"
+alt="weebly analytics" ></a></div></noscript>
+<!-- End of StatCounter Code -->
+
+</body>
+</html>

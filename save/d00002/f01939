@@ -1,0 +1,274 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!-- Edit only through cvs -->
+<html>
+<head>
+<title>The arla project - FAQ</title>
+</head>
+<body bgcolor="ffffff">
+<h1 align=center>The</h1>
+<p align=center><img src="arla-text-small.gif"></p>
+<h1 align=center>project FAQ</h1>
+
+<p align=center><a href="index.html">[Arla main page]</a><p>
+
+<h2 align=center>Questions</h2>
+
+<a href="#q1">Q1. Where can I find arla ?</a><br>
+<a href="#q2">Q2. What is the relationship between AFS and Kerberos ?</a><br>
+<a href="#q3">Q3. What is the difference between a cell and a REALM ?</a><br>
+<a href="#q4">Q4. What files do I need to edit to make AFS
+                  work with kerberos ?</a><br>
+
+<a href="#q5">Q5. What if I do not use the standard syscall number?</a><br>
+<a href="#q6">Q6. I have problems with getcwd/libc5 programs on Linux.</a><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="#q6">Or, Matlab/Acroread/something else crashes
+                in strange ways when my working directory is in AFS.</a><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="#q6">  How should I fix this?</a><br>
+
+<a href="#q7">Q7. I have problems using klog, what should I look for ?</a><br>
+<a href="#q8">Q8. I have strange problems while getting Solaris to work ?</a><br>
+
+<h2 align=center>Answers</h2>
+
+<!--- ------------------------------ --->
+<a name="q2"></a>
+<h3>Q1: Where can I find arla ?</h3>
+<p>
+
+You can find arla at 
+<a href="http://www.stacken.kth.se/projekt/arla/">
+         http://www.stacken.kth.se/projekt/arla/</a>. <p>
+
+Source-code can be found at 
+<a href="ftp://ftp.stacken.kth.se/pub/arla/">
+         ftp://ftp.stacken.kth.se/pub/arla/</a>. <p>
+
+You can browse the current cvs source-tree with cvsweb at
+<a href="http://www.stacken.kth.se/cgi-bin/cvsweb.cgi/arla/?cvsroot=SourceRepository">
+http://www.stacken.kth.se/cgi-bin/cvsweb.cgi/arla/?cvsroot=SourceRepository</a>.<p>
+
+Mail-archives can be found at 
+<a href="http://www.stacken.kth.se/lists/">
+         http://www.stacken.kth.se/lists/</a>.<p>
+
+
+
+<!--- ------------------------------ --->
+<a name="q2"></a>
+<h3>Q2: What is the relationship between AFS and Kerberos?</h3>
+<p>
+
+AFS uses Kerberos V4 for authentication.  There are however some minor
+differences between the ka-server supplied by Transarc and an ordinary
+Kerberos server.  Those are quite easy to fix. <p>
+
+In Kerberos there is a server that keeps track of all the keys used by
+both clients and servers.  Transarc supplies such a server called
+kaserver with their software.  This server also supports its own
+protocol that is used by the Transarc clients, such as klog.  But
+since it also supports the Kerberos V4 protocol you can use normal
+Kerberos clients for authenticating against your AFS cell. The
+Transarc NT client uses the Kerberos protocol instead of the kaserver
+one for some odd reason.
+<p>
+
+Some people run a normal Kerberos server with an AFS cell.
+
+<p>
+
+The main differences are that AFS uses 1) a different string-to-key
+algorithm, 2) pre-authentication, and 3) rx as a rpc interface (where
+Kerberos 4 uses a hand-coded packet). AFS also uses ubik to replicate
+its database over the db-servers.
+
+</p><p>
+
+The AFS key (the one stored in <tt>/usr/afs/etc/KeyFile</tt>) is the same as
+the one stored in the ka/Kerberos server <samp>afs@REALM</samp> principal. When
+you run <b>kauth username@REALM</b> it also fetches the <samp>afs@REALM</samp> token
+(if kauth found that you have an AFS-enabled kernel), and inserts it
+into the AFS-client. You can see the token with <b>tokens</b> or
+<b>klist -T</b>. There is also two command, <b>afslog</b> and <b>aklog</b>, 
+that will get you tokens if you already have tickets .
+
+</p><p>
+
+Both <b>kauth</b> and <b>afslog</b> look in
+<tt>/usr/{arla,vice}/etc/ThisCell</tt> to find out what cell to
+retrieve tokens for.
+
+</p><p>
+
+You can specify extra cells to get tokens for in the
+/usr/{arla,vice}/etc/TheseCells file, and ~/.TheseCells
+
+</p>
+
+<!--- ------------------------------ --->
+<a name="q3"></a>
+<h3>Q3. What is the difference between a cell and a REALM ?</h3>
+<p>
+
+Pretty much nothing. A cell is written with lowercase, and a REALM is
+always written in uppercase. Most of the time both realm and cell is
+the same a your (dns) domain-name.
+
+</p><p>
+
+To keep your sanity, make sure they are all three named the same.
+
+</p>
+
+<!--- ------------------------------ --->
+
+<a name="q4"></a>
+<h3>Q4. What files do I need to edit to make AFS work with Kerberos?</h3>
+<p>
+
+Assuming that the name of your realm is the same as your AFS cell
+(except that the realm is in uppercase), you will want to set up your
+configuration files as follows:
+
+<p>in /usr/arla/etc/CellServDB:
+
+<pre>
+&gt;your.cell.name		# Your AFS cell
+www.xxx.yyy.zzz			#first afs vldb server IP address
+www.xxx.yyy.zzz			#second afs vldb server IP address
+www.xxx.yyy.zzz			#third afs vldb server IP address
+</pre>
+
+(replacing www.xxx.yyy.zzz with the IP addresses of the servers for
+your cell)
+
+</p>
+<p>in /etc/krb.conf:
+
+<pre>
+YOUR.CELL.NAME
+YOUR.CELL.NAME first.server.domain.name admin server
+YOUR.CELL.NAME second.server.domain.name admin server
+YOUR.CELL.NAME third.server.domain.name admin server
+</pre>
+
+(replace 'first.server.domain.name', etc, with the actual names)
+
+</p>
+<p>It may be necessary to add the following entry in /etc/krb.realms for
+things to work right with kth-krb: 
+
+.server.domain.name	YOUR.CELL.NAME
+
+
+(where .server.domain.name is the domain that your servers are in)
+
+</p>
+
+<a name="q5"></a>
+<h3>Q5. What if I do not use the standard syscall number?</h3>
+<p>
+
+Set the environment variable <var>AFS_SYSCALL</var> to a name or a
+number. If it's a name it will be looked up in (the Solaris inspired
+file) <tt>/etc/name_to_sysnum</tt> that have the syntax
+
+<p></p>
+
+<pre>
+  #name			number
+  xfs			230
+</pre>
+
+</p>
+
+<!--- ------------------------------ --->
+
+<a name="q6"></a>
+<h3>Q6. I have problems with getcwd/lib5 programs on Linux.
+Or, Matlab/Acroread/something else crashes in strange ways when my
+working directory is in AFS.  How should I fix this?
+</h3>
+<p>
+
+Try using libgetcwd.so, it might work. If you only want to use 
+libgetcwd.so for one program, write a shell-script wrapper to set
+and export the <var>LD_PRELOAD</var> variable.
+
+<p>From INSTALL:
+
+<pre>
+  1. Copy /usr/arla/lib/libgetcwd.so.X (where X is the arla version)
+     to /lib.
+  2. Run "/sbin/ldconfig".
+  3. Run "LD_PRELOAD=/lib/libgetcwd.so.0 /bin/pwd". If this fails
+     with "/bin/pwd: can't load library '/lib/libgetcwd.so.0'" or
+     some other error message, report this error.
+  4. If the previous step went well, add this line to /etc/ld.so.preload:
+     /lib/libgetcwd.so.0
+
+  DO NOT load the file from /usr/arla/lib, since /usr probably is not
+  part of the root partition of your system. If you do this, your system
+  will probably not be able to boot, even in single user, since in most
+  Linux installations, init, sh, mount and other programs are dynamically
+  linked.
+</pre>
+
+</p>
+
+
+<!--- ------------------------------ --->
+
+<a name="q7"></a>
+<h3>Q7. I have problems using klog, what should I look for ?</h3>
+<p>
+
+Many of the problems with klog somewhat related to that we uses the
+kerberos lib kafs to get tokens. <p>
+
+You should first make sure you have the right time. To set time you
+can use rdate or <a href="http://www.ntp.org/">ntp</a> that you can
+get from <a href="ftp://ftp.udel.edu/pub/ntp/ntp4/">
+ftp://ftp.udel.edu/pub/ntp/ntp4/</a>  <p>
+
+If you are running ka-server 3.3 (check with <b>rxdebug -version
+my-kaserver</b>) (not 3.3a) it might return the wrong error-message
+when trying to fetch the <var>afs.cell@cell</var> ticket. Don't know
+how right that is. <p>
+
+You should also check out <a href="#q4">question 3</a> since its
+related due to that we uses kerberos. <p>
+
+Please not that <b>kauth</b> (or <b>kinit</b> with <b>afslog</b>)is a
+perfect replacement for klog. That is, it they doesn't work, klog wont
+work either.<p>
+
+A klog from transarc should work perfectly ok with arlad/xfs. It wont
+see any any difference between the transarc client and arla. <p>
+
+<!--- ------------------------------ --->
+
+<a name="q8"></a>
+<h3>Q8. I have strange problems while getting Solaris to work ?</h3>
+<p>
+
+You should try to set AFSSYSCALL to xfs or the number of xfs i
+/etc/name_to_sysnum.
+
+<!--- ------------------------------ --->
+
+<h2>Contributed text from:</h2>
+
+<p>
+Christopher Allen Wing &lt;wingc@engin.umich.edu&gt;
+</p>
+
+<a href="index.html">[Arla main page]</a>
+
+<p>
+
+<font size="-1">$Id: faq.html,v 1.11 2000/09/22 15:51:09 ahltorp Exp $</font>
+
+</body>
+</html>

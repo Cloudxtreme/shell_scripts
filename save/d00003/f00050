@@ -1,0 +1,426 @@
+<html> <head>
+<title>INTRODUCTION OF RUBY </title>
+</head>
+
+<body bgcolor="white">
+<h1>Rubyでプログラムを書こう(入門編)</h1>
+
+Copyright (C) 1998 by Masahiko KIMOTO &lt;kimoto@ohnolab.org&gt;<br>
+第一版：1998年7月21日<br>
+
+<p>
+
+Ruby入門と題していますが、初心者向けの解説にはなっていません。このドキュ
+メントはPerlに慣れ親しんだ人を対象として、Rubyにも興味をもってもらうこ
+とを意図して書きました。
+
+<p>
+
+<h2>目次</h2>
+
+<ol>
+  <li> <a href="#chap1">rubyの起動方法</a>
+  <li> <a href="#chap2">RubyとPerl</a>
+  <li> <a href="#chap3">ファイル操作</a>
+  <li> <a href="#chap4">文字列操作</a>
+  <li> <a href="#chap5">クラス定義</a>
+  <li> <a href="#chap6">Ruby/tk</a>
+  <li> <a href="#chap7">さらに詳しい情報</a>
+</ol>
+
+<hr>
+
+<a name="chap1">
+<h2>Rubyの起動方法</h2>
+
+Rubyの起動方法は簡単です。"ruby"を実行するだけです。大野研localでは、
+PICKLES SYSTEM 1.61 BETA以降であれば、ruby 1.1b??がインストールされて
+います。/usr/local/bin/にpathが通っていれば利用できます。また、
+/usr/local/lib/ruby/sample にはいくつかのサンプルスクリプトがインストー
+ルされています。<p>
+
+Rubyはインタプリタです。引数でスクリプトが指定されない場合は、標準入力
+からの入力を解釈実行します。すべての入力を読み終った段階で処理を始める
+ので(多分perlみたいに一旦中間コードに変換しているのでしょう)、これをデ
+バグに使うのは多少不便かもしれません。<p>
+
+そこで、一行ずつ対話的に実行できるプログラム(Rubyシェルといったところ
+でしょうか)が用意されています。/usr/local/lib/ruby/sample/rbc.rbを
+rubyインタプリタで実行してみてください。
+<hr>
+<pre>
+% ruby /usr/local/lib/ruby/sample/rbc.rb
+</pre>
+<hr>
+
+簡単な対話的Rubyインタプリタが起動します。一行ずつ実行することができます。
+さらに進んだ対話的シェルとして、irb(Interactive Ruby)というアプリケーション
+も存在します。
+
+<hr>
+<a name="chap2"></a>
+<h2>RubyとPerl</h2>
+
+よく「RubyはPerlを発展させたもの」と紹介されることがあります。作者のま
+つもとゆきひろ氏は「Perlのような手軽さでオブジェクト指向プログラミング
+ができる言語」は言っていますが、Perlの延長であるとは言っていません。実
+際、PerlとRubyとでは文法などもかなり異なります。Perlを知っているからと
+言って、予備知識なしではRubyのプログラムを読むことも難しいかもしれませ
+ん。この章ではPerlプログラマーが、最低Rubyのプログラムを読みこなすため
+に必要な点に絞って、PerlとRubyの文法上の違いを挙げてみます。
+
+<dl>
+  <dt> 文の区切り
+  <dd> Perlでは文の区切りとして、行末にセミコロン';'を必ず付ける
+       必要がありました。
+       Rubyではセミコロンは必要ありません。改行が文の区切りになります。
+  <dt> 変数の名前
+  <dd> Perlでは変数の種類(スカラー変数、配列、連想配列)によって先頭の
+       一文字が変わりました。Rubyでは変数のスコープによって変わります。
+       <dl>
+	 <dt> 先頭一文字が英小文字
+	 <dd> ローカル変数
+	 <dt> 先頭一文字が英大文字
+	 <dd> 定数
+	 <dt> 先頭一文字が'$'
+	 <dd> グローバル変数
+	 <dt> 先頭一文字が'@'
+	 <dd> インスタンス変数
+       </dl>
+       これ以外にも疑似変数として'nil'と'self'が使えます。nilは偽を意味する
+       値で、selfは現在のメソッドの実行主体を表します(C++のthisに相当)。
+  <dt> スコープの区切り
+  <dd> 「スコープの区切り」という表現は正しくないのかもしれません。
+       if文やwhile文などの制御構文や関数の宣言は、Perlでは'{''}'で囲って
+       いました。Rubyでは'end'までが範囲になります。例えば次のように
+       なります。<br>
+       <hr><pre>
+       Perl:
+          if ($wing == 0) {
+             print "Wing is Zero";
+          } else {
+             print "Wing is not Zero";
+          }
+       </pre>
+       <hr><pre>
+       Ruby:
+          if wing == 0
+             print "Wing is Zero"
+          else
+             print "Wing is not Zero"
+          end
+       </pre>
+       <hr>
+  <dt> 関数の定義
+  <dd> 関数を定義するときの書式も違います。関数の返り値が、最後に
+       評価された文の値であることは変わりません。
+       <hr><pre>
+       Ruby:
+          def sum_of_three (a,b,c)
+             a + b + c
+          end
+       </pre>
+       <hr>
+<!--
+       また、正確にはRubyの場合は関数ではなくメソッドです。
+       上記の関数の呼び出しである<pre>sum_of_three(1,2,3)</pre>は
+       実際にはmain.sum_of_three(1,2,3)というメソッドを
+       呼び出していることと同じになります。
+-->
+  <dt> クラス定義
+  <dd> Rubyはオブジェクト指向言語ですのでクラスの定義ができます。
+       クラス定義についてはPerlと比較できないので、(無理矢理perl5と
+       比較することはできるかもしれませんが、私はPerl5をよく知りません)
+       詳細は別の章にまわします。
+</dl>
+
+<hr>
+<a name="chap3"></a>
+<h2>ファイル操作</h2>
+
+さて、Perlの便利なところは文字列の操作やファイルの操作が簡単にできる
+ことです。この章ではファイルの操作について、RubyとPerlの違いを比較します。
+<p>
+
+<h3>引数で指定されたファイルの読み込み</h3>
+
+Perlでは<pre>while(&lt;&gt;) { ...} </pre>といった構文を頻繁に目にします。
+これは「引数として与えられたファイルを順番に、一行ずつ読み込んで処理する」
+場合に使われます。Rubyでは次のように記述します。
+<pre>
+while gets
+....
+end
+</pre>
+
+順番にいくつか例を出してRubyとPerlを比較してみます。まず、あるファイルを
+openして一行ずつ順番に処理する場合。
+<hr>
+<pre>
+Perl:
+open(INFILE,"file");
+while(&lt;INFILE&gt;) {
+  print $_;
+}
+</pre>
+<hr>
+<pre>
+Ruby:
+infile = open("file")
+while infile.each
+  print $_
+end
+
+または
+infile = open("file")
+infile.each { |line|
+  print line
+}
+
+または
+foreach ("file") { |line|
+  print line
+}
+</pre>
+<hr>
+
+Rubyのopen()はFileオブジェクトを返すメソッドであることに注目してくださ
+い。ファイルからの読み込みなどは、Fileオブジェクトのメソッド呼び出しに
+なります。<p>
+
+また、上記の例では何の説明なしででてきましたが、Rubyではイテレータが使
+えるので繰り返しの構文は色々な書き方ができます。
+
+次は、あるファイルの内容を全部配列に読みこんで処理する場合です。
+<hr>
+<pre>
+Perl:
+open (INFILE,"file");
+@all=&lt;INFILE&gt;;
+</pre>
+<hr>
+<pre>
+Ruby:
+infile = open("file")
+all = infile.readlines
+
+または
+
+all = readlines("file")
+</pre>
+<hr>
+
+ファイルをあるフィルタにかけた結果を読み込む場合。
+<hr>
+<pre>
+Perl:
+open(INFILE,"nkf -e file|");
+while(&lt;INFILE&gt;) {
+...
+}
+</pre>
+<hr>
+<pre>
+Ruby:
+infile = open("| nkf -e file")
+infile.each { |line| ...}
+</pre>
+<hr>
+
+Rubyの場合は外部コマンドからの入力も出力もコマンドの先頭に'|'を付けま
+す。外部コマンドへの読み書き両方ができます。Perlのopen2と同じ機能だと
+思ってください。
+
+<hr>
+
+<a name="chap4"></a>
+<h2>文字列操作</h2>
+
+次は文字列操作です。Rubyでは文字列もオブジェクトです。Javaのように特殊
+扱いはされていません。
+
+Perlと比較して、ちょっとだけ多機能です。例えば次のようなことができます。
+これらの操作はすべて文字列オブジェクトのメソッドであることに注意してく
+ださい。下記のように、Rubyでは演算子の定義もできます。Perlで文字列を指
+定してパターンマッチする場合($str =~ /regex/)と同じ構文がRubyでも使え
+ますが、これは文字列オブジェクトのメソッドとして実現されています。
+
+<hr>
+<dl>
+  <dt> 文字列の連結
+  <dd> <pre> $new = $old1 + $old2 + "tail" </pre>
+  <dt> 文字列の繰り返し
+  <dd> <pre> $new = $old1 * 4 </pre>
+  <dt> 部分文字列
+  <dd> <pre> $partial = "abcdefg"[3 .. 5] </pre>
+  <dt> 部分文字列の置換
+  <dd> <pre> "abcdefg"[3 .. 5] = "xyz" </pre>
+  <dt> 文字列の末尾から改行コードを削除
+  <dd> <pre> $new = $old.chomp </pre>
+</dl>
+
+ところで、一部のメソッドには最後が"!"で終るものがあります。これは破壊的
+な操作を行うメソッドです。対象とするオブジェクトそのものを変更します。
+同じ名前で"!"がつかないものは、操作が反映された新しいオブジェクトを生成
+します。schemeと同じと考えてください(もっと適当な例があるのかもしれませんが、
+私は知りません)。
+
+<hr>
+
+<a name="chap5"></a>
+<h2>クラス定義</h2>
+
+次にPerlとRubyの決定的な違いであるOOP(Object Oriented Programming)について
+説明します。OOPそのものの説明はしないので、わからない人はそっち方面の入門書を
+読んでください。新しいクラスの定義は次の構文で行います。
+<hr>
+<pre>
+class クラス名
+   def initialize(引数, ...)
+     ....
+   end
+   def メソッド名(引数, ...)
+     ....
+   end
+end
+</pre>
+<hr>
+
+引数は省略できます。コンストラクタはinitializeというメソッド名で定義します。
+継承はclass 宣言の行を次のように変更します。
+<hr>
+<pre>
+class クラス名 &lt; 親クラス名
+</pre>
+<hr>
+
+overrideした親クラスのメソッドはsuper()で呼び出します。ありがちですが
+クラス定義の例をしめします。
+<hr>
+<pre>
+
+class Hamburgur
+   def taste 
+     "ordinary"
+   end
+   def stuff
+     [ "Bread" , "Hamburg", "Pickles" ]
+   end
+end
+
+class CheeseBurgur &lt; Hamburgur
+   def stuff
+     super + ["Cheese"]
+   end
+end
+
+class McDonards &lt; Hamburgur
+   def taste
+     "bad"
+   end
+end
+
+</pre>
+<hr>
+
+このクラス定義の後、それぞれのオブジェクトを生成してメソッドの実行
+結果をみると次のようになります。
+
+<hr>
+<pre>
+b1 = Hamburgur.new
+b2 = CheeseBurgur.new
+b3 = McDonards.new
+
+print b1.taste , "\n"
+print b1.stuff , "\n"
+print b2.taste , "\n"
+print b2.stuff , "\n"
+print b3.taste , "\n"
+print b3.stuff , "\n"
+<hr>
+
+ordinary
+BreadHamburgPickles
+ordinary
+BreadHamburgPicklesCheese
+bad
+BreadHamburgPickles
+
+</pre>
+<hr>
+
+Rubyでは特異メソッドとよばれる「インスタンスごとのメソッド」も利用でき
+ます。例えば上の例だと、"Hamburgur"クラスでは、インスタンスごとに若干
+「味」が違うでしょうからtasteメソッドが返す値はオブジェクトごとに違う
+可能性があります。このようにインスタンスごとに異なるメソッドを定義する
+必要がある場合があります。(例がいまいちかもしれませんが)すべてのメソッ
+ドがこのようなメソッドであるものをプロトタイプベースのオブジェクト指向
+言語と呼びます。<p>
+
+例えばGUIの作成を考えてみてください。ダイアログなどに「はい」「いいえ」
+の二つのボタンがあるウインドウを作るとします。この二つは同じボタンです
+が、押された時の動作は当然異なります。このような時にボタンオブジェクト
+を二つ生成して、「はい」「いいえ」が押されたときの処理をそれぞれ特異メ
+ソッドとして定義してやります。特異メソッドをもたない場合は、それぞれの
+ボタンごとにサブクラスを作成するとか、コールバック関数という形でメソッ
+ド定義とは別の枠組で登録する必要があります。<p>
+
+<hr>
+<a name="chap6"></a>
+<h2>Ruby/tk</h2>
+
+Rubyではtkも使えます。GUIとしては、他にgtkやxtoolkitのモジュールも
+ありますが、tk以外はUNIXでしか使えないという欠点があります。
+この章ではtkの利用例について紹介します。tkって何？っていう人は
+他のtkの解説書を読んでください。ここでは説明しません。
+<p>
+
+さて、Tcl/Tkを使ったHelloWorldプログラムは次のようになります。
+<hr>
+<pre>
+label .l -text "Hello World"
+pack .l
+</pre>
+<hr>
+
+同じことをRuby/tkで書くと次のようになります。
+<hr>
+<pre>
+require "tcltklib"
+
+l = TkLabel.new
+l.text("Hello World")
+l.pack
+Tk.mainloop
+</pre>
+<hr>
+
+最初の2行はtkを使うために必要です。LabelWidget以外のWidgetを使う場合は
+他にも読み込む必要があります。新しいWidgetの生成はWidgetに対応した
+オブジェクトを生成することで行います。クラスの名前は"Tkウィジット名"と
+なってます。tcl/tkでいうところのオプションの指定は、対応するメソッドを
+呼び出すか、configureメソッドで一括して行います。最後のTk.mainloopを
+呼び出すことを忘れないでください。
+<p>
+
+<! -- ところで、オブジェクトに対してイテレータブロックを適用 -->
+
+<hr>
+<a name="chap7"></a>
+<h2>さらに詳しい情報</h2>
+
+さらに詳しい情報はRubyの
+<a href="http://www.netlab.co.jp/ruby/jp/">本家のホームページ</a>
+を見てもらうのが一番でしょう。
+大野研内部であれば<a href="http://ultra.ohnolab.org/docs/">ここ</a>
+からドキュメントを読むことができます。
+<p>
+また近々開発者自身の手によるRubyの解説本が出る予定らしいです。
+
+<hr>
+<address><a href="http://www.ohnolab.org/~kimoto/index.html">Masahiko Kimoto &lt;kimoto@ohnolab.org&gt;</a></address>
+<!-- hhmts start -->
+Last modified: Thu Jul 30 13:02:03 1998
+<!-- hhmts end -->
+</body> </html>

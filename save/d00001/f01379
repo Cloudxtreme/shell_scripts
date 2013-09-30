@@ -1,0 +1,1861 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>IPsec/IKE-protected Mobile IPv6 under Linux</title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div class="content">
+
+<div class="pagetitle">Deploying IPsec/IKE-protected MIPv6 under Linux</div><br/>
+
+<a name="Overview"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+
+<h2> Overview </h2> 
+
+<p> Below, you'll find all the steps required to setup a complete 
+  IPsec/IKE-protected Mobile IPv6 environment under Linux. This page
+  provides the required information to patch and build the 3 main parts:
+  racoon, umip and a custom kernel. Once you have completed those steps,
+  two additional sections provide detailed configuration notes for
+  racoon and umip.</p> 
+
+<p> Those are followed by two sections respectively documenting the
+  steps needed to use the setup from IPv4-only networks with Teredo
+  (via miredo) and configure filtering. </p>
+
+<p> A FAQ is available at the end of the page, providing answers for
+  common questions. </p>
+
+<p> Before you enter the funny part (the practice), it is important
+  that you understand how the theoretical parts fit together.</p>
+
+<p> Simply put, at the time of writing, IPsec/IKE is not considered as
+  an interesting (enough) item by the MEXT WG which prefers
+  normalizing new functionalities than <i>finishing</i> IPsec/IKE
+  integration (IMHO).</p>
+
+<p> If you are interested by a quick review of MIPv6-related documents
+  in an IPsec/IKE context, <a href="mipv6-specs.html">here</a> is an
+  overview of key documents with some comments you might find useful
+  to understand where we stand from a theoretical standpoint. <b>This
+  is a work in progress and reading again those documents takes quite
+  some time, so be gentle.</b> </p> 
+
+<p> Before patching, compiling, installing and configuring a
+  kernel, umip and racoon, let's first take some time to describe the
+  building blocks, their implementation status, their lacks and how
+  they are intended to work together.</p>
+
+<ul>
+<li>
+  <p><b>Linux Kernel</b>: for quite some time now, thanks to the continuous
+  effort of USAGI developers, Linux Kernel is IPv6 and MIPv6
+  ready. For the MIPv6 part, only a little amount of MIPv6-specific
+  code is maintained in the kernel, mainly to support the extension
+  headers (RH2, HAO in Dest. Opt. Header) work and the IPsec
+  protection (using XFRM framework for both). Most of the
+  functionalities are implemented in userland (in umip, see
+  below).</p>
+
+  <p> At the time of writing, the kernel fully implements the MIGRATE
+  mechanism part
+  of <a
+  href="http://tools.ietf.org/html/draft-sugimoto-mip6-pfkey-migrate-04"> 
+  expired version 04 of MIGRATE draft</a> but SADB_X_EXT_PACKET part
+  is not implemented (and will probably never be due to associated
+  complexity and lacks) which makes things useless for dynamic keying
+  w/ IKE. A simple extension of MIGRATE design allows to remove the
+  need for SADB_X_EXT_PACKET extension. This is covered in an
+  <a href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">informational 
+  document</a> I submitted (co-authored with S. Decugis).
+  </p>
+
+  <p> <font color="red"><b>Update (05/10/08):</b></font> the patch I
+  wrote for Linux kernel in order to support PF_KEY
+  SADB_X_EXT_KMADDRESS extension (specified in previous draft) and its
+  Netlink counterpart,
+  XFRMA_KMADDRESS, <a href="http://article.gmane.org/gmane.linux.network/107711">has
+  been applied to net-next-2.6</a>: Kernel 2.6.28 will have full support
+  for <a href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">enhanced
+  MIGRATE</a>.
+  </p>
+</li>
+
+<li>
+  <p><b>umip</b>: Mobile IPv6 for Linux (version 2.0) has been initially
+  developed by the GO-Core (project at Helsinki University of
+  Technology) in co-operation with the USAGI/WIDE.</p>
+
+  <p> At the time of writing, all the maintenance and additions are now
+  done by the people of USAGI and the associated git tree is hosted on
+  their servers. Their release is called umip. Current version is 0.4
+  and it considered stable. It runs on recent versions of Linux kernel</p>
+
+  <p> For the record, MIPL 2.0 was a set of patch against 2.6.16
+  available <a href="http://www.mobile-ipv6.org">here</a> but last 
+  time I checked, the server was down).</p>
+</li> 
+
+<li>
+  <p> <b>racoon</b>: IPsec-Tools is a port of KAME's IPsec utilities
+  to the Linux-2.6 IPsec implementation. It provides an IKE (version
+  1) daemon implementation called racoon. </p>
+
+  <p> Current version does not provide any Mobile IPv6 support out of
+  the box. A set of patches (discussed below) are required at the
+  time of writing. </p>
+</li> 
+</ul>
+
+<a name="Kernel"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+
+<h2> Kernel </h2>
+
+<p> This section describes all the steps to patch, configure, build
+  and install a MIGRATEv2-enabled kernel that will support IPv6
+  mobility in IPsec environments using Dynamic Keying (IKE). </p>
+
+<p> Let's first grab the latest stable version of Linux kernel. At the
+  time of writing, a 2.6.26 (Chances are high that the latest revision
+  of Linus git tree or net-2.6 will be ok but I cannot promise).</p> 
+
+<pre>
+$ cd /usr/src/
+$ wget -q http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.26.tar.gz
+$ wget -q http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.26.tar.gz.sign
+
+$ gpg --verify linux-2.6.26.tar.gz.sign 
+gpg: Signature made Mon 14 Jul 2008 12:43:03 AM CEST using DSA key ID 517D0F0E
+gpg: Good signature from "Linux Kernel Archives Verification Key &lt;ftpadmin@kernel.org&gt;"
+
+$ tar xzf linux-2.6.26.tar.gz
+$ rm linux-2.6.26.tar.gz*
+$ cd linux-2.6.26
+</pre>
+
+<p> Let's now grab MIGRATEv2 kernel patches. The set of patches is a
+  quilt repository maintained using mercurial. After issuing the
+  following command, you will be provided with a patches/ folder at
+  the root of your kernel tree.</p>
+
+<pre>
+$ hg clone http://hg.natisbad.org/migrate2_patches_kernel patches
+requesting all changes
+adding changesets
+adding manifests
+adding file changes
+added 32 changesets with 65 changes to 23 files
+updating working directory
+3 files updated, 0 files merged, 0 files removed, 0 files unresolved
+</pre>
+
+<p> I encourage you to perform a "hg tip" call to get some information
+  on the latest patchset (tip) to verify that the set of patches is
+  suitable for your version of the kernel. </p>
+
+<pre>
+$ cd patches
+$ hg tip
+changeset:   32:3b1d69f4a8fb
+tag:         tip
+user:        Arnaud EBALARD &lt;arno@natisbad.org&gt;
+date:        Mon Jul 14 23:22:46 2008 +0200
+summary:     Refresh for 2.6.26
+
+$ cd ..
+</pre>
+
+<p> For the reader not familiar with quilt, all the files in the
+  patches/ folder (apart from the series file) are patches and the
+  series file provide the order in which the patches will be
+  applied. </p>
+
+<pre>
+$ ls patches/
+MIGRATEv2_linux-2.6.26.patch
+series
+set_mip6_ipsec_fw_kernel_options.patch
+
+$ cat patches/series
+set_mip6_ipsec_fw_kernel_options.patch
+MIGRATEv2_linux-2.6.26.patch
+</pre>
+
+<p> quilt is used to simplify the application of patches. This is done
+  by issuing the following command. </p> 
+
+<pre>
+$ quilt push -a
+Applying patch set_mip6_ipsec_fw_kernel_options.patch
+patching file set_mip6_ipsec_fw_kernel_options.sh
+
+Applying patch MIGRATEv2_linux-2.6.26.patch
+patching file net/key/af_key.c
+patching file net/xfrm/xfrm_policy.c
+patching file net/xfrm/xfrm_state.c
+patching file include/linux/xfrm.h
+patching file include/net/xfrm.h
+patching file net/xfrm/xfrm_user.c
+patching file include/linux/pfkeyv2.h
+
+Now at patch MIGRATEv2_linux-2.6.26.patch
+</pre>
+
+<p> Now that they have been applied, let's comment the purpose of
+  each patch:</p>
+
+<ul>
+<li><b>set_mip6_ipsec_fw_kernel_options.sh</b>: This patch adds a
+  simple shell script at the root of the kernel source tree
+  (set_mip6_ipsec_fw_kernel_options.sh) that we will use later for
+  checking and setting the kernel options required by UMIP. It's just
+  a helper. You will be free to use it or not.
+</li>
+<li><b>MIGRATEv2_linux-2.6.26.patch</b>: This patch extends Linux
+  kernel support of PF_KEY MIGRATE extension to make it compatible
+  with the enhancements described <a href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">here</a>. Once applied,
+  the Linux kernel allows additionnal information to be transparently
+  passed to the IKE daemon (racoon for instance) using the SADB_X_EXT_KMADDRESS
+  extension. I encourage you to read the modified version of the
+  draft <a href="draft-sugimoto-mip6-pfkey-migrate-05.txt">here</a>. 
+</li>
+<!--
+<li><b>null_ptr_deref_workaround.patch</b>: a simple patch that adds
+  an additional test for a bug we encounter once. This is a
+  workaround, I am not even sure it is still required.
+</li>
+-->
+</ul>
+
+<p> Now that I am (quite) confident that you have spent some time
+  reading and understanding all previous steps, there is a small tip
+  that will spare you some work when switching to a new version of
+  the kernel. I make patched tarballs of the latest versions of the
+  kernel available <a href="../kernel-umip/">here</a>. The files are
+  signed with <a href="../arno@natisbad.org-0x047A5026.key">my old GPG key
+  (0x047A5026)</a>. </p>
+
+<p> Now that you have a patched kernel, it can be configured, and then
+  compiled, as usual. Because umip and racoon will require some
+  options to be set and to avoid the burden of finding and setting
+  them, I provide a script for that purpose (if you want to do it
+  by hand, just skip the associated step described below). Note that
+  the script configures the kernel with static support for required
+  features, and not modules. Feel free to modify it to suit your
+  needs. </p>
+
+<p> In practice, you can simply (and usually) reuse your old running
+  kernel configuration and then set the required options. The last
+  steps below are the build and the installation of the kernel. We use
+  Debian tools below to simplify that step, but feel free to use your 
+  usual method instead. </p>
+
+<pre>
+$ make oldconfig
+$ chmod u+x set_mip6_ipsec_fw_kernel_options.sh
+$ ./set_mip6_ipsec_fw_kernel_options.sh .config
+$ make-kpkg --rootcmd fakeroot kernel_image
+$ sudo dpkg -i ../linux-image-2.6.26_2.6.26-10.00.Custom_powerpc.deb 
+</pre>
+
+<a name="umip"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+<h2> umip </h2>
+
+<p> umip is maintained by people of USAGI and available from their
+  GIT repository on linux-ipv6.org. Being in a stable state, the
+  repository does not evolve a lot. USAGI developers now provide
+  maintenance. Let's first clone the sources:</p>
+
+<pre>
+$ cd /usr/src
+$ git clone git://git.linux-ipv6.org/gitroot/mipv6-daemon.git
+Initialized empty Git repository in /usr/src/mipv6-daemon/.git/
+remote: Generating pack...
+remote: Done counting 1364 objects.
+remote: Deltifying 1364 objects...
+remote:  100% (1364/1364) done
+remote: Total 1364 (delta 1038), reused 963 (delta 664)
+Receiving objects: 100% (1364/1364), 545.98 KiB | 77 KiB/s, done.
+Resolving deltas: 100% (1038/1038), done.
+
+$ mv mipv6-daemon umip-0.4
+</pre>
+
+<p> Now that we have the sources, we still miss 2 things to use umip
+  in the best conditions on Debian devices in an IPsec/IKE
+  environment.</p>
+
+<ul>
+<li> <b>Patches for MIGRATEv2, NEMO, and additional features: </b> I
+  maintain a quilt folder as a mercurial repository. The various
+  patches it contains have been written/ported by Romain Kuntz,
+  Sebastien Decugis, Jean Lorchat and I (more info are available at
+  the the top of each patch). A description of the features
+  provided by every patch is
+  available <a href="umip-patches.html">here</a>.</li> 
+<li> <b>Debian files for the package: </b> I maintain a mercurial
+  repository that can directly be cloned as a debian/ folder. The
+  files in the folder are used by dpkg-buildpackage to build the
+  package. It also contain an init scripts for the daemon and dummy
+  configuration files.</li>
+</ul>
+
+<p> The main reason to maintain 2 separate repositories (i.e. not to
+  have the set of patches in the debian/ folder) is for people not
+  using Debian but another distribution. Anyway, under Debian, the
+  process is the following:</p>
+
+<pre>
+$ cd umip-0.4
+$ hg clone http://hg.natisbad.org/umip-pkg-debian-folder debian
+$ cd debian
+$ hg clone http://hg.natisbad.org/migrate2_patches_umip_nemo patches
+$ cd ..
+</pre>
+
+<p> When dpkg-buildpackage is called (below), quilt takes care (as
+  asked in the Debian "rule" file in the debian/ folder) of applying
+  the patches.</p>
+
+<p> Let's new build the package. Before issuing the following command,
+  please verify that: </p>
+
+<ul>
+<li> you are running the patched kernel with MIGRATEv2 support we
+  just compiled and you have kernel headers installed (in
+  /lib/modules/2.6.26/build/incude/ for our 2.6.26). </li> 
+<li> your environment satisfies the build dependencies (look at the
+  control file in the debian/ folder)</li>
+</ul>
+
+<pre>
+$ dpkg-buildpackage -us -uc -sd -b -i -I.hg
+...
+dpkg-deb: building package `umip' in `../umip_0.4-5_powerpc.deb'.
+ dpkg-genchanges -b -sd >../umip_0.4-3_powerpc.changes
+dpkg-genchanges: binary-only upload - not including any source code
+dpkg-buildpackage: binary only upload (no source included)
+</pre>
+
+<p> You can then install the package: </p>
+
+<pre>
+$ sudo dpkg -i ../umip_0.4-5_powerpc.deb
+</pre>
+
+<p> Configuration is described later in the document, after
+  ipsec-tools (racoon) packages generation. </p>
+
+<p> <font color="red"><b>TIP:</b></font> As the whole process is a
+  little annoying and error-prone, there is another way to access the
+  package (for i386 and ppc) than building them yourself by hand if
+  you are under Debian: I have set up <font color="red">an unofficial
+  UMIP Debian repository</font> to make your life easier. You just
+  have to follow the steps described below in order to access umip
+  package using your favourite package manager. Note that the packages
+  available on the mirror are authenticated: for that purpose, the
+  mirror has a dedicated GPG key that you should import in your Debian
+  keyring using apt-key: </p>
+
+<pre>
+$ cd /tmp
+$ wget -q http://natisbad.org/MIPv6/umip-unofficial-debian-mirror.key     # grab mirror key
+$ wget -q http://natisbad.org/MIPv6/umip-unofficial-debian-mirror.key.asc # grab key sig
+$ gpg --verify umip-unofficial-debian-mirror.key.asc                      # verify sig
+gpg: Signature made Sun 27 Jun 2010 11:03:09 PM CEST using RSA key ID A7AE341B
+gpg: Good signature from "Arnaud Ebalard &lt;arno@natisbad.org&gt;"
+...
+$ sudo apt-key add umip-unofficial-debian-mirror.key                # import key in keyring
+OK
+$ rm umip-unofficial-debian-mirror.key*                             # clean our mess
+</pre>
+
+<p> Then, you can simply add the following to you
+  /etc/apt/sources.list file: </p>
+
+<pre>
+deb     http://natisbad.org/debian-umip/ unstable main contrib non-free
+deb-src http://natisbad.org/debian-umip/ unstable main contrib non-free
+</pre>
+
+<p> You are now able to install umip the following way:</p>
+
+<pre>
+# apt-get update &amp;&amp; apt-get install umip
+</pre>
+
+<p> You can even access the sources using "apt-get source" if you
+  need. </p>
+
+<p> Note that you should still come from time to time on the site and
+  check <a href="../news/index.html">the news</a> if there is some
+  post on the topic (about bugs, updates and changes). </p>
+
+<a name="racoon"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+<h2> Racoon </h2>
+
+<p> IPsec-Tools is a port of KAME's IPsec utilities to the Linux-2.6
+  IPsec implementation. It supports NetBSD and FreeBSD as well. It
+  is mainly composed of following parts:</p>
+
+<ul>
+  <li><b>libipsec</b>: Library with PF_KEY implementation.</li>
+  <li><b>setkey</b>: Tool to dump and interact with the kernel Security
+    Policy Database and Security Association Database (SADB). </li> 
+  <li><b>racoon</b>: Internet Key Exchange (IKEv1) daemon for
+    automatically keying IPsec connections.</li> 
+</ul>
+
+<p>At the time of writing, <b>racoon</b> does not support MIGRATE
+  (neither the 04 version, nor 05 version of the draft). For that
+  reason, I maintain since version 03 of the draft a set of patches
+  that has progressively evolve from a PoC to a functional
+  version. </p>
+
+<p> At the time of 03 version, we started the development of patches
+  based on a stub version provided by Francis Dupont. Yves-Alexis
+  Perez then spent some time to add a limited version (MIPv6 packets
+  only) of SADB_X_EXT_PACKET support in Linux kernel that could work
+  with racoon and umip (mipl at the beginning). The code provided
+  basic support for dynamic keying with MIPL (and then umip) but had
+  some bugs (rekeying, ...) and proved to be impossible to maintain
+  over time. SADB_X_EXT_PACKET mechanism also had some lacks and
+  inherent complexity that prevented it to be used as a long term
+  solution. </p>
+
+<p> After some feedback to the authors of MIGRATE draft, I spend some
+  time removing SADB_X_EXT_PACKET support from ipsec-tools and
+  implementing a cleaner version of MIGRATE code in order to be able
+  to push it to the developer when 05 version of the draft would be
+  released. In the meantime, some simple patches unrelated to MIGRATE
+  were accepted mainline. The expiration of MIGRATE draft (04 version)
+  and lack of feedback from Francis (SADB_X_EXT_PACKET was initially
+  his proposal) lead me to the publication of
+  an <a
+  href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">
+  IETF draft</a> (co-authored with S. Decugis), replacing
+  SADB_X_EXT_PACKET by simple enhancements of MIGRATE design. The
+  current set of patches used below are based on this
+  specification. More information on those patches can be
+  found <a href="racoon-patches.html">here</a>. </p>
+
+<p> Like for umip, we will use the development tree of ipsec-tools
+  which is maintained with CVS. It can be checked out using the
+  following command </p>
+
+<pre>
+$ cd /usr/src/
+$ cvs -danoncvs@anoncvs.netbsd.org:/cvsroot co ipsec-tools
+cvs checkout: Updating ipsec-tools
+U ipsec-tools/.cvsignore
+U ipsec-tools/ChangeLog
+U ipsec-tools/Makefile.am
+U ipsec-tools/NEWS
+...
+</pre>
+
+<p> As for umip, I also maintain two mercurial repositories: </p>
+
+<ul>
+<li> <b>Patches for MIGRATEv2 support: </b> I maintain a quilt folder
+  as a mercurial repository. The various patches it contains have been
+  completely rewritten from the initial versions provided by Francis
+  Dupont and then modified by Yves-Alexis Perez (you can go back in
+  the history to track changes). A description of the features
+  provided by every patch is
+  available <a href="racoon-patches.html">here</a>.</li>
+<li> <b>Debian files for the package: </b> I maintain a mercurial
+  repository that can directly be cloned as a debian/ folder. The
+  files in the folder are used by dpkg-buildpackage to build the
+  package. It also contains an init scripts for the daemon and dummy
+  configuration files.</li>
+</ul>
+
+<p> Under Debian, the process to assemble all pieces together and
+  then build the package is the following: </p>
+
+<pre>
+$ mv ipsec-tools ipsec-tools-umip-0.7
+$ cd ipsec-tools-umip-0.7
+$ hg clone http://hg.natisbad.org/ipsec-tools-umip-pkg-debian-folder debian
+$ cd debian
+$ hg clone http://hg.natisbad.org/migrate2_patches_ipsec-tools patches
+$ cd ..
+</pre>
+
+<p> When dpkg-buildpackage is called (below), quilt takes care (as
+  asked in the Debian "rule" file in the debian/ folder) of applying
+  the patches.</p>
+
+<p> Before issuing the following command, please verify that: </p>
+
+<ul>
+<li> you are running the patched kernel with MIGRATEv2 support we
+  compiled (the one with MIGRATEv2 support) and you have kernel
+  headers installed (in /lib/modules/2.6.26/build/incude/ for our
+  2.6.26).   </li> 
+<li> your environment satisfies the build dependencies (look at the
+  control file in the debian/ folder)</li>
+</ul>
+
+<pre>
+$ dpkg-buildpackage -us -uc -sd -b -i -I.hg
+...
+dh_builddeb
+        dpkg-deb --build debian/ipsec-tools-umip ..
+dpkg-deb: building package `ipsec-tools-umip' in `../ipsec-tools-umip_0.7-3_powerpc.deb'.
+        dpkg-deb --build debian/racoon-umip ..
+dpkg-deb: building package `racoon-umip' in `../racoon-umip_0.7-3_powerpc.deb'.
+# we have no indep packages
+# we have no architecture independant stuff yet
+ dpkg-genchanges -b -sd >../ipsec-tools-umip_0.7-3_powerpc.changes
+dpkg-genchanges: binary-only upload - not including any source code
+dpkg-buildpackage: binary only upload (no source included)
+</pre>
+
+<p> You can then install the package: </p>
+
+<pre>
+$ sudo dpkg -i ../ipsec-tools-umip_0.7-3_powerpc.deb
+</pre>
+
+<p> Racoon configuration is described below. </p>
+
+<p> <font color="red"><b>TIP:</b></font> If you have previously
+ followed the steps to configure apt in order to access umip package
+ via <font color="red">the unofficial UMIP Debian repository</font> I
+ have set up, you can directly access i386 and ppc versions of
+ ipsec-tool-umip and racoon-umip packages using your favourite package
+ manager: those are available from the repository.</p> 
+
+<a name="conf"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+<h2> Configuration </h2>
+
+<p> This section describes simultaneously UMIP and racoon
+  configuration. The first part of this section covers HA
+  configuration, the second MN configuration. The changes required to
+  make your MN a MR are covered in a third part.</p>  
+
+<p> To avoid spending hours at debugging stupid issues, you should
+  definitely get familiar with racoon and umip configuration in general
+  (reading the man pages, setting up simple configuration of umip
+  without dynamic keying and simple configuration of racoon without
+  mobility). You have been warned: it is assumed in the rest of the
+  document that you are familiar with both apps. </p>
+
+<p> Below is a figure of the setup, followed by some comments.</p>
+
+<img src="ha-mn.png" alt="Figure of HA and MN" vspace="5" />
+
+<p> The main elements we consider are the MN and its MN:</p>
+
+<ul>
+<li>HA: the egress interface, connected to the Internet (possibly
+  through other routers of the site) is eth1. The interface eth0.302
+  is the one connected to the home link of the MN. The address
+  configured on eth0.302 is 2001:db8:802:f002:21e:bff:fe4e:3b2. This
+  is also the address on which the IKE daemon will listen, waiting for
+  the peer (the MN) to start a negotiation. </li> 
+
+<li>MN: it has two interfaces (802.11 and ethernet), the ethernet
+  being the preferred one. The MN is presented in its Home network
+  (bottom), then after a handover to a foreign network where it is
+  connected using its ethernet interface (middle) and then in a second
+  foreign network, which provides only a wifi access. The HoA of the
+  MN is 2001:db8:78df:2:20d:93ff:fe55:8f78.</li>  
+</ul>
+
+When it is not connected to its Home Link, the traffic exchanged
+between the MN and its HA is IPsec protected (tunnel mode). In all
+cases, its signaling traffic is protected using transport mode. Those
+set of SA are depicted by the red arrows.
+
+<a name="haconf"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+<h2> Configuring the HA </h2>
+
+<p>In this subsection, we cover the configuration of the HA, first the
+MIPv6 part and then the IPsec/IKE related part.</p>
+
+
+<img src="ha.png" alt="Figure of HA" vspace="5" />
+
+
+<p>The content of the main /etc/mip6d.conf is provided below. The file
+contains the generic configuration parameters, i.e. the one that are
+not specific to users. At the end of the file, inclusion of specific
+per-user configuration files is peformed. If you manage only one or
+two users, you can simply inline the content of per user file. An
+example of such user configuration file is provided just after the
+comments associated with main configuration file.</p>
+
+<!-- UMIP configuration -->
+<pre>
+$ cat /etc/mip6d.conf
+ NodeConfig HA;
+ 
+ Interface "eth1";
+ 
+ UseMnHaIPsec enabled;
+ KeyMngMobCapability enabled;
+ 
+ DefaultBindingAclPolicy deny;
+ 
+ include "/etc/mip6d.conf.d/arnaud.ebalard.mip6d.conf"
+ include "/etc/mip6d.conf.d/another.user.mip6d.conf"
+</pre>
+
+<p> The value of <b>NodeConfig</b> parameter should not be a
+surprise. </p>
+
+<p> Then, the <b>Interface</b> parameter is set to <i>"eth1"</i> to
+  declare an interface used by the HA. This parameter will also be
+  used multiple times in client-specific configuration blocks. </p>  
+
+<p> The next flag (<b>UseMnHaIPsec</b>) indicates that MIPv6 signaling
+  between the HA and its MN must be protected by IPsec. It is enabled
+  by default but we set it explicitly.</p>
+
+<p> <b>KeyMngMobCapability</b> parameter allows setting the value of K
+  bit in BA sent to the peer, indicating that our IKE daemon support
+  movement (i.e. is able to update its SA/SP on movement). In
+  practice, the value is not considered in the code.</p>
+
+<p> The <b>DefaultBindingAclPolicy</b> is set to <i>"deny"</i> to
+  prevent binding of peers that are not explicitly allowed. You will
+  see below that we add specific binding ACL in the configuration
+  entries of each peer. </p>
+
+<p> The rest of the main configuration file simply consists in the
+  inclusion of per-user configuration files. One of them is provided
+  below and followed by comments. </p>
+
+<pre>
+$ cat /etc/mip6d.conf.d/arnaud.ebalard.mip6d.conf
+ Interface "eth0.302";
+ 
+ IPsecPolicySet {
+     HomeAgentAddress 2001:db8:802:f002:21e:bff:fe4e:3b2;
+     HomeAddress 2001:db8:78df:2:20d:93ff:fe55:8f78/64;
+ 
+     IPsecPolicy Mh UseESP;
+     IPsecPolicy TunnelPayload UseESP;
+ }
+ BindingAclPolicy 2001:db8:78df:2:20d:93ff:fe55:8f78 allow;
+</pre>
+
+<p> As you can see, the amount of per-user configuration information
+  is very limited.</p>
+
+<p> In our setup, every client as its own subnet (a specific VLAN in
+  fact), which results in a specific interface on the HA. Instead of
+  listing all interfaces in the main configuration file, we add those
+  interfaces in the user configuration file. Here, we simply tell umip
+  to consider that interface (<i>"eth0.302"</i>) and do the same for
+  other users in their respective configuration file. </p>  
+
+<p> The next configuration block (<b>IPsecPolicySet</b>) is of
+  particular interest. It deals with the IPsec protection of the
+  traffic between the HA and the MN (data and signaling). The
+  addresses of the Home Agent (<b>HomeAgentAddress</b>) and the Home
+  Address of the MN (<b>HomeAddress</b>) are provided, followed by
+  some very simple IPsec policy descriptions (<b>IPsecPolicy
+  ...</b>). Here, we simply ask for IPsec protection using ESP for:</p>
+
+  <ul>
+    <li> signaling traffic between the MN and the HA, i.e. traffic using
+      Mobility Header (<b>IPsecPolicy Mh UseESP;</b>)</li>
+    <li> data traffic tunneled between the MN and the
+    HA (<b>IPsecPolicy TunnelPayload UseESP;) </b></li> 
+  </ul>
+
+<p> Those rules cover all traffic (data and MIPv6 signaling) between the
+  MN and the HA.</p>
+
+<p> UMIP will use the information to setup a set of specific IPsec
+  Security Policies for the two rules, which will require SA to be
+  present or negotiated in order for associated traffic to flow. In
+  our setup, the negotiation of the SA is performed dynamically by the
+  IKE daemon (racoon). UMIP will also send locally the required
+  messages (MIGRATE) to the IPsec stack and the IKE daemon upon
+  movement.</p> 
+
+<p> Without entering the details of the implementation, UMIP sends
+  MIGRATE messages using Netlink so that they get processed by XFRM
+  framework in the kernel (update of SP/SA). XFRM then handles the
+  emission of the MIGRATE messages to registered key managers, no
+  matter if they use PF_KEY or Netlink. For racoon, PF_KEY is used.
+</p>
+
+<p> As discussed previously, we have a deny by default policy for
+  binding and require a specific ACL for every new user. This is the
+  purpose of the <b>BindingAclPolicy 2001:db8:78df:2:20d:93ff:fe55:8f78 allow;
+</b> entry, which references the HoA of the MN and allow binding for
+  it. </p>
+
+<p> Now that UMIP configuration has been performed, the HA still lacks
+  the Security Associations to protect the flows referenced by the
+  Security Policies we have required. We delegate that job to racoon,
+  both on the HA and the MN. Below, we cover the HA part. </p> 
+
+<p> Just like we did for UMIP configuration, we also maintain racoon
+  configuration using a main file and specific configuration files
+  for every user, which are included in the main configuration. </p>
+
+<p> On the HA, the main configuration file looks like this:</p>
+
+<!-- racoon configuration -->
+<pre>
+ path certificate "/etc/racoon/certs/";
+ path script "/etc/racoon/scripts";
+ path backupsa "/var/log/racoon_sa_dump.log";
+ #log debug2;
+ 
+ #privsep {} will be seen later.
+ 
+ timer {
+         # All timers are set to their default values. 
+         counter 5;
+         interval 10 secs;
+         persend 1;
+         phase1 30 secs;
+         phase2 20 secs;
+         #natt_keepalive 20 secs;
+ }
+ 
+ listen { 
+ }
+ 
+ gss_id_enc utf-16le ;
+ 
+ remote anonymous {
+         exchange_mode main;
+         doi ipsec_doi;
+         situation identity_only; 
+         my_identifier asn1dn ; 
+         peers_identifier asn1dn "C=FR, ST=FRANCE, O=NATISBAD, \
+                                  OU=IPsec Services, CN=*, emailAddress=*";
+         verify_identifier on;
+         certificate_type x509 "ha.crt" "ha.key";
+         ca_type x509 "ca_ipsec-crt.pem";
+         verify_cert on;
+         lifetime time 24 hour;
+         ike_frag on;
+         # esp_frag fraglen;
+         initial_contact on;
+         passive on; 
+         proposal_check obey;
+         support_proxy on;
+         nonce_size 16;
+ 
+         proposal {
+                 encryption_algorithm aes; # only for Oakley
+                 hash_algorithm sha1;
+                 authentication_method rsasig;
+                 dh_group modp2048;
+                 lifetime time 4 hours ; 
+         }
+ }
+ 
+ padding {
+         randomize off;
+         randomize_length on ;  # set it in the future
+         maximum_length 20 ;    # set it in the future
+         exclusive_tail off ;
+         strict_check off;
+ }
+ 
+ include "/etc/racoon/racoon.conf.d/arnaud.ebalard.racoon.conf";
+ include "/etc/racoon/racoon.conf.d/another.user.conf";
+</pre>
+
+
+<p> Our purpose is not to document racoon configuration from scratch
+  but comment the differences and important points required for
+  things to work correctly in a Mobile IPv6 context. </p> 
+
+<p> The <b>path</b> parameters reflects the folder where the
+  certificates and keys are stored. We do not use scripts in our
+  setup. </p>
+
+<p> Then, privilege separation is not configured/enabled. I just did
+  not took the time to test it. </p>
+
+<p> We have some common values for timers. You should be able to
+  change them to fit your needs afterwhile. </p>
+
+<p> Because we have a lot of interfaces on the HA and to avoid
+  selecting addresses on a per user basis (lazyness), we simply let
+  racoon bind on all interfaces.  </p> 
+
+<p> For handling our MN and negotiate Phase 1 with those remote peers
+  that use unknown CoA, we use an anonymous <b>remote</b>
+  section. During the setup of this ISAKMP SA, the HA will send the DN
+  of its certificate as ID (configuration of our MNs expect that as we
+  will see later). In the end, the first set of important parameters
+  are the following: </p>
+
+<pre>
+remote anonymous {
+
+         ...
+
+         my_identifier asn1dn ; 
+         peers_identifier asn1dn "C=FR, ST=FRANCE, O=NATISBAD, \
+                                  OU=IPsec Services, CN=*, emailAddress=*";
+         verify_identifier on;
+         certificate_type x509 "ha.crt" "ha.key";
+         ca_type x509 "ca_ipsec-crt.pem";
+         verify_cert on;
+	 ...
+
+}
+</pre>
+
+<p> The HA will use the DN of its certificate (provided with its key
+by <b>certificate_type x509 ...</b> parameter) because it is told to
+do so by <b>my_identifier asn1dn ;</b> option. Verification of peer
+certificate will occur (because <b>verify_cert</b> is enabled) using
+the X.509 anchor pointed by <b>ca_type x509 ...</b> parameter.</p>
+
+<p> Additionally, to filter the peers on the ID they present during
+  Phase 1, <b>verify_identifier</b> is enabled and a string with
+  wildcard is provided using <b>peers_identifier asn1dn ...</b>. If
+  you intend to do that to, please test your setup first
+  without <b>verify_identifier</b> enabled and then activate it to
+  avoid stacking multiple issues: racoon is quite touchy with that
+  option. </p>
+
+<p> In the rest of the configuration, among important
+  parameters, <b>passive</b> should be enabled on the HA, the
+  beginning of the negotiation been done by the MN. </p>  
+
+<!-- Check value of proposal_check -->
+
+<p> <b>support_proxy</b> must be enabled to allow the peer to
+  negotiate SA for addresses different than the one it perform the
+  negotiation with. MIPv6 bootstrapping process with IKE requires
+  that (CoA is used to negotiate SA for the HoA). </p>
+
+<p> There is no specific comment for our proposal: we use the same
+  set of parameters for all nodes (AES 128, SHA1 with a 2048 bits DH
+  group).</p>
+
+<p> There are some parameters of <b>remote</b> section that are not
+  listed here but deserve some comments. For
+  instance, we expect <b>generate_policy</b> to be deactivated, which
+  is done by default. DPD monitoring is deactivated (advertised but
+  not used), which is what we want to avoid temporary deconnections
+  to make SA timeout. </p>
+
+<p> The next block deals with padding options. Just select the values
+  you want and simply make sure that compatible value are configured
+  the peers. </p>
+
+<p> We now cover the user-specific configuration files associated with
+  every MN. They are all included using the <b>include</b>
+  parameter.</p>
+
+<pre>
+$ cat /etc/racoon/racoon.conf.d/arnaud.ebalard.racoon.conf
+ sainfo address 2001:db8:802:f002:21e:bff:fe4e:3b2[0] 135 
+        address 2001:db8:78df:2:20d:93ff:fe55:8f78[0] 135 
+        from asn1dn "C=FR, ST=FRANCE, O=NATISBAD, OU=IPsec Services, \
+                     CN=arno, emailAddress=arno@natisbad.org"
+ {
+         pfs_group modp2048;
+         lifetime time 4 hours;     
+         encryption_algorithm aes 128;
+         authentication_algorithm hmac_sha1;
+         compression_algorithm deflate;
+ }
+ 
+ sainfo subnet ::/0[0] 0
+        address 2001:db8:78df:2:20d:93ff:fe55:8f78[0] 0
+        from asn1dn "C=FR, ST=FRANCE, O=NATISBAD, OU=IPsec Services, \
+                     CN=arno, emailAddress=arno@natisbad.org"
+ {
+         pfs_group modp2048;
+         lifetime time 4 hours;
+         encryption_algorithm aes 128;
+         authentication_algorithm hmac_sha1;
+         compression_algorithm deflate;
+ }
+</pre>
+
+<p> As you can see (if you are already familiar with racoon
+  configuration), the amount of per-user configuration is very
+  limited. The two <b>sainfo</b> blocks respectively protect:</p>
+
+<ul>
+<li> <b>MH traffic</b>: this SA is for protocol 135 (MH traffic) and
+  all MH types (the 0 between brackets). The first address is the
+  address of the HA (reference in mip6d.conf file) and the second is
+  the HoA of the MN.</li>
+<li> <b>data traffic</b>: this SA is for all traffic (note
+  the <b>subnet ::/0[0] 0</b>, indicating all IPv6 traffic, no matter
+  the next header type and possibly subtype) to the HoA of the
+  MN. </li> 
+</ul>
+
+<p> Both SA are specifically matched against the ID presented
+  (verified during Phase 1) due to the <b>from asn1dn</b> parameters
+  which creates the binding required by RFC 3775 and RFC 3776 between
+  the identity of the MN (its certificate, here) and the HoA. </p>
+
+<a name="mnconf"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+<h2> Configuring the MN </h2>
+
+<p> Now that the configuration of the HA has been covered in previous
+  section, we deal here with the configuration of the MN. This is done
+  by specifically pointing the differences between HA and MN
+  configuration. </p>  
+
+
+<img src="mn.png" alt="Figure of MN" vspace="5" />
+
+
+<p> We first start with UMIP configuration, which is presented
+  below. The difference with the configuration file we described in
+  previous section for the HA is that everything is kept in the same
+  file, i.e. there is no need to include external files. </p>
+
+<!-- UMIP configuration -->
+<pre>
+$ cat /etc/mip6d.conf
+ NodeConfig MN;
+ DebugLevel 0;
+ UseMnHaIPsec enabled;
+ KeyMngMobCapability enabled;
+ DoRouteOptimizationMN disabled;
+ 
+ Interface "eth0" {
+ 	    MnIfPreference 1;
+ }
+
+ Interface "wlan0" {
+ 	    MnIfPreference 2;
+ }
+  
+ MnHomeLink "eth0" {
+     HomeAgentAddress  2001:db8:802:f002:21e:bff:fe4e:3b2;
+     HomeAddress 2001:db8:78df:2:20d:93ff:fe55:8f78/64 ;
+ }
+ 
+ IPsecPolicySet {
+     HomeAgentAddress 2001:db8:802:f002:21e:bff:fe4e:3b2 ;
+     HomeAddress 2001:db8:78df:2:20d:93ff:fe55:8f78/64 ;
+ 
+     IPsecPolicy Mh UseESP;
+     IPsecPolicy TunnelPayload UseESP;
+ }
+</pre>
+
+<p> Quite obviously, the <b>NodeConfig</b> parameter is set
+  to <b>MN</b>.</p>
+
+<p> As we do not want our MN to initiate Route Optimization with
+  Correspondent nodes (which would imply losing IPsec protection for
+  traffic leaving/entering the foreign network), it is disabled
+  using <b>DoRouteOptimizationMN</b> parameter.</p>
+
+<p> Then, comes the configuration of interfaces on our MN which is
+  pretty easy to understand: we preferentially use our ethernet
+  interface eth0 (better throughput and lower latency) if it has some
+  link and UMIP manage to configure an IPv6 address usable as
+  CoA. If it is not the case, then the Wifi interface wlan0 is
+  used.</p>
+
+<p> Please note that this option is provided by one of the patches
+  applied to UMIP, i.e. it is not available in vanilla 0.4 version of
+  UMIP. If you intend to use tunnel interfaces with UMIP, you should
+  definitely read the mip6d.conf man page entry and also take a look
+  at the FAQ provided at the end of current page.
+</p> 
+
+<p> The rest of the configuration is pretty easy to understand if you
+  have read mip6d.conf man page (you should have). With regard to
+  the <b>IPsecPolicySet</b>, it is identical to the HA counterpart
+  specific to that client that we previously described. </p> 
+
+<p>Let's now take a look at the MN's racoon.conf file and comment the
+  differences with previously studied HA's configuration file. Again,
+  we do no have a split version of the configuration on the client,
+  i.e. <b>sainfo { ... }</b> blocks are in the main file.</p>
+
+<!-- racoon configuration -->
+<pre>
+$ cat /etc/racoon/racoon.conf
+ path certificate "/etc/racoon/certs/";
+ path script "/etc/racoon/scripts";
+ path backupsa "/var/log/racoon_sa_dump.log";
+ gss_id_enc utf-16le ;
+ 
+ timer {
+         # All timers are set to their default values. 
+         counter 5;
+         interval 5 secs;
+         persend 1;
+         phase1 300 secs;
+         phase2 600 secs;
+         #natt_keepalive 20 secs;
+ }
+ 
+ listen {
+ 
+ }
+ 
+ remote 2001:db8:802:f002:21e:bff:fe4e:3b2
+ {
+         exchange_mode main;
+         doi ipsec_doi;
+         situation identity_only;
+         my_identifier asn1dn ;
+         peers_identifier asn1dn "C=FR, ST=FRANCE, O=NATISBAD, OU=IPsec Services, \
+                                  CN=ha1, emailAddress=arno@natisbad.org";
+         certificate_type x509 "arno-crt.pem" "arno.key";
+         ca_type x509 "ca_ipsec-crt.pem";
+         verify_identifier on;
+         verify_cert on;
+         lifetime time 24 hour;
+         ike_frag on;
+         initial_contact on;
+         passive off;
+         proposal_check obey;
+         support_proxy on;
+         generate_policy off;
+         nonce_size 16;
+ 
+         proposal {
+                 encryption_algorithm aes ; 
+                 hash_algorithm sha1;
+                 authentication_method rsasig;
+                 dh_group modp2048;
+                 lifetime time 4 hours ; 
+         }
+ }
+ 
+ sainfo address 2001:db8:78df:2:20d:93ff:fe55:8f78[0] 135
+        address 2001:db8:802:f002:21e:bff:fe4e:3b2[0] 135
+        from asn1dn "C=FR, ST=FRANCE, O=NATISBAD, OU=IPsec Services, \
+                     CN=ha1, emailAddress=arno@natisbad.org";
+ {
+         pfs_group modp2048;                
+         lifetime time 2 hours;     
+         encryption_algorithm aes 128;
+         authentication_algorithm hmac_sha1;
+         compression_algorithm deflate;
+ }
+ 
+ sainfo address 2001:db8:78df:2:20d:93ff:fe55:8f78[0] 0
+        subnet ::/0[0] 0
+        from asn1dn "C=FR, ST=FRANCE, O=NATISBAD, OU=IPsec Services, \
+                     CN=ha1, emailAddress=arno@natisbad.org";
+ {
+         pfs_group modp2048;                
+         lifetime time 2 hours;     
+         encryption_algorithm aes 128;
+         authentication_algorithm hmac_sha1;
+         compression_algorithm deflate;
+ }
+ 
+ padding {
+         randomize off;
+         randomize_length on;
+         maximum_length 20;
+         exclusive_tail off;    
+         strict_check off;
+ }
+</pre>
+
+<p> The first difference is that the <b>remote</b> block is no more
+  anonymous. The address of MN's HA is provided
+  (2001:db8:802:f002:21e:bff:fe4e:3b2). In that block,
+  the <b>peer_identifier</b> that the MN should provide as ID during
+  Phase 1 is set in an unambiguous fashion, without a wildcard for
+  the CN RDN ("ha1" is expected here). Like it was required on the
+  HA, the ID presented during Phase 1 will be checked against the
+  subject's DN of the peers certificate (<b>verify_identifier</b>
+  being enabled).
+</p>
+
+<p> Still in <b>remote</b> block, the <b>passive</b> parameter is set to
+  <b>off</b> this time in order to have racoon initiate a negotiation
+  with the IKE daemon on its HA when a packet matching a SP previously
+  configured on the system (by UMIP) has triggered a PF_KEY ACQUIRE
+  message by the kernel.</p>
+
+<p> Then, in the rest of the configuration, the only thing you might
+  be interested in checking is that the address of <b>sainfo</b>
+  blocks are in the correct (reversed) order, when compared to their
+  counterpart in HA configuration file </p>
+
+<a name="nemoconf"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+<h2> Changes for the MR and its MRHA </h2>
+
+<p> Now that you have managed to get a working configuration - I
+  repeat, a working configuration - for both you HA and your MN, it is
+  now time to make the small modifications to turn your HA into a NEMO
+  HA (MRHA) and your MN into a MR (if you need it). </p>
+
+
+<img src="ha-mr.png" alt="Figure of HA and MR" vspace="5" />
+
+
+<p> As you will see, the configuration changes are very limited,
+  because</p>
+<ul>
+  <li> we only focus on the main configuration parameters </li>
+  <li> we do not explicitly cover the ones for which default values
+  are those we intend to use (<b>MobRtrUseExplicitMode</b>, ...)</li>
+</ul>
+
+<p> We start by commenting the changes required to UMIP configuration
+  (main and then per user files) for changing our HA into a MRHA. </p>
+
+<p> The first thing to do is to allow the HA to accept binding by
+  enabling <b>HaAcceptMobRtr</b> parameter</p>
+
+<p> Then, we intend to provide our clients 2 subnets (/64) under
+  fdff:db8:820f:ff00::/56 and 2001:db8:78df:ff00::/56. [NEMO-patched]
+  UMIP will requires that the prefix the HA intend to serve be
+  declared in the configuration. This is done using
+  the <b>HaServedPrefix</b>. You can find those elements below. </p>  
+
+<!-- changes for MRHA in UMIP configuration -->
+<pre>
+$ cat /etc/mip6d.conf
+ NodeConfig HA;
+ 
+ Interface "eth1";
+ 
+ HaAcceptMobRtr enabled;                   ### NEMO Additions ###
+ HaServedPrefix fdff:db8:820f:ff00::/56;   ### NEMO Additions ###
+ HaServedPrefix 2001:db8:78df:ff00::/56;   ### NEMO Additions ###
+ 
+ UseMnHaIPsec enabled;
+ KeyMngMobCapability enabled;
+ 
+ DefaultBindingAclPolicy deny;
+ 
+ include "/etc/mip6d.conf.d/arnaud.ebalard.mip6d.conf"
+ include "/etc/mip6d.conf.d/another.user.mip6d.conf"
+</pre>
+
+<p> Let's now cover the changes to user-specific configuration
+  file. This configuration allow my MR to request two prefixes:
+  fdff:db8:820f:ff01::/64 and 2001:db8:78df:ff01::/64 (note that they
+  both are among declared <b>HaServedPrefix</b> we covered
+  above). This is done by listing between parenthesis the set of
+  prefixes the MN is allowed to request in the <b>BindingAclPolicy</b>
+</p>
+
+<pre>
+ $ cat /etc/mip6d.conf.d/arnaud.ebalard.mip6d.conf
+ Interface "eth0.302";
+ 
+ IPsecPolicySet {
+     HomeAgentAddress 2001:db8:802:f002:21e:bff:fe4e:3b2;
+     HomeAddress 2001:db8:78df:2:20d:93ff:fe55:8f78/64;
+ 
+     IPsecPolicy Mh UseESP;
+     IPsecPolicy TunnelPayload UseESP;
+ }
+ BindingAclPolicy 2001:db8:78df:2:20d:93ff:fe55:8f78 (fdff:db8:820f:ff01::/64, \
+                                                      2001:db8:78df:ff01::/64) allow;
+</pre>
+
+<p>Now, you might wonder what kind of complicated changes are
+  required in racoon configuration to support the addition of those
+  changes. The response is short: NONE. The reason is that the tunnel
+  mode SA racoon will negotiate are suitable for handling the
+  protection of tunneled traffic by default. The SP that UMIP will put
+  spawn for the prefixes will do the rest of the magic. This is
+  sufficient for our basic needs. </p>
+
+<p>ok, you are disappointed, I can see it in your eyes! But the fun
+  is not over! We still need to modify the configuration of our MN to
+  make it a MR. </p>
+
+<img src="mr.png" alt="Figure of MR" vspace="5" />
+
+<p> The modified configuration is provided below. Comments follow. </p>
+
+<!-- changes for MR in UMIP configuration -->
+<pre>
+$ cat /etc/mip6d.conf
+ NodeConfig MN;
+ DebugLevel 0;
+ UseMnHaIPsec enabled;
+ KeyMngMobCapability enabled;
+ DoRouteOptimizationMN disabled;
+ 
+ Interface "eth0" {
+ 	  MnIfPreference 1;
+ }
+ 
+ Interface "wlan0" {
+ 	    MnIfPreference 2;
+ }
+
+ MnHomeLink "eth0" {
+     HomeAgentAddress  2001:db8:802:f002:21e:bff:fe4e:3b2;
+     HomeAddress 2001:db8:78df:2:20d:93ff:fe55:8f78/64 (fdff:db8:820f:ff01::/64, \
+ 						       2001:db8:78df:ff01::/64);
+     IsMobRtr enabled;
+ }
+ 
+ IPsecPolicySet {
+     HomeAgentAddress 2001:db8:802:f002:21e:bff:fe4e:3b2 ;
+     HomeAddress 2001:db8:78df:2:20d:93ff:fe55:8f78/64 ;
+ 
+     IPsecPolicy Mh UseESP;
+     IPsecPolicy TunnelPayload UseESP;
+ }
+</pre>
+
+<p> All the changes are in the <b>MnHomeLink</b> block. We allow the
+  MR to act as a router by enabling <b>IsMobRtr</b> parameter. The
+  two prefixes we previously configured on the MRHA side have been
+  added to the <b>HomeAddress</b> statement.</p>
+
+<p> For the same reason discussed previously for the HA, no changes to
+  racoon configuration are required either on the newly configured
+  MR. </p>
+
+<p> As depicted on previous figure, the MR is expected to advertise
+  two prefixes (a global one and an ULA one) on its internal
+  interface, eth1. Let's install <b>radvd</b> and fill a configuration
+  file (/etc/radvd.conf) for that purpose:</p> 
+
+<pre>
+$ sudo apt-get install radvd
+$ cat /etc/radvd.conf
+interface eth1
+{
+        AdvSendAdvert on;
+        AdvDefaultPreference high;
+        AdvOtherConfigFlag off;
+        AdvManagedFlag off;
+        AdvIntervalOpt on;
+        IgnoreIfMissing on;
+
+        prefix fdff:db8:820f:ff01::/64
+        {
+           AdvOnLink on;
+           AdvAutonomous on;
+        };
+
+        prefix 2001:db8:78df:ff01::/64
+        {
+           AdvOnLink on;
+           AdvAutonomous on;
+        };
+};
+</pre>
+
+<p> With that configuration, the clients connected to eth1 link should
+  manage to configure themselves with two addresses and use the MR as
+  their default router. For the traffic to be routed correctly in
+  both directions for those prefixes, we need to provide some
+  information to Linux routing table on the existence of those
+  prefixes. Under Debian, we do that in /etc/network/interfaces, with
+  the configuration statements for eth1 interface.</p> 
+
+<pre>
+$ cat /etc/network/interfaces
+
+...
+
+auto eth1
+iface eth1 inet6 manual
+      up   ip -6 route add fdff:db8:820f:ff01::/64 dev eth1 || true
+      up   ip -6 route add 2001:db8:78df:ff01::/64 dev eth1 || true
+      down ip -6 route del fdff:db8:820f:ff01::/64 dev eth1 || true
+      down ip -6 route del 2001:db8:78df:ff01::/64 dev eth1 || true
+
+...
+
+</pre>
+
+<p> Then, you need to activate forwarding (<b>radvd</b> also expects
+  IPv6 forwarding to be activated). This is usually done in
+  /etc/sysctl.conf but you can also do it in /etc/network/interfaces 
+  in the block dedicated to eth1 configuration. If you use the
+  packages I provide, you just have to set FORCE_IPV6_FORWARDING
+  parameter to "yes" in /etc/default/mip6d:</p>
+
+<pre>
+$ cat /etc/default/mip6d
+RUN="yes"
+FORCE_IPV6_FORWARDING="yes"
+</pre>
+
+<p> That way, when the daemon is started,
+  /proc/sys/net/ipv6/conf/all/forwarding is automatically set to
+  1. Note that forwarding will not be deactivated when the daemon is
+  stopped.</p>  
+
+<a name="miredo"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+<h2> w/ miredo </h2>
+
+<h4> Context </h4>
+
+<p> If you play the game (and use MIPv6 on a daily basis), you will
+  find after some time that the ability to keep a static vision of the
+  network no matter where you are is just great. But you will also
+  encounter some frustrations on foreign network that still only
+  provide IPv4 access. </p> 
+
+<p> After some of those frustrating moments, I took some time to
+  try and make MIPv6 working from IPv4 foreign networks.</p>
+
+<p> Fron a theoretical standpoint, there are two main solutions
+  available for that purpose: </p>
+
+  <ul>
+    <li> 
+      <p><b>Teredo</b>: specified in
+	<a href="http://www.ietf.org/rfc/rfc4380.txt">RFC 4380</a>,  
+	the protocol has been specifically designed to provide IPv6
+	access to end nodes from behind IPv4 NATed networks.</p>
+
+      <p> Simply put, the protocol integrates some smart mechanisms to
+	detect the kind of NAT implemented by the network where the
+	node is sitting (that step is called "Qualification
+	procedure"). For that purpose it uses an external helper: a
+	Teredo server. There are many Teredo servers deployed on the 
+	Internet that you can freely use. At the end of the
+	qualification procedure, the node ends up with <b>a single 
+	IPv6 address</b> in the Teredo address space (2001::/32).</p> 
+
+      <p> It is then able to communicate with native IPv6 peers and
+	Teredo peers. When contacting a native IPv6 peer (or a 6to4
+	one), the node ends up sending IPv6 packets over UDP over IPv4
+	to a Teredo relay which then decapsulates the IPv6 packets and
+	relays it on the IPv6 Internet. A reverse path is used for
+	return traffic. Because it is not the purpose of the docuemnt,
+	I wil not provide more details on the topic here. </p>  
+
+      <p> When used for carrying our IPsec-protected MIPv6 data
+	traffic (TCP for instance), packets emitted and received by
+	the node have the following format: IPv4 / UDP / IPv6 / ESP
+	/ IPv6 / TCP / data </p> 
+
+      <p> No matter what you might read about the protocol, it is an
+	impressive piece of engineering. It is the proof to those who
+	think the opposite that NAT is not a security mechanism. </p>
+
+      <p> In the context of the discussion, Teredo can be used to
+	provide the Mobile Node access to its Home Agent when it is
+	stuck in an IPv4-only network. </p>
+      </li> 
+
+    <li>
+      <p><b>DS-MIPv6</b>: Dual Stack MIPv6 is currently being
+      specificied at the IETF (draft
+      is <a href="http://tools.ietf.org/html/draft-ietf-mip6-nemo-v4traversal-06">here</a>.
+	Instead of leaving NAT and IPv4 networks issues outside the
+      scope of MIPv6 protocol, DS-MIPv6 defines extensions that can be
+      implemented in MIPv6 entities (MN, HA and NEMO-enabled
+      equivalents) to support MIPv6 operations from IPv4
+      networks. </p> 
+
+      <p> Work on DS-MIPv6 was proposed more than 3 years ago by Vijay
+	Devaparally, Ryuji Wakikawa and Carl Williams (see
+	the <a href="http://www.ietf.org/proceedings/05mar/slides/mip6-7/">slides</a>
+	presented at IETF 62 in March 2005). The issues associated
+	with the reuse of existing tunneling mechanisms were among the
+	arguments to work on a specific solution (see slide 3 in previous
+	link). </p> 
+
+      <p> Basically, DS-MIPv6 usually encapsulates IPv6 traffic over
+      UDP over IPv4 but makes the IPv4 source address of the packet
+      its CoA, which allows for the removal of a level of IPv6
+      encapsulation compared to the use of Teredo in MIPv6
+      context. Previous IPsec-protected MIPv6 data traffic
+      is <b>usually</b> expected to take the following form when
+      DS-MIPv6 is used: IPv4 / UDP / ESP / IPv6 / TCP. </p>
+
+      <p> As there are many different possible cases in the operation
+      of DS-MIPv6, and the protocol is clearly outside the scope of
+      this document, I will not provide more details here. </p>
+    </li> 
+  </ul>
+
+
+<p> Below is a quick discussion of pros and cons of both protocols.</p>
+
+<h4>Pros and Cons of Teredo and DS-MIPv6 </h4>
+
+<p>Here, I provide a list of pros and cons for both solutions in the
+ context of a use with IPsec/IKE-protected MIPv6:</p>
+
+<ul>
+
+  <li>Cons of Teredo:
+    <ul>
+      <li> Teredo qualification procedure creates an additional delay
+	after the MIPv6 node has acquired an IPv4 address in a new
+	foreign network (after a handover). The cost is basically the
+	RTT between the Teredo server and the MN.  </li> 
+      
+      <li> For a use with MIPv6, official Teredo relays cannot (should
+	not) be used because the MTU that must be configured for
+	Teredo interfaces is 1280 bytes. If the Teredo relay enforces
+	that value, the required tunneling with the HA will not
+	work. For that reason, a relay allowing higher MTU (1400 for
+	instance) must be deployed at the edge of the site were the
+	Home Agents is hosted. This also has the direct performance
+	advantage of having the traffic flowing directly from the MN
+	to the site, without a possible bottleneck when using a public
+	relay.</li>
+      
+      <li> MTU loss associated with Teredo is at least 28 bytes (IPv4
+      and UDP headers).</li> 
+
+      <li> Teredo adds an additional point of failure to the equation:
+	the Teredo Server. In practice, this is usually not an issue
+	but it's worth mentionning. </li>
+
+    </ul>
+  </li>
+
+  <li>Pros of Teredo:
+    <ul>
+      <li> Teredo fully hides NAT and IPv4 existence (and issues) to
+	MIPv6, IKE and IPsec. For that reason, no changes to those
+	elements are required. IMHO, this is worth the MTU loss in
+	most cases. </li> 
+      <li> A Teredo relay can easily be deployed at the edge of the
+	network where the HA is hosted to make the path direct between
+	the MMs and the HA.</li>
+      <li> The link provided by Teredo is a tunnel link, which might
+      creates issue for link detection functions.</li>
+      <li> Teredo (when compared to DS-MIPv6) does not require the HA
+	to be IPv4-enabled. Consider it. </li> 
+      <li> Teredo has implementation for all major platform: Windows
+      (the protocol was developed by Microsoft), Linux and
+      *BSD. Miredo, the implementation of Teredo protocol for Linux
+      (and *BSD) works just great.</li> 
+    </ul>
+  </li>
+  
+  <li>Cons of DS-MIPv6
+    <ul>
+      <li> DS-MIPv6 requires specific changes to MIPv6, IKE and
+	possibly IPsec. </li>
+      <li> DS-MIPv6 makes MIPv6 protocol aware of IPv4 and NAT.</li>
+      <li> It requires the HA to support IPv4.</li>
+      <li> From a practical standpoint, it is not implemented in umip</li>
+      </ul>
+  </li>
+
+  <li>Pros of DS-MIPv6:
+    <ul>
+      <li> Lower MTU loss via removal of a level of encapsulation. In
+      best cases, this </li>
+      <li> Guaranteed best path between the MN and its HA. This
+      requires the setup of a relay at the edge of the HA's network
+      for Teredo to provide the same guarantee. </li>
+    </ul>
+  </li>
+
+</ul>
+
+In the end, I think that Teredo is the cleanest of the two
+workarounds. The main reason for me is that it keeps thing separate:
+MIPv6 (and IPsec/IKE) do not get involved in IPv4 and NAT
+issues. Teredo handles those, with a MTU fee per packet, but it is
+worth it. 
+
+<h4> Setting up miredo</h4>
+
+<p> Under Linux, Miredo is the implementation of Teredo protocol. It
+  supports both relay and client mode. Here, we cover the setup of
+  client mode on a MN (a Debian MN).</p>
+
+<p> Before spending some time on the configuration, let's take a few
+  lines to describe how umip and miredo will work together. Usually,
+  umip is the one handling address configuration by sending RS,
+  parsing RA, constructing addresses, installing them and so on. With
+  Mired, this is obviously not possible, because the configuration of
+  Teredo interface (address and routes) is completely handled by
+  miredo. </p>
+
+<p> For that reason, I wrote a patch that adds the ability to
+  "explain" umip that an interface it is dealing with is a tunnel
+  interface that will be configured externally. For those interfaces,
+  umip will not try to send RS, received RA, ... and will directly
+  use the information configured by the external mechanism. The aim
+  was to be able to support Teredo, 6to4, and ppp interfaces. Look at
+  mip6d.conf man page for the documentation of "tunnel" keyword for
+  more on the topic.</p> 
+
+<p> As a side note, one comment made by the developer of USAGI when
+  reviewing the path was that a better way to implement the feature
+  would have been to rely on the "policy manager" available in umip. I
+  basically agree but have no time at the moment to update the
+  patch.</p> 
+
+<p> There is another thing you should be aware of about the use of
+  UMIP with miredo: because miredo does not really support movement
+  detection (switching from a network to another) and rely on external
+  IPv4 address configuration (usually done using DHCP), do not expect
+  to get some smooth migrations when moving from an IPv4 network to
+  another. From my experience, <b>after some time</b>, miredo notices
+  the address change and performs a new qualification procedure which
+  results in the configuration of a new IPv6 address on the teredo
+  interface. At this point, UMIP detects the new address and performs
+  its handover. Nonetheless, miredo is perfectly suitable when you
+  find yourself in a common IPv4 network. </p>
+
+<p> Let's now start setting things up. First install the daemon. By
+  default, miredo is started at boot (via /etc/init.d/miredo) because
+  START_MIREDO is set to true in /etc/default/miredo. </p> 
+
+<pre>
+$ apt-get install miredo
+$ cat /etc/default/miredo
+START_MIREDO=true
+DAEMON_ARGS=""
+</pre>
+
+<p> If you do not want miredo to be started by default during boot but
+  want to start it by hand when you need the service it provides, you
+  can simply use update-rc.d for that purpose (something like
+  "update-rc.d -f miredo remove" should do the job). </p>
+
+<p> Let's now configure miredo by modifying /etc/miredo.conf
+  file. Mine look like the following: </p>
+
+<pre>
+$ cat /etc/miredo.conf 
+InterfaceName    teredo
+ServerAddress    83.170.6.76      #teredo-debian.remlab.net
+RelayType        client
+BindPort         3545
+</pre>
+
+<p> If you make the comparison with the default file provided by the
+  package, you will notice that <b>ServerAddress</b> parameter is no
+  more provided a FQDN but an IPv4 address. This is to avoid a chicken
+  and egg issue: I use a static DNS configuration involving an IPv6 DNS
+  server that will only be available after the binding with the HA has
+  occured. </p>
+
+<p> Because miredo can be used on various platform and users might
+  have some specific needs configure routing, the daemon uses a
+  simple script for configuring the routes:
+  /etc/miredo/client-hook. Here is a modified version intended for
+  use with umip. It sets a higher MTU and </p>
+
+<pre>
+#!/bin/sh
+#
+# Miredo client hook script for Linux/iproute2
+#
+# Copyright © 2007 Rémi Denis-Courmont.
+# Distributed under the terms of the GNU General Public License version 2.
+#
+# Modified by Arnaud Ebalard &lt;arno@natisbad.org&gt; to work with UMIP
+# towards a specific relay allowing a higher MTU (1400).
+
+IP=/sbin/ip
+METRIC=1029
+TABLE=teredo
+PRIO=32765
+MTU=1400
+
+test "$OLD_ADDRESS" &amp;&amp; \
+"$IP" -6 rule del from "$OLD_ADDRESS" prio "$PRIO" table "$TABLE" 2>/dev/null
+
+"$IP" -6 route flush table "$TABLE" 2>/dev/null
+"$IP" -6 route flush dev "$IFACE" 2>/dev/null
+"$IP" -6 address flush dev "$IFACE" 2>/dev/null
+
+"$IP" -6 link set dev "$IFACE" "$STATE"
+
+case "$STATE" in
+        up)
+                "$IP" -6 route add default dev "$IFACE" metric "$METRIC"
+                "$IP" -6 address add "${LLADDRESS}/64" dev "$IFACE"
+                "$IP" -6 address add "${ADDRESS}/128" dev "$IFACE"
+                "$IP" link set dev "$IFACE" up mtu "$MTU"
+                ;;
+esac
+
+"$IP" -6 route flush cache 2>/dev/null
+
+exit 0
+</pre>
+
+
+<p> Let's now come back for a second to umip configuration. On the MN
+  or MR on which you intend to use miredo, you should find a
+  definition for "teredo" interface:  </p>
+
+<pre>
+...
+
+ Interface "eth0" {
+ 	    MnIfPreference 1;
+ }
+
+ Interface "wlan0" {
+ 	    MnIfPreference 2;
+ }
+ 
+ Interface "teredo" {
+ 	    MnIfPreference 3;
+ 	    Tunnel enabled;
+ }
+  
+...
+</pre>
+
+<p> As you can see, the <b>"teredo"</b> interface is the least preferred
+  one. It is also marked as an externally configured tunnel interface
+  (using <b>Tunnel</b> parameter). The <b>Tunnel</b> parameter is
+  used to warn UMIP that the interface is a tunnel interface which
+  handles on its own the address configuration steps (i.e. it does not
+  require UMIP to perform RS/RA and DAD). In IPv4 only networks,
+  if <b>miredo</b> has succeeded in its qualification procedure and
+  has acquired an address, it is used by UMIP as CoA.</p> 
+
+<a name="fw"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+<h2> Firewall </h2>
+
+
+<font color="red"> This section is currently under construction. </font>
+
+<ul>
+<li> Filtering on MN </li>
+<li> Filtering on HA </li>
+<li> Filtering on MR </li>
+<li> Filtering on MRHA </li>
+</ul>
+
+<a name="FAQ"></a>
+<div class="topmenu">
+<a href="#Overview">Overview</a> &nbsp; <a href="#Kernel">Kernel</a> &nbsp; <a href="#umip">umip</a> &nbsp; <a href="#racoon">racoon</a> &nbsp; <a href="#conf">config(</a><a href="#haconf">HA|</a><a href="#mnconf">MN|</a><a href="#nemoconf">MR and MRHA)</a> &nbsp; <a href="#miredo">w/ miredo</a> &nbsp; <a href="#fw">FW</a> &nbsp; <a href="#FAQ">FAQ</a>
+</div>
+<h2> FAQ </h2>
+
+<p> If you have an issue that is not listed in the FAQ, drop me a mail
+  and I will add it.</p>
+
+<ul>
+
+<!-- racoon2 -->
+<li> <b> racoon only supports IKEv1. Are there any patches available
+    for <a href="http://www.racoon2.wide.ad.jp/w/">racoon2</a> to use
+    IKEv2 instead? Will there be at some point? </b>
+
+  <p> Some time ago, Sebastien Decugis
+  wrote <a href="http://www.nautilus6.org/doc/dk-howto/Howto_dynamic_keying.html">a 
+  similar howto based on racoon2</a> instead of racoon.</p>
+
+  <p> Note that the whole setup he describes there is based on
+  SADB_X_EXT_PACKET mechanism (as specified in expired 04 version of
+  MIGRATE draft) which has been replaced in the set of patches
+  presented here by some improvements of MIGRATE design:
+  SADB_X_EXT_PACKET patch for Linux Kernel was a hack, and was  
+  impossible to maintain, w/o even speaking about a possible
+  integration mainline. </p>
+
+  <p> If I manage to find some time to update and maintain Sebastien's
+  work for the updated MIGRATE design, this will be reflected
+  here. </p>
+
+</li>
+
+<!-- Multiple prefixes on foreign network -->
+<li> <b>When my MN moves to a subnet on which routers advertise
+  multiple prefixes, things go wrong from time to time. Why?</b>
+
+  <p> when umip detects a link is up again, it performs prefix
+  discovery by sending RS and waiting for RA. When a RA is received
+  with multiple PIO (Prefix Information Options), it progressively
+  configures addresses based on those prefixes. In parallel, when a
+  new address is configured, another thread of the daemon receives a
+  Netlink signal and checks if the associated interface has a higher 
+  preference value and if the address is suitable. If this is the
+  case, umip make that address its new primary CoA.</p>
+
+  <p> At that moment, if new addresses are configured on this
+  interface, umip will not consider switch to them, i.e. the first
+  address that gets configured is used.</p>
+
+  <p> Let's now rewind a little and makes things more practical on an
+  example. A router on the new link returns a RA with following
+  prefixes: 2002:db8:1::/64, 2001:db8::/64 and fdff:db8::/64. If an
+  address based on the 6to4 prefix is configured first on the
+  associated interface eth0, then, because it is suitable for joining
+  the HA and no other suitbale address is available yet on eth0, the
+  6to4 address will be used as primary CoA (a BU will be sent to the
+  HA). A native IPv6 address that will then be configured on the
+  interface but no switch will happen.</p>
+
+  <p>In previous example, 6to4 address is probably not the best
+  address but it works. If an ULA (fdff:db8::/64 based address) is
+  selected, chances are high that packets the BU will die in the
+  foreign network. There is at least no chance that a packet with such
+  a source address leaves the site. </p>
+
+  <p> That bug/issue has not yet annoyed me enough so that I write a
+  patch. One possible solution/workaround would be to configure
+  addresses in a specific order (using a mechanism similar to address
+  selection mechanism to sort prefixes) so that the first one that
+  UMIP sees is the most suitable. </p>
+</li>
+
+<!-- futex issue -->
+<li> <b>When trying to kill umip (/etc/init.d/mip6d stop), restarting
+    it does not work. Why?</b>
+
+  <p>Yes, I know, this is an annoying bug which seems to be
+  futex-related but I have not taken the time to debug it yet. Bug me
+  on that one to motivate me!</p>
+
+</li>
+
+<!-- What guarantees that MR prefix cannot be spoofed by another MR -->
+<li> <b> What guarantees that the prefixes configured for a given MR
+    cannot be spoofed by another MR, i.e. that another MR cannot
+    IPsec-tunnel packets using addresses from the prefixes configured
+    for another MR?</b>
+  
+  <p> I will have to spend time on the SP installed on both side
+  (mainly on the MRHA) to respond to that. </p>
+
+</li>
+
+
+<!-- Prefixes not learned, radvd not restarted -->
+<li> <b>I have started UMIP in foreground on the HA and MN are
+    unable to  register anymore. They got a BA with status set to 132
+    (Not Home subnet). Why? </b>
+
+  <p> UMIP dynamically learns the prefixes on the interfaces it is
+  configured to work on by parsing RA messages (from other routers on
+  the link or local Router Advertisement daemons like <b>radvd</b>). 
+  </p>
+
+  <p> When UMIP is started using the scripts provided by our package,
+  the local instance of <b>radvd</b> is restarted: that way, UMIP
+  instantaneously gathers information on prefixes for all its
+  interfaces. Obviously, this is a workaround but it works well if
+  the HA is also the router that sends RA. </p>
+
+  <p> When starting UMIP in foreground, you must either restart you
+  local <b>radvd</b> or have clients wait that it has learn prefixes
+  for its interfaces from unsolicited RA. </p>
+
+  <p> Another solution would be to write a patch to have RS sent on
+  all interfaces when the daemon is stared. </p>
+</li>
+
+
+<!-- endianness, big endian, little endian, ppc, arm, -->
+<li> <b>My system is running on a big endian processor (ppc, ...). Is
+    there any known issue? </b>  
+
+  <p> No. I have already tested HA, MN and MR setups w/ and w/o
+  IPsec/IKE on PowerPC and Intel based devices.</p>  
+</li>
+
+<!-- 2.6.23 netlink messages shift ... -->
+
+<!-- amd64 packages -->
+<li> <b> I am running a 64 bits system. You only provide ppc and
+    i386 packages yet. Do you intend to support amd64 any time
+    soon? </b>
+
+  <p> I do not provide amd64 packages basically because I have no
+  64-bit host dedicated for the build of those packages. If there are
+  enough people to bug me, I will reconsider the need. Don't hesitate
+  to drop me a mail.</p>  
+</li>
+
+<!-- ubuntu -->
+<li> <b> I am using Ubuntu and not Debian. Do you intend to provide
+    Ubuntu packages at some point?  </b>  
+
+  <p> No, but keep reading. Even if I don't expect that to be
+  difficult, I am just not used to the distribution (i.e. I do not
+  know the differences it has with Debian).</p>
+
+  <p> If you are familiar with the distribution and want to
+  provide the same kind of UMIP packages repository for Ubuntu,
+  drop me a mail, I'll add a pointer on the page and warn you by mail 
+  when I update the packages so that you can do the same. </p>
+</li>
+
+<!-- Redhat packages -->
+<li> <b> Same question but for Redhat?  </b>  
+
+  <p> Same answer for RedHat ;-) </p>
+</li>
+
+<!-- My question is not listed here -->
+<li> <b> I have a question but it is not listed here (yet). What should
+    I do? </b> 
+
+  <p> Send it to <a href="../about/index.html">me</a>. I will try
+  and answer it; and then add it there.</p>  
+</li>
+
+<!-- changelog -->
+<li> <b> Where is the changelog for this page? Below! </b>
+  <ul>
+    <li><b>06/10/08</b>: Few words on inclusion of MIGRATE
+    enhancements patch in net-next-2.6.</li>
+    <li><b>18/08/08</b>: Changed references after submission of
+    <a
+    href="http://tools.ietf.org/html/draft-ebalard-mext-pfkey-enhanced-migrate-00">enhanced
+    MIGRATE draft</a>.</li>
+    <li><b>10/08/08</b>: added some words on routing configuration for
+    MR</li>
+    <li><b>02/08/08</b>: improvements after a set of comments from
+    R. Kuntz</li>
+    <li><b>14/07/08</b>: first realease</li>
+  </ul>
+</li>
+
+</ul>
+
+</div>
+</body>
+</html>

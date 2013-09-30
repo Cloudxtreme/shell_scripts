@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.45
+     from nwf on 12 January 1997 -->
+
+<TITLE>NetBSD/amiga-Networking-FAQ - SLIP-manual</TITLE>
+</HEAD>
+<BODY>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_27.html">previous</A>, <A HREF="nwf_29.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_25.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+<HR>
+
+
+<H4><A NAME="SEC28" HREF="nwf_toc.html#SEC28">3.2.3.3 Manual SLIP setup</A></H4>
+
+<P>
+The steps for setting up a manual SLIP connection are basically the same
+as for PPP:
+
+</P>
+
+<OL>
+<LI>Configure sl0:
+
+
+<PRE>
+# ifconfig sl0 inet &#60;local-ip&#62; -arp -trailers &#60;remote-ip&#62;
+</PRE>
+
+<LI>Connect to remote machine via kermit:
+
+
+<PRE>
+kermit&#62; set line /dev/tty00
+kermit&#62; set speed 9600           # or whatever
+kermit&#62; set flow rts/cts
+kermit&#62; connect
+</PRE>
+
+ If your're using a modem, you'll have to dial before connecting:
+
+
+<PRE>
+kermit&#62; dial &#60;your terminal-server's phone number&#62;
+</PRE>
+
+ Log into your remote machine's SLIP-account or start SLIP
+ by hand (using <CODE>slattach</CODE> or some menu; please consult your
+ network-admin!).
+
+ After that (when you get weird chars on your display) terminate kermit.
+
+<LI>Start up the local SLIP service:
+
+
+<PRE>
+# slattach -s 9600 /dev/tty00
+</PRE>
+
+<LI>Enable the network connection
+
+
+<PRE>
+# ifconfig sl0 inet up
+</PRE>
+
+<LI>Turn on routing:
+
+
+<PRE>
+# route add 0.0.0.0 &#60;remote-ip&#62;
+</PRE>
+
+<LI>ping some remote site, see section <A HREF="nwf_23.html#SEC23">3.2.1 Configuring your ethernet-board</A>. Those pings should
+ succeed.
+</OL>
+
+<P>
+You can use higher baud-rates than 9600 on both, PPP and SLIP.
+
+</P>
+<P>
+For information on how to deal with 'sile overflows'
+See section <A HREF="nwf_68.html#SEC68">5.13 What are these 'silo overflows' when using the modem?</A>.
+
+</P>
+
+<HR>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_27.html">previous</A>, <A HREF="nwf_29.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_25.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+</BODY>
+</HTML>

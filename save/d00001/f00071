@@ -1,0 +1,146 @@
+<html>
+<head><title>cryptlib</title></head>
+
+<body background="img/backgrou.gif" bgcolor="#C0C0C0" text="#000000" link="#0066BB" vlink="#000000">
+
+<center><h2><img src="img/t_certmg.gif" alt="Certificate management"></h2></center>
+
+<table>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+cryptlib implements full X.509 certificate support, including all X.509
+version 3 and X.509 version 4 extensions as well as extensions defined in the
+IETF PKIX certificate profile.  cryptlib also supports additional certificate
+types and extensions including SET certificates, Microsoft AuthentiCode and
+Netscape and Microsoft server-gated crypto certificates, Identrus
+certificates, qualified certificates, S/MIME and SSL client and server
+certificates, SigG extensions, and various vendor-specific extensions such as
+Netscape certificate types and the Thawte secure extranet.
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+In addition to certificate handling, cryptlib allows the generation of
+certification requests suitable for submission to certification authorities
+(CAs) in order to obtain a certificate.  Since cryptlib is itself capable of
+processing certification requests into certificates, it is also possible to
+use cryptlib to provide full CA services.  cryptlib also supports the creating
+and handling of the certificate chains required for S/MIME, SSL, and other
+applications, and the creation of certificate revocation lists (CRLs) with the
+capability to check certificates against existing or new CRLs either
+automatically or under programmer control.  In addition to CRL-based
+revocation checking, cryptlib also supports online status protocols such as
+RTCS and OCSP.  cryptlib also implements the CMP protocol which fully
+automates the management of certificates, allowing online certificate
+enrolment, issue, update/replacement, and revocation of certificates, and the
+SCEP protocol, which automates the certificate issue process.  Using CMP
+removes from the user any need for technical knowledge of certificate
+management, since all details are managed by the CA.
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+cryptlib can import and export certification requests, certificates,
+certificate chains, and CRLs, covering the majority of certificate transport
+formats used by a wide variety of software such as web browsers and servers.
+The certificate types that are supported include:
+<ul>
+<li>Basic X.509 version 1 and 2 certificates
+<li>Extended X.509 version 3 certificates
+<li>Certificates conformant to the IETF PKIX profile
+<li>SSL server and client certificates
+<li>S/MIME email certificates
+<li>SET certificates
+<li>SigG certificate extensions
+<li>AuthentiCode code signing certificates
+<li>Identrus certificates
+<li>Qualified certificates
+<li>IPsec server, client, end-user, and tunnelling certificates
+<li>Server-gated crypto certificates
+<li>Timestamping certificates
+</ul>
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+In addition cryptlib supports X.509v3, IETF, S/MIME, SET, and SigG
+certificate extensions and many vendor-specific extensions including ones
+covering public and private key usage, certificate policies, path and name
+constraints, policy constraints and mappings, and alternative names and other
+identifiers.  This comprehensive coverage makes cryptlib a single solution for
+almost all certificate processing requirements.
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+To handle certificate trust and revocation issues, cryptlib includes a
+certificate trust manager that can be used to automatically manage CA trust
+settings.  For example a CA can be designated as a trusted issuer that will
+allow cryptlib to automatically evaluate trust along certificate chains.
+Similarly, cryptlib can automatically check certificates against RTCS and OCSP
+responders and CRLs published by CAs, removing from the user the need to
+perform complex manual checking.
+</td></tr>
+
+</table>
+
+<p>
+<h2><center>Certificate store interface</center></h2>
+
+<table>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+cryptlib utilizes commercial-strength RDBMS' to store keys in the
+internationally standardised X.509 format.  The certificate store integrates
+seamlessly into existing databases and can be managed using existing tools.
+For example a key database stored on an MS SQL Server might be managed using
+Visual Basic or MS Access; a key database stored on an Oracle server might be
+managed through SQL*Plus.
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+In addition to standard certificate stores, cryptlib supports the storage and
+retrieval of certificates in LDAP directories, HTTP access for keys accessible
+via the web, and external flat-file key collections such as PKCS #15 soft-
+tokens and PGP/OpenPGP key rings.  The key collections may be freely mixed (so
+for example a private key could be stored in a PKCS #15 soft-token, a
+PGP/OpenPGP key ring or on a smart card with the corresponding X.509
+certificate being stored in a certificate store, an LDAP directory, or on the
+web).
+</td></tr>
+
+<tr><td valign=top><img src="img/blob.gif"></td><td>
+Private keys may be stored on disk encrypted with an algorithm such as triple
+DES or AES (selectable by the user), with the password processed using several
+thousand iterations of a hashing algorithm such as SHA-1 (also selectable by
+the user).  Where the operating system supports it, cryptlib will apply system
+security features such as ACLs under Windows NT/2000/XP and file permissions
+under Unix to the private key file to further restrict access.
+</td></tr>
+
+</table>
+</p>
+
+<p>
+Sample code that illustrates retrieving the public key for "John Doe" from a
+key database and the corresponding private key from a smart card is:
+</p>
+
+<pre>
+  /* Get the public key certificate for a given user from a key database */
+  cryptKeysetOpen( &cryptKeyset, cryptUser, CRYPT_KEYSET_DATABASE, "Public Keys",
+                   CRYPT_KEYSET_READONLY );
+  cryptGetPublicKey( cryptKeyset, &cryptCertificate, CRYPT_KEYID_NAME, "John Doe" );
+  cryptKeysetClose( cryptKeyset );
+
+  /* Use the private key for a given user stored in a smart card */
+  cryptDeviceOpen( &cryptDevice, cryptUser, CRYPT_DEVICE_PKCS11, "Gemplus" );
+  cryptGetPrivateKey( cryptDevice, &cryptPrivateKey, CRYPT_KEYID_NAME, "John Doe", NULL );
+  cryptDeviceClose( cryptDevice );
+</pre>
+
+<p>
+The key loaded into cryptCertificate and cryptPrivateKey can then be pushed
+into an envelope or secure session for use with the <a href="examples.html">
+cryptlib programming interface</a>, or used with cryptlib's certificate
+management functions.</p>
+</body>
+
+</html>
+

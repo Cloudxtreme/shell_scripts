@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>Beta release numbering with GIT -- Werner's own blurbs</title><meta name="Generator" content="An unholy concoction of parenthetical guile" /><link rel="stylesheet" type="text/css" media="screen" href="http://werner.eifzilla.de/wop.css" /><link rel="alternate" type="application/rss+xml" title="Werner's own blurbs" href="/feed/atom" /></head><body><div id="dummy"><div id="preamble"><div id="header"> </div><div id="leftColumn"><div id="navigation"><a href="http://werner.eifzilla.de/index.html">Home</a> | <a href="http://werner.eifzilla.de/projects.html">Projects</a> | <a href="http://werner.eifzilla.de/faq.html">FAQ</a> | <a href="http://werner.eifzilla.de/key.html">Key</a> | <a href="http://werner.eifzilla.de/various.html">Various</a></div></div></div><div id="content"><p id="kicker">Werner's own blurbs</p><div id="outline-container-1" class="outline-1"><h2 class="storytitle"><a href="/archives/2012/08/17/beta-release-numbering-with-git">Beta release numbering with GIT</a></h2><div class="post"><h3 class="meta">17 August 2012  9:31 AM (<a href="/tags/devel">devel</a> | <a href="/tags/git">git</a>)</h3><div class="storycontent"><div><p>  Given that building software from source code repositories can turn
+  out into a difficult task for non-developers, the distribution of
+  tarballs snapshots is often a sensible thing to do.
+</p><p>
+  The question is how to identify such a snapshot release.  My take on
+  that has always been to use the planned version number and suffix it
+  with a string identifying the version as a beta release.  With a
+  centralized revision control system, this is quite easy.  You can
+  use a suffix like &quot;-svnNNNN&quot; with NNNN being the revision number.
+  The nice thing is that you still have a monotone increasing revision
+  number; that is the user can easily see that &quot;foo-3.4-svn500&quot; is
+  newer than &quot;foo-3.4-svn480&quot;.
+</p><p>
+  Now with a decentralized revision control system, this changed.
+  There is no global revision number anymore and any procedure to make
+  one up one would indispensable put in some centralism.  However,
+  with GIT there is way to mitigate that.  This makes use of the fact
+  that we should have release planning anyway and that releases are
+  tagged in the repository.  The &quot;git describe&quot; command may then be
+  used to come up with a revision number:
+</p><pre class="example">
+git describe --match 'foo-[0-9].*[0-9]'
+</pre><p>
+  The output might be &quot;foo-3.4-81-g1234567&quot;.  We are only interested
+  in the third term, which is the number of commits since the commit
+  tagged as &quot;foo-3.4&quot;.  We use this as a beta revision number.
+</p><p>
+  Now to pour that into code we need some M4 magic for autoconf.  What
+  we need to do is to construct a version number at an early autoconf
+  stage, so that the version number is a static string for autoconf.
+  Autoconf is based on M4, which is not that vintage German camera but
+  a macro language developed by Brian Kernighan and Dennis Ritchie.
+  As with all macro languages it is not easy to use but nevertheless
+  very powerful.  We don’t use M4 directly but use autoconf provided
+  wrapper macros.
+</p><p>
+  At the top of <i>configure.ac</i> you need to define a new M4 macro.  If
+  our next release will be 3.4 we would write:
+</p><pre class="example">
+m4_define(my_version, [3.4])
+</pre><p>
+  and that is the only place you need to change for a new version
+  number.  Everything else works automagically using the next few
+  lines of code:
+</p><pre class="src src-M4">m4_define([git_revision], m4_esyscmd([git branch -v 2&gt;/dev/null \
+           | awk '/^\* / {printf <span style="color: #8b2252;">&quot;%s&quot;</span>,$3}']))
+m4_define([git_revision_dec],
+          m4_esyscmd_s([echo $((0x$(echo ]git_revision[|head -c 4)))]))
+</pre><p>
+  This puts the GIT commit id into the m4 macro <i>git_revision</i> and an
+  abbreviated and decimal variant of it into <i>git_revision_dec</i>.
+  Those two macros are not actually required for our system but they
+  are often useful for other purposes.  For example <i>git_revision_dec</i>
+  can be used as the build number on Windows platforms.
+</p><pre class="src src-M4">m4_define([git_betastring],
+           m4_esyscmd_s([git describe --match 'foo-[0-9].*[0-9]' --long|\
+                        awk -F- '$3!=0{print<span style="color: #8b2252;">&quot;-beta&quot;</span>$3}']))
+m4_define([my_full_version],[my_version[]git_betastring])
+</pre><p>  
+  This is the actual code to extract and build the revision suffix.
+  It is pretty straightforward: &quot;git describe&quot; is called and the
+  number of commits since the matching tag extracted.  If the number
+  is not zero, the beta suffix is appended to the version number. The
+  final step is to change the <i>AC_INIT</i> call to something like this:
+</p><pre class="example">
+AC_INIT([foo],[my_full_version],[foo-bugs@example.org])
+</pre><p>
+  Now after running autoconf you will get a suitable version number.
+  Run the usual &quot;configure&quot; and &quot;make distcheck&quot; to create snapshot
+  tarballs named for example &quot;foo-3.4-beta81.tar.bz2&quot;.
+</p><p>
+  If you are finally ready for a release and did your last commit, you
+  merely need to add a tag
+</p><pre class="example">
+git tag -s foo-3.4
+</pre><p>
+  and run &quot;autoconf&quot;, &quot;configure&quot; and &quot;make distcheck&quot;.  Et voilà,
+  your &quot;foo-3.4.tar.bz2&quot; is ready.  If that works well, you may now
+  push the tag and then update <i>my_version</i> to 3.5 to start a new
+  development cycle.
+</p></div></div></div><div><h3 id="comments">No responses</h3><div><h3>Leave a Reply</h3><form action="/archives/2012/08/17/beta-release-numbering-with-git" method="POST"><p><input type="text" name="author" value="" size="22" tabindex="1" /> <label for="author"><small>Name</small></label></p><p><input type="text" name="email" value="" size="22" tabindex="2" /> <label for="email"><small>Mail (will not be published)</small></label></p><p><input type="text" name="url" value="" size="22" tabindex="3" /> <label for="url"><small>Website</small></label></p><p><input type="text" name="x" value="" size="22" tabindex="3" /> <label for="x"><small>What's your favorite number?</small></label></p><p><textarea name="comment" id="comment" cols="65" rows="10" tabindex="4"></textarea></p><p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" /></p></form></div></div></div></div><div id="postamble"><div id="rightColumn"><div id="menu" class="tekuti"><ul><li><a href="/feed/atom">subscribe <img src="http://werner.eifzilla.de/feed-icon-14x14.png" style="border: 0" alt="[feed]" /></a></li><li>related<ul><li style="margin-top: 5px"><a href="/archives/2012/11/27/the-tragedy-of-gnu-copyright-assignments">The tragedy of GNU copyright assignments</a></li><li style="margin-top: 5px"><a href="/archives/2012/08/10/identify-theft-by-clang">Identify theft by clang</a></li><li style="margin-top: 5px"><a href="/archives/2012/06/26/the-perils-of-contract-driven-free-software">The perils of contract driven free software</a></li></ul></li></ul></div><div id="cpyright"><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="CC-BY-SA 3.0" style="border: 0" src="http://werner.eifzilla.de/cc-by-sa-3.0_80x15.png" /></a><br />Copyright 2012 Werner Koch. This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a></div><div id="footer" class="tekuti">Powered by <a href="http://wingolog.org/software/tekuti/">tekuti</a></div></div></div></div></body></html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title> NTP Survey - 2005 </title>
+<link rel="stylesheet" title="default" href="./estilo.css" type="text/css" />
+</head>
+<body>
+<h1 class="titulo">
+NTP Survey - 2005
+</h1>
+
+<div class="texto">
+<br />
+This page reports the results of a research about the synchronization of Internet hosts under the NTP (Network Time Protocol). We have queried, collected, and analyzed data from thousands of NTP nodes, including hundreds of Stratum 1 servers. Many aspects that define the quality of timekeeping are analyzed as well as some topological characteristics of the network are reported. The results were compared to results from previous NTP characterizations, showing the evolution of computer clock synchronization in the Internet in the last fifteen years.
+<br />
+<br />
+
+<strong> Contact: </strong><br />
+<br />
+Cristina Duarte Murta  and Pedro R. Torres Junior <br />
+<a href="http://www.inf.ufpr.br">Department of Computer Science </a> <br />
+<a href="http://www.ufpr.br"> Federal University of Paraná </a> <br />
+{cristina|torres}@inf.ufpr.br<br />
+<br />
+
+<strong> Survey Details: </strong> <br />
+<br />
+
+The data was collected using a spider. Before starting the spider, a Web page was created to let the network administrators know about this survey (this page can still be reached <a href="http://www.ntpsurvey.arauc.br/old"> here</a>). The idea is simple: the spider has an IP with a PTR record in DNS pointing to our Web page, so that the network administrators could know about it by looking at DNS.<br />
+<br />
+
+The survey was taken in two rounds. In the first round, the NTP spider called the ntpdc program defined in ntp-dev-4.2.0b package. Three kind of data were requested by the spider in every NTP host:<br />
+<ul>
+<li>System information</li>
+<li>Peer list</li>
+<li>Monitor list</li>
+</ul>
+
+The NTP spider started on August, 30, 2005, querying an initial set of 263 public NTP servers - stratum 1 and 2 - listed on NTP Public Services Project . The run was ended on September, 5, discovering 1,278,834 unique IP addresses.<br />
+<br />
+
+A second run was conducted to get more reliable data, using ntpq program. At that time the spider queried each host about:<br />
+<ul>
+<li> System variables </li> 
+<li> Associations </li>
+<li> Peer variables</li>
+</ul>
+
+This run started on September, 20, 2005 and finished on September, 30, 2005, discovering 11,895 new IP addresses, totaling 1,290,819 addresses. After preliminar analysis, we ending up with 147,251 complete responses, on which we based our final analysis. These registers are available to download <a href="ntp-survey-2005.tar.bz2"> here (63MB bzipped). </a> <br />
+<br />
+
+
+The NTP survey was conducted from a single Pentium 4 2.80 Ghz, 512M, running Debian Sarge GNU/Linux, with kernel 2.6.12.5 and IPv6 support connected by a 3COM 3c940 1000Base-T NIC to the Gigabit network of Point of Presence of Brazilian National Research Network - <a href="http://www.pop-pr.rnp.br"> PoP-PR/RNP </a>. This network is connected to the <a href="http://www.rnp.br/en/backbone/index.php"> RNP backbone</a> and other commercial providers through high speed links.<br />
+
+<br />
+<strong> Publications: </strong><br />
+<br />
+
+<dl>
+<dt><strong>- Reference: </strong> </dt>
+<dd> Pedro R. Torres Júnior, <em> Caracterização da Rede de Sincronização na Internet</em>. MSc Thesis, 2007, Curitiba-PR. <br /> 
+<strong>Abstract:</strong><br />
+<em> Clock synchronization is an important and complex task in distributed systems. The Network Time Protocol - NTP - is a protocol created to build and maintain the synchronization of computer clocks with the world real time. To do so, the NTP implements a dynamic logical network, presenting characteristics of a peer-to-peer network, which keeps itself self-organized, from the initial insertion of the computers, by means of frequent exchange of messages between peers. The NTP uses the Internet as a communication media for network nodes, and it is the standard protocol for synchronization of computer clocks connected to the Internet.<br />
+
+The goal of this work is to characterize, in many aspects, the clock synchronization network created by the NTP in the Internet. With data collected in 2005 by a robot, this work presents a characterization of the NTP network discovered, composed by thousand of nodes, and geographically distributed in over 150 countries and regions of the planet. Many aspects that define the quality of synchronization and timekeeping and the network topological characteristics are presented and evaluated.<br />
+
+The results of this analysis are compared to similar studies carried through in the past 15 years, showing the evolution of the NTP synchronization in this period. The results present evidences of the network growth, the evolution of the synchronization quality and the improvement in Internet infrastructure. However, some assumptions taken by the NTP protocol can be not completely taken in practical situations, harming the synchronization quality and limiting the results obtained with NTP.
+</em><br />
+<strong>Download:</strong><br />
+<a href="dissertacao-pedro07survey.pdf"> Portuguese version </a> (the most complete analysis)
+</dd>
+</dl>
+
+
+<dl>
+<dt><strong>- Reference: </strong> </dt>
+<dd> Cristina D. Murta, Pedro R. Torres Júnior, P. Mohapatra, <em>Characterizing Quality of Time and Topology in a Time Synchronization Network</em>, 49th IEEE Global Telecommunications Conference, IEEE GLOBECOM 2006, Nov 27- Dec 1, San Francisco, CA.<br />
+<strong>Abstract:</strong><br />
+<em> As Internet computing gains speed, complexity and becomes ubiquitous, the need for precise and accurate time synchronization increases. In this paper, we present a characterization of a clock synchronization network managed by Network Time Protocol (NTP), composed by thousands of nodes, including hundreds of Stratum 1 servers, based on data collected recently by a robot. NTP is the most common protocol for time synchronization in the Internet. Many aspects that define the quality of timekeeping are analyzed, as well as topological characteristics of the network. The results are compared to previous characterizations of the NTP network, showing the evolution of computer clock synchronization in the last fifteen years.</em><br />
+<strong>Download:</strong><br />
+<a href="globecom-ntp-paper.pdf"> English version </a>
+</dd>
+</dl>
+
+
+<dl>
+<dt><strong>- Reference: </strong> </dt>
+<dd> Cristina Duarte Murta, Pedro R. Torres Júnior, <em>Caracterização da Rede de Sincronização na Internet</em>, V Workshop de Desempenho de Sistemas Computacionais e de Comunicação, WPerformance 2006, XXVI Congresso da Sociedade Brasileira de Computação, Campo Grande, julho de 2006.<br /> 
+<strong>Abstract:</strong><br />
+<em> Keeping clock synchronization is an important and difficult task in distributed systems.  Network Time Protocol (NTP) was created to distribute information of time in a heterogeneous and large network such as the Internet.  This paper presents a characterization of a NTP network composed by thousand of nodes, including hundreds of Stratum 1 servers.  Many aspects that define the quality of the NTP timestamps are analyzed, as well as the topological characteristics of the network.  The results are compared to previous characterizations found in the literature, showing the evolution of the NTP network and synchronization in the last fifteen years.</em><br />
+<strong>Download:</strong><br />
+<a href="wperf-ntp-paper.pdf"> Portuguese version </a>
+</dd>
+</dl>
+
+</div>
+
+<br />
+
+  <p style="text-align: right">
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="http://www.w3.org/Icons/valid-xhtml10"
+        alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+  </p>
+
+</body>
+</html>

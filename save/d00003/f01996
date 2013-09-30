@@ -1,0 +1,612 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="robots" content="index, follow" />
+<meta name="keywords" content="創夢, UNIX, " />
+<meta name="description" content="株式会社創夢（以下創夢）には、千台超規模の計算機サーバから構成されたクラスタ計算機システムやグリッド・コンピューティング・システムを利用し大規模かつ高性能な科学技術計算、あるいはクラスタやグリッド技術そのものの研究に役立てていらっしゃるお客様がいます。こうしたお客様の運用を支え、システムを拡張するといった仕事を、創夢は長年にわたってお手伝いしてきました。その技術と経験は、これからはじまるクラウドの時代における創夢の強みとなっていきます。(2010年6月取材)" />
+<title>創夢・創造の現場から：クラスタ / グリッドシステムの構築・運用</title>
+
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+
+<link rel="stylesheet" type="text/css" media="all" href="../shared/stylesheets/import.css" />
+<link rel="stylesheet" type="text/css" media="all" href="stylesheets/index.css" />
+<link rel="stylesheet" type="text/css" media="print" href="../shared/stylesheets/print.css" />
+
+<script type="text/javascript" src="../shared/javascript/jquery-1.4.2.min.js" charset="shift_jis"></script>
+<script type="text/javascript" src="../shared/javascript/common.js"></script>
+<script type="text/javascript" src="javascript/index.js"></script>
+<script type='text/javascript'>
+	var articleNo = 3;
+</script>
+</head>
+<body>
+<div id="container">
+
+<div id="contentsheader">
+	<div class="seriesTitle">創夢・創造の現場から</div>
+	<ul class="link">
+		<li><a href="../index.html">記事インデックス</a></li>
+	</ul>
+	<br class="clear"/>
+</div>
+<div id="contents">
+	
+	<div class="block">
+		<div class="column">
+			<p class="frequency">第3回</p>
+			<h1 id="mainTitle">千台超規模のクラスタ計算機システムを運用してきた<br/>技術と経験が、クラウドの時代につながる</h1>
+			<p>株式会社創夢（以下創夢）には、千台超規模の計算機サーバから構成されたクラスタ計算機システムやグリッド・コンピューティング・システムを利用し大規模かつ高性能な科学技術計算、あるいはクラスタやグリッド技術そのものの研究に役立てていらっしゃるお客様がいます。こうしたお客様の運用を支え、システムを拡張するといった仕事を、創夢は長年にわたってお手伝いしてきました。その技術と経験は、これからはじまるクラウドの時代における創夢の強みとなっていきます。(2010年6月取材)</p>
+			<div class="separator"></div>
+			<hr/>
+			<p>大規模な2つのクラスタ計算システム（以下クラスタ）、1つは1000台以上、もう1つも100台以上の計算機サーバから構成されたクラスタに対して、効率よくソフトウェアを導入し、パッチを適用し、障害に対応するなどの運用管理の業務を、創夢は独立行政法人 産業技術総合研究所様から請け負っています。</p>
+			<p>一般にこうした大規模クラスタでは、すべての計算機サーバに必要なソフトウェアを導入する手間だけでも膨大なものになります。それだけでなく、バックアップやストレージ管理、故障したハードウェアの対応など、日々のメンテナンスも欠かせません。クラスタを活用し続けるためには新たな処理のためのライブラリの追加や環境構築なども必要で、効果的な運用管理には多くの課題があります。創夢はこうした課題の解決のためにお客様と相談しつつ、周辺ソフトウェアの環境整備とともに既存のクラスタ用ソフトウェアをベースに改良を加え、運用管理の効率化、自動化などを行っています。</p>
+			<p>また同法人から2003年以来請け負っている別の案件では、複数のクラスタにまたがるグリッド・コンピューティング・システム（以下グリッド）用のミドルウェアの運用管理も実施。グリッドではPKIによるユーザー証明書を用いて個人を認証し、複数の組織の資源を利用できます。そのための認証局の立ち上げと証明書の発行も行うなど、大規模システムの運用基盤にかかわる幅広い技術を駆使しています。創夢ではその他にも、国立大学法人 東京大学様の大規模クラスタやグリッドの運用支援、その他国立系研究機関様でのクラスタやグリッドなど、多くの大規模システムに関する構築、導入、運用管理についてのお手伝いをしてきました。</p>
+		</div>
+		<div class="column">
+			<p class="photoframe"><img src="images/topPhoto.jpg" alt="[photo]" width="440" height="440" /></p>
+			<p class="caption">左上から時計回りに、先端技術部部長 宇羅博志（うら ひろし）、運用技術部プロジェクトマネージャ 飯島昭博（いいじま あきひろ）、運用技術部部長 津嶋基邦（つしま もとくに）、運用技術部シニアプロジェクトマネージャ 渡邊欣一（わたなべ きんいち）</p>
+			<p class="caption">先端技術部は、運用技術部におけるシステム構築・運用の経験から、それらの業務に必要とされるソフトウェアの研究・開発を専門に行うために設立された比較的新しい部署</p>
+			<p class="caption">(所属・役職は取材当時のもの)</p>
+		</div>
+		<br class="clear"/>
+	</div>
+	
+	<div class="block">
+		<div class="column">
+			<h2 id="title01">大規模なシステムのポイントは自動化</h2>
+			<p>大規模なクラスタやグリッドの運用管理では何がポイントでしょうか。管理の自動化が1つの鍵となると、運用技術部シニアプロジェクトマネージャの渡邊欣一。「計算機サーバの数が膨大になるので、1台1台をそれぞれ人が目視するわけにもいきません。監視ツールを用いて運用状況や故障の状況などを把握することになりますので、それをいかに使うかが大事なノウハウの1つになります。特に1000台規模ではビジュアルで分かりやすいものにしないと管理しきれないでしょう」</p>
+			<p>こうした大規模システムの運用管理ノウハウは、創夢のエンジニアが知識や経験を重ねてきた分野です。例えばオープンソースソフトウェアとしてグリッドの構築や管理を行う目的で配布されている「NAREGIミドルウェア」あるいは「gLite」など、かつては使いこなすのに非常に手間がかかるものを取り入れつつ、使いこなすテクニックを磨き、独自に使いやすさや自動化のための改良などをしてきました。</p>
+			<p>先端技術部 部長の宇羅博志は「新しい技術でもすぐに習得して、キャッチアップできるというのは創夢の売りだと思う」と言い、運用技術部 部長の津嶋基邦も「大規模なクラスタ計算機システムやグリッド・コンピューティング・システムの運用管理、グリッド技術において、創夢は他社にはない技術や経験を持っている」と自社を評します。</p>
+		</div>
+		<div class="column">
+			<h2 id="title02">運用管理に付加価値をつける</h2>
+			<p>創夢が提供するのは運用管理にとどまりません。お客様に対する大規模システムの付加価値も実現しています。前述の産業技術総合研究所様の案件では、地球観測衛星から送られてくる画像のクラスタへの蓄積に関連した、画像変換処理の研究支援なども行っています。別の案件では、システム拡張のための投資は何が最適なのか、演算性能なのか、ネットワークなのか、ストレージ性能なのか、というお客様の選択肢の中で、運用を任され、システムの動作やボトルネックなどをよく知る立場からアドバイスを行うこともあります。</p>
+			<p>創夢の開発部門と連係してシステム開発を行うことも得意とするところ。前述の画像蓄積クラスタとグリッド技術を結びつける研究ではJavaを使ったWebポータル上でグリッド認証を利用するシステムを創夢の開発部門が開発。運用と同様に大規模システムに対応しています。運用技術部 プロジェクトマネージャ 飯島昭博は、これらをこう表現しています。「お客様の言うことを単に聞くだけではなく、こちらから改善のための助言や提案もしますし、無理な設計などには技術的に無理な理由を説明して、代替案をお客様と一緒に検討します。もしも必要な開発があれば創夢にはそれを行う能力もある。コンシェルジュのようないろんな対応が可能で、それが創夢のよさではないかと思います」</p>
+			<p>運用を効率化するだけでなく、それを基盤にして何が可能になるのか、お客様と一緒に考えつつ、あがってくる柔軟な要望に応える。創夢が提供するのはそうした創造的な運用であるといえるでしょう。</p>
+		</div>
+	</div>
+
+	<div id="results" class="block">
+		<div class="columnW">
+			
+			<div class="separator"></div>
+			<hr/>
+			
+			<h3>主なクラスタ / グリッドシステム構築・運用の実績（2010年6月現在）</h3>
+		</div>
+		<div class="column">
+			<p class="section">先端技術部 担当案件</p>
+			
+			<div class="accordion">
+				
+				<h4 class="project">
+					<span class="date">2010/1 〜 2010/3</span><br/>
+					独立行政法人 情報通信研究機構<br/>
+					<span class="project">仮想マシン環境におけるNAREGIミドルウェアクラスタの構築</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>Xen仮想マシン構築</li>
+								<li>NAREGIミドルウェア導入</li>
+								<li>NAREGIミドルウェア動作確認</li>
+								<li>乱流音解析ソフトウェア FrontFlow/blue導入</li>
+								<li>NAREGIミドルウェアのコンサルティング</li>
+							</ul>
+						</dd>
+						<dt>ユーザーアカウント数</dt>
+						<dd><p>3</p></dd>
+						<dt>OS</dt>
+						<dd><p>CentOS 5, Scientific Linux 3, Xen 3</p></dd>
+						<dt>使用言語</dt>
+						<dd><p>シェルスクリプト, Python</p></dd>
+						<dt>使用ソフトウエア</dt>
+						<dd>
+							<ul>
+								<li>Xen 3.0</li>
+								<li>NAREGIミドルウェア 1.1</li>
+								<li>FrontFlow/blue</li>
+							</ul>
+						</dd>
+						<dt>対象機材</dt>
+						<dd>
+							<ul>
+								<li>x86_64 PCサーバー（CPUコア 12core, メモリ 64GB）1台<br/>
+									（仮想マシン 7台）</li>
+								<li>x86_64 PCサーバー（CPUコア  2core, メモリ 2GB）10台</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				
+				<h4 class="project">
+					<span class="date">2009/1 〜 2010/3</span><br/>
+					大学共同利用機関法人 高エネルギー加速器研究機構<br/>
+					<span class="project">仮想マシン環境におけるNAREGIミドルウェアクラスタの構築/運用管理</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>Xen仮想マシン構築</li>
+								<li>NAREGIミドルウェア導入</li>
+								<li>NAREGIミドルウェア動作確認</li>
+								<li>トラブルシューティング</li>
+								<li>NAREGIミドルウェアのコンサルティング</li>
+							</ul>
+						</dd>
+						<dt>ユーザーアカウント数</dt>
+						<dd><p>10</p></dd>
+						<dt>OS</dt>
+						<dd><p>CentOS 5, Scientific Linux 3, Xen 3</p></dd>
+						<dt>使用ソフトウエア</dt>
+						<dd>
+							<ul>
+								<li>Xen 3.3</li>
+								<li>NAREGIミドルウェア 1.1</li>
+							</ul>
+						</dd>
+						<dt>対象機材</dt>
+						<dd>
+							<ul>
+								<li>x86_64 PCサーバー（CPUコア 8core, メモリ 16GB）1台<br/>
+									（仮想マシン 13台）</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				
+				<h4 class="project">
+					<span class="date">2008/10 〜</span><br/>
+					国立系研究機関<br/>
+					<span class="project">NAREGIミドルウェアRPMパッケージ開発</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>NAREGIミドルウェアのRPMパッケージ開発</li>
+								<li>NAREGIミドルウェアインストーラの改修</li>
+								<li>NAREGIミドルウェア向けGfarm V2 RPMパッケージ開発</li>
+							</ul>
+						</dd>
+						<dt>OS</dt>
+						<dd><p>CentOS 5, openSUSE 10.3</p></dd>
+						<dt>使用言語</dt>
+						<dd><p>シェルスクリプト, RPM, C言語, Java</p></dd>
+					</dl>
+				</div>
+				
+				<h4 class="project">
+					<span class="date">2007/12 〜 2009/2</span><br/>
+					国立系研究機関<br/>
+					<span class="project">Rocks Cluster向けNAREGIミドルウェア Rollの開発</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>NAREGIミドルウェアのGridVMノードの64ビット化対応</li>
+								<li>NAREGIミドルウェア Rollパッケージ開発</li>
+								<li>PBS Professional Rollパッケージ開発</li>
+								<li>PluS Rollパッケージ開発</li>
+							</ul>
+						</dd>
+						<dt>OS</dt>
+						<dd><p>CentOS 5, Scientific Linux 3, Xen 3</p></dd>
+						<dt>使用言語</dt>
+						<dd><p>シェルスクリプト, Python, JavaScript, XML</p></dd>
+					</dl>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="column">
+			<p class="section">運用技術部 担当案件</p>
+			
+			<div class="accordion">
+				
+				<h4 class="project">
+					<span class="date">2008/6 〜</span><br/>
+					国立大学法人 広島大学（LCG）<br/>
+					<span class="project">クラスタシステムおよびグリッドミドルウェアの運用支援</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>クラスタ用ソフトウェアおよびグリッドミドルウェアの運用管理</li>
+								<li>トラブルシューティング</li>
+								<li>その他、技術運用支援およびコンサルティング</li>
+							</ul>
+						</dd>
+						<dt>ユーザーアカウント数</dt>
+						<dd><p>約20</p></dd>
+						<dt>OS</dt>
+						<dd><p>Scientific Linux CERN 3/4/5</p></dd>
+						<dt>使用ソフトウエア</dt>
+						<dd>
+							<p>オープンソース</p>
+							<ul>
+								<li>gLite（LCG用グリッドミドルウェア）</li>
+							</ul>
+						</dd>
+						<dt>対象機材</dt>
+						<dd>
+							<ul>
+								<li>IBM PC/AT互換機<br/>
+									CPU：Intel Xeon L5420<br/>
+									台数：73台<br/>
+									コア総数：456<br/>
+									使用OS：Scientific Linux CERN 4/5</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				
+				<h4 class="project">
+					<span class="date">2006/9 〜</span><br/>
+					国立大学法人 東京大学<br/>
+					<span class="project">大規模クラスタシステムの構築・運用管理</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>ハードウェア障害対応</li>
+								<li>各種サーバ運用管理</li>
+								<li>セキュリティ監視対応</li>
+								<li>アカウント運用管理</li>
+								<li>オープンソース・インストール/設定</li>
+								<li>トラブルシュート</li>
+								<li>その他、技術運用支援およびコンサルティング</li>
+							</ul>
+						</dd>
+						<dt>ユーザーアカウント数</dt>
+						<dd><p>約106</p></dd>
+						<dt>OS</dt>
+						<dd><p>Scientific Linux CERN（SLC）3/4/5, Red Hat Enterprise Linux Advanced Server 4/5, Solaris 9/10, Microsoft Windows Server 2003/2008</p></dd>
+						<dt>使用ソフトウエア</dt>
+						<dd>
+							<p>オープンソース</p>
+							<ul>
+								<li>gLite（LCG用グリッドミドルウェア）</li>
+								<li>OpenAFS（分散ファイルシステム）</li>
+								<li>MIT Kerberos</li>
+								<li>Quattor（クラスタ向け導入・構成管理）</li>
+								<li>Lemon（クラスタ向けモニタリング）</li>
+								<li>Nagios（ネットワーク自動監視）</li>
+								<li>Trac（チケット管理システム）</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				
+				<h4 class="project">
+					<span class="date">2005/12 〜</span><br/>
+					大学共同利用機関法人 高エネルギー加速器研究機構<br/>
+					<span class="project">クラスタシステムおよびグリッドミドルウェアの運用支援</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>クラスタ用ソフトウェア（グリッドミドルウェア）の運用管理</li>
+								<li>トラブルシューティング</li>
+								<li>その他、技術運用支援およびコンサルティング</li>
+							</ul>
+						</dd>
+						<dt>ユーザーアカウント数</dt>
+						<dd><p>約20</p></dd>
+						<dt>OS</dt>
+						<dd><p>Scientific Linux CERN 3/4</p></dd>
+						<dt>使用ソフトウエア</dt>
+						<dd>
+							<p>オープンソース</p>
+							<ul>
+								<li>gLite（LCG用グリッドミドルウェア）</li>
+							</ul>
+						</dd>
+						<dt>対象機材</dt>
+						<dd>
+							<ul>
+								<li>IBM PC/AT互換機<br/>
+									CPU：Intel Xeon他<br/>
+									台数：73<br/>
+									コア総数：146<br/>
+									使用OS：Scientific Linux CERN 3/4</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				
+				<h4 class="project">
+					<span class="date">2004/11 〜</span><br/>
+					国立大学法人 東京大学（LCG）<br/>
+					<span class="project">クラスタシステム構築とクラスタシステムおよびグリッドミドルウェアの運用支援</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>クラスタシステムの構築</li>
+								<li>クラスタシステムとグリッドミドルウェアの運用管理</li>
+								<li>トラブルシューティング</li>
+								<li>その他、技術運用支援およびコンサルティング</li>
+							</ul>
+						</dd>
+						<dt>ユーザーアカウント数</dt>
+						<dd><p>約10</p></dd>
+						<dt>OS</dt>
+						<dd><p>Scientific Linux CERN 3/4/5</p></dd>
+						<dt>使用ソフトウエア</dt>
+						<dd>
+							<p>オープンソース</p>
+							<ul>
+								<li>gLite（LCG用グリッドミドルウェア）</li>
+							</ul>
+						</dd>
+						<dt>対象機材</dt>
+						<dd>
+							<ul>
+								<li>IBM PC/AT互換機　約10台</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				
+				<h4 class="project">
+					<span class="date">2003/2 〜</span><br/>
+					独立行政法人 産業技術総合研究所（ApGrid）<br/>
+					<span class="project">クラスタシステムおよびグリッドミドルウェアの運用管理</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>クラスタ用ソフトウェアおよびグリッドミドルウェアの運用管理</li>
+								<li>グリッド認証局運用管理</li>
+								<li>ハードウェア障害対応</li>
+								<li>その他、技術運用支援およびコンサルティング</li>
+							</ul>
+						</dd>
+						<dt>ユーザーアカウント数</dt>
+						<dd><p>約100</p></dd>
+						<dt>OS</dt>
+						<dd><p>Red Hat Linux 8.0/9, Solaris 9/10, CentOS 4, CentOS 5</p></dd>
+						<dt>使用ソフトウエア</dt>
+						<dd>
+							<p>オープンソース</p>
+							<ul>
+								<li>Globus Toolkit, gLite, VDT（グリッドミドルウェア）</li>
+								<li>Sun Grid Engine（ジョブ管理システム）</li>
+								<li>Gfarm（ネットワーク共有ファイルシステム）</li>
+								<li>NAREGI-CA（認証局ソフトウェア）</li>
+								<li>mapserver, PostGIS（GISサーバー）</li>
+								<li>gridsphere（JSR168ポータルフレームワーク）</li>
+							</ul>
+							<p>プロダクトソフトウェア</p>
+							<ul>
+								<li>Intel Compiler（C, C++, Fortran）</li>
+								<li>Purify</li>
+							</ul>
+						</dd>
+						<dt>対象機材</dt>
+						<dd>
+							<ul>
+								<li>＜クラスタ1＞<br/>
+								LNXI Evolocity（Blade Server）<br/>
+								CPU：Intel Xeon x2<br/>
+								台数：256<br/>
+								コア総数：512<br/>
+								使用OS：RedHat 8<br/>
+								Interconnect：1Gb Ethernet</li>
+								<li>＜クラスタ2＞<br/>
+								Sun V20z<br/>
+								CPU：AMD Opteron x2<br/>
+								台数：	32<br/>
+								コア総数：64<br/>
+								使用OS：CentOS 5<br/>
+								Interconnect：1Gb Ethernet</li>
+								<li>＜クラスタ3＞<br/>
+								original-PC<br/>
+								CPU：Intel Xeon x2<br/>
+								台数：44<br/>
+								コア総数：88<br/>
+								使用OS：CentOS 4<br/>
+								Interconnect：1Gb Ethernet</li>
+								<li>＜クラスタ4＞<br/>
+								HP DL360<br/>
+								CPU：Intel 2core Xeon x2<br/>
+								台数：32<br/>
+								コア総数：128<br/>
+								使用OS：CentOS 4<br/>
+								Interconnect：1Gb Ethernet</li>
+								<li>＜クラスタ5＞<br/>
+								DELL PE M605（Blade Server）<br/>
+								CPU：AMD 6core Opteron x2<br/>
+								台数：16<br/>
+								コア総数：192<br/>
+								使用OS：CentOS 5<br/>
+								Interconnect：1Gb Ethernet</li>
+								<li>＜クラスタ6＞<br/>
+								DELL PE M610（Blade Server）<br/>
+								CPU：Intel 4core Xeon x2<br/>
+								台数：128<br/>
+								コア総数：1024<br/>
+								使用OS：CentOS 5<br/>
+								Interconnect：10Gb Ethernet, InfiniBand</li>
+							</ul>
+							<p>UNIXサーバ</p>
+							<ul>
+								<li>Sun Fire V100/V120/V240, B1600/B100s</li>
+								<li>HP ZX2000</li>
+								<li>HP AlphaServer DS15</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				
+				<h4 class="project">
+					<span class="date">2004/6 〜 2010/2</span><br/>
+					独立行政法人 産業技術総合研究所（ASC）<br/>
+					<span class="project">大規模クラスタシステムおよびグリッドミドルウェアの運用管理</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>クラスタ用ソフトウェアおよびグリッドミドルウェアの運用管理</li>
+								<li>ハードウェア障害対応</li>
+								<li>その他、技術運用支援およびコンサルティング</li>
+							</ul>
+						</dd>
+						<dt>ユーザーアカウント数</dt>
+						<dd><p>約170</p></dd>
+						<dt>OS</dt>
+						<dd><p>SUSE LINUX Enterprise Server 8,9, IRIX64 6.5</p></dd>
+						<dt>使用ソフトウエア</dt>
+						<dd>
+							<p>オープンソース</p>
+							<ul>
+								<li>xCAT（クラスタ向け導入・構成管理）</li>
+								<li>Globus Toolkit（グリッドミドルウェア）</li>
+								<li>Torque（ジョブ管理システム）</li>
+							</ul>
+							<p>プロダクトソフトウェア</p>
+							<ul>
+								<li>Intel Compiler</li>
+								<li>PGI Compiler</li>
+								<li>Pathscale Compiler</li>
+								<li>Gaussian</li>
+								<li>PBS Professinal（ジョブ管理システム）</li>
+							</ul>
+						</dd>
+						<dt>対象機材</dt>
+						<dd>
+							<ul>
+								<li>＜クラスタ1＞<br/>
+									IBM X325<br/>
+									CPU：AMD Opteron x 2<br/>
+									台数：1072<br/>
+									コア総数：2144<br/>
+									使用OS：SLES9<br/>
+									Interconnect：Myrinet</li>
+								<li>＜クラスタ2＞<br/>
+									Intel Tiger4<br/>
+									CPU：Intel Itanium2 x 4<br/>
+									台数：132<br/>
+									コア総数：528<br/>
+									使用OS：SLES9<br/>
+									Interconnect：Myrinet</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				
+				<h4 class="project">
+					<span class="date">2006/11 〜 2008/3</span><br/>
+					国立系研究機関<br/>
+					<span class="project">クラスタシステムおよびグリッドミドルウェアの運用管理</span><br/>
+					<a href="#">詳細</a>
+				</h4>
+				<div class="detail">
+					<dl>
+						<dt>業務内容</dt>
+						<dd>
+							<ul>
+								<li>クラスタシステム機器運用管理業務</li>
+								<li>ネットワーク接続機器運用管理業務</li>
+								<li>NAREGI Grid Middleware導入・管理</li>
+								<li>遠隔監視</li>
+								<li>障害対応業務</li>
+								<li>障害及びFAQ管理システム運用管理業務</li>
+							</ul>
+						</dd>
+						<dt>ユーザーアカウント数</dt>
+						<dd><p>約100</p></dd>
+						<dt>OS</dt>
+						<dd><p>Red Hat Enterprise Linux, Cent OS</p></dd>
+						<dt>使用ソフトウエア</dt>
+						<dd>
+							<p>オープンソース</p>
+							<ul>
+								<li>NAREGI Grid Middleware（グリッドミドルウェア）</li>
+								<li>Request Tracker（チケット管理システム）</li>
+								<li>Postgre SQL, Apache, Perl, GNU系ソフトウェアなど</li>
+							</ul>
+							<p>プロダクトソフトウェア</p>
+							<ul>
+								<li>Oracle</li>
+							</ul>
+						</dd>
+						<dt>対象機材</dt>
+						<dd>
+							<ul>
+								<li>PCサーバ/PCクラスタ　191台</li>
+								<li>L2/L3スイッチ　22台</li>
+								<li>ファイアウォール	　1台</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				
+			</div>
+		</div>
+		<br class="clear"/>
+	</div>
+
+<!--
+	<div class="block">
+		<div class="columnW">
+			<h2 id="title03">見出し</h2>
+		</div>
+		<div class="column">
+			<p>本文</p>
+		</div>
+		<div class="column">
+			<p class="photoframe"><img src="images/" alt="[photo]" width="440" height="240" /></p>
+			<p class="caption">キャプション</p>
+		</div>
+	</div>
+	<br class="clear"/>
+-->
+</div>
+<div id="contentsfooter">
+	<hr/>
+	<ul class="link">
+		<li><a href="http://www.soum.co.jp">創夢 corporate site</a></li>
+	</ul>
+	<p class="copyright">&copy; 2010 SOUM CORPORATION. ALL RIGHTS RESERVED.</p>
+	<br class="clear"/>
+</div>
+</div>
+</body>
+</html>

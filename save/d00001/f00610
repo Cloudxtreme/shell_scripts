@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="/~kazu/green.css" media="all" />
+<title>A tutorial on the enumerator library</title>
+</head>
+<body>
+<div id="menu"></div>
+<div id="main">
+<h1>A tutorial on the enumerator library</h1>
+<div class="center">
+<p><a href="http://haskell.spreadshirt.com/oleg-already-did-it-A6499531">OLEG ALREADY DID IT</a></p>
+</div>
+<div class="right">
+<p>Kazu Yamamoto<br />
+Created: 2011/03/29</p>
+</div>
+<p>This is a tutorial on the <a href="http://hackage.haskell.org/package/enumerator">enumerator</a> library, which is one implementation of Enumerator/Iteratee (EI) concept discovered by Oleg Kiselyov. The author of the library is John Millikin.</p>
+<p>EI is an API between a supplier (enumerator) and a consumer (iteratee). This API makes the following possible:</p>
+<ul>
+<li>Abstraction of data input sources
+	<ul>
+	<li>If you implement a network code as iteratee, you can test it with just a list.</li>
+	</ul>
+</li>
+<li>Modular programming
+	<ul>
+	<li>You can compose an enumerator and an iteratee.</li>
+	<li>You can compose enumerators.</li>
+	<li>You can compose iteratees.</li>
+	</ul>
+</li>
+<li>Explicit control
+	<ul>
+	<li>If you use the getContents family, it returns immediately. You cannot do something after the end of input explicitly. You cannot use System.Timeout.timeout for getContents. Worse, the getContents family might cause errors in pure functions.</li>
+	<li>EI is an alternative of the getContents family with strict data. You can concentrate on strict ByteString for input and can forget lazy ByteString, for instance.</li>
+	</ul>
+</li>
+</ul>
+<h2>An example to motivate you</h2>
+<p>Let's borrow an example from Section 9 of <a href="http://book.realworldhaskell.org/read/">Real World Haskell</a>. We implement the &quot;find&quot; command of UNIX.</p>
+<p>If you are a beginner Haskell programmer from imperative programming languages, you probably implement it in the imperative way like this:</p>
+<pre>
+import Control.Monad
+import Control.Applicative
+import Data.List
+import System.Directory
+import System.FilePath
+
+getValidContents :: FilePath -&gt; IO [String]
+getValidContents path = 
+    filter (`notElem` [&quot;.&quot;, &quot;..&quot;, &quot;.git&quot;, &quot;.svn&quot;])
+    &lt;$&gt; getDirectoryContents path
+
+isSearchableDir :: FilePath -&gt; IO Bool
+isSearchableDir dir =
+    (&amp;&amp;) &lt;$&gt; doesDirectoryExist dir
+         &lt;*&gt; (searchable &lt;$&gt; getPermissions dir)
+
+findImperative :: FilePath -&gt; String -&gt; IO ()
+findImperative dir pattern = do
+  cnts &lt;- map (dir &lt;/&gt;) &lt;$&gt; getValidContents dir
+  forM_ cnts $ \path -&gt; do
+    when (pattern `isInfixOf` path) $ putStrLn path
+    isDirectory &lt;- isSearchableDir path
+    when isDirectory $ findImperative path pattern
+</pre>
+<p>The problem is that &quot;findImperative&quot; does many works.
+It's one of main causes of bugs.
+A functional
+programmer splits it into a collector of file names and
+a filter, then composes them.
+Here is a functional &quot;find&quot; (findFunctional)
+composing a collector (getRecursiveContents) and
+a filter (grep):</p>
+<pre>
+getRecursiveContents :: FilePath -&gt; IO [FilePath]
+getRecursiveContents dir = do
+  cnts &lt;- map (dir &lt;/&gt;) &lt;$&gt; getValidContents dir
+  cnts' &lt;- forM cnts $ \path -&gt; do
+    isDirectory &lt;- isSearchableDir path
+    if isDirectory
+      then getRecursiveContents path
+      else return [path]
+  return . concat $ cnts'
+
+grep :: String -&gt; [FilePath] -&gt; [FilePath]
+grep pattern = filter (pattern `isInfixOf`)
+
+findFunctional :: FilePath -&gt; String -&gt; IO ()
+findFunctional dir pattern = 
+    grep pattern &lt;$&gt; getRecursiveContents dir
+    &gt;&gt;= mapM_ putStrLn
+</pre>
+<p>But we meet a problem again. The getRecursiveContents function
+returns a list of file name all at once after all directory searches
+are finished. Thus, the findFunctional function makes a user
+waiting for a while and then prints matched file names all together.</p>
+<p>What we want is:</p>
+<ul>
+<li>Modular programming</li>
+<li>Printing each file names immediately when found</li>
+</ul>
+<p>We solve this problem with the enumerator library later. Before that, let's study how to use the enumerator library. This tutorial assumes version 0.4.9 or later.</p>
+<h2>Actors</h2>
+<p>There are three actors in the enumerator library.</p>
+<ul>
+<li>Iteratee
+	<ul>
+	<li>takes input and does calculation.</li>
+	<li>is executed by &quot;run_&quot;.</li>
+	<li>can perform side-effects if IO is specified.</li>
+	<li>can be considered as automaton.</li>
+	<li>can be composed with another Iteratee by (&gt;&gt;=):
+		<ul>
+		<li>Iteratee &gt;&gt;= Iteratee --&gt; Iteratee</li>
+		</ul>
+</li>
+	</ul>
+</li>
+<li>Enumerator
+	<ul>
+	<li>can be composed with an Iteratee by ($$) resulting in another Iteratee:
+		<ul>
+		<li>Enumerator $$ Iteratee --&gt; Iteratee</li>
+		</ul>
+</li>
+	<li>carries forward the state of Iteratee (automaton) by feeding inputs.</li>
+	<li>can be composed with another Enumerator by (&lt;==&lt;):
+		<ul>
+		<li>Enumerator &lt;==&lt; Enumerator --&gt; Enumerator</li>
+		</ul>
+</li>
+	</ul>
+</li>
+<li>Enumeratee
+	<ul>
+	<li>locates in between Enumerator and Iteratee, and modifies inputs.</li>
+	<li>can be composed with Iteratee by =$ resulting in another Iteratee:
+		<ul>
+		<li>Enumeratee =$ Iteratee --&gt; Iteratee</li>
+		</ul>
+</li>
+	<li>can be composed with Enumerator by $= resulting in another Enumerator:
+		<ul>
+		<li>Enumerator $= Enumeratee --&gt; Enumerator</li>
+		</ul>
+</li>
+	</ul>
+</li>
+</ul>
+<h2>A spell</h2>
+<p>The following Sections assume that the following modules are imported:</p>
+<pre>
+{-# LANGUAGE OverloadedStrings #-}
+
+module EnumExamples where
+
+import Control.Monad.IO.Class (liftIO)
+import Data.ByteString (ByteString)
+import qualified Data.ByteString as BS
+-- for OverloadedStrings
+import Data.ByteString.Char8 ()
+import Data.Enumerator hiding (map, filter)
+import qualified Data.Enumerator.Binary as EB
+import qualified Data.Enumerator.List as EL
+import Data.Maybe
+</pre>
+<p>Note that we are using strict ByteString, not lazy ByteString.</p>
+<h2>Implementing an Iteratee</h2>
+<p>Let's implement our first Iteratee.</p>
+<p>When you are using a parse combinator library, you implement a Parser
+from a small Parser. We can implement an Iteratee on a small Iteratee, too.
+Let's use EB.head.</p>
+<pre>
+EB.head :: Monad m =&gt; Iteratee ByteString m (Maybe Word8)
+</pre>
+<p>We use IO monad. So, this signature becomes:</p>
+<pre>
+EB.head :: Iteratee ByteString IO (Maybe Word8)
+</pre>
+<p>You can read this like this:</p>
+<pre>
+ByteString -&gt; IO (Maybe Word8)
+</pre>
+<p>That is, this Iteratee takes ByteString and returns Maybe Word8. Our first Iteratee just prints input and calls itself recursively.</p>
+<pre>
+consumer :: Iteratee BS.ByteString IO ()
+consumer = do
+    mw &lt;- EB.head
+    case mw of
+        Nothing -&gt; return ()
+        Just w  -&gt; do
+            liftIO . putStr $ &quot;XXX &quot;
+            liftIO . BS.putStrLn . BS.singleton $ w
+            consumer
+</pre>
+<p>Now we can run it with &quot;run_&quot;.</p>
+<pre>
+&gt; run_ consumer
+</pre>
+<p>Oh my! Nothing happened. It's no surprises because we don't give any input!</p>
+<h2>Implementing an Enumerator</h2>
+<p>To give input to our Iteratee, let's implement our first Enumerator. We can use enumList.</p>
+<pre>
+enumList :: Monad m =&gt; Integer -&gt; [a] -&gt; Enumerator a m b
+</pre>
+<p>Please ignore the first argument at this moment. We create an Enumerator whose
+input source is a list of ByteString:</p>
+<pre>
+-- OverloadedStrings allows ByteString literal.
+listFeeder :: Enumerator ByteString IO a
+listFeeder = enumList 1 [ &quot;12&quot;, &quot;34&quot; ]
+</pre>
+<p>Now we can compose &quot;consumer&quot; and &quot;listFeeder&quot; by ($$), and can execute the resulting Iteratee by &quot;run_&quot;:</p>
+<pre>
+&gt; run_ $ listFeeder $$ consumer
+XXX 1
+XXX 2
+XXX 3
+XXX 4
+</pre>
+<p>Yes! We made it!</p>
+<h2>Increasing input source</h2>
+<p>Let's add a file input after the list input. EB.enumFile makes an Enumerator for a given file:</p>
+<pre>
+EB.enumFile :: FilePath -&gt; Enumerator ByteString IO b
+</pre>
+<p>Suppose a file called &quot;FILE&quot; contains string of &quot;5678&quot;. Let's define an Enumerator to read this file:</p>
+<pre>
+fileFeeder :: Enumerator BS.ByteString IO a
+fileFeeder = EB.enumFile &quot;FILE&quot;
+</pre>
+<p>Now we specify both listFeeder and fileFeeder, and execute it.</p>
+<pre>
+&gt; run_ $ fileFeeder $$ listFeeder $$ consumer
+XXX 1
+XXX 2
+XXX 3
+XXX 4
+XXX 5
+XXX 6
+XXX 7
+XXX 8
+</pre>
+<p>I believe that you now consider EI is useful for you.</p>
+<p>Since ($$) is right associative, the example above compose Enumerator and Iteratee (twice).</p>
+<pre>
+fileFeeder $$ (listFeeder $$ consumer)
+</pre>
+<p>You can also compose two Enumerators first then compose it with the Iteratee:</p>
+<pre>
+&gt; run_ $ (fileFeeder &lt;==&lt; listFeeder) $$ consumer
+the same results above
+</pre>
+<h2>Increasing jobs</h2>
+<p>An Iteratee can pass left-over input to another Iteratee. So, the second Iteratee can work after the first Iteratee finishes its job. Since our first Iteratee consumes all inputs, there is no room that another Iteratee can take left-over input. So, Let's define an Iteratee that leaves unconsumed input.</p>
+<pre>
+consumer2 :: Iteratee ByteString IO ()
+consumer2 = do
+    mw &lt;- EB.head
+    case mw of
+        Nothing -&gt; return ()
+        Just w  -&gt; do
+            liftIO . putStr $ &quot;YYY &quot;
+            liftIO . BS.putStrLn . BS.singleton $ w
+
+</pre>
+<p>Please note that &quot;XXX &quot; is replaced with &quot;YYY &quot; and it does not call itself recursively. Remember that two Iteratee can be composed by (&gt;&gt;=). So, we can let two Iteratees work:</p>
+<pre>
+&gt; run_ $ fileFeeder $$ listFeeder $$ (consumer2 &gt;&gt; consumer)
+YYY 1
+XXX 2
+XXX 3
+XXX 4
+XXX 5
+XXX 6
+XXX 7
+XXX 8
+</pre>
+<p>Note that &quot;comuser2&quot; does not pass any computation results to &quot;consumer&quot;. So, we compose them by (&gt;&gt;).</p>
+<h2>Using a pipe</h2>
+<p>Let's invite the third actor, Enumeratee. One of the simplest Enumeratee is EB.isolate. This takes N elements out of input where N is the first arguments.</p>
+<pre>
+EB.isolate :: Monad m =&gt; Integer
+              -&gt; Enumeratee ByteString ByteString m b
+</pre>
+<p>We can use it like this:</p>
+<pre>
+&gt; run_ $ listFeeder $$ EB.isolate 2 =$ consumer
+XXX 1
+XXX 2
+</pre>
+<p>Note that the number of output lines changes from 4 to 2.</p>
+<p>Enumeratee can be also composed with Enumerator:</p>
+<pre>
+&gt; run_ $ (listFeeder $= EB.isolate 2) $$ consumer
+XXX 1
+XXX 2
+</pre>
+<h2>The modules of the library</h2>
+<dl>
+<dt>Data.Enumerator.Binary (EB)</dt>
+<dd>manages ByteString with a buffer. If you use EB.head, one character (Word8) can be taken.</dd>
+<dt>Data.Enumerator.Text (ET)</dt>
+<dd>manages Text with a line. If you use ET.head, one character (Char) can be taken.</dd>
+<dt>Data.Enumerator.List (EL)</dt>
+<dd>If you use EL.head, ByteString and Text can be taken for EB and ET, respectively. That is, an entire buffer and an entire line are available, respectively.</dd>
+</dl>
+<p>If you want a line-based Enumerator for ByteString, you can implemnet it as follows:</p>
+<pre>
+enumHandleLines :: MonadIO m =&gt; Integer -&gt; Handle
+                   -&gt; Enumerator ByteString m ByteString
+enumHandleLines n hdl = EB.enumHandle n hdl $= byteLines
+
+byteLines :: Monad m =&gt; Enumeratee ByteString ByteString m b
+byteLines = EB.splitWhen (== 10) -- 10 is LF
+</pre>
+<h2>EI find</h2>
+<p>Let's go back to the first problem, the functional &quot;find&quot;. Real World Haskell solves this problem by defining a simple API for a collector of file names and
+a filter. You probably notice that this API is similar to EI. Here we use the EI API instead.</p>
+<p>It is easy to implement a filter as Enumeratee and Iteratee.</p>
+<pre>
+import Control.Applicative
+import Control.Monad
+import Control.Monad.IO.Class
+import Data.Enumerator hiding (map, filter, filterM)
+import qualified Data.Enumerator.List as EL
+import Data.List
+import System.Directory
+import System.FilePath
+
+grepE :: String -&gt; Enumeratee String String IO b
+grepE pattern = EL.filter (pattern `isInfixOf`)
+
+printI :: Iteratee String IO ()
+printI = do
+    mx &lt;- EL.head 
+    case mx of
+        Nothing   -&gt; return ()
+        Just file -&gt; do
+            liftIO . putStrLn $ file
+            printI
+</pre>
+<p>If you remember Enumerators can be composed by (&lt;==&lt;) and learn the internals of the library a bit, a collector of file names can be implemented as follows:</p>
+<pre>
+enumDir :: FilePath -&gt; Enumerator String IO b
+enumDir dir = list
+  where
+    list (Continue k) = do
+        (files,dirs) &lt;- liftIO getFilesDirs
+        if null dirs
+           then k (Chunks files)
+           else k (Chunks files) &gt;&gt;== walk dirs
+    list step = returnI step
+    walk dirs = foldr1 (&lt;==&lt;) $ map enumDir dirs
+    getFilesDirs = do
+        cnts &lt;- map (dir &lt;/&gt;) &lt;$&gt; getValidContents dir
+        (,) &lt;$&gt; filterM doesFileExist cnts
+            &lt;*&gt; filterM isSearchableDir cnts
+</pre>
+<p>We can implement &quot;findEnum&quot; by composition:</p>
+<pre>
+findEnum :: FilePath -&gt; String -&gt; IO ()
+findEnum dir pattern = run_ $ enumDir dir
+                           $$ grepE pattern
+                           =$ printI
+</pre>
+<p>The findEnum function works as exactly what we want.</p>
+<h2>Be free from termination condition</h2>
+<p>Let's modify &quot;findEnum&quot; so that it finishes after displaying N elements.
+We can make it just by inserting EL.isolate:</p>
+<pre>
+findEnum :: FilePath -&gt; String -&gt; Integer -&gt; IO ()
+findEnum dir pattern n = run_ $ enumDir dir
+                             $$ grepE pattern
+                             =$ EL.isolate n
+                             =$ printI
+</pre>
+<p>This example clearly shows that the Enumerator &quot;enumDir&quot; is free from termination condition. It's a heart of functional programming!</p>
+<h2>Futher readings</h2>
+<p>This tutorial concentrates on how to use the enumerator library. If you want to know how the enumerator library is implemented, I strongly recommend to read <a href="http://www.yesodweb.com/book/enumerator">Yesod Book: Enumerator Package</a> by Michael Snoyman.</p>
+</div>
+</body>
+</html>

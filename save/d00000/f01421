@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>TNX</title>
+<script src="jquery-1.6.4.min.js"></script>
+<script src="jquery.masonry.min.js"></script>
+<script src="jquery.defaultvalue.js"></script>
+<style>
+    body {
+        background: #aaa;
+        font-family: "DejaVu Sans", "Arial";
+        font-size: 9pt;
+    }
+    #m {
+        margin: 0 auto;
+    }
+    #m > div {
+        border: 1px outset silver;
+        box-shadow: 5px 5px 3px gray;
+        background: white;
+        background-image: -ms-radial-gradient(left top, circle farthest-corner, #F3F2FF 0%, #CBD0EF 100%);
+        background-image: -moz-radial-gradient(left top, circle farthest-corner, #F3F2FF 0%, #CBD0EF 100%);
+        background-image: -o-radial-gradient(left top, circle farthest-corner, #F3F2FF 0%, #CBD0EF 100%);
+        background-image: -webkit-gradient(radial, left top, 0, left top, 1007, color-stop(0, #F3F2FF), color-stop(1, #CBD0EF));
+        background-image: -webkit-radial-gradient(left top, circle farthest-corner, #F3F2FF 0%, #CBD0EF 100%);
+        background-image: radial-gradient(left top, circle farthest-corner, #F3F2FF 0%, #CBD0EF 100%);
+        margin: 5px;
+        padding: 1ex;
+        float: left;
+    }
+    #m > div { width: 220px; }
+
+    .c {
+        text-align: center;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+        font-weight: bold;
+        font-size: 100%;
+    }
+
+    h2 {
+        font-size: 120%;
+    }
+
+    form, p, ul {
+        margin: 1ex 0;
+    }
+
+
+    ul {
+        padding-left: 1em;
+    }
+
+    li {
+        margin-left: 1em;
+    }
+
+    .fill {
+        width: 95%;
+    }
+
+    input[type="text"] {
+        background: white;
+        border: 1px solid black;
+        margin-bottom: .2ex;
+        max-width: 95%;
+    }
+
+    #sev {
+        display: none;
+    }
+</style>
+<script>
+
+var init = function () {
+    var dw = $(window).width() - 20;
+    var divs = $("#m > div");
+    var m = $("#m");
+    var overhead = divs.outerWidth(true /* with margins */) - divs.width();
+    var cols = Math.floor(dw / 200);  // only for dw < 800 case
+    var w = cols == 1 ? dw - overhead
+          : dw < 800 ? 200 - overhead + dw % 200 / cols
+          :            220;
+    divs.width(w);
+    var sev = $("#sev");
+    if (cols >= 4 && (sev.offset().left + overhead + 2 * sev.outerWidth()) < dw)
+        sev.width(2 * w + overhead);
+    $("#m").masonry('reload');
+};
+
+$(function() {
+    /*
+    $("#m > div").css({ display: 'none' }).each(function () {
+        $(this).delay(500.0 * Math.random()).fadeIn("slow");
+    });
+    */
+    $("#sev").show();
+    $("#m").masonry( { isFitWidth: true } );
+    $(window).smartresize(init);
+    init();
+    // $("#sev").show();
+    $('[placeholder]').each(function () {
+        $(this).attr('title', $(this).attr('placeholder')); 
+    });
+    $('[placeholder]').defaultValue();
+});
+
+var sevtries = 1;
+function sev() {
+    $("#sev input").prop("disabled", true);
+    $("#sev h2").html("Een ogenblik geduld...");
+
+    $.post("/vraag.plp", {
+        v: $("#sevv").attr('value'), e: $("#seve").attr('value'),
+        jscheck: 21 + 21
+    })
+    .done(function () {
+        $("#sevs").attr('value', "Verstuurd");
+        $("#sev h2").html("Uw vraag is verstuurd.")
+            .css({ opacity: 0 }).animate({ opacity: 1 }), "slow";
+    })
+    .fail(function (jqxhr, error, exception) {
+        var m = jqxhr.status == 499 ? jqxhr.responseText
+              : exception && exception.message ? exception.message : exception;
+        m = m.replace(/^\s+|\s+$/g, "");  // old IE doesn't do .trim()
+        $("#sev h2").html("Versturen mislukt. Sorry. (" + m + ")")
+        .css({ opacity: 0 }).animate({ opacity: 1 }, "slow"); 
+        if (sevtries < 10) {
+            $("#sev input").prop("disabled", false);
+            $("#sevs").attr('value', ++sevtries + "e keer proberen")
+                .css({ opacity: 0 }).animate({ opacity: 1 }, "slow");
+        }
+        init();
+    });
+    return false;
+};
+
+</script>
+<body>
+<div id="m">
+
+<div class=c><img src="logo.png" width=159 height=96 alt="TNX-logo"></div>
+
+<div style="outline: 2px solid red;">
+    <h2>Contactgegevens</h2>
+    <p style="background: blue; color: white; padding: 0.5ex; text-align; center;">
+    We zijn op 27 mei 2013 verhuisd!
+    <p>
+    TNX / Convolution<br>
+    Pieter Zeemanweg 47<br>
+    3316 GZ&nbsp;&nbsp;Dordrecht<br>
+
+    <p>
+    <a href="mailto:info@tnx.nl">info@tnx.nl</a>
+    <p>
+    Telefoon: <em>+31</em> (0)78 711 20 30<br>
+</div>
+
+<div id="sev">
+    <h2>Stel een vraag</h2>
+    <form>
+    <input id=sevv name=v type=text class="fill" value="" placeholder="Vraag"><br>
+    <input id=seve name=e type=text value="" placeholder="E-mailadres">
+    <input id=sevs type=submit onclick="sev(); return false;" value=Verstuur>
+    </form>
+</div>
+
+<div>
+    <h2>Over TNX</h2>
+    <p>
+    Sinds 2000 levert TNX diensten en apparatuur op het gebied van
+    informatie- en communicatietechnologie. Hoewel we ons primair richten op
+    het MKB in de Drechtsteden, ICT-bedrijven en bedrijven met ICT-afdeling,
+    hebben we klanten verspreid over heel Nederland (en daarbuiten) en veel
+    verschillende branches.
+</div>
+
+<div>
+    <h2>Principieel ondernemen</h2>
+    <p>
+    We gaan verder dan milieubewust omgaan met apparatuur en uw energierekening.
+    Ook eerlijke tarieven en adviezen horen bij een goede relatie met de klant.
+    Door waar mogelijk z.g. "vrije" of "Open Source" software in te zetten, helpt
+    TNX de greep van grote monopolisten te beperken, en met open standaarden geven
+    wij u de vrijheid te kiezen uit een groot aantal leveranciers.
+
+</div>
+
+<div>
+    <h2>Nieuwe website</h2>
+    <p>
+    Computerschermen worden steeds groter en als we de teksten kort houden past
+    het eigenlijk best allemaal op één pagina. Met een kolommenindeling wordt
+    het lezen van een website een beetje zoals het lezen van een krant.
+    <p>
+    Afstappen van de klassieke indeling van een website, met één of meerdere
+    keuzemenu's en allemaal losse pagina's, werkt bevrijdend. De pagina bestaat
+    nu uit blokken die automatisch ingepast worden. Of de bezoeker een
+    smartphone of een breedbeeldscherm gebruikt, dat maakt niet meer uit: de
+    site past zichzelf aan.
+    <p>
+    En misschien nog wel het mooiste: zo'n site is razendsnel te maken! Durf
+    te kiezen voor een simpel en doeltreffend ontwerp, waarmee u veel tijd en
+    geld bespaart, en laat TNX uw nieuwe website maken.
+</div>
+
+<div>
+    <h2>Quick scans</h2>
+    <p>
+    Samen met uw eigen ICT-medewerkers, of geheel onafhankelijk, gaat TNX op
+    zoek naar de verbeteringen die in uw systemen nodig of gewenst zijn.
+    Bestaande systemen en processen worden onder de loep genomen voor een
+    vlugge of grondige controle. 
+    <ul>
+
+    <li>Gegevensbeveiliging
+    <li>Toegankelijkheid
+    <li>Softwarekwaliteit
+    <li>Netwerkbeveiliging
+    <li>Gebruikersvriendelijkheid
+    <li>Volledigheid van documentatie
+    </ul>
+</div>
+
+<div>
+    <h2>Ontwikkeling</h2>
+    <p>
+    TNX heeft zeer uiteenlopende kennis in huis, maar staat bekend om de
+    specialistische ervaring met de programmeeromgeving Perl en het
+    besturingssysteem Debian GNU/Linux. Maatwerkoplossingen van TNX worden
+    bij voorkeur met deze technieken gebouwd.
+    </p>
+</div>
+
+<div>
+    <h2>Serverbeheer</h2>
+    <p>
+    Bij de meeste bedrijven is de server tegenwoordig het meest kostbare bezit,
+    want zonder server kunnen de medewerkers niets doen. Een server moet goed
+    beheerd worden om ernstige infarcten te voorkomen.
+    <p>
+    TNX beheert voornamelijk Linux-servers, al dan niet gevirtualiseerd met
+    KVM of Xen, maar ook servers met andere besturingssystemen en
+    virtualisatieplatforms.
+</div>
+
+<div>
+    <h2>Backups</h2> 
+    <p> 
+    Backups, reservekopieën voor het geval er iets mis gaat, zijn zelfs met het
+    beste beheer erg belangrijk. Geen enkel bedrijf kan zich veroorloven in één klap
+    alle belangrijke gegevens kwijt te zijn. Een server bestaat uit electronische
+    en mechanische onderdelen, en kan dus stuk. Bovendien maakt het apparaat bij
+    brand geen schijn van kans.
+    <p> 
+    TNX neemt deze zorg van u over. Door dagelijks een uitpandige backup te
+    maken wordt het risico van gegevensverlies tot een absoluut minimum beperkt.
+    Hiervoor hebben we speciaal ingerichte beveiligde servers. Ook voor handmatige
+    en inpandige backups zijn er mooie oplossingen te maken.
+</div>
+
+
+<div>
+    <h2>Bankgegevens</h2>
+    <p>
+    Rekeningnummer: 13.95.09.798<br>
+    IBAN: NL12RABO0139509798<br>
+    BIC: RABONL2U
+    <h2>Handelsgegevens</h2>
+    <p>
+    BTW (VAT): NL180333215B01<br>
+    KvK: 24308377 (Rotterdam)
+</div>
+
+<div>
+    <h2>Hosting</h2>
+    <p>
+    Wij leveren ook alle gangbare internetdiensten zoals e-mailhosting,
+    webhosting en virtual servers.
+    <p>
+    De internetdiensten van TNX worden aangeboden in combinatie met andere
+    diensten of op specifieke aanvraag. Er is dan ook veel mogelijk. In plaats
+    van bulkhosting voor de laagste prijs, richten wij ons liever op een
+    gedegen klantrelatie en oplossingen die gebaseerd zijn op de juiste schaal. 
+    <p>
+    Neem contact op voor meer informatie.
+</div>
+
+<div>
+    <h2>IPv6</h2>
+    <p>
+    U heeft het vast al gehoord: de IP-adressen zijn op en daardoor kan het
+    internet niet zomaar verder groeien. Bent u al bezig met IPv6? Elke
+    organisatie krijgt te maken met IPv6, het nieuwe protocol dat nodig is
+    om de groei van het internet aan te kunnen.
+    <p>
+    Wij begeleiden graag uw implementatie van IPv6 voor uw servers, website,
+    e-mail, kantoornetwerk en alle andere apparaten die met internet verbonden
+    zijn. Ook als u nog geen IPv6 wilt gaan toepassen is het verstandig om bij
+    de aanschaf van nieuwe apparatuur en diensten alvast rekening te houden met
+    de eisen van de toekomst.
+</div>
+
+<div>
+    <h2>Workshops en presentaties</h2>
+    <p>
+    Zoekt u een spreker voor uw evenement, of iemand die uw eigen mensen
+    wegwijs kan maken in een van de kennisgebieden van TNX? Juerd Waalboer van
+    TNX komt graag langs op uw locatie voor een heldere presentatie.
+    <p>
+    Onderwerpen:
+    <ul>
+    <li>Crash course Perl
+    <li>Perl en Unicode
+    <li>Perl en DBIx::Simple
+    <li>IPv6
+    <li>Beveiliging van websites
+    <li>Efficient e-mail-gebruik
+    <li>Dvorak-toetsenbord
+    <li>Arduino
+    </ul>
+    <p>
+    Staat het gewenste onderwerp er niet bij? Neem even contact op! Als wij
+    geen spreker kunnen leveren, dan kunnen we u wellicht doorverwijzen naar
+    een andere ervaren spreker.
+</div>
+
+<div>
+    <h2>Elektronica</h2>
+    <p>
+    Sinds kort ontwikkelt TNX ook digitale elektronica op basis van het
+    Arduino-platform. De eerste twee projecten waren totaal verschillend maar
+    beide zeer succesvol: onze stroommeter die het energiegebruik van een heel
+    pand realtime weergeeft en daar grafieken van tekent is inmiddels op drie
+    locaties in gebruik, en een recreatieve GPS-tocht voor groepen (reversed
+    geocaching) is in de zomer naar tevredenheid getest door honderden
+    kinderen.
+</div>
+
+<div>
+    <h2>Virtualisatie</h2>
+    <p>
+    Wat ons betreft is virtualisatie een standaardonderdeel van systeembeheer
+    geworden. Sinds 2006 gebruiken we het voor bijna alle servers. Maar voor
+    veel bedrijven is het nog erg nieuw en bijzonder. Daarom toch een apart
+    blokje om even te benadrukken dat we er kaas van gegeten hebben.
+    </p>
+</div>
+
+</div>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://piwik.tnx.nl/" : "http://piwik.tnx.nl/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 7);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://piwik.tnx.nl/piwik.php?idsite=7" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+</body>

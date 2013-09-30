@@ -1,0 +1,799 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<meta name="viewport" content="width=960, user-scalable=yes"/>
+<title>CableLabs  ||  REVOLUTIONIZING CABLE TECHNOLOGY</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel="shortcut icon" href="graphics/favicon.ico" />
+<link href="/lib/css/screen.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<link href="/lib/css/ie6.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<!--[if IE 7]>
+<link href="/lib/css/ie7.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/lib/css/print.css" media="print" /><!--jQuery API-->
+<script src="lib/js/jquery-1.3.2.min.js" type="text/javascript"></script>
+<script src="lib/js/jquery.tools.js" type="text/javascript"></script>
+<script src="lib/js/jquery.hover.js" type="text/javascript"></script>
+<script src="lib/js/jquery.cycle.all.js" type="text/javascript"></script>
+<script src="lib/js/jquery.flow.1.2.min.js" type="text/javascript"></script>
+<script src="lib/js/init.js" type="text/javascript"></script>
+<!--[if lt IE 7]>
+<script type="text/javascript" src="lib/js/jquery.pngfix.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+   $('#slideshow2').supersleight({shim: '/graphics/transparent.gif'});
+});
+</script>
+<![endif]-->
+<script type="text/javascript">
+var autochanged=0;
+var slidecount=0
+$(document).ready(function(){
+   $('#slideshow').cycle({
+	  fx:    'turnDown',
+	  timeout: 7000,
+	  pager:  '#slide_nav',
+	  pagerClick: function (zeroBasedSlideIndex, slideElement) {
+		// reset the auto-pause counter back 
+		autochanged=1
+	  },
+	  pauseOnPagerHover: 1,
+	  before: function (currSlideElement, nextSlideElement, options, forwardFlag) {
+		 $('#slideshow2').cycle(0);
+	  },
+	  after: function (currSlideElement, nextSlideElement, options, forwardFlag) {
+		 autochanged++
+		 setTimeout(function(){
+			$('#slideshow2').cycle(options.currSlide+1);
+		 }, 1000);
+	  }
+   });
+   slidecount=$('#slideshow > img').length
+   $.fn.cycle.transitions.Cable = function($container, $slides, opts) {
+	  if (opts.currSlide == 0) {
+		 $.fn.cycle.transitions['scrollUp']($container, $slides, opts);
+	  } else {
+		 $.fn.cycle.transitions['turnDown']($container, $slides, opts);
+	  }
+   }
+   $('#slideshow2').cycle({
+	  fx:    'Cable',
+	  timeout: 0,
+	  cleartypeNoBg: true,
+	  after: function (currSlideElement, nextSlideElement, options, forwardFlag) {
+		 if (options.currSlide==slidecount && autochanged>slidecount) {
+			// auto-pause, assumes forward cycling
+		 	$('#slideshow').cycle('pause');
+		 	$('#slide_play').attr('src','graphics/billboards/play-off.jpg');
+		 	$('#slide_pause').attr('src','graphics/billboards/pause-on.jpg');
+		 }
+	  }
+   });
+   $('#slide_play').click(function(){
+	  if ($('#slide_play').attr('src') == 'graphics/billboards/play-off.jpg') {
+		 autochanged=1
+		 $('#slideshow').cycle('resume');
+		 $('#slide_play').attr('src','graphics/billboards/play-on.jpg');
+		 $('#slide_pause').attr('src','graphics/billboards/pause-off.jpg');
+	  }
+   });
+   $('#slide_pause').click(function(){
+	  if ($('#slide_pause').attr('src') == 'graphics/billboards/pause-off.jpg') {
+		 $('#slideshow').cycle('pause');
+		 $('#slide_play').attr('src','graphics/billboards/play-off.jpg');
+		 $('#slide_pause').attr('src','graphics/billboards/pause-on.jpg');
+	  }
+   });
+   $('#promo').show();
+   $('#intro').show();
+   $("#myController").jFlow({
+	   slides: "#slides",  // the div where all your sliding divs are nested in
+	   controller: ".jFlowControl", // must be class, use . sign
+	   slideWrapper : "#jFlowSlide", // must be id, use # sign
+	   selectedWrapper: "jFlowSelected",  // just pure text, no sign
+	   width: "100%",  // this is the width for the content-slider
+	   height: "120px",  // this is the height for the content-slider
+	   duration: 400,  // time in miliseconds to transition one slide
+	   prev: ".jFlowPrev", // must be class, use . sign
+	   next: ".jFlowNext" // must be class, use . sign
+   });
+   $("#myController2").jFlow({
+	   slides: "#slides2",  // the div where all your sliding divs are nested in
+	   controller: ".jFlowControl2", // must be class, use . sign
+	   slideWrapper : "#jFlowSlide2", // must be id, use # sign
+	   selectedWrapper: "jFlowSelected2",  // just pure text, no sign
+	   width: "100%",  // this is the width for the content-slider
+	   height: "120px",  // this is the height for the content-slider
+	   duration: 400,  // time in miliseconds to transition one slide
+	   prev: ".jFlowPrev2", // must be class, use . sign
+	   next: ".jFlowNext2" // must be class, use . sign
+   });
+});
+</script>
+</head>
+
+<body>
+
+<div id="wrap">
+	<div id="header" style="z-index:1000">
+			<div class="logo"><a href="/"><img src="graphics/logo.gif" alt="CableLabs" width="224" height="55"/></a></div>
+			
+	<ul class="nav-top">
+	<li><a href="https://www.cablelabs.com/doczone" title="DocZone Login">Login</a></li>
+    <li><a href="/about/careers/" title="CableLabs Careers">Careers</a></li>
+    <li><a href="/supporttools/" title="Support Tools">Support Tools</a></li>
+    <li><a href="/about/" title="About CableLabs">About CableLabs</a></li>
+	</ul>
+
+			
+<div id="nav-main">
+<div class="line-top"></div>
+
+<!--tab menu-->
+<ul id="menu" >
+<!--technologies tab-->
+<li class="mega">
+	<h2><a href="/technologies/" class="tab-tech"></a></h2>
+	<div class="innertube" >
+
+     <table class="tbl-tech">
+     <tr>	 
+     <td><img src="/graphics/icon-highspeed.gif" alt="icon-highspeed" width="50" height="50"/></td>	 
+     <td style="width:25%; vertical-align:top"><h3><a href="/cablemodem/index.html">High-Speed Data Services</a></h3>
+	 <span class="text">High-speed data services over cable&rsquo;s hybrid fiber-coaxial plant enable cable customers to access information at lightning fast speeds&nbsp;&hellip;&nbsp;</span><br />
+	 <a href="/cablemodem/index.html" class="btn">explore</a></td>
+	 
+	 <td><img src="/graphics/icon-tv.gif" alt="icon-tv" width="50" height="50"/></td>	 
+     <td style="width:25%; vertical-align:top"><h3><a href="/opencable/index.html">Advanced Video Services</a></h3>
+	 <span class="text">There are more ways of interacting with your television than just clicking on the remote control</span>&nbsp;&hellip;&nbsp;<br />
+	 <a href="/opencable/index.html" class="btn">explore</a></td>
+	
+     <td><img src="/graphics/icon-service.gif" alt="icon-service" width="50" height="50"/></td>	 
+	 <td style="width:25%; vertical-align:top"><h3><a href="/projects/go2/index.html">Cable Information Services</a></h3>
+     <span class="text">Working with cable company experts, CIS develops standard interfaces and provides PaaS (Platform as a Service) to enable information exchange&nbsp;&hellip;&nbsp;</span><br />
+     <a href="/projects/go2/index.html" class="btn">explore</a></td>
+     </tr>
+	 
+     <tr>	 
+     <td><img src="/graphics/icon-voice.gif" alt="icon-voice" width="50" height="50"/></td>	 
+     <td><h3><a href="/packetcable/index.html">Digital Voice Services</a></h3>
+     <span class="text">Cable's digital voice delivers residential and small/medium business voice services using a managed Internet Protocol-based data network</span>&nbsp;&hellip;&nbsp;<br />
+     <a href="/packetcable/index.html" class="btn">explore</a></td>
+
+     <td><img src="/graphics/icon-advertising.gif" alt="icon-advertising" width="50" height="50"/></td>	 
+     <td>
+     <h3><a href="/advancedadvertising/index.html">Advertising &amp; Interactive Services</a></h3>
+     <span class="text">By improving advanced advertising technologies such as EBIF&trade;, CableLabs&reg; is providing the cable industry new and powerful ways for advertisers to deliver their message&nbsp;&hellip;&nbsp;</span><br />
+     <a href="/advancedadvertising/index.html" class="btn">explore</a></td>
+
+     <td><img src="/graphics/icon-commercial.gif" alt="icon-commercial" width="50" height="50"/></td>
+     <td><h3><a href="/business/index.html">Business Services</a></h3>
+     <span class="text">Providing voice, video, and high-speed data services to small and medium businesses is accelerating new revenue growth in the cable industry&nbsp;&hellip;&nbsp;</span><br />
+     <a href="/business/index.html" class="btn">explore</a></td>
+     </tr>
+	 
+	  <tr>	 
+     <td><img src="/graphics/icon-wireless.gif" alt="icon-wireless" width="50" height="50"/></td>	 
+     <td><h3><a href="/wireless/index.html">Wireless</a></h3>
+     <span class="text">The cable industry is aggressively pursuing new wireless opportunities with competitive product offerings for data services. In</span>&nbsp;&hellip;&nbsp;<br />
+     <a href="/wireless/index.html" class="btn">explore</a></td>
+     
+     <td></td>	 
+     <td></td>
+	 
+	 <td><!-- <img src="/graphics/icon-advertising.gif" alt="icon-advertising" width="50" height="50"/> --></td>	 
+     <td><!-- 
+     <h3><a href="/advancedadvertising/index.html">Advertising &amp; Interactive Services</a></h3>
+     <span class="text">By improving advanced advertising technologies such as EBIF&trade;, CableLabs&reg; is providing the cable industry new and powerful ways for advertisers to deliver their message&nbsp;&hellip;&nbsp;</span><br />
+     <a href="/advancedadvertising/index.html" class="btn">explore</a> --></td>
+
+     <td><!-- <img src="/graphics/icon-commercial.gif" alt="icon-commercial" width="50" height="50"/> --></td>
+     <td><!-- <h3><a href="/business/index.html">Business Services</a></h3>
+     <span class="text">Providing voice, video, and high-speed data services to small and medium businesses is accelerating new revenue growth in the cable industry&nbsp;&hellip;&nbsp;</span><br />
+     <a href="/business/index.html" class="btn">explore</a> --></td>
+     </tr>
+	 
+	 
+	
+     </table>
+
+
+     </div><!--close innertube-->
+</li>
+
+<!--specifications tab-->
+<li class="mega">
+	<h2><a href="/specifications/" class="tab-spec"></a></h2>
+	<div class="innertube" >
+    <table class="tbl-spec" >
+    	<tr>
+    	<td>
+    	 <h3><a href="/cablemodem/specifications/index.html">DOCSIS&reg;</a></h3>
+         <p>Cable television operators have transitioned from a traditional core business of entertainment programming to a position&nbsp;&hellip;&nbsp;</p></td>
+    	<td>
+    	 <h3><a href="/projects/metadata/specifications/index.html">VOD Metadata</a></h3>
+         <p>The Metadata project aims to specify the metadata and interfaces for distribution of content from multiple content providers to cable operators&nbsp;&hellip;&nbsp;</p></td>
+		 
+		 <td><h3><a href="/wireless/specifications/index.html">Wireless</a></h3>
+		The CableLabs Wi-Fi specifications are designed to help bring cable operator broadband services to mobile data subscribers. Subscribers&nbsp;&hellip;&nbsp;</td>
+		
+		 
+    	<td rowspan="3">
+    	  <h3>Search</h3>
+    	  Search the Product Specification database by entering keywords or phrases below.
+          <form name="fm-search" method="get" id="fm-search" action="/search/specsearch.html">
+  <input name="words" class="txt-search" type="text" size="14"  />
+  <input type="hidden" name="config" value="public">
+  <input type="image" src="/graphics/btn-search.png"  alt="Search Specifications" class="btn-search" />
+          </form>          <span><a href="/search/specsearch.html?config=public&words=">advanced search</a></span></td>
+    	</tr>
+    	<tr>
+    	<td>
+    	 <h3><a href="/packetcable/specifications/index.html">PacketCable&trade;</a></h3>
+         <p>PacketCable&trade; seeks to define a QoS-enabled, IP-based services delivery platform which uses the capabilities of the DOCSIS&reg; access network&nbsp;&hellip;&nbsp;</p></td>
+    	<td>
+         <h3><a href="/advancedadvertising/specifications/index.html">Advertising &amp; Interactive Services</a></h3>
+         <p>The cable industry has targeted strategies for gaining additional advertising revenues through the use of enhanced TV specifications&nbsp;&hellip;&nbsp;</p></td>
+		 
+		 <td><h3><a href="/olca/index.html">OLCA</a></h3>
+		<p>The Online Content Access (OLCA) project aims to develop use cases, technical requirements, protocols and architecture to allow digital &nbsp;&hellip;&nbsp;</p></td>
+    	</tr>
+    	<tr>
+    	<td>
+    		 <h3><a href="/opencable/specifications/index.html">OpenCable&trade;</a></h3>
+            <p>The OpenCable&trade; Platform was developed to enable a national platform for the delivery of interactive services, programming, and advertising&nbsp;&hellip;&nbsp;</p></td>
+    	<td>
+        <h3><a href="/projects/crossproject/specifications/index.html">Cross Project</a></h3>
+Investigating the distribution of content assets from multiple content providers sent over diverse networks to cable operators&nbsp;&hellip;&nbsp;</td>
+    	<td>
+        <h3><a href="/dpoe/specifications/index.html">DOCSIS&reg; Provisioning of EPON</a></h3>
+        <p>DOCSIS&reg; Provisioning of EPON (DPoE&trade;) enables Ethernet Passive Optical Network (EPON) equipment to be provisioned using existing DOCSIS-based&nbsp;&hellip;&nbsp;</p>
+		</li></td>
+    	<td>    	</td>
+    	</tr>
+		
+		
+    </table>
+     </div><!--close innertube-->
+</li>
+
+
+<!--certification/qualification tab-->
+<li class="mega">
+	<h2><a href="/certqual/" class="tab-cert"></a></h2>
+	<div class="innertube" >
+      <table class="tbl-cert">
+      <tr>
+      <td style="width:40%; vertical-align:top">
+      CableLabs strives to provide accurate and relevant information to our vendor and member communities in the best format possible.This area is designed to provide information related to DOCSIS&reg;, PacketCable&trade;,     CableHome&reg;, and OpenCable&trade; certification testing and specification programs.<br /><br />
+
+Guidelines referenced in the Certification/Qualification area generally do not apply to UDCP products. If you are building unidirectional digital cable-ready products, please refer to the CableLabs UDCP site.<br /><br />
+
+<a href="mailto:se-mail@cablelabs.com">Contact us</a> for information on CableLabs Certification.
+
+      </td>
+      <td valign="top">
+      <h3><a href="/certqual/">Guidelines</a></h3>
+      <ul class="list-arrow2">
+		<li><a href="/cablemodem/downloads/DOCSISCertWaveGuidelines.pdf">Certification Wave Requirements and Guidelines</a></li>
+		<li><a href="/certqual/guidelines/specs.html">General Information</a></li>
+		<li><a href="/certqual/guidelines/vendors.html">Rules for Vendors</a></li>
+		<li><a href="/certqual/guidelines/certification.html">How Certification is Determined</a></li>
+		<li><a href="/certqual/trademarks/">CableLabs Trademark Guidelines</a></li>
+	 </ul><br />
+	  <h3><a href="/certqual/">Certification Wave Applications</a></h3>
+      <ul class="list-arrow2">
+		<li><a href="https://www.cablelabs.com/certwave/">CableLabs Certification Wave Application</a></li>
+	 </ul>
+      </td>
+
+      <td valign="top">
+       <h3><a href="/certqual/">Schedules &amp; Fees</a></h3>
+     	<ul class="list-arrow2">
+     		<li><a href="/downloads/2013_Certification_Schedule.pdf">Certification Wave Schedule</a></li>
+     		<li><a href="/certqual/schedules/">Current Interoperability Event Schedule</a></li>
+     		<li><a href="/downloads/Cert_Fees.pdf">DOCSIS&reg;/PacketCable&trade;/ CableHome&reg;/OpenCable&trade; Certification Fees</a></li>
+     		<li><a href="/opencable/downloads/OCPricing.pdf">OpenCable&trade; Price List</a></li>
+     		<li><a href="/udcp/downloads/UDCPPricing.pdf">UDCP Testing Fees</a></li>
+     	</ul>
+      </td>
+      </tr>
+      </table>
+	</div>
+</li>
+</ul><!--close tab menu-->
+
+
+</div><!--close nav-main-->
+
+			
+<div class="search">
+		<form name="fm-search" method="get" id="fm-search" action="/search/htsearch.html">
+		<input name="words" class="txt-search" type="text" size="14"  />
+		<input type="hidden" name="config" value="public">
+	 	<input type="image" src="/graphics/btn-search.png"  alt="Search" class="btn-search" />
+		</form>
+		<span><a href="/search/htsearch.html?config=public&words=">advanced search</a></span>
+		</div><!--close search-->
+
+	</div><!--close header-->
+
+	<div id="promo">
+		<div id="slideshow">
+		
+			<img src="graphics/billboards/about.jpg" />
+			<img src="graphics/billboards/careers.jpg" />
+			<img src="graphics/billboards/hi-speed.jpg" />
+			<img src="graphics/billboards/digital-voice.jpg" />
+			<img src="graphics/billboards/advertising.jpg" />
+			<img src="graphics/billboards/cable-info.jpg" />
+			<img src="graphics/billboards/business.jpg" />
+			<img src="graphics/billboards/wireless.jpg" />
+			<img src="graphics/billboards/cablenet.jpg" />
+		</div><!--close slider-->
+		<div id="slideshow2">
+			  <div>&nbsp;</div>
+			  <div style="background: url(graphics/billboards/about-grey.png) no-repeat top left;">
+				<table>
+				<tr>
+				<td style="width:375px"></td>
+				<td class="text">
+				CableLabs is the non-profit development laboratory that works with cable television operators globally to create new business opportunities based on innovative technologies. Our technical achievements have enabled cable operators to fundamentally advance their broadband, digital voice and interactive video services to provide consumers and businesses&nbsp;&hellip;&nbsp;<a href="/about/">learn more</a>.</td>
+				</tr>
+				</table>
+			  </div>
+			  <div style="background: url(graphics/billboards/careers-grey.png) no-repeat top left;">
+				<table>
+				<tr>
+				<td style="width:375px"></td>
+				<td class="text">
+				Meet CableLabs. Our sole mission is to create, nurture and deploy the technologies that help our industry members reinvent cable and broaden its reach. The very same desire to create and to innovate that has propelled your career is alive and well here—and has been for over 20 years. Come&nbsp;&hellip;&nbsp;<a href="/about/careers/">join us</a>&nbsp;&hellip;&nbsp;because at CableLabs, you’ll be playing a vital role in revolutionizing cable technology as well as your own career.</td>
+				</tr>
+				</table>
+			  </div>
+			  <div style="background: url(graphics/billboards/hi-speed-grey.png) no-repeat top left;">
+				<table>
+				<tr>
+				<td style="width:375px"></td>
+				<td class="text">
+				High-speed data services over cable's hybrid fiber-coaxial plant enable cable customers to access information at lightning-fast speeds. At CableLabs&reg; this work is a part of the <a href="cablemodem/index.html">DOCSIS&reg;</a> program.</td>
+				</tr>
+				</table>
+			  </div>
+			  <div style="background: url(graphics/billboards/digital-voice-grey.png) no-repeat top left;">
+					<table>
+				<tr>
+				<td style="width:375px"></td>
+				<td class="text">
+				Cable's digital voice delivers residential voice services using a managed Internet Protocol-based data network. This is the <a href="packetcable/index.html">PacketCable&trade;</a> program at CableLabs.</td>
+				</tr>
+				</table>
+			  </div>
+			  
+			  <div style="background: url(graphics/billboards/advertising-grey.png) no-repeat top left;">
+					<table>
+				<tr>
+				<td style="width:375px"></td>
+				<td class="text">
+				By improving advanced advertising technologies, CableLabs&reg; is providing the cable industry new and powerful ways for advertisers to deliver their message&mdash;through interactive, targeted and addressable formats. This is the <a href="advancedadvertising/index.html">Advertising &amp; Interactive Services</a> program at CableLabs&reg;.</td>
+				</tr>
+				</table>
+			  </div>
+			  <div style="background: url(graphics/billboards/cable-info-grey.png) no-repeat top left;">
+					<table>
+				<tr>
+				<td style="width:375px"></td>
+				<td class="text">
+				Cable Information Services (CIS) provides secure, scalable industry-wide data and information services to help cable companies prosper&nbsp;&hellip;&nbsp;<a href="/projects/go2/">learn more</a>.</td>
+				</tr>
+				</table>
+			  </div>
+			  <div style="background: url(graphics/billboards/business-grey.png) no-repeat top left;">
+				<table>
+				<tr>
+				<td style="width:375px"></td>
+				<td class="text">
+				Much of the new revenue growth in the cable industry is currently being driven by 'Business Class' services&mdash;providing voice, video, and high-speed data services to small and medium businesses. CableLabs&reg; is working to accelerate the industry's growth in this strategic market by developing interoperable technology solutions that facilitate the deployment of new business services&nbsp;&hellip;&nbsp;<a href="/business/">learn more</a>.</td>
+				</tr>
+				</table>
+			  </div>
+			  <div style="background: url(graphics/billboards/wireless-grey.png) no-repeat top left;">
+				<table>
+				<tr>
+				<td style="width:375px"></td>
+				<td class="text">
+				The cable industry is aggressively pursuing new wireless opportunities with competitive product offerings for data services. In support of this, CableLabs has established a program to help integrate wireless technology with existing cable plant&nbsp;&hellip;&nbsp;<a href="/wireless/">learn more</a>.</td>
+				</tr>
+				</table>
+			  </div>
+			  <div style="background: url(graphics/billboards/cableNET-grey.png) no-repeat top left;">
+				<table>
+				<tr>
+				<td style="width:375px"></td>
+				<td class="text">
+				CableNET is an annual "exhibit within an exhibit" designed to showcase advanced content and services that cable customers may see and experience in the near future. Its objectives also include demonstrating the benefits of new broadband services to public officials, the media, the financial community, and others interested in the future of cable television&nbsp;&hellip;&nbsp;<a href="http://www.cablenet.org">learn more</a>.</td>
+				</tr>
+				</table>
+			  </div>
+		</div><!--close slider-->
+		<div id="slide_bar">
+		 <div id="slide_nav"></div><div id="slide_controls"><img id="slide_play" src="graphics/billboards/play-on.jpg" style="border:none"/>&nbsp;&nbsp;&nbsp;<img id="slide_pause" src="graphics/billboards/pause-off.jpg"  style="border:none" /></div>
+		</div>
+   </div><!--close promo-->
+
+<!--cable-connections bar-->
+<div id="cable-connections">
+<ul>
+<li><strong>Cable Connections</strong></li>
+<li><a href="http://www.cableconnectionweek.com/">Schedules for Cable Connections Week</a></li>
+<li><a href="https://locator.go2broadband.com/Default.aspx">Looking for Cable? Find cable services in your area.</a></li>
+<li><a href="http://www.controlyourtv.org">Visit Cable Puts You in Control</a></li>
+<li><a href="/cablemodem/ipv6/">Cable and IPv6</a></li>
+</ul>
+</div><!--close cable-connections-->
+
+
+<!-- Event Callouts -->
+<h3 style="margin: 10px 0; padding:10px; background-color:#007bb9; color:#fff;">
+	Don't miss these upcoming events
+</h3>
+<div style="padding:10px;">
+	<table width="100%">
+		<tr>
+			<!--<td> 
+			<h4><a href="http://www.cablenet.org">CableNET</a></h4>
+			<p>June 10&ndash;12, 2013</p>
+			<p>Location: Washington, DC</p>
+			<p>At <em>The Cable Show 2013</em>, Washington DC, June 10-12, 2013</p>
+			<p style="font-size:75%; color:#007bb9"><a href="http://www.cablenet.org/exhibitors/rfp_application.html" target="_blank">Demo slots still available &ndash; apply today.</a><br />For questions contact <a href="mailto:a.smith@cablelabs.com" target="_blank">a.smith@cablelabs.com</a></p>
+			</td>
+			-->
+			<td>
+			<h4><a href="https://www.cablelabs.com/conferences/">Summer Conference</a></h4>
+			<p>Dates: August 11&ndash;14, 2013 <br />
+				(August 11 - 13 for vendors)</span></p>
+			<p>Location: Keystone, CO</p>
+			<p><a href="https://www.cablelabs.com/conferences"><img src="graphics/btn-register.gif" alt="Conference Member Registration" /></a>&nbsp;&nbsp;<a href="http://cablelabs.com/conferences_public/SC2013/sc_rfp.html"><img src="graphics/btn-confrfp.gif" alt="Conference RFP" /></a><br /><a href="/conferences_public/SC2013/sc2013_innovation_showcase.html"><img src="graphics/btn-innovrfp.gif" alt="Innovation Showcase RFP" /></a></p>
+			<!-- <p style="font-size:75%; color:#007bb9">Member registration coming April 15, Vendor RFP coming April 15</p> -->
+			</td>
+			<td>
+			<h4 style="color:#007bb9;">Winter Conference 2014</h4>
+			<p>Dates: March 2&ndash;5, 2014</p>
+			<p>Location: Atlanta, GA</p>
+			</td>
+		</tr>
+	</table>
+</div>
+<!-- End Event Callouts -->
+
+
+
+
+
+<div id="intro" style="z-index:-100;">
+
+	<!--BOX1a ROUNDED-->
+		<div id="box1a" >
+			<h3><a href="/news/">Recent News</a></h3>
+			<div class="jflow-content-slider">
+		<div id="slides">
+		
+		<div class="slide-wrapper">
+				<div class="date">08/13/13</div>			  
+				<p><a href="/news/pr/2013/13_pr_Innovation_Showcase_081313.html">YOUi Labs named the &#8216;Best New Idea&#8217; in CableLabs&#174; Conference Poll</a><br />
+				YOUi Labs was selected in an informal poll for having the&nbsp;&hellip;&nbsp;<br />
+</p>
+			  <div class="clear"></div>
+			</div><!--close slidewrapper-->	
+		
+		<div class="slide-wrapper">
+				<div class="date">08/13/13</div>
+				<p><a href="/news/pr/2013/13_pr_CL_Global_Expansion_081313.html">CableLabs Drives Technology Innovation at a Global Scale Through Significant Member Expansion</a><br />
+CableLabs, the non-profit research and development consortium for the cable industry, today announced a substantial expansion of its&nbsp;&hellip;&nbsp;</strong><br />
+</p>
+			  <div class="clear"></div>
+			</div><!--close slidewrapper-->	
+		
+		<div class="slide-wrapper">
+				<div class="date">06/17/13</div>
+				<p><a href="/news/pr/2013/13_pr_dpoe_qualification_061713.html">CableLabs&#174; Announces Qualification of First DOCSIS&#174; Provisioning of EPON (DPoE&#8482;) Network Devices</a><br />
+CableLabs&#xAE;, the non-profit research and development consortium for the cable industry&nbsp;&hellip;&nbsp;</strong><br />
+</p>
+			  <div class="clear"></div>
+			</div><!--close slidewrapper-->
+		
+		<div class="slide-wrapper">
+				<div class="date">05/13/12</div>
+				<p><a href="/news/pr/2013/13_pr_WC_Tom_Lookabaugh_051313.html">CableLabs Taps Tom Lookabaugh as New Executive<br />Vice President, R&amp;D</a><br />
+				CableLabs, the non-profit research and development consortium for the cable industry, today announced that&nbsp;&hellip;&nbsp;<br />
+				</p>
+			  <div class="clear"></div>
+			</div><!--close slidewrapper-->	
+		
+				<div class="slide-wrapper">
+				<div class="date">03/12/13</div>			  
+				<p><a href="/news/pr/2013/13_pr_WC_Innovation_Showcase_031213.html">Altia Systems has the &lsquo;Best New Idea&rsquo; in CableLabs&reg; Conference Poll</a><br />
+				Altia Systems was selected as having the best new idea for a product most likely to succeed as part of&nbsp;&hellip;&nbsp;<br />
+</p>
+			  <div class="clear"></div>
+			</div><!--close slidewrapper-->	
+		
+		<div class="slide-wrapper">
+				<div class="date">03/12/13</div>			  
+				<p><a href="/news/pr/2013/13_pr_Cablevision_WiFi_031213.html">Cablevision Teams with CableLabs to Deliver Wi-Fi Application Technology to Augment Quality of Experience</a><br />
+				CableLabs® the non-profit research and development consortium for the cable industry, today announced that&nbsp;&hellip;&nbsp;<br />
+</p>
+			  <div class="clear"></div>
+			</div><!--close slidewrapper-->	
+		
+		
+		
+		
+		
+		
+			
+
+			
+		
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			
+		
+		
+		
+		
+		
+
+		</div><!--close slides-->
+
+</div><!--close jflow-->
+		<div id="myController">
+			<span id="btn1a" class="jFlowControl"><em>1</em></span>
+			<span id="btn2a" class="jFlowControl"><em>2</em></span>
+			<span id="btn3a" class="jFlowControl"><em>3</em></span>
+			<span id="btn4a" class="jFlowControl"><em>4</em></span>
+			<span id="btn5a" class="jFlowControl"><em>5</em></span>
+
+
+		</div><!--close myController-->
+		<ul class="navlinks">
+		  <li><a href="/news/index.html">All Press Releases</a></li>
+		  <!-- <li><a href="/news/newsletter/index.html">Newsletters</a></li> -->
+		</ul><!--close navlinks-->
+
+</div> <!--close box1a-->
+
+			<!--BOX1b ROUNDED-->
+		<div id="box1b">
+			<h3><a href="/conferences_public/">CableLabs Events</a></h3>
+			<div class="jflow-content-slider2">
+		<div id="slides2"> 	
+		
+	
+			
+		<!--	<div class="slide-wrapper">
+		    <table class="tbl-conferences">
+					<tr>
+					<td class="title">Dates: <span class="highlight">June 10&ndash;12, 2013</span></td>
+					<td class="title">Location: <span class="highlight">Washington, DC</span></td>
+					</tr>
+					<tr>
+					<td colspan="2">
+					<h4><a href="http://www.cablenet.org">CableNET</a></h4>
+					<p>At <em>The Cable Show 2013</em>, Washington DC, June 10-12, 2013</p>
+					<p style="font-size:75%; color:#007bb9"><a href="http://www.cablenet.org/exhibitors/rfp_application.html" target="_blank">Demo slots still available &ndash; apply today.</a><br />For questions contact <a href="mailto:a.smith@cablelabs.com" target="_blank">a.smith@cablelabs.com</a></p>
+					</td>
+					</tr>							
+				</table>				
+			</div>
+			-->
+			<!--close slidewrapper-->
+			
+			<div class="slide-wrapper">
+		    <table class="tbl-conferences">
+					<tr>
+					<td class="title">Dates: <span class="highlight">August 11&ndash;14, 2013 <br/>(August 11 - 13 for vendors)</span></td>
+					<td class="title">Location: <span class="highlight">Keystone, CO</span></td>
+					</tr>
+					<tr>
+					<td colspan="2">					
+					<h4><a href="https://www.cablelabs.com/conferences/">Summer Conference</a></h4>
+					<p>Keystone, CO</p><p><a href="https://www.cablelabs.com/conferences"><img src="graphics/btn-register.gif" alt="Conference Member Registration" /></a>&nbsp;&nbsp;<a href="http://cablelabs.com/conferences_public/SC2013/sc2013_rfp.html"><img src="graphics/btn-confrfp.gif" alt="Conference RFP" /></a><br /><a href="/conferences_public/SC2013/sc2013_innovation_showcase.html"><img src="graphics/btn-innovrfp.gif" alt="Innovation Showcase RFP" /></a></p>
+
+
+					<!-- <p style="font-size:75%; color:#007bb9">Member registration coming April 15, Vendor RFP coming April 15</p> -->
+
+					</td>
+					</tr>			
+				</table>
+			</div><!--close slidewrapper-->		
+			<div class="slide-wrapper">
+		    <table class="tbl-conferences">
+					<tr>
+					<td class="title">Dates: <span class="highlight">March 2&ndash;5, 2014</span></td>
+					<td class="title">Location: <span class="highlight">Atlanta, GA</span></td>
+					</tr>
+					<tr>
+					<td colspan="2">					
+					<h4><a href="#">Winter Conference 2014</a></h4>
+					<p>Atlanta, GA
+<!-- 
+					<p style="font-size:75%; color:#007bb9">Registration will open Fall 2011.</p>
+ -->
+					</td>
+					</tr>			
+				</table>
+			</div><!--close slidewrapper-->		
+		
+	<!-- 
+<div class="slide-wrapper">
+		    <table class="tbl-conferences">
+					<tr>
+					<td class="title">Dates: <span class="highlight">March 10&ndash;13, 2013</span></td>
+					<td class="title">Location: <span class="highlight">Orlando, FL</span></td>
+					</tr>
+					<tr>
+					<td colspan="2">					
+					<h4><a href="#">Winter Conference</a></h4>
+					<p>Rosen Shingle Creek, Orlando, FL<p><a href="https://www.cablelabs.com/conferences"><img src="graphics/btn-register.gif" alt="Conference Member Registration" /></a>&nbsp;&nbsp;<a href="/conferences_public/WC2013/wc2013_rfp.html"><img src="graphics/btn-confrfp.gif" alt="Conference RFP" /></a><br /><a href="/conferences_public/WC2013/wc2013_innovation_showcase.html"><img src="graphics/btn-innovrfp.gif" alt="Innovation Showcase RFP" /></a></p>
+<!~~ 
+					<p style="font-size:75%; color:#007bb9">Registration will open Fall 2011.</p>
+ ~~>
+					</td>
+					</tr>			
+				</table>
+			</div>
+ --><!--close slidewrapper-->		
+		
+		
+			
+			
+			<!-- 
+<div class="slide-wrapper">
+		    <table class="tbl-conferences">
+					<tr>
+					<td class="title">Dates: <span class="highlight">March 10&ndash;13, 2013</span></td>
+					<td class="title">Location: <span class="highlight">Rosen Shingle Creek, Orlando, FL</span></td>
+					</tr>
+					<tr>
+					<td colspan="2">					
+					<h4><a href="#">CableLabs Winter Conference 2013</a></h4>
+					<p>For more information contact <a href="mailto:a.smith@cablelabs.com">a.smith@cablelabs.com</a></p>
+					</td>
+					</tr>			
+				</table>
+			</div><!~~close slidewrapper~~>	
+ -->
+					
+<!-- 
+<div class="slide-wrapper">
+		    <table class="tbl-conferences">
+		    <tr>
+					<td class="title"><span style="color:#007bb9; font-weight:bold;">Summer Conference</span></td>
+					
+					</tr>
+					<tr>
+					<td class="title">Dates: <span class="highlight">August 5&ndash;8, 2012</span></td>
+					<td class="title">Location: <span class="highlight">Keystone, CO</span></td>
+					</tr>
+					
+					<td colspan="2" class="title">
+										<p>Keystone Resort &amp; Conference Center, Keystone, CO<p><a href="https://www.cablelabs.com/conferences"><img src="graphics/btn-register.gif" alt="Conference Member Registration" width="113" height="15"/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/conferences_public/SC2012/sc2012_rfp.html"><img src="graphics/btn-confrfp.gif" alt="Conference RFP" width="91" height="15" /></a></p>
+
+					
+					</td>
+					</tr>
+					<tr>
+					<td class="title"><span style="color:#007bb9; font-weight:bold;">CableNET</span</td>
+					
+					</tr>
+					<tr>
+					<td class="title">Dates: <span class="highlight">May 21&ndash;23, 2012</span></td>
+					<td class="title">Location: <span class="highlight">Boston, MA</span></td>
+					</tr>
+					<tr>
+					<td colspan="2" class="title">
+					
+					At <em>The Cable Show 2012</em>, Boston Convention &amp; Exhibition Center, Boston, MA
+					<p style="font-size:75%; color:#007bb9">Demo RFP will open fall 2011</p>
+					</td>
+					</tr>
+					
+				</table>
+			</div>
+ --><!--close slidewrapper-->	
+
+			
+				
+			
+			
+			
+		</div><!--close slides-->
+
+</div><!--close jflow-->
+		<div id="myController2">
+			<span  id="btn1b"  class="jFlowControl2"><em>1</em></span>
+			<span  id="btn2b"  class="jFlowControl2"><em>2</em></span>
+			<span  id="btn3b"  class="jFlowControl2"><em>3</em></span>		
+			    
+		</div><!--close myController-->
+			<ul class="navlinks2">
+			<li><a href="conferences_public/Demos/index.html">Demo Opportunities</a></li>
+			<li><a href="http://www.cablenet.org/">CableNET&reg;</a></li>
+	      </ul>
+		  <!--close navlinks-->
+</div> <!--close box1b-->
+
+	<div id="box1c">
+	<h3>Information for&nbsp;&hellip;</h3>
+	<ul>
+		<li><a href="quicklinks.html#cableoperators">Cable Operators</a></li>
+		<li><a href="quicklinks.html#suppliers">Suppliers</a></li>
+		<li><a href="quicklinks.html#appdevelopers">Application Developers</a></li>
+		<li><a href="quicklinks.html#media">Media</a></li>
+	</ul>
+	</div><!--close box1c-->
+
+	<div class="clear"></div>
+	</div><!--close intro-->
+	
+	<div id="footer">
+		<span>&copy; 2013 CableLabs, All Rights Reserved<br />CableLabs, Revolutionizing Cable Technology is a registered trademark of CableLabs.</span>
+		<ul>
+		  <li><a href="/join/index.html">become a member</a></li>
+		  <li><a href="/sitemap/index.html">site map</a></li>
+		  <li><a href="/about/contact/index.html">contact us</a></li>
+		  <li><a href="/privacy.html">privacy policy</a></li>
+  </ul>
+	</div><!--close footer-->
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-24446455-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</div><!--close wrap-->
+
+
+
+
+
+
+</body>
+</html>

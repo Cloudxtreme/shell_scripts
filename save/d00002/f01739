@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>IPv6 test - API and webmaster tools</title>
+<link rel="stylesheet" type="text/css" href="/style.css" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+<meta name="description" content="IPv6-test.com is a free service that checks your IPv6 and IPv4 connectivity and speed. Diagnose connection problems, discover which address(es) you are currently using to browse the Internet, and what is your browser's protocol of choice when both v6 and v4 are available." />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15976696-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+<script type="text/javascript" src="/jquery/jquery.js"></script>
+<script type="text/javascript" src="/jquery/jsonp/jquery.jsonp.js"></script>
+<div id='page_container'>
+<div id='header'>
+<div id='logo' onclick='document.location="http://ipv6-test.com/";'></div>
+
+
+</div>
+
+<div id='nav_container'>
+
+<ul id='navbar'><li><a href='http://ipv6-test.com/' title='connection test' class='internal'>connection test</a></li><li><a href='http://ipv6-test.com/speedtest/' title='speed test' class='internal'>speed test</a></li><li><a href='http://ipv6-test.com/pingtest/' title='ping test' class='internal'>ping test</a></li><li><a href='http://ipv6-test.com/validate.php' title='website test' class='internal'>website test</a></li><li><a href='http://ipv6-test.com/stats/' title='statistics' class='internal'>statistics</a></li><li><a href='http://ipv6-test.com/api/' title='api' class='current internal'>api</a></li><li><a href='http://forum.ipv6-test.com/' title='forum ' class='' target='_blank'>forum <img src='/img/icon-new.png' style='border:none' /></a></li></ul><div style='clear:both'></div>
+</div>
+
+
+<div id='error_box' style='display:none'>
+</div>
+
+<script>
+$("#navbar a.internal").click(function() {
+	$("#page_content").css("opacity", "0.33");
+});
+
+function show_error(s) {
+	$("#error_box").html("<span style='font-weight:bold;'>ERROR</span><br />" + s).slideDown().click(function() {});
+}
+
+function show_warning(s) {
+	$("#error_box").html("<span style='font-weight:bold;'>WARNING</span><br />" + s).slideDown().click(function() { $(this).fadeOut(); });
+}
+</script>
+
+<div id='page_content'><p>
+IPv6-test.com offer the following tools to all developers and webmasters :
+</p>
+
+<div class='api_item_double'>
+<div class='api_title'>The IPv6 test widget</div>
+<div class='api_content'>
+<p>When you add the ipv6 test widget to your website or blog, your users get a light embedded version of the ipv6-test connection test, and a realtime measurement of the ratio of IPv4 vs. IPv6 visitors to your web site.</p>
+<p>To start using the widget, copy the HTML code below to your web page where you want it to be displayed.</p>
+
+<div style='float:right'>
+<textarea id='widget_area' style='width:500px;height:160px' class='widget_load'>
+<!-- IPv6-test.com widget BEGIN -->
+<script type="text/javascript">var _ipv6test_widget_style = {
+border: "solid 1px #000",
+font_size: "12px",
+show_country_flags: true,
+show_loading_anim: true,
+ipv4_label_color: "#393",
+ipv4_background_color: "#eee",
+ipv6_label_color: "#339",
+ipv6_background_color: "#ddd",
+stats_position: "bottom",
+stats_font_size: "10px",
+stats_color: "#eee",
+stats_color_v4: "#beb",
+stats_color_v6: "#bbe",
+stats_background_color: "#666"
+}</script>
+
+<div id="_ipv6test_widget" style="width:250px;display:none">loading <a href="http://ipv6-test.com/">IPv6 connection test</a> ...</div><script type="text/javascript" src="http://ipv6-test.com/api/widget.php?domain=referer" async="async"></script>
+<!-- IPv6-test.com widget END --></textarea>
+</div>
+
+<div class='widget_load'>
+<!-- start ipv6-test widget -->
+<script type="text/javascript">var _ipv6test_widget_style = {
+border: "solid 1px #000",
+font_size: "12px",
+show_country_flags: true,
+show_loading_anim: true,
+ipv4_label_color: "#393",
+ipv4_background_color: "#eee",
+ipv6_label_color: "#339",
+ipv6_background_color: "#ddd",
+stats_position: "bottom",
+stats_font_size: "10px",
+stats_color: "#eee",
+stats_color_v4: "#beb",
+stats_color_v6: "#bbe",
+stats_background_color: "#666"
+}</script>
+
+<div id="_ipv6test_widget" style="width:250px;display:none">loading <a href="http://ipv6-test.com/">IPv6 connection test</a> ...</div><script type="text/javascript" src="http://ipv6-test.com/api/widget.php?domain=referer" async="async"></script>
+<!-- end ipv6-test widget -->
+</div>
+
+<div id='widget_styles'>
+Widget style<br />
+<select id='widget_style'>
+<option value="Default" selected>Default</option>
+<option value='Stats on top'>Stats on top</option></select>
+<div style='font-size:8px;padding-left:3px'>submit yours in the <a href='http://forum.ipv6-test.com/'>forum</a> !</div>
+</div>
+
+</div>
+</div>
+
+<div style='clear:both'></div>
+
+<div class='api_item'>
+<div class='api_title'>Discover your IPv4/6 address</div>
+<div class='api_content'>
+<p>Our address discovery API allows you to determine the IPv4, IPv6 and default addresses of any Internet connection.</p>
+<p>This is done via HTTP using any of the 3 URLs below :
+<ul>
+<li><a href='http://v4.ipv6-test.com/api/myip.php'>http://v4.ipv6-test.com/api/myip.php</a></li>
+<li><a href='http://v6.ipv6-test.com/api/myip.php'>http://v6.ipv6-test.com/api/myip.php</a></li>
+<li><a href='http://v4v6.ipv6-test.com/api/myip.php'>http://v4v6.ipv6-test.com/api/myip.php</a></li>
+</ul>
+<p>You can also add a "<i>?json</i>" suffix to the url in order to receive a <a href='http://www.json.org'>JSON</a>/JSONP formatted response.</p>
+</div>
+</div>
+
+<div class='api_item' id='api_imgtest'>
+<div class='api_title'>Add an IPv6 test button to your website</div>
+<div class='api_content'>
+<p>You may want to add an IPv6 test button so your visitors know how they connect to your website.</p>
+<p>To do so, please choose a background type and then copy the HTML code below to any place you want in your page.<p>
+<p>
+<input id='api_imgtest_clr_white' type='radio' name='color' value='white' checked='checked' />light
+<input id='api_imgtest_clr_black' type='radio' name='color' value='black' />dark
+</p>
+<p>
+<img id='api_imgtest_img' src='http://v4v6.ipv6-test.com/imgtest.png' />
+&nbsp;
+<textarea id='api_imgtest_code'>
+<a href='http://ipv6-test.com'><img src='http://v4v6.ipv6-test.com/imgtest.png' alt='ipv6 test' title='ipv6 test' border='0' /></a>
+</textarea>
+</p>
+</div>
+</div>
+
+<div style='clear:both'></div>
+
+<div class='api_item_double'>
+<div class='api_title'>Personalisation</div>
+<div class='api_content'>
+<p>You are an internet service provider or tunnel broker, and want a branded version of our tests for your users ?</p>
+<p><a href='/contact.php'>Contact us</a> for more informations.</p>
+</div>
+</div>
+
+<div style='clear:both'></div>
+
+<script>
+
+function set_bg(bl) {
+
+	document.getElementById("api_imgtest").style.background = bl ? "#555" : "#fff";
+	document.getElementById("api_imgtest").style.color = bl ? "#fff" : "#000";
+	document.getElementById("api_imgtest_img").src = bl ? "http://v4v6.ipv6-test.com/imgtest.png?bl=1" : "http://v4v6.ipv6-test.com/imgtest.png";
+
+	var ta = document.getElementById("api_imgtest_code");
+
+	ta.value = bl ? "<a href='http://ipv6-test.com'><img src='http://v4v6.ipv6-test.com/imgtest.png?bl=1' alt='ipv6 test' title='ipv6 test' border='0' /></a>" : "<a href='http://ipv6-test.com'><img src='http://v4v6.ipv6-test.com/imgtest.png' alt='ipv6 test' title='ipv6 test' border='0' /></a>";
+	ta.focus();
+	ta.select();
+
+}
+
+document.getElementById("api_imgtest_clr_white").onclick = function() { set_bg(false); };
+document.getElementById("api_imgtest_clr_black").onclick = function() { set_bg(true); };
+
+$("#widget_area").focus(function() { $(this).select(); }).focus();
+
+$("#widget_style").change(function() {
+	if (window._ipv6test_start)	{
+		$("textarea.widget_load").css("opacity", "0.5");
+		$.get("widget/styles/" + $(this).val() + ".txt", function(data) { $("textarea.widget_load").text(data).css("opacity", "1"); });
+		$.getJSON("widget/styles/" + $(this).val() + ".json", function(data) {
+			_ipv6test_style = data;
+			_ipv6test_start();
+		});
+	}
+}).change();
+
+</script>
+
+</div>
+
+
+
+<div id='footer_text'>
+
+	
+	<div style='margin:auto; text-align:center'>
+	<script type="text/javascript"><!--
+	google_ad_client = "ca-pub-9895291552337649";
+	/* text nav */
+	google_ad_slot = "9420596320";
+	google_ad_width = 728;
+	google_ad_height = 15;
+	//-->
+	</script>
+	<script type="text/javascript"
+	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
+	</div>
+
+	
+		
+	Copyright &copy; 2013 ipv6-test.com &nbsp;|&nbsp; <a href='bitcoin:1Ln1WDAuDfGxV4SLSsyLXrZf2Hs65haybk'>donate</a> &nbsp;|&nbsp; <a href='/contact.php'>contact</a><br />
+	<span class='small'>IP geolocation API by <a href='http://db-ip.com/'>DB-IP.com</a></span>
+
+	
+</div>
+
+<!-- AddThis Button BEGIN -->
+<div class="addthis_toolbox addthis_default_style ">
+<a id="facebookLike" class="addthis_button_facebook_like"></a>
+<a id="gPlusOne" class="addthis_button_google_plusone" />
+<a class="addthis_button_tweet"></a>
+<a class="addthis_counter addthis_pill_style"></a>
+</div>
+<script type="text/javascript">
+var addthis_config = {"data_track_clickback":true};
+document.getElementById("facebookLike").setAttribute("fb:like:layout", "button_count");
+document.getElementById("gPlusOne").setAttribute("g:plusone:size", "medium");
+</script>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=six0r"></script>
+<!-- AddThis Button END -->
+
+</div>
+</body>
+</html>

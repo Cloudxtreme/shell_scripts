@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #47532:
+clear(1) or libterminfo broken                                                                                                  
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #47532</h1>
+
+<pre>
+From martin@duskware.de  Mon Feb  4 20:40:48 2013
+Return-Path: &lt;martin@duskware.de&gt;
+Received: from mail.netbsd.org (mail.netbsd.org [149.20.53.66])
+	by www.NetBSD.org (Postfix) with ESMTP id 4EACC63EDFA
+	for &lt;gnats-bugs@gnats.NetBSD.org&gt;; Mon,  4 Feb 2013 20:40:48 +0000 (UTC)
+Date: Mon, 04 Feb 2013 21:40:46 CET
+From: martin@NetBSD.org
+Reply-To: martin@NetBSD.org
+To: gnats-bugs@NetBSD.org
+Subject: clear(1) or libterminfo broken
+X-Send-Pr-Version: 3.95
+
+
+<b>&gt;Number:</b>         47532
+<b>&gt;Category:</b>       lib
+<b>&gt;Synopsis:</b>       clear(1) or libterminfo broken
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       serious
+<b>&gt;Priority:</b>       high
+<b>&gt;Responsible:</b>    lib-bug-people
+<b>&gt;State:</b>          closed
+<b>&gt;Class:</b>          sw-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Mon Feb 04 20:45:00 +0000 2013
+<b>&gt;Closed-Date:</b>    Tue Feb 05 19:52:32 +0000 2013
+<b>&gt;Last-Modified:</b>  Thu Mar 14 15:50:07 +0000 2013
+<b>&gt;Originator:</b>     Martin Husemann
+<b>&gt;Release:</b>        NetBSD 6.99.16
+<b>&gt;Organization:</b>
+The NetBSD Foundation, Inc.
+<b>&gt;Environment:</b>
+System: NetBSD night-owl.duskware.de 6.99.16 NetBSD 6.99.16 (NIGHT-OWL) #136: Thu Jan 31 21:32:23 CET 2013 martin@night-owl.duskware.de:/usr/src/sys/arch/amd64/compile/NIGHT-OWL amd64
+Architecture: x86_64
+Machine: amd64
+<b>&gt;Description:</b>
+
+
+Not sure when this started, but it can only be a few days old: when using
+clear(1) in -current an additional newline is added after clearing the
+screen.
+
+
+<b>&gt;How-To-Repeat:</b>
+
+
+$ clear | hexdump -C
+00000000  1b 5b 48 1b 5b 32 4a 0a                           |.[H.[2J.|
+00000008
+
+
+while previously it (correctly) said:
+
+
+00000000  1b 5b 48 1b 5b 32 4a                              |.[H.[2J|
+00000007
+
+
+<b>&gt;Fix:</b>
+n/a
+
+
+<b>&gt;Release-Note:</b>
+
+
+<b>&gt;Audit-Trail:</b>
+From: &quot;Roy Marples&quot; &lt;roy@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47532 CVS commit: src/usr.bin/tput
+Date: Tue, 5 Feb 2013 11:31:57 +0000
+
+
+ Module Name:	src
+ Committed By:	roy
+ Date:		Tue Feb  5 11:31:56 UTC 2013
+
+ 
+ Modified Files:
+ 	src/usr.bin/tput: tput.c
+
+ 
+ Log Message:
+ Use putp(3) to output our strings.
+ Fixes PR lib/47532
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.25 -r1.26 src/usr.bin/tput/tput.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+State-Changed-From-To: open-&gt;feedback
+State-Changed-By: dholland@NetBSD.org
+State-Changed-When: Tue, 05 Feb 2013 18:01:45 +0000
+State-Changed-Why:
+This doesn't affect -6, right? So if it's fixed, it can just be closed...
+
+
+
+
+State-Changed-From-To: feedback-&gt;closed
+State-Changed-By: martin@NetBSD.org
+State-Changed-When: Tue, 05 Feb 2013 19:52:32 +0000
+State-Changed-Why:
+Verified fixed, thanks!
+
+
+
+
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47532 CVS commit: [netbsd-6] src
+Date: Thu, 14 Mar 2013 15:48:29 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Thu Mar 14 15:48:29 UTC 2013
+
+ 
+ Modified Files:
+ 	src/lib/libterminfo [netbsd-6]: Makefile.hash genman term.h
+ 	    term_private.h terminfo.3 terminfo.5.in tparm.c
+ 	src/usr.bin/tput [netbsd-6]: Makefile tput.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by roy in ticket #835):
+ 	lib/libterminfo/terminfo.3: revision 1.9
+ 	lib/libterminfo/term.h: revision 1.13
+ 	lib/libterminfo/term.h: revision 1.14
+ 	usr.bin/tput/Makefile: revision 1.11
+ 	lib/libterminfo/terminfo.3: revision 1.10
+ 	lib/libterminfo/genman: revision 1.5
+ 	lib/libterminfo/term_private.h: revision 1.11
+ 	usr.bin/tput/tput.c: revision 1.23
+ 	usr.bin/tput/tput.c: revision 1.24
+ 	usr.bin/tput/tput.c: revision 1.25
+ 	lib/libterminfo/tparm.c: revision 1.11
+ 	lib/libterminfo/Makefile.hash: revision 1.7
+ 	usr.bin/tput/tput.c: revision 1.26
+ 	lib/libterminfo/tparm.c: revision 1.12
+ 	lib/libterminfo/tparm.c: revision 1.13
+ 	lib/libterminfo/tparm.c: revision 1.14
+ 	lib/libterminfo/terminfo.5.in: revision 1.18
+ As tparm accepts longs we should treat them as long during expansion.
+ Also, fix the ~ and ! logic.
+ Move the strings vs long analysis to a private function, but allow
+ tput(1) to use it so we can work with string parameters to
+ capabilities.
+ Fix building our terminals with a non standard NETBSDSRCDIR, PR
+ lib/46793.
+ Thanks to Bernd Ernesti.
+ Remove debug accidently commited.
+ If char * &gt; long then print a suitable error when passing a string
+ parameter.
+ For platforms where we cannot fit a char * into a long, return NULL
+ and set errno to ENOTSUPP.
+ Add descriptions for terminfo keys to term.h
+ These are extracted by genman and placed into the compiled terminfo.5
+ Fixes PR lib/47090
+ Provide a disabled implentation of tlparm and ti_tlparm for
+ completeness.
+ This also improves the readability of _ti_tiparm.
+ Use putp(3) to output our strings.
+ Fixes PR lib/47532
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.4.4.1 -r1.4.4.2 src/lib/libterminfo/Makefile.hash
+ cvs rdiff -u -r1.4 -r1.4.8.1 src/lib/libterminfo/genman
+ cvs rdiff -u -r1.10.4.2 -r1.10.4.3 src/lib/libterminfo/term.h
+ cvs rdiff -u -r1.9.4.1 -r1.9.4.2 src/lib/libterminfo/term_private.h
+ cvs rdiff -u -r1.8 -r1.8.4.1 src/lib/libterminfo/terminfo.3
+ cvs rdiff -u -r1.15.6.1 -r1.15.6.2 src/lib/libterminfo/terminfo.5.in
+ cvs rdiff -u -r1.7.4.2 -r1.7.4.3 src/lib/libterminfo/tparm.c
+ cvs rdiff -u -r1.10 -r1.10.8.1 src/usr.bin/tput/Makefile
+ cvs rdiff -u -r1.22 -r1.22.4.1 src/usr.bin/tput/tput.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+<b>&gt;Unformatted:</b>
+
+ 
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

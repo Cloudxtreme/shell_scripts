@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Tarsnap - Getting started</title>
+<link rel="stylesheet" type="text/css" title="Default style" href="tarsnap.css">
+<link rel="canonical" href="http://www.tarsnap.com/gettingstarted.html">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Tarsnap is a secure online backup system for Linux, BSD, OS X, and other UNIX-like operating systems">
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10889726-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    if("http:" == document.location.protocol) {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = 'http://www.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    }
+  })();
+</script>
+</head>
+<body>
+<div class="banner">
+<h1><a href="http://www.tarsnap.com/">Tarsnap</a></h1>
+<p class="tagline">Online backups for the truly paranoid</p>
+<a href="#nav" style="display: none">Navigation menu</a>
+</div>
+<div class="nonbanner">
+<div class="main">
+<div class="onecol">
+  <div class="box">
+    <h3>Getting started with Tarsnap</h3>
+    <div class="boxcontents">
+      <p>
+	Before you can use Tarsnap to store your backups, there are four
+	steps which you have to complete:
+      </p>
+      <ol><li>
+	Signing up for a Tarsnap account.
+      </li><li>
+	Installing the Tarsnap client code.
+      </li><li>
+	Depositing some money into your Tarsnap account.
+      </li><li>
+	Registering the machines on which you will be using Tarsnap.
+      </li></ol>
+      <p>
+	Each of these steps are described in more detail below.
+      </p>
+      <h4>1. Sign up for a Tarsnap account</h4>
+      <p>
+	Go to the <a href="https://www.tarsnap.com/register.cgi">Tarsnap
+	registration page</a>, enter your email address, pick a password
+	and enter it twice, and agree to the Tarsnap terms and conditions.
+	Hit Submit.
+      </p>
+      <p>
+	You will receive an email asking you to confirm your registration.
+	(This serves two purposes:  First, it ensures that people don't
+	mistype their email addresses; and second, it makes sure that people
+	can't be registered against their will.)
+      </p>
+      <p>
+	Follow the link provided in the registration confirmation email and
+	type in your password again, and your account will be created.
+      </p>
+      <h4>2. Install the Tarsnap client code</h4>
+      <p>
+	Go to the <a href="https://www.tarsnap.com/download.html">Tarsnap
+	client code download page</a> and follow the instructions to download
+	and install the Tarsnap client code.
+      </p>
+      <p>
+	When Tarsnap is installed, a sample configuration file is installed
+	into <tt>/usr/local/etc/tarsnap.conf.sample</tt>; you may wish to
+	move or copy this to <tt>/usr/local/etc/tarsnap.conf</tt>.
+      </p>
+      <h4>3. Deposit funds into your account</h4>
+      <p>
+	Tarsnap operates on a prepaid basis (like many mobile phones), so
+	you have to add funds to your account before you can use it.  To do
+	this, log into the
+	<a href="https://www.tarsnap.com/manage.cgi">Tarsnap account
+	management interface</a> and click on "Add funds to your account" to
+	send in a payment of <b>$5 or more</b>.
+      </p>
+      <h4>4. Register machines</h4>
+      <p>
+	As part of the Tarsnap client code, there is a utility called
+	<a href="man-tarsnap-keygen.1.html"><tt>tarsnap-keygen</tt></a>
+	which registers a machine with the Tarsnap
+	server.  This serves two purposes: First, because you have to enter
+	your password (the one you set when you created your account), it
+	confirms to the server that the machine's usage should be charged to
+	your account; second, the <tt>tarsnap-keygen</tt> utility generates
+	cryptographic keys used to encrypt and sign the machine's backups.
+      </p>
+      <p>
+	To register a machine with the Tarsnap server, run
+      </p>
+<pre>tarsnap-keygen --keyfile /root/tarsnap.key --user me@example.com --machine mybox</pre>
+      <p>
+	(with appropriate values substituted) and enter your Tarsnap account
+	password when prompted.  This will create a key file in
+	<tt>/root/tarsnap.key</tt> which Tarsnap can use to store, restore,
+	and delete archives.
+	<b>STORE THIS FILE SOMEWHERE SAFE!</b>  Copy it to a different
+	system, put it onto a USB disk, give it to a friend, print it out
+	(it is printable text) and store it in a bank vault &mdash; there are
+	lots of ways to keep it safe, but pick one and do it.  If you lose
+	the Tarsnap key file, you will not be able to access your archived
+	data.
+      </p>
+      <p>
+	If you have multiple machines, you almost certainly want to create a
+	separate key file for each machine.
+      </p>
+      <h4>Using Tarsnap</h4>
+      <p>
+	Once you've created key file(s), you're ready to start using Tarsnap.
+	If you've ever used the UNIX <tt>tar</tt> utility, you'll probably be
+	able to go from here on your own &mdash; if not, you may wish to read
+	the <a href="usage.html">general usage</a> instructions or the
+	<a href="man-tarsnap.1.html">Tarsnap man page</a>.
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+<div class="leftmargin"><div class="nav" id="nav"><ul class="navtop"><li><a href="index.html">Tarsnap</a></li><li><a href="design.html">Design</a></li><li><a href="https://www.tarsnap.com/download.html">Download</a></li><li><a href="documentation.html">Documentation</a><ul><li><a class="current" href="gettingstarted.html">Getting started</a></li><li><a href="usage.html">General usage</a></li><li><a href="man.html">Man pages</a></li><li><a href="technical.html">Technical details</a></li><li><a href="faq.html">FAQ</a></li></ul></li><li><a href="support.html">Support</a></li><li><a href="https://www.tarsnap.com/account.html">Accounts</a></li></ul></div></div></div>
+</body></html>

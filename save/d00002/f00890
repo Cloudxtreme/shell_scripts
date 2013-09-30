@@ -1,0 +1,125 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.45
+     from nwf on 12 January 1997 -->
+
+<TITLE>NetBSD/amiga-Networking-FAQ - FAQ14</TITLE>
+</HEAD>
+<BODY>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_68.html">previous</A>, <A HREF="nwf_70.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_55.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+<HR>
+
+
+<H2><A NAME="SEC69" HREF="nwf_toc.html#SEC69">5.14 What is proxy-arp, how do I use it?</A></H2>
+
+<P>
+Imagine the following situation: you want to hook up a machine connected
+via a serial line to a network, and you want to reach the machine connected
+via that point-to-point link from the outside net.
+
+</P>
+<P>
+See the picture below for an example. The problem here is that no host on
+the ethernet knows to forward packets destines for noon to dusk. The
+solution for this problem is to let dusk answer queries about noon's
+network (hardware) address by sending its own hardware address, and so
+getting noon's packets. This mechanism of advertising someone else's
+IP-number via the own hardware address is called <EM>proxy arp</EM>.
+
+</P>
+
+<P>
+<A NAME="pic3"><PRE>
+   +-------+
+   |somebox|
+   +---+---+
+       |                       Ethernet
+-------+-------------+--------------
+                     |
+                  +--+-+ 132.199.15.99
+                  |dusk|
+                  +--+-+ 10.0.0.1
+                     |
+                     | SLIP/PPP
+                     |
+                  +--+-+ 10.0.0.2
+                  |noon|
+                  +----+ 132.199.15.97
+</PRE>
+
+</P>
+<P>
+In this picture SOMEBOX is some random host, e.g. your
+gateway. DUSK is your machine acting as a gateway, and NOON is
+your friend's box connected through a serial line. You notice that the
+two machines need both two ip numbers. the 132.199-number for the
+'outside world' traffic, the 10-net (which is by definition a non-routed
+network used for such internal nets only) for the
+point-to-point-connection between your two machines.
+
+</P>
+<P>
+First, setup the PPP or SLIP connection between the two machines using
+either SLIP or PPP. I guess you'll get that. NOONs default-router
+(<TT>`/etc/mygate'</TT>) will be 10.0.0.1.
+
+</P>
+<P>
+Make sure you can ping 10.0.0.1 from NOON and 10.0.0.2 from
+DUSK.
+
+</P>
+<P>
+Next, assign the second IP-number to NOONs SLIP/PPP-interface via
+some '<CODE>ifconfig alias</CODE>':
+"<CODE>ifconfig sl0/ppp0 inet alias 132.199.15.97 ; route add 132.199.15.97
+localhost</CODE>" or some such.
+
+</P>
+<P>
+Tell DUSK how to reach 132.199.15.97: <CODE>route add 132.199.15.97
+10.0.0.2</CODE>.
+
+</P>
+<P>
+Make sure you can ping 132.199.15.97 from DUSK.
+
+</P>
+<P>
+Next, set up DUSKs ethernet-interface properly. No big deal here,
+too.  Your default router (<TT>`/etc/mygate'</TT>) on DUSK is the usual
+gateway for the ethernet.
+
+</P>
+<P>
+See if you can ping 132.199.15.99 from NOON. Should work.
+
+</P>
+<P>
+Ping some other box, e.g. SOMEBOX. From DUSK this should work,
+from NOON it shouldn't. (Rather, the ping should get out to the
+host you ping, but the ping reply won't get back to noon; try debugging
+with <CODE>tcpdump</CODE> on DUSK's le0 or sl0/ppp0).
+
+</P>
+<P>
+Next, get DUSK to answer ARP-requests for NOON (this is the
+proxy arp thing).  In order to get this work you need DUSKs
+ethernet-address, which you get during boot, from dmesg, from
+<CODE>netstat -ina</CODE>, or by reading the docs on your card. Then, issue
+the following command: <CODE>arp -s 132.199.15.97
+&#60;dusk's-ethernet-address&#62;</CODE>.
+
+</P>
+<P>
+If I didn't forget anything, that's it. DUSK should take ip-packets
+meant for NOON and send them on to NOON. Try it and tell me if
+it works. I think you'll get how to set this up to get automated from
+the default <TT>`/etc/rc*'</TT>-scripts etc.
+
+</P>
+
+<HR>
+<A HREF="http://electriclichen.com/linux/srom.html">NetBSD rules</A> - Go to the <A HREF="nwf_1.html">first</A>, <A HREF="nwf_68.html">previous</A>, <A HREF="nwf_70.html">next</A>, <A HREF="nwf_71.html">last</A>, <A HREF="nwf_55.html">above</A> section, <A HREF="nwf_toc.html">table of contents</A>.
+</BODY>
+</HTML>

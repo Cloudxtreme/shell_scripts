@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>An Introduction to Object Storage | SoftLayer Development Network</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/sites/all/themes/softlayer/favicon.ico" type="image/x-icon" />
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/ldap_integration/ldaphelp/ldaphelp.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/aggregator/aggregator.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/node/node.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/defaults.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/system.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/system-menus.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/user/user.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/apachesolr_autocomplete/apachesolr_autocomplete.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/apachesolr_autocomplete/jquery-autocomplete/jquery.autocomplete.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/cck/theme/content-module.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/ctools/css/ctools.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/dhtml_menu/dhtml_menu.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/geshifilter/geshifilter.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/panels/css/panels.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/rate/rate.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/tableofcontents/tableofcontents.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/cck/modules/fieldgroup/fieldgroup.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/views/css/views.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/flagger/css/flagger.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/softlayer/style.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/softlayer/css/black.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/softlayer/css/suckerfish_black.css?s" />
+  <script type="text/javascript"> </script>
+  <!--[if lte IE 6]>
+<script type="text/javascript"> 
+    $(document).ready(function(){ 
+        $(document).pngFix(); 
+    }); 
+</script> 
+<![endif]-->
+    <!--[if IE]>
+<style type="text/css" media="all">@import "/sites/all/themes/softlayer/css/ie.css";</style>
+<![endif]-->
+      <!--[if lte IE 6]>
+<script type="text/javascript" src="http://sldn.softlayer.com/sites/all/themes/softlayer/js/suckerfish.js"></script>
+<![endif]-->
+        <script type="text/javascript" src="http://sldn.softlayer.com/sites/all/themes/softlayer/js/pickstyle.js"></script>
+</head>
+<body class="sidebar-left">
+  
+  <div id="header" class="clear-block">
+      <div id="logo-title">
+                              <a href="/" title="SoftLayer.com"> <img src="/sites/all/themes/softlayer/logo.png" alt="Home" id="logo" /> </a>
+                        </div><!-- /logo-title -->
+      <div id="name-and-slogan">
+        
+              </div><!-- /name-and-slogan -->
+            <form action="/article/Introduction-Object-Storage"  accept-charset="UTF-8" method="post" id="search-theme-form">
+<div><div id="search" class="container-inline">
+  <div class="form-item" id="edit-search-theme-form-1-wrapper">
+ <label for="edit-search-theme-form-1">Search this site: </label>
+ <input type="text" maxlength="128" name="search_theme_form" id="edit-search-theme-form-1" size="15" value="" title="Enter the terms you wish to search for." class="form-text apachesolr-autocomplete unprocessed" />
+</div>
+<input type="submit" name="op" id="edit-submit-2" value="Search"  class="form-submit" />
+<input type="hidden" name="form_build_id" id="form-bdb99bce2a1a59fa74df532b50543867" value="form-bdb99bce2a1a59fa74df532b50543867"  />
+<input type="hidden" name="form_id" id="edit-search-theme-form" value="search_theme_form"  />
+</div>
+
+</div></form>
+      
+
+      <!-- Needs to be fixed, only temporary fix for now -->
+              <div style="clear:both"></div>
+        <div id="suckerfishmenu" class="clear-block">   <div class="block block-menu" id="block-menu-primary-links">
+  <h2 class="title">Primary links</h2>  <div class="content"><ul class="menu"><li class="leaf first dhtml-menu "><a href="/articles" title="" id="dhtml_menu-1452">Articles</a></li>
+<li class="leaf  dhtml-menu "><a href="/blog" title="" id="dhtml_menu-3611">Blog</a></li>
+<li class="leaf  dhtml-menu "><a href="/reference/overview" title="" id="dhtml_menu-713">Reference</a></li>
+<li class="leaf last dhtml-menu "><a href="https://forums.softlayer.com/forumdisplay.php?f=27" title="Forums" id="dhtml_menu-714">Forums</a></li>
+</ul></div></div>
+ </div>
+          </div><!-- /header -->
+
+
+  <div id="page">
+    <div id="sub-banner">
+        <div class="navtext">
+          <div class="homelink"><a href="/" class="homelink">SLDN</a></div>
+          <div class="sectionsep"> | </div> 
+          <div class="sectionlink"><a href="/articles" class="sectionlink">Articles</a></div>
+      </div>
+    </div><!--/hero-banner -->
+            <div id="middlecontainer">
+              <div id="sidebar-left"><div class="sidebar-spacer"></div>  <div class="block block-views" id="block-views-Key_Articles-block_2">
+  <h2 class="title">Key Articles</h2>  <div class="content"><div class="view view-Key-Articles view-id-Key_Articles view-display-id-block_2 view-dom-id-1">
+    
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/article/Object-Masks">Object Masks</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-2 views-row-even">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/article/CDN-Integration-%E2%80%93-Getting-Information-you-Need-Faster">CDN Integration – Getting the Information you Need, Faster</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-3 views-row-odd">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/article/API-Operations-Search-Services">API Operations for Search Services</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-4 views-row-even views-row-last">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/article/Legacy-Object-Masks">Legacy Object Masks</a></span>
+  </div>
+  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div> </div></div>
+</div>
+            <div id="main">
+        <div id="squeeze">
+                                    <div id="breadcrumb"> <div class="breadcrumb"><a href="/articles">Articles</a> › An Introduction to Object Storage</div> </div>
+                                          <div id="squeeze-content">
+            <div id="inner-content">
+             
+                              <div id="service-links">Share this article:   <div class="block block-service_links" id="block-service_links-service_links">
+    <div class="content"><div class="service-links"><a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FIntroduction-Object-Storage&amp;title=An+Introduction+to+Object+Storage" title="Digg this post on digg.com" class="service-links-digg" rel="nofollow"><img src="/sites/all/modules/service_links/images/digg.png" alt="Digg" title="" width="16" height="16" /></a> <a href="http://reddit.com/submit?url=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FIntroduction-Object-Storage&amp;title=An+Introduction+to+Object+Storage" title="Submit this post on reddit.com." class="service-links-reddit" rel="nofollow"><img src="/sites/all/modules/service_links/images/reddit.png" alt="Reddit" title="" width="16" height="16" /></a> <a href="http://twitter.com/share?url=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FIntroduction-Object-Storage&amp;text=An%20Introduction%20to%20Object%20Storage" title="Share this on Twitter" class="service-links-twitter" rel="nofollow"><img src="/sites/all/modules/service_links/images/twitter.png" alt="Twitter" title="" width="16" height="16" /></a> <a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FIntroduction-Object-Storage&amp;t=An+Introduction+to+Object+Storage" title="Share on Facebook." class="service-links-facebook" rel="nofollow"><img src="/sites/all/modules/service_links/images/facebook.png" alt="Facebook" title="" width="16" height="16" /></a> <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FIntroduction-Object-Storage&amp;title=An+Introduction+to+Object+Storage&amp;summary=&amp;source=SoftLayer+Development+Network" title="Publish this post to LinkedIn" class="service-links-linkedin" rel="nofollow"><img src="/sites/all/modules/service_links/images/linkedin.png" alt="LinkedIn" title="" width="16" height="16" /></a> <a href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FIntroduction-Object-Storage&amp;title=An+Introduction+to+Object+Storage" title="Thumb this up at StumbleUpon" class="service-links-stumbleupon" rel="nofollow"><img src="/sites/all/modules/service_links/images/stumbleit.png" alt="StumbleUpon" title="" width="16" height="16" /></a></div></div></div>
+</div>
+                <div style="clear:both;"></div>
+              
+              <h1 class="title">An Introduction to Object Storage</h1>
+              <div class="tabs"></div>
+                                          <div class="node">
+    
+  
+  
+  <div class="content"><script type="text/javascript">toc_collapse=0;</script><div class="toc" id="toc">
+<div class="toc-title">Table of contents<span class="toc-toggle-message">&nbsp;</span></div>
+<div class="toc-list">
+<ol>
+<li class="toc-level-1"><a href="#Authentication_Endpoints">Authentication Endpoints</a></li>
+<li class="toc-level-1"><a href="#Key_Architecture_Points">Key Architecture Points</a>
+<ol>
+<li class="toc-level-2"><a href="#Account">Account</a></li>
+<li class="toc-level-2"><a href="#Cluster">Cluster</a></li>
+<li class="toc-level-2"><a href="#Container">Container</a></li>
+<li class="toc-level-2"><a href="#Object">Object</a></li>
+</ol>
+</li>
+<li class="toc-level-1"><a href="#Key_Object_Storage_Feature">Key Object Storage Feature</a>
+<ol>
+<li class="toc-level-2"><a href="#CDN_Integration">CDN Integration</a></li>
+<li class="toc-level-2"><a href="#CDN_API">CDN API</a></li>
+<li class="toc-level-2"><a href="#Search_Service_API">Search Service API</a></li>
+<li class="toc-level-2"><a href="#Search_API">Search API</a></li>
+</ol>
+</li>
+<li class="toc-level-1"><a href="#Language_Bindings">Language Bindings</a></li>
+</ol>
+</div>
+</div>
+<p>With the release of SoftLayer Object Storage, we wanted to integrate brand-unique, value-added features on top of the already comprehensive tools that have been set in place to provide a first-in-class product for our customers. While Object Storage has many features that come standard from the <a href="http://openstack.org/projects/storage/">OpenStack Object Storage</a> project (code-named Swift), the additional features we have integrated will bring your storage to the next level.<br />
+Before introducing you to the features, we’d like to better acquaint you with the architecture you can expect to see when working with SoftLayer Object Storage.</p>
+<h2 id="Authentication_Endpoints">Authentication Endpoints</h2>
+<p>SoftLayer Object Storage has API endpoints on both the private network and public internet. Private network calls can only be made from servers and computing instances purchased from SoftLayer, or devices connected to the private network via VPN. Authentication requests should be sent to the endpoint associated with the location of your Object Storage account.</p>
+<p>The response body of the authentication request will contain endpoint information for clusters associated with your account.</p>
+<div style="background-color: #D3D3D3; padding: 2px 10px;">
+<strong>Dallas:</strong><br />
+    Public Network: https://dal05.objectstorage.softlayer.net/auth/v1.0<br />
+    Private Network: https://dal05.objectstorage.service.networklayer.com/auth/v1.0<br />
+<strong>Amsterdam:</strong><br />
+    Public Network: https://ams01.objectstorage.softlayer.net/auth/v1.0<br />
+    Private Network: https://ams01.objectstorage.service.networklayer.com/auth/v1.0<br />
+<strong>Singapore:</strong><br />
+    Public Network: https://sng01.objectstorage.softlayer.net/auth/v1.0<br />
+    Private Network: https://sng01.objectstorage.service.networklayer.com/auth/v1.0
+</div>
+<h2 id="Key_Architecture_Points">Key Architecture Points</h2>
+<p>Unlike the regular SoftLayer API, the Object Storage API is solely written for RESTbased programming so users will be working completely out of a browser, utilizing URLs and request headers rather than the standard methods that one might usually see. This allows us to utilize the tools and bindings that already exist to ensure you get the best version of Object Storage possible. When navigating through the Object Storage API,<br />
+you’ll be working with three basic storage concepts which are easily navigable and allow you to fully customize the way you store your data.</p>
+<h3 id="Account">Account</h3>
+<p>The <b>account</b> for Object Storage is treated like any SoftLayer account. It is the main point of reference to which all of your data is associated. When completing request headers, your account will generally be referenced to retrieve, add or change information. From your account you may create containers to store data and clusters to…</p>
+<h3 id="Cluster">Cluster</h3>
+<p>A <b>cluster</b> is a set of servers that create scalable and fault-tolerant object storage. When using SoftLayer Object Storage, your data is replicated across the cluster, ensuring that it can be retrieved in the event of node failure. Object storage clusters will be located in our Dallas, Amsterdam and Singapore datacenters.</p>
+<h3 id="Container">Container</h3>
+<p>The <b>container</b> is the basic storage unit for all data that you store. Containers work in Object Storage much like folders or directories work in many operating systems. The main difference between containers and folders or directories is that containers are unable to be nested. At minimum, an account must contain one container and the number of containers allowed per account is unlimited. Optionally, additional containers can be created within your account and data may be organized within those containers based on your business needs.</p>
+<h3 id="Object">Object</h3>
+<p>An <b>object</b> represents the data and any metadata for the files stored in the system. Through the REST interface, metadata for an object can be included by adding custom HTTP headers to the request and the data payload as the request body. Objects cannot exceed 5GB and must have names that do not exceed 1024 bytes after URL encoding. However, objects larger than 5GB can be segmented and then concatenated together so that you can upload 5 GB segments and download a single concatenated object. You can work with the segments and manifests directly with HTTP requests.</p>
+<div style="background-color: #D3D3D3; padding: 2px 10px;">
+<b>The core API is powered by OpenStack Object Storage.</b><br />
+OpenStack Object Storage Developer Guide<br />
+http://docs.openstack.org/api/openstack-object-storage/1.0/content/
+</div>
+<h2 id="Key_Object_Storage_Feature">Key Object Storage Feature</h2>
+<p>Now that you are familiar with the basics of SoftLayer Object Storage, we’d like to briefly introduce you to two of the key features that come standard with every Object Storage account. For more information on either of these features, click the link embedded in the descriptions and you will be routed to an in-depth article on the selected feature.</p>
+<h3 id="CDN_Integration">CDN Integration</h3>
+<p>With CDN integration available for all Object Storage clients, you now have the option to replicate your data to all Points of Presence (PoPs) on the SoftLayer network. This means getting information stored closer to your clients worldwide and allowing your data to be retrieved from the server that will get clients' information the quickest.</p>
+<div style="background-color: #D3D3D3; padding: 2px 10px;">
+<h3 id="CDN_API">CDN API</h3>
+<p><a href="http://sldn.softlayer.com/reference/Object-Storage-CDN">Methods</a><br />
+<a href="http://sldn.softlayer.com/article/CDN-Integration-%E2%80%93-Getting-Information-you-Need-Faster">CDN Integration – Getting the Information you Need, Faster</a>
+</p></div>
+<h3 id="Search_Service_API">Search Service API</h3>
+<p>Exclusive to SoftLayer Object Storage is the Search Service API. This API, built directly on top of the Object Storage API, allows you to customize you search not only to search by account, container or object, but also to input a variety of parameters in your request to ensure the best return possible. These parameters include, but are not limited to:</p>
+<ul>
+<li>Format – Specify the format in which your results are returned.  Current formatting options are json, XML and plain text.</li>
+<li>Recursive – Require the system to search recursively, if desired.</li>
+<li>Sort – Indicate how you would like your response sorted.  While the system defaults to sort based on the best match, users have the option to override and receive the results based on the desired property.</li>
+</ul>
+<div style="background-color: #D3D3D3; padding: 2px 10px;">
+<h3 id="Search_API">Search API</h3>
+<p><a href="http://sldn.softlayer.com/article/API-Operations-Search-Services">API Operations for Search Services</a>
+</p></div>
+<h2 id="Language_Bindings">Language Bindings</h2>
+<p>In addition to using the REST API we provide language bindings for a number of<br />
+languages.</p>
+<style type="text/css">
+ul.languageList {
+    background: none repeat scroll 0 0 transparent;
+    border-bottom: 1px dotted #CCCCCC;
+    border-top: 1px dotted #CCCCCC;
+    padding: 10px;
+}
+ul.languageList li {
+    display: inline;
+    list-style-type: none;
+    margin-right: 23px;
+}
+ul.languageList li a:hover {
+    opacity: 0.5;
+}
+ul.languageList li a {
+    display: inline-block;
+    height: 60px;
+    overflow: hidden;
+    text-indent: -9999em;
+    width: 48px;
+}
+ul.languageList li.csharp a {
+    background: url("/sites/all/themes/softlayer/images/black/docCSharp.png") no-repeat scroll 0 0 transparent;
+}
+ul.languageList li.perl a {
+    background: url("/sites/all/themes/softlayer/images/black/docPerl.png") no-repeat scroll 0 0 transparent;
+}
+ul.languageList li.php a {
+    background: url("/sites/all/themes/softlayer/images/black/docPHP.png") no-repeat scroll 0 0 transparent;
+}
+ul.languageList li.python a {
+    background: url("/sites/all/themes/softlayer/images/black/docPython.png") no-repeat scroll 0 0 transparent;
+}
+ul.languageList li.ruby a {
+    background: url("/sites/all/themes/softlayer/images/black/docRuby.png") no-repeat scroll 0 0 transparent;
+}
+ul.languageList li.vbnet a {
+    background: url("/sites/all/themes/softlayer/images/black/docVBNet.png") no-repeat scroll 0 0 transparent;
+}
+ul.languageList li.java a {background: url("/sites/all/themes/softlayer/images/black/docJava.png") no-repeat scroll 0 0 transparent;}
+</style>
+<div style="margin: 0px auto; width: 50%">
+<ul class="languageList">
+<li class="php"><a href="https://github.com/softlayer/softlayer-object-storage-php"></a></li>
+<li class="python"><a href="https://github.com/softlayer/softlayer-object-storage-python"></a></li>
+<li class="ruby"><a href="https://github.com/softlayer/softlayer-object-storage-ruby"></a></li>
+<li class="java"><a href="https://github.com/softlayer/softlayer-object-storage-java"></a></li>
+</ul>
+</div>
+<div class="flagger">
+					<span class="flaggertitle">Was this helpful?</span>
+					<div class="flaggeroption"><a id="flaggeryes" href="#">Yes</a></div>
+					<div class="flaggeroption"><a id="flaggerno" href="#">No</a></div>
+					<form id="flaggerform" method="post">
+					<div style="display:none;" class="flaggermessage">Thank you! If you'd like to leave a comment, please use the form below: <div class="flaggercomment"><textarea class="flaggertext" name="flaggertext"></textarea><input type="submit" class="submit" id="flaggersubmit" value="Submit" /></div></div><div style="display:none" class="flaggersuccess">Your comment has been submitted! Thank you for your feedback.</div>
+					</form>
+				</div>
+				<div id="flaggerget" style="display:none;"></div>
+				<div id="flaggernode" style="display:none;">72764</div></div>
+  <div class="clear-block clear"></div>
+
+      <div class="links"><ul class="links inline"><li class="comment_forbidden first last"></li>
+</ul></div>
+  
+</div>
+ 
+                                        </div><!-- /inner-content -->
+          </div><!-- /squeeze-content -->
+        </div><!-- /squeeze -->
+      </div><!-- /main -->
+          </div><!-- /middle-container -->
+    <div style="clear:both"></div>
+            <div id="footer">
+              <div id="footer-region">  <div class="block block-block" id="block-block-3">
+    <div class="content"><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-22553883-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></div></div>
+</div>
+                  
+      &copy; 2013 SoftLayer Technologies, Inc. All rights reserved.
+    </div><!-- /footer -->
+  <div style="clear:both"></div>
+  <script type="text/javascript" src="/sites/all/modules/jquery_update/replace/jquery.min.js?s"></script>
+<script type="text/javascript" src="/misc/drupal.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/apachesolr_autocomplete/apachesolr_autocomplete.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/apachesolr_autocomplete/jquery-autocomplete/jquery.autocomplete.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/dhtml_menu/dhtml_menu.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/panels/js/panels.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/tableofcontents/jquery.scrollTo-min.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/tableofcontents/jquery.localscroll-min.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/tableofcontents/tableofcontents.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/flagger/js/flagger.js?s"></script>
+<script type="text/javascript" src="/misc/collapse.js?s"></script>
+<script type="text/javascript" src="/misc/tableheader.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/views/js/base.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/views/js/ajax_view.js?s"></script>
+<script type="text/javascript" src="/sites/all/themes/softlayer/js/jquery.pngFix.js?s"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "apachesolr_autocomplete": { "path": "/apachesolr_autocomplete" }, "dhtmlMenu": { "slide": "slide", "clone": "clone" }, "views": { "ajax_path": "/views/ajax", "ajaxViews": [ { "view_name": "Key_Articles", "view_display_id": "block_2", "view_args": "", "view_path": "node/72764", "view_base_path": "articles", "view_dom_id": 1, "pager_element": 0 } ] } });
+//--><!]]>
+</script>
+    </div> <!-- /page -->
+</body>
+</html>

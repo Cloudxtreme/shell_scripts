@@ -1,0 +1,854 @@
+<html>
+
+<link rel="stylesheet" href="style.css">
+
+<head>
+	<title>Nautilus :: nautilus6.org </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<table width="66%" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+	<table width="100%" border="0" cellpadding="2" cellspacing="1">
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header">Romain KUNTZ</td>
+		<td width="33%" bgcolor="#666666" class="header">kuntz(at)sfc.wide.ad.jp</td>
+	</tr>
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header">Nautilus6 Working Group</td>
+		<td width="33%" bgcolor="#666666" class="header">http://www.nautilus6.org</td>
+	</tr>
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header">Version 1.9</td>
+		<td width="33%" bgcolor="#666666" class="header">Last modified 2006-02-01</td>
+	</tr>
+
+	</table>
+</td></tr>
+</table>
+
+<body bgcolor="#ffffff" text="#000000" alink="#000000" vlink="#666666" link="#990000">
+[<a href="http://www.nautilus6.org">http://www.nautilus6.org</a>]
+<br>
+<br>
+<br>
+This document is also available in <a href="http://www.nautilus6.org/doc/tc-vaio-linux-bsd-20041221-KuntzR.txt">text format</a>.<br>  
+<br>
+<br>
+<div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2"><b><span class="title">Debian GNU/Linux and NetBSD 1.6.2 on SONY VAIO U50/70</span></b></font></div>
+<hr>
+<br>
+<table border="0">
+<tr>    
+<td><img src="./pics/U50.jpg"></img></td>
+<td>
+This VAIO is sold with Microsoft Windows XP. This document explains how to install another operating system. We will see here how to install both <a href="http://www.debian.org">Debian GNU/Linux</a> and  <a href="http://www.netbsd.org">NetBSD 1.6.2</a> on the  <a href="http://www.jp.sonystyle.com/Style-a/Product/U/">SONY VAIO U70</a>. The VAIO has several USB ports, one firewire ports and one ethernet port. I experienced problems installing from a firewire CD-ROM for both Linux and NetBSD. I also had problems with the USB floppy drive with Linux, when swaping the floppies. So for Linux, the network install is the easiest way, unless you have an USB CD-ROM drive. For NetBSD we will use an USB floppy drive. The SONY USB keyboard sold with the VAIO is not recognized by NetBSD, so I advice you to use another USB keyboard, plugged on the craddle of the VAIO.
+</td>
+</tr>           
+</table>
+<br>
+
+<div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2"><b><br><span class="title">Table of Contents</span></b></font></div>
+<hr>
+<br>
+1. <a href="vaio.html#1">What do you need?</a><br>
+2. <a href="vaio.html#2">Prepare the VAIO hard drive</a><br>
+<ul>
+a. <a href="vaio.html#2a">Boot on KNOPPIX from the network</a><br>
+b. <a href="vaio.html#2b">Part the disks</a><br>
+</ul>
+3. <a href="vaio.html#3">Install NetBSD 1.6.2</a><br>
+<ul>
+a. <a href="vaio.html#3a">Prepare NetBSD installation</a><br>
+b. <a href="vaio.html#3b">NetBSD installation</a><br>
+c. <a href="vaio.html#3c">NetBSD configuration</a><br>
+d. <a href="vaio.html#3d">Known issues</a><br>
+</ul>
+4. <a href="vaio.html#4">Install Debian GNU/Linux</a><br>
+<ul>
+a. <a href="vaio.html#4a">Prepare Linux installation</a><br>
+b. <a href="vaio.html#4b">Linux installation</a><br>
+c. <a href="vaio.html#4c">Tune your Linux</a><br>
+</ul>
+5. <a href="vaio.html#5">Picture Gallery</a><br>
+<br>
+<a href="vaio.html#ref">References</a><br>
+<a href="vaio.html#ack">Acknowledgement</a><br>
+<a href="vaio.html#contact">Contact</a><br>
+<br>
+
+<a name="1"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2"><b><br><span class="title">1. What do you need?</span></b></font></div></a>
+<hr>
+<br>
+Of course you need a SONY VAIO U50 or U70. We used the U70 in our tests, but 
+everything should work fine with the U50 that is almost the same hardware.<br>
+<br>
+You will also need another computer that will act as a server for the network
+installation. The VAIO and this computer will have to be connected via the 
+Internet (the same LAN would be faster for the operations).<br>
+<br>
+To install NetBSD you will also need an USB floppy drive.<br>
+<br>
+Also, get a KNOPPIX, it will be useful:<br>
+<a href="http://www.knoppix.org/">http://www.knoppix.org/</a><br>
+We used the KNOPPIX 3.3 for our tests, newer versions are also OK.<br>
+<br>
+
+<a name="2"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2"><b><br><span class="title">2. Prepare the VAIO hard drive</span></b></font></div></a>
+<hr>
+<br>
+I experienced issues with the VAIO USB keyboard during both NetBSD and Linux
+installation. So, I advice to use another USB keyboard, plugged on the craddle 
+of the VAIO. If you only plan to install Linux, you can still use the VAIO
+keyboard but you will have to follow these instructions to prepare the VAIO
+hard drive, then it will be easy to install the operating system without using
+the keyboard. The VAIO USB keyboard issues disappears with Linux once the OS
+is installed, but not with NetBSD.<br>
+<br>
+First, we will boot on a KNOPPIX from the network, it will allow us to access
+the hard drive.<br>
+<br>
+<a name="2a"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0"><b><br><span class="title">a. Boot on KNOPPIX from the network</span></b></font></div></a>
+<hr>
+<br>
+The VAIO U can boot via the network using PXE. We will use such feature to boot 
+a Knoppix from the Network. You could also use PXE to boot a *BSD over the network,
+many documents are available on the Internet about PXE.<br>
+<br>
+Boot on knoppix on one computer connected to the network. We will boot the VAIO from this computer.<br>
+Launch the "knoppix-terminalserver" and configure it:<br>
+<br>
+     <li> Enable root access on clients </li>
+     <li> Maybe you will have some issues with dhcp3 config file, you may need to 
+          change the configuration: check the <b>"subnet"</b> option in
+	  <b>/etc/dhcp3/dhcpd.conf</b></li>
+     <li> Restart the dhcp server: <pre># /etc/init.d/dhcp3-server restart</pre></li>
+    <li> Add in the /etc/hosts.allow file: <pre>tftp in.tftpd : ALL@ALL : ALLOW</pre></li>
+    <li> Check the NFS configuration:<br>
+          <b>/etc/hosts.allow</b> : check the line for portmap/nfsd (especially the IP address)<br>
+          <b>/etc/exports</b> : check if the cdrom share is OK (especially the IP address)</li>
+    <li>  Restart nfs-kernel-server: <pre># /etc/init.d/nfs-kernel-server restart</pre></li>
+<br>
+Now configure the VAIO to boot from the network:<br>
+<br>
+     <li> Press F2 on boot to access BIOS<br>
+          Menu "Advanced"<br>
+          Network Boot : Enabled<br></li>
+     <li>  Menu "Boot"<br>
+           Move the "Network" device up in the list<br></li>
+<br>
+You will now boot on a Knoppix from the computer where KNOPPIX runs.<br>
+<br>
+
+<a name="2b"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0"><b><br><span class="title">b. Part the disks</span></b></font></div></a>
+<hr>
+<br>
+
+Launch a shell on the VAIO and become root. We will now part the disk using 
+fdisk: <br>
+<pre># fdisk /dev/hda</pre>
+<br>
+The Hard Drive is 20Go, so we will use 10Go for Linux, 10Go for NetBSD. We wil
+l add new partitions for Linux and NetBSD. I used 10Go for Linux (swap 1Go,
+/ 7Go, /home  2Go), and 10Go for NetBSD. Here is the exact information:<br>
+<pre>
+# fdisk -l
+Disk /dev/hda: 20.0 GB, 20000268288 bytes
+255 heads, 63 sectors/track, 2431 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+Device Boot         Start         End      Blocks   Id  System
+/dev/hda1               1         123      987966   82  Linux swap
+/dev/hda2             124         975     6843690   83  Linux
+/dev/hda3             976        1219     1959930   83  Linux
+/dev/hda4            1220        2431     9735390   a9  NetBSD
+</pre> 
+<br>
+Now we can start the NetBSD installation (<a href="vaio.html#3">section 3</a>)
+or Linux installation (<a href="vaio.html#4">section 4</a>).<br>
+<br>
+Once both system are installed, you will certainly need to configure
+NetBSD or Linux bootloader to include both operating systems on startup.
+If you cannot boot anymore, you can boot on a Linux rescue floppy, then 
+type on prompt: <b>rescue root=/dev/hda2</b> (where <b>/dev/hda2</b> is 
+your linux root filesystem "/"). You will then be able to log as root. 
+Add at the end of your grub config file (/boot/grub/menu.lst):<br>
+<pre>
+title NetBSD 1.6.2
+rootnoverify (hd0,3,a)
+makeactive
+chainloader +1
+boot
+</pre>
+
+<a name="3"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2"><b><br><span class="title">3. Install NetBSD 1.6.2</span></b></font></div>
+<hr></a>
+<br>
+
+
+<a name="3a"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0"><b><br><span class="title">a. Prepare NetBSD installation</span></b></font></div></a>
+<hr>
+<br>
+
+Get NetBSD 1.6.2 floppies from <b>http://www.netbsd.org/mirrors/#ftp</b><br>
+<pre>
+ftp://ftp.jp.netbsd.org/pub/NetBSD/NetBSD-1.6.2/i386/installation/floppy/boot1.fs
+ftp://ftp.jp.netbsd.org/pub/NetBSD/NetBSD-1.6.2/i386/installation/floppy/boot2.fs
+</pre>
+<br>
+Format 2 floppies: <pre># fdformat /dev/fd0</pre>
+<br>
+Copy each image on a floppy:
+<pre>
+# dd of=/dev/fd0 if=boot1.fs
+# dd of=/dev/fd0 if=boot2.fs
+</pre>
+<br>
+Plug the USB floppy drive in VAIO, reboot the VAIO and boot on floppy disk 1.<br>
+<br>
+
+<a name="3b"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0"><b><br><span class="title">b. NetBSD installation</span></b></font></div></a>
+<hr>
+<br>
+
+When asked, swap floppy disk 1 with disk 2.<br>
+<br>
+The VAIO USB keyboard does not work with NetBSD, so either you use another 
+keyboard, or you can perform installation with the stick on the VAIO, thus 
+only use left/right/up/down and enter... But in this case you need to perform
+the operations explained in <a href="vaio.html#2">section 2</a> to prepare the VAIO hard disk.<br>
+<br>
+On the first menu choose <b>a</b>. Then choose default values.
+When asked, choose to use only part of the disk to install NetBSD. You can
+then edit the NetBSD partition and set it active. When it is done, exit the 
+menu to continue the installation. You can then choose to install bootselector.<br>
+<br>
+You can then choose a Standard installation and select "Partitions are ok".
+Choose the default name for the disk. You can then confirm that you want to 
+process the installation.<br>
+<br>
+You can choose a full installation, via ftp.<br>
+<br>
+Remove floppy, reboot and check if it boots correctly.
+From now you will need a keyboard that works! If you don't have one, you may 
+be able to perform some trick to activate the SSH server in NetBSD (for example
+accessing the NetBSD root partition and change some config files, but I advice 
+you to not use Linux to perform such a trick because writing on UFS filesystem 
+is still unstable).<br>
+<br>
+
+<a name="3c"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0"><b><br><span class="title">c. NetBSD configuration</span></b></font></div></a>
+<hr>
+<br>
+
+I advice to modify the <b>toor</b> account to use bash as default shell.
+Do not modify the root shell directly, as the bash binary is in 
+a mounted partition (/usr), it could be a problem if you have issues
+with your system.<br>
+<br>
+<li> Install bash:<br>
+<pre>
+# ftp ftp.jp.netbsd.org
+> cd NetBSD/packages/1.6.2/i386/All
+> get bash-2.05.2.7nb1.tgz
+> quit
+# pkg_add bash-2.05.2.7nb1.tgz
+</pre>
+</li>
+<li> Modify the passwd file with <b>vipw</b> command: copy-paste the "root" line, 
+     change "root" with "toor" and the shell to "/usr/pkg/bin/bash"</li>
+<li> You can now log as "toor" instead of "root" (with the same password)</li>
+<br>
+
+Activate SSH server on startup:<br>
+<br>
+<li>Add the following line in /etc/rc.conf:<br>
+<pre>shd=YES</pre></li>
+<li> Permit root login with adding in /etc/ssh/sshd_config:<br>
+<pre>PermitRootLogin yes</pre></li>
+<li>You can reboot or launch SSH server with <b>/usr/sbin/sshd</b></li>
+<br>
+
+Add an user account:<br>
+<br>
+<pre># useradd -s /usr/pkg/bin/bash -d /home/kuntz -m -v kuntz</pre>
+<pre># passwd kuntz</pre>
+<br>
+
+You can install new packages easily:<br>
+<br>
+<li> Add in .bashrc file:
+<pre>export PKG_PATH=ftp://ftp.jp.netbsd.org/pub/NetBSD/packages/1.6.2/i386/All</pre></li>
+<li>Apply changes:
+<pre># source .bashrc</pre></li>
+<li>You can now install packages with the following command:
+<pre># pkg_add -v package_name</pre></li>
+<br>
+
+In order to have the japanese keymap on boot, you can add in <b>/etc/rc.local</b>:
+<pre>wsconsctl -k -w encoding=jp</pre>
+<br>
+
+<a name="3d"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0"><b><br><span class="title">d. Known issues</span></b></font></div></a>
+<hr>
+<br>
+
+If you try to plug/unplug a card in the Compact Flash slot, the VAIO will freeze 
+(with NetBSD 1.6.2, not tested with another version).<br>
+<br>
+  
+To support the wireless chipset (Atheros), you need at least NetBSD 2.0.
+For that purpose you will need to recompile the kernel.
+First install several packages that we need for this task:<br>
+<br>
+<li>Some tools for compilation (dependencies will be automatically installed)
+<pre>
+# pkg_add -v autoconf213 
+# pkg_add -v automake14
+</pre></li>
+<li>The kernel sources
+<pre>
+# lftp ftp.jp.netbsd.org
+> cd pub/NetBSD/NetBSD-2.0/source/sets
+> mget syssrc.tgz
+> quit
+</pre></li>
+<li> Unpack the tarball in /
+<pre>
+# tar xvzpf syssrc.tgz
+# cd /sys/arch/i386/conf/
+# cp GENERIC_LAPTOP VAIO_U70 
+</pre></li>
+<li> Edit the VAIO_U70 file, adjust it according to your needs. Some comments:
+<ul>
+    <li>For the CPU, just keep the "options I686_CPU"</li>
+    <li>You can uncomment "options PCMCIAVERBOSE", it can be useful</li>
+    <li>To support wireless, in the "Network Interfaces" section, you can add:
+        <pre>ath*    at cardbus? dev ? function ?  # Atheros 5210/5211/5212 802.11</pre></li>
+</ul>
+</li>
+<li>You can read http://netbsd.org/Documentation/kernel/ for more informations.</li>
+<br>
+
+<a name="4"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2"><b><br><span class="title">4. Install Debian GNU/Linux</span></b></font></div>
+<hr></a>
+<br>
+
+
+<a name="4a"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0"><b><br><span class="title">a. Prepare Linux installation</span></b></font></div></a>
+<hr>
+<br>
+
+You need another computer to boot from with the VAIO. On this computer, prepare a boot server:<br>
+<pre>
+# apt-get install dhcp tftpd-hpa
+# mkdir /tftpboot
+# cd /tftpboot
+</pre>
+I had some issues with the <b>dhcp3-server package</b> (v3.0.3): when the VAIO 
+tries to get the boot files via tftp, an error message is displayed in the 
+server's log ("tftp: client does not accept options"). If you meet the same issue, 
+install the version 3.0.1. The <b>dhcp</b> package should also be safe.<br>
+<br>
+
+Get the latest package for network installation:<br>
+<pre>
+# wget http://http.us.debian.org/debian/dists/unstable/main/installer-i386/current/images/netboot/netboot.tar.gz
+</pre>
+<br>
+
+Unpack it in the <b>/tftpboot</b> directory:
+<pre>
+# tar zxvf netboot.tar.gz 
+</pre>
+<br>
+
+Configure the tftp server:<br>
+<pre>
+# vi /etc/inetd.conf  
+tftp dgram   udp     wait    root  /usr/sbin/in.tftpd -s /tftpboot -r blksize
+</pre>
+<br>
+
+Configure the dhcp server. Add the following lines. You need the VAIO Mac address:<br>
+<pre>
+# vi /etc/dhcpd.conf
+host pxeinstall {
+hardware ethernet [mac-address of VAIO without brackets];
+filename "pxelinux.0";
+}
+</pre>
+<br>
+
+Restart inetd and dhcp server:<br>
+<pre>
+# /etc/init.d/inetd restart
+# /etc/init.d/dhcp restart
+</pre>
+<br>
+
+Prepare VAIO for network boot:<br>
+<br>
+<li> Press F2 on boot to access BIOS<br>
+     Menu "Advanced"<br>
+     Network Boot : Enabled<br></li>
+<li>  Menu "Boot"<br>
+      Move the "Network" device up in the list<br></li>
+<br>
+
+Reboot VAIO, press F12 at boot (VAIO screen) to start network boot.<br>
+<br>
+
+
+<a name="4b"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0"><b><br><span class="title">b. Linux installation</span></b></font></div></a>
+<hr>
+<br>
+
+Enter linux26 at the prompt.<br>
+I experienced some issues with the keyboard during the installation, but it
+disapeared on the first reboot after installation is complete.<br>
+<br>
+If you have parted the disk as described in <a href="vaio.html#2">section 2</a>,
+you will not have problems, you can perform the installation with the only 
+up/down/left/right and enter keys.<br>
+<br>
+After the first reboot, the keyboard will work fine, you can then go on the 
+setup (root password, user account, packages install etc.)<br>
+<br>
+You now have a Debian on your VAIO !<br>
+<pre>
+debian:~# uname -a
+Linux debian 2.6.8-1-686 #1 Thu Oct 7 03:15:25 EDT 2004 i686 GNU/Linux
+</pre>
+
+
+<a name="4c"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+0"><b><br><span class="title">c. Tune your Linux</span></b></font></div></a>
+<hr>
+<br>
+Get <a href="http://www.nautilus6.org/doc/tc-vaio-linux-bsd-20041221-KuntzR-html/data/config-vaiou70-kernel-2.6.10">here</a> a configuration file for kernel 2.6.10 for the VAIO U70. Sound modules, ACPI, modules needed for touchscreen, frequency scaling features, SONY features etc. are enabled.
+To compile a kernel with this configuration file, you have to:<br>
+<br>
+<li> Download the 2.6.10 kernel source 
+(available from your Linux distribution packages, or from the <a href="http://www.kernel.org">
+kernel.org</a> website). With Debian, you can get them with the <b>apt-get install kernel-source-2.6.10</b>. 
+The source archive will be located in <b>/usr/src/</b>.</li>
+<li>Untar the sources, go in the newly created directory, and execute <b>make menuconfig</b>. You 
+can select <b>"Load an Alternate Configuration File"</b> at the bottom of the menu.</li>
+<li>Type the complete path to the configuration file you have downloaded from this page. Then exit and save from the 
+configuration menu.</li>
+<li>Type <b>make</b>, then <b>make install</b> (as root), then <b>make modules_install</b> (as root).</li>
+<li>Do not forget to update your LILO or GRUB configuration.</li>
+<li>You can now reboot on your new kernel !</li>
+<br>
+
+<b>NOTE:</b> 
+it looks like there are some issues when trying to compile 2.6 kernels 
+before 2.6.15 when your binutils version is greater than 2.16. 
+Apply
+<a href="http://www.kernel.org/pub/linux/devel/binutils/linux-2.6-seg-5.patch">
+this kernel patch</a> to your kernel sources and try again.<br>
+<br>
+
+If you are not confortable with kernel compilation, we invite you to read the following HOWTOs:<br>
+<br>
+<li><a href="http://www.falkotimme.com/howtos/debian_kernel2.6_compile/index.php">How to compile a 2.6 Kernel for Debian</a></li>
+<li><a href="http://www.digitalhermit.com/linux/Kernel-Build-HOWTO.html">Kernel Build Guide</a></li>
+<br>
+
+Some useful packages to install:<br>
+<br>
+<li> modconf - Device Driver Configuration</li>
+<li> cvs - Concurrent Versions System</li>
+<li> mc - Midnight Commander - a powerful file manager</li>
+<li> xvkbd - software virtual keyboard for X11</li>
+<li> gok - GNOME Onscreen Keyboard</li>
+<br>
+
+You can change your OS' hostname:<br>
+<br>
+<li> Write the name of the computer in the <b>/etc/hostname</b> file, then execute:
+     <pre># hostname -F /etc/hostname</pre></li>
+<li> Add the new name in <b>/etc/hosts</b> (on the 127.0.0.1 line) </li>
+<li> A reboot is adviced.</li>
+<br>
+
+Graphics support:<br>
+<br>
+<li> While installing XFree86, when asked you can select i810 as video driver.</li>
+<li> X.Org may be installed instead of XFree86. In that case, you can add the following 
+     line in the <b>/etc/X11/xorg.conf</b> file in the <b>i810 section</b>:</li>
+<ul>
+<pre>
+Option "PageFlip" "true"
+</pre>
+</ul>
+<br>
+
+Sound support:<br>
+<br>
+<li> Install the <b>alsa-utils</b> and <b>alsa-base</b> packages and 
+configure your sound device:
+<pre>
+mr-vaio:~# apt-get install alsa-base alsa-utils
+mr-vaio:~# alsaconf
+</pre>
+<li> The soundcard will be automatically detected (intel8x0)
+<li> A reboot helped me to get the sound working.
+<li> With alsamixer, unmute "Master M" and "PCM", and mute "Line Jack Sense" and "External", otherwise you will not have any sound.</li>
+<br>
+
+Wireless Support:  (Thanks to <a href="http://madwifiwiki.thewebhost.de/wiki/Ath0OnDebian">http://madwifiwiki.thewebhost.de/wiki/Ath0OnDebian</a>)<br>
+<br>
+<li> Switch on wireless on the right side of the VAIO.
+<li> Install the following packages:
+<pre>
+mr-vaio:~# apt-get install wireless-tools
+mr-vaio:~# apt-get install kernel-headers-2.6.8-1-686
+mr-vaio:~# ln -s /usr/src/kernel-headers-2.6.8-1-686/ /usr/src/linux
+</pre></li>
+<li> Create a symbolic link (necessary to build madwifi):
+<pre>mr-vaio:~/madwifi# ln -s /usr/src/kernel-headers-2.6.8-1-686/ /lib/modules/2.6.8-1-686/build</pre></li>
+<li> We will use the madwifi's drivers (<a href="http://sourceforge.net/projects/madwifi/">http://sourceforge.net/projects/madwifi/</a>). Download the sources from CVS (just hit enter when password is asked):<br>
+<pre>
+# cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/madwifi login 
+# cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/madwifi co madwifi
+</pre></li>
+<li> Build the modules
+<pre>
+mr-vaio:~# cd madwifi
+mr-vaio:~/madwifi# make
+mr-vaio:~/madwifi# make install
+</pre></li>
+<li> Test the module:
+<pre>mr-vaio:~/madwifi# modprobe ath_pci</pre></li>
+<li> You can put "ath_pci" in the <b>/etc/modules</b> file to load the module on boot.</li>
+<li> The new interface is called athX (not ethX). You can configure it with ifconfig
+<pre>mr-vaio:~/madwifi# ifconfig ath0 up</pre></li>
+<li> The VAIO chipset is 802.11a/b/g compliant, you may want to force one mode or another :
+<pre>
+iwpriv ath0 mode 1              lock operation to 11a only
+iwpriv ath0 mode 2              lock operation to 11b only
+iwpriv ath0 mode 3              lock operation to 11g only
+iwpriv ath0 mode 0              autoselect from 11a/b/g (default)
+</pre></li>
+
+Sonypi module will allow us to get battery level, change brightness etc.<br>
+We will briefly see how we can use it. You can get more informations here: <a href="http://popies.net/sonypi/">http://popies.net/sonypi/</a>.<br>
+<br>
+<li> First you need to install some packages if not already done:
+<pre>apt-get install libxtst-dev libx11-dev</pre></li>
+<li> Modprobe the module:
+<pre>mr-vaio:~# modprobe sonypi</pre></li>
+<li> Create the device:
+<pre>mr-vaio:~# mknod /dev/sonypi c 10 63</pre></li>
+<li> Install the softwares:
+<pre>
+mr-vaio:~# apt-cache search spicctrl
+spicctrl - Sony Vaio controller program to set LCD backlight brightness
+mr-vaio:~# apt-get install spicctrl</pre></li>
+<li> Now you can get all informations with the spicctrl command.
+     For example the "-p" switch gives you battery informations, the "-B" switch 
+     gives you the current brightness (0-255), the "-b" switch controls the brightness
+     (255 is black screen):
+<pre>
+mr-vaio:~# spicctrl -p
+BAT1: 3996/3996 100.00% AC
+mr-vaio:~# spicctrl -B
+42
+mr-vaio:~# spicctrl -b 255
+</pre>
+<li> You can add "sonypi" in the <b>/etc/modules</b> file to get it on startup</li>
+<br>
+
+To be able to use the external display you can install <b>i810switch</b>.<br>
+i810switch - Enables/disables video output to CRT/LCD on i810 video hardware<br>
+<br>
+<li>Install the software:
+<pre>
+mr-vaio:~# apt-get install i810switch
+mr-vaio:~# i810switch -h
+Usage: i810switch [crt on/off] [lcd on/off]
+crt: enables/disables the output to the CRT display
+lcd: enables/disables the output to the LCD
+no options: displays the current output status
+</pre></li>
+<li>NOTE: one has reported a problem with i810switch if the 
+external monitor is not connected when the VAIO is booted. 
+If the monitor is only connected later, the picture may be 
+distorded on the external monitor once switching with the 
+i810switch. This problem can be solved with the following X 
+options:
+<pre>
+Section "Device"
+  Identifier      "Intel 82852/855GM"
+  Driver          "i810"
+  BusID           "PCI:0:2:0"
+  Option          "MonitorLayout"   "NONE,LFP+CRT"
+EndSection
+</pre></li>
+
+CompactFLash cards support:<br>
+<br>
+<li> CF memory card: simply <b>mount /dev/hdc1</b>
+<pre># mount /dev/hdc1 /mnt</pre></li>
+<li> B-mobile card: 
+<ul>
+    <li> Install <b>wvdial</b> package
+    <pre># apt-get install wvdial</pre></li>
+    <li>Configure it by editing <b>/etc/wvdial.conf</b>
+<pre>   
+[Dialer Defaults]
+Modem = /dev/ttyS1
+Init1 = ATZ
+Stupid Mode = yes
+Phone = your_phone_number
+Username = your_username
+Password = your_password
+New PPPD = yes
+<pre></li>
+    <li> Then launch <b>wvdial</b> as root.
+</ul></li>
+<li>Ethernet CF card: recognized as eth2. You can configure it with <b>ifconfig</b>.</li>
+<br>
+
+New touchpanel support:<br>
+<br>
+<li>Install the <i>evdev</i> driver. On Debian you can install the <b>xserver-xorg-input-evdev</b> package.
+<li> If you use the X.org server (instead of XFree), and if its version is 6.9 or higher,
+    you need to rename the evdev module for the x server:                                
+<pre># mv /usr/X11R6/lib/modules/input/evdev_drv.o /usr/X11R6/lib/modules/input/evdev_drv.so</pre></li>
+<li> You need the evdev module (The kernel option is CONFIG_INPUT_EVDEV). Load it:
+<pre># modprobe evdev</pre></li>
+<li> Create the /dev/input/event4 file:
+<pre># mknod /dev/input/event4 c 13 68</pre></li>
+<li>Edit the X11 config file (replace XF86Config-4 with xorg.conf if you use the X.org server):
+<pre># vi /etc/X11/XF86Config-4
+
+      + Section "InputDevice"
+      +        Identifier      "Gunze touchscreen"
+      +        Driver          "evdev"
+      +        Option          "SendCoreEvents"        "true"
+      +        Option          "Device"                "/dev/gunze"
+      +        Option          "minx"                  "50"
+      +        Option          "maxx"                  "970"
+      +        Option          "miny"                  "90"
+      +        Option          "maxy"                  "970"
+      + EndSection
+
+       Section "serverlayout"
+               Identifier      "default layout"
+               Screen          "default screen"
+               Inputdevice     "generic keyboard"
+      +        Inputdevice     "gunze touchscreen"
+               InputDevice     "Configured Mouse"
+               InputDevice     "Generic Mouse"
+       EndSection
+</pre></li>
+<br>
+<li> You may need to play with the minx/maxx/miny/maxy options to calibrate the touchscreen</li>
+<li> Restart the X server. You should be able to enjoy the touchscreen!</li>
+<br>
+
+Old touchpanel support. It works fine with <a href="http://fluxbox.sourceforge.net/">Fluxbox</a> and <a href="http://www.kde.org/">KDE</a>, but we experienced some weird behaviour with <a href="http://www.gnome.org/">GNOME</a> using Metacity.<br>
+<br>
+<li> You need to install some packages first:
+<pre>
+# apt-get install joystick
+</pre></li>
+<li> You need to be allowed to read the <b>/dev/input/js0</b> device:
+<pre># chmod a+r /dev/input/js0</pre></li>
+<li> You can then calibrate the joystick:
+<pre># jscal -s 3,1,0,500,514,1207338,1200365,1,0,515,516,1200903,1200124,1,0,0,0,-2147483648,-2147483648 /dev/input/js0</pre></li>
+<li>Download <a href="./data/jsmouse.c">this little C code</a> and compile it:
+<pre>% gcc -o jsmouse jsmouse.c -L/usr/X11R6/lib/ -lX11</pre></li>
+<li>Execute it:
+<pre>% ./jsmouse</pre></li>
+<li>You can now touch the sceen to control the mouse. The script is not perfect, so use the new touchpanel support (above) which a lot better!</li>
+<br>
+
+ACPI Centrino Features: the VAIO U70 comes with a Pentium M 1Ghz, so we can easily control the CPU clock 
+when ACPI is enabled. We will explain how to do it for 2.6 kernels. For 2.4 kernels, and for more informations, 
+visit <a href="http://rffr.de/acpi">this page</a>.<br>
+<br>
+<li>First, you need some extra modules:
+<pre>
+mr-vaio:~# modprobe speedstep_centrino
+mr-vaio:~# modprobe cpufreq_userspace
+</pre></li>
+<li> Go to the <b>/sys/devices/system/cpu/cpu0/cpufreq/</b> directory</li>
+<li> You can check the current CPU frequency (in KHz):
+<pre>
+mr-vaio:/sys/devices/system/cpu/cpu0/cpufreq# cat cpuinfo_cur_freq
+1000000
+</pre></li>
+<li> And many informations as minimum and maximum supported frequencies:
+<pre>
+mr-vaio:/sys/devices/system/cpu/cpu0/cpufreq# cat cpuinfo_max_freq
+1000000
+mr-vaio:/sys/devices/system/cpu/cpu0/cpufreq# cat cpuinfo_min_freq 
+600000
+</pre></li>
+<li> The available frequencies are:
+<pre>
+mr-vaio:/sys/devices/system/cpu/cpu0/cpufreq# cat scaling_available_frequencies
+1000000 900000 800000 600000
+</pre></li>
+<li> Then let's change the current frequency from 1Ghz to 600Mhz.
+<ul>
+<li>Current Frequency is:
+<pre>
+mr-vaio:/sys/devices/system/cpu/cpu0/cpufreq# cat cpuinfo_cur_freq
+1000000
+</pre></li>
+<li>Then to be able to change the frequency, do the following, a <b>scaling_setspeed</b>
+file will appear:
+<pre>mr-vaio:/sys/devices/system/cpu/cpu0/cpufreq# echo userspace > scaling_governor</pre></li>
+<li>And then we can set the speed to 600 Mhz:
+<pre>mr-vaio:/sys/devices/system/cpu/cpu0/cpufreq# echo 600000 > scaling_setspeed</pre></li>
+<li>Let's check: CPU frequency is now 600Mhz
+<pre>
+mr-vaio:/sys/devices/system/cpu/cpu0/cpufreq# cat cpuinfo_cur_freq
+600000
+</pre></li>
+</ul></li>
+<br>
+
+<a name="5"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2"><b><br><span class="title">5. Picture Gallery</span></b></font></div></a>
+<hr>
+<br>
+Click to enlarge pictures.<br>
+<br>
+
+The VAIO Type U:<br>
+<table width="66%" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+	<table width="100%" border="0" cellpadding="2" cellspacing="1">
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/U50.jpg"><img src="./pics/U50.jpg"></a></center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1104.jpg"><img src="./pics/simg_1104.jpg"></a></center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1106.jpg"><img src="./pics/simg_1106.jpg"></a></center></td>
+	</tr>
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header"><center>The SONY VAIO Type U</center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center>This Windows will soon disappear...</center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center>... to be replaced with a Debian and Firefox !</center></td>
+	</tr>
+
+	</table>
+</td></tr>
+</table>
+<br>
+
+NetBSD pictures:<br>
+<table width="66%" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+	<table width="100%" border="0" cellpadding="2" cellspacing="1">
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1099.jpg"><img src="./pics/simg_1099.jpg"></a></center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1102.jpg"><img src="./pics/simg_1102.jpg"></a></center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1103.jpg"><img src="./pics/simg_1103.jpg"></a></center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1109.jpg"><img src="./pics/simg_1109.jpg"></a></center></td>
+	</tr>
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header"><center>NetBSD installation process 1/3</center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center>NetBSD installation process 2/3</center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center>NetBSD installation process 3/3</center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center>NetBSD has successfully booted!</center></td>
+	</tr>
+
+	</table>
+</td></tr>
+</table>
+<br>
+
+Linux pictures:<br>
+<table width="66%" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+	<table width="100%" border="0" cellpadding="2" cellspacing="1">
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1107.jpg"><img src="./pics/simg_1107.jpg"></a></center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1111.jpg"><img src="./pics/simg_1111.jpg"></a></center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1110.jpg"><img src="./pics/simg_1110.jpg"></a></center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1113.jpg"><img src="./pics/simg_1113.jpg"></a></center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center><a href="./pics/img_1112.jpg"><img src="./pics/simg_1112.jpg"></a></center></td>
+	</tr>
+	<tr valign="top">
+		<td width="33%" bgcolor="#666666" class="header"><center>Linux installation process</center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center>This Knoppix has been booted from the Network</center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center>Knoppix again</center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center>Here is a Debian GNU/Linux with GNOME</center></td>
+		<td width="33%" bgcolor="#666666" class="header"><center>Debian GNU/Linux and Mozilla Firefox</center></td>
+	</tr>
+
+	</table>
+</td></tr>
+</table>
+<br>
+
+<a name="ref"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2"><b><br><span class="title">References</span></b></font></div></a>
+<hr>
+<br>
+
+<a href="http://insue.com/linux/phpwiki/">Linux-Sony homepage</a><br>
+<br>
+
+<a href="http://popies.net/sonypi/">Sony Programmable I/O Control Device Driver</a><br>
+<br>
+
+Wireless Chipset support on Linux:<br> 
+<li><a href="http://sourceforge.net/projects/madwifi/">http://sourceforge.net/projects/madwifi/</a></li>
+<li><a href="http://madwifiwiki.thewebhost.de/wiki/Ath0OnDebian">http://madwifiwiki.thewebhost.de/wiki/Ath0OnDebian</a></li>
+<br>
+
+<a href="http://rffr.de/acpi">Controlling ACPI centrino features</a><br>
+<br>
+
+Some tips for <a href="http://www.us.nishida.org/vaiou/vaiou.html">Vaio Type U with Linux Fedora Core2</a><br>
+<br>
+
+<a href="http://www.linuxdevices.com/articles/AT5834950453.html">Some informations about PXE</a><br>
+<br>
+
+<a href="http://www.falkotimme.com/howtos/debian_kernel2.6_compile/index.php">How to compile a 2.6 Kernel for Debian</a><br>
+<br>
+
+<a href="http://www.digitalhermit.com/linux/Kernel-Build-HOWTO.html">Linux Kernel Build Guide</a><br>
+<br>
+
+<a href="http://tuxmobil.org/">TuxMobil - Linux on laptops, notebooks, PDAs, mobile phones</a>
+<br>
+<a href="http://tuxmobil.org/">
+<img src="http://tuxmobil.org/pics/tuxmobil_sticker.png" width="88" height="31" border="0" 
+alt="TuxMobil - Linux on Laptops, Notebooks, PDAs and Mobile Phones">
+</a>
+<br>
+
+<a name="ack"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2"><b><br><span class="title">Acknowledgement</span></b></font></div></a>
+<hr>
+<br>
+
+Many thanks to <a href="http://www.us.nishida.org/">Yoshifumi Nishida</a> for his valuable tips to install Linux on the VAIO, and for providing the jsmouse code; and Martin Andre for his help and improvement on the jsmouse code. Thanks to Ed Halley and Michael Hewner for their feedback on this document.<br>
+<br>
+
+<a name="contact"><div align="left"><font face="monaco, MS Sans Serif" color="#990000" size="+2"><b><br><span class="title">Contact</span></b></font></div></a>
+<hr>
+<br>
+Romain KUNTZ <br>
+<a href="mailto:kuntz@sfc.wide.ad.jp">kuntz(at)sfc.wide.ad.jp</a> <br>
+Nautilus6 Working Group<br>
+Murai Lab. in Keio University, Japan<br>
+<br>
+<br>
+<br>
+
+<div align="center">
+<font face="monaco, MS Sans Serif" color="#000000" size="-2">
+<b>
+Created on 2004-12-20<br> 
+v.1.9 last modified 2006-02-01
+</b>
+</div>
+</font>
+
+</body>
+</html>

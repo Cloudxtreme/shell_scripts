@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="Jan-Piet Mens" />
+        <meta name="ICBM" content="52.0341, 8.4772" />
+	<link rel="apple-touch-icon" href="/inc/apple-touch-icon.png" />
+        <meta name="geo.position" content="52.0341;8.4772" />
+        <link rel="pavatar" href="http://jpmens.net/inc/pavatar.png" />
+        <meta name="DC.title" content="Jan-Piet Mens" />    
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@jpmens" />
+	<meta name="keywords" content="jpmens,jan-piet mens,jpm" /> 
+	<link rel="icon" href="/favicon.ico" type="image/x-icon" /> 
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> 
+	<meta name="google-site-verification" content="eOAtwQVe63Q3l-kJrBJQR8fsP_AqstRj-9lw3kx92tM" />
+	<link rel="alternate" type="application/atom+xml" title="Atom all posts" href="/atom.xml" />
+
+	<link rel="stylesheet" href="/css/style.css" type="text/css"/>
+	<link rel="stylesheet" href="/css/syntax.css" type="text/css"/>
+	<script type="text/javascript" src="/inc/jquery-min.js"></script>
+	<script type="text/javascript" src="/inc/jpmens.js"></script>
+	<script type="text/javascript" src="/inc/dnssecmagic.js"></script>
+
+	
+		<title>Jan-Piet Mens :: Completely different: BIND 10</title>
+		<meta name="twitter:url" content="http://jpmens.net/2012/12/21/completely-different-bind-10/" />
+		<meta name="twitter:title" content="Completely different: BIND 10" />
+		<meta name="twitter:description" 
+			
+			  content="The #1 complaint I hear most from people about the BIND 9 name server
+(other than a ridiculous "it sucks", which it certainly doesn't) is how
+horrible it's configuration file is. I've never underst..."
+			
+			/>
+	
+
+</head>
+<body>
+        <div id="header">
+            <div class="inner">
+		<div class='mygrep'>
+                <ul>
+			<li><span id='dnssecmagic'></span></li>
+			<li><span id='ipmagic'></span></li>
+			<li><a href="/atom.xml" ><img src="/inc/feed.png" width="16" height="16" alt="Atom" /></a></li>
+                    <li>
+                          <a title="grep" href='#' class='greplink'>Search</a>
+                          <div class='form'>
+                            <form id='qform' action="http://www.google.com/cse" method="get">
+                              <input type="hidden" name="cx" value="018110282457752677189:f9v9jgssdag" />
+                              <input type="hidden" name="ie" value="UTF-8" />
+                              <input id='grepfield' type="text" name="q" size="6" />
+                              <input type="hidden" name="sa" value="Search" />
+                            </form>
+                          </div>
+                    </li>
+                    <li><a title="more" href="/pages/index.html">Pages</a></li>
+                    <li><a title="ls -l" href="/archive/">Archives</a></li>
+		    <li><a title="Twitter" href="https://twitter.com/jpmens">@jpmens</a></li>
+                    <li>
+		         <a href="https://plus.google.com/107349548255760539356?rel=author">+</a>
+		    	<a title="whoami" href="/pages/about/">About</a></li>
+                </ul>
+		</div>
+                <h1><a href="/">Jan-Piet Mens</a></h1>
+            </div>
+        </div>
+
+
+
+
+
+        <div id="content">  
+	    <div id='searchres' class="inner">
+		<div class="post" id="4064">
+		    <div class="title"><h1><a href="/2012/12/21/completely-different-bind-10/">Completely different: BIND 10</a></h1></div>
+		    <p>The #1 complaint I hear most from people about the <a href="http://www.isc.org/software/bind">BIND 9</a> name server
+(other than a ridiculous <em>"it sucks"</em>, which it certainly doesn't) is how
+horrible it's configuration file is. I've never understood that. Agreed, the
+<code>named.conf</code> file has lots of braces, and each statement has to be terminated
+with a semicolon, but so what? Perl programs and JavaScript or C are similar.
+Once you get used to that, there's pretty much nothing which <a href="http://www.isc.org/software/bind">BIND 9</a>
+will not do. Anyway, for all administrators who dislike braces and semicolons,
+I have some good news: BIND's configuration is changing.</p>
+
+<p>A lot is changing.</p>
+
+<p>After several years of development, the beta release 1.0.0 of <a href="http://bind10.isc.org/">BIND 10</a>
+has <a href="https://lists.isc.org/pipermail/bind10-announce/2012-December/000024.html">been announced</a>, and I can tell you one thing: <em>everything</em> changes. Let me
+tell you a bit about the very little I've learned so far.</p>
+
+<p>First off: the process model. While BIND 9 was a single process (<em>named</em>), BIND
+10 has been <a href="http://bind10.isc.org/wiki/DesignDiagrams">split up into a number of processes</a>, coordinated by a
+so-called "boss" which speaks to its components via a UNIX domain socket. (If
+you're more used to mail servers, I'd compare this to the difference between
+<a href="http://exim.org">Exim</a> and <a href="http://www.postfix.org/">Postfix</a>: the former does all in a single binary, the latter uses
+different binaries to perform individual tasks.) This model was chosen to
+increase reliability as well as to be able to replace individual components
+without breakage. The individual processes (copied from the <a href="http://bind10.isc.org/docs/bind10-guide.html">guide</a>) are:</p>
+
+<ul>
+<li>b10-auth — Authoritative DNS server. This process serves DNS requests.</li>
+<li>b10-cfgmgr — Configuration manager. This process maintains all of the configuration for BIND 10.</li>
+<li>b10-cmdctl — Command and control service. This process allows external control of the BIND 10 system.</li>
+<li>b10-ddns — Dynamic DNS update service. This process is used to handle incoming DNS update requests to allow granted clients to update zones for which BIND 10 is serving as a primary server.</li>
+<li>b10-msgq — Message bus daemon. This process coordinates communication between all of the other BIND 10 processes.</li>
+<li>b10-resolver — Recursive name server. This process handles incoming DNS queries and provides answers from its cache or by recursively doing remote lookups.</li>
+<li>b10-sockcreator — Socket creator daemon. This process creates sockets used by network-listening BIND 10 processes.</li>
+<li>b10-stats — Statistics collection daemon. This process collects and reports statistics data.</li>
+<li>b10-stats-httpd — HTTP server for statistics reporting. This process reports statistics data in XML format over HTTP.</li>
+<li>b10-xfrin — Incoming zone transfer service. This process is used to transfer a new copy of a zone into BIND 10, when acting as a secondary server.</li>
+<li>b10-xfrout — Outgoing zone transfer service. This process is used to handle transfer requests to send a local zone to a remote secondary server.</li>
+<li>b10-zonemgr — Secondary zone manager. This process keeps track of timers and other necessary information for BIND 10 to act as a slave server.</li>
+</ul>
+
+
+<p>Next up, zone file storage. BIND 9 uses zone master files (i.e. files on disk, which
+some people generate from a provisioning system), and BIND 10 uses an
+SQL database. The current implementation is atop <a href="http://www.sqlite.org/">SQLite</a>, with others
+supposedly to come. (This confuses me a bit, because the DHCPv6 component of BIND 10 utilizes MySQL.)
+Utilities exist to load zones from zone master files into
+the storage back-end, and individual processes are responsible for incoming and
+outgoing zone transfers (XFR).</p>
+
+<p><a href="http://bind10.isc.org/">BIND 10</a>'s configuration may (or may not) appeal to BIND 9-haters: <code>named.conf</code> has gone. It's been replaced by a so-called "configuration manager". It's task is to store configuration and provide it to the other parts of the system. We "talk" to the configuration manager via a control interface over a RESTful API, and the configuration is stored as <a href="http://json.org">JSON</a>, but we probably shouldn't touch that file -- our interface to the configuration is called <em>bindctl</em>. (Don't ever tell me you don't like braces and semicolons...!)</p>
+
+<div class="highlight"><pre><code class="js"><span class="p">{</span>
+   <span class="s2">&quot;Boss&quot;</span> <span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;components&quot;</span> <span class="o">:</span> <span class="p">{</span>
+         <span class="s2">&quot;b10-resolver&quot;</span> <span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;priority&quot;</span> <span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">&quot;special&quot;</span> <span class="o">:</span> <span class="s2">&quot;resolver&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;kind&quot;</span> <span class="o">:</span> <span class="s2">&quot;needed&quot;</span>
+         <span class="p">},</span>
+         <span class="s2">&quot;b10-auth&quot;</span> <span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;special&quot;</span> <span class="o">:</span> <span class="s2">&quot;auth&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;kind&quot;</span> <span class="o">:</span> <span class="s2">&quot;needed&quot;</span>
+         <span class="p">},</span>
+         <span class="s2">&quot;b10-xfrin&quot;</span> <span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;kind&quot;</span> <span class="o">:</span> <span class="s2">&quot;dispensable&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;address&quot;</span> <span class="o">:</span> <span class="s2">&quot;Xfrin&quot;</span>
+         <span class="p">},</span>
+         <span class="s2">&quot;b10-stats&quot;</span> <span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;kind&quot;</span> <span class="o">:</span> <span class="s2">&quot;dispensable&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;address&quot;</span> <span class="o">:</span> <span class="s2">&quot;Stats&quot;</span>
+         <span class="p">},</span>
+         <span class="s2">&quot;b10-cmdctl&quot;</span> <span class="o">:</span> <span class="p">{</span>
+            <span class="s2">&quot;special&quot;</span> <span class="o">:</span> <span class="s2">&quot;cmdctl&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;kind&quot;</span> <span class="o">:</span> <span class="s2">&quot;needed&quot;</span>
+         <span class="p">}</span>
+      <span class="p">}</span>
+   <span class="p">},</span>
+   <span class="s2">&quot;version&quot;</span> <span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+   <span class="s2">&quot;Resolver&quot;</span> <span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;listen_on&quot;</span> <span class="o">:</span> <span class="p">[</span>
+         <span class="p">{</span>
+            <span class="s2">&quot;address&quot;</span> <span class="o">:</span> <span class="s2">&quot;::1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;port&quot;</span> <span class="o">:</span> <span class="mi">5353</span>
+         <span class="p">},</span>
+         <span class="p">{</span>
+            <span class="s2">&quot;address&quot;</span> <span class="o">:</span> <span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;port&quot;</span> <span class="o">:</span> <span class="mi">5353</span>
+         <span class="p">}</span>
+      <span class="p">]</span>
+   <span class="p">},</span>
+   <span class="s2">&quot;Xfrin&quot;</span> <span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;zones&quot;</span> <span class="o">:</span> <span class="p">[</span>
+         <span class="p">{</span>
+            <span class="s2">&quot;master_addr&quot;</span> <span class="o">:</span> <span class="s2">&quot;192.168.1.20&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span> <span class="o">:</span> <span class="s2">&quot;ww.mens.de&quot;</span>
+         <span class="p">}</span>
+      <span class="p">]</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+<p><a href="http://bind10.isc.org/">BIND 10</a>'s other features include</p>
+
+<ul>
+<li>a C++ library for DNS with Python wrappers</li>
+<li>DHCPv4 and DHCPv6 servers</li>
+<li>statistics collectors</li>
+</ul>
+
+
+<p>The <a href="http://bind10.isc.org/docs/bind10-guide.html">BIND 10 Guide</a> tells us how to get started, and I suggest you read that
+carefully.</p>
+
+<p>I got at a bit of a surprise when I looked at the process list:</p>
+
+<div class="highlight"><pre><code class="text">28871 pts/1    S+     0:00 /usr/bin/python3.1 /opt/bind10/sbin/bind10
+28874 pts/1    S      0:00 /usr/bin/python3.1 /opt/bind10/libexec/bind10-devel/b10-msgq
+28875 pts/1    S      0:00 /usr/bin/python3.1 /opt/bind10/libexec/bind10-devel/b10-cfgmgr
+28876 pts/1    Sl     0:00 /usr/bin/python3.1 /opt/bind10/libexec/bind10-devel/b10-cmdctl
+28878 pts/1    S      0:00 /usr/bin/python3.1 /opt/bind10/libexec/bind10-devel/b10-stats
+</code></pre>
+</div>
+
+
+<p>I was aware that bits and pieces where in <a href="http://www.python.org/">Python</a>, but I wasn't expecting most of it to be.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>netstat -anp|grep 53
+tcp   0  0 0.0.0.0:53     0.0.0.0:*    LISTEN      28871/python3.1 
+tcp6  0  0 :::53          :::*         LISTEN      28871/python3.1 
+udp   0  0 0.0.0.0:53     0.0.0.0:*                28871/python3.1 
+udp6  0  0 :::53          :::*                     28871/python3.1 
+</code></pre>
+</div>
+
+
+<p>After launching the authoritative components, I loaded a zone or two.
+Zone data is immediately available to be served by the authoritative portion of the name server.</p>
+
+<div class="highlight"><pre><code class="text">$ b10-loadzone a.aa 
+Using SQLite3 database file /opt/bind10/var/bind10-devel/zone.sqlite3
+Zone name is a.aa.
+Loading file &quot;a.aa&quot;
+50 RR(s) loaded in 0.04 second(s) (100.00% of a.aa)                             
+Done.
+</code></pre>
+</div>
+
+
+<p>I mentioned zone data is in an <a href="http://www.sqlite.org/">SQLite</a> database, so let me look at that:</p>
+
+<div class="highlight"><pre><code class="text">SELECT * FROM zones;
+1|e.org.|IN|0
+2|a.aa.|IN|0
+
+SELECT id, name, ttl, rdtype, rdata FROM records WHERE zone_id = 2 LIMIT 5;
+5|a.aa.|60|SOA|localhost.a.aa. root.localhost. 81 28800 14400 3600000 86400
+6|a.aa.|60|NS|localhost.a.aa.
+7|a.aa.|300|A|1.1.1.1
+8|a.aa.|300|A|1.1.1.2
+9|a.aa.|300|A|127.0.0.1
+</code></pre>
+</div>
+
+
+<p>Let me test incoming zone transfers. First I have to enable the process:</p>
+
+<div class="highlight"><pre><code class="text">$ bindctl 
+[TEMP MESSAGE]: username :root  password :bind10
+Username:root
+Password: [&quot;login success &quot;]
+
+&gt; config add Boss/components b10-xfrin
+&gt; config set Boss/components/b10-xfrin/address Xfrin
+&gt; config set Boss/components/b10-xfrin/kind dispensable                                                
+&gt; config commit
+</code></pre>
+</div>
+
+
+<p>at which time the log shows:</p>
+
+<div class="highlight"><pre><code class="text">INFO  [b10-boss.boss] BIND10_CONFIGURATOR_RECONFIGURE reconfiguring running components
+INFO  [b10-boss.boss] BIND10_COMPONENT_START component b10-xfrin is starting
+INFO  [b10-boss.boss] BIND10_STARTING_PROCESS starting process b10-xfrin
+</code></pre>
+</div>
+
+
+<p>Now I can configure <a href="http://bind10.isc.org/">BIND 10</a> to load a zone from a master:</p>
+
+<div class="highlight"><pre><code class="text">&gt; config add Xfrin/zones
+&gt; config set Xfrin/zones[0]/name &quot;ww.mens.de&quot;
+&gt; config set Xfrin/zones[0]/master_addr &quot;192.168.1.20&quot;
+&gt; config commit
+</code></pre>
+</div>
+
+
+<p>Nothing happened until I triggered a manual zone transfer, but I haven't looked into why that is.</p>
+
+<div class="highlight"><pre><code class="text">&gt; Xfrin retransfer zone_name = &quot;ww.mens.de&quot;
+&quot;zone xfrin is started&quot;
+</code></pre>
+</div>
+
+
+<h3>Recursion</h3>
+
+<p><a href="http://bind10.isc.org/">BIND 10</a> includes a recursive server, but if you've glanced at the JSON snippet above, you'll have noticed that, because it's a separate process, the authoritative and recursive bits of BIND 10 cannot listen on the same address/port pair. With BIND 9 people (sometimes unfortunately) enabled authoritative and recursive serving on the same box; that is no longer possible which means (for some) a re-design of their DNS infrastructure.</p>
+
+<p>I've only touched the very top of the tip of the iceberg, but I can tell you one thing already: I have <em>a lot</em> to learn.</p>
+
+
+	
+		
+
+			<div class="postfoot">
+	<div class="pagenav">
+		
+		<a href="/2012/12/19/consolidating-twitter-accounts/">&lt;Earlier</a>
+		
+		
+		<a href="/2012/12/21/master-slave/">Later&gt;</a>
+		
+	</div>
+<div class="info">
+	<span class="tags">DNS and BIND</span> :: <a href="/2012/12/21/completely-different-bind-10/" title="Link to this article">21 Dec 2012</a> :: <a title="e-mail link to this article" href="mailto:?X-site=jpmens.net&amp;subject=Completely different: BIND 10&amp;body=You%20might%20like%20this:%20http://jpmens.net/2012/12/21/completely-different-bind-10/">e-mail</a>
+</div><!-- info -->
+</div><!-- postfoot -->
+
+			<div id='comments'>
+  <h3>Comments</h3>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jpmens-net';
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    var disqus_url = 'http://jpmens.net/2012/12/21/completely-different-bind-10/';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+
+
+	
+		</div><!-- post -->
+	    </div><!-- inner -->
+        </div><!-- content -->
+
+
+
+ <div id="tail">
+ </div>
+
+<!-- Piwik --> 
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://jpmens.net/pi/piwik/" : "http://jpmens.net/pi/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://jpmens.net/pi/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+
+        <!-- Place this image somewhere at the bottom of your page -->
+        <span><img
+                src="http://www.dnssec-failed.org/1x1.gif"
+                width="1"
+                height="1"
+                id="dnssecmagicpixel"
+                onload="dnssecmagicpixelLoaded();" /></span>
+
+ </body>
+</html>
+

@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>The DiamEAP project | Documentation</title>
+		<meta name="keywords" content="DiamEAP, AAA, Authentication, Authorization, Accounting, EAP, EAP Protocol, Extensible Authentication Protocol, Diameter, Diameter protocol, Diameter EAP Application, Diameter EAP Server, EAP MD5, EAP TLS, freeDiameter, Teraoka Laboratory" />
+		<meta name="description" content="" />		
+        <link rel="stylesheet" href="stylesheets/styles.css" type="text/css" />
+				<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17058455-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+    </head>
+<body class="style2">
+        <!-- wrapper -->
+        <div id="wrapper">
+            <!-- top -->
+            <div id="top">
+                <div id="logo">
+                    <a href="index.html"><img src="images/pixel.gif" width=400 height=62 border=0 alt="Logo"></a>
+                    <br/>
+                    a Free Open Source Diameter EAP Server
+                </div>
+                <div class="clear">
+                </div>
+                <div id="nav">
+                    <div id="nav-left"></div>
+					<div id="nav-center">
+                    <ul>
+                        <li>
+                            <span class="nav-menu"><a href="index.html">Home</a></span>
+                        </li>
+                        <li>
+                            
+                            <span class="nav-menu"><a href="plugins.html">DiamEAP plug-ins</a></span>
+                            
+                        </li>
+                        <li>
+                            <span class="nav-menu"><a href="download.html">Download</a></span>
+                        </li>
+                        <li>
+                        	
+                            <span class="nav-menu"><a href="faq.html">FAQ</a></span>
+							
+                        </li>
+                        <li>
+                            <span class="nav-menu"><a href="projects.html">Related projects</a></span>
+                        </li>
+                        <li>
+                        	<span class="nav-active-l"></span>
+                            <span class="nav-active-m"><a href="documentation.html">Documentation</a></span>
+							<span class="nav-active-r"></span>
+                        </li>
+                    </ul>
+					</div>
+					<div id="nav-right"></div>
+                </div>
+            </div>
+            <!-- end top -->
+            <div class="clear">
+            </div>
+           <!-- no-header -->
+            <div id="no-header">
+            </div>
+            <div id="top-shadow-bottom">
+            </div>
+            <div class="clear">
+            </div>
+            <!-- content -->
+            <div id="content-level1">
+                <div id="content-top">
+                    <div id="content-top-left">
+                    </div>
+                    <div id="content-top-right">
+                    </div>
+                </div>
+                <div id="content">
+				
+           <br/>
+                <h1>Documentation</h1>
+                
+                <p>
+	DiamEAP Server is used as an extension to freeDiameter. DiamEAP cannot be started without a configuration file. Although, it provides defaults values for most of its configuration parameters. It is advised to modify most of the configuration parameters to fit your needs.</p>
+<p>
+	If you can not find what you need in this documentation, any suggestion to enhance the content are welcome.</p>
+
+<h3>
+	Installing DiamEAP</h3>
+<p>
+	Typically, DiamEAP is provided with freeDiameter project, although it can be downloaded separately and installed in a different version of freeDiameter.</p>
+<p>
+	Installation of DiamEAP server is like any other extension of freeDiameter. It depends on which version of freeDiameter the extension will be installed on.</p>
+<p>
+	For more information on how to install an extension in freeDiameter, visit <a href="http://www.freediameter.net/" title="http://www.freediameter.net/">http://www.freediameter.net/</a></p>
+
+
+<h3>
+	Configuring DiamEAP Server</h3>
+<p>
+	DiamEAP requires a configuration file to be started. A sample configuration file &#39;app_diameap.conf.sample&#39; is provided with DiamEAP extension that can be edited to fit configuration needs. This sample configuration file contains all the parameters that can be configured for the DiamEAP Server. The <a href="configuration.html" title="Configuration page">configuration</a> page contains detailed instructions on configuring DiamEAP server.</p>
+
+<p>
+	If DiamEAP plugins are added to be loaded with the DiamEAP server, they should be configured correctly if required otherwise the DiamEAP server will not start. For more information on DiamEAP plugins, visit <a href="plugins.html" title="DiamEAP plugins page">plugins</a> page.</p>
+
+<h3>
+	Starting DiamEAP server</h3>
+<p>
+	Once its installed and configured, DiamEAP can be started stated successfully. Like any freeDiameter extension, DiamEAP server is loaded and started at the startup of freeDiameter.</p>
+
+<p>
+	When started, DiamEAP shows all parameters&nbsp; value of its configuration (including the defaul values of the optional parameters not added in the configuration file). If freeDiameter started successfully without DiamEAP, verify that the following steps was done:</p>
+<ol>
+<li>
+		Adding DiamEAP extension in freeDiameter configuration file
+<ul>
+<li>
+				Find LoadExtensions entry for app_diameap extension.</li>
+<li>
+				If no entry exist for app_diameap, add it following the documentation of freeDiameter (documentation are included in the freeDiameter&#39;s sample configuration file)</li>
+
+<li>
+				If an entry exist for app_diameap, verify that all path are correct (it is advised to use absolute path to be sure that paths are correct)</li>
+</ul>
+</li>
+<li>
+		Configuring DiamEAP server
+<ul>
+<li>
+				Verify that MySQL connection parameters are correct.</li>
+<li>
+				Verify that you added EAP Identity plugin correctly.</li>
+
+<li>
+				Check all plugins paths.</li>
+</ul>
+</li>
+<li>
+		Configuring DiamEAP plugins
+<ul>
+<li>
+				If you added any EAP method Plugin, check its configuration.</li>
+<li>
+				For more information, visit <a href="plugins.html">plugins</a> page.</li>
+
+</ul>
+</li>
+<li>
+		Enable DiamEAP Application
+<ul>
+<li>
+				When compiled freeDiameter, enable the Diameter EAP Application extension (DiamEAP)</li>
+<li>
+				Also dict_nasreq and dict_eap extension are required.</li>
+<li>
+				Visit freeDiameter documentation on how to enable an extension.</li>
+
+</ul>
+</li>
+</ol>
+<p>
+	<p>
+	If DiamEAP server still could not been started:</p>
+<ul>
+<li>
+		Start freeDiameter with debug.</li>
+<li>
+		Read any error or warning messages, usually they contains more description.</li>
+</ul>
+</p>
+    </div>
+                <!-- end content -->
+                <div class="r_sidebar">
+                    <div class="title">
+                        Useful links
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="index.html#LastReleases">Last Releases</a>
+                        </li>
+                        <li>
+                            <a href="index.html#DiamEAPPlugins">DiamEAP Plug-ins</a>
+                        </li>
+                        <li>
+                            <a href="index.html#Getstarted">Get started</a>
+                        </li>
+                        <li>
+                            <a href="index.html#Reportbug">Reporting bugs</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="r_sidebar">
+                    <div class="title">
+                        Related projects
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="http://www.wide.ad.jp/project/wg/aaa.html">AAA-WG (WIDE Project)</a>
+                        </li>
+                        <li>
+                            <a href="http://www.tera.ics.keio.ac.jp">Teraoka Laboratory</a>
+                        </li>
+                        <li>
+                            <a href="http://www.freediameter.net">freeDiameter Project</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="content-bottom">
+                    <div id="content-bottom-left">
+                    </div>
+                    <div id="content-bottom-right">
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <!-- end wrapper --><!-- footer -->
+        <div id="footer">
+            <div id="footer-content">
+                <div class="createdby">
+                    &copy; 2009-2011 The DiamEAP Project team.
+                </div>
+                <div class="right">
+                    <a class="top_anchor" href="#top">Back to top</a>
+                </div>
+            </div>
+        </div>
+        <!-- end footer -->
+    </body>
+</html>

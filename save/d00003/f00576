@@ -1,0 +1,480 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Dynamic network configuration on Linux</title>
+<link href="../natisbad.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-type" content="text/html;charset=iso-8859-1" />
+</head>
+<body>
+
+<div class="content">
+
+<div class="pagetitle">Dynamic network configuration on Linux ... </div><br/>
+
+<p> ... or how to support dynamic IPv4 network configuration on a
+  Linux host with multiple interfaces (w/o using NetworkManager). </p>
+
+<!-- Introduction -->
+<div class="npt"> Introduction </div> <br/>
+
+<p> Your laptop (obviously running Linux) has many interfaces that you can
+use to get IPv4 connectivity: ethernet, wifi, 3G, bluetooth, USB,
+firewire ... Nonetheless, even if you would like things to work out of
+the box when pluging your ethernet cable, docking your laptop or when
+your are in a location with a WiFi network you know, this is usually
+not the case. This page discusses why (i.e. the problems) and provides
+some tools and configurations options (i.e. the solutions). </p>
+
+<h2><i>Multiples default routes</i></h2>
+
+<p> Linux does not allow multiple default IPv4 routes (with the same
+weight) to be configured simultaneously. Usually (i.e. dynamic
+configurations), a process (ppp daemon, dhcp client, ...) ends up
+installing a default route for the interface it configures. If another
+process tries and do the same (e.g. DHCP daemon) for another
+interface, it usually fails to install the new route. Some other
+application may also have some logic to replace (or not) the
+existing default route (pppd).</p> 
+
+<p>In all cases, when multiple IPv4 automatically-configured interfaces
+are up at the same time on a Linux host, only a single default route
+remains active. By default, this results in an undefined network
+configuration. </p>
+
+<h2><i>Reaction to carrier loss</i></h2>
+
+<p>Based on the distribution you use, the tools you have selected, your
+habits and specific configurations, things may vary a lot regarding
+the IPv4 autoconfiguration of your interfaces. By default, most DHCP
+clients are started manually (via a CLI or a GUI) or at boot to work
+on a given interface. They grab parameters from a DHCP server,
+configure an address and a default route. From time to time, they
+renew their lease.</p>
+
+<p>Usually, when the link disappears (cable unplugged, carrier loss,
+reboot of an AP, ...) on the associated interface, nothing happens,
+i.e. the configured address and the route are not invalidated. Then,
+if one connect the interface to a different network (change of L2
+subnet), previously configured route and address are used. This
+requires manual intervention (ifup eth0; ifdown eth0). Another
+solution is to rely on a global configuration interface and associated
+tools to define some policy for such events: many distributions for
+client devices ship with NetworkManager.</p>
+
+<p>If you do not fancy graphical utilities, it's possible to make things
+more dynamic using e.g. <b>netplug</b> and some very simple
+  scripts. This is discussed later in this page.</p>
+
+<h2><i>Weak host model</i></h2>
+
+<p>Linux implements a weak host model: even if an address is configured
+on a given interface, this does not guarantee that packets generated
+on the host with that address as source will leave the host by that
+interface. Simply put, the destination IP address of the packet is
+used as the main key to select the best available route (gateway,
+interface) from the routing table. In the strong host model, the
+destination IP address and source IP address would be used to to
+select the best route.</p>
+
+<p>If you are interested by the details, there are more information
+ available in <a href="http://tools.ietf.org/html/rfc1122">RFC1122</a> 
+ and <a href="http://technet.microsoft.com/en-us/magazine/2007.09.cableguy.aspx">this
+ Cable Guy article</a>. For IPv6, this is different and the reference
+ document on the topic is <a href="http://tools.ietf.org/html/rfc3484">RFC3484</a>.</p> 
+
+
+<!-- Configuration -->
+<div class="npt"> Configuration </div> <br/>
+
+<p>In this section, we discuss the tools and configuration required to
+support the dynamic operation of a mobile node:</p>
+<ul>
+  <li>moving from networks to networks</li>
+  <li>using various networks interfaces simultaneously</li>
+</ul>
+
+<p>The target Linux distribution is Debian but this also probably
+  applies directly to Ubuntu. The tools we use are:</p>
+<ul>
+ <li><b>dhcpcd</b>: used as dhcp client. Selected for its simplicity, the
+   ability to have a per interface configuration, to conigure
+   metrics on installed routes, ...</li>
+ <li><b>netplug</b>: use to monitor Netlink Link events associated with
+   interfaces (link up, link down) and performs actions based on those
+   events (start dhcp client, stop dhcp client, ...).</li>
+ <li><b>wpa_supplicant</b>: used in roaming mode to automatically associate to
+   802.11 networks. Selected for its support of priorities and its
+   possible integration with /etc/network/interfaces via id_str
+   parameter. More on this later.</li>
+ <li><b>ip</b>: from iproute2 package, used in various scripts.</li>
+</ul>
+
+<p>To be clear, the specific use cases we have are the following:</p>
+<ul>
+ <li> automatic start of DHCP client when an interface comes up (link and
+   administrative state)</li>
+ <li> automatic removal of address/route when an interface comes down
+   (link or administrative state)</li>
+ <li> support for multiple simultaneous default routes using differents
+   weights (i.e. metrics).</li>
+ <li> selection of best 802.11 network available among a given known set
+   using priorities, ...</li>
+</ul>
+
+<p>In simple words, when a 802.11 network gets available, if 802.11
+interface is administratively up, attachment and IPv4 address
+autoconfiguration should be automatic. If a cable is connected to our
+ethernet interface (administratively up and w/ link available), we
+want automatic address configuration to happen. When connected to
+multiple networks, we want all default routes to be available with the
+route via the best interface having the highest priority (ethernet,
+wifi and 3G, in that order).</p>
+
+<h2><i>Configuring dhcpcd</i></h2>
+
+<p> DHCPCD is a DHCP client. It supports per interface configuration
+  and has the ability to install routes with different metrics. At
+  least on Debian, there are 4 files involved in the configuration of
+  DHCPCD:</p>
+
+<ul>
+<li><b>/sbin/dhcpcd-bin</b>: the daemon binary, which is actually
+  never called directly. All calls to the binary are performed via
+  /sbin/dhcpcd wrapper script. The script is used to pass argument to
+  the binary via command line options, because the binary itself does
+  not support a reading a configuration file. There is not much to say
+  about <b>dhcpcd-bin</b> but it's useful to know it exists.</li>
+
+<li><b>/sbin/dhcpcd</b>: when ifup is used, this wrapper script is
+  called with a limited set of command line options, including the
+  interface. The scripts also reads information from a configuration
+  file (<b>/etc/default/dhcpcd</b>) and pass those
+  to <b>dhcpcd-bin</b></li> 
+
+<li><b>/etc/default/dhcpcd</b>: a simple shell script fragment sourced
+  by <b>/sbin/dhcpcd</b> providing per interface configuration
+  information. The one I used is given below. </li>
+
+<li><b>/etc/dhcpcd.sh</b>: you may want to use that to fine tune the
+  behavior of DHCPCD. I don't use it. </li>
+</ul>
+
+<p> The content of my <b>/etc/default/dhcpcd</b> is provided
+  below. Note that its content prevents the configuration of DNS
+  server. This is on purpose in my case but you may probably want a
+  different behavior. </p>
+
+<pre>
+SET_DNS='no'
+SET_DOMAIN='no'
+SET_HOSTNAME='no'
+SET_NTP='no'
+SET_YP='no'
+
+case ${INTERFACE} in
+eth0) # Ethernet
+OPTIONS="-h spooky -i stealth --metric 1 --noipv4ll"
+;;
+
+wlan0) # 802.11
+OPTIONS="-h spooky -i stealth --metric 2 --noipv4ll"
+;;
+
+wwan0) # 3G
+OPTIONS="-h spooky -i stealth --metric 3 --noipv4ll"
+;;
+
+*)
+;;
+
+esac
+</pre>
+
+<p>All options passed by <b>SET_*</b> variables are common to all
+  interfaces. The only difference in <b>OPTIONS</b> values for the
+  various interface is the metric of the installed route: <b>eth0</b>
+  is preferred over <b>wlan0</b> which is preferred
+  over <b>wwan0</b></p>.
+
+<p> I suggest you take a look at <b>man 8 dhcpcd-bin</b> for more
+  details on what the daemon support. Also note that (at the time of
+  writing) current version of <b>/sbin/dhcpcd</b> script is buggy in
+  the way it deals with the set of options (bad use of double
+  quotes). As usual, don't trust your configuration and check what
+  the daemon does in practice.</p>
+
+<p> As we will see in a few seconds, unlike what is usually done on
+  Debian systems, our calls to <b>dhcpcd</b> will never be done
+  manually or by marking an interface with "inet dhcp"
+  in <b>/etc/network/interfaces</b>for instance. All our calls
+  to <b>dhcpcd</b> will be done via <b>netplug</b> either to start the
+  service when the link becomes up or to stop the service when the
+  carrier is lost or the interface is administratively set down.</p>
+
+<h2><i>Configuring netplug</i></h2>
+
+<p><b>netplug</b> is a network link monitoring daemon. It processes
+ link events information provided by Linux kernel via Netlink and
+ allows users to configure actions associated with those
+ events. Simply put, this allows dynamic configuration (via simple 
+ scripts) when a cable is plugged/unplugged, connection to a WiFi
+ network occurs.</p>
+
+<p> On Debian, <b>netplug</b> configuration is performed
+  via <b>/etc/netplug/netplugd.conf</b> configuration file and by
+  tweaking <b>/etc/netplug/netplug</b> script. The former is simply
+  filled with the list of interfaces to consider. The latter is a
+  simple shell script called each time an interesting event
+  (associated to previous interfaces) occurs.</p>
+
+<p> On <a href="../E4300/index.html">my laptop</a>, I
+  want <b>netplug</b> to monitor my three main interfaces: <b>eth0</b>
+  (Ethernet interface), <b>wlan0</b> (802.11 interface), <b>wwan0</b>
+  (3G interface). <b>netplug</b> configuration file is filled with
+  this list:</p> 
+
+<pre>
+$ cat /etc/netplug/netplugd.conf
+eth0
+wlan0
+wwan0
+</pre>
+
+<p> Now that we have configured <b>netplug</b> to monitor previous
+  interfaces, we need to configure some reactions when events occur
+  on those interfaces (link up/down). This is done by
+  tweaking <b>/etc/netplu/netplu</b> script. Below is the modified
+  version I use. </p> 
+
+<pre>
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+export PATH
+
+dev="$1"
+action="$2"
+
+case "$action" in
+in)
+    FILE="/var/run/dhcpcd-${dev}.pid"
+    if ! [ -r $FILE ]; then
+        exec dhcpcd ${dev} 2&gt;&amp;1
+    fi
+    ;;
+out)
+    FILE="/var/run/dhcpcd-${dev}.pid"
+    if [ -r $FILE ]; then
+        exec kill -INT `cat $FILE` 2&gt;&amp;1
+    fi
+    ;;
+*)
+    exit 0
+    ;;
+esac
+</pre>
+
+<p> For the specific device (<b>eth0</b>, <b>wlan0</b> and <b>wwan0</b>
+  interfaces all support DHCP), it simply spawns an instance
+  of <b>dhcpcd</b> (if one is not already running) upon  <b>in</b>
+  event (i.e. cable plugged or link up) or stops the
+  running <b>dhcpcd</b> instance on <b>out</b> event (cable unplugged
+  or link down). Note that I don't use the <b>probe</b> event in my
+  script (so that you know it exist).</p>
+
+<p> When receiving the INT signal sent by <b>kill</b>, <b>dhcpcd</b>
+  removes configured address and route.</p> 
+
+<p> For more details, I suggest you take a look at <b>man 8
+ netplugd</b>.</p>
+
+<h2><i>Configuring wpa_supplicant</i></h2>
+
+<p> <b>wpa_supplicant</b> is the Linux 802.1X supplicant (it supports
+  all kinds of EAP) for WiFi (WPA/WPA2) and wired networks. It has a
+  lot of features and can in fact be used to automatically manage all
+  kind of 802.11 networks. For instance, once configured and started,
+  it can associate to the preferred available network
+  automatically. </p>
+
+<p> The first thing to do is to write a wpa_supplicant
+  configuration file providing information on the various WiFi
+  networks you use. Here is an excerpt of
+  my <b>/etc/wpa_supplicant/wpa_supplicant_wifi.conf</b> file (I have
+  a separate equivalent for my ethernet networks
+  (<b>/etc/wpa_supplicant/wpa_supplicant_wifi.conf</b>)</p>
+
+<pre>
+...
+
+network={
+      ssid="open"
+      key_mgmt=NONE
+      <span style="color: red">id_str="open"</span>
+      <span style="color: red">priority=3 </span>
+}
+
+network={
+        ssid="secure"
+        key_mgmt=WPA-EAP
+        proto=WPA2
+        group=CCMP
+        pairwise=CCMP
+        eap=TLS
+        ca_cert="/etc/certs/cacert.pem"
+        client_cert="/etc/certs/client.pem"
+        private_key="/etc/certs/client.key"
+        private_key_passwd="somepwd"
+        identity="me"
+        <span style="color: red">priority=5</span>
+}
+
+network={
+        ssid="AndroidAP"
+        key_mgmt=WPA-PSK
+        proto=WPA2
+        pairwise=CCMP
+        group=CCMP
+        psk="SomeP4ssw0rd"
+        <span style="color: red">priority=4</span>
+}
+
+
+network={
+        ssid="Spooky"
+        key_mgmt=NONE
+        group=WEP104
+        psk="A4ABC2FC27412D4D23CAEBCA23"
+        <span style="color: red">priority=2</span>
+}
+
+network={
+        ssid="another"
+        key_mgmt=WPA-PSK
+        proto=WPA2
+        pairwise=CCMP
+        group=CCMP
+        psk="A very long and secret passphrase here"
+        <span style="color: red">priority=1</span>
+}
+</pre>
+
+<p> The important elements for what we want to do are colored in
+  red. Those are the <b>priority</b> and <b>id_str</b> configuration
+  parameters: </p>
+<ul>
+  <li><b>priority</b>: when multiple networks are available
+  simultaneously, the one with the highest priority value is
+  selected. </li>
+  <li><b>id_str</b>: for each network, you can give this parameter a
+  specific value (a string). If none is provided, "default" is used
+  as text string. This string is used
+  in <b>/etc/network/interfaces</b> as a virtual interface
+  identifier. This allow creating specific configuration blocks for
+  each network. The only requirement is to have the physical
+  interface using the "inet manual" method (this is a MUST). </li>
+</ul>
+
+<p> Below is an example of </b>/etc/network/interfaces</b> associated
+with previous <b>/etc/wpa_supplicant/wpa_supplicant_wifi.conf</b>:</p>
+
+<pre>
+auto wlan0
+iface wlan0 inet manual
+      pre-up ip link set dev wlan0 up || true
+      wpa-roam /etc/wpa_supplicant/wpa_supplicant_wifi.conf
+      wpa-driver wext
+      pre-down /etc/netplug/netplug wlan0 out >/dev/null 2>&1 || true
+      post-down ip link set dev wlan0 down || true
+
+# open is specific (IPv6 only) so I just stop dhcp via netplug
+iface open inet manual
+      up   /etc/netplug/netplug wlan0 out >/dev/null 2>&1 || true
+
+iface default inet manual
+      up   /etc/netplug/netplug wlan0 in  >/dev/null 2>&1 || true
+      down /etc/netplug/netplug wlan0 out >/dev/null 2>&1 || true
+</pre>
+
+<p> All the 802.11 networks I use are mapped to the
+  "default" <b>id_str</b> (parameter no set in the configuration)
+  except the network with SSID "open" which is mapped to "open"
+  virtual interface configuration entry. Because that network is IPv6
+  only, there is no need to start a dhcp server when connected to
+  it. </p>
+
+<p> We discuss other elements of the <b>/etc/network/interfaces</b> in
+  more details in next section. </p>
+
+<h2><i>What to put in /etc/network/interfaces</i></h2>
+
+<p>Here is the content of my /etc/network/interfaces</>
+
+<pre>
+auto eth0
+iface eth0 inet6 manual
+    pre-up ip link set dev eth0 up || true
+    wpa-iface eth0
+    wpa-driver wired
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant_wired.conf
+    pre-down /etc/netplug/netplug eth0 out >/dev/null 2>&amp;1 || true
+    post-down ip link set dev eth0 down || true
+
+auto wlan0
+iface wlan0 inet manual
+      pre-up ip link set dev wlan0 up || true
+      wpa-roam /etc/wpa_supplicant/wpa_supplicant_wifi.conf
+      wpa-driver wext
+      pre-down /etc/netplug/netplug wlan0 out >/dev/null 2>&amp;1 || true
+      post-down ip link set dev wlan0 down || true
+
+# open is specific (IPv6 only) so I just stop dhcp via netplug
+iface open inet manual
+      up   /etc/netplug/netplug wlan0 out >/dev/null 2>&amp;1 || true
+
+iface default inet manual
+      up   /etc/netplug/netplug wlan0 in  >/dev/null 2>&amp;1 || true
+      down /etc/netplug/netplug wlan0 out >/dev/null 2>&amp;1 || true
+
+# 3G interface
+iface wwan0 inet manual
+      pre-up ip link set dev wwan0 up || true
+      up /etc/netplug/netplug wwan0 in >/dev/null 2>&amp;1 || true
+      down /etc/netplug/netplug wwan0 out >/dev/null 2>&amp;1 || true
+      post-down ip link set dev wwan0 down || true
+</pre>
+
+<p> Ethernet and 802.11 interfaces are marked <b>auto</b>. I prefer
+  starting 3G interface by hand after having typed some AT
+  commands. Ethernet configuration is pretty straightforward</p>
+
+<!-- Remaining issues -->
+<br/> <div class="npt"> Remaining issues </div> <br/>
+
+<p>The whole setup works great for me. But here is the list of
+  remaining issues that I have not found time to address yet:</p> 
+
+<ul>
+  <li>When using s2ram to put my laptop to sleep, Wifi link is not
+  set down and if you restart it somewhere, netplug is never warned
+  of the change (i.e. address is not removed) until wpa_supplicant
+  detects the wifi network is no more available. Annoying ...</li>
+  <li>When using rfkill switch to (physically) stop the wifi
+  interface while it is initially up and running, setting it up again
+  later leave it administratively down, i.e. I need to redo
+  an <b>ifup wlan0</b> manually. Annoying ...</li>
+</ul>
+
+<p> Now, I spoke a lot about addresses and routes in relation with
+  DHCP but there is no word so far on DNS configuration i.e. updates
+  of <b>/etc/resolv.conf</b>. The reason is (simply) that I have a
+  static DNS configuration: my laptop is <b>always</b> acting as a
+  MIPv6 Mobile Node, my DNS server is IPv6-reachable and IPv4 is only
+  used by <a href="../m6t/">m6t</a> in order to
+  provide <a href="http://umip.org">UMIP</a> access to my Home Agent
+  from IPv4 only networks. So, handling of <b>/etc/resolv.conf</b> is
+  left as an exercise ... </p> 
+
+<p> A <a href="http://science.webhostinggeeks.com/dinamicka-konfiguracija">translation of this article to Serbo-Croatian</a> language has been performed by Jovana Milutinovich. Thanks to her!</a>.
+
+</div>
+</body>
+</html>

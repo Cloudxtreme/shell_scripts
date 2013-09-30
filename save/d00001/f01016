@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="iso-8859-1">
+
+<meta name="author" content="CERT.br" />
+<meta name="description" content="Criptografia" />
+<meta name="keywords" content="segurança, Internet, prevenção, criptografia, termos, chave, chave simétrica, chaves assimétricas, chave pública, chave secreta, chave privada, função de resumo, hash, assinatura digital, certificado digital, autoassinado, EV SSL, LCR, AC, autoridade certificadora, AC raiz, https, programas, cadeia de certificação" />
+
+<link rel="stylesheet" type="text/css" media="screen" href="/css/cartilha.css" />
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+<script type="text/javascript" src="/js/modernizr.js"></script>
+
+<title>Cartilha de Segurança -- Criptografia</title>
+
+</head>
+
+<body>
+
+<!-- ************************************************************ -->
+<!-- ******* Begin header *************************************** -->
+
+<header>
+<section id="header-cert">
+
+<h1>
+<a href="http://www.cert.br/">
+<img src="/images/logo_cert.png" alt="CERT.br" />
+</a>
+</h1>
+<span><a href="http://www.cert.br/">Centro de Estudos, Resposta e
+Tratamento de<br />Incidentes de Segurança no Brasil</a></span>
+
+<div id="header-cgi-nic">
+<a href="http://www.nic.br/" title="Núcleo de Informação e Coordenação do Ponto BR">
+<img src="/images/logo_nic.png" alt="NIC.br" class="logo-nic" />
+</a>
+<a href="http://www.cgi.br/" title="Comitê Gestor da Internet no Brasil">
+<img src="/images/logo_cgi.png" alt="CGI.br" />
+</a>
+</div>
+
+</section>
+
+<section class="topo">
+
+<h2>
+<a href="/" accesskey="1">
+<img src="/images/logo_cartilha.png"
+alt="Cartilha de Segurança para Internet" class="logo-cartilha" />
+</a>
+</h2>
+
+<nav>
+<ul>
+  <li><a href="/">Início</a></li>
+  <li><a href="/livro/">Livro</a></li>
+  <li><a href="/fasciculos/">Fascículos</a></li>
+  <li><a href="/sobre/">Sobre</a></li>
+</ul>
+</nav>
+
+<form method="get" class="search-form" action="http://www.google.com/search" >
+  <input type="text" value="Buscar" name="q" size="20"
+         class="searchInput" />
+  <input type="hidden" name="sitesearch" value="cartilha.cert.br" />
+  <input type="image" name="submit" class="searchButton"
+         src="/images/button_search.png" alt="Search" />
+</form>
+
+<span class="ir-conteudo"><a href="#content" accesskey="2">Ir para o
+conteúdo</a></span>
+
+<div class="breadcrumb">
+  Você está em: <a href="/">Cartilha</a> &gt;
+  <strong>9. Criptografia</strong>
+</div>
+
+</section>
+</header>
+
+<!-- ******* End header ***************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin sumario ************************************** -->
+
+<aside>
+  <nav>
+    <div class="menu-navigation-container">
+      <p>Sumário</p>
+      <ul id="menu-navigation" class="menu">
+        <li><a href="/seguranca/">1. Segurança na Internet</a></li>
+        <li><a href="/golpes/">2. Golpes na Internet</a></li>
+        <li><a href="/ataques/">3. Ataques na Internet</a></li>
+        <li><a href="/malware/">4. Códigos Maliciosos (Malware)</a></li>
+        <li><a href="/spam/">5. Spam</a></li>
+        <li><a href="/riscos/">6. Outros riscos</a></li>
+        <li><a href="/mecanismos/">7. Mecanismos de segurança</a></li>
+        <li><a href="/senhas/">8. Contas e senhas</a></li>
+        <li class="on"><a href="/criptografia/">9. Criptografia</a></li>
+        <li><a href="/uso-seguro/">10. Uso seguro da Internet</a></li>
+        <li><a href="/privacidade/">11. Privacidade</a></li>
+        <li><a href="/computadores/">12. Segurança de computadores</a></li>
+        <li><a href="/redes/">13. Segurança de redes</a></li>
+        <li><a href="/dispositivos-moveis/">14. Segurança em dispositivos móveis</a></li>
+        <li><a href="/glossario/">Glossário</a></li>
+      </ul>
+    </div>
+  </nav>
+</aside>
+
+<!-- ******* End sumario **************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin conteudo ************************************* -->
+
+<a name="content"></a>
+
+<!-- ************************************************************ -->
+
+<article id="chapter_9">
+
+<div class="posicaoConteudo">
+<div class="conteudoLateralEsquerda">
+<div class="conteudoLateralDireita">
+<div class="inicioConteudo"></div>
+<div class="conteudo">
+
+<h3>
+<a name="9"></a>
+9. Criptografia
+</h3>
+
+  <img class="ilustracao-r" src="/images/situacoes/criptografia.jpg"
+       alt="[Criptografia]" title="Criptografia" />
+
+<p>
+A criptografia, considerada como a ciência e a arte de escrever
+mensagens em forma cifrada ou em código, é um dos principais mecanismos
+de segurança que você pode usar para se proteger dos riscos associados
+ao uso da Internet.
+</p>
+
+<p>
+A primeira vista ela até pode parecer complicada, mas para usufruir dos
+benefícios que proporciona você não precisa estudá-la profundamente e
+nem ser nenhum matemático experiente. Atualmente, a criptografia já está
+integrada ou pode ser facilmente adicionada à grande maioria dos
+sistemas operacionais e aplicativos e para usá-la, muitas vezes, basta a
+realização de algumas configurações ou cliques de <i>mouse</i>.
+</p>
+
+<p>
+Por meio do uso da criptografia você pode:
+</p>
+
+<ul>
+
+  <li> proteger os dados sigilosos armazenados em seu computador, como o
+  seu arquivo de senhas e a sua declaração de Imposto de Renda;
+
+  <li> criar uma área (partição) específica no seu computador, na qual
+  todas as informações que forem lá gravadas serão automaticamente
+  criptografadas;
+
+  <li> proteger seus <i>backups</i> contra acesso indevido,
+  principalmente aqueles enviados para áreas de armazenamento externo de
+  mídias;
+
+  <li> proteger as comunicações realizadas pela Internet, como os
+  <i>e-mails</i> enviados/recebidos e as transações bancárias e
+  comerciais realizadas.
+
+</ul>
+
+<p>
+Nas próximas seções são apresentados alguns conceitos de criptografia.
+Antes, porém, é importante que você se familiarize com alguns termos
+geralmente usados e que são mostrados na Tabela <a
+href="#tab9.1">9.1</a>.
+</p>
+
+<a name="tab9.1"></a>
+<table class="cartilha">
+  <caption>
+  Tabela 9.1: Termos empregados em criptografia e comunicações via Internet.
+  </caption>
+<tr>
+<td>
+
+ <tr>
+ <th class="header" scope="row">Termo</th>
+ <th class="header" scope="row">Significado</th>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Texto claro</th>
+ <td class="l">Informação legível (original) que será protegida, ou seja, que será codificada</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Texto codificado (cifrado)</th>
+ <td class="l">Texto ilegível, gerado pela codificação de um texto claro</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Codificar (cifrar)</th>
+ <td class="l">Ato de transformar um texto claro em um texto codificado</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Decodificar (decifrar)</th>
+ <td class="l">Ato de transformar um texto codificado em um texto claro</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Método criptográfico</th>
+ <td class="l">Conjunto de programas responsável por codificar e decodificar informações</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Chave</th>
+ <td class="l">Similar a uma senha, é utilizada como elemento secreto pelos métodos criptográficos. Seu tamanho é geralmente medido em quantidade de <i>bits</i></td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Canal de comunicação</th>
+ <td class="l">Meio utilizado para a troca de informações</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Remetente</th>
+ <td class="l">Pessoa ou serviço que envia a informação</td>
+ </tr>
+ <tr>
+ <th class="normal" scope="row">Destinatário</th>
+ <td class="l">Pessoa ou serviço que recebe a informação</td>
+ </tr>
+</table>
+
+
+<!-- ************************************************************ -->
+
+<section id="section_9_1">
+
+<h4>
+<a name="9.1"></a>
+9.1. Criptografia de chave simétrica e de chaves assimétricas
+</h4>
+
+<p>
+De acordo com o tipo de chave usada, os métodos criptográficos podem ser
+subdivididos em duas grandes categorias: criptografia de chave simétrica
+e criptografia de chaves assimétricas.
+</p>
+
+<dl>
+
+  <dd> <b>Criptografia de chave simétrica:</b> também chamada de
+  criptografia de chave secreta ou única, utiliza uma mesma chave tanto
+  para codificar como para decodificar informações, sendo usada
+  principalmente para garantir a confidencialidade dos dados. Casos nos
+  quais a informação é codificada e decodificada por uma mesma pessoa
+  não há necessidade de compartilhamento da chave secreta. Entretanto,
+  quando estas operações envolvem pessoas ou equipamentos diferentes, é
+  necessário que a chave secreta seja previamente combinada por meio de
+  um canal de comunicação seguro (para não comprometer a
+  confidencialidade da chave). Exemplos de métodos criptográficos que
+  usam chave simétrica são: AES, Blowfish, RC4, 3DES e IDEA.
+
+  <dd> <b>Criptografia de chaves assimétricas:</b> também conhecida como
+  criptografia de chave pública, utiliza duas chaves distintas: uma
+  pública, que pode ser livremente divulgada, e uma privada, que deve
+  ser mantida em segredo por seu dono. Quando uma informação é
+  codificada com uma das chaves, somente a outra chave do par pode
+  decodificá-la. Qual chave usar para codificar depende da proteção que
+  se deseja, se confidencialidade ou autenticação, integridade e
+  não-repúdio. A chave privada pode ser armazenada de diferentes
+  maneiras, como um arquivo no computador, um <i>smartcard</i> ou um
+  <i>token</i>. Exemplos de métodos criptográficos que usam chaves
+  assimétricas são: RSA, DSA, ECC e Diffie-Hellman.
+
+</dl>
+
+<p>
+A criptografia de chave simétrica, quando comparada com a de chaves
+assimétricas, é a mais indicada para garantir a confidencialidade de
+grandes volumes de dados, pois seu processamento é mais rápido. Todavia,
+quando usada para o compartilhamento de informações, se torna complexa e
+pouco escalável, em virtude da:
+</p>
+
+<ul>
+
+  <li> necessidade de um canal de comunicação seguro para promover o
+  compartilhamento da chave secreta entre as partes (o que na Internet
+  pode ser bastante complicado) e;
+
+  <li> dificuldade de gerenciamento de grandes quantidades de chaves
+  (imagine quantas chaves secretas seriam necessárias para você se
+  comunicar com todos os seus amigos).
+
+</ul>
+
+<p>
+A criptografia de chaves assimétricas, apesar de possuir um
+processamento mais lento que a de chave simétrica, resolve estes
+problemas visto que facilita o gerenciamento (pois não requer que se
+mantenha uma chave secreta com cada um que desejar se comunicar) e
+dispensa a necessidade de um canal de comunicação seguro para o
+compartilhamento de chaves.
+</p>
+
+<p>
+Para aproveitar as vantagens de cada um destes métodos, o ideal é o uso
+combinado de ambos, onde a criptografia de chave simétrica é usada para
+a codificação da informação e a criptografia de chaves assimétricas é
+utilizada para o compartilhamento da chave secreta (neste caso, também
+chamada de chave de sessão). Este uso combinado é o que é utilizado
+pelos navegadores <i>Web</i> e programas leitores de <i>e-mails</i>.
+Exemplos de uso deste método combinado são: SSL, PGP e S/MIME.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_9_2">
+
+<h4>
+<a name="9.2"></a>
+9.2. Função de resumo (<i>Hash</i>)
+</h4>
+
+<p>
+Uma função de resumo é um método criptográfico que, quando aplicado
+sobre uma informação, independente do tamanho que ela tenha, gera um
+resultado único e de tamanho fixo, chamado <i>hash</i><a
+name="sup_footnote001"></a><a href="#footnote001"
+class="footnote">1</a>.
+</p>
+
+<p>
+Você pode utilizar <i>hash</i> para:
+</p>
+
+<ul>
+
+  <li> verificar a integridade de um arquivo armazenado em seu
+  computador ou em seus <i>backups</i>;
+
+  <li> verificar a integridade de um arquivo obtido da Internet (alguns
+  <i>sites</i>, além do arquivo em si, também disponibilizam o
+  <i>hash</i> correspondente, para que você possa verificar se o arquivo
+  foi corretamente transmitido e gravado);
+
+  <li> gerar assinaturas digitais, como descrito na Seção <a
+  href="#9.3">9.3</a>.
+
+</ul>
+
+<p>
+Para verificar a integridade de um arquivo, por exemplo, você pode
+calcular o <i>hash</i> dele e, quando julgar necessário, gerar novamente
+este valor. Se os dois <i>hashes</i> forem iguais então você pode
+concluir que o arquivo não foi alterado. Caso contrário, este pode ser
+um forte indício de que o arquivo esteja corrompido ou que foi
+modificado. Exemplos de métodos de <i>hash</i> são: SHA-1, SHA-256 e
+MD5.
+</p>
+
+<div class="textoFootnote">
+<a name="footnote001"></a>
+<strong>[1]</strong> O <i>hash</i> é gerado de tal forma que não é
+possível realizar o processamento inverso para se obter a informação
+original e que qualquer alteração na informação original produzirá um
+<i>hash</i> distinto. Apesar de ser teoricamente possível que
+informações diferentes gerem <i>hashes</i> iguais, a probabilidade disto
+ocorrer é bastante baixa.
+<span class="voltarTopo"><a href="#sup_footnote001">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_9_3">
+
+<h4>
+<a name="9.3"></a>
+9.3. Assinatura digital
+</h4>
+
+<p>
+A assinatura digital permite comprovar a autenticidade e a integridade
+de uma informação, ou seja, que ela foi realmente gerada por quem diz
+ter feito isto e que ela não foi alterada.
+</p>
+
+<p>
+A assinatura digital baseia-se no fato de que apenas o dono conhece a
+chave privada e que, se ela foi usada para codificar uma informação,
+então apenas seu dono poderia ter feito isto. A verificação da
+assinatura é feita com o uso da chave pública, pois se o texto foi
+codificado com a chave privada, somente a chave pública correspondente
+pode decodificá-lo.
+</p>
+
+<p>
+Para contornar a baixa eficiência característica da criptografia de
+chaves assimétricas, a codificação é feita sobre o <i>hash</i> e não
+sobre o conteúdo em si, pois é mais rápido codificar o <i>hash</i> (que
+possui tamanho fixo e reduzido) do que a informação toda.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_9_4">
+
+<h4>
+<a name="9.4"></a>
+9.4. Certificado digital
+</h4>
+
+<p>
+Como dito anteriormente, a chave púbica pode ser livremente divulgada.
+Entretanto, se não houver como comprovar a quem ela pertence, pode
+ocorrer de você se comunicar, de forma cifrada, diretamente com um
+impostor.
+</p>
+
+<p>
+Um impostor pode criar uma chave pública falsa para um amigo seu e
+enviá-la para você ou disponibilizá-la em um repositório. Ao usá-la para
+codificar uma informação para o seu amigo, você estará, na verdade,
+codificando-a para o impostor, que possui a chave privada correspondente
+e conseguirá decodificar. Uma das formas de impedir que isto ocorra é
+pelo uso de certificados digitais.
+</p>
+
+<p>
+O certificado digital é um registro eletrônico composto por um conjunto
+de dados que distingue uma entidade e associa a ela uma chave pública.
+Ele pode ser emitido para pessoas, empresas, equipamentos ou serviços na
+rede (por exemplo, um <i>site Web</i>) e pode ser homologado para
+diferentes usos, como confidencialidade e assinatura digital.
+</p>
+
+<p>
+Um certificado digital pode ser comparado a um documento de identidade,
+por exemplo, o seu passaporte, no qual constam os seus dados pessoais e
+a identificação de quem o emitiu. No caso do passaporte, a entidade
+responsável pela emissão e pela veracidade dos dados é a Polícia
+Federal. No caso do certificado digital esta entidade é uma Autoridade
+Certificadora (AC).
+</p>
+
+<p>
+Uma AC emissora é também responsável por publicar informações sobre
+certificados que não são mais confiáveis. Sempre que a AC descobre ou é
+informada que um certificado não é mais confiável, ela o inclui em uma
+"lista negra", chamada de "Lista de Certificados Revogados" (LCR) para
+que os usuários possam tomar conhecimento. A LCR é um arquivo eletrônico
+publicado periodicamente pela AC, contendo o número de série dos
+certificados que não são mais válidos e a data de revogação.
+</p>
+
+<p>
+A Figura <a href="#fig9.1">9.1</a> ilustra como os certificados digitais
+são apresentados nos navegadores <i>Web</i>. Note que, embora os campos
+apresentados sejam padronizados, a representação gráfica pode variar
+entre diferentes navegadores e sistemas operacionais. De forma geral, os
+dados básicos que compõem um certificado digital são:
+</p>
+
+<ul>
+
+  <li> versão e número de série do certificado;
+
+  <li> dados que identificam a AC que emitiu o certificado;
+
+  <li> dados que identificam o dono do certificado (para quem ele foi
+  emitido);
+
+  <li> chave pública do dono do certificado;
+
+  <li> validade do certificado (quando foi emitido e até quando é
+  válido);
+
+  <li> assinatura digital da AC emissora e dados para verificação da
+  assinatura.
+
+</ul>
+
+<a name="fig9.1"></a>
+<div class="figura">
+  <img src="/images/certificados/certificados.jpg"
+       alt="[Exemplos de certificados digitais]" title="Exemplos de certificados digitais" />
+  <p>
+  Figura 9.1: Exemplos de certificados digitais.
+  </p>
+</div>
+<p>
+ O certificado digital de uma AC é emitido, geralmente, por outra AC,
+ estabelecendo uma hierarquia conhecida como "cadeia de certificados" ou
+ "caminho de certificação", conforme ilustrado na Figura <a
+ href="#fig9.2">9.2</a>. A AC raiz, primeira autoridade da cadeia, é a
+ âncora de confiança para toda a hierarquia e, por não existir outra AC
+ acima dela, possui um certificado autoassinado (mais detalhes a
+ seguir). Os certificados das ACs raízes publicamente reconhecidas já
+ vêm inclusos, por padrão, em grande parte dos sistemas operacionais e
+ navegadores e são atualizados juntamente com os próprios sistemas.
+ Alguns exemplos de atualizações realizadas na base de certificados dos
+ navegadores são: inclusão de novas ACs, renovação de certificados
+ vencidos e exclusão de ACs não mais confiáveis.
+</p>
+
+<a name="fig9.2"></a>
+<div class="figura">
+  <img src="/images/certificados/cadeia-certificacao.jpg"
+       alt="[Cadeia de certificados]" title="Cadeia de certificados" />
+  <p>
+  Figura 9.2: Cadeia de certificados.
+  </p>
+</div>
+<p>
+Alguns tipos especiais de certificado digital que você pode encontrar
+são:
+</p>
+
+<dl>
+
+  <dd> <b>Certificado autoassinado:</b> é aquele no qual o dono e o
+  emissor são a mesma entidade. Costuma ser usado de duas formas:
+
+  <dl>
+
+    <dd> <b>Legítima:</b> além das ACs raízes, certificados
+    autoassinados também costumam ser usados por instituições de ensino
+    e pequenos grupos que querem prover confidencialidade e integridade
+    nas conexões, mas que não desejam (ou não podem) arcar com o ônus de
+    adquirir um certificado digital validado por uma AC comercial.
+
+    <dd> <b>Maliciosa:</b> um atacante pode criar um certificado
+    autoassinado e utilizar, por exemplo, mensagens de <i>phishing</i>
+    (mais detalhes na Seção <a href="/golpes/#2.3">2.3</a> do Capítulo
+    <a href="/golpes/">Golpes na Internet</a>), para induzir os usuários
+    a instalá-lo. A partir do momento em que o certificado for instalado
+    no navegador, passa a ser possível estabelecer conexões cifradas com
+    <i>sites</i> fraudulentos, sem que o navegador emita alertas quanto
+    à confiabilidade do certificado.
+
+  </dl>
+
+  <dd> <b>Certificado EV SSL (<i>Extended Validation Secure Socket
+  Layer</i>):</b> certificado emitido sob um processo mais rigoroso de
+  validação do solicitante. Inclui a verificação de que a empresa foi
+  legalmente registrada, encontra-se ativa e que detém o registro do
+  domínio para o qual o certificado será emitido, além de dados
+  adicionais, como o endereço físico.
+
+</dl>
+
+<p>
+Dicas sobre como reconhecer certificados autoassinados e com validação
+avançada são apresentados na Seção <a href="/uso-seguro/#10.1">10.1</a>
+do Capítulo <a href="/uso-seguro/">Uso seguro da Internet</a>.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_9_5">
+
+<h4>
+<a name="9.5"></a>
+9.5. Programas de criptografia
+</h4>
+
+<p>
+Para garantir a segurança das suas mensagens é importante usar programas
+leitores de <i>e-mails</i> com suporte nativo a criptografia (por
+exemplo, que implementam S/MIME - <i><b>S</b>ecure/<b>M</b>ultipurpose
+<b>I</b>nternet <b>M</b>ail <b>E</b>xtensions</i>) ou que permitam a
+integração de outros programas e complementos específicos para este fim.
+</p>
+
+<p>
+Programas de criptografia, como o GnuPG<a name="sup_footnote002"></a><a
+href="#footnote002" class="footnote">2</a>, além de poderem ser
+integrados aos programas leitores de <i>e-mails</i>, também podem ser
+usados separadamente para cifrar outros tipos de informação, como os
+arquivos armazenados em seu computador ou em mídias removíveis.
+</p>
+
+<p>
+Existem também programas (nativos do sistema operacional ou adquiridos
+separadamente) que permitem cifrar todo o disco do computador,
+diretórios de arquivos e dispositivos de armazenamento externo (como
+<i>pen-drives</i> e discos), os quais visam preservar o sigilo das
+informações em caso de perda ou furto do equipamento.
+</p>
+
+<div class="textoFootnote">
+<a name="footnote002"></a>
+<strong>[2]</strong> <a
+href="http://www.gnupg.org/">http://www.gnupg.org/</a>. O GnuPG não
+utiliza o conceito de certificados digitais emitidos por uma hierarquia
+de autoridades certificadoras. A confiança nas chaves é estabelecida por
+meio do modelo conhecido como "rede de confiança", no qual prevalece a
+confiança entre cada entidade.
+<span class="voltarTopo"><a href="#sup_footnote002">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_9_6">
+
+<h4>
+<a name="9.6"></a>
+9.6. Cuidados a serem tomados
+</h4>
+
+<p>
+<b>Proteja seus dados:</b>
+</p>
+
+<ul>
+
+  <li> utilize criptografia sempre que, ao enviar uma mensagem, quiser
+  assegurar-se que somente o destinatário possa lê-la;
+
+  <li> utilize assinaturas digitais sempre que, ao enviar uma mensagem,
+  quiser assegurar ao destinatário que foi você quem a enviou e que o
+  conteúdo não foi alterado;
+
+  <li> só envie dados sensíveis após certificar-se de que está usando
+  uma conexão segura (mais detalhes na Seção <a
+  href="/uso-seguro/#10.1">10.1</a> do Capítulo <a
+  href="/uso-seguro/">Uso seguro da Internet</a>);
+
+  <li> utilize criptografia para conexão entre seu leitor de
+  <i>e-mails</i> e os servidores de <i>e-mail</i> do seu provedor;
+
+  <li> cifre o disco do seu computador e dispositivos removíveis, como
+  disco externo e <i>pen-drive</i>. Desta forma, em caso de perda ou
+  furto do equipamento, seus dados não poderão ser indevidamente
+  acessados;
+
+  <li> verifique o <i>hash</i>, quando possível, dos arquivos obtidos
+  pela Internet (isto permite que você detecte arquivos corrompidos ou
+  que foram indevidamente alterados durante a transmissão).
+
+</ul>
+
+<p>
+<b>Seja cuidadoso com as suas chaves e certificados:</b>
+</p>
+
+<ul>
+
+  <li> utilize chaves de tamanho adequado. Quanto maior a chave, mais
+  resistente ela será a ataques de força bruta (mais detalhes na Seção
+  <a href="/ataques/#3.5">3.5</a> do Capítulo <a
+  href="/ataques/">Ataques na Internet</a>);
+
+  <li> não utilize chaves secretas óbvias (mais detalhes na Seção <a
+  href="/senhas/#8.2">8.2</a> do Capítulo <a href="/senhas/">Contas e
+  senhas</a>);
+
+  <li> certifique-se de não estar sendo observado ao digitar suas chaves
+  e senhas de proteção;
+
+  <li> utilize canais de comunicação seguros quando compartilhar chaves
+  secretas;
+
+  <li> armazene suas chaves privadas com algum mecanismo de proteção,
+  como por exemplo senha, para evitar que outra pessoa faça uso indevido
+  delas;
+
+  <li> preserve suas chaves. Procure fazer <i>backups</i> e mantenha-os
+  em local seguro (se você perder uma chave secreta ou privada, não
+  poderá decifrar as mensagens que dependiam de tais chaves);
+
+  <li> tenha muito cuidado ao armazenar e utilizar suas chaves em
+  computadores potencialmente infectados ou comprometidos, como em
+  <i>LAN houses</i>, <i>cybercafes</i>, <i>stands</i> de eventos, etc;
+
+  <li> se suspeitar que outra pessoa teve acesso à sua chave privada
+  (por exemplo, porque perdeu o dispositivo em que ela estava armazenada
+  ou porque alguém acessou indevidamente o computador onde ela estava
+  guardada), solicite imediatamente a revogação do certificado junto à
+  AC emissora.
+
+</ul>
+
+<p>
+<b>Seja cuidadoso ao aceitar um certificado digital:</b>
+</p>
+
+<ul>
+
+  <li> mantenha seu sistema operacional e navegadores <i>Web</i>
+  atualizados (além disto contribuir para a segurança geral do seu
+  computador, também serve para manter as cadeias de certificados sempre
+  atualizadas);
+
+  <li> mantenha seu computador com a data correta. Além de outros
+  benefícios, isto impede que certificados válidos sejam considerados
+  não confiáveis e, de forma contrária, que certificados não confiáveis
+  sejam considerados válidos (mais detalhes no Capítulo <a
+  href="/computadores/">Segurança de computadores</a>);
+
+  <li> ao acessar um <i>site Web</i>, observe os símbolos indicativos de
+  conexão segura e leia com atenção eventuais alertas exibidos pelo
+  navegador (mais detalhes na Seção <a href="/uso-seguro/#10.1">10.1</a>
+  do Capítulo <a href="/uso-seguro/">Uso seguro da Internet</a>);
+
+  <li> caso o navegador não reconheça o certificado como confiável,
+  apenas prossiga com a navegação se tiver certeza da idoneidade da
+  instituição e da integridade do certificado, pois, do contrário,
+  poderá estar aceitando um certificado falso, criado especificamente
+  para cometer fraudes (detalhes sobre como fazer isto na Seção <a
+  href="/uso-seguro/#10.1.2">10.1.2</a> do Capítulo <a
+  href="/uso-seguro/">Uso seguro da Internet</a>).
+
+</ul>
+
+</section>
+
+</div>
+</div>
+</div>
+</div>
+
+</article>
+
+<!-- ******* End content **************************************** -->
+<!-- ************************************************************ -->
+
+<div id="rodape">
+  <ul>
+    <li><a href="/cc/">Licença</a></li>
+    <li><a href="/creditos/">Créditos</a></li>
+    <li><a href="/avisos/">Avisos</a></li>
+    <li><a href="/downloads/">Downloads</a></li>
+    <li class="last"><a href="/divulgue/">Divulgue</a></li>
+  </ul>
+  <p>
+    <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/br/">
+    <img src="/images/ic_creativeCommons.png"
+    alt="Licença Creative Commons CERT.br">
+    </a>
+    Cartilha de Segurança para Internet - CERT.br - $Date: 2012/06/03 01:41:42 $
+  </p>
+    <div class="selosRodape">
+      <a href="http://ipv6.br/">
+      <img src="/images/ic_ipv6.png"
+      alt="Site acessível via IPv6" title="Site acessível via IPv6">
+      </a>
+      <a href="http://jigsaw.w3.org/css-validator">
+      <img src="/images/ic_css.png" alt="CSS Válido" title="CSS Válido">
+      </a>
+      <img src="/images/ic_html5.png" alt="Desenvolvido em HTML 5"
+      title="Desenvolvido em HTML 5">
+    </div>
+</div>
+
+</body>
+</html>

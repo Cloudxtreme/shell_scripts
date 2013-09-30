@@ -1,0 +1,911 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>
+    IPv6 AS Core: Visualizing IPv6 Internet Topology at a Macroscopic Scale in 2008
+</title><link href="/c2supportfiles/caida-min.css" type="text/css" rel="stylesheet"><link href="/c2supportfiles/print-min.css" media="print" type="text/css" rel="stylesheet"><link href="/favicon.ico" type="image/x-icon" rel="shortcut icon"><link href="/apple-touch-icon-144x144.png" sizes="144x144" type="image/png" rel="apple-touch-icon"><link href="/apple-touch-icon-114x114.png" sizes="114x114" type="image/png" rel="apple-touch-icon"><link href="/apple-touch-icon-72x72.png" sizes="72x72" type="image/png" rel="apple-touch-icon"><link href="/apple-touch-icon.png" type="image/png" rel="apple-touch-icon"><style media="screen, projection" type="text/css">
+/*\*//*/
+@import "/c2supportfiles/TJK_vertmenu_ie5mac-min.css";
+/**/
+</style><script src="/c2supportfiles/TJK_vertmenu-min.js" type="text/javascript"></script><!--[if lt IE 7]>
+<noscript>
+<style type="text/css" media="screen">
+@import "/c2supportfiles/TJK_vertmenu_noscript-min.css";
+</style>
+</noscript>
+<script defer src="/c2supportfiles/pngfix_ie6-min.js" type="text/javascript"></script>
+<![endif]--><script src="/c2supportfiles/ripe_ipv6_clientresolver.js" type="text/javascript"></script></head><body bgcolor="white" text="black" link="blue" alink="red" vlink="#770077">
+<div id="root">
+<a tabindex="-1" href="#content" id="contentskiplink">Skip to Content</a>
+<div id="caidabluebar">
+<div id="caidaglobe">
+<img height="132" width="141" alt="[CAIDA - Cooperative Association for Internet Data Analysis logo]" src="/images/caida_globe_faded.png"></div>
+<div id="caidatextlogo">
+<a tabindex="-1" href="/home/"><img src="/images/caida_whitewords.png" alt="[CAIDA]" border="0" width="88" height="47" title="Go to CAIDA home page"></a>
+</div>
+<div id="caidatextfull">
+<div title="CAIDA: Providing tools and analyses promoting the engineering and maintenance of a robust, scalable global Internet infrastructure">The Cooperative Association for Internet Data Analysis</div>
+</div>
+<div id="pageheader_sidebox">
+<div id="pageheader_searchbox">
+<form title="Search CAIDA with Google" id="cse-search-box" action="http://www.google.com/cse">
+<div>
+<input value="016962320605053137706:730jehqayws" name="cx" type="hidden"><input value="UTF-8" name="ie" type="hidden"><input id="searchfield" size="16" name="q" type="text"><input id="searchbutton" value="Search" name="sa" type="submit">
+</div>
+</form>
+<script src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en" type="text/javascript"></script>
+</div>
+<b class="searchrc3"></b><b class="searchrc2"></b><b class="searchrc1"></b><b class="searchrc0"></b>
+<div id="pageheader_linklist">
+<div>
+<a title="Make a Tax-deductible Donation to CAIDA" href="/home/donate/">DONATE</a>
+</div>
+<div>
+<a title="Contact and Visitor Information Page" href="/home/contactinfo/">CONTACT US</a>
+</div>
+</div>
+</div>
+</div>
+<div id="outercontent">
+<div id="tabnavbar">
+<ul id="TJK_dropDownMenu">
+<li>
+<a title="CAIDA Home Page" href="/home/">HOME</a>
+<ul>
+<li>
+<a title="About CAIDA" href="/home/about/">About</a>
+</li>
+<li>
+<a title="A summary of CAIDA's research goals and plans" href="/home/about/progplan/progplan2010/">Program Plan</a>
+</li>
+<li>
+<a title="A report on CAIDA research initiatives, project progress and results, etc." href="/home/about/annualreports/2012/">Annual Report</a>
+</li>
+<li>
+<a title="Becoming a CAIDA member" href="/home/about/joining/">Joining CAIDA</a>
+</li>
+<li>
+<a title="Staff members list" href="/home/staff/">Staff</a>
+</li>
+<li>
+<a title="Job postings at CAIDA" href="/home/jobs/">Jobs</a>
+</li>
+<li>
+<a title="Data Stewardship Agreements" href="/home/legal/">Legal Agreements</a>
+</li>
+<li>
+<a title="How to use specific CAIDA resources" href="/home/how-to/">How-To</a>
+</li>
+<li>
+<a title="CAIDA Blog: According to the Best Available Data" href="http://blog.caida.org/">Blog</a>
+</li>
+</ul>
+</li>
+<li class="selectedtab">
+<a title="Research at CAIDA" href="/research/">RESEARCH</a>
+<ul>
+<li>
+<a title="Results of research on Internet routing" href="/research/routing/">Routing</a>
+</li>
+<li>
+<a title="Results of research on Internet topology" href="/research/topology/">Topology</a>
+</li>
+<li>
+<a title="Results of research on the security of Internet infrastructure and analysis of malicious activities" href="/research/security/">Security</a>
+</li>
+<li>
+<a title="Results from Internet traffic analysis research" href="/research/traffic-analysis/">Traffic Analysis</a>
+</li>
+<li>
+<a title="Research related to Internet economics and policy" href="/research/policy/">Economics and Policy</a>
+</li>
+<li>
+<a title="Research activities on techniques for visualizing the Internet" href="/research/visualization/">Visualization</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="Data Collection at CAIDA" href="/data/">DATA</a>
+<ul>
+<li>
+<a title="Data overview chart and Access to CAIDA datasets and related request forms" href="/data/overview/">Overview</a>
+</li>
+<li>
+<a title="Promotion of Data Sharing at CAIDA" href="/data/sharing/">Data Sharing</a>
+</li>
+<li>
+<a title="Distribution Statistics for CAIDA Online Datasets" href="/data/about/">Distribution Statistics</a>
+</li>
+<li>
+<a title="How to document a data collection" href="/data/how-to/how-to_document_data.xml">How-to</a>
+</li>
+<li>
+<a title="Frequently Asked Questions about CAIDA Data usage" href="/data/data-usage-faq.xml">Data Usage FAQ</a>
+</li>
+<li>
+<a title="Publications by non-CAIDA researchers using CAIDA data" href="/data/publications/bydate/">Papers using CAIDA Data</a>
+</li>
+<li>
+<a title="Acceptable Use Agreement (AUA)" href="/data/../home/legal/aua/">Acceptable Use Agreement</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Tools and Software" href="/tools/">TOOLS</a>
+<ul>
+<li>
+<a title="CAIDA supported tools" href="/tools/./">Overview</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Publications" href="/publications/">PUBLICATIONS</a>
+<ul>
+<li>
+<a title="Papers and technical reports by CAIDA personnel and collaborators" href="/publications/papers/">Papers</a>
+</li>
+<li>
+<a title="Presentation slides by CAIDA personnel and collaborators" href="/publications/presentations/bydate/">Presentations</a>
+</li>
+<li>
+<a title="CAIDA Blog: According to the Best Available Data" href="http://blog.caida.org/">Blog</a>
+</li>
+<li>
+<a title="Visualizations to help illustrate the results of CAIDA research" href="/publications/visualizations/">Visualizations</a>
+</li>
+<li>
+<a title="Animated images and videos of visualized Internet data" href="/publications/animations/">- Animations</a>
+</li>
+<li>
+<a title="Poster-sized prints illustrating and describing CAIDA visualizations" href="/publications/posters/">- Posters</a>
+</li>
+<li>
+<a title="Annotated bibliography of non-CAIDA networking papers" href="/publications/bib/networking/">Networking Bibliography</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Workshops" href="/workshops/">WORKSHOPS</a>
+<ul>
+<li>
+<a title="Show all recent CAIDA Workshops" href="/workshops/./">Overview</a>
+</li>
+<li>
+<a title="Cyber-security Research Ethics Dialog &amp; Strategy (CREDS) Workshops series" href="/workshops/creds/">CREDS</a>
+</li>
+<li>
+<a title="Internet Statistics and Metrics Analysis (ISMA) Workshops series, including the Workshops on Active Internet Measurements (AIMS)" href="/workshops/isma/">ISMA / AIMS</a>
+</li>
+<li>
+<a title="International Workshop on Darkspace and UnSolicited Traffic Analysis (DUST) Workshops series" href="/workshops/dust/1205">DUST</a>
+</li>
+<li>
+<a title="UCSD Complex Network Seminar (DANCES) series" href="/workshops/dances/">DANCES</a>
+</li>
+<li>
+<a title="Workshop on Internet Economics (WIE) series" href="/workshops/wie/">WIE</a>
+</li>
+<li>
+<a title="Workshop collaborations with WIDE (Japan) and CASFI (South Korea)" href="/workshops/wide-casfi/">CAIDA-WIDE-CASFI</a>
+</li>
+<li>
+<a title="Related workshops held in collaboration between CAIDA and other groups" href="/workshops/collaborative/">Collaborative</a>
+</li>
+<li>
+<a title="Archive of past CAIDA workshops" href="/workshops/archive/">Archive</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="Projects and Infrastructure" href="/projects/">PROJECTS</a>
+<ul>
+<li>
+<a title="Macroscopic Topology project" href="/projects/macroscopic/">Macroscopic Topology</a>
+</li>
+<li>
+<a title="Cybersecurity project" href="/projects/cybersecurity/">Cybersecurity</a>
+</li>
+<li>
+<a title="Protected Repository for the Defense of Infrastructure Against Cyber Threats project" href="/projects/predict/">PREDICT</a>
+</li>
+<li>
+<a title="Archipelago Measurement Infrastructure" href="/projects/ark/">Ark</a>
+</li>
+<li>
+<a title="The UCSD Network Telescope project" href="/projects/network_telescope/">Network Telescope</a>
+</li>
+<li>
+<a title="Internet Measurement Data Catalog" href="/projects/trends/imdc/">IMDC (DatCat)</a>
+</li>
+<li>
+<a title="The Named Data Networking (NDN) project" href="/projects/ndn-fia/">NDN</a>
+</li>
+<li>
+<a title="The IPv6 Evolution project" href="/projects/ipv6_evolution/">IPv6 Evolution</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Funding" href="/funding/">FUNDING</a>
+<ul>
+<li>
+<a title="Cartographic Capabilities for Critical Cyberinfrastructure, project summary and proposal" href="/funding/c4/">Cartographic Capabilities</a>
+</li>
+<li>
+<a title="Internet Laboratory for Empirical Network Science, project summary and proposal" href="/funding/ilens/">iLENS</a>
+</li>
+<li>
+<a title="Exploring the evolution of IPv6: topology, performance, and traffic, project summary and proposal" href="/funding/nets-ipv6/">IPv6</a>
+</li>
+<li>
+<a title="Detection and analysis of large-scale Internet infrastructure outages project summary and proposal" href="/funding/dals-satc/">DALS</a>
+</li>
+<li>
+<a title="Universal Laws of Structural Dynamics of Large Scale Graphs  project description and proposal" href="/funding/ulsd-darpa/">Dynamic Graphs</a>
+</li>
+<li>
+<a title="Discovering Hyperbolic Metric Spaces Hidden Beaneath the Internet and Other Complex Networks project description and proposal" href="/funding/netse/">Routing</a>
+</li>
+<li>
+<a title="Named Data Networking project description and proposal" href="/funding/ndn-fia/">Named Data Networking</a>
+</li>
+<li>
+<a title="The Economics of Transit and Peering Interconnections in the Internet project description and proposal" href="/funding/netse-econ/">Economics</a>
+</li>
+<li>
+<a title="Telescope: A Real-time Lens into Dark Address Space of the Internet, project summary and proposal" href="/funding/cri-telescope/">Telescope</a>
+</li>
+<li>
+<a title="Sustainable data-handling and analysis methodologies for the IRNC networks, project summary and proposal" href="/funding/irnc/">IRNC-SP</a>
+</li>
+<li>
+<a title="DatCat: Metadata Management Software Tools to Support Cybersecurity Research and Development of Sustainable Cyberinfrastructure, project summary and proposal" href="/funding/sdci-datcat/">DatCat</a>
+</li>
+<li>
+<a title="Supporting Research and Development of Security Technologies through Network and Security Data Collection, project summary and description" href="/funding/predict/">PREDICT</a>
+</li>
+<li>
+<a title="A summary of CAIDA's research goals and plans" href="/funding/../home/about/progplan/progplan2010/">Program Plan</a>
+</li>
+</ul>
+</li>
+</ul>
+<div style="clear:both"></div>
+</div>
+<div id="crumbnavbar">
+<span class="bold"><a href="http://www.caida.org/">www.caida.org</a>
+            &gt; </span><a href="/research/">research</a> : <a href="/research/topology/">topology</a> : <a href="/research/topology/as_core_network/">as_core_network</a> : <a href="/research/topology/as_core_network/2008/">2008</a> : ipv6.xml</div>
+</div>
+<div id="content">
+<span id="pagetitle">
+    IPv6 AS Core: Visualizing IPv6 Internet Topology at a Macroscopic Scale in 2008
+</span>
+<div id="summarybox">
+<img height="10" width="10" alt="" class="ul" src="/images/grc_ul.png"><img height="10" width="10" alt="" class="ur" src="/images/grc_ll.png"><img height="10" width="10" alt="" class="ll" src="/images/grc_ur.png"><img height="10" width="10" alt="" class="lr" src="/images/grc_lr.png"><div class="middle">
+    
+<p>The current Internet network layer protocol - Internet Protocol 
+    version 4 (IPv4) - has been strained by the rapid growth of the Internet.
+    Many regions of the world are beginning to transition from IPv4 
+    to Internet Protocol version 6 (IPv6) to support the global need 
+    for a larger number of publicly accessible Internet addresses.  
+    The transition has been underway since 1997, 
+    with the IPv6 Internet coexisting with the IPv4 Internet.</p>
+
+
+<div>
+
+<p>Since 2000, CAIDA has generated AS Core graphs -- Internet Topology Maps also referred to as AS-level Internet Graphs -- in order to visualize the shifting topology of the Internet over time, as can be seen in the <a href="../historical.xml">historical view</a>.</p>
+
+</div>
+
+    
+<p>Below, we present a visualization of a sample snapshot of 
+    AS-level IPv6 topology observed during the interval 
+	January 2-8, 2008.</p>
+
+<div align="center">
+<font face="Helvetica,Arial,sans-serif" size="+1"><b>
+      |<span>  </span><a href="../">IPv4 &amp; IPv6 AS Core</a><span>  </span><span>  </span><a href="../historical.xml">Historical view</a><span>  </span><span>  </span><a href="/data/active/ipv4_routed_24_topology_dataset.xml">IPv4 Data Access</a><span>  </span>|
+      </b></font>
+</div>
+
+<div style="clear: both"></div>
+</div>
+</div>
+<div>
+    
+<div style="float:right; width:400px;">
+    
+<a href="../pics/ascore-2008-jan-ipv6-standalone-1600x1333.png">
+	<img src="../pics/ascore-2008-jan-ipv6-standalone-300h250.png"> </a>
+<br>
+    
+<b> <font size="-2"> Figure 1. A snapshot of the Internet 
+	BGP-speaking AS core derived from scamper IPv6 topology
+	probing in the first week of January 2008. </font></b>
+    
+</div>
+
+<p>
+    
+	
+<a href="#Poster"> Poster version </a> can be found below.  
+	Suitable for printing.
+    
+</p>
+<h3> Data </h3>
+<p>
+    
+
+    This visualization represents a macroscopic snapshot of the
+    IPv6 Internet topology collected during the first week of January
+    2008.  Topology data was collected with <a href="http://www.wand.net.nz/scamper/">scamper</a> by volunteers
+    responding to a request sent to the North American Network Operators' Group (NANOG) mailing list.  There
+    were 56 contributors in 53 different cities, in 9 countries, and 3
+    continents.  The snapshot reflects measurements from 
+    a total of 97 different IPv6
+    source addresses from 68 unique IPv6 prefixes and Autonomous Systems (ASes).  The
+    resulting IPv6 level graph contains 4,752 IPv6 addresses and
+    526 IPv6 prefixes.
+
+</p>
+<p>
+
+    We aggregated this view of the network into a topology of ASes.
+    Each AS approximately corresponds to an Internet Service Provider
+    (ISP). We map each IPv6 address to the AS responsible for routing
+    traffic to it, i.e., to the origin (end-of-path) AS for the IPv6 
+    prefix representing the best match of this address in Border Gateway
+    Protocol (BGP) routing tables. We use the largest publicly
+    available set of core BGP IPv6 routing tables, collected by
+     <a href="http://www.ripe.net/projects/ris/rawdata.html">RIPE NCC</a>.
+    The resulting abstracted AS graph consists of 486 AS nodes and
+    1,904 AS-links (peering sessions).
+
+</p>
+<p>
+    We mapped these ASes to geographic locations by taking the IPv4
+    BGP table from <a href="http://www.routeviews.org">Routeviews</a> and mapping each AS to its set of announced IPv4 prefixes.  
+	(IPv4 tables are currently much larger, facilitating more
+	accurate inference of geographic coverage of an AS.)
+	We subdivided prefixes into the smallest prefixes that 
+    <a href="http://www.digitalenvoy.net/">Digital Envoy's Netacuity ®</a> mapped to a single
+    geographic location in January 2008. We plot 
+   the AS angle coordinate at the weighted 
+	average (by number of IP addresses in each mapped prefix) 
+    	of the longitude coordinates of these prefixes.
+</p>
+<h3> Layout </h3>
+<p>
+    
+
+
+</p>
+
+<p>
+    
+</p><div style="float:right; width:350px;">
+    
+<img hspace="10" src="../pics-ipv6/equation-netacq.png"><br>
+
+<b><font size="-2">Figure 2. The equations for calculating the coordinates of an AS in the AS topology map. </font></b>
+
+</div>
+The position of each AS node is plotted in polar
+coordinates, position(radius, angle)
+calculated using the equations in Figure 2.
+
+
+<p>
+
+The outdegree of an AS node is the number of next-hop ASes that
+were observed accepting our probe traffic from this AS.  The link color
+reflects outdegree, from lowest (blue) to highest (yellow).  
+Toward the center of the graph we have manually labeled some 
+of the higher degree ASes with their associated ISP.
+
+</p>
+
+<br style="clear:both;">
+
+<h3> Comparative Analysis of scamper (traceroute) vs BGP topology data </h3>
+<p>
+    
+    
+	    
+</p><div style="width:600px;">
+	    
+<a href="../pics-ipv6/ascore-scamper-ripe-200801.png">
+		<img src="../pics-ipv6/ascore-scamper-ripe-200801-small.png" width="600">
+	</a>
+	
+<br>
+	
+<b> <font size="-2"> Figure 3. A comparison of two different
+	methods of observing IPv6 AS topology: 
+	(1) probing forward IP paths with scamper, converting traversed
+	IP addresses to ASes using longest BGP prefix match; and
+	(2) inferring AS topology from BGP routing tables 
+	derived from BGP announcements of connectivity, and trusting 
+	that the announced connectivity actually transports traffic.
+	</font>
+	</b>
+    
+</div>
+    
+
+
+<p>
+    In addition to prefixes, 
+    RIPE NCC's BGP tables also contain AS paths for each prefix.
+    We can use these AS paths to construct a 'BGP view' of the 
+    IPv6 AS level graph, shown on the left in Figure 3. 
+    Although the BGP view was larger than 
+    the scamper (traceroute-based) view in terms of ASes and 
+    IPv6 prefixes, it was smaller in terms of AS links.
+    Table 1 compares coverage statistics for the two views,
+	active probing vs. inference from routing announcements.
+    The number of IPv6 sources in the scamper column
+reflects the number of IPv6 addresses stored as sources of the
+submitted traces, which may include duplicate private addresses.
+The number of IPv6 sources in the RIPE BGP table reflects the number
+of routers peering with the RIPE NCC BGP monitor. The number of
+source ASes reflects the number of ASes listed as the first AS in
+the BGP AS path.
+
+</p>
+<p>
+
+
+</p><div style="float:left; width:370px;"> 
+
+<table border="0" cellpadding="10"> 
+
+<tr>
+<td>
+
+<table border="1" cellpadding="3">
+    
+<tr>
+<td></td> <td rowspan="10" bgcolor="black"></td>
+	    <th> scamper </th><th> Ripe NCC BGP </th>
+</tr>
+
+<tr>
+<th colspan="4" bgcolor="black"> </th>
+</tr>
+
+<tr>
+<th>IPv6 sources</th><th> 97 </th><th> 14 </th>
+</tr>
+
+<tr>
+<th>ASes sources</th><th bgcolor="lightblue"> 68 </th><th> 14 </th>
+</tr>
+
+<tr>
+<th colspan="4" bgcolor="black"> </th>
+</tr>
+
+<tr>
+<th>IPv6 addresses </th><th> 4,752 </th><th> - </th>
+</tr>
+
+<tr>
+<th>IPv6 prefixes </th><th> 526 </th><th bgcolor="lightblue"> 1,013 </th>
+</tr>
+
+<tr>
+<th colspan="4" bgcolor="black"> </th>
+</tr>
+
+<tr>
+<th>ASes</th><th> 489 </th><th bgcolor="lightblue"> 833 </th>
+</tr>
+
+<tr>
+<th>AS links</th><th bgcolor="lightblue"> 1,904 </th><th> 1,704 </th>
+</tr>
+
+<tr>
+<td colspan="4">
+<b> <font size="-2"> Table 1. Comparison of the counts of IPv6 addresses,
+	prefixes, and ASes between active scamper collection and 
+	passive observation of RIPE's BGP tables. </font> </b>
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+</table>
+
+</div>
+
+
+
+<p>
+The number of IPv6 prefixes in the scamper column counts the 
+prefixes that contained at least one observed IPv6 address 
+during the scamper path (active) probing.
+The number of IPv6 prefixes in the RIPE NCC BGP column is the 
+number of prefixes actively announced as viewed from 
+this routing table.  
+Of the original 1,013 IPv6 prefixes in the RIPE NCC BGP snapshot,
+80% (822) had at least one destination in our probe list. 
+	
+Of these prefixes, only 
+526 of these 1,013 prefixes were observed in scamper-observed paths, 
+and only 467 prefixes were reached by a scamper probe targeting 
+a destination in the prefix (the remaining 39 prefixes were 
+seen in the traces, but not seen when they were the destination 
+of the trace).
+</p>
+<p>
+To calculate the number of ASes observed by scamper, we map each 
+observed IPv6
+address to the source AS for its longest matching IPv6 prefix found
+in the RIPE NCC BGP table.  The number of ASes in the RIPE NCC BGP 
+data includes those that do not originate any prefix announcements 
+in the table, but act as transit. 
+We compiled AS links by mapping adjacent IPv6
+addresses to their corresponding ASes.  Interestingly, although
+scamper observed only 58% of the ASes seen in the BGP table, we inferred
+12% more AS links from the scamper-observed IPv6 addresses 
+than the BGP table implies.
+</p>
+<p>
+
+
+</p><div style="float:right; width:400px;">
+    
+<img src="../pics/ccdf-as-outdegree-2008.png">
+    <b><font size="-2"> Figure 4. The complementary cumulative distribution 
+	function (CCDF) plot of outdegree distribution of ASes the 
+	scamper-derived and BGP-derived AS graphs shows that the 
+	scamper/traceroute tool heavily samples ASes with outdegree 
+	less than 50 while the RIPE BGP tables imply substantially higher 
+	degree connectivity. </font></b>
+
+</div>
+
+
+
+<p>
+We emphasize that
+these two representations of topology data come from fundamentally
+different ways of sampling Internet connectivity: (1) passive
+observation of what publicly available BGP tables report about 
+peering relationships, 
+or (2) inferences from active transmission of  traffic across a
+hopefully representative set of paths. 
+Figure 4 plots the complementary cumulative distribution function 
+(CCDF) of the outdegree for ASes in both data sets, and shows the
+difference in coverage achieved by the two sampling methods.
+Specifically, scamper/traceroute more heavily samples links 
+connecting from ASes with moderate outdegree, between 5 and 50, 
+while BGP data implies more links connecting high degree ASes.
+We explore this disparity further with the joint degree 
+distribution of the ASes on either side of a given AS link.
+</p>
+<p> 
+
+
+Figures 5 and 6 show a joint degree distribution for ASes on
+sending and receiving sides of an inferred AS link.
+The color of each data point represents the
+density of AS links with degrees (x,y) on the sending
+and receiving ASes.  The direction of a link corresponds to
+which direction a scamper probe observed the link, or 
+which direction the BGP table implied traffic would flow.
+For example, observed path <b>A B C</b> yields directed 
+links <b>A-&gt;B</b> and <b>B-&gt;C</b>.  The x-axis of Figures 5
+and 6 plots outdegree for <b><i>sending</i></b> ASes and
+the y-axis plots outdegree for the <b><i>receiving</i></b> ASes.
+Most links observed in the BGP data (Figure 6) connect ASes of 
+all sizes to receiving ASes with outdegree less than 20.  In
+contrast, Figure 5 shows that active scamper probe data 
+observes many links from smaller outdegree ASes to larger
+outdegree ASes.  The symmetric square patterns in Figure 5 
+reflect scamper observation of more bi-directional connectivity 
+between ASes of moderate outdegree, between 5 and 50. 
+
+ </p>
+<p>
+
+The difference in the graphs is consistent with the fact that
+scamper measurements originate from many more sources than there
+were peers in the BGP data sample. This enables acquisition of more topology 
+data from outside the core, i.e., from ASes with smaller AS outdegrees.  
+Many of the links captured by scamper/traceroute are peering links, 
+which often do not get announced beyond a single neighbor AS. Our 
+BGP table view is unlikely to capture these links.
+
+
+</p>
+    
+<br style="clear:both;">
+    
+<div style="float:left; width:400px;">
+        
+<a href="../pics-ipv6-200801/degree-degree-scamper.png">
+	<img src="../pics-ipv6-200801/degree-degree-scamper-small.png">
+        </a>
+	<b><font size="-2"> Figure 5. Joint outdegree 
+	distribution for ASes on sending and receiving sides of
+	scamper-derived AS links. The color of each data point 
+	represents the density of AS links with degrees (x,y) on 
+	the sending and receiving ASes.  The symmetry in the graph 
+	reflects more bidirectional links observed between high and 
+	low degree ASes, due to the sampling methodology.
+		</font></b>
+    
+</div>
+    
+<div style="float:right; width:400px;">
+        
+<a href="../pics-ipv6-200801/degree-degree-ripe.png">
+	<img src="../pics-ipv6-200801/degree-degree-ripe-small.png">
+        </a>
+	<b><font size="-2"> Figure 6. Joint outdegree
+	distribution for ASes on sending and receiving sides of
+	RIPE NCC BGP-derived AS links. The color of each data point 
+	represents the density of AS links with degrees (x,y) on 
+	the sending and receiving ASes.  The asymmetry in the graph 
+	reflects a preponderance of observed BGP announcements from 
+	high degree ASes to low degree ASes.
+		</font></b>
+    
+</div>
+    
+<br style="clear:both;">
+
+<h3>Reachability of IPv6 Address Prefixes Delegated by the Regional Internet Registries (RIRs) </h3>
+<p>
+
+
+In addition to graphing the AS-level topology and examining the
+link structure and distributions, we also measured how many of the 
+RIR-delegated IPv6 address prefixes we could reach with a probe.  
+(Unlike IPv4, in IPv6 thus far each delegation consists of a single
+prefix.) We created a
+destination list with a single IPv6 address (the .1 address) from
+each delegated IPv6 prefix seen in the RIR delegation reports from
+January 1, 2008. 
+</p>
+<p>
+
+
+Our plots distinguish between <i>reached</i> and <i>seen</i>
+since scamper saw several prefixes in the middle of a path 
+(in 'transit') that we could not reach when we probed that
+prefix directly, as destinations.
+A possible explanation for this incongruity is that the
+packets were dropped at the border router when the traffic was
+directed at the prefix itself, but not when the prefix was used as
+transit.
+
+
+</p>
+    
+<br style="clear:both;">
+    
+<div style="float:left; width:400px;">
+	
+<img src="../pics-ipv6/number-of-delegations.png">
+	<b><font size="-2"> Figure 7. This graph shows the total number of IPv6 
+	delegations by RIR on January 1, 2008. For each RIR we show the 
+	number of routed delegations as well as the prefixes reached by 
+	scamper, and those seen in the scamper paths.
+	</font></b>
+
+    
+</div>
+    
+<div style="float:right; width:400px;">
+	
+<img src="../pics-ipv6/percentage-of-delegations.png">
+	<b><font size="-2"> Figure 8. This graph shows the normalized 
+	percentage of IPv6 delegations by RIR on  January 1, 2008. 
+	It includes the percentage of routed delegations, 
+        the prefixes reached by scamper, and those observed 
+	in the middle or end of scamper paths. 
+	</font></b>
+
+    
+</div>
+    
+<br style="clear:both;">
+
+<p>
+
+    While all RIRs have made IPv6 delegations, Figure 7 
+    shows that RIPE has most aggressively delegated IPv6 prefixes, at
+    roughly twice the rates of APNIC and ARIN.  Although RIPE NCC
+    has a larger number of prefixes routed, Figure 8 shows that
+    APNIC has a larger percentage of its delegated prefixes routed.
+</p>
+<p>
+
+
+
+</p>
+    
+<div style="float:right; height:350px;width:420px;">
+	
+<a href="../pics-ipv6/delegation-lengths-800x600.png">
+	    <img src="../pics-ipv6/delegation-lengths.png">
+	</a>
+    
+<br style="clear:both;">
+        
+<blockquote>
+	
+<b><font size="-2"> Figure 9. This graph shows the lengths of the IPv6 address prefixes delegated by each RIR.  </font></b>
+        
+</blockquote>
+    
+</div>
+
+<p>
+
+Figure 9 shows how the network prefix delegations breakdown by
+RIR and by prefix length.  Though each RIR sets its own assignment
+policy, the two most common delegation sizes so far have been /32 and
+/48, with only RIPE NCC and APNIC assigning a significant number of
+prefixes in the /33 to /35 range.
+
+</p>
+<p>
+
+    Figure 10 divides each delegated prefix into /48
+    sized chunks so we can compare the relative amount of
+    address space covered by each RIR's delegations. When examined
+    this way, the delegation gap between APNIC and RIPE shrinks, but 
+	the gap between these two RIRs and all the others is larger. 
+	Since a large
+    percentage of RIPE NCC's routed prefixes come from its larger
+    delegations (/32s), Figure 11 shows that RIPE's percentage of routed
+    addresses is larger than its percentage of routed prefixes shown
+    above in Figure 8.  LACNIC also shows an increase, but both
+    ARIN and APNIC show relative drops in their percentage of routed
+    addresses verses routed prefixes, reflecting the smaller 
+    size of delegations in the ARIN and APNIC regions. 
+
+</p>
+    
+<br style="clear:both;"> 
+<div style="float:left; width:400px;">
+	
+<img src="../pics-ipv6/number-of-addresses.png"><br> 
+<b><font size="-2"> Figure 10. This graph shows the number of IPv6
+		addresses, counted in /48 prefixes, allocations
+		observed in each state for each RIR.
+	</font></b>
+    
+</div> 
+<div style="float:right; width:400px;">
+	
+<img src="../pics-ipv6/percentage-of-addresses.png"><br>
+	
+<b><font size="-2"> Figure 11. This graph shows the normalized
+	percentage of IPv6 delegated addresses in each state for
+	each of the RIRs. </font></b>
+    
+</div> 
+<br style="clear:both;">
+ 
+<br style="clear:both;"> 
+<h3> Caveats </h3>
+<p>
+     We emphasize the following limitations
+    of CAIDA's scamper-based IPv6 AS core graph.
+    </p><ul>
+<li> Some organizations administer
+    multiple ASes, although usually there is a one-to-one mapping
+    between an AS and a network organization.  </li>
+<li> The IPv6 Internet Topology Map AS-level graph 
+	reflects observations and conditions during the
+	measurement window: January 2-8, 2008.  </li>
+<li> The graph represents forward IP
+    topology information, with IP addresses mapped to origin ASes
+    using a BGP routing table. The graph does not reflect all
+    information about peering sessions or constitute a complete
+    route map. Our BGP table view is unlikely
+    to capture peering links which do not get announced beyond a
+    single neighbor AS and therefore incomplete.
+    </li>
+<li>
+    The graph reflects observations of the IP layer only, and does 
+	not capture information regarding
+	lower layers, e.g., ATM, physical fiber, information.
+    </li>
+<li>
+    The graph does not address any performance or
+    workload measurements, precluding comparison of
+    ISPs in these dimensions.
+    </li>
+<li>
+    Nodes with many links may be located on the outer rim if their AS has 
+	an observed outdegree of zero.
+    </li>
+</ul>
+
+ 
+<br style="clear:both;"> 
+<h3>
+<a name="Poster" id="Poster">Poster</a>
+</h3>
+<p>
+
+
+<a href="../pics/ascore-2008-jan-ipv4v6-poster-1600x1067.png"><img src="../pics/ascore-2008-jan-ipv4v6-poster-600x400.png" width="600"></a>
+
+</p>
+<p>
+(<a href="../pics/ascore-2008-jan-ipv4v6-poster-1600x1067.png">PNG</a> image, 998kb)  (<a href="../pics/ascore-2008-jan-ipv4v6-poster.pdf">PDF</a>, 3.9 MB)
+</p>
+<h3>
+Acknowledgments
+</h3>
+<p>
+
+
+
+<b>Analysis Team:</b>
+<a href="http://www.caida.org/~bhuffake/">Bradley Huffaker</a>, 
+<a href="http://www.caida.org/~kc/">Kimberly Claffy</a>
+
+<br>
+
+<b>
+<a hef="http://www.wand.net.nz/scamper/">Scamper</a> software developer:</b>
+<a href="http://www.wand.net.nz/personDetail.php?id=13">Matthew Luckie</a>
+
+<br>
+
+<b>Data Sources: </b>
+
+<a href="http://www.apnic.net/">APNIC</a>,
+<a href="http://www.afrinic.net/"> AfriNIC </a>,
+Alexander Gall, Andreas Johansson, Antonio Prado, 
+Antonio Querubin, 
+<a href="http://www.arin.net/">ARIN</a>,
+Azael Fernandez Alcantara,
+Bernhard Schmidt, Brad Dreisbach, Brian Fitzgerald, 
+<a href="http://www.caida.org">CAIDA</a>,
+Chris Morrow, 
+Derek Morr, 
+Gabriel Kerneis, Geoff Huston, Gert Doering, 
+<a href="http://www.isc.org">ISC</a>,
+Iljitsch van Beijnum, Jean-Philippe Pick,
+John Kristoff, John Osmon, 
+Kenjiro Cho, Kurt Jaeger, 
+<a href="http://www.lacnic.net/">LACNIC</a>,
+Martin Millnert, Mathieu Arnold 
+<a href="http://www.ripe.net/">RIPE NCC</a>,
+Nuno Vieira, Ollivier Robert, Sebastian Abt, Shane Kerr
+
+
+
+</p>
+<p>
+
+
+</p>
+</div>
+</div>
+<div id="footer">
+<div style="text-align:center">
+<a href="http://www.caida.org/">Cooperative Association for Internet Data Analysis</a>
+       |   Based at the <a href="http://www.sdsc.edu/">University of California's San Diego Supercomputer Center</a>
+</div>
+<div style="position:absolute; bottom:0.5em; right:1em;" class="noprint" id="privacynotice">
+<a href="/home/legal/privacy/">Privacy</a>
+</div>
+</div>
+<div id="pageinfo">
+       Last Modified: Tues May-24-2011 12:50:29 PDT<br>
+<div class="printonly">  Page URL: http://www.caida.org/research/topology/as_core_network/2008/ipv6.xml</div>
+</div>
+</div>
+</body></html>

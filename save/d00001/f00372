@@ -1,0 +1,489 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #47598:
+Kernel crash in kauth_cred_uidmatch caused by netstat                                                                           
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #47598</h1>
+
+<pre>
+From www@NetBSD.org  Tue Feb 26 17:32:52 2013
+Return-Path: &lt;www@NetBSD.org&gt;
+Received: from mail.netbsd.org (mail.netbsd.org [149.20.53.66])
+	by www.NetBSD.org (Postfix) with ESMTP id E01CE63E522
+	for &lt;gnats-bugs@gnats.NetBSD.org&gt;; Tue, 26 Feb 2013 17:32:51 +0000 (UTC)
+Message-Id: &lt;20130226173250.55CF863E522@www.NetBSD.org&gt;
+Date: Tue, 26 Feb 2013 17:32:50 +0000 (UTC)
+From: luke@maurits.id.au
+Reply-To: luke@maurits.id.au
+To: gnats-bugs@NetBSD.org
+Subject: Kernel crash in kauth_cred_uidmatch caused by netstat
+X-Send-Pr-Version: www-1.0
+
+
+<b>&gt;Number:</b>         47598
+<b>&gt;Category:</b>       kern
+<b>&gt;Synopsis:</b>       Kernel crash in kauth_cred_uidmatch caused by netstat
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       critical
+<b>&gt;Priority:</b>       high
+<b>&gt;Responsible:</b>    kern-bug-people
+<b>&gt;State:</b>          closed
+<b>&gt;Class:</b>          sw-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Tue Feb 26 17:35:00 +0000 2013
+<b>&gt;Closed-Date:</b>    Fri Mar 15 09:01:49 +0000 2013
+<b>&gt;Last-Modified:</b>  Fri Mar 15 09:01:49 +0000 2013
+<b>&gt;Originator:</b>     Luke Maurits
+<b>&gt;Release:</b>        6.0 STABLE
+<b>&gt;Organization:</b>
+<b>&gt;Environment:</b>
+NetBSD &lt;hostname&gt; 6.0_STABLE NetBSD 6.0_STABLE (MYKERNEL) #2: Mon Feb  4 03:42:25 UTC 2013  luke@miku.maurits.id.au:/usr/obj/sys/arch/i386/compile/MYKERNEL i386
+<b>&gt;Description:</b>
+For many months now I have had irregular, random kernel crashes on one of my machines.  The most recent case yielded the following backtrace:
+
+
+uvm_fault(0xc0af5bd0, 0, 1) -&gt; 0xe
+fatal page fault in supervisor mode
+trap type 6 code 0 eip c0203a7b cs 9 eflags 10296 cr2 40 ilevel 0
+kernel: supervisor trap page fault, code=0                       
+Stopped in pid 8877.1 (netstat) at      netbsd:kauth_cred_uidmatch
++0x1b:        m ovl     40(%esi),%
+edx kauth_cred_uidmatch
+(c12f50c0,0,c12f50c0,c7a378e4,c031ed1b,c0a01120,c12f50c0,c7a3
+791c,c02041cd,c12f50c0) at netbsd:kauth_cred_uidmatch+0x1b
+secmodel_extensions_network_cb
+(c12f50c0,8,0,19,c12dbbb0,0,0,1,0,c1993078) at net
+bsd:secmodel_extensions_network_cb+0x5b kauth_authorize_action
+(c0a02060,c12f50c0,8,19,c12dbbb0,0,0,c7a37c1c,c0377511,c12 f50c0) at
+netbsd:kauth_authorize_action+0x7d kauth_authorize_network
+(c12f50c0,8,19,c12dbbb0,0,0,c7a3798c,c05c6ce0,0,6) at net
+bsd:kauth_authorize_network+0x3d sysctl_inpcblist
+(c7a37c9c,4,0,c7a37cbc,0,0,c7a37c8c,c0f8c7e0,c0a13b40,4) at netb
+sd:sysctl_inpcblist+0x171 sysctl_dispatch
+(c7a37c8c,8,0,c7a37cbc,0,0,c7a37c8c,c0f8c7e0,c0a13b40,c7a37cbc) a t
+netbsd:sysctl_dispatch+0xb7 sys___sysctl
+(c0f8c7e0,c7a37d00,c7a37d28,ca,abd17000,0,c7a37d00,c0af0884,2,abf48c
+67) at netbsd:sys___sysctl
++0xea syscall
+(c7a37d48,b6fb00b3,ab,beb0001f,b6fb001f,8,0,bebfeb40,abf687bc,bebfef98)
+a t netbsd:syscall+0xaa
+
+
+I've recorded 3 of these now, and the backtrace is always through the same series of functions, only the particular pointer values change.
+
+
+This seems possibly related to kern/43290.  That bug is also caused by a kauth problem in netstat, but it is on kath_cred_getuid where mine is on kauth_cred_uidmatch.
+
+
+These are happening on a Xen domU (VPS).  Right now it is running NetBSD
+6.0_STABLE.  The kernel configuration is derived from the standard XEN3PAE_DOMU with the addition of
+
+
+no options      INSECURE
+options 	PAX_MPROTECT=1 
+options		PAX_SEGVGUARD=1
+options		PAX_ASLR=1
+options         FILEASSOC
+options         VERIFIED_EXEC_FP_MD5
+options         VERIFIED_EXEC_FP_SHA1
+options         VERIFIED_EXEC_FP_RMD160
+options         VERIFIED_EXEC_FP_SHA512
+options         VERIFIED_EXEC_FP_SHA384
+options         VERIFIED_EXEC_FP_SHA256
+
+
+However, I am pretty certain I got the earliest instances of this crash
+earlier on, when it was running 5.1.2 and the stock XEN3PAE_DOMU kernel with no modifications.
+
+
+The machine in question is primarily a web server, with fairly low traffic.  Things which are typically running all the time are imapproxy, ossec, sshd, php, lighttpd and mysql.  The crash is happening in netstat, but I'm never running it myself at the time of the crashes, so it must be being invoked by something else, most likely one of the above or one of the daily cron scripts.  netstat does not crash if I just run it myself after ssh'ing in, at least not when I pass it no args and it does whatever its defaults are.
+
+
+I have this machine set to drop to the debugger when it crashes, and I
+can access that via my VPS provider's console system, so if anybody
+needs me to the next time this happens I can try to provide the values
+of variables or anything else which may be necessary.
+<b>&gt;How-To-Repeat:</b>
+
+
+<b>&gt;Fix:</b>
+
+
+<b>&gt;Release-Note:</b>
+
+
+<b>&gt;Audit-Trail:</b>
+From: Martin Husemann &lt;martin@duskware.de&gt;
+To: gnats-bugs@NetBSD.org
+Cc: 
+Subject: Re: kern/47598: Kernel crash in kauth_cred_uidmatch caused by netstat
+Date: Wed, 27 Feb 2013 09:36:38 +0100
+
+
+ Do you happen to have &quot;curtain&quot; on?
+ (sysctl security.curtain, security.models.bsd44.curtain,
+ security.models.extensions.curtain)
+
+ 
+ Martin
+
+ 
+From: Luke Maurits &lt;luke@maurits.id.au&gt;
+To: gnats-bugs@NetBSD.org
+Cc: 
+Subject: Re: kern/47598: Kernel crash in kauth_cred_uidmatch caused by
+ netstat
+Date: Wed, 27 Feb 2013 01:02:16 -0800
+
+
+ Yes, I do.  I've got security.curtain=1 in /etc/sysctl.conf.
+
+ 
+ Luke
+
+ 
+From: Martin Husemann &lt;martin@duskware.de&gt;
+To: gnats-bugs@NetBSD.org
+Cc: 
+Subject: Re: kern/47598: Kernel crash in kauth_cred_uidmatch caused by netstat
+Date: Wed, 27 Feb 2013 11:20:54 +0100
+
+
+ --y0ulUmNC+osPPQO6
+ Content-Type: text/plain; charset=us-ascii
+ Content-Disposition: inline
+
+ 
+ The patch below does two things:
+
+ 
+ First hunk should make the kauth code deal with a missing so_cred (which
+ would only happen for new connections not yet accepted), denying their
+ visibility to everyone.
+
+ 
+ Second hunk initializes new sockets credentials earlier during accept(),
+ so no sockets with NULL credentials should show up in pcblists.
+
+ 
+ An alternative to the second part is to move the intialization of credentials
+ to newconn().
+
+ 
+ Martin
+
+ 
+ --y0ulUmNC+osPPQO6
+ Content-Type: text/plain; charset=us-ascii
+ Content-Disposition: attachment; filename=&quot;newcon.patch&quot;
+
+ 
+ Index: secmodel_extensions.c
+ ===================================================================
+ RCS file: /cvsroot/src/sys/secmodel/extensions/secmodel_extensions.c,v
+ retrieving revision 1.4
+ diff -u -p -r1.4 secmodel_extensions.c
+ --- secmodel_extensions.c	28 Jan 2013 00:51:29 -0000	1.4
+ +++ secmodel_extensions.c	27 Feb 2013 10:11:07 -0000
+ @@ -481,6 +481,9 @@ secmodel_extensions_network_cb(kauth_cre
+  	if (curtain != 0) {
+  		struct socket *so = (struct socket *)arg1;
+
+  
+ +		if (__predict_false(so-&gt;so_cred == NULL))
+ +			return KAUTH_RESULT_DENY;
+ +
+  		if (!kauth_cred_uidmatch(cred, so-&gt;so_cred)) {
+  			int error;
+  			bool isroot = false;
+ Index: uipc_syscalls.c
+ ===================================================================
+ RCS file: /cvsroot/src/sys/kern/uipc_syscalls.c,v
+ retrieving revision 1.160
+ diff -u -p -r1.160 uipc_syscalls.c
+ --- uipc_syscalls.c	14 Feb 2013 21:57:59 -0000	1.160
+ +++ uipc_syscalls.c	27 Feb 2013 10:14:09 -0000
+ @@ -236,8 +236,8 @@ do_sys_accept(struct lwp *l, int sock, s
+  	fp2-&gt;f_data = so2;
+  	if (flags &amp; SOCK_NONBLOCK)
+  		so2-&gt;so_state |= SS_NBIO;
+ -	error = soaccept(so2, nam);
+  	so2-&gt;so_cred = kauth_cred_dup(so-&gt;so_cred);
+ +	error = soaccept(so2, nam);
+  	sounlock(so);
+  	if (error) {
+  		/* an error occurred, free the file descriptor and mbuf */
+
+ 
+ --y0ulUmNC+osPPQO6--
+
+ 
+From: Luke Maurits &lt;luke@maurits.id.au&gt;
+To: gnats-bugs@NetBSD.org
+Cc: 
+Subject: Re: kern/47598: Kernel crash in kauth_cred_uidmatch caused by
+ netstat
+Date: Wed, 27 Feb 2013 08:46:49 -0800
+
+
+ Thank you very much!  What source branch should I apply those patches
+ against, 6.0_STABLE?
+
+ 
+ Also, because this is a VPS I can't change the kernel myself directly,
+ I need to submit a support ticket and wait for the provider to do it.
+ Historically, they've been quite slow to respond to that sort of
+ request, so it will probably be a week before I am running with these
+ patches (and, of course, it will probably take months after that from me
+ to be sure the problem is gone, since it happens so irregularly).  Can
+ I assume that in the mean time turning off curtain as a temporary
+ workaround should prevent more crashes?
+
+ 
+ Luke
+
+ 
+From: Martin Husemann &lt;martin@duskware.de&gt;
+To: gnats-bugs@NetBSD.org
+Cc: 
+Subject: Re: kern/47598: Kernel crash in kauth_cred_uidmatch caused by netstat
+Date: Wed, 27 Feb 2013 18:01:49 +0100
+
+
+ On Wed, Feb 27, 2013 at 04:50:08PM +0000, Luke Maurits wrote:
+ &gt;  Thank you very much!  What source branch should I apply those patches
+ &gt;  against, 6.0_STABLE?
+
+ 
+ The patch was against -current, I will commit and request pullup to all
+ -6 branches after a bit time for comments from others.
+
+ 
+ &gt;  I assume that in the mean time turning off curtain as a temporary
+ &gt;  workaround should prevent more crashes?
+
+ 
+ Yes, it should.
+
+ 
+ Martin
+
+ 
+From: Luke Maurits &lt;luke@maurits.id.au&gt;
+To: gnats-bugs@NetBSD.org
+Cc: 
+Subject: Re: kern/47598: Kernel crash in kauth_cred_uidmatch caused by
+ netstat
+Date: Wed, 27 Feb 2013 09:16:59 -0800
+
+
+ Ah, I see.  Since it's so slow and painful for me to switch kernels on
+ this machine, and I don't want to run current on a system I rely on
+ being up, I might just turn of curtain for now and wait until 6.1 comes
+ out (which I assume will be soonish since an RC was just announced),
+ assuming the fix will have made its way into there.
+
+ 
+ Thanks very much for your prompt help with this!
+
+ 
+From: &quot;Martin Husemann&quot; &lt;martin@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47598 CVS commit: src/sys/secmodel/extensions
+Date: Thu, 28 Feb 2013 15:23:26 +0000
+
+
+ Module Name:	src
+ Committed By:	martin
+ Date:		Thu Feb 28 15:23:25 UTC 2013
+
+ 
+ Modified Files:
+ 	src/sys/secmodel/extensions: secmodel_extensions.c
+
+ 
+ Log Message:
+ Make the callback deal with embryonic connections which do not have
+ credentials yet. Fixes PR kern/47598.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.4 -r1.5 src/sys/secmodel/extensions/secmodel_extensions.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Martin Husemann&quot; &lt;martin@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47598 CVS commit: src/tests/kernel
+Date: Thu, 28 Feb 2013 15:31:23 +0000
+
+
+ Module Name:	src
+ Committed By:	martin
+ Date:		Thu Feb 28 15:31:23 UTC 2013
+
+ 
+ Modified Files:
+ 	src/tests/kernel: Makefile
+ Added Files:
+ 	src/tests/kernel: t_kauth_pr_47598.c
+
+ 
+ Log Message:
+ Add a testprogram for PR 47598.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.31 -r1.32 src/tests/kernel/Makefile
+ cvs rdiff -u -r0 -r1.1 src/tests/kernel/t_kauth_pr_47598.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47598 CVS commit: [netbsd-6] src/sys/secmodel/extensions
+Date: Thu, 14 Mar 2013 21:56:24 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Thu Mar 14 21:56:23 UTC 2013
+
+ 
+ Modified Files:
+ 	src/sys/secmodel/extensions [netbsd-6]: secmodel_extensions.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by martin in ticket #839):
+ 	sys/secmodel/extensions/secmodel_extensions.c: revision 1.5
+ Make the callback deal with embryonic connections which do not have
+ credentials yet. Fixes PR kern/47598.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.2.2.1 -r1.2.2.2 \
+     src/sys/secmodel/extensions/secmodel_extensions.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47598 CVS commit: [netbsd-6-0] src/sys/secmodel/extensions
+Date: Thu, 14 Mar 2013 21:56:42 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Thu Mar 14 21:56:41 UTC 2013
+
+ 
+ Modified Files:
+ 	src/sys/secmodel/extensions [netbsd-6-0]: secmodel_extensions.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by martin in ticket #839):
+ 	sys/secmodel/extensions/secmodel_extensions.c: revision 1.5
+ Make the callback deal with embryonic connections which do not have
+ credentials yet. Fixes PR kern/47598.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.2.8.1 -r1.2.8.2 \
+     src/sys/secmodel/extensions/secmodel_extensions.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+State-Changed-From-To: open-&gt;closed
+State-Changed-By: martin@NetBSD.org
+State-Changed-When: Fri, 15 Mar 2013 09:01:49 +0000
+State-Changed-Why:
+Fixed and pulled up, thanks for the report!
+
+
+
+
+<b>&gt;Unformatted:</b>
+
+ 
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

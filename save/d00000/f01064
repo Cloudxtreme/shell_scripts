@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <title>Python program: time-gai-connect.py</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <!-- Copyright (C) 2011 Shumon Huque -->
+  <meta name="author" content="Shumon Huque">
+  <meta name="keywords"
+          content="time-gai-connect, Python, getaddrinfo,
+		   measure TCP connection establishment times,
+		   IPv4, IPv6, address selection,
+                   Huque, Shumon, Shumon Huque, Python programs">
+  <meta name="description"
+          content="Python program to measure TCP connection establishment times to addresses returned by getaddrinfo().">
+  <link rel="stylesheet" type="text/css" href="/~shuque/style/document1.css">
+</head>
+
+<!-- Background white, links blue (unvisited), navy (visited), red (active) -->
+ <BODY
+  BGCOLOR="#FFFFFF"
+  TEXT="#000000"
+  LINK="#0000FF"
+  VLINK="#000080"
+  ALINK="#FF0000"
+ >
+<h1>time-gai-connect.py</h1>
+
+<p>
+A very short python program that measures TCP connection establishment 
+times to a given hostname, using addresses returned by getaddrinfo().
+Arguments are a hostname, and optionally a port number, otherwise port 
+80 is assumed.
+</p>
+
+<p>
+I wrote this program to help me measure real connection establishment
+times to dual stack (IPv4 and IPv6) destinations, to see how this
+affects address selection algorithms in operating systems and applications.
+Some modern algorithms (eg. Happy Eyeballs, Apple network stats based 
+connection preferences) take these connection times into account when
+choosing destination addresses.
+</p>
+
+<h2>Source code</h2>
+<ul>
+<li><a href="time-gai-connect.py">time-gai-connect.py</a>
+</ul>
+
+Usage:
+<pre>
+
+    time-gai-connect.py hostname
+    time-gai-connect.py hostname portnumber
+
+</pre>
+
+<pre>
+
+An example run (from a machine on the upenn campus) with the main
+IETF webserver, www.ietf.org:
+
+     $ time-gai-connect.py www.ietf.org
+     2001:1890:123a::1:1e                     90.98601 ms
+     12.22.58.30                              76.32303 ms
+
+</pre>
+
+Shumon Huque<br>
+E-mail: shuque -at- upenn.edu<br>
+Web: <a href="/~shuque/">http://www.huque.com/~shuque/</a><br>
+University of Pennsylvania.
+
+<p>
+
+Copyright (c) 2011 Shumon Huque. All rights reserved.  This program is 
+free software; you can redistribute it and/or modify it under the same 
+terms as Python itself.
+
+<p>
+
+Back to <a href="/~shuque/">Shumon Huque's home page</a><br>
+ </BODY>
+</HTML>

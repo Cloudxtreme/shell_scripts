@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Tarsnap - The spiped secure pipe daemon</title>
+<link rel="stylesheet" type="text/css" title="Default style" href="tarsnap.css">
+<link rel="canonical" href="http://www.tarsnap.com/spiped.html">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Tarsnap is a secure online backup system for Linux, BSD, OS X, and other UNIX-like operating systems">
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10889726-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    if("http:" == document.location.protocol) {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = 'http://www.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    }
+  })();
+</script>
+</head>
+<body>
+<div class="banner">
+<h1><a href="http://www.tarsnap.com/">Tarsnap</a></h1>
+<p class="tagline">Online backups for the truly paranoid</p>
+<a href="#nav" style="display: none">Navigation menu</a>
+</div>
+<div class="nonbanner">
+<div class="main">
+<div class="onecol">
+  <div class="box">
+    <h3 class="doc">The spiped secure pipe daemon</h3>
+    <div class="boxcontents">
+      <p>
+	Spiped (pronounced "ess-pipe-dee") is a utility for creating
+	symmetrically encrypted and authenticated pipes between socket
+	addresses, so that one may connect to one address (e.g., a UNIX
+	socket on localhost) and transparently have a connection established
+	to another address (e.g., a UNIX socket on a different system). This
+	is similar to 'ssh -L' functionality, but does not use SSH and
+	requires a pre-shared symmetric key.
+      </p>
+      <p>
+	Spiped uses strong and well-understood cryptographic components: The
+	initial key negotiation is performed using HMAC-SHA256 and an
+	authenticated Diffie-Hellman key exchange over the standard 2048-bit
+	"group 14"; following the completion of key negotiation, packets are
+	transmitted encrypted with AES-256 in CTR mode and authenticated
+	using HMAC-SHA256.  The simplicity of the code &mdash; about 4000
+	lines of C code in total, of which under 1000 are specific to spiped
+	(the rest is library code originating from
+	<a href="kivaloo.html">kivaloo</a> and
+	<a href="index.html">Tarsnap</a>) &mdash; makes it unlikely that
+	spiped has any security vulnerabilities.
+      </p>
+      <p>
+	On the author's 2.5 GHz Intel Core 2 laptop, spiped operates at
+	approximately 200 Mbps.
+      </p>
+      <h4>Download</h4>
+      <p>
+	The following versions of spiped are available:
+      </p>
+      <table border=1 cellpadding=2 cellspacing=0><tr>
+	<td>Version</td>
+	<td>Release date</td>
+	<td>SHA256 hash</td>
+      </tr><tr>
+	<td><a href="spiped/spiped-1.3.1.tgz">spiped 1.3.1</a></td>
+	<td>2013-04-13</td>
+	<td><tt>8a58a983be460b88ed5a105201a0f0afacb83382208761837a62871dcca42fee</tt></td>
+      </tr><tr>
+	<td><a href="spiped/spiped-1.3.0.tgz">spiped 1.3.0</a></td>
+	<td>2013-04-06</td>
+	<td><tt>6f3d512dbdc8e5e893fb533908d4f8bcd1fd23db783f63c7bc37cf5660c139d0</tt></td>
+      </tr><tr>
+	<td><a href="spiped/spiped-1.2.2.tgz">spiped 1.2.2</a></td>
+	<td>2012-11-15</td>
+	<td><tt>a9eb4681e4ccd5d86b8a2d4e16785db8ba10d8a9f7f732485511fd4b92dff1ec</tt></td>
+      </tr><tr>
+	<td><a href="spiped/spiped-1.2.1.tgz">spiped 1.2.1</a></td>
+	<td>2012-08-31</td>
+	<td><tt>4e2e532b2a7df8e9a771c27a1bc2889f0d834e986d4f4a02a2a12174560ea44b</tt></td>
+      </tr><tr>
+	<td><a href="spiped/spiped-1.2.0.tgz">spiped 1.2.0</a></td>
+	<td>2012-08-30</td>
+	<td><tt>46fb94da62bf1f074513047519f2d4f5faf103e5b8555e14a375a42b74508a6b</tt></td>
+      </tr><tr>
+	<td><a href="spiped/spiped-1.1.0.tgz">spiped 1.1.0</a></td>
+	<td>2011-09-10</td>
+	<td><tt>b727b902310d217d56c07d503c4175c65387ff07c9cd50a24584903faf9f3dc3</tt></td>
+      </tr><tr>
+	<td><a href="spiped/spiped-1.0.0.tgz">spiped 1.0.0</a></td>
+	<td>2011-07-04</td>
+	<td><tt>82df05533bf8d8580f57e6dbec7d7e2966eabd3ea7a0a0bb06f87000947969a3</tt></td>
+      </tr></table>
+      <h4>Mailing list</h4>
+      <p>
+	The <tt>spiped</tt> secure pipe daemon is discussed on the
+	<a href="lists.html">spiped@tarsnap.com</a> mailing list.
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+<div class="leftmargin"><div class="nav" id="nav"><ul class="navtop"><li><a href="index.html">Tarsnap</a></li><li><a href="design.html">Design</a></li><li><a href="https://www.tarsnap.com/download.html">Download</a></li><li><a href="documentation.html">Documentation</a><ul><li><a href="gettingstarted.html">Getting started</a></li><li><a href="usage.html">General usage</a></li><li><a href="man.html">Man pages</a></li><li><a href="technical.html">Technical details</a><ul><li><a href="picoUSD-why.html">picodollars</a></li><li><a href="GB-why.html">1 GB = 10^9 bytes</a></li><li><a href="crypto.html">cryptography</a></li><li><a href="scrypt.html">scrypt</a></li><li><a href="kivaloo.html">kivaloo</a></li><li><a class="current" href="spiped.html">spiped</a></li></ul></li><li><a href="faq.html">FAQ</a></li></ul></li><li><a href="support.html">Support</a></li><li><a href="https://www.tarsnap.com/account.html">Accounts</a></li></ul></div></div></div>
+</body></html>

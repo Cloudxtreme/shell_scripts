@@ -1,0 +1,523 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Shift_JIS">
+   <META NAME="Author" CONTENT="Hiroshi Esaki">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.03 [en] (Win95; I) [Netscape]">
+   <TITLE>kenken</TITLE>
+</HEAD>
+<BODY>
+
+<CENTER><B><FONT SIZE=+2>The Evaluation of high speed multicast data transmission</FONT></B></CENTER>
+
+<CENTER><B><FONT SIZE=+2>over IPv6 networks</FONT></B></CENTER>
+
+<CENTER><B><FONT SIZE=+2></FONT></B></CENTER>
+
+<CENTER><B><FONT SIZE=+1>Kengo Nagahashi (kenken@sfc.wide.ad.jp),&nbsp;
+Keio University, Japan</FONT></B></CENTER>
+
+<CENTER><B><FONT SIZE=+1>Hiroshi Esaki (hiroshi@wide.ad.jp), The University
+of Tokyo, Japan</FONT></B></CENTER>
+
+<CENTER><B><FONT SIZE=+1>Jun Murai (jun@wide.ad.jp), Keio University, Japan</FONT></B></CENTER>
+&nbsp;
+<CENTER><B><FONT SIZE=+1>Abstract</FONT></B></CENTER>
+
+
+<P>This paper evaluate the robustness of multicast routing and the performance
+evaluation of multicast service using the experimental network.&nbsp; For
+the performance evaluation of multucast service, we use the the DV (Digital
+Video)&nbsp; transmission service, as the practical application for the
+next generation Internet.&nbsp; The evaluatoin system uses the PIM (Protocol
+Independent Multicast), that is an RPF (Reverse Path Forwarding) multicast
+routing protocol.&nbsp; The packet loss observed at the end host is evaluated,
+compared with the
+<BR>case where the system provide the multicast service using N of the
+multiple unicast packet transmission.&nbsp;&nbsp; We can make sure the
+multicast system has better system scalability, regarding the number of
+receivers, than the unicast based multicast system has.&nbsp; PIM operates
+correctly and stably, even when the network has a routing loop. Finally,
+we operate the DV multicast service over the nation-wide JB project IPv6
+network using the PIM-SM, to make sure the correct operation.
+
+<P><B><U><FONT SIZE=+1>1. Introduction</FONT></U></B>
+
+<P>The most of the data communications over the currently operating Internet
+is using the unicast data transmission with TCP or
+<BR>UDP.&nbsp; And, many exisiting applications do transfer exactly the
+same data to large number of receivers.&nbsp;&nbsp; Also, the upcomming
+Internet applications will includes a realtime multicast services, such
+as DV (Digital Video) program multicasting service or interactive multi-party
+multimedia conferences or games.&nbsp; We have to establish a stable and
+cost effective multicast data transmission infrastructure for the next
+generation Internet applications.
+<BR>&nbsp;&nbsp;&nbsp; With a multicast data transmission, when a sender
+transfers a single packet toward the particular multicast group, the network
+copies the packet to transfer them only to the particularreceivers belonging
+to the corresponding multicast group.&nbsp; Since the sender does not need
+to send the same data to every receivers, the network can provide an efficient
+multicast data transmission services.&nbsp;&nbsp; With the multicast data
+transmission, the required processing power at the sender and the required
+bandwidth for the sender can be smaller than those with the unicast data
+transmission.&nbsp; Since the total number of packtes transferred by the
+network with multicast data transmission is smaller than that with unicast
+data transmission, the possibility of inappropriate routing protocol operation
+due to the large amount of user packet transmission with multicast data
+transmission would be less than that with unicast data transmission. Also,
+the diversity of the data reception time by the receivers must be smaller
+that with the unicast data transmission, and the data reception delay by
+the revievers must be smaller than that with the unicast transmission.
+<BR>&nbsp;&nbsp;&nbsp; On the other hand, the multicast service may have
+the following technical concernings.
+<UL>
+<LI>
+&nbsp;the performance of packet transmission at the router may degrade,
+due to the copying of multicast packets.&nbsp; This is because the copying
+the received packet at the router is a new function for the router.</LI>
+
+<LI>
+&nbsp;the network congestion due to the routing loop with multicast packet
+will be worse than that with unicast packet.&nbsp;&nbsp; This is because
+the number of links and nodes affected by the routing loop with multicast
+packet transmission should be larger than that with unicast packet transmission.</LI>
+</UL>
+The evaluated system in this paper has the following features;
+<UL>
+<LI>
+Digital Video (DV) multicasting</LI>
+
+<BR>DV is one of the popular applications with high speed data transmission
+used in the next generation Internet.&nbsp; Also, the DV is an application,
+that is sensitive to the&nbsp; packet loss and the delay jitter.
+<LI>
+PC based router and host</LI>
+
+<BR>For flexible and cost effective network operation, the experimental
+system uses the conventional PCs for routers and hosts.
+<LI>
+PIM-SM multicast routing protocol [8]</LI>
+
+<BR>For effective and scalable multicast service, we used the PIM-SM (Protocol
+Independent Multicast - Sparse Mode) routing protocol.
+<LI>
+Native IPv6 network [9]</LI>
+
+<BR>Since the IPv6 technology is the fundamental core protocol for the
+upcomming Internet, the experimental system operated over the IPv6 network.</UL>
+We implemented the PC router, that can operate the PIM-SM with IPv6 and
+the PC host, that can send and receive the DV data using the PIM-SM with
+IPv6.&nbsp; Using these PC based routers and hosts, we developed both the
+local area and the wide area experimantal networks.&nbsp; The wide area
+exeprimental network accommodate the live traffic with the conventional
+applications, as well as the
+<BR>experimental DV multicast application. Also, the experimental network
+was not a loop free topology.&nbsp; Therefore, the experimental network
+would create a transitional routing loop with some network status.
+<BR>&nbsp;&nbsp;&nbsp; Using the experimental network, we evaluate the
+performence of packet transmission, compared with the performance where
+the
+<BR>multicast service is provided by the multiple unicast packet transmissions.&nbsp;
+Also, we evaluate the stability of routing protocol operation with high
+speed DV data transmission.&nbsp; It was shown that the experimental system
+works well with the high speed DV data multicast application, even when
+the system has a routing loop.&nbsp;&nbsp; As a further study item, it
+is recognised that we should evaluate the effectiveness of the packet scheduling
+mechanism to provide different quality of service among system control
+information
+<BR>(e.g., routing protocol information) and user information.
+<BR>&nbsp;&nbsp;&nbsp; Section 2 evaluates the performance of packet transmission,
+compared with the case where the multicast service is provided by the multiple
+unicast transmissions.&nbsp; Section 3 evaluates the robustness and the
+stability of the multicast routing protocol.&nbsp; Section 4 describes
+the experimantal operation of DV stream multicast service over the nation-wide
+JB project IPv6 network using IPM-SM.&nbsp; Finally, sectin 5gives a brief
+conclusion.
+<BR>&nbsp;
+
+<P><B><U><FONT SIZE=+1>2. Performance Evaluation of Packet Transmission
+in Multicast Network</FONT></U></B>
+<BR><B><FONT SIZE=+1>2.1 Evaluation System</FONT></B>
+
+<P>Figures 1 and 2 show the evaluation system.&nbsp; Sender (Snd1) sends
+the packets to two receiver hosts (Rcv1 and Rcv2) through the routers (R1
+and R2).&nbsp; Rcv1 and Rcv2 receive the same data from Snd1, i.e., multicating
+from Snd1 to Rcv1 and Rcv2.&nbsp; R1 and R2 are connected through the OC-3
+ATM link, and the hosts (Snd1, Rcv1 and Rcv2) are connected to the routers
+through the 100MBase-T links.
+<CENTER><IMG SRC="FIG1.jpg" HEIGHT=208 WIDTH=509></CENTER>
+
+<CENTER>Figure 1. Experimantal Configuration for Multicast by Multiple
+Unicasts</CENTER>
+
+<CENTER><IMG SRC="FIG2.jpg" HEIGHT=221 WIDTH=543></CENTER>
+
+<CENTER>Figure 2. Experimantal Configuration for Multicast by Multicast
+Session</CENTER>
+
+
+<P>In the configuration of figure 1, Snd1 estblish two (unicast) packet
+flows to each receiver host.&nbsp; This is the case where the multicast
+service is provided by the multiple unicast connections. Routers (R1and
+R2) do not need to copy the received data, and the sender
+<BR>host (Snd1) copies the sending data.&nbsp; In the configuration of
+figure 2, Snd1 establish one (multicast) packet flow to the receiver hosts.&nbsp;
+This is the case where the multicast service is provided by a single multicast
+connection. The router R2 copies the received data to deliver the data
+to receivers (Rcv1 and Rcv2). Here, with the configuration of figure 2,
+PIM-SM is applied to as the multicast routing.&nbsp; Sender host (Snd1)
+can control the packet transmission rate to the network, with the rate
+control (i.e., shaping).
+<BR>&nbsp;&nbsp;&nbsp; All nodes, that are routers and hosts, are the ordinary
+IBM compatible PC with the following specification.
+<BR>&nbsp;
+<UL>
+<LI>
+Host</LI>
+
+<BR>- CPU : Intel Pentium II 450 MHz
+<BR>- Memory : 128MB
+<BR>- NIC : Intel EtherExpress Pro 100
+<BR>- OS : FreeBSD 3.4 with KAME 19990908-stable
+<BR>&nbsp;
+<LI>
+Router</LI>
+
+<BR>- CPU : Intel Pentium III 450MHz
+<BR>- Memory : 128MB
+<BR>- NIC : Intel EtherExpress Pro 100
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENI OC-3 256MB
+ATM
+<BR>- OS : FreeBSD 3.4 with KAME 19990908-stable</UL>
+<B><FONT SIZE=+1>2.2 Evaluation Results</FONT></B>
+
+<P>Table 1 and figure 3 show the number of recieved packets and the number
+of dropped packets at the router (R1), parameterizing the packet transmission
+rate from the sender host (Snd1).
+<CENTER>Table 1. Number of Dropped Packets at the Router</CENTER>
+
+<CENTER><TABLE BORDER COLS=5 WIDTH="100%" >
+<TR>
+<TD>
+<CENTER>Transmission Rate</CENTER>
+</TD>
+
+<TD>
+<CENTER>Number of Received Packets with Unicast</CENTER>
+</TD>
+
+<TD>
+<CENTER>Number of Dropped Packets with Unicast</CENTER>
+</TD>
+
+<TD>
+<CENTER>Number of Received Packets with Multicast</CENTER>
+</TD>
+
+<TD>
+<CENTER>Number of Dropped Packets with Multicast</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD>
+<CENTER>10Mbps&nbsp;</CENTER>
+</TD>
+
+<TD>
+<CENTER>7414</CENTER>
+</TD>
+
+<TD>
+<CENTER>68</CENTER>
+</TD>
+
+<TD>
+<CENTER>7536</CENTER>
+</TD>
+
+<TD>
+<CENTER>86</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD>
+<CENTER>30Mbps</CENTER>
+</TD>
+
+<TD>
+<CENTER>7517</CENTER>
+</TD>
+
+<TD>
+<CENTER>156</CENTER>
+</TD>
+
+<TD>
+<CENTER>7413</CENTER>
+</TD>
+
+<TD>
+<CENTER>74</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD>
+<CENTER>50Mbps</CENTER>
+</TD>
+
+<TD>
+<CENTER>7814</CENTER>
+</TD>
+
+<TD>
+<CENTER>1012</CENTER>
+</TD>
+
+<TD>
+<CENTER>7413</CENTER>
+</TD>
+
+<TD>
+<CENTER>87</CENTER>
+</TD>
+</TR>
+
+<TR>
+<TD>
+<CENTER>100Mbps</CENTER>
+</TD>
+
+<TD>
+<CENTER>7814</CENTER>
+</TD>
+
+<TD>
+<CENTER>2568</CENTER>
+</TD>
+
+<TD>
+<CENTER>7586</CENTER>
+</TD>
+
+<TD>
+<CENTER>98</CENTER>
+</TD>
+</TR>
+</TABLE></CENTER>
+&nbsp;
+<CENTER><IMG SRC="FIG3.jpg" HEIGHT=300 WIDTH=400></CENTER>
+
+<CENTER>Figure 3.Packet Loss Rate at the Router</CENTER>
+
+
+<P>&nbsp;&nbsp;&nbsp; As shown, the router can not relay the unicast packets,
+in accordance with the increase of packet transmission rate from the sender
+with unicast based multicast.&nbsp; However, with the multiast service,
+the router can relay the packets and the packet dropped rate does not increase
+even when the packet transmissionrate from the sender host (Snd1) increases.
+
+<P><B><U><FONT SIZE=+1>3. Evaluation of System Robustness of Multicast
+Routing Protocol</FONT></U></B>
+<BR><B><FONT SIZE=+1>3.1 Overview of RPF Multicast Routing</FONT></B>
+
+<P>&nbsp;&nbsp;&nbsp; The RPF represents Reverse Path Forwarding.&nbsp;
+RPF is commonly used in the major multicast routing protocols, such as
+PIM that is used in the evaluation system discussed in this paper.&nbsp;
+In RPF system, the multiast packet transmission is executed using the unicast
+routing information.&nbsp; The multicast session is recognized and managed
+by the pair of sourece node IP address ("S") and IP multicast address assigned
+for the multucast group ("G"), i.e., {S,G}.&nbsp; When the router receives
+the multicast packet, the router checks the source IP address in it.
+<UL>i<FONT FACE="Courier New,Courier">f (Recv_I/F = Nxt_Hop_R_I/F)</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp; {forward the received packet
+to the rest of interfaces}</FONT>
+<BR><FONT FACE="Courier New,Courier">else</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp; {silently discard the received
+packet}</FONT>
+<BR><FONT FACE="Courier New,Courier">endif</FONT>
+
+<P><FONT FACE="Courier New,Courier">% Here,</FONT>
+<BR><FONT FACE="Courier New,Courier">%&nbsp; (1) the Recv_I/F : the interface
+(including the virtual interface such as ATM or Frame Relay),</FONT>
+<BR><FONT FACE="Courier New,Courier">%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; where
+receives the multicast.</FONT>
+<BR><FONT FACE="Courier New,Courier">%&nbsp; (2) Nxt_Hop_R_I/F : the interface,
+where the packet to the source IP address shown in the received</FONT>
+<BR><FONT FACE="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+multicast packet should relay based on the unicast routing information</FONT></UL>
+&nbsp;Therefore, the RPF multicast routing does not need any additional
+routing mechanism for a multicast service, i.e., it only needs the unicast
+routing information.&nbsp; Also, when the IP multicast packet is received
+from the wrong interface compared to the unicast routing information, the
+received multicast packets are automatically and silently discarded.
+<BR>&nbsp;&nbsp;&nbsp; This mechanism avoids the packet forwarding to the
+routing loop.&nbsp; When the unicast routing system has the routing loop,
+the packet transferred into the loop shall discarded due to the mismatch
+of unicast routing information to the source IP address and the interface
+receiving the IP multicast packet.&nbsp; This function of RPF multicast
+routing has a significant benefit, compared with the unicast based multicast
+service.&nbsp; With the unicast based multicast service, the packet has
+to be looped in the network until the TTL expires. However, with the multicast
+service using the RPF, it is expected that the packets are discared at
+the entry router to the routing loop.
+<BR>&nbsp;
+
+<P><B><FONT SIZE=+1>3.2 Evaluation System</FONT></B>
+
+<P>Figure 4 shows the evaluation system.&nbsp; Sender (Snd1) sends the
+multicast packets toward two receiver hosts (Rcv1 and Rcv2) through the
+routers (R1, R2 and R3).&nbsp; All routers run the PIM-SM multicast routing
+protocol.&nbsp; All the data links in the system are 100MBase-T.
+<BR>&nbsp;
+<CENTER><IMG SRC="FIG4.jpg" HEIGHT=449 WIDTH=560></CENTER>
+
+<CENTER>Figure 4. Experimantal Configuration for Evaluation of Multicast
+Routing Against Routing Loop</CENTER>
+
+
+<P>All nodes, that are routers and hosts, are the ordinary IBM compatible
+PC with the following specification.
+<UL>
+<LI>
+Host</LI>
+
+<BR>- CPU : Intel Pentium II 450 MHz
+<BR>- Memory : 128MB
+<BR>- NIC : Intel EtherExpress Pro 100
+<BR>- OS : FreeBSD 3.4 with KAME 19990908-stable
+<BR>&nbsp;
+<LI>
+Router</LI>
+
+<BR>- CPU : Intel Pentium III 450MHz
+<BR>- Memory : 128MB
+<BR>- NIC : Intel EtherExpress Pro 100
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENI OC-3 256MB
+ATM
+<BR>- OS : FreeBSD 3.4 with KAME 19990908-stable</UL>
+In the evaluation system, the R1 has the inappropriate unicast routing
+information. For R1, the next hop router to transfer the packet toward
+Snd1is the R3.&nbsp;&nbsp; Therefore, the routing toward the Snd1 has the
+routing loop among R1, R2 and R3.
+
+<P><B><FONT SIZE=+1>3.3 Evaluation Results</FONT></B>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp; The multicast packets are transferred to the
+first hop router R1.&nbsp; R1 has to discard the all the received multicast
+IP packet from the Snd1 node, since the interface receiving the IP multicast
+packet is different from the interface RPF expected.&nbsp;&nbsp; We manually
+modify the routing information at R1, so that the evaluation system has
+a routing loop among R1, R2, and R3.&nbsp; By the applicatin of the RPF
+mechanism, it is expected that the R1 silently drop the multicast packets.
+<BR>&nbsp;&nbsp;&nbsp; The experimental system actually discard the IP
+multicast packets at the R1, when the R1 has the wrong unicast routing
+information to form a routing loop.&nbsp; When we use the multiple unicast
+connection to provide the multicast service from Snd1 to Recv1 and Rcv2,
+the unicast packets do loop among the R1, R2 and R3.&nbsp; Moreover, the
+packet to be looped shall be two packet flows (both toward Recv1 and toward
+Rcv2).&nbsp; We did make sure the routing loop has generate the congestion
+with unicast based multicast service.&nbsp; And, also, we did make sure
+the avoid of packet transmission at the entry router of the (unicast) routing
+loop, to avoid the network congestion due to the unicast routing loop.
+
+<P><B><U><FONT SIZE=+1>4. Digital Video Transmission over the Nation-wide
+JB Project Network</FONT></U></B>
+<BR><B><FONT SIZE=+1>4.1 Network Configuration</FONT></B>
+<BR>&nbsp;&nbsp;&nbsp; We evaluate our developped multicast system over
+the nation-wide JB project network.&nbsp; The JB network [1] is the jointly
+operated among <A HREF="http://www.wide.ad.jp">WIDE project [2]</A>, <A HREF="http://www.ckp.or.jp">CKP[3]
+</A>and <A HREF="http://www.itrc.net">ITRC[4]</A>.&nbsp; Most of the high
+speed links are provided by the <A HREF="http://www.tao.go.jp/JGN/">JGN
+(Japan Gigabit Network)</A> operated by TAO[5], by the <A HREF="http://www.ttnet.co.jp">TTNet
+[6]</A> and by the <A HREF="http://www.crl.go.jp">CRL[7].</A>&nbsp; It
+uses IPv6 as the basic internet protocol.&nbsp; Figure 5 shows the network
+configuration of the JB network, regarding only the high speed links.&nbsp;
+More than ten organizations are interconnected by the high speed datalinks
+(e.g., OC-12 ATM, Gigabit Ethernet).&nbsp;&nbsp; All organizations are
+interconnected thtough the PC-based routers with KAME IPv6 protocol stack,
+and run the PIM-SM for multicast service.&nbsp; We had two RP (Rendezvous
+Point) routers in the network, to create shared multicast trees.
+<BR>&nbsp;
+<CENTER><IMG SRC="FIG5.jpg" HEIGHT=467 WIDTH=678></CENTER>
+
+<CENTER>Figure 5. Network Configuration of the JB Project IPv6 Network</CENTER>
+
+<CENTER>&nbsp;</CENTER>
+
+
+<P><B><FONT SIZE=+1>4.2 Experiment of DV Multicast Service over the JB
+Project Network</FONT></B>
+<BR>&nbsp;&nbsp;&nbsp; Figure 6 shows the verview of DV multicast service
+over the JB project IPv6 network.&nbsp; The technical workshop held by
+the WIDE project is multicasted to more than ten sites over the nation-wide
+JB project network, using the DV video stream.&nbsp; The DV stream is multicasted
+to the sites using the PIM-SM with IPv6.&nbsp; Each site observes the same
+DV image, simultaneously.&nbsp; And, when the participants from the remore
+site can interactively join to the workshop using the networ.&nbsp; This
+means that the remote site can send the DV stream, whenever they have a
+question.&nbsp;&nbsp; The DV stream from the remote site also multicasted
+to all the participating sites to the multicast service, through the RP
+routers.&nbsp; The experimantal interactive milticast session for one-day
+workshop using the DV multicasting has been correctly operated using the
+PIM-SM.&nbsp;&nbsp;&nbsp;
+<BR>&nbsp;
+<CENTER><IMG SRC="FIG6.jpg" HEIGHT=475 WIDTH=680></CENTER>
+
+<CENTER>Figure 6. Overview of DV Multicasting over the JB Project Network</CENTER>
+
+
+<P><B><U><FONT SIZE=+2>5.Conclusion</FONT></U></B>
+<BR>&nbsp;&nbsp;&nbsp; This paper evaluate the robustness of multicast
+routing and the performance evaluation of multicast service using the experimental
+network.&nbsp; For the performance evaluation of multucast service, we
+use the the DV (Digital Video)&nbsp; transmission service, as the practical
+application for the next generation Internet.&nbsp; The evaluatoin system
+uses the PIM (Protocol Independent Multicast), that is an RPF (Reverse
+Path Forwarding) multicast routing protocol.&nbsp; The packet loss observed
+at the end host is evaluated, compared with the
+<BR>case where the system provide the multicast service using N of the
+multiple unicast packet transmission.&nbsp;&nbsp; We can make sure the
+multicast system has better system scalability, regarding the number of
+receivers, than the unicast based multicast system has.&nbsp; PIM operates
+correctly and stably, even when the network has a routing loop. Finally,
+we operate the DV multicast service over the nation-wide JB project IPv6
+network using the PIM-SM, to make sure the correct operation.
+<BR>&nbsp;&nbsp;&nbsp; The following items would be further study items.
+<UL>
+<LI>
+The jitter of packet transmission delay observed by each recievers with
+the multicast transmission might be larger than that with the unicast transmission.
+Some applications, such as a video transmission, are sensitive to the delay
+jitter. The jitter of packet transmission delay should be evaluated.&nbsp;
+The evaluation should include the case where we use the actual delay jitter
+sentitive applications (e.g., DV transmission).&nbsp;</LI>
+
+<LI>
+The robustness and stability of multicast routing protocol against the
+high offered load by the user packet flows.&nbsp; The routing protocol
+should correctly operate even when the network is in congestion.</LI>
+
+<LI>
+We should evaluate the effectiveness of the packet scheduling mechanism
+to provide different quality of service among system control information
+(e.g., routing protocol information) and user information.</LI>
+</UL>
+&nbsp;<B><U><FONT SIZE=+2>[References]</FONT></U></B>
+<BR>[1] M.Minami, M.Oe, K.Okamura, Y.Kadobayashi, A.Ogawa, K.Nagahashi,
+H.Esaki;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp; “JB: Design and Architecture of Next Generation
+Internet Infrastructure in Japan”, ICCC99, Tokyo, September 1999.
+<BR>[2] WIDE Project, <A HREF="http://www.wide.ad.jp">http://www.wide.ad.jp</A>
+<BR>[3] CKP (Cyber Kansai Project), <A HREF="http://www.ckp.or.jp">http://www.ckp.or.jp</A>
+<BR>[4] ITRC,<A HREF="http://www.itrc.net"> http://www.itrc.net</A>
+<BR>[5] JGN and TAO, <A HREF="http://www.tao.go.jp/JGN/">http://www.tao.go.jp/JGN/</A>
+<BR>[6] TTNet, <A HREF="http://www.ttnet.co.jp">http://www.ttnet.co.jp</A>
+<BR>[7] CRL,<A HREF="http://www.crl.go.jp">http://www.crl.go.jp</A>
+<BR>[8] D.Estrin, etc., ; "Protocol Independent Multicast-Sparse Mode (PIM-SM):
+Protocol Specification",
+<BR>&nbsp;&nbsp;&nbsp;&nbsp; IETF RFC2362, June 1998.
+<BR>[9] RFC1887 Y. Rekhter, T. Li : “An Architecture for IPv6 Unicast
+Address Allocation”, IETF RFC1887, December 1995.
+</BODY>
+</HTML>

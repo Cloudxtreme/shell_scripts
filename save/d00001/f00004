@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  <head>
+    <title>
+      DesignDiagrams – BIND 10 Development
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="search" href="/search" />
+        <link rel="help" href="/wiki/TracGuide" />
+        <link rel="alternate" href="/wiki/DesignDiagrams?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="/wiki" />
+        <link rel="stylesheet" href="/chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="/chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="/search/opensearch" title="Search BIND 10 Development" />
+    <script type="text/javascript" src="/chrome/common/js/jquery.js"></script><script type="text/javascript" src="/chrome/common/js/babel.js"></script><script type="text/javascript" src="/chrome/common/js/messages/en_US.js"></script><script type="text/javascript" src="/chrome/common/js/trac.js"></script><script type="text/javascript" src="/chrome/common/js/search.js"></script><script type="text/javascript" src="/chrome/common/js/folding.js"></script>
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="/chrome/common/js/ie_pre7_hacks.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://www.isc.org"><img src="/isc-logo-hack.png" alt="ISC Logo" /></a>
+      </div>
+      <form id="search" action="/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="/login">Login</a></li><li><a href="/prefs">Preferences</a></li><li><a href="/wiki/TracGuide">Help/Guide</a></li><li><a href="/about">About Trac</a></li><li><a href="/register">Register</a></li><li class="last"><a href="/reset_password">Forgot your password?</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="/wiki">Wiki</a></li><li><a href="/timeline">Timeline</a></li><li><a href="/roadmap">Roadmap</a></li><li><a href="/report">View Tickets</a></li><li class="last"><a href="/search">Search</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="/wiki">wiki:</a><a class="pathentry" href="/wiki/DesignDiagrams" title="View DesignDiagrams">DesignDiagrams</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+          <ul>
+              <li class="first"><a href="/wiki/WikiStart">Start Page</a></li><li><a href="/wiki/TitleIndex">Index</a></li><li class="last"><a href="/wiki/DesignDiagrams?action=history">History</a></li>
+          </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          
+          <div class="trac-modifiedby"><a href="/wiki/DesignDiagrams?action=diff&amp;version=6" title="Version 6 by shane: Update and split out different services">Last modified</a> <a class="timeline" href="/timeline?from=2013-01-17T13%3A49%3A13Z&amp;precision=second" title="2013-01-17T13:49:13Z in Timeline">7 months</a> ago</div>
+          <div id="wikipage"><h2 id="BIND10ProcessModel">BIND 10 Process Model</h2>
+<h3 id="GenericView">Generic View</h3>
+<p>
+Here we see the processes for a generic BIND 10 server, along with some rough connections between them.
+</p>
+<p>
+<a style="padding:0; border:none" href="/attachment/wiki/DesignDiagrams/Overview-Generic-2013-01-16.png"><img width="95%" src="/raw-attachment/wiki/DesignDiagrams/Overview-Generic-2013-01-16.png" /></a>
+</p>
+<p>
+Features of note:
+</p>
+<ul><li>Everything uses the msgq process to communicate with everything else, but those connections are not drawn here. The connection with the msgq process is via a <a class="ext-link" href="http://www.wsinnovations.com/softeng/articles/uds.html"><span class="icon"> </span>Unix-domain socket</a>.
+</li><li>A number of processes do not exist yet, but got added with grey &amp; dotted lines so you can see where they fit.
+</li><li>The HTTP and SNMP stats servers may be started by the stats daemon, or maybe by the Boss process.
+</li><li>bindctl is a command-line program, and will be started by administrators. The WebTool will be started by something webby, and the GuiTool in a traditional GUI way.
+</li></ul><h3 id="DNSView">DNS View</h3>
+<p>
+Here we see the server along with some DNS processes.
+</p>
+<p>
+<a style="padding:0; border:none" href="/attachment/wiki/DesignDiagrams/Overview-DNS-2013-01-16.png"><img width="95%" src="/raw-attachment/wiki/DesignDiagrams/Overview-DNS-2013-01-16.png" /></a>
+</p>
+<p>
+Some notes:
+</p>
+<ul><li>We see multiple auth processes - these are the things listening on port 53 and sending answers. There will likely be approximately one of these per CPU.
+</li><li>Data sources may be varied, and may be tightly or loosely coupled with BIND 10.
+</li></ul><h3 id="DHCPView">DHCP View</h3>
+<p>
+This is a view of the server with some DHCP processes.
+</p>
+<p>
+<a style="padding:0; border:none" href="/attachment/wiki/DesignDiagrams/Overview-DHCP-2013-01-16.png"><img width="95%" src="/raw-attachment/wiki/DesignDiagrams/Overview-DHCP-2013-01-16.png" /></a>
+</p>
+<h1 id="AboutthisDocument">About this Document</h1>
+<p>
+Created by Shane 2009-09-21 <br />
+Last review 2013-01-17 <br />
+Review scheduled 2013-07-17
+</p>
+</div>
+        
+        
+      </div>
+      
+    <div id="attachments">
+        <h3 class="foldable">Attachments</h3>
+        <ul>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-2009-09-21.png" title="View attachment">Overview-2009-09-21.png</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-2009-09-21.png" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="76009 bytes">74.2 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2009-09-21T17%3A47%3A23Z&amp;precision=second" title="2009-09-21T17:47:23Z in Timeline">4 years</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-2009-09-21.dia" title="View attachment">Overview-2009-09-21.dia</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-2009-09-21.dia" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="3059 bytes">3.0 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2009-09-21T17%3A50%3A04Z&amp;precision=second" title="2009-09-21T17:50:04Z in Timeline">4 years</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-2009-10-27.dia" title="View attachment">Overview-2009-10-27.dia</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-2009-10-27.dia" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="3567 bytes">3.5 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2009-12-04T14%3A59%3A37Z&amp;precision=second" title="2009-12-04T14:59:37Z in Timeline">4 years</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-2009-10-27.png" title="View attachment">Overview-2009-10-27.png</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-2009-10-27.png" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="68587 bytes">67.0 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2009-12-04T14%3A59%3A51Z&amp;precision=second" title="2009-12-04T14:59:51Z in Timeline">4 years</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-2010-06-18.dia" title="View attachment">Overview-2010-06-18.dia</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-2010-06-18.dia" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="4852 bytes">4.7 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2010-06-18T09%3A16%3A31Z&amp;precision=second" title="2010-06-18T09:16:31Z in Timeline">3 years</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-2010-06-18.png" title="View attachment">Overview-2010-06-18.png</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-2010-06-18.png" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="75893 bytes">74.1 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2010-06-18T09%3A16%3A42Z&amp;precision=second" title="2010-06-18T09:16:42Z in Timeline">3 years</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-Generic-2013-01-16.dia" title="View attachment">Overview-Generic-2013-01-16.dia</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-Generic-2013-01-16.dia" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="3414 bytes">3.3 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2013-01-17T13%3A25%3A38Z&amp;precision=second" title="2013-01-17T13:25:38Z in Timeline">7 months</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-Generic-2013-01-16.png" title="View attachment">Overview-Generic-2013-01-16.png</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-Generic-2013-01-16.png" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="131547 bytes">128.5 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2013-01-17T13%3A25%3A58Z&amp;precision=second" title="2013-01-17T13:25:58Z in Timeline">7 months</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-DNS-2013-01-16.dia" title="View attachment">Overview-DNS-2013-01-16.dia</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-DNS-2013-01-16.dia" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="4665 bytes">4.6 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2013-01-17T13%3A26%3A10Z&amp;precision=second" title="2013-01-17T13:26:10Z in Timeline">7 months</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-DNS-2013-01-16.png" title="View attachment">Overview-DNS-2013-01-16.png</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-DNS-2013-01-16.png" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="182608 bytes">178.3 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2013-01-17T13%3A26%3A25Z&amp;precision=second" title="2013-01-17T13:26:25Z in Timeline">7 months</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-DHCP-2013-01-16.dia" title="View attachment">Overview-DHCP-2013-01-16.dia</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-DHCP-2013-01-16.dia" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="4198 bytes">4.1 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2013-01-17T13%3A26%3A43Z&amp;precision=second" title="2013-01-17T13:26:43Z in Timeline">7 months</a> ago.
+            </li>
+            <li>
+    <a href="/attachment/wiki/DesignDiagrams/Overview-DHCP-2013-01-16.png" title="View attachment">Overview-DHCP-2013-01-16.png</a>
+      <a href="/raw-attachment/wiki/DesignDiagrams/Overview-DHCP-2013-01-16.png" class="trac-rawlink" title="Download"><img src="/chrome/common/download.png" alt="Download" /></a>
+       (<span title="150753 bytes">147.2 KB</span>) -
+      added by <em>shane</em> <a class="timeline" href="/timeline?from=2013-01-17T13%3A26%3A58Z&amp;precision=second" title="2013-01-17T13:26:58Z in Timeline">7 months</a> ago.
+            </li>
+        </ul>
+    </div>
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="/wiki/DesignDiagrams?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="/chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="/about"><strong>Trac 0.12.2</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right">Visit the <a href="https://www.isc.org/bind10">BIND 10</a> pages.</p>
+    </div>
+  </body>
+</html>

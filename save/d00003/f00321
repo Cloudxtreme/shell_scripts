@@ -1,0 +1,1332 @@
+
+
+
+
+
+
+<html>
+	
+
+	<head id="ctl00_Head1">
+				
+			<LINK title="medium_original" href="../skins/default_customer/medium.css" type=text/css rel=stylesheet>
+    		<LINK title="vsmall" href="../skins/default_customer/vsmall.css" type=text/css rel="alternate stylesheet">
+    		<LINK title="small" href="../skins/default_customer/small.css" type=text/css rel="alternate stylesheet">
+    		<LINK title="medium" href="../skins/default_customer/medium.css" type=text/css rel="alternate stylesheet">
+    		<LINK title="large" href="../skins/default_customer/large.css" type=text/css rel="alternate stylesheet">
+    		<LINK title="vlarge" href="../skins/default_customer/vlarge.css" type=text/css rel="alternate stylesheet">
+    		<LINK title="medium_original" href="../skins/default_customer/medium.css" type=text/css rel=stylesheet>
+    		<script type="text/javascript" src="sw_analytics.js"></script> 
+    		
+	<title>
+		Immigration & Checkpoints Authority - FAQs
+	</title>
+	
+	
+
+</head>
+
+
+	<body >
+
+<script>
+
+function openwindow(url) {
+	window.open(url);
+}
+
+
+
+function showalldiv(){
+	var x = document.getElementsByTagName('div');
+	for (var i=0;i<x.length;i++)
+	{
+			
+			if (x[i].id.indexOf("iv_") > 0) x[i].style.display = '';
+			
+	}
+
+}
+function hidealldiv(){
+	var x = document.getElementsByTagName('div');
+	for (var i=0;i<x.length;i++)
+	{
+			if (x[i].id.indexOf("iv_") > 0) x[i].style.display = 'none';
+			
+	}
+
+}
+
+
+
+var IFrameObj; // our IFrame object
+function callToServer(ptype, pfaqsysid, pScore) {
+
+	
+  if (!document.createElement) {return true};
+  var IFrameDoc;
+  var URL;
+  if(ptype=='RATINGS'){
+  	var searchphrase;
+  	searchphrase='';
+  	if (document.forms[0].txtKeyword != null) {
+  		searchphrase = searchphrase + ' ' + document.forms[0].txtKeyword.value;
+  	}
+  	
+  	if (document.forms[0].txtBoolean_All != null) {
+  		searchphrase = searchphrase + ' ' + document.forms[0].txtBoolean_All.value;
+  	}
+  	
+  	if (document.forms[0].txtBoolean_exact != null) {
+  		searchphrase = searchphrase + ' ' + document.forms[0].txtBoolean_exact.value;
+  	}
+  	
+  	if (document.forms[0].txtBoolean_OR != null) {
+  		searchphrase = searchphrase + ' ' + document.forms[0].txtBoolean_OR.value;
+  	}
+  	
+  	if (document.forms[0].txtBoolean_exclude != null) {
+  		searchphrase = searchphrase + ' ' + document.forms[0].txtBoolean_exclude.value;
+  	}
+  	
+  	//URL = 'fcd_updatehits.aspx?_strFAQSysID=' + pfaqsysid + '&_strpType=' + ptype + '&_pScore=' + pScore + '&_strKeyword=' + encodeURIComponent(document.forms[0].txtKeyword.value);
+  	URL = 'fcd_updatehits.aspx?_strFAQSysID=' + pfaqsysid + '&_strpType=' + ptype + '&_pScore=' + pScore + '&_strKeyword=' + encodeURIComponent(searchphrase);
+  }
+  else{
+   	URL = 'fcd_updatehits.aspx?_strFAQSysID=' + pfaqsysid + '&_strpType=' + ptype;
+  }
+ 
+  ////////////////////////////
+   	//call xmlhttp	
+	var blnxml_flag;
+	blnxml_flag = loadXMLDoc(URL);
+	///////////////////
+ 
+	if (!blnxml_flag) { 	
+ 
+	  if (!IFrameObj && document.createElement) {
+	    // create the IFrame and assign a reference to the
+	    // object to our global variable IFrameObj.
+	    // this will only happen the first time 
+	    // callToServer() is called
+	   try {
+	      var tempIFrame=document.createElement('iframe');
+	      tempIFrame.setAttribute('id','RSIFrame');
+	      tempIFrame.style.border='0px';
+	      tempIFrame.style.width='0px';
+	      tempIFrame.style.height='0px';
+	      IFrameObj = document.body.appendChild(tempIFrame);
+	      
+	      if (document.frames) {
+	        // this is for IE5 Mac, because it will only
+	        // allow access to the document object
+	        // of the IFrame if we access it through
+	        // the document.frames array
+	        IFrameObj = document.frames['RSIFrame'];
+	      }
+	    } catch(exception) {
+	      // This is for IE5 PC, which does not allow dynamic creation
+	      // and manipulation of an iframe object. Instead, we'll fake
+	      // it up by creating our own objects.
+	      iframeHTML='\<iframe id="RSIFrame" style="';
+	      iframeHTML+='border:0px;';
+	      iframeHTML+='width:0px;';
+	      iframeHTML+='height:0px;';
+	      iframeHTML+='"><\/iframe>';
+	      document.body.innerHTML+=iframeHTML;
+	      IFrameObj = new Object();
+	      IFrameObj.document = new Object();
+	      IFrameObj.document.location = new Object();
+	      IFrameObj.document.location.iframe = document.getElementById('RSIFrame');
+	      IFrameObj.document.location.replace = function(location) {
+	        this.iframe.src = location;
+	      }
+	    }
+	  }
+	  
+	  if (navigator.userAgent.indexOf('Gecko') !=-1 && !IFrameObj.contentDocument) {
+	    // we have to give NS6 a fraction of a second
+	    // to recognize the new IFrame
+	    setTimeout('callToServer()',10);
+	    //return false;
+	  }
+	  
+	  if (IFrameObj.contentDocument) {
+	    // For NS6
+	    IFrameDoc = IFrameObj.contentDocument; 
+	  } else if (IFrameObj.contentWindow) {
+	    // For IE5.5 and IE6
+	    IFrameDoc = IFrameObj.contentWindow.document;
+	  } else if (IFrameObj.document) {
+	    // For IE5
+	    IFrameDoc = IFrameObj.document;
+	  } else {
+	   // return true;
+	  }
+	  
+	  IFrameDoc.location.replace(URL);
+	  //return false;
+	}
+		  
+  	if(ptype=='RATINGS'){
+  	alert('Thank you for your input.  We will use your input to refine future searches.');
+  	}
+}
+
+function loadXMLDoc(url){
+
+ xmlhttp=null;
+ try {
+ xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");
+ }
+ catch(e) {
+ try {
+ xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+ }
+ catch(oc) {
+ xmlhttp=null;
+ }
+ }
+
+ if ( !xmlhttp && typeof XMLHttpRequest != "undefined" ) {
+ xmlhttp=new XMLHttpRequest();
+ }
+
+
+  	
+	if (xmlhttp!=null){
+  		xmlhttp.onreadystatechange=state_Change;
+  		xmlhttp.open("GET",url,true);
+  		xmlhttp.send(null);
+  		return true;
+  	}
+	else{
+  		alert("Your browser does not support XMLHTTP.");
+  		return false;	
+  	}
+}
+
+
+
+
+
+
+
+
+function loadXMLDoc1(url){
+	xmlhttp=null
+	// code for Mozilla, etc.
+	if (window.XMLHttpRequest){
+  		xmlhttp=new XMLHttpRequest();
+  	}
+	// code for IE
+	else if (window.ActiveXObject){
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+	if (xmlhttp!=null){
+  		xmlhttp.onreadystatechange=state_Change;
+  		xmlhttp.open("GET",url,true);
+  		xmlhttp.send(null);
+  		loadXMLDoc == true;
+  	}
+	else{
+  		alert("Your browser does not support XMLHTTP.");
+  		loadXMLDoc == true;	
+  	}
+}
+	
+function state_Change(){
+	// if xmlhttp shows "loaded"
+	if (xmlhttp.readyState==4){
+	  	// if "OK"
+	  	if (xmlhttp.status==200){
+	  		//alert('ok');
+	    }
+	  	else{
+	    	//alert("Problem retrieving XML data")
+	    }
+  	}
+}
+
+
+//added 23 Mar 2008
+function generate_search_string(strquerystring){
+	var strurl;
+	var strvalue;
+	strvalue ="";
+	
+	if (document.forms[0].txtKeyword != null){
+		if (document.forms[0].txtKeyword.value != null){
+			strvalue = strvalue + document.forms[0].txtKeyword.value;
+		}	
+	}
+	
+	if (document.forms[0].txtBoolean_All != null){
+		if (document.forms[0].txtBoolean_All.value != ''){
+		strvalue = strvalue + '&q1=' + document.forms[0].txtBoolean_All.value;
+		}
+	}
+	
+	if (document.forms[0].txtBoolean_exact != null){
+		if (document.forms[0].txtBoolean_exact.value != ''){
+			strvalue = strvalue + '&q2=' + document.forms[0].txtBoolean_exact.value;
+		}
+	}
+	
+	if (document.forms[0].txtBoolean_OR != null){
+		if (document.forms[0].txtBoolean_OR.value != ''){
+			strvalue = strvalue + '&q3=' + document.forms[0].txtBoolean_OR.value;
+		}
+	}
+	
+	if (document.forms[0].txtBoolean_exclude != null){
+		if (document.forms[0].txtBoolean_exclude.value != ''){
+			strvalue = strvalue + '&q4=' + document.forms[0].txtBoolean_exclude.value;
+		}
+	}
+	
+	//amended 6 Aug 2009
+	if (document.forms[0].m_strSearch_Choice_2 != null){
+		if (document.forms[0].m_strSearch_Choice_2.checked==true){
+			strvalue = strvalue + '&searchchoice=' + document.forms[0].m_strSearch_Choice_2.value;
+		}
+		else if(document.forms[0].m_strSearch_Choice_1 .checked==true){
+			strvalue = strvalue + '&searchchoice=' + document.forms[0].m_strSearch_Choice_1.value;
+		}
+	}
+	else if (document.forms[0].m_strSearch_Choice_1 != null){
+		if(document.forms[0].m_strSearch_Choice_1.checked==true){
+			strvalue = strvalue + '&searchchoice=' + document.forms[0].m_strSearch_Choice_1.value;
+		}
+	}
+	
+	//amended 6 Aug 2009
+	
+	
+	
+	if (document.forms[0].txtKeyword != null){
+		strurl = '../apps/fcd_faqmain.aspx?qst=' + strquerystring + '&q=' + strvalue + '&keyword='+ document.forms[0].txtKeyword.value + '&_intPage=' + document.forms[0].m_intPage.value;
+	}
+	else{
+		strurl = '../apps/fcd_faqmain.aspx?qst=' + strquerystring + '&q=' + strvalue + '&_intPage=' + document.forms[0].m_intPage.value;
+	}	
+	
+	
+	window.open(strurl);
+}
+
+
+</script>
+<script type="text/javascript" src="SGMSDecentralised.js"></script>
+<form name="ctl00" method="post" action="fcd_faqmain.aspx" id="ctl00">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+
+<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="PObXvI/u+XHHO61LyJ7p3xMXxBhUc/VKp3azigQxOVpAfyNO2ZGSFttJRR1tXnnkoHg6tNqCBKi0FRJKXpffCdCN2TYtWhEKpjXwt9wIz12o1cbFARVQEOqvORINi/2Vc5wbK6kCDqI+K/514DwsFjnFaqE=" />
+
+<script>
+function toggle(strID, strfaqsysid) {
+if( document.getElementById(strID).style.display=='none' ){
+document.getElementById(strID).style.display = '';
+}else{
+document.getElementById(strID).style.display = 'none';
+}
+}
+</script>
+	
+
+
+
+
+
+
+
+    <style type="text/css" media="all">@import "layout.css";</style>
+    <style type="text/css" media="all">@import "Header.css";</style>
+    <style type="text/css" media="all">@import "Footer.css";</style>
+    <style type="text/css" media="all">@import "sessionHeader.css";</style>
+    <style type="text/css" media="all">@import "http://www.ica.gov.sg/web/css/topNav.css";</style>
+    <style type="text/css" media="all">@import "http://www.ica.gov.sg/web/css/font.css";</style>
+    <style type="text/css" media="all">@import "http://www.ica.gov.sg/web/css/leftNav.css";</style>
+    
+    
+   <style type="text/css" media="all">@import "http://www.ica.gov.sg/web/css/style.css";</style>
+<link rel="stylesheet" type="text/css" href="http://www.ica.gov.sg/web/css/iefix.css" />
+
+<Style>
+.TopMenuItem {cursor: hand; color:#FFFFFF; font-weight:bold; font-family:"Lucida Sans",Helvetica,Arial,sans-serif;
+font-size:11px; }
+.TopMenuItemHover { cursor: hand; color:#FFFFFF; font-weight:bold; font-family:"Lucida Sans",Helvetica,Arial,sans-serif;
+font-size:11px; }
+
+#quickLink {
+color:#1B86DA;
+font-size:10px;
+font-weight:bold;
+left:465px;
+position:relative;
+top:25px;
+width:320px;
+}
+
+#container{margin: 0 auto;}
+</style>    
+    
+
+    
+
+<link href="http://www.ica.gov.sg/css/topNavStyle.css" type="text/css" rel="stylesheet" />
+
+
+<script language="javascript" src="http://www.ica.gov.sg/componentart_webui_client/2_1_2133/A573G988.js" type="text/javascript"></script><script language="javascript" src="http://www.ica.gov.sg/componentart_webui_client/2_1_2133/A573R188.js" type="text/javascript"></script><script language="javascript" src="http://www.ica.gov.sg/componentart_webui_client/2_1_2133/A573Z388.js" type="text/javascript"></script><script language="javascript" src="http://www.ica.gov.sg/componentart_webui_client/2_1_2133/A573W888.js" type="text/javascript"></script><script language="javascript" src="http://www.ica.gov.sg/componentart_webui_client/2_1_2133/A573Q288.js" type="text/javascript"></script><script language="javascript" src="http://www.ica.gov.sg/componentart_webui_client/2_1_2133/A573R388.js" type="text/javascript"></script><script language="javascript" type="text/javascript">
+//<![CDATA[
+/*** ComponentArt Web.UI client-side storage for ctl00_acTopNav_Menu1 ***/
+var ComponentArt_Storage_ctl00_acTopNav_Menu1=[['p_223',-1,[],1,0,,,'223','http://www.ica.gov.sg/index.aspx','_self',,'Home','TopItemLook'],['p_10',-1,[],1,0,,,'10','http://www.ica.gov.sg/redirect.aspx?page=page.aspx?pageid=64&secid=10','_self',,'About ICA','TopItemLook',,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,'MenuGroup',0,138],['p_11',-1,[],1,0,,,'11','http://www.ica.gov.sg/e_services.aspx?pageid=313&secid=11','_self',,'eServices & Forms','TopItemLook',,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,'MenuGroup',0,138],['p_13',-1,[],1,0,,,'13','http://www.ica.gov.sg/redirect.aspx?page=page.aspx?pageid=194&secid=13','_self',,'Checkpoints','TopItemLook',,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,'MenuGroup',0,138],['p_14',-1,[],1,0,,,'14','http://www.ica.gov.sg/page.aspx?pageid=341&secid=14','_self',,'Info Guides','TopItemLook',,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,'MenuGroup',0,138],['p_89',36,[],1,0,,,'89','http://www.ica.gov.sg/redirect.aspx?page=404error.aspx',,,'Naturalisation Guide','DefaultItemLook'],['p_90',36,[39,45,49,54],1,0,,,'90','http://www.ica.gov.sg/redirect.aspx?page=page.aspx?pageid=218&secid=90','_self',,'Travellers\' Info Guide','ExpandableItemLook',,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,'MenuGroup',0,138],['p_94',38,[40,41,42,43,44],1,0,,,'94','http://www.ica.gov.sg/redirect.aspx?page=page.aspx?pageid=95&secid=94','_self',,'Entry','ExpandableItemLook',,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,'MenuGroup',0,138],['p_95',39,[],1,0,,,'95','http://www.ica.gov.sg/page.aspx?pageid=95&secid=94','_self',,'Entry Requirements','DefaultItemLook'],['p_96',39,[],1,0,,,'96','http://www.ica.gov.sg/page.aspx?pageid=96&secid=94','_self',,'Visa Requirements','DefaultItemLook'],['p_97',39,[],1,0,,,'97','http://www.ica.gov.sg/page.aspx?pageid=97&secid=94','_self',,'Disembarkation / Embarkation Card','DefaultItemLook'],['p_98',39,[],1,0,,,'98','http://www.ica.gov.sg/page.aspx?pageid=98&secid=94','_self',,'Dual-Channel System (Customs Clearance)','DefaultItemLook'],['p_99',39,[],1,0,,,'99','http://www.ica.gov.sg/page.aspx?pageid=99&secid=94','_self',,'Travellers\' Tips','DefaultItemLook'],['p_100',38,[46,47,48],1,0,,,'100','http://www.ica.gov.sg/redirect.aspx?page=page.aspx?pageid=101&secid=100','_self',,'Whilst in Singapore','ExpandableItemLook',,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,'MenuGroup',0,138],['p_101',45,[],1,0,,,'101','http://www.ica.gov.sg/page.aspx?pageid=101&secid=100','_self',,'Extension of Stay','DefaultItemLook'],['p_102',45,[],1,0,,,'102','http://www.ica.gov.sg/page.aspx?pageid=102&secid=100','_self',,'Loss of Foreigner\'s Passport','DefaultItemLook'],['p_103',45,[],1,0,,,'103','http://www.ica.gov.sg/page.aspx?pageid=103&secid=100','_self',,'Foreigners Giving Birth in Singapore','DefaultItemLook'],['p_104',38,[50,51,52,53],1,0,,,'104','http://www.ica.gov.sg/redirect.aspx?page=page.aspx?pageid=105&secid=104','_self',,'Exit','ExpandableItemLook',,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,'MenuGroup',0,138],['p_105',49,[],1,0,,,'105','http://www.ica.gov.sg/page.aspx?pageid=105&secid=104','_self',,'Exit Requirements','DefaultItemLook'],['p_106',49,[],1,0,,,'106','http://www.ica.gov.sg/page.aspx?pageid=106&secid=104','_self',,'Tourist Refund Scheme','DefaultItemLook'],['p_107',49,[],1,0,,,'107','http://www.ica.gov.sg/page.aspx?pageid=107&secid=104','_self',,'Fuel Gauge Rule','DefaultItemLook'],['p_113',49,[],1,0,,,'113','http://www.ica.gov.sg/page.aspx?pageid=113&secid=104','_self',,'Advice for Singaporeans','DefaultItemLook'],['p_218',38,[],1,0,,,'218','http://www.ica.gov.sg/page.aspx?pageid=229&secid=14 ','_self',,'Travellers\' Info Guide','DefaultItemLook'],['p_229',36,[],1,0,,,'229','','_self',,'Overview','DefaultItemLook'],['p_15',-1,[],1,0,,,'15','http://www.ica.gov.sg/media_centre.aspx?pageid=314&secid=15','_self',,'Media Centre','TopItemLook',,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,'MenuGroup',0,138],['p_16',-1,[],1,0,,,'16','http://www.ica.gov.sg/page.aspx?pageid=114&secid=16','_self',,'Useful Resources','TopItemLook',,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,'MenuGroup',0,138],['p_114',71,[],1,0,,,'114','http://www.ica.gov.sg/page.aspx?pageid=114&secid=16','_self',,'Useful Links','DefaultItemLook'],['p_223',-1,[],1,0,,,'223','http://www.ifaq.gov.sg/ica','_self',,'FAQs','TopItemLook']]
+var ComponentArt_ItemLooks_ctl00_acTopNav_Menu1=[[0,'TopItemLook',1,'TopMenuItem',2,'TopMenuItemHover'],[0,'DefaultItemLook',1,'MenuItem',2,'MenuItemHover',5,4,6,18,7,12,8,3,9,'MenuItemActive',10,'MenuItemExpanded'],[0,'ExpandableItemLook',1,'MenuItem',2,'MenuItemHover',5,4,6,18,7,12,8,3,10,'MenuItemExpanded',17,'http://www.ica.gov.sg/web/images/topNavImages/arrow.gif',19,20]]
+var ComponentArt_ScrollLooks_ctl00_acTopNav_Menu1=[[],[]]
+//]]>
+</script>
+
+   <div id="container" >    
+<table height=105 width=775 border=0 valign=top align=center cellspacing=0 cellpadding=0><Tr><Td background="../skins/default_customer/images/header_bg.jpg"  ><a href="http://www.ica.gov.sg/index.aspx" Title="Immigration & Checkpoints Authority" ALT="Immigration & Checkpoints Authority" style="cursor:hand;"><div id="outerLyr" style="HEIGHT: 90px;  POSITION: absolute; WIDTH: 100px; Z-INDEX: 1" Title="Immigration & Checkpoints Authority" ALT="Immigration & Checkpoints Authority"></div></a>
+<div id="quickLink" >
+    <ul id="qlink">
+    <li><a href="http://www.ica.gov.sg/page.aspx?pageid=336&secid=83">Careers</a></li>
+    <li><a href="http://www.ica.gov.sg/sitemap.aspx?pageid=339&secid=1">Sitemap</a></li>
+    <li><a href="http://www.ica.gov.sg/feedback.aspx?pageid=224&secid=1">Feedback</a></li>
+    <li><a href="http://www.ica.gov.sg/page.aspx?pageid=117&secid=116">Contact Us</a></li>
+    </ul>
+</div>
+<div id="search" >
+<div align="right">
+<script language="javascript">
+// For clarifications on the below script, please contact shine_cs@ncs.com.sg
+// Release V1.1 - 22 Jan 2008 
+// - - - Start - Configuration - Settings the Agency can modify - - - //
+// All values passed to GSA must be URL-encoded. eg. spaces must be replaced by char '+'
+var Search_Text_Box_Size = 37;
+var Server_URL = "http://www.google.com/cse"; 
+var Collections = "";
+var SiteSearchItems = "";
+var MetaDataFilters = "";
+
+//Specify the Website's Feedback URL here e.g. http://www.mywebsite.gov.sg/feedback.html
+//must have http:// as the start
+var paramFeedbackPageURL ="";
+
+//Specify the Website's Contact Info URL here e.g. http://www.mywebsite.gov.sg/ContactInfo.html
+var paramContactInfoPageURL ="";
+
+
+// Specify additional Collection options using the following //
+Collections =
+[
+    ["Within This Website", "005330550263543682225:lultuhkylli"],
+	["Within All Government Websites", "005330550263543682225:vqz9wckubpy"]	
+]
+//,	["Within Business", "within_biz"],	["Within Citizens And Residents", "within_cit_res"],	["Within Non-Residents", "within_non_res"]
+
+// 
+//Specify within this site (ie. sitesearch) options using the following //
+// Only specify the website hosting this script
+SiteSearchItems =
+[
+	
+]
+
+// - - - End - Configuration - - - //
+
+
+function ShowResults()
+{
+    //document.write("<style type='text/css' media='screen,print'>");
+    //document.write("html,input,td{font-family:Arial;font-size:80%;}");
+    //document.write("select{font-family:Arial;font-size:90%}");
+    //document.write(".fLink{font-family: Arial;font-size: 11px;text-decoration: underline;color:Blue;cursor:hand;}")
+    //document.write("</style>");
+
+	document.writeln("<form method='GET' target='_blank' name='SearchPlugInfrm' action='" + Server_URL + "' >");
+	document.writeln("<table border='0' style='background:transparent; border-collapse:collapse; display:none;' cellspacing='0' cellpadding='0'>");
+	document.writeln("<tr><td>Search&nbsp;&nbsp;</td><td align='right'>");
+	document.writeln("<input type='text' name='q' size='"+ Search_Text_Box_Size + "'> ");
+	if (Collections != "")
+	{
+		var param_site_value = ""; //Do not remove
+
+		document.writeln("<SELECT name='cx'>");
+		for (i = 0; i < Collections.length; i++)
+		{
+			document.writeln("<OPTION VALUE=" + Collections[i][1] +">" + Collections[i][0]);
+
+			//Do not remove
+			param_site_value += Collections[i][0] + "#" + Collections[i][1] + '|';
+		}
+		document.writeln("</SELECT>");
+
+	}
+	else
+	{
+		//Do not remove
+		document.writeln("<input type='hidden' name='cx' value='default' />");
+	}
+
+	document.writeln("<input type='submit' name='btnG' style='background-color:#c84141; font-size:85%; color:white; border:outset 1px #fff; width:30px; cursor:hand' value='Go' />"); 
+	document.writeln("</td></tr>");
+	
+	if(SiteSearchItems != "")
+	{
+		var param_ssearch_value = ""; //Do not remove
+
+		document.writeln("<tr><td>&nbsp;</td><td align='right'><a href='#' onclick=clearSelectedRadio('sitesearch'); class='fLink'>Clear Site Option</a>");
+		for (i = 0; i < SiteSearchItems.length; i++)
+		{
+			document.writeln("<input type='radio' name='sitesearch' VALUE=" + SiteSearchItems[i][1] +"><span style='font-size:11px'>" + SiteSearchItems[i][0] + "</span>");
+
+			//Do not remove
+			param_ssearch_value += SiteSearchItems[i][0] + "#" + SiteSearchItems[i][1] + "|";
+			
+		}
+		//Do not remove
+		
+		document.writeln("</td></tr>");
+	}
+	document.writeln("</table>");
+	
+	document.writeln("</form>");
+	
+	
+}
+
+function clearSelectedRadio(radioId) 
+{
+    var x=document.getElementsByName(radioId); 
+    for(i=0;i<x.length;i++){x[i].checked=false;}
+    document.getElementById('btnG').focus();
+}
+
+//Additional functions
+function ShowForm()
+{
+	
+	document.writeln("<div id='textfield'>");
+	document.writeln("<input name='TextBoxSearch' type='text' class='searchText' size='24' onkeydown='if(event.which || event.keyCode){if ((event.which == 13) || (event.keyCode == 13)) {document.getElementById(\"SearchGo\").click();return false;}} else {return true};' />");
+	
+	if (Collections != "")
+	{
+		var param_site_value = ""; //Do not remove
+
+		document.writeln("<SELECT class='searchText' id='site' name='cx'>");
+		
+		if(SiteSearchItems != "")
+	    {
+		    var param_ssearch_value = ""; //Do not remove
+
+		    
+		    for (i = 0; i < SiteSearchItems.length; i++)
+		    {
+			    
+                document.writeln("<OPTION VALUE=" + SiteSearchItems[i][1] +">" + SiteSearchItems[i][0] + "</OPTION>");
+			   
+			    param_ssearch_value += SiteSearchItems[i][0] + "#" + SiteSearchItems[i][1] + "|";
+		    }
+		   
+	    }
+	    
+	    for (i = 0; i < Collections.length; i++)
+		{
+			document.writeln("<OPTION VALUE=" + Collections[i][1] +">" + Collections[i][0] + "</OPTION>");
+
+			
+			param_site_value += Collections[i][0] + "#" + Collections[i][1] + '|';
+		}
+		document.writeln("</SELECT>");
+		
+        //Do not remove
+        
+
+		//Do not remove
+		
+	}
+	else
+	{
+		//Do not remove
+		document.writeln("<input type='hidden' name='site' value='default_collection' />");
+	}
+		
+	
+	document.writeln("</div><div id='goButton'>");
+	document.writeln("<a href='#' onclick='submitSearch()'>&nbsp;<img name=SearchGo id=SearchGo src='http://www.ica.gov.sg/web/images/but_search_go.jpg' alt='Go' border='0' /></a>");
+	document.writeln("</div>");	
+
+	document.writeln("</tr>");
+	
+}
+
+function submitSearch()
+{    
+	document.SearchPlugInfrm.q.value = document.forms[0].TextBoxSearch.value;
+	document.SearchPlugInfrm.cx.value = document.forms[0].cx.value;
+	document.SearchPlugInfrm.submit();
+}
+
+</script>
+<script language="javascript">
+    ShowForm();
+</script>
+</div>
+</div>
+</td></tr></table>
+   
+        
+        
+        <div id="top_nav">        
+            
+<div style="position:absolute;top:0px;left:0px;visibility:hidden;"><img src="http://www.ica.gov.sg/web/images/topNavImages/arrow.gif" width="0" height="0" alt="" />
+</div><div id="ctl00_acTopNav_Menu1_div" style="height:19px;width:;"></div><input id="ctl00_acTopNav_Menu1_ContextData" name="ctl00_acTopNav_Menu1_ContextData" type="hidden" value /><script language="javascript" type="text/javascript">
+//<![CDATA[
+if (!(window.cart_menu_documentmousedownhandled))
+{
+//AddEventHandler(document,'mousedown',new Function('event','ComponentArt_Menu_DocumentMouseDown(event)'));
+//window.cart_menu_documentmousedownhandled = true;
+}
+//]]>
+</script>
+
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+/*** ComponentArt_Menu_Startup_ctl00_acTopNav_Menu1 ***/
+function ComponentArt_Init_ctl00_acTopNav_Menu1() {
+if (!(window.cart_menu_kernel_loaded && window.cart_menu_support_loaded))
+{
+	setTimeout('ComponentArt_Init_ctl00_acTopNav_Menu1()', 500);
+	return;
+}
+window.ctl00_acTopNav_Menu1 = new ComponentArt_Menu('ctl00_acTopNav_Menu1',ComponentArt_Storage_ctl00_acTopNav_Menu1,ComponentArt_ItemLooks_ctl00_acTopNav_Menu1,ComponentArt_ScrollLooks_ctl00_acTopNav_Menu1);
+ctl00_acTopNav_Menu1.CascadeCollapse = true;
+ctl00_acTopNav_Menu1.ClientSideOnItemSelect = null;
+ctl00_acTopNav_Menu1.ClientSideOnItemMouseOut = null;
+ctl00_acTopNav_Menu1.ClientSideOnItemMouseOver = null;
+ctl00_acTopNav_Menu1.CssClass = 'TopGroup';
+ctl00_acTopNav_Menu1.CollapseDelay = 500;
+ctl00_acTopNav_Menu1.CollapseDuration = 200;
+ctl00_acTopNav_Menu1.CollapseSlide = 2;
+ctl00_acTopNav_Menu1.CollapseTransition = 0;
+ctl00_acTopNav_Menu1.CollapseTransitionCustomFilter = null;
+ctl00_acTopNav_Menu1.ContextControlId = null;
+ctl00_acTopNav_Menu1.ContextData = null;
+ctl00_acTopNav_Menu1.ContextMenu = 0;
+ctl00_acTopNav_Menu1.ControlId = 'ctl00$acTopNav$Menu1';
+ctl00_acTopNav_Menu1.DefaultTarget = '';
+ctl00_acTopNav_Menu1.ExpandDelay = 100;
+ctl00_acTopNav_Menu1.ExpandDuration = 200;
+ctl00_acTopNav_Menu1.ExpandOnClick = false;
+ctl00_acTopNav_Menu1.ExpandSlide = 2;
+ctl00_acTopNav_Menu1.ExpandTransition = 0;
+ctl00_acTopNav_Menu1.ExpandTransitionCustomFilter = null;
+ctl00_acTopNav_Menu1.Height = 19;
+ctl00_acTopNav_Menu1.HideSelectElements = cart_browser_hideselects && true;
+ctl00_acTopNav_Menu1.HighlightExpandedPath = true;
+ctl00_acTopNav_Menu1.MultiPageId = null;
+ctl00_acTopNav_Menu1.Orientation = 1;
+ctl00_acTopNav_Menu1.OverlayWindowedElements = cart_browser_overlays && true;
+ctl00_acTopNav_Menu1.PlaceHolderId = 'ctl00_acTopNav_Menu1_div';
+ctl00_acTopNav_Menu1.ShadowColor = '#8D8F95';
+ctl00_acTopNav_Menu1.ShadowEnabled = true;
+ctl00_acTopNav_Menu1.ShadowOffset = 2;
+ctl00_acTopNav_Menu1.TopGroupItemSpacing = 0;
+ctl00_acTopNav_Menu1.Width = 138;
+ComponentArt_Menu_RenderMenu(ctl00_acTopNav_Menu1);
+ComponentArt_Menu_InitKeyboard(ctl00_acTopNav_Menu1);
+window.ctl00_acTopNav_Menu1_loaded = true;
+}
+ComponentArt_Init_ctl00_acTopNav_Menu1();
+//]]>
+</script>
+
+
+
+
+        
+        </div>
+
+        
+   <div id="sess_header" class="default"><span id="ctl00_SectionName_lbSectionName">FAQs</span></div>
+
+        
+        <div id="indexcontent">
+            
+            
+            <div id="area">
+                
+                   
+
+<!-- start main column -->
+
+
+<table width="760" border="0" cellspacing="0" cellpadding="0" height="100%"><tr><td valign="top">
+
+<table cellspacing=0 cellpadding=0  border=0 width="100%" height=1% valign="top" >
+<tr>
+<!-- 4 OCT 2007 Start -->
+	<td valign=top>
+<!---- top banner -->
+
+<!---- top banner -->
+
+
+		
+	
+<div id="main">
+		
+
+	<table cellspacing="0" cellpadding="0" width="100%" align="left" border="0" height="450" class=sidemenu >
+
+
+	<!--- Start of Top Header -------->
+	
+	<!--- End of Top Header -------->	
+
+
+	<!--- Start of Body -------->
+	<tr>
+		<!-- left column -->
+
+		<td valign=top width="185"  style="padding-left:15px;">
+		<table width="185" border="0" cellspacing="3" cellpadding="0"
+id="subnav">
+			
+			<tr><td width=185 >
+			<input name="default_qst" type="hidden" id="default_qst" value="r0GTeEeeTbctRFSD38SyS2uf6sIENnPnTOsBVk4R%2f%2f9EoSfEPJkgpmN%2bkq52VVeULpsg%2ftOGyhoj1DqY%2fjsSsvQwAV4xBhv5" />
+			<input name="m_intPage" type="hidden" id="m_intPage" value="0" />
+			<input name="m_strRecordcount_FAQ" type="hidden" id="m_strRecordcount_FAQ" />
+			<table id="dgLevel1" cellspacing="0" cellpadding="0" border="0" width="185">
+		<tr>
+			<td>
+					<tr>
+						
+						
+						<td class="level0" valign=top style="cursor:hand;padding-left:10px; padding-right:15px; padding-bottom:10px;padding-top:10px;" width=90% onmouseover="this.style.backgroundColor = '#5b90ba';" onmouseout="this.style.backgroundColor = '#3b6498';">
+							<a id="dgLevel1_ctl00_btnLevel2" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLCLOVFUqPpOI%2bc4r7sOz2PsiAR4m8eeX9SvAfe8uPkkiXVWl%2f1LVHfQT5EzwycHRm1URHyMOe3aD6hOKyxW5p46nXBSorNEIt5SK2bU6S78aLmqf5fS9XYBHvlMBwaWAgJGlCOfibH%2fpz6RE3Pr%2fy%2bB6YGYBqAaeFzW5eu3MCLCKgJ3ZHLdCqbtYCXhzu1g4LM%3d">Citizen Services
+						</td></a>
+						
+					</tr>
+					<tr >
+						<td colspan=3 align="left" >
+							
+								
+							
+						</td>
+					</tr>	
+					
+				</td>
+		</tr><tr>
+			<td>
+					<tr >
+						
+						
+						<td class="level0" valign=top style="cursor:hand;padding-left:10px; padding-right:15px; padding-bottom:10px;padding-top:10px;"  onmouseover="this.style.backgroundColor = '#5b90ba';" onmouseout="this.style.backgroundColor = '#3b6498';">
+							<a id="dgLevel1_ctl01_btnLevel2" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLDXHUjJ4i%2brAZpcsaI32QpDHzwcwnnO%2foSXiqPnaVBvUmxKOcJXnMGTQfSKnFvnEFCltOpVcNE9vp6GQaqIfCMGTBHaG2YyOy%2bXhCP0wC1ec82Zrhh1JsPn2TopqbkcnlPKdDv%2b3uOYxMyorroQvfa7SYfMOo5LdbhPIh58ggSBci8OtFm1w0F%2fOJ4PMNmaMMc%3d">Permanent Resident Services</a>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan=3 align="left">
+							
+								
+							
+							
+							
+							
+						</td>
+					</tr>	
+					
+				</td>
+		</tr><tr>
+			<td>
+					<tr>
+						
+						
+						<td class="level0" valign=top style="cursor:hand;padding-left:10px; padding-right:15px; padding-bottom:10px;padding-top:10px;" width=90% onmouseover="this.style.backgroundColor = '#5b90ba';" onmouseout="this.style.backgroundColor = '#3b6498';">
+							<a id="dgLevel1_ctl02_btnLevel2" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLDJ1F6h%2f8uOv41PoeqEt%2buvSRaNmG3iIta4lj%2fwNDYvNuhUqOy1XkRwbSLoZud%2f%2bXRZemI6101wA%2bnBVWkuvJgYICs0DfthP7ZLheWmrtwul0KuRZOYVoIVWsrL0EyU1sF5ovcdJpPoQo%2bH%2fmoPp7UceOb8t6HzTMRUPhSIZ8756b80c08mmIuBqFMhR8AaWpU%3d">Visitor Services
+						</td></a>
+						
+					</tr>
+					<tr >
+						<td colspan=3 align="left" >
+							
+								
+							
+						</td>
+					</tr>	
+					
+				</td>
+		</tr><tr>
+			<td>
+					<tr >
+						
+						
+						<td class="level0" valign=top style="cursor:hand;padding-left:10px; padding-right:15px; padding-bottom:10px;padding-top:10px;"  onmouseover="this.style.backgroundColor = '#5b90ba';" onmouseout="this.style.backgroundColor = '#3b6498';">
+							<a id="dgLevel1_ctl03_btnLevel2" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLBWHFpUCieg8TyGJecr6zBQ3oeNAwJvRp6GyDMpP8WRG%2bO0zskwkg2SlUBJmEKfew62jRBzRpoauzXjv0JGyVJB51xctrb5ojLzHr0nI3KJ8Vd1uf9KgHNgEaWtnfIVZo%2bH5R5uXS3jAne7wwc%2fGDKYfhRYxwy3iqo088M9oThiQNateO2H5h2k3%2b4eRbidzdw%3d">Info Guides</a>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan=3 align="left">
+							
+								
+							
+							
+							
+							
+						</td>
+					</tr>	
+					
+				</td>
+		</tr>
+	</table>
+			<br>
+			
+			</td></tr>
+			</table>
+
+			
+		</td>
+		
+		<td valign=top colspan="2" width="100%" bgcolor="#ffffff" style="padding-left:10px;" >
+		
+			<table width="100%" border=0>
+<tr>
+<td>
+    	</td></tr>
+			
+			
+			<tr>
+			<td valign=top >
+				
+				<table cellspacing=0 cellpadding=0 border=0 >    		
+	<tr  height=20 >
+   				<td align=left valign=top >
+    		<table width=95% border=0 cellspacing=0 cellpadding=0 >
+    			<tr><Td valign=top>
+    				<table border="0" width="5" cellspacing=0 cellpadding=0>
+						<tr>
+							<td valign="top" nowrap align="left" >
+								<a href="http://www.ica.gov.sg" class="breadcrumbs">Home</a><span class='breadcumbArrow'>&nbsp;»&nbsp;</span></td>
+							<td valign="top" nowrap align="left" cellpadding=0 cellspacing=0 style="padding-left:0px" >&nbsp;<a href="fcd_faqmain.aspx" class="breadcrumbs">FAQs</a>
+							</td>
+							<td  valign="top" nowrap align="left" >
+								
+								
+							</td>
+							<td  valign="top" nowrap align="left">
+								<span id="lblCrumbs3"></span>
+							</td>
+							</tr>
+					</table>		
+					</td>
+					<td align=right>
+	    				
+    					
+    					</td></tR></table>
+    				</td>
+    			</tr>
+    </table>    
+				<table border="0" width=100% height="30" >
+		<tr>
+							<td align=right>
+							    <div id="pageTitle">
+        <div class="icon"><a href='#' onclick="window.open('fcd_sendemail.aspx?qst=');" title=""tell a friend""  ><img src="http://www.ica.gov.sg/web/images/btn_email.gif" border="0" alt="Email A Friend" /></a></div>
+        <div class="icon">        
+            <a href="#" onClick="javascript:generate_search_string('cM0gvzxS4oao43RTwYe9bmzQyWxNyaKvBUhX%2bGFHeROLpG6NBCyyKr8AFoDsd6fc00dMApnWvF26CLlnnghlAJ7Mj8KUQeUNpejrHuBEnZZBh1kMQ02wKaPPLFNZiI4sJ3ZATI5RR7WKrOuh2o3HBV%2bGGc3Gjbi0FxjlGEEFGfVgbeYnnxZHmoZ2yNBM56%2f9EYhsLXMvVeGq1lP1qJfU2Wep%2bDqd1DQLiZN6rvVRWeY%3d');">
+	            <img border="0" src="http://www.ica.gov.sg/web/images/btn_print.gif" alt="print page" >
+	        </a>
+        </div> </td>
+						</tr>
+				<tr>
+					
+						<td valign="top"  nowrap align="left"><table><Tr><td>
+							<span id="lblSearchbox" class="searchlabel"><b></b></span>
+							<input name="txtKeyword" type="text" maxlength="255" id="txtKeyword" class="FormField" onkeypress="if(event.keyCode == 13){__doPostBack('btniFAQSearch','');}" />
+						</td>
+						<td valign="top" nowrap align="left"  >
+							<input type="submit" name="btniFAQSearch" value="Search" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btniFAQSearch&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="btniFAQSearch" class="formfield" title="Click to search FAQs." />
+						</td>
+						<td nowrap align="left" valign="top" class = "cluster_panel" >
+							<a id="btnAdvanced_Search" class="advanced_search_link" href="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btnAdvanced_Search&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, true))">Advanced<br>Search</a>	        
+						</td>
+					
+					
+					
+				</tr></td></tr></table>
+				
+				<tr>
+					<td colspan="5">
+						<div id="panel_search_options">
+		
+						<table width="350">
+							<tr>
+								<td nowrap align="left" class = "cluster_panel">
+									<font class = "cluster_list">Search within: </font>
+									<span id="m_strSearch_Choice" class="cluster_list"><input id="m_strSearch_Choice_0" type="radio" name="m_strSearch_Choice" value="36" checked="checked" /><label for="m_strSearch_Choice_0">ICA</label><input id="m_strSearch_Choice_1" type="radio" name="m_strSearch_Choice" value="WOG" onclick="javascript:setTimeout('__doPostBack(\'m_strSearch_Choice$1\',\'\')', 0)" /><label for="m_strSearch_Choice_1">Whole of Government  </label></span>
+									
+								</td>
+								
+								<td align="left">									        
+								</td>
+								<td align="right">
+									&nbsp;<span id="lblcluster_error"></span>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									
+								</td>
+							</tr>
+						</table>
+						
+	</div>
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td colspan="5">
+
+						
+					</td>
+				</tr>
+				
+				</table>
+				
+			</td>
+			</tr>
+			
+			<tr>
+			
+			<td width=100% >
+			<span id="lblTitle" class="header1"><table width=100% cellspacing=0 cellpadding=0 ><tr><td class=header1>Top 5 Most Popular FAQs</td><td align=right valign=top><span class=Header3><img src=../skins/default_customer/images/obj_expand_faq.gif> <a class=expand_collapse href=# onclick=javascript:showalldiv();>expand all</a>&nbsp;&nbsp;&nbsp;<img src=../skins/default_customer/images/obj_collapse_faq.gif> <a class=expand_collapse href=# onclick=javascript:hidealldiv();>collapse all</a>&nbsp;&nbsp;&nbsp;</td></tr></table></span>
+			</td>
+			</tr>
+			
+			<tr>
+			<td>
+			<a name="faqtop">
+			<table id="dgFAQ" cellspacing="1" cellpadding="1" border="0" width="100%">
+		<tr>
+			<td>
+				
+					
+						
+					
+					
+					
+					<tr>
+					<td class="fcd_question" valign=top align="left" width="5%">
+						<span id="dgFAQ_ctl00_row_number"><font class='fcd_question'>1.</font><a name="4f4e372f-eb22-41e2-a64e-6f5f6feb8abc"></span>
+					</td>
+					<td class="fcd_question" align="left" width="98%" valign=top >
+						<a id="dgFAQ_ctl00_btnQuestion" class="fcd_question" href="javascript:eval(callToServer('TOPIC','4f4e372f-eb22-41e2-a64e-6f5f6feb8abc','1'));toggle('div_4f4e372f-eb22-41e2-a64e-6f5f6feb8abc','4f4e372f-eb22-41e2-a64e-6f5f6feb8abc');">
+		<p>Who is eligible to be issued with an e-Visa?</p>
+</a>
+						<span id="dgFAQ_ctl00_lblnew_tag" class="fcd_question"></span>
+					</td>
+					</tr>
+					
+					<tr>
+					<td></td>
+					<td align="justify" bgcolor="#ffffff" width="100%" >
+					<div id=div_4f4e372f-eb22-41e2-a64e-6f5f6feb8abc class=fcd_answer style="display:none;" >
+					
+					<span class="fcd_answer"> 
+					
+		<p>Nationals from the countries listed <a href="http://www.ica.gov.sg/page.aspx?pageid=168&amp;secid=166">here</a> are eligible for e-Visa. </p>
+
+					</span>
+					
+					<div align=right id=anchor_top>
+						<br>
+						<br>
+
+<div id="backTop">
+						<a class="subtext" href="#faqtop">
+ 
+        <img src="http://www.ica.gov.sg/images/but_back2top.gif" />
+						</a>
+					</div>
+					
+					
+					</div>
+								
+					
+					
+					
+					
+					</div>
+					
+					</td>
+					</tr>
+					
+				</td>
+		</tr><tr>
+			<td>
+				
+					
+						
+					
+					
+					
+					<tr>
+					<td class="fcd_question" valign=top align="left" width="5%">
+						<span id="dgFAQ_ctl01_row_number"><font class='fcd_question'>2.</font><a name="3a78368f-7583-4b65-b4be-6daccafe258f"></span>
+					</td>
+					<td class="fcd_question" align="left" width="98%" valign=top >
+						<a id="dgFAQ_ctl01_btnQuestion" class="fcd_question" href="javascript:eval(callToServer('TOPIC','3a78368f-7583-4b65-b4be-6daccafe258f','1'));toggle('div_3a78368f-7583-4b65-b4be-6daccafe258f','3a78368f-7583-4b65-b4be-6daccafe258f');">How long should she stay before becoming a Singapore Citizen?</a>
+						<span id="dgFAQ_ctl01_lblnew_tag" class="fcd_question"></span>
+					</td>
+					</tr>
+					
+					<tr>
+					<td></td>
+					<td align="justify" bgcolor="#ffffff" width="100%" >
+					<div id=div_3a78368f-7583-4b65-b4be-6daccafe258f class=fcd_answer style="display:none;" >
+					
+					<span class="fcd_answer"> 
+					Applicants granted SPR under the AIP Scheme are eligible to apply for Singapore Citizenship after 2 years of permanent residence in Singapore.
+					</span>
+					
+					<div align=right id=anchor_top>
+						<br>
+						<br>
+
+<div id="backTop">
+						<a class="subtext" href="#faqtop">
+ 
+        <img src="http://www.ica.gov.sg/images/but_back2top.gif" />
+						</a>
+					</div>
+					
+					
+					</div>
+								
+					
+					
+					
+					
+					</div>
+					
+					</td>
+					</tr>
+					
+				</td>
+		</tr><tr>
+			<td>
+				
+					
+						
+					
+					
+					
+					<tr>
+					<td class="fcd_question" valign=top align="left" width="5%">
+						<span id="dgFAQ_ctl02_row_number"><font class='fcd_question'>3.</font><a name="70aabf09-82c0-4c56-970e-2d305b1b6765"></span>
+					</td>
+					<td class="fcd_question" align="left" width="98%" valign=top >
+						<a id="dgFAQ_ctl02_btnQuestion" class="fcd_question" href="javascript:eval(callToServer('TOPIC','70aabf09-82c0-4c56-970e-2d305b1b6765','1'));toggle('div_70aabf09-82c0-4c56-970e-2d305b1b6765','70aabf09-82c0-4c56-970e-2d305b1b6765');">Can I apply for SPR immediately after working here?</a>
+						<span id="dgFAQ_ctl02_lblnew_tag" class="fcd_question"></span>
+					</td>
+					</tr>
+					
+					<tr>
+					<td></td>
+					<td align="justify" bgcolor="#ffffff" width="100%" >
+					<div id=div_70aabf09-82c0-4c56-970e-2d305b1b6765 class=fcd_answer style="display:none;" >
+					
+					<span class="fcd_answer"> 
+					You can submit an application for consideration as long as you have been issued with a P, Q or S Work Pass.
+					</span>
+					
+					<div align=right id=anchor_top>
+						<br>
+						<br>
+
+<div id="backTop">
+						<a class="subtext" href="#faqtop">
+ 
+        <img src="http://www.ica.gov.sg/images/but_back2top.gif" />
+						</a>
+					</div>
+					
+					
+					</div>
+								
+					
+					
+					
+					
+					</div>
+					
+					</td>
+					</tr>
+					
+				</td>
+		</tr><tr>
+			<td>
+				
+					
+						
+					
+					
+					
+					<tr>
+					<td class="fcd_question" valign=top align="left" width="5%">
+						<span id="dgFAQ_ctl03_row_number"><font class='fcd_question'>4.</font><a name="fbd02188-1ad8-409f-90b7-258b885d4ad1"></span>
+					</td>
+					<td class="fcd_question" align="left" width="98%" valign=top >
+						<a id="dgFAQ_ctl03_btnQuestion" class="fcd_question" href="javascript:eval(callToServer('TOPIC','fbd02188-1ad8-409f-90b7-258b885d4ad1','1'));toggle('div_fbd02188-1ad8-409f-90b7-258b885d4ad1','fbd02188-1ad8-409f-90b7-258b885d4ad1');">What is this alternate site collection service all about?</a>
+						<span id="dgFAQ_ctl03_lblnew_tag" class="fcd_question"></span>
+					</td>
+					</tr>
+					
+					<tr>
+					<td></td>
+					<td align="justify" bgcolor="#ffffff" width="100%" >
+					<div id=div_fbd02188-1ad8-409f-90b7-258b885d4ad1 class=fcd_answer style="display:none;" >
+					
+					<span class="fcd_answer"> 
+					It is an initiative by the ICA to offer Singaporeans the choice of collecting ICA documents from an alternative site.   
+					</span>
+					
+					<div align=right id=anchor_top>
+						<br>
+						<br>
+
+<div id="backTop">
+						<a class="subtext" href="#faqtop">
+ 
+        <img src="http://www.ica.gov.sg/images/but_back2top.gif" />
+						</a>
+					</div>
+					
+					
+					</div>
+								
+					
+					
+					
+					
+					</div>
+					
+					</td>
+					</tr>
+					
+				</td>
+		</tr><tr>
+			<td>
+				
+					
+						
+					
+					
+					
+					<tr>
+					<td class="fcd_question" valign=top align="left" width="5%">
+						<span id="dgFAQ_ctl04_row_number"><font class='fcd_question'>5.</font><a name="6d41cf28-d52c-4b8b-a6f8-e811ddf36ee6"></span>
+					</td>
+					<td class="fcd_question" align="left" width="98%" valign=top >
+						<a id="dgFAQ_ctl04_btnQuestion" class="fcd_question" href="javascript:eval(callToServer('TOPIC','6d41cf28-d52c-4b8b-a6f8-e811ddf36ee6','1'));toggle('div_6d41cf28-d52c-4b8b-a6f8-e811ddf36ee6','6d41cf28-d52c-4b8b-a6f8-e811ddf36ee6');">Must I remain in Singapore while the application is still in process?</a>
+						<span id="dgFAQ_ctl04_lblnew_tag" class="fcd_question"></span>
+					</td>
+					</tr>
+					
+					<tr>
+					<td></td>
+					<td align="justify" bgcolor="#ffffff" width="100%" >
+					<div id=div_6d41cf28-d52c-4b8b-a6f8-e811ddf36ee6 class=fcd_answer style="display:none;" >
+					
+					<span class="fcd_answer"> 
+					No, you are free to travel while the application is being processed.
+					</span>
+					
+					<div align=right id=anchor_top>
+						<br>
+						<br>
+
+<div id="backTop">
+						<a class="subtext" href="#faqtop">
+ 
+        <img src="http://www.ica.gov.sg/images/but_back2top.gif" />
+						</a>
+					</div>
+					
+					
+					</div>
+								
+					
+					
+					
+					
+					</div>
+					
+					</td>
+					</tr>
+					
+				</td>
+		</tr>
+	</table>
+			</td>
+			</tr>	
+			
+			
+			<tr>
+			<td>
+			
+			</td>
+			</tr>	
+				
+			<tr>
+			<td  width=100% ><br><br>
+				<span id="lblTitle2" class="header1">Recent Updates</span>
+			</td>
+			</tr>	
+				
+			<tr>
+			<td>	
+				<table id="dgTopic2" cellspacing="0" cellpadding="0" border="0" width="100%">
+		<tr>
+			<td>
+					 <div id="faqcat">
+					<tr valign=top>
+            					<td class="fcd_question" width="13"><img src="../skins/default/images/submenu_li.gif" width="8" height="6" vspace="5" align="absmiddle" alt="" /></td>
+            					<td class="fcd_question" width=480 >
+            					<a id="dgTopic2_ctl00_btnTopic" class="fcd_question" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLAzrnpopfQVR3WKzTdvCz%2fZjVGMNkvlhe4weTcojRT92qD6L5g0bjIjpExUNwd7DdbzGYwNHxKHas75xCFaYNHLN8HZcnWrBW%2bhWI2ZpU%2fhLXYemK%2fOdB8%2faxu0bXGkZzieTYkP7428wHEiVHbEH09vtk7DHb5GpTof2bGbesUGYAc9f6%2fq1B5penbD8lhEwNds4RVuFe1UV2rFABpEmGqO%2ftqNSeLIWXVMB7Gd1Ij8lxKDXpQQoLbVm7yaYzuk765YRGXELjxbmXrnk6PwXQ1xzVre47YDUsY%3d">Identity Card - Collection of Identity Cards at Alternate Sites</a>
+            					</td>
+        				</tr>
+					</div>
+					
+				</td>
+		</tr><tr>
+			<td>
+					 <div id="faqcat">
+					<tr valign=top>
+            					<td class="fcd_question" width="13"><img src="../skins/default/images/submenu_li.gif" width="8" height="6" vspace="5" align="absmiddle" alt="" /></td>
+            					<td class="fcd_question" width=480 >
+            					<a id="dgTopic2_ctl01_btnTopic" class="fcd_question" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLBkYb%2fDuIV2Q8iLR7U9WUenMcFi0nSP9H%2f1BouamOp3K0vOvvnTZcYCb2%2bIAT5sDu94yqe%2fE6jCSVRhZSFL8uiQNfH4QoVQU7KYaYlKznFgWgwR1d4y9Nvwc%2fBHmJERzro2FiUDih6HtzT%2fzXDte30oSyoq3Smvfk1X%2faURa2GHwtvd7t0s6cM9IA3ScDnMKEMM%2bizk%2fsMM5yV%2furG0huknaYh3RY0uCBW7ygYt08pvL%2ft0ip%2bDAbMzOJhbHPNBu9DNdgsabhhGXo7DeNFutIWdVT6FfSgEVdE%3d">Passport - Collection of Passport at Alternate Sites</a>
+            					</td>
+        				</tr>
+					</div>
+					
+				</td>
+		</tr>
+	</table>
+			
+						
+		
+			</td>
+			</tr>
+			
+			<tr>
+			<td >
+				
+		<Br></td></tr>
+		
+		<tr><td align="left" width="100%" nowrap >
+				
+		 			<div align="right"></div>
+				
+					
+    				<BR><BR>	
+    				
+    			<!--updated 14 Dec 2007 -->	
+				
+				<span id="lbllast_updated" class="update">Last updated on 19 August, 2013</span> 
+			</td>
+			</tr>	
+	<!--- End of Body -------->
+			
+			
+			</table>
+</td>
+	</tr>
+
+	</table>
+	
+	
+				
+	</td>
+	</tr>
+</table>
+
+</div>
+
+<link type="text/css" href="../skins/default_customer/jquery-ui-1.8.1.custom.css" rel="stylesheet" />	
+<script type="text/javascript" src="../skins/default_customer/jquery.js"></script> 
+<script type="text/javascript" src="../skins/default_customer/jquery-ui.js"></script> 
+<script type="text/javascript" src="../skins/default_customer/ifaq_autocomplete.js"></script> 
+</form>
+</td></tr></table>
+
+</script>
+
+
+<script language='javascript'>ShowResults();</script>
+     </div>
+            <br clear="all" />
+        </div>
+        
+        <div id="content_footer"><img src="../skins/default_customer/images/content_footer.gif" /></div>
+        
+        <center>
+        <div id="footer">        
+            
+
+
+
+
+<div id="footer_Navigation">
+    
+   
+    <ul id="footNav">
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/index.aspx">Home</a></span></li>
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/page.aspx?pageid=64&secid=10">About ICA</a></span></li>
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/e_services.aspx?pageid=313&secid=11">eServices &amp; Forms</a></span></li>
+       <li><span class="footer_nav"><a href="http://www.ica.gov.sg/page.aspx?pageid=194&secid=13">Checkpoints</a></span></li>
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/page.aspx?pageid=341&secid=14">Info Guides</a></span></li>
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/media_centre.aspx?pageid=314&secid=15">Media Centre</a></span></li>
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/page.aspx?pageid=114&secid=16">Useful Resources</a></span></li>
+        <li><span class="footer_nav"><a href="http://www.ifaq.gov.sg/ica" target="_blank">FAQs</a></span></li>
+    </ul>
+    
+    <ul id="footNav">
+        <li><span class="citizen"><a href="http://www.ica.gov.sg/services_centre.aspx?pageid=227&secid=18">Citizen Services</a></span></li>
+        <li><span class=""><a href="http://www.ica.gov.sg/services_centre.aspx?pageid=231&secid=19">Permanent Resident Services</a></span></li>
+        <li><span class="vs"><a href="http://www.ica.gov.sg/services_centre.aspx?pageid=232&secid=20">Visitor Services</a></span></li>
+    </ul>
+    
+    <ul id="footNav">
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/page.aspx?pageid=336&secid=83">Careers</a></span></li>
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/sitemap.aspx?pageid=339&secid=1">Sitemap</a></span></li>
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/feedback.aspx?pageid=224&secid=1">Feedback</a></span></li>
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/page.aspx?pageid=117&secid=116">Contact Us</a></span></li>
+        <li><span class="footer_nav"><a href="http://www.ica.gov.sg/page.aspx?pageid=120&secid=1">Privacy Statement</a></span></li>
+    </ul>
+
+    <hr class="lineBreak" />
+
+</div>
+
+<div class="footer_bottom"><img src="http://www.ica.gov.sg/web/images/footer_bottom.gif" alt="" /></div> 
+  
+  <SCRIPT LANGUAGE="JavaScript"  type="text/javascript">
+    today=new Date();
+    y0=today.getFullYear();
+
+</SCRIPT>     
+<div id="privacy">
+    <span class="left">&copy; <SCRIPT LANGUAGE="JavaScript"  type="text/javascript">document.write(y0);</SCRIPT> Immigration & Checkpoints Authority</span>
+</div>
+     </div>
+     
+</body>
+</html>
+
+

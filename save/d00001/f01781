@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+
+  <head>
+    <title>
+      features –
+      Free Registry for ENUM and Domains
+    </title>
+        <link rel="search" href="/search" />
+        <link rel="help" href="/wiki/TracGuide" />
+        <link rel="alternate" href="/wiki/features?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="/wiki" />
+        <link rel="stylesheet" href="/chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="/chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="/site/img/fred5.ico" type="image/x-icon" />
+        <link rel="icon" href="/site/img/fred5.ico" type="image/x-icon" />
+    <script type="text/javascript" src="/chrome/common/js/jquery.js"></script><script type="text/javascript" src="/chrome/common/js/babel.js"></script><script type="text/javascript" src="/chrome/common/js/trac.js"></script><script type="text/javascript" src="/chrome/common/js/search.js"></script><script type="text/javascript" src="/chrome/common/js/folding.js"></script>
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="/chrome/common/js/ie_pre7_hacks.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://fred.nic.cz/wiki"><img src="/site/img/logo3.png" alt="Trac" height="54" width="325" /></a>
+      </div>
+      <form id="search" action="/search" method="get">
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="/login">Login</a></li><li><a href="/wiki/TracGuide">Help/Guide</a></li><li><a href="/about">About Trac</a></li><li class="last"><a href="/prefs">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="/wiki">Home</a></li><li><a href="/wiki/documentation">Documentation</a></li><li><a href="/wiki/features">Features</a></li><li><a href="/wiki/support">Support</a></li><li><a href="/wiki/download">Download</a></li><li class="last"><a href="/report">View Tickets</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+          <ul>
+            <li class="first "><a href="/wiki/WikiStart">Start Page</a></li><li><a href="/wiki/TitleIndex">Index</a></li><li class="last"><a href="/wiki/features?action=history">History</a></li>
+          </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          
+          <div class="trac-modifiedby"><a href="/wiki/features?action=diff&amp;version=22" title="Version 22 by mvachovec">Last modified</a> <a class="timeline" href="/timeline?from=2007-04-03T17%3A30%3A20%2B02%3A00&amp;precision=second" title="2007-04-03T17:30:20+02:00 in Timeline">6 years</a> ago</div>
+          <div id="wikipage"><h1 id="Features">Features</h1>
+<ul><li>Support for multiple zones of any level
+</li><li>Full history of changes
+</li><li><a class="ext-link" href="http://www.ipv6.org/"><span class="icon"> </span>IPv6</a> support
+</li><li>100% free/open source components (<a class="ext-link" href="http://www.apache.org/"><span class="icon"> </span>Apache</a>, <a class="ext-link" href="http://www.postgresql.org/"><span class="icon"> </span>PostgreSQL</a>, <a class="ext-link" href="http://www.python.org/"><span class="icon"> </span>Python</a> etc.)
+</li><li>Modularity &amp; configurability
+</li><li>High performance
+</li></ul><p>
+FRED consists of four main components: central registry, registrar interface, public interface and administrators interface as it is shown on the following figure:
+</p>
+<p>
+<a style="padding:0; border:none" href="/attachment/wiki/attachments/features-schema.png"><img src="/raw-attachment/wiki/attachments/features-schema.png" alt="Fred-components" title="Fred-components" /></a>
+</p>
+<h2 id="Centralregistry">Central registry</h2>
+<p>
+<a style="padding:0; border:none" href="/attachment/wiki/attachments/central_registry.png"><img src="/raw-attachment/wiki/attachments/central_registry.png" alt="Central registry-icon" title="Central registry-icon" /></a> 
+</p>
+<p style="margin-left:5%">
+The Central Registry (CR) accepts the requests for operations concerning domains, contacts or other objects in the register, sends the queries to the database and returns results via appropriate interfaces. It processes regular maintenance tasks on registry data sucha as checking of register information (domain expiration, technical checks of domain data, etc.) and invoke relevant actions based on results of these checks (information about domain contacts, withdrawal of domain from a zone, etc.). Central registry also periodically generates zone files for managed zones.</p>
+<p>
+Central registry features include:
+</p>
+<ul><li>Protection period for expired domains
+</li><li>Registrant notifications after various events
+</li><li>Invoicing and banking via plug-in system
+</li><li>Technical checks of delegated domains
+</li><li>Removal of long-term inactive records
+</li></ul><h2 id="RegistrarInterface">Registrar Interface</h2>
+<p>
+<a style="padding:0; border:none" href="/attachment/wiki/attachments/registrant_interface.png"><img src="/raw-attachment/wiki/attachments/registrant_interface.png" alt="Registrant interface-icon" style="float:right" title="Registrant interface-icon" /></a> The Registrar Interface (RIF) is an interface between a registrar and the central registry. Registrars issue commands to the central registry via RIF. This communication utilizes <a class="ext-link" href="http://www.networksorcery.com/enp/protocol/epp.htm"><span class="icon"> </span>EPP</a> protocol over <a class="ext-link" href="http://www.ssl-forum.com/"><span class="icon"> </span>SSL</a> secured connection. FRED provides full featured command line client as well as a GUI client (currently at experimental stage only) for Unix and Windows systems to connect to RIF via EPP/SSL.
+</p>
+<p>
+Registrar interface features include:
+</p>
+<ul><li>Automatic request processing
+</li><li>Individual accounts with specific access rights for each registrar
+</li><li>Client output to <a class="ext-link" href="http://www.php.net/"><span class="icon"> </span>PHP</a> and HTML
+</li><li>Python API for easy integration into other systems
+</li></ul><h2 id="PublicInterface">Public Interface</h2>
+<p>
+<a style="padding:0; border:none" href="/attachment/wiki/attachments/public_interface.png"><img src="/raw-attachment/wiki/attachments/public_interface.png" alt="Public interface-icon" title="Public interface-icon" /></a>
+</p>
+<p style="margin-left:5%; margin-bottom:3%">
+Public interface provides the public data from the registry via WHOIS services – web and command line. Public interface also provides statistics and reports from the registry and direct sending of transfer authentication code to the users without a necesity to involve any registrars.</p>
+<p>
+Public interface features include:
+</p>
+<ul><li>Customizable amount of displayed information in WHOIS per zone
+</li><li>Phone numbers as well as <a class="ext-link" href="http://www.enum.org/"><span class="icon"> </span>ENUM</a> domains support
+</li><li><a class="ext-link" href="http://en.wikipedia.org/wiki/Captcha"><span class="icon"> </span>CAPTCHA</a> protection against robotic data collection
+</li><li>Multi-language support
+</li></ul><h2 id="Administratorinterface">Administrator interface</h2>
+<p>
+<a style="padding:0; border:none" href="/attachment/wiki/attachments/admin_interface.png"><img src="/raw-attachment/wiki/attachments/admin_interface.png" alt="Admin interface-icon" style="float:right" title="Admin interface-icon" /></a> The administrator interface provides tools for displaying and manipulating any data within the registry and the tools for system customization and maintenance. Administrators interface is implemented as a web application.
+</p>
+<p>
+Administrator interface features include:
+</p>
+<ul><li>Access permission and ACL
+</li><li>Advanced central registry search
+</li><li>Data export to CSV and <a class="ext-link" href="http://www.oasis-open.org/committees/office/"><span class="icon"> </span>OpenDocument</a> formats
+</li><li>Manual technical checks triggering
+</li><li>Manual zone file generation triggering
+</li><li>Registrars handling
+</li><li>Virtual registrar for direct domain registrations
+</li></ul></div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="/wiki/features?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="/chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">
+        Powered by <a href="/about"><strong>Trac 0.12.2</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.
+      </p>
+      <p class="right">Visit the Trac open source project at<br /><a href="http://trac.edgewall.com/">http://trac.edgewall.com/</a></p>
+    </div>
+  </body>
+</html>

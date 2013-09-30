@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>The tragedy of GNU copyright assignments -- Werner's own blurbs</title><meta name="Generator" content="An unholy concoction of parenthetical guile" /><link rel="stylesheet" type="text/css" media="screen" href="http://werner.eifzilla.de/wop.css" /><link rel="alternate" type="application/rss+xml" title="Werner's own blurbs" href="/feed/atom" /></head><body><div id="dummy"><div id="preamble"><div id="header"> </div><div id="leftColumn"><div id="navigation"><a href="http://werner.eifzilla.de/index.html">Home</a> | <a href="http://werner.eifzilla.de/projects.html">Projects</a> | <a href="http://werner.eifzilla.de/faq.html">FAQ</a> | <a href="http://werner.eifzilla.de/key.html">Key</a> | <a href="http://werner.eifzilla.de/various.html">Various</a></div></div></div><div id="content"><p id="kicker">Werner's own blurbs</p><div id="outline-container-1" class="outline-1"><h2 class="storytitle"><a href="/archives/2012/11/27/the-tragedy-of-gnu-copyright-assignments">The tragedy of GNU copyright assignments</a></h2><div class="post"><h3 class="meta">27 November 2012  3:00 PM (<a href="/tags/gnu">gnu</a> | <a href="/tags/devel">devel</a> | <a href="/tags/libgcrypt">libgcrypt</a>)</h3><div class="storycontent"><div><p>or <i>do we GNU hackers really have the freedom we demand from others?</i>
+</p><p>
+Free software is about sharing code and thus to help others.  Why are
+GNU hackers supposed to help others with their code but required to
+reject help from others?  Is this what free software is about?  I
+doubt it.
+</p><p>
+Those questions arise due to a GNU policy of requiring copyright
+assignments for some of the GNU software.  There are no clear rules
+which software needs to have these legal paper exchange, but at
+most of the early GNU software does (Emacs, gcc, libc, coreutils,
+guile).
+</p><p>
+The official position of the FSF on the requirement of copyright
+assignments is explained in a <a href="http://www.gnu.org/licenses/why-assign.html">short article</a> by Eben Moglen.  It is
+commonly known that there are two main reasons why one should consider
+to assign the copyright to a single trustworthy entity.
+</p><p>
+The first one is about legal security or whether it is possible to go
+after and stop copyright violations.  Well, that is the theory.  My
+experience with GnuPG and Libgcrypt seems to shown that the FSF does
+not care too much about it.  For example, at least two companies in
+Germany sold crypto mail gateways with OpenPGP support provided by
+GnuPG; they did not released the source code or told the customers
+about their rights.  The FSF didn’t acted upon my requests to stop
+them violating their (assigned) copyright on GnuPG.  This is in
+contrast to the <a href="http://fsfe.org/activities/ftf/">FTF</a> as run by the
+<abbr title="The Free Software Foundation Europe is independent of the FSF">
+FSFE
+</abbr>
+and the <a href="http://gpl-violations.org">gpl-violations</a> group.  However, with the FSF holding the
+copyright, the latter organization has no way to go after such
+copyright infringements.
+</p><p>
+The second reason for copyright assignments is to be prepared for
+future re-licensing.  This is actually the most compelling reason.
+With distributed copyright it would be a lot of work and still often
+impossible to change the license of a software — even if all
+contributors would agree.  Exceptions like the recent <a href="http://lwn.net/Articles/525718/">VLC re-licensing</a>
+are quite rare.  A valid question is whether there is at all a need to
+change a license.  Related to the GPL, I see two cases: The first case
+is fortunately a minor problem because only a few projects are
+affected by it: Upgrading from GPL version2 to version 3.  Usually
+this is easy, because most GPL projects use the “or any later version”
+option.  Those sticking to GPLv2only, like Linux or OpenVAS, are
+really troubled and would either need to search the agreement of all
+contributors or to rewrite the GPLv2only parts of the code.
+</p><p>
+The second case is about relaxing the conditions of the license, for
+example from GPL to LGPL.  This might be justified for better general
+interoperability or to help free software projects with GPL
+incompatible licenses.  In the case of the GNU project such a change
+is done quite seldom.  It would technically be easy to do this due to
+their copyright assignment policy.  However, within the GNU project it
+is more than hard to convince the FSF decision maker(s) that such a
+change benefits the GNU project.  My impression is that to the FSF it
+is far more important to protect the GNU project than the actual
+freedom of helping others.  Something akin to: “Let us build a high
+fence so we are free from proprietary software on our pasture.  Why
+care about the lone hackers outside who don’t want to seek shelter
+behind our fence.  After all only we are the good ones.”
+</p><p>
+Case in point: The GNU towers once declared <a href="http://gnu.org/software/libgcrypt/">Libgcrypt</a> to be the
+standard GNU crypto library.  As a core GNU project it was clear that
+we need to collect copyright assignments.  We even started with a
+special copyright assignment to declare Libgcrypt as an independent
+project from <a href="http://gnupg.org">GnuPG</a> (which is its origin).  So now we have a lot of
+cipher algorithms were we are sure of the code provenience ---
+i.e. everything has been assigned or disclaimed using a lot of snailed
+paper.  The drawback of this policy is that we had to implement all
+stuff by ourselves — despite that there was already a lot of highly
+optimized LGPLed cipher code available.  We were simply not allowed to
+use it.
+</p><p>
+Some years later <a href="http://gnu.org/software/nettle">Nettle</a> was put together as a collection of freely
+available algorithms and some new glue stuff.  The author did not care
+about copyright assignments and thus was able to use better optimized
+code.  Nevertheless, Nettle was declared a GNU project and <a href="http://gnu.org/software/gnutls">GNUTLS</a>
+(GNU’s answer to <a href="http://www.imc.org/ietf-openpgp/mail-archive/msg05393.html">Heathrow</a>^W <a href="http://openssl.org">OpenSSL</a>) eventually switched to Nettle due
+to a 10% better performance figure in some areas.  The funny thing is
+that GNUTLS itself requires copyright assignments.
+</p><p>
+Now why shall Libgcrypt require assignments if the GNU project does
+not care about such dependencies?  A reason might be that Libgcrypt
+provides a fallback in case there will ever be a legal problem with
+Nettle.  I consider this a purely theoretical point because basically
+both do the same and if suits wants to go after Nettle, I see no
+reason why they should not also go after Libgcrypt.  Copyright is not
+anymore the sharpest weapon they can use; patents and trademarks are
+more dangerous than SCOing.
+</p><p>
+Back in April, I concluded that something needs to be done — at
+least for Libgcrypt.  What I then did was pretty straightforward:
+Libgcrypt now accepts contributions after having received a simple
+mail (right, e-mail, no transatlantic snail mail) with a
+<i>Developer’s Certificate of Origin</i> as known from other projects.
+Voilà, patches with new features and performance improvements started
+to come in.  Obviously, hackers who were afraid of the paper work or
+assigning their work to an organization ailing on obstinacy of age,
+gained interest in this GNU software and started to help out with
+their experience and time.  I really like this outcome; let’s hope it
+lasts.
+</p><p>
+Sure, other GNU projects with assignment policy are not anymore able
+to freely copy and paste code from Libgcrypt.  But well, they won’t be
+able to that with Nettle code either.  For the sake of the greater
+free software community I consider this a minor disadvantage compared
+to Libgcrypt vegging out as a too closed GNU project.
+</p></div></div></div><div><h3 id="comments">2 responses</h3><ol class="commentlist"><li class="alt" id="01ace8f08d40bf95fdeb93162fa4392c096af753"><cite>Werner Koch</cite> says:<br /><small class="commentmetadata"><a href="#01ace8f08d40bf95fdeb93162fa4392c096af753">19 December 2012 11:38 PM</a></small><div><p>[Update]</p><p>The
+FSFE's <a href="http://fsfe.org/news/nl/nl-201212.en.html">December
+newsletter</a> mentioned this article.  For whatever reasons it
+suddenly disappeared from the website. A diff against Google's cache
+shows:</p><pre>
+       how he build such a device&lt;/a&gt; with a Raspberry Pi for his 90 year old
+     Grandma.&lt;/li&gt;
+
+-    &lt;li&gt;FSF to begins &lt;a href=&quot;http://www.fsf.org/blogs/licensing/fsf-to-begin-accepting-scanned-assignments-from-germany&quot;&gt;to
+-      accept scanned assignments from Germany&lt;/a&gt;, and Werner Koch, author of
+-    GnuPG, wrote the article &lt;a href=&quot;http://rem.eifzilla.de.ipv4.sixxs.org/archives/2012/11/27/the-tragedy-of-gnu-copyright-assignments&quot;&gt;&quot;The
+-      tragedy of GNU copyright assignments&quot;&lt;/a&gt;, where he asks if the GNU
+-    hackers really have the freedom they demand from others?&lt;/li&gt;-
+
+     &lt;li&gt;Erik Albers wrote about
+</pre><p>I sincerely hope that the cause for this silent change will soon be
+explained.</p></div></li><li class="alt" id="a95cda4dd947a5747af3973e9c23f4689732301f"><cite>Werner Koch</cite> says:<br /><small class="commentmetadata"><a href="#a95cda4dd947a5747af3973e9c23f4689732301f">20 December 2012  7:46 PM</a></small><div><p>Meanwhile the FSFE website has again been updated and now shows
+the first sentence and the hint &quot;[Update: Removed one link]&quot;. BTW, the unchanged page is available at <a href="http://lwn.net/Articles/528121/">LWN</a></p></div></li></ol><div><h3>Leave a Reply</h3><form action="/archives/2012/11/27/the-tragedy-of-gnu-copyright-assignments" method="POST"><p><input type="text" name="author" value="" size="22" tabindex="1" /> <label for="author"><small>Name</small></label></p><p><input type="text" name="email" value="" size="22" tabindex="2" /> <label for="email"><small>Mail (will not be published)</small></label></p><p><input type="text" name="url" value="" size="22" tabindex="3" /> <label for="url"><small>Website</small></label></p><p><input type="text" name="x" value="" size="22" tabindex="3" /> <label for="x"><small>What's your favorite number?</small></label></p><p><textarea name="comment" id="comment" cols="65" rows="10" tabindex="4"></textarea></p><p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" /></p></form></div></div></div></div><div id="postamble"><div id="rightColumn"><div id="menu" class="tekuti"><ul><li><a href="/feed/atom">subscribe <img src="http://werner.eifzilla.de/feed-icon-14x14.png" style="border: 0" alt="[feed]" /></a></li><li>related<ul><li style="margin-top: 5px"><a href="/archives/2012/08/17/beta-release-numbering-with-git">Beta release numbering with GIT</a></li><li style="margin-top: 5px"><a href="/archives/2012/08/10/identify-theft-by-clang">Identify theft by clang</a></li><li style="margin-top: 5px"><a href="/archives/2012/06/26/the-perils-of-contract-driven-free-software">The perils of contract driven free software</a></li></ul></li></ul></div><div id="cpyright"><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="CC-BY-SA 3.0" style="border: 0" src="http://werner.eifzilla.de/cc-by-sa-3.0_80x15.png" /></a><br />Copyright 2012 Werner Koch. This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a></div><div id="footer" class="tekuti">Powered by <a href="http://wingolog.org/software/tekuti/">tekuti</a></div></div></div></div></body></html>

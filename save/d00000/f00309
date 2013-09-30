@@ -1,0 +1,283 @@
+
+<!--------------------------------------------------------------------------------------------------------------------------------------        
+        * * * * *  A    T    E    N    Ç    Ã    O  * * * * * 
+		
+Quando testar local, não esquecer de verificar os seguintes parâmetros:
+   a) conexão com banco de dados LOCALHOST... conn_ouvidoria.php e conn_db_noticias.php. Comentar a conexão com servidor!!!
+   b) index.php (upload local e upload no servidor)
+   c) envia.php (mudar e-mail para testar localmente: patriciacustodio@ufpr.br)
+   d) tabela PROTOCOLO: mudar todos os email_solicitante para o meu email (teste)
+   e) tabela SETOR: mudar todos os email_respons_setor para o meu email(para testar)
+   
+Quando hospedar, não esquecer de alterar estes dados!!! 
+--------------------------------------------------------------------------------------------------------------------------------------->   
+
+  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Ouvidoria Geral - UFPR</title>
+
+<!-- Acesso aos css's do framework -->
+<link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="css/print.css" type="text/css" media="print" />
+<!--[if IE]>
+		<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen, projection">
+	<![endif]-->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen, projection" />
+
+<script language = "JavaScript" src = "./js/principal.js" type = "text/javascript"></script>
+
+<script language="javascript" type="text/javascript">	
+
+// Função de máscara para números inteiros	
+function mascara(o,f){
+    v_obj=o
+    v_fun=f
+    setTimeout("execmascara()",1)
+}
+
+function execmascara(){
+    v_obj.value=v_fun(v_obj.value)
+}
+
+function soNumeros(v){
+    return v.replace(/\D/g,"")
+}
+
+</script>
+
+
+
+</head>
+
+<body>
+
+<!-- <div class="prefix-1 container suffix-1 showgrid"> -->
+<div class="prefix-1 container suffix-1">
+<!-- cabeçalho -->
+<div class="span-24">
+	<img src="imagens/cabecalho.jpg" alt="Cabe&ccedil;alho" width="950" height="150" /></div> 
+<!-- fecha cabeçalho -->
+
+<!-- ícones -->
+<div class="span-24 icones" align="center">
+<ul>
+  <li> <a href = "http://www.portal.ufpr.br" title = "Biblioteca"> <img src="imagens/icone_biblioteca.jpg" alt="Biblioteca" /> </a> </li>
+  <li> <a href = "http://www.intranet.ufpr.br" title = "Intranet"> <img src="imagens/icone_intranet.jpg" alt="Intranet" /> </a> </li>
+  <li> <a href = "http://www.ufpr.br" title = "UFPR"> <img src="imagens/icone_ufpr.jpg" alt="UFPR" /> </a> </li>
+  <li>  <a href="Agenda 2009 Geral.pdf"><img src="imagens/icone_fones_ramais.jpg" alt="Telefones" border="0" /></a>  </li>
+  <li> <a href = "https://webmail.ufpr.br/src/webmail.php" title = "Webmail"> <img src="imagens/icone_webmail.jpg" alt="Webmail" /> </a> </li>
+
+ </ul>
+</div> <!-- fecha ícones -->
+
+<!-- menu horizontal -->
+<div class="span-24 menu_horizontal">
+ <ul>
+  <li> <a href = "index.php" title = "Página Inicial"> Página Inicial </a> </li>
+  <li> <a href = "palavra_ouvidor.php" title = "Palavra do Ouvidor"> Palavra do Ouvidor </a> </li>
+  <li> <a href = "historia_ouvidoria.php" title = "Histórico"> Histórico </a> </li>
+  <li> <a href = "relatorios.php" title = "Relatórios"> Relatórios </a> </li>
+  <li> <a href = "perguntas_respostas_frequentes.php" title = "Perguntas Frequentes"> Perguntas Frequentes </a> </li>
+  <li> <a href = "equipe.php" title = "Equipe"> Equipe </a> </li>
+  <li> <a href = "contato.php" title = "Contato"> Contato </a> </li>
+ </ul>
+</div> <!-- fecha menu horizontal -->
+
+<!-- menu vertical - coluna esquerda -->
+<div class="span-3 menu_vertical">
+<ul>
+		<li> <a href="administracao.php"> Administração </a> </li>
+		<li> <a href="pro_reitorias.php"> Pró-Reitorias </a> </li>
+		<li> <a href="coordenacoes.php"> Coordenações </a> </li>
+		<li> <a href="campus.php"> Campus UFPR </a> </li>
+		<li> <a href="nucleos.php"> Núcleos </a> </li>
+		<li> <a href="espacos_culturais.php"> Espaços Culturais </a> </li>
+		<li> <a href="servicos_comunidade.php"> Serviços à Comunidade </a> </li>
+		<li> <a href="vestibular.php"> Vestibular </a> </li>
+		<li> Estudantes 
+			<ul>
+				<li> <a href="naa.php"> NAA </a> </li>
+				<li> <a href="fique_atento.php"> Fique Atento </a> </li>
+			</ul>
+		</li>	
+		<li> <a href="links.php"> Links UFPR </a> </li>
+		<li> <a href="noticias.php"> Notícias </a> </li>
+	</ul>
+</div> <!-- fecha menu vertical -->
+
+<!-- texto central -->
+<div class="span-20 last">
+  <p class="titulo">Ouvidoria Geral da UFPR </p>
+  
+      <p class="corpo1"><span class="corpo">A <strong>Ouvidoria</strong> Eletr&ocirc;nica da UFPR &eacute;   mais um espa&ccedil;o aberto de comunica&ccedil;&atilde;o com a comunidade acad&ecirc;mica e tamb&eacute;m com a   sociedade. Assim, se voc&ecirc; tiver alguma cr&iacute;tica, opini&atilde;o ou sugest&atilde;o, queira por   favor nos enviar suas considera&ccedil;&otilde;es. </span></p>
+      <p class="corpo">Se voc&ecirc; deseja uma resposta a esta comunica&ccedil;&atilde;o preencha seu nome e e-mail. Se quiser apenas enviar sua mensagem, sem identifica&ccedil;&atilde;o, preencha apenas seu e-mail e deixe o nome e telefone em branco.</p>
+      <p align="justify" class="corpo">Para acompanhar sua manifesta&ccedil;&atilde;o, reporte-se &agrave; Ouvidoria atrav&eacute;s de e-mail, informando o n&uacute;mero de seu protocolo. </p>
+      
+      <form action="/index.php?" method="post" enctype="multipart/form-data" name="form2" id="form2" onsubmit = "return(validar(this));" onreset="return(setar(this))">
+        <table width="80%" align="justified" bgcolor="#D7DEE8">
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right"><span class="corpo">Nome:</span></td>
+            <td>&nbsp;</td>
+            <td><input type="text" name="nome_solicitante" value="" size="32" /></td>
+          </tr>
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right"><span class="corpo">E-mail:</span></td>
+            <td>&nbsp;</td>
+            <td><input type="text" name="email_solicitante" value="" size="32" /></td>
+          </tr>
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right"><span class="corpo">Telefone Residencial: </span></td>
+            <td>&nbsp;</td>
+            <td><input name="ddd_fone_solicitante" type="text" value="" size="2" maxlength="2"onkeypress="mascara(this,soNumeros)" />
+              -
+              <input name="fone_solicitante" type="text" value="" size="8" maxlength="8" onkeypress="mascara(this,soNumeros)"/>
+          <span class="corpo">Formato: 99999999</span> </td>
+          </tr>
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right"><span class="corpo">Telefone Celular:</span></td>
+            <td>&nbsp;</td>
+            <td><input name="ddd_fone_cel" type="text" id="ddd_fone_cel" value="" size="2" maxlength="2" onkeypress="mascara(this,soNumeros)"/>
+              -
+              <input name="fone_cel" type="text" value="" size="8" maxlength="8" onkeypress="mascara(this,soNumeros)"/>
+          <span class="corpo">Formato: 99999999</span> </td>
+          </tr>
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right"><span class="corpo">Telefone Comercial:</span></td>
+            <td>&nbsp;</td>
+            <td><input name="ddd_fone_com" type="text" id="ddd_fone_com" value="" size="2" maxlength="2" onkeypress="mascara(this,soNumeros)"/>
+              -
+              <input name="fone_com" type="text" value="" size="8" maxlength="8" onkeypress="mascara(this,soNumeros)"/>
+          <span class="corpo">Formato: 99999999</span> </td>
+          </tr>
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right"><span class="corpo">Clientela:</span></td>
+            <td>&nbsp;</td>
+            <td><select name="id_clientela">
+                                <option value="1">Aluno da UFPR</option>
+                                <option value="2">Ex-Aluno da UFPR</option>
+                                <option value="3">Aluno de Outra Universidade/Faculdade</option>
+                                <option value="4">Vestibulando</option>
+                                <option value="5">Calouro da UFPR</option>
+                                <option value="6">Professor da UFPR</option>
+                                <option value="7">Servidor da UFPR</option>
+                                <option value="8">Prestador de Serviço e Terceirizados</option>
+                                <option value="9">Comunidade Externa</option>
+                                <option value="10">Servidor da Funpar</option>
+                              </select>
+            </td>
+          </tr>
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right"><span class="corpo">Manifesta&ccedil;&atilde;o:</span></td>
+            <td>&nbsp;</td>
+            <td><select name="id_manifestacao">
+                                <option value="5">Agradecimento</option>
+                                <option value="8">Cumprimentos</option>
+                                <option value="1">Denúncia</option>
+                                <option value="6">FALTA</option>
+                                <option value="4">Pedido de Informação</option>
+                                <option value="2">Reclamação</option>
+                                <option value="3">Sugestão</option>
+                                <option value="7">Trote</option>
+                              </select>
+            </td>
+          </tr>
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right"><span class="corpo">Assunto:</span></td>
+            <td>&nbsp;</td>
+            <td><select name="id_assunto">
+                                <option value="6">Administração</option>
+                                <option value="21">Assuntos Não Pertinentes</option>
+                                <option value="12">Busca Professor da UFPR ou Artigo de Professor</option>
+                                <option value="26">Certificado de Graduação</option>
+                                <option value="10">Certificado de Pós-Graduação</option>
+                                <option value="7">Concursos Públicos</option>
+                                <option value="17">Curso de Graduação</option>
+                                <option value="1">Ensino/Cursos/Graduação</option>
+                                <option value="2">Especialização/Mestrado/Doutorado</option>
+                                <option value="9">FALTA</option>
+                                <option value="14">FALTA</option>
+                                <option value="8">FALTA</option>
+                                <option value="18">FALTA</option>
+                                <option value="25">FEIRA DE CURSOS E PROFISSÕES</option>
+                                <option value="22">Graduação/Equivalência de Disciplinas</option>
+                                <option value="23">Graduação/Exercícios Domiciliar</option>
+                                <option value="24">Graduação/Trancamento de Curso </option>
+                                <option value="19">Pré-Vestibular EM AÇÃO</option>
+                                <option value="15">Queixa contra a Página da UFPR</option>
+                                <option value="11">Queixa sobre Critério de Avaliação de Professor</option>
+                                <option value="13">Revalidação de Diplomas</option>
+                                <option value="16">SIE- Queixa contra Sistema de Matrículas</option>
+                                <option value="20">Sistema de Cotas e Indígenas </option>
+                                <option value="5">Transferência "ex officio"</option>
+                                <option value="4">Transferência pelo PROVAR - Processo Vagas Remanescentes</option>
+                                <option value="3">Vestibular/Processo Seletivo</option>
+                              </select>
+            </td>
+          </tr>
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right" valign="baseline"><span class="corpo">Considera&ccedil;&atilde;o:</span></td>
+            <td>&nbsp;</td>
+            <td><textarea name="consideracao" cols="50" rows="5"></textarea>
+            </td>
+          </tr>
+          
+          <!--
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right"><span class="corpo">Arquivo (Anexo): </span></td>
+            <td>&nbsp;</td>
+            <td><input name="anexo" type="file" id="anexo" /></td>
+          </tr>
+          -->
+          
+          
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right"><span class="corpo"><strong>Sigilo da sua identifica&ccedil;&atilde;o: </strong></span></td>
+            <td>&nbsp;</td>
+            <td><input name="sigilo" type="radio" value="Sim" />
+                <span class="corpo">Sim</span>
+                <input name="sigilo" type="radio" value="N&atilde;o" />
+                <span class="corpo">N&atilde;o</span></td>
+          </tr>
+          <tr valign="baseline">
+            <td nowrap="nowrap" align="right">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr valign="baseline">
+            <td colspan="3" align="right" nowrap="nowrap"><table width="50%" border="0" align="center">
+                <tr>
+                  <td><div align="right">
+                      <input name="submit" type="submit" value="Enviar" />
+                  </div></td>
+                  <td><input type="reset" name="Reset" value="Limpar" /></td>
+                </tr>
+            </table></td>
+          </tr>
+        </table>
+        <input type="hidden" name="id_protocolo" value="" />
+        <input name="id_setor" type="hidden" value=" 1" />
+        <input type="hidden" name="status" value="1" />
+        <input type="hidden" name="data" value="" />
+        <input type="hidden" name="MM_insert" value="form2" />
+      </form>
+      <p>&nbsp;</p>
+
+  </div> 
+<!-- fecha texto central -->
+
+<!-- Rodapé -->
+<div class="span-24 rodape">
+	Desenvolvido pelo Centro de Computação Eletrônica da UFPR - CCE  
+</div> <!-- fecha rodapé -->
+
+</div> <!-- fecha div container -->
+</body>
+</html>

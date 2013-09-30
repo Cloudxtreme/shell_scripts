@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="maemo.index.fr" lang="fr" xml:lang="fr">
+
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Author" content="Vincent Lefèvre" lang="fr" xml:lang="fr" />
+<title>Maemo / tablettes Internet Nokia (page écrite par Vincent Lefèvre)</title>
+<link rev="made" href="mailto:webmaster@vinc17.org" />
+<link rel="icon" type="image/png" href="../graphics/favicon.png" />
+<link rel="stylesheet" type="text/css" href="../screen.css" media="screen,tv,projection" />
+<link rel="stylesheet" type="text/css" href="../print.css" media="print" />
+<link rel="top" type="text/html" href="../index.fr.html" title="Vincent Lefèvre - Page d'accueil" />
+<link rel="up" type="text/html" href="../index.fr.html" title="Vincent Lefèvre - Page d'accueil" />
+<link rel="alternate" type="text/html" href="index.en.html" hreflang="en" title="Maemo / Nokia Internet Tablets (Page Written by Vincent Lefèvre)" />
+</head>
+
+<body id="www-vinc17-org">
+<p class="altlang" lang="en" xml:lang="en"><a href="index.en.html" title="English version"><img src="../graphics/english.png" height="25" width="36" alt="English version" /></a></p>
+
+<!--[if IE]>
+<p class="msie">Vous utilisez Microsoft Internet Explorer? Son mauvais respect des standards peut poser des problèmes d'affichage. Il a aussi de <a href="http://secunia.com/advisories/product/11/">nombreux trous de sécurité</a> (<a href="http://secunia.com/advisories/product/12366/">MSIE 7.x</a>, <a href="http://secunia.com/advisories/product/21625/">MSIE 8.x</a>). Vous devriez essayer <a href="http://www.firefox.com/">Mozilla/Firefox</a> ou <a href="http://www.opera.com/">Opera</a>, par exemple.</p>
+<![endif]-->
+
+<div id="top">
+<h1>Maemo / tablettes Internet Nokia (page écrite par Vincent Lefèvre)</h1>
+
+<div class="page-navbar">
+<map id="contents" title="Contenu">
+<p><a href="#mmc-exec" title="Carte mémoire interne et exécutables (N810)">[Mémoire]</a> |
+<a href="#mpfr" title="Compiler MPFR">[MPFR]</a> |
+<a href="#iso8601" title="Dates au format ISO 8601">[<acronym title="International Organization for Standardization">ISO</acronym> 8601]</a> |
+<a href="#keyboard" title="Utilisation du clavier coulissant">[Clavier]</a> |
+<a href="#links" title="Liens">[Liens]</a></p>
+</map>
+</div>
+
+<p>Ceci est ma page dédiée à la plateforme
+<a href="http://maemo.org/">Maemo</a>
+et aux tablettes Internet Nokia. Je possède un
+<a href="http://en.wikipedia.org/wiki/Nokia_N810">Nokia N810</a>
+depuis janvier 2008.</p>
+
+<div id="mmc-exec">
+<h2>Carte mémoire interne et exécutables (N810)</h2>
+
+<p>En plus de la mémoire interne de
+256 <abbr title="mégaoctets">Mo</abbr>
+(système de fichiers racine, de type
+<a href="http://fr.wikipedia.org/wiki/JFFS2"><acronym title="Journaling Flash File System version 2">JFFS2</acronym></a>,
+donc compressé), le N810 dispose d'une carte mémoire interne de
+2 <abbr title="gigaoctets">Go</abbr>. Avec les premières tablettes
+N810, <a href="https://bugs.maemo.org/show_bug.cgi?id=2940">la partition
+de cette carte est incorrecte</a>! (Autres détails dans
+<a href="http://talk.maemo.org/showthread.php?t=14364">cette
+discussion</a> et
+<a href="http://talk.maemo.org/showthread.php?t=14416">celle-là</a>.)
+Conséquence: tôt ou tard, le système de fichiers de cette
+carte deviendra corrompu et vous risquez de perdre les fichiers stockés
+dessus (même si la carte n'est pas pleine). La solution: sauvegardez les
+fichiers présents sur cette carte ailleurs et repartitionnez-la.</p>
+
+<p>La partition d'origine de cette carte est au format
+<a href="http://en.wikipedia.org/wiki/Vfat"><acronym title="Virtual File Allocation Table">VFAT</acronym></a>,
+qui a plusieurs limitations: en particulier, pas de support du bit
+d'exécution (d'ailleurs, par défaut, la carte montée de manière à ce qu'on
+ne puisse pas exécuter les programmes stockés dessus), pas de support des
+liens symboliques. Autant profiter du repartitionnement pour y mettre une
+partition en <a href="http://fr.wikipedia.org/wiki/Ext3">ext3</a>;
+je ne l'avais pas fait à l'origine, car il y a un risque de détruire la
+carte (cela m'est arrivé il y a quelques années), mais on y est de toute
+façon bien obligé. Je pense qu'il doit être possible de ne mettre qu'une
+seule partition en ext3; je n'ai pas testé. J'ai choisi la solution
+suivante: une partition de 1 <abbr title="gigaoctet">Go</abbr> en <acronym title="Virtual File Allocation Table">VFAT</acronym>
+et une partition de 1 <abbr title="gigaoctet">Go</abbr> en ext3. Voir les
+<a href="partition.fr.html">détails de la
+procédure de repartitionnement</a>.</p>
+
+<p>Solution alternative pour le <acronym title="Virtual File Allocation Table">VFAT</acronym> et les exécutables
+(c'était ce que j'avais fait avant de repartitionner la carte): il est
+possible de déclarer tous les fichiers comme exécutables sur une partition
+<acronym title="Virtual File Allocation Table">VFAT</acronym>. Cela pose un certain nombre de problèmes (dont de
+sécurité), mais si on fait un peu attention, cette solution est acceptable.
+La commande <samp lang="en" xml:lang="en">mount</samp> indique que l'option
+<samp lang="en" xml:lang="en">noexec</samp> est utilisée; j'ai donc d'abord
+regardé le fichier <samp class="filename">/etc/fstab</samp>, puis fait un
+<samp>grep</samp> récursif sur le répertoire
+<samp class="filename">/etc</samp>, mais aucune trace
+de <samp lang="en" xml:lang="en">noexec</samp> <em>pour la carte
+interne</em>. J'ai finalement trouvé la solution en faisant une
+recherche sur <span class="product service" lang="en" xml:lang="en">Google</span>,
+qui m'a renvoyé sur
+<a href="http://mg.pov.lt/maemo-irclog/%23maemo.2008-02-09.log.html">cette
+discussion</a>: le fichier à modifier est
+<samp class="filename">/usr/sbin/mmc-mount</samp> (c'est un script
+<em lang="en" xml:lang="en">shell</em>). Il y a deux choses à
+faire: enlever l'option <samp lang="en" xml:lang="en">noexec</samp> et changer la
+valeur de <samp lang="en" xml:lang="en">fmask</samp> de <samp>0133</samp> en
+<samp>022</samp>
+(<a href="http://en.wikipedia.org/wiki/Fmask">explications
+de <samp lang="en" xml:lang="en">fmask</samp></a>).</p>
+
+</div><!-- mmc-exec -->
+
+<div id="mpfr">
+<h2>Compiler <cite class="prg"><acronym>MPFR</acronym></cite></h2>
+
+<p>La bibliothèque
+<a href="http://www.mpfr.org/"><cite class="prg"><acronym>MPFR</acronym></cite></a>
+peut être compilée directement sur le N810 (OS2008) après l'installation
+du paquet <samp>gcc</samp> et de la bibliothèque
+<cite class="prg"><acronym title="GNU Multiple Precision">GMP</acronym></cite>. En plus des instructions
+standard d'installation, notez les points suivants.</p>
+
+<ul>
+
+<li><p>Ne prenez <em>pas</em> d'archive tar: la commande
+<samp>tar</samp> de <cite class="prg" lang="en" xml:lang="en">BusyBox</cite> 1.6.1
+(fournie par OS2008) est très buggée et vous donnera une erreur sur les
+archives tar de <cite class="prg"><acronym>MPFR</acronym></cite>.
+Vous pouvez prendre l'archive zip à la place (vous aurez besoin de la
+commande <samp lang="en" xml:lang="en">unzip</samp>, fournie par le paquet
+<samp lang="en" xml:lang="en">unzip</samp>).</p>
+<p>Alternativement, vous pouvez d'abord compiler et installer
+<a href="http://ftp.gnu.org/gnu/tar/"><cite class="prg"><acronym title="GNU's Not Unix">GNU</acronym>
+tar</cite></a>, qui n'a pas de problème.</p></li>
+
+<li><p>Le script <samp>configure</samp> de
+<cite class="prg"><acronym>MPFR</acronym></cite> (qui a été généré par
+<samp>autoconf</samp>) utilise la commande <samp>diff</samp>,
+qui n'est pas disponible dans OS2008, et je n'ai pas trouvé de paquet
+la fournissant. Une solution est de remplacer <samp>diff</samp>
+par <samp>cmp</samp> avec
+<a href="mpfr-configure.patch">ce
+<em lang="en" xml:lang="en">patch</em> de
+<samp>configure</samp></a> (pour
+<cite class="prg"><acronym>MPFR</acronym></cite> 2.3.1) ou avec
+la commande suivante, avant de lancer <samp>configure</samp>:</p>
+<pre>sed -i -e 's/diff /cmp /' configure</pre></li>
+
+</ul>
+
+</div><!-- mpfr -->
+
+<div id="iso8601">
+<h2>Dates au format <acronym title="International Organization for Standardization">ISO</acronym> 8601</h2>
+
+<p>Pour savoir quelles <em lang="en" xml:lang="en">locales</em>
+installées sur la tablette fournissent une date au format
+<a href="http://fr.wikipedia.org/wiki/ISO_8601"><acronym title="International Organization for Standardization">ISO</acronym> 8601</a>
+(de la forme <var>YYYY-MM-DD</var>), tapez ou copiez-collez
+les lignes suivantes dans un <em lang="en" xml:lang="en">shell</em>
+(<abbr>e.g.</abbr>, en lançant le terminal):</p>
+<pre>for i in `locale -a`
+do
+  printf "%-5s %s\n" $i "`LC_TIME=$i date +%x`"
+done</pre>
+
+<p>Puisque certaines formes de date peuvent aussi contenir des mots
+(pour le jour de la semaine et le mois), vous devez choisir une
+<em lang="en" xml:lang="en">locale</em> dans la langue configurée.
+Malheureusement, une telle <em lang="en" xml:lang="en">locale</em>
+avec une date en <acronym title="International Organization for Standardization">ISO</acronym> 8601 n'est généralement pas fournie.
+Pour le français, <samp>fr_CA</samp> peut être utilisée! C'est ce que
+j'ai choisi. Pour l'anglais, il y aurait <samp>en_DK</samp>, mais cette
+<em lang="en" xml:lang="en">locale</em> n'est pas disponible sur mon
+N810. Puis éditez le fichier <samp class="filename">/etc/osso-af-init/locale</samp>
+(en tant que <em lang="en" xml:lang="en">root</em>) pour ajouter
+une ligne définissant <var class="env">LC_TIME</var> avec la
+<em lang="en" xml:lang="en">locale</em> choisie. Par exemple,
+sur mon N810, ce fichier contient maintenant:</p>
+<pre>#!/bin/sh
+export LANG=fr_FR
+export LC_TIME=fr_CA
+export LC_MESSAGES=fr_FR</pre>
+<p>Puis redémarrez la tablette.</p>
+
+</div><!-- iso8601 -->
+
+<div id="keyboard">
+<h2>Utilisation du clavier coulissant</h2>
+
+<p>Le N810 a quelques fonctionnalités intéressantes pour utiliser le
+clavier coulissant:</p>
+
+<ul>
+
+<li><p>Tout d'abord une fonctionnalité parfois vue ailleurs:
+lorsqu'on appuie une fois sur la touche
+<span class="key" lang="en" xml:lang="en">Shift</span> ou <span class="key">Fn</span>,
+ce modifieur est activé pour la touche suivante, et lorsqu'on appuie deux
+fois sur une telle touche, l'état de ce modifieur est verrouillé pour
+toutes les touches suivantes, jusqu'à ce qu'on appuie une troisième fois
+dessus. Pour la touche <span class="key" lang="en" xml:lang="en">Shift</span>,
+ce verrouillage correspond plus ou moins à la fonctionnalité de la touche
+<span class="key" lang="en" xml:lang="en">CapsLock</span> des claviers d'ordinateurs de bureau.
+Quant au verrouillage de la touche <span class="key">Fn</span>, il est très utile
+pour taper des nombres, puisque les chiffres s'obtiennent avec cette
+touche.</p></li>
+
+<li><p>Lorsqu'on appuie sur la touche <span class="key">Chr</span>,
+puis, sans la relâcher, sur une lettre une ou plusieurs fois, les
+différentes lettres accentuées qui y sont associées apparaissent les
+unes après les autres. Cette fonctionnalité très utile semble peu
+connue; je l'ai vue dans les
+<a href="http://europe.nokia.com/A4686057"><cite lang="en" xml:lang="en">tips &amp; tricks</cite>
+de Nokia pour le N810</a>.</p>
+<p>Par exemple, la touche <span class="key">E</span> donne
+la lettre <samp>e</samp>, la combinaison
+<span class="key">Chr</span>+<span class="key">E</span> donne
+la lettre <samp>é</samp>, la combinaison
+<span class="key">Chr</span>+<span class="key">E</span>+<span class="key">E</span>
+(ne pas relâcher la touche <span class="key">Chr</span> avant d'appuyer sur
+<span class="key">E</span> la seconde fois) donne la lettre <samp>è</samp>,
+et ainsi de suite.</p></li>
+
+<li><p>On peut <em>remapper</em> le clavier en modifiant
+le fichier <samp class="filename">/usr/share/X11/xkb/symbols/nokia_vndr/rx-44</samp>.
+On peut faire relire ce fichier par le système en tuant le processus
+<samp class="filename">/usr/bin/hildon-input-method</samp> qui a (en général)
+le plus grand <acronym>PID</acronym>.
+<a href="http://talk.maemo.org/showthread.php?p=158220#post158220">Plus
+d'information.</a></p></li>
+
+<li><p>Avec certaines applications (mais pas avec le terminal X,
+pour des raisons techniques je suppose), le système propose un certain nombre
+de mots possibles une fois qu'on a tapé les premières lettres. Ce système
+de complétion se base sur des dictionnaires: il est possible de configurer
+jusqu'à deux dictionnaires fixes (<abbr>e.g.</abbr> français et anglais),
+et d'autres mots peuvent être proposés grâce à un apprentissage automatique
+(mais ces mots appris sont un peu trop vite oubliés).</p></li>
+
+</ul>
+
+<p>Note: la plupart des applications
+Linux/<a href="http://fr.wikipedia.org/wiki/X_Window_System">X11</a>
+devraient fonctionner sur le N810, mais celles-ci doivent être écrites (ou
+portées) en utilisant le <em lang="en" xml:lang="en">framework</em>
+<a href="http://fr.wikipedia.org/wiki/Hildon" lang="en" xml:lang="en">Hildon</a>
+pour pouvoir supporter certaines de ces fonctionnalités.</p>
+
+</div><!-- keyboard -->
+
+<div id="links">
+<h2>Liens</h2>
+
+<p>Divers liens sur le Nokia N810:</p>
+<ul>
+<li><p><a href="http://www.forum.nokia.com/devices/N810">Spécifications complètes</a>.</p></li>
+<li><p><a href="http://www.nokia.fr/A4630749">Autres spécifications</a> (en français) et <a href="http://europe.nokia.com/A4678155">plus (démos, guides...)</a>, <abbr>e.g.</abbr> le <a href="http://europe.nokia.com/A4678156"><em lang="en" xml:lang="en">how-to</em> de Nokia</a>.</p></li>
+<li><p><a href="http://talk.maemo.org/">Forum dédié aux tablettes Internet</a> (remplaçant l'ancien forum <cite lang="en" xml:lang="en">InternetTabletTalk</cite>); un <a href="http://www.planete-nokia.com/phpBB2/index.php?showtopic=48378">autre forum, en français</a> sur le N810, mais avec beaucoup moins de messages, et ce forum semble être plus ou moins mort.</p></li>
+<li><p><a href="http://www.youtube.com/results?search_query=n810">Vidéos sur <span class="product service" lang="en" xml:lang="en">YouTube</span></a>, en particulier une <a href="http://www.youtube.com/watch?v=wDe1gd-pBRo">présentation</a> et une <a href="http://www.youtube.com/watch?v=IWAmxpQP0Ww">démonstration de l'application <acronym title="Global Positioning System">GPS</acronym> <cite class="prg">Wayfinder</cite></a> (ce logiciel de navigation n'est pas fourni avec le N810 et doit être acheté séparément, ou vous pouvez utiliser le logiciel libre <a href="http://maemo.org/downloads/product/OS2008/maemo-mapper/"><cite class="prg" lang="en" xml:lang="en">Maemo Mapper</cite></a>).</p></li>
+<li><p><a href="http://www.expansys.fr/p.aspx?i=158520">Nokia N810 sur eXpansys France</a>.</p></li>
+<li><p><a href="http://maemo.org/downloads/OS2008/">OS2008</a>, pour télécharger des logiciels.</p></li>
+<li><p><a href="http://andrew.daviel.org/n810-blog.html">Blog N810 d'<span class="person" lang="en" xml:lang="en"><span class="firstname">Andrew</span> <span class="surname">Daviel</span></span></a> et sa <a href="http://andrew.daviel.org/N810-FAQ.html"><acronym title="Foire Aux Questions">FAQ</acronym> N810</a>.</p></li>
+<li><p><a href="http://browser-extras.garage.maemo.org/news/" lang="en" xml:lang="en">Maemo Browser Extras</a>.</p></li>
+<li><p><a href="http://fms.komkon.org/Maemo/"><cite lang="en" xml:lang="en">Pack Rat</cite></a>: l'agrégateur de paquets Maemo.</p></li>
+</ul>
+
+</div><!-- links -->
+
+</div><!-- top -->
+
+<hr class="clear" />
+
+<div class="navbar">
+<map id="navbar" title="Barre de navigation">
+<p>
+<a href="../index.fr.html"><img src="../graphics/buttons3d/home.png" height="40" width="40" alt=" [HOME] " title="Page d'accueil" /></a>
+<a href="../index.fr.html"><img src="../graphics/buttons3d/back.png" height="40" width="40" alt=" [BACK] " title="Retour (page parente)" /></a>
+</p>
+</map>
+</div>
+
+<hr class="clear" />
+
+<div class="footer">
+<a href="http://uptime.netcraft.com/up/graph?host=www.vinc17.net"><img src="../graphics/poweredby.png" height="53" width="90" alt="Powered By...?" class="noborder" /></a>
+<a href="http://validator.w3.org/"><img src="../graphics/vxh10.png" height="31" width="88" alt="Valid XHTML 1.0!" class="noborder" /></a>
+<div>Dernière modification:
+<ul class="lastupdated">
+<li><span>Source <span lang="en" xml:lang="en">DocBook</span>: </span><span>2010-07-17, 17:35:06 (<span title="révision (Subversion)">38015</span>)</span></li>
+<li><span>Feuilles de styles <acronym>XSL</acronym>: </span><span>2013-08-05, 01:37:20 (<span title="révision (Subversion)">62397</span>)</span></li>
+<li><span>Fichier <samp class="filename">webtext.xml</samp>: </span><span>2010-07-17, 17:35:06 (<span title="révision (Subversion)">38015</span>)</span></li>
+<li><span>Fichier <samp class="filename">abbrev.xml</samp>: </span><span>2013-07-27, 01:33:51 (<span title="révision (Subversion)">62103</span>)</span></li>
+</ul>
+</div>
+<p>Page générée à partir du fichier <code>maemo/index.fr.xml</code> le 2013-08-05 par <cite lang="en" xml:lang="en">xsltproc (using libxml 20901, libxslt 10128 and libexslt 817)</cite>.</p>
+<p>Note: cette conversion à partir de fichiers <span lang="en" xml:lang="en">DocBook</span> est toujours expérimentale; merci de me signaler tout problème.</p>
+</div><!-- footer -->
+
+<address>
+<a href="mailto:webmaster@vinc17.org">webmaster@vinc17.org</a>
+</address>
+
+</body>
+
+</html>

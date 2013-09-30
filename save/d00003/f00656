@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8">
+            
+<!-- this should be per page -->
+        <meta lang="cs" name="keywords" content="Domény, Registrátoři, Registrace domén, CZ.NIC, WHOIS, DNS" />
+        <meta lang="en" name="keywords" content="Domains, Registrators, Domain registration, CZ.NIC, WHOIS, DNS" />
+        <meta lang="cs" name="description" content="Správce domén CZ." />
+        <meta lang="en" name="description" content="CZ domain registry." />
+        <link rel='shortcut icon' type='image/x-icon' href='/static/nic/images/favicon.ico' />
+
+        <title>CZ.NIC - Použití SCA6000 pro podepisování DNSSEC</title>
+        
+
+
+        <link href="/static/nic/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="/static/nic/css/print.css" rel="stylesheet" type="text/css" media="print" />
+        <link href="/static/nic/css/specific.css" rel="stylesheet" type="text/css" media="screen" />
+
+<!-- this should be in separate files -->
+        <meta name="google-site-verification" content="wuFFLLq-bqUtDNBDwq1UU27QOsvAX9cN-JY8oymPavY" />
+        <meta name="msvalidate.01" content="41F9105A2B1D5155132F833AEB5A129D" />
+        <script src="/static/js/jquery-1.8.0.min.js"></script>
+        <script src="/static/nic/js/jquery.placeholder.js?v=2.0.7"></script>
+        
+    
+        <link href="/static/nic/css/support.css" rel="stylesheet" type="text/css" media="screen" />
+
+        
+        
+    </head>
+
+    <body id="bodyblank">
+
+<script type="text/javascript">
+$(function() {
+ $('input, textarea').placeholder();
+});
+</script>
+
+
+        
+    <div id="header">
+        <div class="wrap">
+
+        <!-- Logo -->
+            <h1 id="logo"><a href="/" title="Back to nic.cz home page"><img src="/static/nic/images/logo_cs.png" width="316" height="114" alt ="Nic.cz | CZ Domain Registry" /></a></h1>
+            <div class="anchor"><a href="#main-menu">k navigaci &darr;</a></div>
+        <form action="/search/" method="get" id="search" class="searchbox">
+            <input type="submit" class="search-button" name="go" value=" " />
+            <input type="text" class="search-field txt" name="query" value="" placeholder="hledat&hellip;" />
+        </form>
+<!-- menu -->
+    <div id="podpora-contact">
+        <a href="http://podpora.nic.cz/page/357/">Kontakt</a>
+    </div>
+    <div class="cleaner"></div>
+        </div><!-- .wrap -->
+    </div><!-- #header -->
+<!-- /menu -->
+
+<div id="content" role="main">
+    <div class="wrap cs">
+        <div id="page" >
+            
+
+
+
+
+<!-- DEFAULT base : design/base_blank.html -->
+        <div id="content-main" >
+            <h1>Použití SCA6000 pro podepisování DNSSEC</h1>
+            <div class="article_text">
+                <div class="markdown-text"><h2>Jak nainstalovat kartu SCA6000 pro DNSSEC</h2>
+<p>Karta <a href="http://www.sun.com/products/networking/sslaccel/suncryptoaccel6000/index.xml">SCA6000</a> je podporována výrobcem Sun Microsystems na systému Solaris 10 a starší verzi RHEL 4. Z hlediska údržby a výkonu se sdružení CZ.NIC rozhodlo pro provoz této karty na systému Solaris. Proto se následující návod bude zabývat pouze zprovozněním této karty pod systémem Solaris 10.<br />
+
+</p>
+<p>Provoz karty pod systémem RHEL 4 vyžaduje zprovoznění PKCS#11 opencryptoki frameworku. Některé části tohoto návodu jsou pak společné.<br />
+
+</p>
+<p>Pro provoz karty potřebujeme nejlépe server, který je certifikovaný pro provoz Solaris 10, ale není to nutná podmínka. Vše závisí na podpoře ostatních komponent (síťová karta, atp.). Server také musí disponovat alespoň jedním PCIe slotem pro zapojení karty.<br />
+
+</p>
+<p>Další návod předpokládá nainstalovaný Solaris 10. Návod na instalaci Solaris 10 nespadá do záběru tohoto dokumentu.<br />
+
+</p>
+
+<h2>Instalace dalšího software</h2>
+<p>Pro provoz karty a hlavně software pro podepisování zóny budeme potřebovat kromě standardního software i další dodatečné komponenty pro práci s internetem a kompilaci zdrojových kódů.<br />
+
+</p>
+
+<h2>Připojení CD/DVD</h2>
+<pre><code># mount -F hsfs /dev/dsk/c2t0d0p0 /mnt
+</code></pre>
+<h2>Přidání zdrojů software z CD/DVD</h2>
+<pre><code># pkgadd -d /mnt/Solaris_10/Product/ SUNWdoc - Documentation Tools (program man)  
+# pkgadd -d /mnt/Solaris_10/Product/ SUNWarc - Lint Libraries (usr)  
+# pkgadd -d /mnt/Solaris_10/Product/ SUNWhea - SunOS Header Files  
+# pkgadd -d /mnt/Solaris_10/Product/ SUNWtoo - Programming Tools
+</code></pre>
+<h2>Přidání zdroje OpenSource programů</h2>
+<pre><code># pkgadd -d http://www.blastwave.org/pkg_get.pkg
+</code></pre>
+<h2>Změna zdrojů z unstable na stable</h2>
+<pre><code># vi /opt/csw/etc/pkg-get.conf
+</code></pre>
+<h2>Instalace balíčků</h2>
+<p>Obecné<br />
+
+</p>
+<pre><code>|pkg-get -i wget  
+pkg-get -i bash  
+pkg-get -i vim  
+pkg-get -i ssh  
+pkg-get -i ssl|
+</code></pre><p>Potřebné pro kompilaci<br />
+
+</p>
+<pre><code>pkg-get -i gcc4core  
+pkg-get -i gmake  
+pkg-get -i libtool  
+pkg-get -i pkgconfig
+</code></pre>
+<h2>Sun Crypto Accelerator 6000 PCIe Card</h2>
+<p>Karta SCA 6000 je primárně určena jako kryptografický akcelerátor. Možné použití je například pro urychlení HTTPS provozu, kde práci s certifikáty přebírá karta a matematické výpočty potřebné pro ověřování a šifrování zabezpečeného provozu jsou přesunuty na externí kartu a nezatěžují hlavní procesor. Další výhodou je bezpečnost certifikátu. Ve chvíli, kdy dojde ke kompromitaci serveru, není možné získat soukromou část certifikátu a např. přesměrovat provoz na jiný server a útočník není schopný podvrhnout identitu serveru -- samozřejmě je zapotřebí dostatečně rychle zjistit, že došlo ke kompromitaci serveru.
+</p>
+<p>Pro účely DNSSEC budeme využívat obě výhody této karty. Pro podepisování zóny se dnes používá algoritmus RSASHA1. Karta SCA6000 je schopná podepsat 15000 RSA 1024b signatur za sekundu. Vzhledem k velikosti zónového souboru (počet domén v zóně .cz je skoro 450 tisíc) je zrychlení, které tato karta umožňuje již velmi výrazné. (Pozn.: Do celkového času na podepsání zóny je zapotřebí započítat i další faktory jako je setřídění zónového souboru, výpočet SHA1 hašů atd.) Také je samozřejmě zapotřebí zajistit, aby v případě napadnutí server nebyl útočník schopen zcizit privátní část DNSSEC klíče.
+</p>
+<p><div class="md-center"><a href="http://www.sun.com/products/networking/sslaccel/suncryptoaccel6000/index.xml"><img src="/files/nic/img/l0v3_crypto-accelerator-6k_ovrvw.jpg" alt="Cryptographic Acceleration with PCI-Express Performance"/></a></div>
+</p>
+<p>Další informace o kartě a její dokumentaci nalezneme na stránkách výrobce: <a href="http://docs.sun.com/app/docs/coll/crypto-accel6000-1.1">Dokumentace SCA6000</a>
+</p>
+
+<h3>Instalace</h3>
+<p>Nejprve je potřeba stáhnout ovladače <a href="http://www.sun.com/download/index.jsp?cat=Security&amp;tab=3&amp;subcat=Cryptography%20%26%20Encryption:Crypto">Accelerator 6000 1.1 General Availability</a><br />
+
+</p>
+<pre><code># mkdir sun_crypto_acc_6000_1_1  
+# cd sun_crypto_acc_6000_1_1  
+# unzip_crypto_acc_6000_1_1_solaris  
+# ./install
+</code></pre>
+<h3>Inicializace</h3>
+<p>Spuštění <strong>scamgr</strong> Více informací k inicializaci karty lze nalézt v dokumentaci.<br />
+
+</p>
+
+<h2>Použití s PKCS11</h2>
+<p>SCA6000 karta je zaregistrována v Kryptografickém frameworku systému Solaris jako hardwarový poskytovatel. Kryptografický framework systému Solaris poskytuje sdílenou PKCS#11 knihovnu, přes kterou je možné na SCA6000 kartu přistupovat. Standardní místo této knihovny na systému Solaris SPARC je v /usr/lib/ pro 32-bitovou architekturu a /usr/lib/sparcv9/ pro 64-bitovou architekturu.
+</p>
+<p>Nástroj scamgr váš při prvním spuštění požádá o vytvoření účtu pro bezpečnostního správce klíčenky (Keystore Security Office - KSO). Tento bezpečnostní správce klíčenky nemá nic společného s bezpečnostním správcem PKCS#11 a nemůže se vůči kartě autentizovat přes PKCS#11 rozhraní.
+</p>
+<p>V průběhu inicializace klíčenky budete také požádáni o název klíčenky. Tento název klíčenky je použit jako popis slotu (slot description) a název tokenu (token label) pro slot klíčenky.
+</p>
+<p>Bezpečnostní správce klíčenky může po inicializaci klíčenky vytvořit jednoho nebo více uživatelů pomocí nástroje scamgr. Uživatelé vytvoření bezpečnostním správcem klíčenky se můžou autentizovat vůči klíčence přes PKCS#11 rozhraní. Protože PKCS#11 bylo navrženo pro jednouživatelský systém, funkce C_Login nemá parametr uživatelské jméno. Pro odlišení uživatelů je zapotřebí v parametru PIN použít speciální tvar uživatelské_jméno:heslo. Například pokud je heslo uživatele webserv nastaveno na abc123, tak použitý pin pro PKCS#11 funkci C_Login bude vypadat takto: websrv:abc123.
+</p>
+
+<h2>Vytvoření nové klíčenky</h2>
+<pre><code># scamgr
+Select Keystore:  
+1. Create new keystore  
+2. Load keystore from backup  
+
+Selection (0 to exit)-&gt; 1  
+Non-FIPS Keystore Name: TEST  
+Keystore type ([L]ocal/[C]entralized) [Local]:  
+Initial Security Officer Name: admin01  
+Initial Security Officer Password:  
+Confirm password:  
+
+Keystore creation parameters:  
+----------------------------------------------------------------
+Keystore Name: TEST  
+Keystore Type: Local  
+Initial Security Officer Name: admin01  
+Run in FIPS 140-2 Mode: No  
+----------------------------------------------------------------  
+
+Is this correct? (Y/Yes/N/No) [No]: yes  
+Creating keystore...  
+TEST.601670.{d89f44fd} successfully created.  
+Security Officer Login: admin01  
+Security Officer Password:  
+scamgr{mca0@localhost, admin01}&gt; create user  
+New user name: user1  
+Enter new user password: pass1  
+Confirm password: pass1  
+User test created successfully.  
+
+scamgr{mca0@localhost, admin01}&gt; quit
+</code></pre>
+<h2>Instalace OpenSC</h2>
+<p>Nástroje ldns vyžadují pro kompilaci a správnou funkci některé knihovny z projektu OpenSC. Proto jako předpoklad pro další práci musíme stáhnout, zkompilovat a nainstalovat tyto knihovny ze stránek projektu <a href="http://www.opensc-project.org/opensc/">OpenSC</a>.
+</p>
+<p>Pozn.: Všechny externí instalované aplikace budeme instalovat do /root/apps/. Umístění, které si zvolíte na vašem systému, je čistě na vás. Instalace do /root/apps/ je pouze příklad.
+</p>
+
+<h2>Stáhnutí zdrojových kódů</h2>
+<pre><code># cd /root/apps  
+# wget http://www.opensc-project.org/files/opensc/opensc-0.11.4.tar.gz  
+# gtar xvfz opensc-0.11.4.tar.gz  
+# cd opensc-0.11.4
+</code></pre>
+<h2>Úprava zdrojových kódů</h2>
+<p><strong>Důležité:</strong> Ve funkci static int gen_keypair(...) provest nahradu CK_ATTRIBUTE publicKeyTemplate[20] a CK_ATTRIBUTE privateKeyTemplate[20] Tato záměna umožní použít pkcs11-tool k vygenerování klíču v keystoru na Sun Crypto Accelerator 6000
+</p>
+<pre><code># vim src/tools/pkcs11-tool.c  
+
+        CK_ATTRIBUTE publicKeyTemplate[20] = {  
+                {CKA_CLASS, &amp;pubkey_class, sizeof(pubkey_class)},  
+                {CKA_TOKEN, &amp;_true, sizeof(_true)},  
+                {CKA_ENCRYPT, &amp;_true, sizeof(_true)},  
+                {CKA_VERIFY, &amp;_true, sizeof(_true)},  
+                {CKA_WRAP, &amp;_true, sizeof(_true)},  
+                {CKA_MODULUS_BITS, &amp;modulusBits, sizeof(modulusBits)},  
+                {CKA_PUBLIC_EXPONENT, publicExponent, sizeof(publicExponent)}  
+        };  
+        int n_pubkey_attr = 7;  
+        CK_ATTRIBUTE privateKeyTemplate[20] = {  
+                {CKA_CLASS, &amp;privkey_class, sizeof(privkey_class)},  
+                {CKA_TOKEN, &amp;_true, sizeof(_true)},  
+                {CKA_PRIVATE, &amp;_true, sizeof(_true)},  
+                {CKA_SENSITIVE, &amp;_true, sizeof(_true)},  
+                {CKA_DECRYPT, &amp;_true, sizeof(_true)},  
+                {CKA_SIGN, &amp;_true, sizeof(_true)},  
+                {CKA_UNWRAP, &amp;_true, sizeof(_true)}  
+        };  
+        int n_privkey_attr = 7;
+</code></pre>
+<h2>Kompilace a instalace</h2>
+<p>Pozn.: Pro kompilaci většiny zdrojových kódů open source projektů je lepší použít GNU Make -- tedy místo příkazu make použít příkaz gmake.
+</p>
+<pre><code># ./configure  
+# gmake  
+# gmake install
+</code></pre>
+<h2>Použití</h2>
+<p>Pro podepisování zóny budeme potřebovat nejméně jeden RSA klíč vytvořený na kartě. V následujících příkladech si ukážeme základy používání PKCS#11.
+</p>
+
+<h3>Výpis slotů</h3>
+<p>Příkazem <em>--list-slots</em> je možné si vypsat všechny sloty na kartě. Teoreticky je možné kartu používat pro více účelů (např. v jednom slotu mít klíče pro podepisování zóny pomocí DNSSEC, ve druhém certifikáty pro provoz HTTPS serveru a ve třetím kvalifikovaný certifikát elektronické značky pro podpis emailových zpráv), prakticky je lépe mít tyto služby odděleně.
+</p>
+<pre><code># pkcs11-tool --module /usr/lib/libpkcs11.so --list-slots  
+Available slots:  
+Slot 0           Sun Metaslot  
+  token label:   Sun Metaslot  
+  token manuf:   Sun Microsystems, Inc.  
+  token model:   1.0  
+  token flags:   rng, login required, PIN initialized, token initialized, other flags=0x80200  
+  serial num  :  
+Slot 1           TEST  
+  token label:   TEST  
+  token manuf:   SUNWmca  
+  token model:   sca6000  
+  token flags:   rng, login required, PIN initialized, token initialized, other flags=0x400000  
+  serial num  :
+</code></pre>
+<h3>Vygenerování klíče do nového keystore</h3>
+<p>Abychom mohli podepisovat zóny je zapotřebí vytvořit nový klíč. Následujícím příkaze vytvoříme ve slotu 1 RSA klíč o délce 1024 bitů, který bude mít ID 1 a název TEST_KEY. ID nebo název klíče je možné použít pro další identifikaci.
+</p>
+<pre><code># pkcs11-tool --module /usr/lib/libpkcs11.so --login --keypairgen --key-type rsa:1024 --id 1 --label TEST_KEY --slot 1  
+Key pair generated:  
+Private Key Object; RSA  
+  label:      TEST_KEY  
+  ID:         01  
+  Usage:      decrypt, sign, unwrap  
+Public Key Object; RSA 1024 bits  
+  label:      TEST_KEY  
+  ID:         01  
+  Usage:      encrypt, verify, wrap
+</code></pre>
+<h3>Výpis objektů ve slotu</h3>
+<pre><code># pkcs11-tool --module /usr/lib/libpkcs11.so --login  --slot 1 --list-objects  
+Please enter User PIN:  
+Public Key Object; RSA 1024 bits  
+  label:      TEST_KEY  
+  ID:         01  
+  Usage:      encrypt, verify, wrap  
+Private Key Object; RSA  
+  label:      TEST_KEY  
+  ID:         01  
+  Usage:      decrypt, sign, unwrap
+</code></pre>
+<h3>Instalace PKCS11 Engine</h3>
+<p>Pro použití karty v OpenSSL je nutné nainstalovat engine <a href="http://www.opensc-project.org/engine_pkcs11/">PKCS#11</a> pro OpenSSL. Tento přídavný modul (engine) je následně možné použít pro práci s některými funkcemi OpenSSL (především pak EVP funkce).
+</p>
+
+<h2>Instalace</h2>
+<pre><code># cd /root/apps  
+# wget http://www.opensc-project.org/files/engine_pkcs11/engine_pkcs11-0.1.4.tar.gz  
+# wget http://www.opensc-project.org/files/libp11/libp11-0.2.3.tar.gz  
+# gtar xvfz libp11-0.2.3.tar.gz  
+# cd libp11-0.2.3  
+# ./configure --with-openssl=/opt/csw --with-ltdl-prefix=/opt/csw  
+# gmake  
+
+# cd ..  
+# gtar xvfz engine_pkcs11-0.1.4.tar.gz  
+# cd engine_pkcs11-0.1.4  
+# export LIBP11_LIBS="-L/root/apps/libp11-0.2.3/src/.libs/ -lp11"  
+# export LIBP11_CFLAGS="-I/root/apps/libp11-0.2.3/src"  
+# ./configure --with-ssl=/opt/csw  
+# gmake  
+# gmake install
+</code></pre>
+<h2>Použití</h2>
+<p>Více viz. <a href="http://www.opensc-project.org/engine_pkcs11/wiki/QuickStart">http://www.opensc-project.org/engine_pkcs11/wiki/QuickStart</a>
+</p>
+<p><strong>Důležité:</strong> V příkladu na stránkách projektu OpenSC se předpokládá použítí na Linuxu a použití PKCS#11 knihovny libp11. Na systému Solaris 10 bude místo knihovny <em>/usr/lib/opensc-pkcs11.so</em> použita standardní systémová knihovna <em>/usr/lib/libpkcs11.so.</em>
+</p>
+
+<h3>Vytvoření konfiguračního souboru</h3>
+<p>Abychom nemuseli vypisovat všechny parametry pokaždé ručně, je možné vytvořit pro OpenSSL konfigurační soubor. Tento konfigurační soubor je také zapotřebí ve chvíli, kdy je knihovna OpenSSL používána dalšími aplikacemi, které nutně nemusí mít možnost předávat OpenSSL všechny potřebné parametry pro použití PKCS#11 knihovny.
+</p>
+<pre><code>/root/apps/openssl.cnf  
+
+openssl_conf = openssl_def  
+
+[openssl_def]  
+engines = engine_section  
+
+[engine_section]  
+pkcs11 = pkcs11_section  
+
+[pkcs11_section]  
+engine_id = pkcs11  
+dynamic_path = /root/apps/engine_pkcs11-0.1.4/src/.libs/engine_pkcs11.so'  
+MODULE_PATH = /usr/lib/libpkcs11.so  
+#PIN =  
+
+[req]  
+distinguished_name = req_distinguished_name  
+
+[req_distinguished_name]
+</code></pre>
+<h3>Příklad vygenerování žádosti certifikátu</h3>
+<p>Pozn.: Tento příklad je zde pouze pro ukázku použití PKCS#11 knihovny v OpenSSL a pro samotnou funkci podepisování zónového souboru není zapotřebí.
+</p>
+<pre><code> # openssl req -config /root/apps/openssl.cnf -engine pkcs11 -new -key slot_1-id_1 -keyform engine -out req.pem -text -x509 -subj "/CN=TEST"  
+engine "pkcs11" set.  
+PKCS#11 token PIN:
+</code></pre>
+<h3>Příklad podepsání žádosti certifikátu</h3>
+<p>Pozn.: Tento příklad je zde pouze pro ukázku použití PKCS#11 knihovny v OpenSSL a pro samotnou funkci podepisování zónového souboru není zapotřebí.
+</p>
+<p>Pozn.: x509 nemá konfigurační volbu "-config", takže musíme změnit standardní openssl.cnf soubor:
+</p>
+<pre><code># cp /opt/csw/ssl/openssl.cnf /opt/csw/ssl/openssl.cnf.orig  
+# cp /root/apps/openssl.cnf /opt/csw/ssl/openssl.cnf  
+
+# openssl x509 -engine pkcs11 -signkey slot_1-id_1 -keyform engine -in req.pem -out cert.pem  
+engine "pkcs11" set.  
+PKCS#11 token PIN:
+</code></pre>
+<h2>Instalace ldns</h2>
+<p>Pro podepisování použijeme nástroje obsažené v balíku <a href="http://www.nlnetlabs.nl/projects/ldns/">ldns</a>. ldns je sada nástrojů pro práci se zónovými soubory, DNS a DNSSECem (od verze 1.3.0 včetně NSEC3).
+</p>
+
+<h2>Instalace</h2>
+
+<h2>Instalace sdílených knihoven</h2>
+<pre><code># cd /root/apps  
+# wget [http://www.nlnetlabs.nl/downloads/ldns-1.3.0.tar.gz](http://www.nlnetlabs.nl/downloads/ldns-1.3.0.tar.gz)  
+# gtar xvfz ldns-1.3.0.tar.gz  
+# cd ldns-1.3.0 # ./configure --with-ssl=/opt/csw  
+# gmake  
+# gmake install }}}
+</code></pre>
+<h3>Instalace nástrojů</h3>
+<p>Pozn.: Nezalekněte se adresáře examples/. Ve skutečnosti jsou tyto nástroje použitelné pro naše potřeby.
+</p>
+<pre><code># cd /root/apps/ldns-1.3.0/examples  
+# ./configure --with-ssl=/opt/csw --with-ldns=/opt/csw  
+# gmake  
+# gmake install
+</code></pre>
+<h3>Instalace nástroje drill</h3>
+<p>Nástroj drill není pro samotné podepisování zóny potřebný, nicméně je velmi dobře použitelný pro ověřování DNSSECu a jako alternativa k dnes již klasickému nástroji
+</p>
+<pre><code>dig}} pocházejícího z dílen ISC (je součástí zdrojových kódu DNS serveru Bind 9).  
+
+{{{  
+# cd cd /root/apps/ldns-1.3.0/drill/  
+# ./configure --with-ssl=/opt/csw --with-ldns=/opt/csw  
+# gmake  
+# gmake install  
+# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/csw/lib ./drill
+</code></pre>
+<h2>Použití</h2>
+<p>Podrobněji se použítím HSM zabývá dokument <a href="/files/nic/doc/hsm.pdf">An introduction to the use of HSM</a>, pro potřeby podepsání zónového souboru bude stačit pouze příklad použítí nástoje ldns-signzone. Parametr -o určuje tzv. Origin zónového souboru, tzn. o jakou doménu se jedná, v našem příkladě podepisujeme zónový soubor domény dnssec.cz. Parametrem -E říkáme, že použijeme engine pkcs11 (viz. konfigurační soubor OpenSSL). Parametr -k pak obsahuje identifikaci RSA klíče: 'Slot 1, Id 1' a použitý algoritmus. Nástroj ldns-signzone nemá přes OpenSSL rozhraní možnost poznat o jaký druh algoritmu klíče se jedná. Číslo 5 je pak identifikací algoritmu RSASHA1.
+</p>
+<pre><code># OPENSSL_CONF=/root/apps/openssl.cnf ldns-signzone -o dnssec.cz -E pkcs11 -k slot_1-id_1,5 db.dnssec.cz  
+[XX] Reading zone file  
+Derived DNSKEY RR:  
+cz.     3600    IN      DNSKEY  256 3 5  
+AQOthtHfujfroH3xFkYVSOjmLcfiXxLMt2HkvEMKCp5x+7xzWQhCZHZQ2+7BsZxIIuqKXEUMuPbN  
+x8l7ncqmnqgDpOOQwtS55ERE0U4rgQdwJTEm03VbncCqcvbaxylm/pgW5mmP2T4+7NaAXdfz3e  
+/4n13vBG8lpZPrTMjsEGzOfQ== ;{id = 25334 (zsk), size = 1024b}  
+#
+</code></pre><p>Výsledná podepsaná zóna bude v souboru db.dnssec.cz.signed. Gratulujeme. Pokud jste se dostali až sem, tak jste podepsali svou první zónu pomocí HSM. (Pozn. úplně na konec. Pro experimenty s PKCS#11 není nutně zapotřebí hardwarová karta. PKCS#11 rozhraní přistupující k souborům na disku poskytuje projekt opencryptoki, který je možné provozovat na Linuxu.) 
+</p></div>
+            </div>
+        </div> <!-- page main -->
+
+
+
+
+    
+
+   <div class="cleaner" id="break"></div> <!-- base_support -->
+
+        </div> <!-- page -->
+    </div> <!-- wrap -->
+
+        
+    <!-- footer -->
+    <div id="footer" role="contentinfo">
+    <div class="wrap">
+        <p id="copyright">&copy; 2013 CZ.NIC, z. s. p. o.</p>
+        <p id="footer-navigation-heading">Ostatní weby:</p>
+    <ul id="footer-navigation">
+    <!-- site nic -->
+        
+        <li><a href="http://www.mojeid.cz/" title="mojeID">mojeID</a></li>
+        <li><a href="http://fred.nic.cz" title="Free Registry for ENUM and Domains">FRED</a></li>
+        <li><a href="http://www.nic.cz/dnssec/" title="DNSSEC">DNSSEC</a></li>
+        <li><a href="http://www.nic.cz/csirt/" title="CZ.NIC-CSIRT">CZ.NIC-CSIRT</a></li>
+        <li><a href="http://csirt.cz/" title="CSIRT">CSIRT.CZ</a></li>
+        
+           <li><a href="http://labs.nic.cz/" title="Laboratoře">Laboratoře</a></li>
+        
+        <li><a href="http://www.nic.cz/akademie/" title="Akademie">Akademie</a></li>
+        <li><a href="http://knihy.nic.cz/" title="Edice CZ.NIC">Edice CZ.NIC</a></li>
+        <li><a href="/page/357/"  title="Kontakt">Kontakt</a></li>
+    </ul>
+    <div id="footer-link-up"><a href="#content">Nahoru</a>
+    </div>
+    <div class="cleaner"></div>
+  </div><!-- .wrap -->
+</div><!-- #footer -->
+<p id="links"></p>
+
+
+        
+    </div>
+
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        _uacct = "UA-439372-1";
+        urchinTracker();
+    </script>
+
+
+
+
+    </body>
+
+</html>

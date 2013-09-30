@@ -1,0 +1,259 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <title>gnuplot development</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="hands and eyes">
+   <link text="text/css" href="../gnuplot.css" rel="stylesheet">
+</head>
+<body>
+
+<h1>Ongoing development of gnuplot</h1>
+
+The development version of gnuplot is currently 4.5.
+Development versions contain bugfixes and many
+<a href="http://gnuplot.sourceforge.net/demo_cvs">new cool features</a>.
+Development versions are not "officially" supported, but you can get help and
+participate at the mailing list mentioned below.
+
+Why can these development versions be of your interest? Because they may have
+fixed a bug you are crazy about, or implemented a feature you desperately need
+(well, that's how gnuplot development works!). See 
+<a href="http://cvs.sourceforge.net/viewcvs.py/gnuplot/gnuplot/ChangeLog?view=auto">ChangeLog</a>
+for the latest contributions to the gnuplot code.
+Online browsing of sources is available via
+<a href="http://sourceforge.net/cvs/?group_id=2055">cvs</a>; for a complete
+download, see below.
+
+
+<p />
+Important note: Please read docs and FAQ and run demos to see how the new version
+works.
+
+
+<b>Table of contents</b>
+<ul>
+<li>
+    <a href="#BetaMailingLists">Mailing list for gnuplot development</a>
+</li>
+<li>
+    <a href="#DownloadCVS">Instructions for downloading sources from CVS</a>
+</li>
+<li>
+    <a href="#BuildingFromCVS">Minimal instructions for building from CVS sources</a>
+    <br>
+    (compiling on unixes, on OS/2 and Windows, etc.)
+</li>
+<li>
+    <a href="ethans_instructions.html">More instructions for patching and building</a>
+</li>
+<li>
+    <a href="sample_osx_installation.html">Contributed example of building from CVS under OSX</a>
+</li>
+<li>
+    Compiled <b><a href="#PrelimBinaries">testing binaries
+    for DOS, OS/2 and Windows</a></b>, and a source code tarball snapshot
+</li>
+</ul>
+
+<b>Corresponding links</b>
+<ul>
+<li>
+    <b><a href="http://www.sourceforge.net/projects/gnuplot">Gnuplot development project on SourceForge</a></b>
+</li>
+<li>
+    <a href="http://sourceforge.net/cvs/?group_id=2055">CVS repository</a> on SourceForge
+</li>
+<li>
+    <b><a href="http://sourceforge.net/tracker/?group_id=2055&atid=302055">Patches</a> contributions</b>
+</li>
+<li>
+    <b><a href="http://sourceforge.net/tracker/?group_id=2055&atid=102055">Bugs</a> reporting section</b>
+</li>
+<li>
+    CVS version <a href="http://gnuplot.sourceforge.net/demo_cvs">demo gallery</a>
+    and <a href="http://gnuplot.sourceforge.net/docs_cvs/gnuplot.pdf">documentation</a> (not fully up-to-date).
+</li>
+</ul>
+
+
+<p /> &nbsp; <p />
+<hr>
+<p /> &nbsp; <p />
+
+
+<a name="BetaMailingLists">
+<h2>Mailing lists for gnuplot development</h2>
+</a>
+
+<p>
+You are welcome to participate in the gnuplot development.
+Join the developers mailing list <b>gnuplot-beta@lists.sourceforge.net</b> with its
+archives at
+<ul>
+    <li>
+	<a href="http://news.gmane.org/gmane.comp.graphics.gnuplot.devel">gmane groups</a>, 
+	August 2003 &#150; today
+    </li>
+    <li>
+	<a href="http://www.nabble.com/Gnuplot-f1920.html">nabble forums</a>, 
+	from ? till today
+    </li>
+    <li>
+	<a href="http://groups.yahoo.com/group/info-gnuplot-beta/">yahoo groups</a>
+	January 1997 &#150; July 2001
+    </li>
+</ul>
+or use the <a href="http://www.sourceforge.net/projects/gnuplot/">Patches</a>
+section at SourceForge if you have a contribution.
+
+
+
+
+<a name="DownloadCVS">
+<h2>Downloading sources from the CVS repository</h2>
+</a>
+
+Up-to-date source code of gnuplot (development version of gnuplot, series 4.3)
+resides at
+<a href="http://www.sourceforge.net/projects/gnuplot/">SourceForge group gnuplot (group_id=2055)</a>.
+Download of sources requires program cvs (not ftp!), which is available for every platform.
+Execute the following commands:
+<pre>
+  cvs -d:pserver:anonymous@gnuplot.cvs.sourceforge.net:/cvsroot/gnuplot login
+  cvs -z3 -d:pserver:anonymous@gnuplot.cvs.sourceforge.net:/cvsroot/gnuplot co -P gnuplot
+</pre>
+or in bash
+<pre>
+  export CVSROOT=:pserver:anonymous@gnuplot.cvs.sourceforge.net:/cvsroot/gnuplot
+  cvs login
+  cvs -z3 checkout gnuplot
+</pre>
+Note: hit Enter when asked for a password.
+
+
+
+<a name="BuildingFromCVS">
+<h2>Building from CVS</h2>
+</a>
+
+
+<h3>Compiling the development version of gnuplot on unixes</h3>
+
+Compiling can be done from inside the gnuplot source directory by the
+following commands:
+<br>
+<br>
+A. You are not root, and you wish your single-user installation goes to
+  <tt>$HOME/usr</tt>
+  (thus the executable will be <tt>$HOME/usr/bin/gnuplot</tt>, etc.):
+<pre>
+  ./prepare
+  # Run configure, with any option(s) you like:
+  ./configure --prefix=$HOME/usr --with-readline=gnu
+	or
+  ./configure --prefix=$HOME/usr
+  # Now make:
+  make
+  # Now "make install", or "make install-strip" (no debugging symbols)
+  make install-strip
+</pre>
+B. You can become root: install gnuplot to <tt>/usr/local</tt>
+  (thus the executable will be <tt>/usr/local/bin/gnuplot</tt>, etc.):
+<pre>
+  ./prepare
+  # Run configure, with any option(s) you like:
+  ./configure --with-readline=gnu
+	or
+  ./configure
+  # Now make:
+  make
+  # Now "make install", or "make install-strip" (no debugging symbols)
+  make install-strip
+</pre>
+
+<p />
+
+<i>Notes:</i>
+<ol>
+<li>The full list of options for <tt>./configure</tt> can be listed by
+<tt>./configure --help</tt>.
+</li>
+
+<li>With the <tt>--with-readline=gnu</tt> you build gnuplot with GNU readline:
+you get autocompletition of filenames via Tab key, Ctrl-R searching functionality, etc.
+</li>
+
+<li>Command <tt>./prepare</tt> creates configuration scripts. It may require some
+decently new version of automake, autoconf and other tools. This step is not needed
+for oficially released gnuplot.
+</li>
+
+<li>Single-user installations may require presence of directories
+<tt>$HOME/usr/bin, $HOME/usr/lib, $HOME/usr/man, $HOME/usr/info</tt>, and
+<tt>$HOME/usr/share</tt>. You should have <tt>$HOME/usr/bin</tt> listed in your
+PATH first, e.g. in your <tt>$HOME/.profile</tt> you need
+<pre>
+  PATH=$HOME/bin:$HOME/usr/bin:$PATH
+</pre>
+</li>
+</ol>
+
+
+<p />
+Hint: You can install gnuplot through rpm package system by
+<pre>
+  checkinstall make install-strip
+</pre>
+...it requires package
+    <a href="http://freshmeat.net/projects/checkinstall/">checkinstall</a>,
+which may be a part of your Linux distribution. This way you can easily
+deinstall this new gnuplot any later.
+
+
+<p>
+<h3>Compiling the development version of gnuplot on other operating systems</h3>
+
+Firstly, read <tt>INSTALL</tt> for instructions.
+Then use the prepared <tt>Makefile.*</tt> in directory <tt>gnuplot/config</tt>.
+Actively maintained are Makefile.os2 for OS/2,
+Makefile.cyg, Makefile.mgw and Makefile.nt for Windows, and probably 
+some others; you are welcome to contribute for your operating systems and compilers).
+Usually, what you want to do is to edit the particular <tt>config/Makefile.xxx</tt>
+and then execute <tt>make -f ../config/Makefile.xxx</tt> from the <tt>src/</tt>
+directory.
+
+
+<a name="PrelimBinaries">
+<h2>Compiled testing binaries and source code snapshots</h2>
+</a>
+
+The development version of gnuplot is available as source via cvs.
+We also provide scripts for configuring and compiling.
+Occasionally someone contributes a pre-compiled snapshot of the development
+tree for testing.
+<b><a href="binaries/">testing binaries for few systems such as DOS, OS/2 and Windows</a></b>
+These are <b><i>not</i></b> kept up-to-date.
+<p />
+
+
+<b>Important notice:</b> These binaries are *always* older than the current
+development sources. If you notice any problem, please get and recompile
+up-to-date gnuplot yourself, and don't report bugs found in obsolete
+binaries unless you proof the problem is still present and has not been fixed
+in the meantime.
+
+<! what about this: "ftp://ftp.gnuplot.info/pub/gnuplot/testing/" >
+
+
+<p />
+
+<hr>
+<a href="../index.html">Go back</a> to gnuplot homepage.
+<hr>
+
+<font size="-1">Last change: November 2011</font>
+
+
+</body>
+</html>

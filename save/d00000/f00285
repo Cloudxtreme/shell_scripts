@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "https://www.w3.org/TR/xhtml/DTD/xhtml-transitional.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Abuse.net: Using abuse.net from programs</title>
+  <link href="abusenet.css" media="all" rel="Stylesheet" type="text/css" />
+</head>
+<body>
+<div style="margin-top:5px;">
+<p>&nbsp;</p>
+</div>
+<div id="container">
+   <div>
+    <div style="float:left;width:500px;text-align:center;">
+      <a href="index.phtml"><img src="img/naclogowide.gif" border="0" alt="logo" /></a>
+    </div>
+
+ <div id="contact_us" style="float:right;">
+   <form action="lookup.phtml" method="get">
+Contact lookup: <input type="text" name="domain" size="20" maxlength="80" />
+<input type="submit" value="Go" />
+</form>
+ </div>
+ <div class="clear_both">&nbsp;</div>
+ </div>
+<div style="margin-top:5px;">
+<p>&nbsp;</p>
+</div>
+
+<!-- begin nav section --> 
+    <div class="premenu" >
+        <div class='menu'>
+          <a href="tools.phtml">Resources</a>
+        </div>
+        <div class="filler">&nbsp;</div>
+        <div class='menu'>
+          <a href="using.phtml">Developers</a>
+        </div>
+        <div class="filler">&nbsp;</div>
+        <div class='menu'>
+          <a href="addnew.phtml">Managers</a>
+        </div>
+        <div class="filler">&nbsp;</div>
+        <div class='menu'>
+          <a href="users.phtml">Users</a>
+        </div>
+    </div>
+    <div class="clear_both">&nbsp;</div>
+<!-- end menu tab-->
+<!-- end nav section -->
+<div id="bottom">
+
+<!-- end chunk TOP -->
+<!-- chunk COLTOP -->
+  <div class="column">
+    <div class="orange_text">
+      The fine print
+    </div>
+
+    <div class="copy_text">	
+
+<!-- end chunk COLTOP -->
+
+You are welcome to look up contact data from abuse.net in abuse analysis
+tools that you write or distribute, if you satisify a few simple conditions:
+<ul>
+<li>The primary support contact you advertise must be the tool's author
+or vendor, not abuse.net.
+The vast majority of reports we get about misrouted mail sent by automated
+tools are due to bugs in the tools rather than erroneous abuse.net listings.</li>
+<li>Automatic reports must <i>only</i> be sent based on
+the IP address or validated rDNS of the host from which the material in
+question arrived at the user's network.</li>
+
+<li>Reports based on anything else must be presented to the user first for
+verification, because it is extremely common for tools to misdiagnose
+addresses from internal mail headers, forged return addresses, and the like.
+Misrouted reports will just make system managers automatically discard
+all reports your tool sends.
+(It's happened before, many times.)</li>
+</ul>
+
+<br /><br />
+If you wish to use abuse.net in a product or service offered for sale, you
+<i>must</i> contact us first to make arrangements.
+Examples might include spam filters that look up contact addresses
+at abuse.net to send complaints, or a certification service that requires
+that clients register with abuse.net.
+
+<!-- chunk COLBOTTOM -->
+    </div>
+  </div><!-- end column -->
+
+<!-- end chunk COLBOTTOM -->
+<!-- chunk COLLINE -->
+  <img src="img/vertical_line.gif" alt="line" class="vertical_line" />
+
+<!-- end chunk COLLINE -->
+<!-- chunk WIDECOLTOP -->
+  <div class="body_column">
+    <div class="orange_text">
+      Using abuse.net from programs
+    </div>
+
+    <div class="copy_text">	
+
+<!-- end chunk WIDECOLTOP -->
+
+Programs that analyze spam can use abuse.net to find addresses to which
+to send reports, so long as they follow the rules described in the left
+column.
+
+<h2>DNS lookup</h2>
+
+The fastest and easiest way to look up abuse.net contact information is
+to use our DNS servers.  If you want the contacts for <tt>example.com</tt>,
+look up the pseudo-domain
+ <blockquote><tt>example.com.contacts.abuse.net</tt></blockquote>
+
+Each TXT record returned will be one of the contacts.
+To check if you've gotten all of the contacts, you can also search for an
+A record which will tell you how many TXT records there should be (0.0.0.1
+for the most common case of one record.)
+<br /><br />
+It also returns an HINFO record describing the source of the data.
+HINFO results include two strings.  The first will be <tt>default</tt>
+or <tt>lookup</tt>, depending on whether it found info for the domain
+or not.
+If it's <tt>lookup</tt>, the second string will be the domain for which
+the lookup info was retrieved, which may not be exactly the same as the
+domain you looked up.
+(For example, if you look up <tt>www.abuse.net</tt> it will return
+the lookup results for <tt>abuse.net</tt>.)
+There may be more more codes for different kinds of lookups in the future,
+but default will always be default.
+If you don't need to know where abuse.net got the result, you can
+ignore the HINFO record.
+<br /><br />
+Be sure to direct the lookups to your local DNS cache servers, not to
+abuse.net's server, so the cache can remember recent searches and reuse
+results.
+The standard DNS "time to live" feature ensures that the cache will
+not return stale results.
+
+<br /><br />
+This snippet of perl code will do the lookup and return an array
+containing the contact addresses:
+<pre>
+# look up contacts from abuse.net
+use Net::DNS;
+sub ablookup {
+    my ($domain) = @_;
+    my ($res, $query, @r);
+
+    $res = new Net::DNS::Resolver;
+    while(1) {
+	$query = $res->search("$domain.contacts.abuse.net", "TXT");
+	if ($query) {
+	    my $rr;
+
+	    foreach $rr ($query->answer) {
+		push @r, $rr->txtdata if $rr->type eq "TXT";
+	    }
+	    return @r;
+	} else { # Net::DNS rejects special characters, strip off
+		 # subdomains and see if a parent domain works
+	    if($domain =~ m{^[^.]+\.([^.]+\..+)}) {
+		$domain = $1;
+	    } else {
+		die "Cannot lookup contacts for $domain";
+	    }
+	}
+    }
+}
+</pre>
+
+<h2>WHOIS lookup</h2>
+
+We still support the older WHOIS server, although it is considerably slower
+than the new DNS server.
+At some point the WHOIS service will go away, so all new and updated
+software should use the DNS technique described above.
+<br /><br />
+To use WHOIS, open a TCP/IP socket to port 43 on <tt>whois.abuse.net</tt>,
+and send the name of the domain you want to look up, followed by a
+carriage return and line feed.
+If you want to look up several domains at once, send them on one line separated
+by spaces.
+Then read the results back from that socket.
+The results will contain one address per line, then a blank line, and the
+server will disconnect.
+The result lines will usually have a parenthetical comment that you'll need
+to remove before using the addresses.
+<pre>
+abuse@aol.com (for aol.com)
+</pre>
+
+<h2>Other techniques</h2>
+
+We don't make copies of the abuse.net database available to build into
+tools, so don't ask.  It changes daily, and any copy you had would
+instantly be out of date.
+The database is not available via BIND zone transfer; the DNS server is
+not BIND or anything like it, and there is no zone file.
+<br /><br />
+Very heavy users (over 100,000 queries per month) may be able to set up
+a local mirror of the underlying MySQL database.
+If we notice that you're such a user, we'll contact you.
+
+<!-- chunk WIDECOLBOTTOM -->
+    </div>
+  </div><!-- end column -->
+
+<!-- end chunk WIDECOLBOTTOM -->
+<!-- chunk BOTTOM -->
+ <div id="bottom_bar">
+    <img src="img/bottom_horizontal.jpg" alt="bar" border="0" />
+  </div>
+  <div id="footer">
+&copy; 2008-2012 Network Abuse Clearinghouse. <i>Updated May 16, 2008.</i>
+ </div>
+</div><div id="bottom_round">&nbsp;</div>
+
+<div class="clear_left">&nbsp;</div> 
+</div><!-- end container -->
+
+<!-- end chunk BOTTOM -->
+<!-- chunk FOOT -->
+</body></html>
+<!-- end chunk FOOT -->
+<!-- $Header: /home/rcs/RCS/web/abuse/using.phtml,v 1.9 2008/05/16 06:26:21 johnl Exp $ -->

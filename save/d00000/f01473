@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #47490:
+terminfo if-then-else is buggy, breaking xterm-256color                                                                         
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #47490</h1>
+
+<pre>
+From ejelly@green-jelly.ejelly.net  Tue Jan 22 22:26:02 2013
+Return-Path: &lt;ejelly@green-jelly.ejelly.net&gt;
+Received: from mail.netbsd.org (mail.netbsd.org [149.20.53.66])
+	by www.NetBSD.org (Postfix) with ESMTP id 2DA2963BA5D
+	for &lt;gnats-bugs@gnats.NetBSD.org&gt;; Tue, 22 Jan 2013 22:26:02 +0000 (UTC)
+Message-Id: &lt;20130122222557.7161F71E2A@green-jelly.h.ejelly.net&gt;
+Date: Tue, 22 Jan 2013 23:25:57 +0100 (CET)
+From: Julien Oster &lt;netbsd-pr@pool.julien-oster.de&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Subject: terminfo if-then-else is buggy, breaking xterm-256color
+X-Send-Pr-Version: 3.95
+
+
+<b>&gt;Number:</b>         47490
+<b>&gt;Category:</b>       lib
+<b>&gt;Synopsis:</b>       terminfo if-then-else is buggy, breaking xterm-256color
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       serious
+<b>&gt;Priority:</b>       medium
+<b>&gt;Responsible:</b>    roy
+<b>&gt;State:</b>          closed
+<b>&gt;Class:</b>          sw-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Tue Jan 22 22:30:00 +0000 2013
+<b>&gt;Closed-Date:</b>    Sat May 04 14:46:54 +0000 2013
+<b>&gt;Last-Modified:</b>  Sat May 04 14:46:54 +0000 2013
+<b>&gt;Originator:</b>     Julien Oster
+<b>&gt;Release:</b>        NetBSD 6.0.1
+<b>&gt;Organization:</b>
+
+	
+<b>&gt;Environment:</b>
+
+	
+
+	
+System: NetBSD green-jelly.h.ejelly.net 6.0_RC2 NetBSD 6.0_RC2 (GREEN_JELLY_XEN3_DOM0) #1: Tue Jan 1 21:48:20 CET 2013 ejelly@green-jelly.h.ejelly.net:/usr/obj/sys/arch/amd64/compile/GREEN_JELLY_XEN3_DOM0 amd64
+Architecture: x86_64
+Machine: amd64
+<b>&gt;Description:</b>
+terminfo entries may contain conditionals using the %?, %t,
+%e and %; commands. In NetBSD's libtermcap, the handling of these
+commands is broken.
+
+
+This is especially noticeable when TERM is set to xterm-256color (as
+e.g. the OS X Terminal.app uses as default), which contains
+conditionals in its color capabilities. In this case, output by any
+program that uses colors (including vim and emacs) is broken.
+
+
+The cause is two-fold: First, evaluation of the conditional is
+reversed, causing the then-path to be wrongly chosen when the
+condition evaluates to false and the else-path when it evaluates to
+true. Second, in some cases, the 'e' and ';' characters in the
+respective '%e' and '%;' commands are not overread and instead output
+as part of the terminal sequence, causing it to become garbage.
+
+
+<b>&gt;How-To-Repeat:</b>
+Set TERM to xterm-256color in a compatible terminal (most modern
+xterms or Terminal.app qualify) and run a program that does color
+output, e.g. vim or emacs. Color change sequences are output as
+garbage.
+
+
+<b>&gt;Fix:</b>
+The following patch fixes the problem:
+
+
+diff -ru libterminfo-original/tparm.c libterminfo/tparm.c
+--- libterminfo-original/tparm.c	2013-01-22 22:53:18.000000000 +0100
++++ libterminfo/tparm.c	2013-01-22 22:39:59.000000000 +0100
+@@ -453,21 +453,25 @@
+ 			break;
+ 		case 't': /* then */
+ 			pop(&amp;val, NULL, &amp;stack);
+-			if (val != 0) {
++			if (val == 0) {
+ 				l = 0;
+ 				for (; *str != '\0'; str++) {
+ 					if (*str != '%')
+ 						continue;
+ 					str++;
+-					if (*str == '?')
++					if (*str == '?') {
++						str++;
+ 						l++;
+-					else if (*str == ';') {
++					} else if (*str == ';') {
++						str++;
+ 						if (l &gt; 0)
+ 							l--;
+ 						else
+ 							break;
+-					} else if (*str == 'e' &amp;&amp; l == 0)
++					} else if (*str == 'e' &amp;&amp; l == 0) {
++						str++;
+ 						break;
++					}
+ 				}
+ 			}
+ 			break;
+@@ -477,9 +481,11 @@
+ 				if (*str != '%')
+ 					continue;
+ 				str++;
+-				if (*str == '?')
++				if (*str == '?') {
++					str++;
+ 					l++;
+-				else if (*str == ';') {
++				} else if (*str == ';') {
++					str++;
+ 					if (l &gt; 0)
+ 						l--;
+ 					else
+
+
+<b>&gt;Release-Note:</b>
+
+
+<b>&gt;Audit-Trail:</b>
+
+
+Responsible-Changed-From-To: lib-bug-people-&gt;roy
+Responsible-Changed-By: dholland@NetBSD.org
+Responsible-Changed-When: Wed, 23 Jan 2013 09:42:49 +0000
+Responsible-Changed-Why:
+terminfo guy.
+(if you don't have time to look at this, set it back)
+
+
+
+
+From: &quot;Roy Marples&quot; &lt;roy@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47490 CVS commit: src/lib/libterminfo
+Date: Wed, 23 Jan 2013 13:06:20 +0000
+
+
+ Module Name:	src
+ Committed By:	roy
+ Date:		Wed Jan 23 13:06:19 UTC 2013
+
+ 
+ Modified Files:
+ 	src/lib/libterminfo: tparm.c
+
+ 
+ Log Message:
+ Fix %t logic and don't output any %; or %e parts.
+ Fixes PR lib/47490 thanks to Julien Oster
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.9 -r1.10 src/lib/libterminfo/tparm.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47490 CVS commit: [netbsd-6] src/lib/libterminfo
+Date: Thu, 14 Mar 2013 15:40:58 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Thu Mar 14 15:40:58 UTC 2013
+
+ 
+ Modified Files:
+ 	src/lib/libterminfo [netbsd-6]: tparm.c
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by roy in ticket #834):
+ 	lib/libterminfo/tparm.c: revision 1.10
+ Fix %t logic and don't output any %; or %e parts.
+ Fixes PR lib/47490 thanks to Julien Oster
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.7.4.1 -r1.7.4.2 src/lib/libterminfo/tparm.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+State-Changed-From-To: open-&gt;closed
+State-Changed-By: roy@NetBSD.org
+State-Changed-When: Sat, 04 May 2013 14:46:54 +0000
+State-Changed-Why:
+Fix has been pulled up.
+
+
+
+
+<b>&gt;Unformatted:</b>
+
+ 	
+
+ 	
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

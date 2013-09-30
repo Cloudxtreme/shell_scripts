@@ -1,0 +1,134 @@
+<html>
+<head><title>cryptlib</title></head>
+
+<body background="img/backgrou.gif" bgcolor="#C0C0C0" text="#000000" link="#0066BB" vlink="#000000">
+
+<center><h2><img src="img/t_exampl.gif" alt="Code examples"></h2></center>
+
+<p>
+The best way to illustrate what cryptlib can do is with an example.  The
+following code encrypts a message using a mixture of public-key and 
+conventional encryption.
+</p>
+
+<pre>
+  /* Create an envelope for the message */
+  cryptCreateEnvelope( &cryptEnvelope, cryptUser, CRYPT_FORMAT_SMIME );
+
+  /* Push in the message recipient's name */
+  cryptSetAttributeString( cryptEnvelope, CRYPT_ENVINFO_RECIPIENT,
+                           recipientName, recipientNameLength );
+
+  /* Push in the message data and pop out the signed and encrypted result */
+  cryptPushData( cryptEnvelope, message, messageSize, &bytesIn );
+  cryptFlushData( cryptEnvelope );
+  cryptPopData( cryptEnvelope, encryptedMessage, encryptedSize, &bytesOut );
+
+  /* Clean up */
+  cryptDestroyEnvelope( cryptEnvelope );
+</pre>
+
+<p>
+This performs the same task as a program like PGP, using just 6 function calls
+(to create a PGP/OpenPGP message, just change the CRYPT_FORMAT_SMIME to
+CRYPT_FORMAT_PGP).  All data management is handled automatically by cryptlib,
+so there's no need to worry about encryption modes and algorithms and
+key lengths and key types and initialisation vectors and other details
+(although cryptlib provides the ability to specify all this if you feel the
+need).
+</p>
+<p>
+The code shown above results in cryptlib performing the following actions:
+<ul>
+<li> Generate a random session key for the default encryption algorithm
+(usually triple DES or AES).
+<li> Look up the recipient's public key in the key database.
+<li> Encrypt the session key using the recipients public key.
+<li> Encrypt the signed data with the session key.
+<li> Pass the result back to the user.
+</ul>
+However unless you want to call cryptlib using the low-level interface, you
+never need to know about any of this.  cryptlib will automatically know what to
+do with the data based on the resources you add to the envelope - if you add a
+signature key it will sign the data, if you add an encryption key it will
+encrypt the data, and so on.
+</p>
+
+<p>
+Establishing a secure session using SSL/TLS is similarly easy:</p>
+
+<pre>
+  CRYPT_SESSION cryptSession;
+
+  /* Create the session */
+  cryptCreateSession( &cryptSession, cryptUser, CRYPT_SESSION_SSL );
+
+  /* Add the server name and activate the session */
+  cryptSetAttributeString( cryptSession, CRYPT_SESSINFO_SERVER_NAME, serverName, serverNameLength );
+  cryptSetAttribute( cryptSession, CRYPT_SESSINFO_ACTIVE, 1 );
+</pre>
+
+<p>
+If you prefer SSH to SSL, just change the CRYPT_SESSION_SSL to
+CRYPT_SESSION_SSH and add a user name and password to log on.  As with the
+encryption code example above, cryptlib provides a single unified interface to
+its secure session mechanisms, so you don't have to invest a lot of effort in
+adding special-case handling for different security protocols and
+mechanisms.</p>
+
+<p>
+The corresponding SSL/TLS (or SSH if you prefer) server is:</p>
+
+<pre>
+  CRYPT_SESSION cryptSession;
+
+  /* Create the session */
+  cryptCreateSession( &cryptSession, cryptUser, CRYPT_SESSION_SSL_SERVER );
+
+  /* Add the server key/certificate and activate the session */
+  cryptSetAttribute( cryptSession, CRYPT_SESSINFO_PRIVATEKEY, privateKey );
+  cryptSetAttribute( cryptSession, CRYPT_SESSINFO_ACTIVE, 1 );
+</pre>
+
+<p>
+As with the secure enveloping example, cryptlib is performing a large amount
+of work in the background, but again there's no need to know about this since
+it's all taken care of automatically.</p>
+
+<p>
+The following code illustrates cryptlib's plug-and-play PKI interface:</p>
+
+<pre>
+  CRYPT_SESSION cryptSession;
+
+  /* Create the CMP session and add the server name/address */
+  cryptCreateSession( &cryptSession, cryptUser, CRYPT_SESSION_CMP );
+  cryptSetAttributeString( cryptSession, CRYPT_SESSINFO_SERVER, server, serverLength );
+
+  /* Add the username, password, and smart card */
+  cryptSetAttributeString( cryptSession, CRYPT_SESSINFO_USERNAME, userName, userNameLength );
+  cryptSetAttributeString( cryptSession, CRYPT_SESSINFO_PASSWORD, password, passwordLength );
+  cryptSetAttribute( cryptSession, CRYPT_SESSINFO_CMP_PRIVKEYSET, cryptDevice );
+
+  /* Activate the session */
+  cryptSetAttribute( cryptSession, CRYPT_SESSINFO_ACTIVE, TRUE );
+</pre>
+
+<p>
+This code takes a smart card and generates separate encryption and signing
+keys in it, requests a signature certificate from the CA for the signing key,
+uses that to obtain a certificate for the encryption key, obtains any further
+certificates that may be needed from the CA (for example for S/MIME signing or
+SSL server operation), and stores everything in the smart card.  Compare this
+to the hundreds or even thousands of lines of code required to do the same
+thing using other toolkits.</p>
+
+<p>
+Oh yes, and cryptlib provides the CA-side functionality as well - there's no
+need to pay an expensive commercial CA for your certificates, since cryptlib
+can perform the same function.</p>
+
+</body>
+
+</html>
+

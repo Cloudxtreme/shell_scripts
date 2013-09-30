@@ -1,0 +1,1468 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+	<meta http-equiv="Content-language" content="cs" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Bezpečné DNS - Lupa.cz</title>
+
+<link rel="stylesheet" type="text/css" media="screen,projection" href="http://f.lupa.cz/webtemp/cssloader-f3ca51c3a94a.css?t=1377177152" />
+<link rel="stylesheet" type="text/css" media="print" href="http://f.lupa.cz/webtemp/cssloader-1893d18976e3-common_print.css?t=1377177151" />
+
+	<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" media="screen,projection" href="http://f.lupa.cz/webtemp/cssloader-d018d6b186d6-ie6.css?t=1358257412" />
+ 	<![endif]-->
+	<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" media="screen,projection" href="http://f.lupa.cz/webtemp/cssloader-cd2cf63eb628-ie7.css?t=1358257413" />
+ 	<![endif]-->
+	<!--[if IE 8]>
+<link rel="stylesheet" type="text/css" media="screen,projection" href="http://f.lupa.cz/webtemp/cssloader-b29996c25ee8-ie8.css?t=1358257413" />
+ 	<![endif]-->
+
+	<meta name="description" content="V uplynulém týdnu se konal 45. RIPE meeting. Jedním z témat, která se nedala přehlédnout, bylo bezpečné DNS, čili DNSSEC. Vracelo se k němu několik příspěvků v různých sekcích. Důvodem nepochybně je, že do konce roku by mělo být nasazeno v praxi. Jelikož Lupa se tomuto tématu dosud nevěnovala, je na čase dohnat dluh." />
+	<meta name="copyright" content="Copyright" />
+	<meta name="robots" content="index,follow"  />
+	<meta property="fb:app_id" content='160638763989216' />
+	<meta property="og:site_name" content='Lupa.cz' />
+	<meta property="og:type" content='article' />
+	<meta property="og:image" content='http://i.iinfo.cz/l/logo-fb.png' />
+	<meta property="og:url" content='http://www.lupa.cz/clanky/bezpecne-dns/' />
+	<meta property="og:title" content='Bezpečné DNS - Lupa.cz' />
+	<meta property="og:description" content='V uplynulém týdnu se konal 45. RIPE meeting. Jedním z témat, která se nedala přehlédnout, bylo bezpečné DNS, čili DNSSEC. Vracelo se k němu několik příspěvků v různých sekcích. Důvodem nepochybně je, že do konce roku by mělo být nasazeno v praxi. Jelikož Lupa se tomuto tématu dosud nevěnovala, je na čase dohnat dluh.' />
+	<meta http-equiv="x-xrds-location" content="http://www.lupa.cz/xrds.xml" />
+	<meta name="DC.Identifier" content="(SCHEME=ISSN) 12130702" />
+	<link rel="SHORTCUT ICON" href="http://i.iinfo.cz/l/favicon.ico" type="image/x-icon" />
+		<link rel="alternate" title="Lupa.cz - články" href="/rss/clanky/" type="application/rss+xml" />
+	<link rel="alternate" title="Lupa.cz - diskuse" href="http://forum.lupa.cz/index.php?action=.xml;type=rss2;limit=30;sa=news" type="application/rss+xml"/>
+
+<link rel="stylesheet" type="text/css" href="http://f.lupa.cz/webtemp/cssloader-4d589096059b-jquery.fancybox-1.3.0.css?t=1372233239" />
+
+<script type="text/javascript" src="http://f.lupa.cz/webtemp/jsloader-9daf2c409054.js?t=1362150991"></script>
+
+<script type="text/javascript" src="http://f.lupa.cz/webtemp/jsloader-406f44846bc2.js?t=1352126154"></script>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', "UA-5327160-1"]);
+	_gaq.push(['_setDomainName', "lupa.cz"]);
+	_gaq.push(['_setAllowAnchor', true]);
+	_gaq.push((function() {
+		var gPair = ['_trackPageview'];
+		// custom tracking URL
+		var lHash = window.location.hash;
+		var lSearch = window.location.search;
+
+		if (lHash.substr(0, 4) != '#ic=') {
+			return gPair;
+		}
+		// convert hash params to regular
+		gPair.push(window.location.pathname + lSearch
+			+ (lSearch.length == 0 ? '?' : '&') + lHash.substr(1));
+
+		return gPair;
+	})());
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+
+	/**
+	 * jsWebstats function is called from places where another page view should be counted.
+	 * This occurs for example in gallery after showing next image.
+	 */
+	function jsWebstats() {
+		// netmonitor
+		pp_gemius_hit(js_gemius_identifier);
+		// GA
+		_gaq.push(['_trackPageview']);
+		// NV
+		if ($) {
+			var nvcSrc = $('#nvc img').remove().attr('src');
+			nvcSrc = nvcSrc.replace(/;r=[^;]*/, ';r=' + Math.random());
+			$('#nvc').html('<im' + 'g sr' + 'c="' + nvcSrc + '" alt="" />');
+		}
+	}
+</script>
+
+	
+	
+	<!-- kody umisteni -->
+	<script type="text/javascript" src="http://cz.adocean.pl/files/js/ado.js"></script>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009 */
+		if(typeof ado!=="object"){ado={};ado.config=ado.preview=ado.placement=ado.master=ado.slave=function(){};}
+		ado.config({mode: "old", xml: false, characterEncoding: true});
+		ado.preview({enabled: true, emiter: "cz.adocean.pl", id: "qyqsIrcWTUOUVS3gvrLS7VfVQXyYVocouDa6TTtO.Yb.t7"});
+	</script>
+
+	<!-- start master -->
+	<script type="text/javascript">
+		/* (c)AdOcean 2003-2009, MASTER: iinfo_cz.Lupa.cz.Vše kromě HP */
+		ado.master({id: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', server: 'cz.adocean.pl' });
+	</script>
+	<!--  end master  -->
+
+
+
+</head>
+
+
+<body id="lupa" class="p-text">
+		<div id="fb-root"></div>
+
+<script type="text/javascript" src="http://f.lupa.cz/webtemp/jsloader-c19e0180f07b-iinfobar.js?t=1338533988"></script>
+<div id="sefa" class="iinfoBar wide">
+  	<div class="sub">
+	  	<a href="http://iinfo.cz#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" id="logo">Internet Info</a>
+
+	  	<ul id="iinfoBarItems">
+
+	  		<li class="server-lupa">
+	  			<a href="http://www.lupa.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Lupa: server o českém Internetu">Lupa</a>
+	  		</li>
+
+			<li class="server-mesec">
+				<a href="http://www.mesec.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Měšec: server o osobních financích">Měšec</a>
+			</li>
+
+			<li class="server-podnikatel">
+				<a href="http://www.podnikatel.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Podnikatel: informace pro váš business a podnikání">Podnikatel</a>
+			</li>
+
+			<li class="server-root">
+				<a href="http://www.root.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Root: informace nejen ze světa Linuxu">Root</a>
+			</li>
+
+			<li class="server-digizone">
+				<a href="http://www.digizone.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="DigiZone: vše o digitálním vysílání">DigiZone</a>
+			</li>
+
+			<li class="server-slunecnice">
+				<a href="http://www.slunecnice.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Slunečnice: server freeware a shareware">Slunečnice</a>
+			</li>
+
+			<li class="server-vitalia">
+				<a href="http://www.vitalia.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Vitalia: váš průvodce zdravým životem">Vitalia</a>
+			</li>
+
+			<li class="server-topdrive">
+				<a href="http://www.topdrive.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="TopDrive: server o luxusních vozech">TopDrive</a>
+			</li>
+
+			<li class="server-tuesday">
+				<a href="http://www.tuesday.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Tuesday Business Network: Jsme sociální síť v reálném světě">Tuesday</a>
+			</li>
+
+			<li class="server-navrcholu">
+				<a href="http://navrcholu.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Navrcholu: měření a vyhodnocování návštěvnosti www stránek">Navrcholu</a>
+			</li>
+
+			<li class="server-dobryweb">
+				<a href="http://www.dobryweb.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Dobrý web: Váš pomocník pro úspěch na Internetu">Dobrý web</a>
+			</li>
+
+			<li class="server-zdrojak">
+				<a href="http://www.zdrojak.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Zdroják: tvorba webových stránek a aplikací">Zdroják</a>
+			</li>
+
+			<li class="server-kupdnes">
+				<a href="http://www.kupdnes.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="KupDnes: zábavné nakupování se slevou">KupDnes</a>
+			</li>
+
+			<li class="server-weblogy">
+				<a href="http://www.weblogy.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Weblogy: to nejlepší z českých blogů">Weblogy</a>
+			</li>
+
+			<li class="server-woko">
+				<a href="http://www.woko.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Woko: pamatuje si za vás">Woko</a>
+			</li>
+
+			<li class="server-jagg">
+				<a href="http://www.jagg.cz/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="Jagg: ukládejte a sdílete své oblíbené odkazy">Jagg</a>
+			</li>
+
+			<li class="server-mojelinky">
+				<a href="http://www.mojelinky.sk/#utm_medium=textlink&amp;utm_source=ii-lista&amp;utm_campaign=brand" title="MojeLinky: uchovávajte a zdieľajtě svoje obľubné odkazy">MojeLinky</a>
+			</li>
+
+		</ul>
+	</div>
+</div>
+<div id="interstitial">
+
+	
+	<!-- start slave -->
+	<div id="adoceanczrbphmpfuhn"></div>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009, iinfo_cz.Lupa.cz.Lupa.cz.Interstitial */
+	ado.slave('adoceanczrbphmpfuhn', { myMaster: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', onServerEmission: function() {
+			var body = document.getElementsByTagName("BODY");
+			if (body.length > 0) {
+				body[0].className += ' adp-interstitial';
+			}
+		}
+	});
+	</script>
+	<!--  end slave  -->
+
+</div>
+<div class="ad-skyscraper-sticky-holder">
+
+
+<div class="adLeaderboard">
+	
+	<!-- start slave -->
+	<div id="adoceanczscqtdwssfq"></div>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009, iinfo_cz.Lupa.cz.Lupa.cz.Leaderboard */
+	ado.slave('adoceanczscqtdwssfq', { myMaster: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', onServerEmission: function() {
+			var body = document.getElementsByTagName("BODY");
+			if (body.length > 0) {
+				body[0].className += ' adp-leaderboard';
+			}
+		}
+	});
+	</script>
+	<!--  end slave  -->
+
+</div>
+
+
+	
+	<!-- start slave -->
+	<div id="adoceanczlopsdmprur"></div>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009, iinfo_cz.Lupa.cz.Lupa.cz.Sticky rámeček */
+	ado.slave('adoceanczlopsdmprur', { myMaster: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', onServerEmission: function() {
+			var body = document.getElementsByTagName("BODY");
+			if (body.length > 0) {
+				body[0].className += ' adp-sticky-ramecek';
+			}
+		}
+	});
+	</script>
+	<!--  end slave  -->
+
+
+<!--[if IE]>
+<script type="text/javascript">
+	$(".ad-skyscraper-sticky-holder>object,.ad-skyscraper-sticky-holder>a")
+		.first().appendTo(".ad-skyscraper-sticky-right .skyscraper-sticky .ad");
+	$(".ad-skyscraper-sticky-holder>object,.ad-skyscraper-sticky-holder>a")
+		.first().appendTo(".ad-skyscraper-sticky-left .skyscraper-sticky .ad");
+</script>
+<![endif]-->
+
+<div class="ad-skyscraper-sticky-left">
+	<div class="skyscraper-sticky">
+
+	
+	<!-- start slave -->
+	<div id="adoceanczxjfmlsjfht"></div>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009, iinfo_cz.Lupa.cz.Lupa.cz.Sticky skyscraper vlevo */
+	ado.slave('adoceanczxjfmlsjfht', { myMaster: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', onServerEmission: function() {
+			var body = document.getElementsByTagName("BODY");
+			if (body.length > 0) {
+				body[0].className += ' adp-sticky-skyscraper-vlevo';
+			}
+		}
+	});
+	</script>
+	<!--  end slave  -->
+
+	</div>
+</div>
+<div class="ad-skyscraper-sticky-right">
+	<div class="skyscraper-sticky">
+
+	
+	<!-- start slave -->
+	<div id="adoceancztgdefiekaz"></div>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009, iinfo_cz.Lupa.cz.Lupa.cz.Sticky skyscraper vpravo */
+	ado.slave('adoceancztgdefiekaz', { myMaster: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', onServerEmission: function() {
+			var body = document.getElementsByTagName("BODY");
+			if (body.length > 0) {
+				body[0].className += ' adp-sticky-skyscraper-vpravo';
+			}
+		}
+	});
+	</script>
+	<!--  end slave  -->
+
+	</div>
+</div>
+
+		<!--[if IE 7]>
+		<script type="text/javascript">
+			stickyHandler();
+		</script>
+	<![endif]-->
+</div>
+
+	<div id="bckTopHolder">
+		<div id="header">
+			<h2 class="logo">
+					<a href="/" title="Návrat na titulní stránku serveru">
+					<img src="http://i.iinfo.cz/l/logo-lupa.png" alt="Lupa.cz" />
+					</a>
+			</h2>
+			<span id="claim"></span>
+
+<form id="cse-search-box" action="/vyhledavani/" method="get">
+	<fieldset>
+		<input type="hidden" name="cx" value="016098403239631414888:4rxuc3abxhc" />
+    	<input type="hidden" name="cof" value="FORID:9" />
+    	<input type="hidden" name="ie" value="UTF-8" />
+    				
+		<span class="search-text">
+			<input type="text" name="q" size="25" id="search-input" class="text-field ac_input"/>
+		</span>
+
+		<span class="search-submit">
+			<input type="submit" name="sa" value="Hledat" />
+		</span>
+	</fieldset>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=cs" async="true"></script>
+<script type="text/javascript">
+	$(document).ready(function() { $("#search-input").css({border: "none"}).css({padding: "4px 0"}); });
+</script>
+<div class="searchTips">
+	<a href="http://www.lupa.cz/n/tarify/clanky/#ic=search-tips&amp;icc=/n/tarify/clanky/">Mobilní tarify</a><span class="sep"></span>
+	<a href="http://www.lupa.cz/clanky/facebook-od-zakladu-meni-svou-zed-cekejte-vetsi-obrazky-a-vice-filtru/#ic=search-tips&amp;icc=/clanky/facebook-od-zakladu-meni-svou-zed-cekejte-vetsi-obrazky-a-vice-filtru/">Redesign Facebooku</a><span class="sep"></span>
+	<a href="http://www.lupa.cz/clanky/tablety-jdou-nahoru-ctecky-dolu-tak-strmy-pad-tady-jeste-nebyl/#ic=search-tips&amp;icc=/clanky/tablety-jdou-nahoru-ctecky-dolu-tak-strmy-pad-tady-jeste-nebyl/">Tablet nebo čtečka?</a><span class="sep last"></span>
+</div>
+
+<div id="login">
+
+	 <span id="newsletterOrderLink">
+		<a href="/do-mailu/">Lupa.cz do mailu</a>
+	</span>
+
+	<a class="connect" href="/prihlasit/?refUrl=http%3A%2F%2Fwww.lupa.cz%2Fclanky%2Fbezpecne-dns%2F" title="Přihlášení k uživatelskému systému Lupa.cz">Přihlásit</a>
+		<a href="/registrace/?refUrl=http%3A%2F%2Fwww.lupa.cz%2Fclanky%2Fbezpecne-dns%2F" title="Zaregistrujte se a získejte přístup k řadě dalších funkcí a vylepšení" class="register">Registrace</a>
+
+</div>
+
+		</div> <!-- /#header -->
+<div id="menu" class="clear">
+	<ul id="sections">
+		<li>
+			<a href="/clanky/">Články</a>
+		</li>
+		<li>
+			<a href="http://startup.lupa.cz/">Startupy</a>
+		</li>
+
+		<li>
+			<a href="/nastroje/speedmeter/">Měření rychlosti</a>
+		</li>
+		<li>
+			<a href="/nastroje/">Nástroje</a>
+		</li>
+		<li>
+			<a href="http://forum.lupa.cz/">Fórum</a>
+		</li>
+		<li>
+			<a href="http://blog.lupa.cz/">Blogy</a>
+		</li>
+		<li>
+			<a href="/prace-v-it/">Práce v IT</a>
+		</li>
+		<li class="last">
+			<a href="/n/e-commerce/">E-commerce</a>
+		</li>
+	</ul>
+</div>	</div>
+
+	<div id="bckMiddleHolder">
+            <div id="page">
+
+<div id="promo-headerPromo" class="clear">
+	<div class="item">
+		<strong id="rubricName">Síťová neutralita</strong>
+		<a href="http://www.lupa.cz/clanky/co-je-neomezeny-pristup-k-internetu-ctu-rozjizdi-diskusi-o-sitove-neutralite/#ic=kolotoc-header&amp;icc=co-je-neomezeny-pristup-k-internetu-ctu-rozjizdi-diskusi-o-sitove-neutralite" target="_top" class="link-img click" rel="/clanky/bezpecne-dns/?headerPromo-id=379&do=headerPromo-click">
+			<img src="http://i.iinfo.cz/images/543/sitovy-kabel-1-thumb.jpg" width="67" height="38" alt="" />
+        </a>
+        <h3><a href="http://www.lupa.cz/clanky/co-je-neomezeny-pristup-k-internetu-ctu-rozjizdi-diskusi-o-sitove-neutralite/#ic=kolotoc-header&amp;icc=co-je-neomezeny-pristup-k-internetu-ctu-rozjizdi-diskusi-o-sitove-neutralite" target="_top" class="click" rel="/clanky/bezpecne-dns/?headerPromo-id=379&do=headerPromo-click">ČTÚ rozjíždí diskusi o síťové neutralitě, zapojte se</a></h3>
+    </div>
+	<div class="item">
+		<strong id="rubricName">Medián Petra Koubského</strong>
+		<a href="http://www.lupa.cz/clanky/median-petra-koubskeho-prosim-vas-hlavne-se-neleknete/#ic=kolotoc-header&amp;icc=median-petra-koubskeho-prosim-vas-hlavne-se-neleknete" target="_top" class="link-img click" rel="/clanky/bezpecne-dns/?headerPromo-id=373&do=headerPromo-click">
+			<img src="http://i.iinfo.cz/images/494/petr-koubsky-novy-1-thumb.jpg" width="67" height="38" alt="" />
+        </a>
+        <h3><a href="http://www.lupa.cz/clanky/median-petra-koubskeho-prosim-vas-hlavne-se-neleknete/#ic=kolotoc-header&amp;icc=median-petra-koubskeho-prosim-vas-hlavne-se-neleknete" target="_top" class="click" rel="/clanky/bezpecne-dns/?headerPromo-id=373&do=headerPromo-click">Medián Petra Koubského: Prosím vás, hlavně se nelekněte</a></h3>
+    </div>
+	<div class="item">
+		<strong id="rubricName">Mapy na Internetu</strong>
+		<a href="http://www.lupa.cz/clanky/crowdsourcing-v-mapach-opravte-nase-chyby-vyzyvaji-uzivatele-google-i-seznam/#ic=kolotoc-header&amp;icc=crowdsourcing-v-mapach-opravte-nase-chyby-vyzyvaji-uzivatele-google-i-seznam" target="_top" class="link-img click" rel="/clanky/bezpecne-dns/?headerPromo-id=371&do=headerPromo-click">
+			<img src="http://i.iinfo.cz/images/108/mapy-google-beta-1-thumb.png" width="67" height="38" alt="" />
+        </a>
+        <h3><a href="http://www.lupa.cz/clanky/crowdsourcing-v-mapach-opravte-nase-chyby-vyzyvaji-uzivatele-google-i-seznam/#ic=kolotoc-header&amp;icc=crowdsourcing-v-mapach-opravte-nase-chyby-vyzyvaji-uzivatele-google-i-seznam" target="_top" class="click" rel="/clanky/bezpecne-dns/?headerPromo-id=371&do=headerPromo-click">Opravte chyby našich map, vyzývají uživatele Google i Seznam</a></h3>
+    </div>
+	<div class="item last">
+		<strong id="rubricName">Vývojáři</strong>
+		<a href="http://www.lupa.cz/clanky/jak-to-bylo-s-free-sms-senderem-aneb-co-s-aplikaci-ktera-ma-skoro-milion-stazeni/#ic=kolotoc-header&amp;icc=jak-to-bylo-s-free-sms-senderem-aneb-co-s-aplikaci-ktera-ma-skoro-milion-stazeni" target="_top" class="link-img click" rel="/clanky/bezpecne-dns/?headerPromo-id=376&do=headerPromo-click">
+			<img src="http://i.iinfo.cz/images/662/free-sms-sender-hodnoceni-1-thumb.png" width="67" height="38" alt="" />
+        </a>
+        <h3><a href="http://www.lupa.cz/clanky/jak-to-bylo-s-free-sms-senderem-aneb-co-s-aplikaci-ktera-ma-skoro-milion-stazeni/#ic=kolotoc-header&amp;icc=jak-to-bylo-s-free-sms-senderem-aneb-co-s-aplikaci-ktera-ma-skoro-milion-stazeni" target="_top" class="click" rel="/clanky/bezpecne-dns/?headerPromo-id=376&do=headerPromo-click">Příběh vývojáře: Co s aplikací, která má skoro milion stažení?</a></h3>
+    </div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#promo-headerPromo a[rel]').each(function(e) {
+				var $this = $(this);
+				// replace href attribute
+				$this.attr('href', $this.attr('rel'));
+			});
+		});
+	</script>
+</div>
+
+
+
+
+
+
+<div id="main" class="columns clear">
+	<div class="path">
+<div class="breadcrumb clear">
+					<a class="first" href="/" title="Návrat na titulní stránku">Lupa.cz</a>
+		<span class="separator">&nbsp;&raquo;&nbsp;</span>				<strong>Bezpečné DNS</strong>
+</div>
+	</div>	<!-- google_ad_section_start -->
+	<!-- Sklik-kontext-start -->
+	<h1><span>Bezpečné DNS</span></h1>
+	<!-- Sklik-kontext-stop -->
+
+
+	<!-- Sklik-kontext-start -->
+<p class="perex clear">
+	V uplynulém týdnu se konal 45. RIPE meeting. Jedním z témat, která se nedala přehlédnout, bylo bezpečné DNS, čili DNSSEC. Vracelo se k němu několik příspěvků v různých sekcích. Důvodem nepochybně je, že do konce roku by mělo být nasazeno v praxi. Jelikož Lupa se tomuto tématu dosud nevěnovala, je na čase dohnat dluh.
+</p>
+
+	<!-- Sklik-kontext-stop -->
+
+	<div class="article-info">
+		<span class="date">22. 5. 2003 6:25</span>
+	<a class="author" href='/autori/pavel-satrapa/'>Pavel Satrapa</a>	</div>
+
+
+	<div id="ad-supersquare">
+
+	
+	<!-- start slave -->
+	<div id="adoceanczpdhkhtmhvp"></div>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009, iinfo_cz.Lupa.cz.Lupa.cz.Square banner */
+	ado.slave('adoceanczpdhkhtmhvp', { myMaster: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', onServerEmission: function() {
+			var body = document.getElementsByTagName("BODY");
+			if (body.length > 0) {
+				body[0].className += ' adp-square-banner';
+			}
+		}
+	});
+	</script>
+	<!--  end slave  -->
+
+</div>
+<div id="ad-supersquare-video" class="ad">
+	<h4 class="admarker">reklama</h4>
+
+	
+	<!-- start slave -->
+	<div id="adoceanczvarrqrlthx"></div>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009, iinfo_cz.Lupa.cz.Lupa.cz.Square banner - video */
+	ado.slave('adoceanczvarrqrlthx', { myMaster: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', onServerEmission: function() {
+			var body = document.getElementsByTagName("BODY");
+			if (body.length > 0) {
+				body[0].className += ' adp-square-banner-video';
+			}
+		}
+	});
+	</script>
+	<!--  end slave  -->
+
+</div>
+
+
+
+	<!-- Sklik-kontext-start -->
+	<div class="urs">
+<p>Stejně jako ostatní internetové protokoly i DNS vychází z koncepce, že Internet je křišťálová studánka, kde nejhlubší je les a jeho uživatelé jsou milí, hodní, pozitivní lidé. Bohužel se ukázalo, že v lese žijí i vlci a kapradí je plné slimáků. Stávající DNS neposkytuje žádnou ochranu proti falšování a podobným nepravostem.</p>
+
+<p>Cílem Domain Name System Security Extensions (DNSSEC) je definovat mechanismy, které by klientovi umožnily ověřit si, zda informace, které z DNS dostal, jsou pravé. Druhý úkol je ještě o něco těžší: ověřit, že daná informace v DNS skutečně chybí.</p>
+
+<p>Důležitým východiskem je, že DNSSEC chrání jen data v DNS obsažená. Nestará se o přenosový kanál. Nenabízí tedy žádné prostředky pro omezování přístupu, autentizaci klientů, šifrování odpovědí a podobně. Jen ověření pravosti získaných údajů.</p>
+
+<p>K ověření pravosti se standardně používá elektronický podpis a nejinak je tomu i v DNSSEC. Využívají se postupy šifrování s veřejným klíčem. Jen stručně připomenu jejich základ: Primární DNS server domény si vygeneruje dvojici klíčů &#8211; soukromý a veřejný. Co se podepíše soukromým klíčem, dá se ověřit jen jemu odpovídajícím veřejným. Z veřejného klíče pochopitelně nejde odvodit soukromý.</p>
+
+<p>Server jednotlivé informace ve své doméně podepíše soukromým klíčem, který drží v tajnosti (doporučuje se dokonce jej pokud možno mít zcela mimo dosah sítě). Vedle původní informace pak vyvěsí ještě její podpis. Veřejný klíč je k dispozici komukoli a ten si jeho prostřednictvím může ověřit, zda podpis odpovídá poskytnuté informaci. Pokud ano, dokazuje to, že informace zůstala nezměněna a že jejím původcem je ten, kdo zná soukromý klíč (čili původní server).</p>
+
+<h2>Záznam SIG</h2>
+<br />
+Pro podpis byl vytvořen nový typ záznamu (Resource Record, RR) nazvaný SIG. Podepisuje se jím vždy celá sada záznamů, které mají stejné jméno, třídu a typ. Pokud tedy pro dané jméno existují řekněme tři A záznamy, tvoří jednu sadu a budou podepsány dohromady. Tento přístup je racionální, protože v odpovědi se posílá vždy celá sada a je efektivnější opatřit ji jedním společným podpisem než podepisovat každý záznam samostatně.
+<p>Záznam SIG obsahuje:</p>
+
+<ul>
+	<li>typ záznamu, který podepisuje</li>
+
+	<li>použitý algoritmus; na výběr je několik algoritmů, implementace je povinna podporovat RSA/SHA1, který je označen číslem 5</li>
+
+	<li>počet domén ve jméně, které se podepisuje (např. www.kit.vslib.cz obsahuje čtyři domény, kořenová se nepočítá), tento údaj je určen především pro použití v kombinaci s žolíkovými znaky</li>
+
+	<li>dobu životnosti podepisovaného záznamu</li>
+
+	<li>dobu ukončení platnosti podpisu, v zónovém souboru je ve tvaru YYYYMMDDhhmmss</li>
+
+	<li>dobu zahájení platnosti podpisu</li>
+
+	<li>značku pro rychlejší nalezení klíče</li>
+
+	<li>doménové jméno podepisujícího</li>
+
+	<li>a konečně vlastní podpis, který se do zónového souboru zapisuje v kódování Base64 známém ze světa MIME</li>
+</ul>
+
+<p>Sada dvou A záznamů s podpisem může vypadat následovně:</p>
+
+<pre><span class="rs-minor">pc.kdesi.cz. 999 IN A 10.1.2.3
+             999 IN A 10.1.8.9
+             999 SIG A 5 3 999 20030610114923 20030510114923 (
+                     2539 kdesi.cz Tjpdt...H6D )
+</span></pre>
+
+<p>Poněkud zvláštní je značka klíče, která je uvedena před jménem podepisujícího. Jejím cílem je urychlit výběr správného klíče pro ověření podpisu. K dané doméně se totiž může vázat klíčů několik a zkoušet všechny by mohlo být časově náročné. Proto se ke každému klíči vypočítá jeho značka (používá se algoritmus podobný výpočtu kontrolních součtů v řadě internetových protokolů). Kombinace jména podepisujícího, šifrovacího algoritmu a značky klíče pak podstatně omezí výběr kandidátů (zpravidla na jediný klíč, který mu vyhovuje). Přestože pravděpodobnost shodné značky pro více klíčů je malá, není značka jednoznačným identifikátorem. Jen zužuje výběr.</p>
+
+<h2>Záznam KEY</h2>
+<br />
+Tím jsme se zvolna propracovali k otázce, kde vzít klíče pro ověřování podpisů. Řešení je prosté &#8211; v DNS. K jejich ukládání slouží záznam KEY obsahující:
+<ul>
+	<li>příznaky (zatím byl definován jediný a ten bude typicky nastaven, takže hodnota této položky bude zpravidla 256)</li>
+
+	<li>protokol, který má pevně danou hodnotu 3, stejně jako předchozí položka je určen především pro budoucí využití</li>
+
+	<li>algoritmus, pro který se klíč používá</li>
+
+	<li>hodnotu klíče, také v kódování Base64</li>
+</ul>
+
+<p>DNSSEC by byl pro švandu králíkům, kdyby na obsah KEY záznamů nebylo spolehnutí. Proto tyto záznamy pochopitelně musí být podepsány klíčem, kterému klient důvěřuje. Tím se objevují dvě možná využití klíčů: pro podepisování informací v doméně (zone signing key, ZSK) a pro podepisování jiných klíčů (key signing key, KSK).</p>
+
+<p>Idea je taková, že klíče pro podepisování zóny mohou být poměrně často měněny, proto mohou být &#8222;jednodušší&#8220;, aby ověřování netrvalo příliš dlouho. Naopak klíče pro podepisování jiných klíčů musí být stvrzeny z vyšších míst (viz dále). Proto by měly mít dlouhou životnost a měly by také být patřičně &#8222;složité&#8220;, aby odolaly případným útokům. Rozdělení na KSK a ZSK není povinné, je pouze praktické. Teoreticky můžete v celé zóně použít jen jediný klíč, který podepíše i sám sebe a funguje tak jako KSK i ZSK zároveň.</p>
+
+<p>Doména kdesi.cz by mohla ve své definici obsahovat následující dvojici klíčů:</p><div class="promo-in-article clear"><p><a href="http://kristalova.lupa.cz/nominace/?utm_source=Lupa.cz&amp;utm_medium=TIP&amp;utm_campaign=KL_NOMINACE"><img src="http://i.iinfo.cz/images/504/kristalova-lupa-2013-1.png" alt="KL2013" /></a></p><span class="corner top-left">&nbsp;</span>
+<span class="corner top-right">&nbsp;</span>
+<span class="corner bottom-left">&nbsp;</span>
+<span class="corner bottom-right">&nbsp;</span>
+</div>
+
+
+<pre><span class="rs-minor">kdesi.cz. 999 IN KEY 256 3 1 AQDv...GiDx
+          999 IN KEY 256 3 5 CLgC...Yb6n
+          999 SIG KEY 1 2 999 20030610113107 20030510113107 (
+                  2539 kdesi.cz BH1x...7Wq3 )
+</span></pre>
+
+<p>První z nich je KSK a je použit pro podpis pod dvojicí klíčů. Druhý se pak používá jako ZSK k podepisování dat v zóně.</p>
+
+<p>(Dokončení příště)</p>	</div>
+	<!-- Sklik-kontext-stop -->
+	
+	<div class="author clear">
+		<h3><a href='/autori/pavel-satrapa/'>Pavel Satrapa</a></h3>
+<p>Autor dělá nepořádek v příslovích, protože sítě nejen dělá, ale i učí a dokonce také řídí. Vede katedru informačních technologií na Technické univerzitě v Liberci. Píše knihy.</p>	</div>
+
+
+
+<div class="socialShare clear">
+<script type="text/javascript">
+if (window.fbAsyncInit == undefined) {
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId: '160638763989216',
+			channelUrl: 'http://www.lupa.cz/shared/fb-channel.php',
+			status: true,
+			cookie: true,
+			xfbml: true
+		}); // channel for old browsers
+	};
+
+	(function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/cs_CZ/all.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+}
+</script>
+	<fb:like href="http://www.lupa.cz/clanky/bezpecne-dns/" layout="button_count" show_faces="false" width="90" ref="top"></fb:like>
+	<a href="https://twitter.com/share?text=Bezpečné DNS @lupacz&amp;url=http%3A%2F%2Fwww.lupa.cz%2Fclanky%2Fbezpecne-dns%2F" rel="nofollow" class="icotext"><img src="http://i.iinfo.cz/sh/ss-twitter.png" width="20" height="20" border="0" alt="Tweetni to" title="Tweetni to" /></a>
+
+		<script type="text/javascript">
+		window.___gcfg = { lang: 'cs' };
+	</script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+	<g:plusone size="medium"></g:plusone>
+
+	<span class="flattr">
+	Odměnte autora&nbsp;
+	<div class="flattr_holder">
+<script type="text/javascript" src="//api.flattr.com/js/0.6/load.js?mode=auto&amp;popout=0&amp;button=compact&amp;uid=iinfo"></script>
+	<a class='FlattrButton'
+		style='display:none;'
+		title='Bezpečné DNS'
+		data-flattr-tags='text,lupa'
+		data-flattr-category='text'
+		href='http://www.lupa.cz/clanky/bezpecne-dns/'>
+		Odměň přes Flatter!
+	</a>
+	</div>
+	<a class="flatterHelp" href="/redakce/flattr-na-webech-internet-info/">Jak to funguje?</a>
+	</span>
+</div>
+
+	<div class="sklik-box" id="as-clanek">
+<script type="text/javascript"><!--
+{
+    sklikZoneId = "11133",
+    sklikDivId = "as-clanek"
+
+    sklik(sklikDivId, sklikZoneId);
+}
+// -->
+</script>
+</div>
+
+	<!-- google_ad_section_end -->
+<div id="promo-box">
+<h3><a href="http://www.tuesday.cz/akce/manazerske-minimum-dvoudenni-skoleni/?utm_source=Tuesday&amp;utm_medium=promobox&amp;utm_content=mnz_minimum&amp;utm_campaign=skolen" title="Staňte se skutečným managerem!">Staňte se skutečným managerem!</a></h3>	<div style="width: 261px" class="rs-img-right"><a href="http://i.iinfo.cz/images/530/logo-tuesday-1.png"><img src="http://i.iinfo.cz/images/530/logo-tuesday-1-prev.png" class="image-136503" alt="&#160;" height="58" width="261" /></a></div><p>Hraním rolí si osvojíte diskutované dovednosti a budete je schopni<strong> v praxi efektivně používat</strong> v řízení týmů.</p><h4><a href="http://www.tuesday.cz/akce/manazerske-minimum-dvoudenni-skoleni/?utm_source=Tuesday&amp;utm_medium=promobox&amp;utm_content=mnz_minimum&amp;utm_campaign=skolen"><strong>Více informací o školení&gt;&gt;</strong></a></h4>
+	<span class="corner top-left">&nbsp;</span>
+	<span class="corner top-right">&nbsp;</span>
+	<span class="corner bottom-left">&nbsp;</span>
+	<span class="corner bottom-right">&nbsp;</span>
+</div>
+
+
+<div class="box border style1 TitleList">
+<h3>Přehled názorů</h3>
+	<form action="/clanky/bezpecne-dns/nazory/" method="get" class="op-list-c">
+		<div class="scroller">
+		<table class="opinions-overview">
+			<tbody>
+  				<tr class="op-qb op-tb first">
+  					<td><input type="checkbox" name='o[66077]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+				  <td><a href='/clanky/bezpecne-dns/nazory/66077/'>A co PKI?</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Petr">Petr</td>
+  					<td class="date">22. 5. 2003 08:03<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb">
+  					<td><input type="checkbox" name='o[66093]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+<td><div><img src="http://i.iinfo.cz/l/level-t.gif" align="left" width="9" height="60" alt="&#9500;" />&nbsp;</div></td>				  <td><a href='/clanky/bezpecne-dns/nazory/66093/'>Re: A co PKI?</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: f.">f.</td>
+  					<td class="date">22. 5. 2003 10:05<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb">
+  					<td><input type="checkbox" name='o[66096]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+<td><div><img src="http://i.iinfo.cz/l/level-i.gif" align="left" width="9" height="60" alt="&#9474;" /></div></td>
+		<td><div><img src="http://i.iinfo.cz/l/level-l.gif" align="left" width="9" height="30" alt="&#9492;" />&nbsp;</div></td>				  <td><a href='/clanky/bezpecne-dns/nazory/66096/'>Re: A co PKI?</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Michal Kara">Michal Kara</td>
+  					<td class="date">22. 5. 2003 10:39<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb">
+  					<td><input type="checkbox" name='o[66099]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+<td><div><img src="http://i.iinfo.cz/l/level-t.gif" align="left" width="9" height="60" alt="&#9500;" />&nbsp;</div></td>				  <td><a href='/clanky/bezpecne-dns/nazory/66099/'>Re: A co PKI?</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Michal Kara">Michal Kara</td>
+  					<td class="date">22. 5. 2003 10:46<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb">
+  					<td><input type="checkbox" name='o[66101]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+<td><div><img src="http://i.iinfo.cz/l/level-t.gif" align="left" width="9" height="60" alt="&#9500;" />&nbsp;</div></td>				  <td><a href='/clanky/bezpecne-dns/nazory/66101/'>Re: A co PKI?</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Pavel Král">Pavel Král</td>
+  					<td class="date">22. 5. 2003 10:53<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb">
+  					<td><input type="checkbox" name='o[66102]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+<td><div><img src="http://i.iinfo.cz/l/level-l.gif" align="left" width="9" height="30" alt="&#9492;" />&nbsp;</div></td>				  <td><a href='/clanky/bezpecne-dns/nazory/66102/'>Re: A co PKI?</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Pavel Satrapa">Pavel Satrapa</td>
+  					<td class="date">22. 5. 2003 11:09<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb op-tb">
+  					<td><input type="checkbox" name='o[66089]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+				  <td><a href='/clanky/bezpecne-dns/nazory/66089/'>Videozaznamy z konference RIPE 45</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Michal Krsek">Michal Krsek</td>
+  					<td class="date">22. 5. 2003 09:40<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb">
+  					<td><input type="checkbox" name='o[66103]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+<td><div><img src="http://i.iinfo.cz/l/level-l.gif" align="left" width="9" height="30" alt="&#9492;" />&nbsp;</div></td>				  <td><a href='/clanky/bezpecne-dns/nazory/66103/'>Re: Videozaznamy z konference RIPE 45</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Pavel Satrapa">Pavel Satrapa</td>
+  					<td class="date">22. 5. 2003 11:13<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb op-tb">
+  					<td><input type="checkbox" name='o[66105]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+				  <td><a href='/clanky/bezpecne-dns/nazory/66105/'>Tento způsob zabezpečení DNS ...</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Vojtěch Kment">Vojtěch Kment</td>
+  					<td class="date">22. 5. 2003 12:07<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb">
+  					<td><input type="checkbox" name='o[66117]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+<td><div><img src="http://i.iinfo.cz/l/level-l.gif" align="left" width="9" height="30" alt="&#9492;" />&nbsp;</div></td>				  <td><a href='/clanky/bezpecne-dns/nazory/66117/'>Re: Tento způsob zabezpečení DNS ...</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Michal Kara">Michal Kara</td>
+  					<td class="date">22. 5. 2003 13:18<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb">
+  					<td><input type="checkbox" name='o[66130]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+<td><div><img src="http://i.iinfo.cz/l/bt.gif" align="left" width="9" height="60" alt="&nbsp;" /></div></td>
+		<td><div><img src="http://i.iinfo.cz/l/level-l.gif" align="left" width="9" height="30" alt="&#9492;" />&nbsp;</div></td>				  <td><a href='/clanky/bezpecne-dns/nazory/66130/'>Re: Tento způsob zabezpečení DNS ...</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Vojtěch Kment">Vojtěch Kment</td>
+  					<td class="date">22. 5. 2003 17:30<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+  				<tr class="op-qb">
+  					<td><input type="checkbox" name='o[66166]'/></td>
+  					<th class="opin-title">
+              <table>
+                <tr>
+<td><div><img src="http://i.iinfo.cz/l/bt.gif" align="left" width="9" height="60" alt="&nbsp;" /></div></td>
+		<td><div><img src="http://i.iinfo.cz/l/bt.gif" align="left" width="9" height="60" alt="&nbsp;" /></div></td>
+		<td><div><img src="http://i.iinfo.cz/l/level-l.gif" align="left" width="9" height="30" alt="&#9492;" />&nbsp;</div></td>				  <td><a href='/clanky/bezpecne-dns/nazory/66166/'>Re: Tento způsob zabezpečení DNS ...</a></td>
+                </tr>
+              </table>
+            </th>
+  					<td class="opin-author" title="Autor názoru: Michal Kara">Michal Kara</td>
+  					<td class="date">23. 5. 2003 10:25<br />
+  							<span class="small">Nový</span>
+  					</td>
+  				</tr>
+			</tbody>
+		</table>
+		</div>
+		<div class="opinions-buttons clear">
+			<input type="submit" name="show" value="Zobrazit vybrané" class="left" />
+<a class="opinions-add" href='/clanky/bezpecne-dns/nazory/pridat/'>Přidat názor</a>      <a class="opinions-show-all" href="/clanky/bezpecne-dns/nazory/">Zobrazit vše</a>
+		</div>
+	</form>
+	<span class="corner top-left">&nbsp;</span>
+		<span class="corner top-right">&nbsp;</span>
+		<span class="corner bottom-left">&nbsp;</span>
+		<span class="corner bottom-right">&nbsp;</span>
+</div>
+
+<p class="msg info">
+	Tento text je již více než dva měsíce starý. Chcete-li na něj reagovat v diskusi,
+	pravděpodobně vám již nikdo neodpoví.
+	Pro řešení aktuálních problémů doporučujeme využít naše <a href="http://forum.lupa.cz">diskusní fórum</a>.
+</p>
+
+
+	<div class="article-discussion box border style1 monitoringComponentArticle">
+	<a href='/prihlasit/?refUrl=%2Fclanky%2Fbezpecne-dns%2F%3FopinionsMonitor-mode%3D1%26do%3DopinionsMonitor-monitor#opinionsMonitor' title="Zasílání upozornění na nové příspěvky je dostupné jen registrovaným uživatelům. Proto budete před aktivací zasílání názorů
+	přesměrováni na přihlašovací stránku, ze které se můžete případně také zaregistrovat." id="opinionsMonitor"><span class="ico"></span>Zasílat nově přidané příspěvky e-mailem</a>
+<script type="text/javascript" src="http://f.lupa.cz/webtemp/jsloader-0174b04f5809-jquery.qtip.js?t=1271407241"></script>
+	<script type="text/javascript">
+		<!--
+		$('#opinionsMonitor').qtip({show: 'mouseover', hide: 'mouseout', style: { name: 'light', tip: true}});
+		//-->
+	</script>
+		<span class="corner top-left">&nbsp;</span>
+		<span class="corner top-right">&nbsp;</span>
+		<span class="corner bottom-left">&nbsp;</span>
+		<span class="corner bottom-right">&nbsp;</span>
+	</div>
+
+	<div id="ad-textips" class="clear">
+	</div>
+
+
+<div id="labelsBox">
+<div id="sidebarLabelsBox">
+	<h2 class="header"><span>Nálepky</span></h2>
+	<ul id="labelMenu">
+		<li class="active"><a href="/clanky/bezpecne-dns/?labelsBox-labelId=7&amp;do=labelsBox-switch">Domény</a></li>
+		<li><a href="/clanky/bezpecne-dns/?labelsBox-labelId=62&amp;do=labelsBox-switch">Šifrování</a></li>
+	</ul>
+
+	<script type="text/javascript">
+	$("#labelMenu a").live("click", function () {
+		return reloadComponent(this);
+	});
+	</script>
+
+	<h3 id="labelRelatedItems">
+		<a href="/n/domeny/clanky/">Články: Domény</a>
+	</h3>
+	<ul id="labelRelatedList">
+			<li class="clear first">
+					<a class="clear" href="/clanky/jak-vypada-zabezpeceni-podpisu-zony-cz/#ic=article-labels&icc=jak-vypada-zabezpeceni-podpisu-zony-cz">
+<img alt="" width="356" height="200" src='http://i.iinfo.cz/images/546/ksk-ceremonie.jpg' />						Jak vypadá zabezpečení podpisu zóny .CZ
+					</a>
+			</li>
+			<li class="clear first">
+					<a class="clear" href="/clanky/zpracovano-vice-nez-tisic-zadosti-o-nove-domeny-nejvyssi-urovne/#ic=article-labels&icc=zpracovano-vice-nez-tisic-zadosti-o-nove-domeny-nejvyssi-urovne">
+<img alt="" width="356" height="200" src='http://i.iinfo.cz/images/480/icann-new-gtld-1.jpg' />						Zpracováno více než tisíc žádostí o nové domény nejvyšší úrovně
+					</a>
+			</li>
+			<li class="clear first">
+					<a class="clear" href="/clanky/loni-pribylo-130-tisic-novych-domen-s-koncovkou-cz/#ic=article-labels&icc=loni-pribylo-130-tisic-novych-domen-s-koncovkou-cz">
+<img alt="" width="340" height="191" src='http://i.iinfo.cz/images/646/20-let-cz-nic-1.jpg' />						Loni přibylo 130 tisíc nových domén s koncovkou .cz
+					</a>
+			</li>
+			<li class="clear first">
+					<a class="clear" href="/clanky/michal-blaha-nabizi-k-prodeji-web-vyvojar-cz/#ic=article-labels&icc=michal-blaha-nabizi-k-prodeji-web-vyvojar-cz">
+<img alt="" width="340" height="191" src='http://i.iinfo.cz/images/619/vyvojar-cz-1.jpg' />						Michal Bláha nabízí k prodeji web Vyvojar.cz
+					</a>
+			</li>
+			<li class="clear first">
+					<a class="clear" href="/clanky/pocet-domenovych-sporu-roste-jak-se-branit-proti-cybersquattingu/#ic=article-labels&icc=pocet-domenovych-sporu-roste-jak-se-branit-proti-cybersquattingu">
+<img alt="" width="340" height="191" src='http://i.iinfo.cz/images/391/domeny-1.jpg' />						Počet doménových sporů roste. Jak se bránit proti cybersquattingu?
+					</a>
+			</li>
+	</ul>
+
+	<span class="link-more">
+		<a href="/n/domeny/clanky/">Další články - Domény</a>
+	</span>
+
+	<span class="top"></span>
+	<span class="bottom"></span>
+</div>
+</div>
+</div>  <!-- /#main -->
+
+<div id="sidebar" class="columns right">
+
+
+
+	<div class="promoBox container style1 generalTips">
+		<h2>Doporučujeme<span class="top"> </span></h2>
+		<ul class="clear iconTips">
+				<li class="clear">
+<a href="http://www.lupa.cz/clanky/uzivatelsky-pruzkum-nepotrebujeme-aneb-jak-ne-vypsat-vyberove-rizeni-na-web/" class="img"><img src='http://i.iinfo.cz/images/639/web-chyba-404-1.jpg' width="356" height="200" alt="" /></a>					<h3><a href="http://www.lupa.cz/clanky/uzivatelsky-pruzkum-nepotrebujeme-aneb-jak-ne-vypsat-vyberove-rizeni-na-web/">PRD a MRD jsou na prd aneb Jak (ne)vypsat soutěž na web</a></h3>
+				</li>
+				<li class="clear">
+<a href="http://www.lupa.cz/clanky/streaming-hudby-pocita-se-na-halere-muzikantum-ale-presto-pomaha/" class="img"><img src='http://i.iinfo.cz/images/645/spotify-hudba-streaming.png' width="356" height="200" alt="" /></a>					<h3><a href="http://www.lupa.cz/clanky/streaming-hudby-pocita-se-na-halere-muzikantum-ale-presto-pomaha/">Streaming hudby: spása muzikantů, nebo jejich zkáza?</a></h3>
+				</li>
+				<li class="clear">
+<a href="http://www.lupa.cz/clanky/zaloba-proti-uloz-to-moze-byt-premarnena-sanca/" class="img"><img src='http://i.iinfo.cz/images/100/ulozto-1.jpg' width="356" height="200" alt="" /></a>					<h3><a href="http://www.lupa.cz/clanky/zaloba-proti-uloz-to-moze-byt-premarnena-sanca/">Komentář: Žaloba proti Ulož.to môže byť premárnená šanca</a></h3>
+				</li>
+				<li class="clear">
+<a href="http://www.lupa.cz/clanky/internet-explorer-11-zvladne-microsoft-dotykovy-prohlizec-na-druhy-pokus-lepe/" class="img"><img src='http://i.iinfo.cz/images/365/internet-explorer-1.png' width="361" height="200" alt="" /></a>					<h3><a href="http://www.lupa.cz/clanky/internet-explorer-11-zvladne-microsoft-dotykovy-prohlizec-na-druhy-pokus-lepe/">IE 11: zvládne Microsoft dotykový prohlížeč na druhý pokus?</a></h3>
+				</li>
+		</ul>
+		<span class="corner top-left"></span>
+		<span class="corner top-right"></span>
+		<span class="corner bottom-left"></span>
+		<span class="corner bottom-right"></span>
+	</div>
+
+
+<div id="jobs">
+	<div class="jobs-ad-box">
+		<div class="jobs-ad-header"><a href="http://it.jobs.cz/" class="jobs-ad-title" title="Jobs.cz - aktuální nabídka práce nejen v informačních technologiích">Práce v IT</a>
+		<div class="jobs-ad-logo">
+			<a href="http://www.jobs.cz/" class="jobs-ad-logo" title="Jobs.cz - aktuální nabídka práce"><img src="http://i.iinfo.cz/l/jobs.png?v=3" width="58" height="25" alt="Jobs.cz - Inspirujeme k úspěchu - nabídka práce" /></a>
+		</div>
+        <div class="jobs-ad-cb"></div>
+	</div>
+		<div id="jobs-in">
+			<ul id="jobs-lst">
+				<li><a href="http://www.jobs.cz/pd/651461067?rps=215">Administrativní pracovník</a></li>
+				<li><a href="http://www.jobs.cz/pd/473096843?rps=215">C# ASP .NET DEVELOPER</a></li>
+				<li><a href="http://www.jobs.cz/pd/651300597?rps=215">Java developer - Rudná</a></li>
+				<li><a href="http://www.jobs.cz/pd/498836148?rps=215">Telefonní bankéř</a></li>
+				<li><a href="http://www.jobs.cz/pd/630278885?rps=215">Security Assessment Expert (ref. 00202018)</a></li>
+				<li><a href="http://www.jobs.cz/pd/649622427?rps=215">Security Engineer (ref. 00205324)</a></li>
+			</ul>
+			<a class="jobs-ad-more" href="http://it.jobs.cz/" title="Zobrazit další nabídky práce na serveru Jobs.cz nejen z IT">více nabídek práce &raquo;</a>
+			<div class="jobs-ad-cb"></div>
+		</div>
+	</div>
+	<div class="tipLink">
+		Tip: <a href="http://www.jobs.cz/vysoke-skoly/studium-pri-praci/">Studium při práci &#187;</a>
+	</div>
+
+</div>
+
+
+
+<div class="textbox" id="ad-text">
+
+	
+	<!-- start slave -->
+	<div id="adoceanczzefhonqqpf"></div>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009, iinfo_cz.Lupa.cz.Lupa.cz.Textbox s logem */
+	ado.slave('adoceanczzefhonqqpf', { myMaster: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', onServerEmission: function() {
+			var body = document.getElementsByTagName("BODY");
+			if (body.length > 0) {
+				body[0].className += ' adp-textbox-s-logem';
+			}
+		}
+	});
+	</script>
+	<!--  end slave  -->
+
+</div>
+<div id="discussionBox">
+<div class="container style1 clear midi" id="discussionList">
+	<h2 class="header">
+		<a href="http://forum.lupa.cz">Fórum</a>
+		<span class="corner top-left"> </span>
+		<span class="corner top-right"> </span>
+		<span class="corner bottom-left"> </span>
+		<span class="corner bottom-right"> </span>
+		<span class="top">&nbsp;</span>
+	</h2>
+
+	<ul class="ctabs clear">
+		<li class="active">
+			<span class="box-tab">
+<strong>Nejnovější</strong>			</span>
+			<span class="corner top-left"> </span>
+			<span class="corner top-right">&nbsp;</span>
+		</li>
+		<li>
+			<span class="box-tab">
+<a href="/clanky/bezpecne-dns/?discussionBox-tabId=top&amp;do=discussionBox-switch">Nejdiskutovanější</a>			</span>
+			<span class="corner top-left"> </span>
+			<span class="corner top-right">&nbsp;</span>
+		</li>
+	</ul>
+
+	<script type="text/javascript">
+	$("#discussionList ul .box-tab a").live("click", function(){
+		return reloadComponent(this);
+	});
+	</script>
+
+		<ul class="discussionTopics">
+		<li class="clear">
+			<span class="topic">
+				<a href="http://forum.lupa.cz/index.php?topic=3527.msg31581;topicseen#new" title="V zastoupení majitele nabízím obsahový web cena 5.000.000,-Kč ">V zastoupení majitele nabízím obsahový web cena 5.000.000,-Kč </a>
+			</span>
+
+			<span class="f-info">
+				<span class="total">
+					<span class="all no-new"><span class="label">Počet reakcí:</span> <a href="http://forum.lupa.cz/index.php?topic=3527.msg31581;topicseen#new" title="V zastoupení majitele nabízím obsahový web cena 5.000.000,-Kč ">0</a></span>
+				</span>
+<span class="date today"><span class="label">Poslední příspěvek:</span> 9:13</span>			</span>
+		</li>
+		<li class="clear">
+			<span class="topic">
+				<a href="http://forum.lupa.cz/index.php?topic=3505.msg31580;topicseen#new" title="Bitcoin Burza 1. v Čechách">Bitcoin Burza 1. v Čechách</a>
+			</span>
+
+			<span class="f-info">
+				<span class="total">
+					<span class="all no-new"><span class="label">Počet reakcí:</span> <a href="http://forum.lupa.cz/index.php?topic=3505.msg31580;topicseen#new" title="Bitcoin Burza 1. v Čechách">2</a></span>
+				</span>
+<span class="date today"><span class="label">Poslední příspěvek:</span> 6:45</span>			</span>
+		</li>
+		<li class="clear">
+			<span class="topic">
+				<a href="http://forum.lupa.cz/index.php?topic=3526.msg31579;topicseen#new" title="Prosba o odzkoušení nového aukčního portálu">Prosba o odzkoušení nového aukčního portálu</a>
+			</span>
+
+			<span class="f-info">
+				<span class="total">
+					<span class="all no-new"><span class="label">Počet reakcí:</span> <a href="http://forum.lupa.cz/index.php?topic=3526.msg31579;topicseen#new" title="Prosba o odzkoušení nového aukčního portálu">0</a></span>
+				</span>
+<span class="date yesterday"><span class="label">Poslední příspěvek:</span> Včera</span>			</span>
+		</li>
+		<li class="clear">
+			<span class="topic">
+				<a href="http://forum.lupa.cz/index.php?topic=3525.msg31578;topicseen#new" title="Nový multifunkční aukční portál">Nový multifunkční aukční portál</a>
+			</span>
+
+			<span class="f-info">
+				<span class="total">
+					<span class="all no-new"><span class="label">Počet reakcí:</span> <a href="http://forum.lupa.cz/index.php?topic=3525.msg31578;topicseen#new" title="Nový multifunkční aukční portál">0</a></span>
+				</span>
+<span class="date yesterday"><span class="label">Poslední příspěvek:</span> Včera</span>			</span>
+		</li>
+		<li class="clear">
+			<span class="topic">
+				<a href="http://forum.lupa.cz/index.php?topic=2316.msg31577;topicseen#new" title="Přivýdělek na internetu">Přivýdělek na internetu</a>
+			</span>
+
+			<span class="f-info">
+				<span class="total">
+					<span class="all no-new"><span class="label">Počet reakcí:</span> <a href="http://forum.lupa.cz/index.php?topic=2316.msg31577;topicseen#new" title="Přivýdělek na internetu">44</a></span>
+				</span>
+<span class="date yesterday"><span class="label">Poslední příspěvek:</span> Včera</span>			</span>
+		</li>
+		<li class="clear">
+			<span class="topic">
+				<a href="http://forum.lupa.cz/index.php?topic=3524.msg31575;topicseen#new" title="Prodám doménu - BaroveNovinky.cz">Prodám doménu - BaroveNovinky.cz</a>
+			</span>
+
+			<span class="f-info">
+				<span class="total">
+					<span class="all no-new"><span class="label">Počet reakcí:</span> <a href="http://forum.lupa.cz/index.php?topic=3524.msg31575;topicseen#new" title="Prodám doménu - BaroveNovinky.cz">0</a></span>
+				</span>
+<span class="date yesterday"><span class="label">Poslední příspěvek:</span> Včera</span>			</span>
+		</li>
+		<li class="clear">
+			<span class="topic">
+				<a href="http://forum.lupa.cz/index.php?topic=3523.msg31574;topicseen#new" title="Prodám doménu - KlubVina.cz">Prodám doménu - KlubVina.cz</a>
+			</span>
+
+			<span class="f-info">
+				<span class="total">
+					<span class="all no-new"><span class="label">Počet reakcí:</span> <a href="http://forum.lupa.cz/index.php?topic=3523.msg31574;topicseen#new" title="Prodám doménu - KlubVina.cz">0</a></span>
+				</span>
+<span class="date yesterday"><span class="label">Poslední příspěvek:</span> Včera</span>			</span>
+		</li>
+		<li class="clear">
+			<span class="topic">
+				<a href="http://forum.lupa.cz/index.php?topic=2936.msg31571;topicseen#new" title="BANAN CZ - webové stránky zdarma, ukázky prací zdarma ">BANAN CZ - webové stránky zdarma, ukázky prací zdarma </a>
+			</span>
+
+			<span class="f-info">
+				<span class="total">
+					<span class="all no-new"><span class="label">Počet reakcí:</span> <a href="http://forum.lupa.cz/index.php?topic=2936.msg31571;topicseen#new" title="BANAN CZ - webové stránky zdarma, ukázky prací zdarma ">284</a></span>
+				</span>
+<span class="date yesterday"><span class="label">Poslední příspěvek:</span> Včera</span>			</span>
+		</li>
+		<li class="clear">
+			<span class="topic">
+				<a href="http://forum.lupa.cz/index.php?topic=3521.msg31570;topicseen#new" title="Upozornění na vyřízení reklamace">Upozornění na vyřízení reklamace</a>
+			</span>
+
+			<span class="f-info">
+				<span class="total">
+					<span class="all no-new"><span class="label">Počet reakcí:</span> <a href="http://forum.lupa.cz/index.php?topic=3521.msg31570;topicseen#new" title="Upozornění na vyřízení reklamace">6</a></span>
+				</span>
+<span class="date yesterday"><span class="label">Poslední příspěvek:</span> Včera</span>			</span>
+		</li>
+		<li class="clear">
+			<span class="topic">
+				<a href="http://forum.lupa.cz/index.php?topic=3522.msg31568;topicseen#new" title=" Nový Eshop s luxusní módou"> Nový Eshop s luxusní módou</a>
+			</span>
+
+			<span class="f-info">
+				<span class="total">
+					<span class="all no-new"><span class="label">Počet reakcí:</span> <a href="http://forum.lupa.cz/index.php?topic=3522.msg31568;topicseen#new" title=" Nový Eshop s luxusní módou">0</a></span>
+				</span>
+<span class="date older"><span class="label">Poslední příspěvek:</span> 24. 8. 2013</span>			</span>
+		</li>
+		</ul>
+		<ul class="discussionTopics">
+		</ul>
+
+
+	<span class="link-more border clear">
+		<a href="http://forum.lupa.cz">Další fóra</a>
+		<a href="http://forum.lupa.cz/index.php?action=post;board=26.0" id="newTopic" class="clear"><span class="icon"></span>Nové téma</a>
+		<span class="corner top-left"> </span>
+		<span class="corner top-right"> </span>
+		<span class="corner bottom-left"> </span>
+		<span class="corner bottom-right"> </span>
+	</span>
+	<span class="corner top-left"> </span>
+	<span class="corner top-right"> </span>
+	<span class="corner bottom-left"> </span>
+	<span class="corner bottom-right"> </span>
+</div></div>
+<div class="textbox" id="ad-text2">
+
+	
+	<!-- start slave -->
+	<div id="adoceanczwfmnblkfue"></div>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009, iinfo_cz.Lupa.cz.Lupa.cz.Textbox s logem 2 */
+	ado.slave('adoceanczwfmnblkfue', { myMaster: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', onServerEmission: function() {
+			var body = document.getElementsByTagName("BODY");
+			if (body.length > 0) {
+				body[0].className += ' adp-textbox-s-logem-2';
+			}
+		}
+	});
+	</script>
+	<!--  end slave  -->
+
+</div>
+<div class="container smallList">
+	<h2 class="heading  rubric">
+		Nejčtenejší články
+		<span class="top">&nbsp;</span>
+		<span class="corner top-left">&nbsp;</span>
+		<span class="corner top-right">&nbsp;</span>
+		<span class="corner bottom-left">&nbsp;</span>
+		<span class="corner bottom-right">&nbsp;</span>
+	</h2>
+
+	<ol class="sidebar-list SmallList">
+		<li class="clear">
+			<a href='/clanky/virus-ceska-posta/'>Zprávy o doručené zásilce lákají na podvržený web České pošty</a>
+		</li>
+		<li class="clear">
+			<a href='/clanky/na-ceskem-i-slovenskem-facebooku-pobiha-staronovy-hoax-tykajici-se-soukromi/'>Na českém i slovenském Facebooku pobíhá staronový hoax týkající se soukromí</a>
+		</li>
+		<li class="clear">
+			<a href='/clanky/jak-poznat-podvodny-e-shop-tady-je-jedenact-priznaku-ktere-napovi/'>Jak poznat podvodný e-shop? Tady je jedenáct příznaků, které napoví</a>
+		</li>
+		<li class="clear">
+			<a href='/clanky/neni-ux-jako-ux-prosim-te-kamo-nemohl-bys-mi-neco-vystavit-na-aukru/'>Není UX jako UX: Prosím tě kámo, nemohl bys mi něco vystavit na Aukru?</a>
+		</li>
+		<li class="clear">
+			<a href='/clanky/jak-to-bylo-s-free-sms-senderem-aneb-co-s-aplikaci-ktera-ma-skoro-milion-stazeni/'>Jak to bylo s Free SMS Senderem aneb Co s aplikací, která má skoro milion stažení?</a>
+		</li>
+	</ol>
+</div>
+
+<div class="container smallList">
+	<h2 class="heading  rubric">
+Nejdiskutovanější články		<span class="top">&nbsp;</span>
+		<span class="corner top-left">&nbsp;</span>
+		<span class="corner top-right">&nbsp;</span>
+		<span class="corner bottom-left">&nbsp;</span>
+		<span class="corner bottom-right">&nbsp;</span>
+	</h2>
+
+	<ol class="sidebar-list SmallList">
+                <li class="clear">
+			<a href="/clanky/mate-v-obci-infrastrukturu-pro-vysokorychlostni-internet-pta-se-ctu/">Máte v obci infrastrukturu pro vysokorychlostní Internet, ptá se ČTÚ</a>
+			<div class="opin">
+				<span>159 názorů</span>
+			</div>
+		</li>
+                <li class="clear">
+			<a href="/clanky/median-petra-koubskeho-o-programatorech/">Medián Petra Koubského: O programátorech</a>
+			<div class="opin">
+				<span>155 názorů</span>
+			</div>
+		</li>
+                <li class="clear">
+			<a href="/clanky/upc-od-zari-vyrazne-navysi-rychlosti-pripojeni/">UPC od září výrazně navýší rychlosti internetového připojení</a>
+			<div class="opin">
+				<span>149 názorů</span>
+			</div>
+		</li>
+                <li class="clear">
+			<a href="/clanky/streaming-hudby-pocita-se-na-halere-muzikantum-ale-presto-pomaha/">Streaming hudby: počítá se na haléře, muzikantům přesto pomáhá</a>
+			<div class="opin">
+				<span>141 názorů</span>
+			</div>
+		</li>
+                <li class="clear">
+			<a href="/clanky/neni-ux-jako-ux-prosim-te-kamo-nemohl-bys-mi-neco-vystavit-na-aukru/">Není UX jako UX: Prosím tě kámo, nemohl bys mi něco vystavit na Aukru?</a>
+			<div class="opin">
+				<span>131 názorů</span>
+			</div>
+		</li>
+	</ol>
+</div>
+
+<div class="sklik-box" id="as-sidebar">
+<script type="text/javascript"><!--
+{
+    sklikZoneId = "11207",
+    sklikDivId = "as-sidebar"
+
+    sklik(sklikDivId, sklikZoneId);
+}
+// -->
+</script>
+</div><div id="top-blogs" class="container style1">
+	<h2 class="header">
+		<a href="http://blog.lupa.cz/">Vybíráme z blogů</a>
+		<span class="top">&nbsp;</span>
+		<span class="corner top-left">&nbsp;</span>
+		<span class="corner top-right">&nbsp;</span>
+		<span class="corner bottom-left">&nbsp;</span>
+		<span class="corner bottom-right">&nbsp;</span>
+	</h2>
+	<div class="item clear">
+
+		<a class="author" href="http://blog.lupa.cz/it-prevazne-vazne/">
+		<img src="http://i.iinfo.cz/blg/l/authors/1820.jpg"
+			 width="40"
+			 height="50"
+			 alt="" />
+Mira Pavlicek		</a>
+
+		<h3><a href="http://blog.lupa.cz/it-prevazne-vazne/rozumne-vyuziti-cloudovych-sluzeb/">Rozumné využití cloudových služeb</a></h3>
+
+		<p>Hezký páteční den, tedy v době psaní vypadalo páteční počasí dobře, tak doufám, že to…</p>
+
+	</div>
+	<div class="item clear">
+
+		<a class="author" href="http://blog.lupa.cz/startupic/">
+		<img src="http://i.iinfo.cz/blg/l/authors/773.jpg"
+			 width="40"
+			 height="50"
+			 alt="" />
+Startupič		</a>
+
+		<h3><a href="http://blog.lupa.cz/startupic/vypozorovane-rozdeleni-typu-investoru-z-pohledu-startupu/">Vypozorované rozdělení typů investorů z pohledu startupu</a></h3>
+
+		<p>Firmu jsme prodali, pořád tam děláme u soustruhů, ale už to není taková honička, protože…</p>
+
+	</div>
+	<div class="item clear">
+
+		<a class="author" href="http://blog.lupa.cz/it-prevazne-vazne/">
+		<img src="http://i.iinfo.cz/blg/l/authors/1820.jpg"
+			 width="40"
+			 height="50"
+			 alt="" />
+Mira Pavlicek		</a>
+
+		<h3><a href="http://blog.lupa.cz/it-prevazne-vazne/historie-se-nam-vraci-je-to-opravdu-spravne/">Historie se nám vrací - je to opravdu správné??</a></h3>
+
+		<p>Dnes bych velice rád navázal, nepřímo, na minulý článek ohledně cloudu (Proč se bojím…</p>
+
+	</div>
+
+	<span class="link-more border clear">
+		<a href="http://blog.lupa.cz/">Další</a>
+		<a href="http://blog.lupa.cz/zalozit/" class="add">Založit blog</a>
+		<span class="corner top-left">&nbsp;</span>
+		<span class="corner top-right">&nbsp;</span>
+		<span class="corner bottom-left">&nbsp;</span>
+		<span class="corner bottom-right">&nbsp;</span>
+	</span>
+</div>
+
+</div>
+<div id="ad-megaboard">
+
+	
+	<!-- start slave -->
+	<div id="adoceanczmeoqkqgmfk"></div>
+	<script type="text/javascript">
+	/* (c)AdOcean 2003-2009, iinfo_cz.Lupa.cz.Lupa.cz.Megaboard (big rectangle) */
+	ado.slave('adoceanczmeoqkqgmfk', { myMaster: 'Wc.67LGCQzlIhJg7wDIrLaJk0juvCD6ZF._tm7tvEvz.o7', onServerEmission: function() {
+			var body = document.getElementsByTagName("BODY");
+			if (body.length > 0) {
+				body[0].className += ' adp-megaboard-big-rectangle';
+			}
+		}
+	});
+	</script>
+	<!--  end slave  -->
+
+</div>
+    <div class="clear"></div>
+
+
+    </div>  <!-- /#page -->
+
+
+</div><!-- /#bckMiddleHolder -->
+
+
+
+<div id="bckBottomHolder"></div>
+
+<div id="footer" class="clear">
+<div id="promo-footerPromo" class="servers-promo clear">
+	<div class="item">
+		<div class="server">
+			<a href="http://www.mesec.cz/" target="_top">
+				<img src="http://i.iinfo.cz/sh/fpl-mesec.png" alt="Měšec.cz" width="180" height="40"/>
+			</a>
+		</div>
+		<a href="http://www.mesec.cz/clanky/reality-test-s-platebnimi-kartami-usetril-tisice-na-kurzech-i-poplatcich/#utm_medium=kolotoc&amp;utm_source=lupa-cz&amp;utm_campaign=reality-test-s-platebnimi-kartami-usetril-tisice-na-kurzech-i-poplatcich" target="_top" class="link-img click" rel="/clanky/bezpecne-dns/?footerPromo-id=6553&do=footerPromo-click">
+			<img src="http://i.iinfo.cz/images/221/zena-opalovani-dovolena-1.jpg" width="180" height="100" alt="" />
+        </a>
+        <h3><a href="http://www.mesec.cz/clanky/reality-test-s-platebnimi-kartami-usetril-tisice-na-kurzech-i-poplatcich/#utm_medium=kolotoc&amp;utm_source=lupa-cz&amp;utm_campaign=reality-test-s-platebnimi-kartami-usetril-tisice-na-kurzech-i-poplatcich" target="_top" class="click" rel="/clanky/bezpecne-dns/?footerPromo-id=6553&do=footerPromo-click">Reality test: Dá se cestovat bez hotovosti?</a></h3>
+    </div>
+	<div class="item">
+		<div class="server">
+			<a href="http://www.root.cz/" target="_top">
+				<img src="http://i.iinfo.cz/sh/fpl-root.png" alt="Root.cz" width="180" height="40"/>
+			</a>
+		</div>
+		<a href="http://www.root.cz/zpravicky/hacknete-svou-wi-fi-sd-kartu/#utm_medium=kolotoc&amp;utm_source=lupa-cz&amp;utm_campaign=sd-karta-je-pocitac-a-da-se-hacknout" target="_top" class="link-img click" rel="/clanky/bezpecne-dns/?footerPromo-id=6513&do=footerPromo-click">
+			<img src="http://i.iinfo.cz/images/643/sd-karta.jpg" width="180" height="100" alt="" />
+        </a>
+        <h3><a href="http://www.root.cz/zpravicky/hacknete-svou-wi-fi-sd-kartu/#utm_medium=kolotoc&amp;utm_source=lupa-cz&amp;utm_campaign=sd-karta-je-pocitac-a-da-se-hacknout" target="_top" class="click" rel="/clanky/bezpecne-dns/?footerPromo-id=6513&do=footerPromo-click">SD karta je počítač... a dá se hacknout</a></h3>
+    </div>
+	<div class="item">
+		<div class="server">
+			<a href="http://www.digizone.cz/" target="_top">
+				<img src="http://i.iinfo.cz/sh/fpl-digizone.png" alt="DigiZone.cz" width="180" height="40"/>
+			</a>
+		</div>
+		<a href="http://www.digizone.cz/clanky/jan-hrebejk-nataci-novy-serial-v-objeti-pro-hbo-slibuje-odvazne-eroticke-sceny/#utm_medium=kolotoc&amp;utm_source=lupa-cz&amp;utm_campaign=jan-hrebejk-nataci-novy-serial-v-objeti-pro-hbo-slibuje-odvazne-eroticke-sceny" target="_top" class="link-img click" rel="/clanky/bezpecne-dns/?footerPromo-id=6526&do=footerPromo-click">
+			<img src="http://i.iinfo.cz/images/679/ana-geislerova-1.jpg" width="180" height="100" alt="" />
+        </a>
+        <h3><a href="http://www.digizone.cz/clanky/jan-hrebejk-nataci-novy-serial-v-objeti-pro-hbo-slibuje-odvazne-eroticke-sceny/#utm_medium=kolotoc&amp;utm_source=lupa-cz&amp;utm_campaign=jan-hrebejk-nataci-novy-serial-v-objeti-pro-hbo-slibuje-odvazne-eroticke-sceny" target="_top" class="click" rel="/clanky/bezpecne-dns/?footerPromo-id=6526&do=footerPromo-click">Aňa Geislerová se svlékne pro seriál HBO</a></h3>
+    </div>
+	<div class="item">
+		<div class="server">
+			<a href="http://www.vitalia.cz/" target="_top">
+				<img src="http://i.iinfo.cz/sh/fpl-vitalia.png" alt="Vitalia.cz" width="180" height="40"/>
+			</a>
+		</div>
+		<a href="http://www.vitalia.cz/clanky/rizika-obalu-potravin-brzdete-s-temi-pytliky/#utm_medium=kolotoc&amp;utm_source=lupa-cz&amp;utm_campaign=rizika-obalu-potravin-brzdete-s-temi-pytliky" target="_top" class="link-img click" rel="/clanky/bezpecne-dns/?footerPromo-id=6592&do=footerPromo-click">
+			<img src="http://i.iinfo.cz/images/87/obaly-potravin-s-1.jpg" width="180" height="100" alt="" />
+        </a>
+        <h3><a href="http://www.vitalia.cz/clanky/rizika-obalu-potravin-brzdete-s-temi-pytliky/#utm_medium=kolotoc&amp;utm_source=lupa-cz&amp;utm_campaign=rizika-obalu-potravin-brzdete-s-temi-pytliky" target="_top" class="click" rel="/clanky/bezpecne-dns/?footerPromo-id=6592&do=footerPromo-click">Pytlíky nás zničí dřív než globální oteplování</a></h3>
+    </div>
+	<div class="item">
+		<div class="server">
+			<a href="http://www.topdrive.cz/" target="_top">
+				<img src="http://i.iinfo.cz/sh/fpl-topdrive.png" alt="TopDrive.cz" width="180" height="40"/>
+			</a>
+		</div>
+		<a href="http://www.topdrive.cz/clanky/elektricka-budoucnost-u-bmw-zeptali-jsme-se-na-novy-model-i3/#utm_medium=kolotoc&amp;utm_source=lupa-cz&amp;utm_campaign=elektricka-budoucnost-u-bmw-zeptali-jsme-se-na-novy-model-i3" target="_top" class="link-img click" rel="/clanky/bezpecne-dns/?footerPromo-id=6610&do=footerPromo-click">
+			<img src="http://i.iinfo.cz/images/239/produktovy-expert-bmw-paticka-1.jpg" width="180" height="100" alt="" />
+        </a>
+        <h3><a href="http://www.topdrive.cz/clanky/elektricka-budoucnost-u-bmw-zeptali-jsme-se-na-novy-model-i3/#utm_medium=kolotoc&amp;utm_source=lupa-cz&amp;utm_campaign=elektricka-budoucnost-u-bmw-zeptali-jsme-se-na-novy-model-i3" target="_top" class="click" rel="/clanky/bezpecne-dns/?footerPromo-id=6610&do=footerPromo-click">Rozhovor s produktovým expertem BMW o i3</a></h3>
+    </div>
+	<div class="servers-promo-clear"></div>
+	<span class="corner top-left"></span>
+	<span class="corner top-right"></span>
+	<span class="corner bottom-left"></span>
+	<span class="corner bottom-right"></span>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#promo-footerPromo a[rel]').each(function(e) {
+				var $this = $(this);
+				// replace href attribute
+				$this.attr('href', $this.attr('rel'));
+			});
+		});
+	</script>
+</div><!-- /.servers-promo -->
+
+
+    <div id="projectInfo">
+        <a class="logo-iinfo" href="http://www.iinfo.cz/"><img src="http://i.iinfo.cz/l/logo-iinfo.png" width="171" height="49" alt="Internet Info" title="Internet Info - provozovatel" /></a>
+        <div class="text-info">
+            <p><strong>Lupa.cz</strong> (www.lupa.cz), server o českém Internetu. ISSN 1213-0702</p>
+            <p>Copyright &copy; 1998 &ndash; 2013 <a href="http://www.iinfo.cz/">Internet Info, s.r.o.</a> Všechna práva vyhrazena. Powered by <a href="http://www.root.cz/">Linux</a>.</p>
+            <ul class="clear">
+                <li><a id="typeSwitch" href='/clanky/bezpecne-dns/?do=typeSwitch-redirect'>Přepnout na mobilní verzi<span class="icon next"></span></a></li>
+                <li><a href='/redakce/kontakt/' title="Kontakty na provozovatele, kontaktní formulář">Kontakt</a>|</li>
+                <li><a href="http://www.iinfo.cz/projekty/lupa/reklama-lupa/" title="Reklamní možnosti serveru, ceník reklamy">Reklama</a>|</li>
+                <li><a href='/redakce/podminky-uzivani/' title="Podmínky užívání serveru  autorská práva atd.">Podmínky užívání</a>|</li>
+                <li><a href='/redakce/podpora/' title="Líbí se vám server Lupa.cz? Vyjádřete mu svou podporu umístěním ikonky na své stránky.">Podpořte Lupa.cz</a>|</li>
+                <li><a href='/redakce/exporty/' title="Exporty syndikovaného obsahu">RSS exporty</a></li>            </ul>
+
+            <div id="siux">
+                <a href="http://www.siux.cz/"><img src="http://i.iinfo.cz/ii/siux.gif" alt="Profesionální monitoring serverů zajišťuje SiUX" width="88" height="31"/></a>
+            </div>
+
+        </div>
+        <span class="corner top-left">&nbsp;</span>
+        <span class="corner top-right">&nbsp;</span>
+        <span class="corner bottom-left">&nbsp;</span>
+        <span class="corner bottom-right">&nbsp;</span>
+    </div>
+</div>  <!-- /#footer -->
+
+<div id="webstats">
+	<div id="nvc">
+		<script src="http://c1.navrcholu.cz/code?site=16;t=t1x1" type="text/javascript"></script>
+		<noscript><div><img src="http://c1.navrcholu.cz/hit?site=16;t=t1x1;ref=;jss=0" width="1" height="1" alt="" /></div></noscript>
+	</div>
+	<!-- (C)2000-2008 Gemius SA - gemiusAudience -->
+	<script type="text/javascript">
+		<!--//--><![CDATA[//><!--
+		var js_gemius_identifier = pp_gemius_identifier = new String('dwLr4Mrb5CeFkBTu8.o7kre_TF6YQAPmR4H1iG5M2D3.r7');
+		//--><!]]>
+	</script>
+<script type="text/javascript" src="http://f.lupa.cz/webtemp/jsloader-0b1de2c8cdea-xgemius.js?t=1285151941"></script>
+</div>
+
+
+</body>
+</html>

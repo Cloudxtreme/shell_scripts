@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8">
+            
+<!-- this should be per page -->
+        <meta lang="cs" name="keywords" content="Domény, Registrátoři, Registrace domén, CZ.NIC, WHOIS, DNS" />
+        <meta lang="en" name="keywords" content="Domains, Registrators, Domain registration, CZ.NIC, WHOIS, DNS" />
+        <meta lang="cs" name="description" content="Správce domén CZ." />
+        <meta lang="en" name="description" content="CZ domain registry." />
+        <link rel='shortcut icon' type='image/x-icon' href='/static/nic/images/favicon.ico' />
+
+        <title>CZ.NIC - O DNSSEC</title>
+        
+
+
+        <link href="/static/nic/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="/static/nic/css/print.css" rel="stylesheet" type="text/css" media="print" />
+        <link href="/static/nic/css/specific.css" rel="stylesheet" type="text/css" media="screen" />
+
+<!-- this should be in separate files -->
+        <meta name="google-site-verification" content="wuFFLLq-bqUtDNBDwq1UU27QOsvAX9cN-JY8oymPavY" />
+        <meta name="msvalidate.01" content="41F9105A2B1D5155132F833AEB5A129D" />
+        <script src="/static/js/jquery-1.8.0.min.js"></script>
+        <script src="/static/nic/js/jquery.placeholder.js?v=2.0.7"></script>
+        
+        
+        
+    </head>
+
+    <body id="base">
+
+<script type="text/javascript">
+$(function() {
+ $('input, textarea').placeholder();
+});
+</script>
+
+
+        
+<div id="header">
+     <div class="wrap">
+        <div id="accessibility">
+            <a href="#content"> Obsah </a>
+            <a href="#Navigation"> Navigace </a>
+            <a href="#Search"> Hledat </a>
+        </div>
+        
+            <!-- Logo -->
+            <h1 id="logo"><a href="/" title="Back to nic.cz home page"><img src="/static/nic/images/logo_cs.png" width="316" height="114" alt ="Nic.cz | CZ Domain Registry" /></a></h1>
+        
+            <div class="anchor"><a href="#main-menu">k navigaci &darr;</a></div>
+            <br/><br/>
+        <form action="/search/" method="get" id="search" class="searchbox">
+            <input type="submit" class="search-button" name="go" value=" " title="vyhledat&hellip;" />
+            <input type="text" class="search-field txt" name="query" value="" placeholder="vyhledat&hellip;" />
+        </form>
+        <ul id="language-select">
+                
+                    
+                    <li>Česky</li>
+                    
+                
+                    
+                    <li><a href="/setlang/?language=en">English</a></li>
+                    
+                
+        </ul>
+        
+    
+
+<!-- menu -->
+<div id="navigation">
+
+     <ul id="nav0" >
+    
+        
+        <li class="nav-mnu1 "><a href="/page/313/">Domény</a></li>
+    
+        
+        <li class="nav-mnu2 "><a href="/whois/registrars/">Registrátoři</a></li>
+    
+        
+        <li class="nav-mnu3 "><a href="/page/351/">O nás</a></li>
+    
+        
+        <li class="nav-mnu4 "><a href="http://www.mojeid.cz/">mojeID</a></li>
+    
+     </ul>
+
+</div>
+<!-- /menu -->
+
+
+        <p class="spaceman"><a href="#container">k obsahu &uarr;</a></p>
+    </div><!-- .wrap -->
+</div><!-- #header -->
+
+<div id="content" role="main">
+    <div class="wrap cs">
+        <div id="page" class="withrelated">
+            
+        
+<!-- DEFAULT base : design/base_menu.html -->
+        <div id="content-main" class="withrelated">
+            <h1>O DNSSEC</h1>
+            <div class="article_text">
+                <div class="markdown-text"><p>DNSSEC je rozšíření systému doménových jmen (<a href="http://cs.wikipedia.org/wiki/DNS">DNS</a>), které zvyšuje jeho bezpečnost. DNSSEC poskytuje uživatelům jistotu, že informace, které z DNS získal, byly poskytnuty správným zdrojem, jsou úplné a jejich integrita nebyla při přenosu narušena. DNSSEC zajistí důvěryhodnost údajů, získaných z DNS. Více o DNSSEC najdete na stránce <a href="/page/444/jak-funguje-dnssec/">jak funguje DNSSEC</a>.
+</p>
+
+<h1>Proč potřebujete DNSSEC?</h1>
+<p>Přestože většina internetových služeb sama o sobě nějaké formy zabezpečení má a uživatelé jsou zvyklí je používat, existuje jedna další hrozba, kterou si málokdo uvědomuje, a kterou dokáže odvrátit pouze DNSSEC.<br />
+
+</p>
+<p>Všechny internetové služby (e-mail, webové stránky, instant messaging, internetové volání, ...) využívají systém doménových jmen (DNS – Domain name system). Jeho základním principem je to, že umožňuje v adresách těchto služeb používat jména, která jsou srozumitelná a snadno zapamatovatelná pro člověka, namísto čísel, která jsou srozumitelná a potřebná pro počítače. V praxi to pak funguje tak, že kdykoliv uživatel použije jmennou adresu nějaké internetové služby (webové stránky, emailovou adresu atd.), je nutné ji přeložit pomocí DNS na adresu číselnou a na tuto číselnou adresu se pak počítač obrátí, aby se spojil se službou, kterou uživatel chce použít. Více o fungování systému DNS se dozvíte na stránce <a href="/page/312/o-domenach-a-dns/">O doménách a DNS</a>.
+</p>
+<p>V případě, že někdo dokáže podvrhnout číselnou adresu, uživatel se, aniž bude cokoliv tušit, dostane na úplně jiné místo, a vůbec se nespojí se službou, kterou očekával. Může to vypadat třeba jako na následujícím obrázku.
+</p>
+<p><img src="/files/nic/img/napadeni_DNS_60.png" title="Napadení DNS" alt="Napadení DNS"/>
+</p>
+<p>Uživatel napíše do svého prohlížeče adresu, a za normálních okolností vše probíhá zeleně označenou cestou – použije server svého poskytovatele připojení (ISP), a ten z globálního DNS systému získá číselnou adresu, se kterou se uživatel spojí a používá službu, kterou chtěl. V případě, že je však číselná adresa podvržena, pak vše probíhá červeně označenou cestou, a uživatel je spojen s jinou službou, aniž cokoli tuší. 
+</p>
+<p>Proč to může být vážný problém? Představte si že tou službou je elektronický obchod, kam vkládáte číslo karty, nebo je to služba sledující pohyby kurzů akcií, kterou používáte pro své investiční rozhodování, nebo jen odesíláte email s důležitými informacemi. Ani v jednom případě nechcete, aby informace, které získáváte, byly z nedůvěryhodného (podvrženého) zdroje, a naopak aby údaje, které posíláte, nepadly do rukou někomu nepovolanému. A právě to se pomocí zneužití DNS může stát, pokud nejste chráněni pomocí DNSSEC. 
+</p>
+
+<h1>Jak se ochránit pomocí DNSSEC?</h1>
+<p>DNSSEC poskytuje ochranu hned několika způsoby. Důležité je proto především, z jakého pohledu budete zabezpečení zavádět, tedy, zdali jako běžný uživatel internetu, provozovatel internetových služeb či poskytovatel připojení k internetu.<br />
+
+</p>
+<p><a href="/page/561/jak-zprovoznit-dnssec/">Průvodce zavedením DNSSEC</a> Vám pomůže vybrat tu správnou možnost, vysvětlí Vám všechny potřebné kroky a poskytne návod k jejich provedení.
+</p>
+
+<h1>DNSSEC pro domény .cz a 0.2.4.e164.arpa (ENUM)</h1>
+<p>Obě domény spravované sdružením <a href="http://www.nic.cz/">CZ.NIC</a>: .cz a ENUM (0.2.4.e164.arpa) umožňují používat DNSSEC pro ochranu záznamů v DNS. Provozní pravidla, kterými se řídí sdružení CZ.NIC při správě DNSSEC klíčů najdete v <a href="/files/nic/doc/Provozni_manual_DNSSEC_201001_final.pdf">Provozním manuálu DNSSEC</a> (PDF, 68 kB). Pokud chcete svou doménu ochránit, musíte vygenerovat své DNSSEC klíče, své záznamy podepsat a prostřednictvím určeného registrátora své domény zveřejnit tzv. DS záznamy do registru domén. Postup jak na to najdete v průvodci <a href="/page/565/jak-zprovoznit-dnssec/">jak zavést DNSSEC</a> (tento návod je napsán pro domény .cz, ale postup pro domény ENUM je zcela stejný). 
+</p>
+<p>CZ.NIC pro obě domény, které spravuje (.cz a .0.2.4.e164.arpa) publikuje DS záznamy k těmto zónám v nadřazených doménách. U domény .cz je to kořenová doména a u domény .0.2.4.e164.arpa je to doména e164.arpa.  Pro  správné fungování ověřování DNSSEC podpisů je nutná speciální konfigurace  rekurzivního serveru. Ta spočívá v přidání klíče nadřazené zóny (případně odpovídajícího DS záznamu) jako základního bodu důvěry do konfiguračního souboru. Konkrétní postup, jak manuálně přidat klíč na Váš server najdete v návodu <a href="/page/563/jak-zprovoznit-dnssec/">jak zprovoznit DNSSEC</a>.
+</p></div>
+            </div>
+        </div> <!-- page main -->
+
+
+        
+    
+            <div id="page-sidebar">
+                    <div class="page-sidebar-content">
+                         <div class="markdown-text"><style type="text/css" media="screen"><!--
+    #nodnssec {
+        display: none;
+    }
+--></style>
+<style type="text/css" media="screen"><!--
+    @import url("http://www.rhybar.cz/nodnssec/nodnssec.css");
+
+--></style>
+
+<p><object width="292" height="164"><param name="movie" value="/files/nic/img/DNSSEC_banner_270x164.swf"><embed src="/files/nic/img/DNSSEC_banner_270x164.swf" width="292" height="164"></embed></object>
+</p>
+
+<h1>Test ochrany pomocí DNSSEC</h1>
+<p> <div id="nodnssec">
+    <p><center><img src="/files/nic/img/klic_cerveny-final_78_70.png" title="Bez DNSSEC" alt="Bez DNSSEC"/> 
+   </center>
+</p>
+<p>Váš počítač není při přístupu k internetovým službám a zdrojům zabezpečen technologií DNSSEC. Můžete se tedy snadno stát obětí útoku na systém doménových jmen. <strong>Může se Vám stát, že se při použití internetových adres dostanete na podvržené stránky či služby!</strong> Abyste toto riziko snížili, musíte zavést ochranu pomocí DNSSEC. Jak na to se dozvíte z <a href="/page/561/jak-zprovoznit-dnssec/">průvodce zavedením DNSSEC</a>.</p>
+    </div>
+    <div id="yesdnssec">
+      <p><center><img src="/files/nic/img/klic_zeleny-final_78_70.png" title="Chráněno s DNSSEC" alt="Chráněno s DNSSEC"/><br />
+</center>
+</p>
+<p>Vše je v pořádku, Váš počítač je při přístupu k internetovým službám a zdrojům zabezpečen technologií DNSSEC, je tedy ochráněn proti podvržení doménových jmen v internetových adresách. Můžete v klidu dál surfovat ...</p> </div>
+</p>
+
+<h1>Technické informace</h1>
+<p>Technické informace o DNSSEC a jeho zavedení najdete na stránkách technické podpory sdružení CZ.NIC, kde naleznete:
+</p>
+<ul>
+ <li>
+     <a href="http://labs.nic.cz/odvr">Otevřené DNSSEC validující resolvery  provozované CZ.NIC</a>
+ </li>
+
+ <li>
+     <a href="/page/531/-dnssec-za-6-minut/">DNSSSEC za 6 minut</a> - prezentace obsahující rychlé seznámení s možnostmi a zavedením DNSSEC
+ </li>
+
+ <li>
+     <a href="/page/576/dnssec-howto/">DNSSEC HOWTO</a> - podrobný technický popis zavedení technologie.
+ </li>
+
+ <li>
+     <a href="/page/532/pouziti-sca6000-pro-podepisovani-dnssec/">DNSSEC pomocí HW SCA6000)</a> - návod jak pro podepisování DNS záznamů používat HW kartu Sun SCA6000 
+ </li>
+</ul>
+
+<h1>Další zdroje k DNSSEC</h1>
+<p>Více informací o DNSSEC můžete najít na následujících stránkách:
+</p>
+<ul>
+ <li>
+     <a href="http://www.lupa.cz/clanky/verohodne-dns-cili-dnssec/">Věrohodné DNS čili DNSSEC</a> - článek serveru LUPA.cz
+ </li>
+
+ <li>
+     <a href="http://en.wikipedia.org/wiki/DNSSEC">Heslo DNSSEC ve Wikipedii</a> (anglicky)<br />
+
+ </li>
+
+ <li>
+     <a href="http://www.dnssec.net">Informační portál o DNSSEC</a> (anglicky)
+ </li>
+</ul>
+
+<h1>Kurz DNSSEC</h1>
+<p>Seznamte se s technologií DNSSEC na <a href="http://www.nic.cz/akademie/course/14/detail/">kurzu Akademie CZ.NIC</a>.
+</p></div>
+                    </div>
+            </div> <!-- page sidebar -->
+    
+
+   <div class="cleaner" id="break"></div> <!-- base_menu -->
+
+        </div> <!-- page -->
+    </div> <!-- wrap -->
+
+        
+    <!-- footer -->
+    <div id="footer" role="contentinfo">
+    <div class="wrap">
+        <p id="copyright">&copy; 2013 CZ.NIC, z. s. p. o.</p>
+        <p id="footer-navigation-heading">Ostatní weby:</p>
+    <ul id="footer-navigation">
+    <!-- site nic -->
+        
+        <li><a href="http://www.mojeid.cz/" title="mojeID">mojeID</a></li>
+        <li><a href="http://fred.nic.cz" title="Free Registry for ENUM and Domains">FRED</a></li>
+        <li><a href="http://www.nic.cz/dnssec/" title="DNSSEC">DNSSEC</a></li>
+        <li><a href="http://www.nic.cz/csirt/" title="CZ.NIC-CSIRT">CZ.NIC-CSIRT</a></li>
+        <li><a href="http://csirt.cz/" title="CSIRT">CSIRT.CZ</a></li>
+        
+           <li><a href="http://labs.nic.cz/" title="Laboratoře">Laboratoře</a></li>
+        
+        <li><a href="http://www.nic.cz/akademie/" title="Akademie">Akademie</a></li>
+        <li><a href="http://knihy.nic.cz/" title="Edice CZ.NIC">Edice CZ.NIC</a></li>
+        <li><a href="/page/357/"  title="Kontakt">Kontakt</a></li>
+    </ul>
+    <div id="footer-link-up"><a href="#content">Nahoru</a>
+    </div>
+    <div class="cleaner"></div>
+  </div><!-- .wrap -->
+</div><!-- #footer -->
+<p id="links"></p>
+
+
+        
+    </div>
+
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        _uacct = "UA-439372-1";
+        urchinTracker();
+    </script>
+
+
+
+
+    </body>
+
+</html>

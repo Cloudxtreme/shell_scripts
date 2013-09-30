@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>Identify theft by clang -- Werner's own blurbs</title><meta name="Generator" content="An unholy concoction of parenthetical guile" /><link rel="stylesheet" type="text/css" media="screen" href="http://werner.eifzilla.de/wop.css" /><link rel="alternate" type="application/rss+xml" title="Werner's own blurbs" href="/feed/atom" /></head><body><div id="dummy"><div id="preamble"><div id="header"> </div><div id="leftColumn"><div id="navigation"><a href="http://werner.eifzilla.de/index.html">Home</a> | <a href="http://werner.eifzilla.de/projects.html">Projects</a> | <a href="http://werner.eifzilla.de/faq.html">FAQ</a> | <a href="http://werner.eifzilla.de/key.html">Key</a> | <a href="http://werner.eifzilla.de/various.html">Various</a></div></div></div><div id="content"><p id="kicker">Werner's own blurbs</p><div id="outline-container-1" class="outline-1"><h2 class="storytitle"><a href="/archives/2012/08/10/identify-theft-by-clang">Identify theft by clang</a></h2><div class="post"><h3 class="meta">10 August 2012  5:31 PM (<a href="/tags/devel">devel</a> | <a href="/tags/gcc">gcc</a>)</h3><div class="storycontent"><div><p>  For some time now, I receive bug reports against Libgcrypt and GnuPG
+  where the claim is that there is a bug in the code (surprise).
+  Given that both projects have been build on a wide range on
+  platforms using many different C compilers, I was amazed that clang
+  was able to still find other flaws in the code.
+</p><p>
+  On closer inspection it turned out that clang pretends to be gcc!
+  For example clang 3.1 claims to be gcc 4.2.1:
+</p><pre class="src src-C"><span style="color: #a020f0;">if</span> (!LangOpts.MicrosoftMode) {
+  <span style="color: #0000ff;">// </span><span style="color: #0000ff;">Currently claim to be compatible with GCC 4.2.1-5621, but only if we're</span>
+  <span style="color: #0000ff;">// </span><span style="color: #0000ff;">not compiling for MSVC compatibility</span>
+  Builder.defineMacro(<span style="color: #8b2252;">&quot;__GNUC_MINOR__&quot;</span>, <span style="color: #8b2252;">&quot;2&quot;</span>);
+  Builder.defineMacro(<span style="color: #8b2252;">&quot;__GNUC_PATCHLEVEL__&quot;</span>, <span style="color: #8b2252;">&quot;1&quot;</span>);
+  Builder.defineMacro(<span style="color: #8b2252;">&quot;__GNUC__&quot;</span>, <span style="color: #8b2252;">&quot;4&quot;</span>);
+  Builder.defineMacro(<span style="color: #8b2252;">&quot;__GXX_ABI_VERSION&quot;</span>, <span style="color: #8b2252;">&quot;1002&quot;</span>);
+}
+</pre><p>
+
+  Well, I would not complain too much about it if clang would really
+  be compatible with that gcc version.  But, it is not even compatible
+  to more than 10 years old gcc versions.  One example is that clang
+  does not grok the gcc feature of defining <i>extern inline</i> functions.
+  Certain inline asm code does not work either.
+</p><p>
+  Clang is praised a lot for being able to compile all kind of stuff
+  with better performance than gcc.  However it often does this only
+  by claiming to be gcc and hoping that it works out.
+</p><p>
+  I consider this default behaviour of clang as an impolite act
+  against the free software community.  Do they really want us to
+  change existing code to
+</p><pre class="example">
+#if defined(__GNUC__) &amp;&amp; !defined(__clang__)
+</pre><p>  ?  I have been hacking C for more than a quarter of a century but
+  can't remember compilers to steal others identity.
+</p><p>
+  Clang folks, please stop defining <i>__GNUC__</i> by default.
+</p></div></div></div><div><h3 id="comments">No responses</h3><div><h3>Leave a Reply</h3><form action="/archives/2012/08/10/identify-theft-by-clang" method="POST"><p><input type="text" name="author" value="" size="22" tabindex="1" /> <label for="author"><small>Name</small></label></p><p><input type="text" name="email" value="" size="22" tabindex="2" /> <label for="email"><small>Mail (will not be published)</small></label></p><p><input type="text" name="url" value="" size="22" tabindex="3" /> <label for="url"><small>Website</small></label></p><p><input type="text" name="x" value="" size="22" tabindex="3" /> <label for="x"><small>What's your favorite number?</small></label></p><p><textarea name="comment" id="comment" cols="65" rows="10" tabindex="4"></textarea></p><p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" /></p></form></div></div></div></div><div id="postamble"><div id="rightColumn"><div id="menu" class="tekuti"><ul><li><a href="/feed/atom">subscribe <img src="http://werner.eifzilla.de/feed-icon-14x14.png" style="border: 0" alt="[feed]" /></a></li><li>related<ul><li style="margin-top: 5px"><a href="/archives/2012/11/27/the-tragedy-of-gnu-copyright-assignments">The tragedy of GNU copyright assignments</a></li><li style="margin-top: 5px"><a href="/archives/2012/08/17/beta-release-numbering-with-git">Beta release numbering with GIT</a></li><li style="margin-top: 5px"><a href="/archives/2012/06/26/the-perils-of-contract-driven-free-software">The perils of contract driven free software</a></li></ul></li></ul></div><div id="cpyright"><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="CC-BY-SA 3.0" style="border: 0" src="http://werner.eifzilla.de/cc-by-sa-3.0_80x15.png" /></a><br />Copyright 2012 Werner Koch. This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a></div><div id="footer" class="tekuti">Powered by <a href="http://wingolog.org/software/tekuti/">tekuti</a></div></div></div></div></body></html>

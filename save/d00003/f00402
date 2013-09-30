@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html lang="ja"> <head>
+<title>UNIXだってFLASHムービーを作りたい</title>
+</head>
+
+<body bgcolor="white" fgcolor="black">
+<h1>UNIXだってFLASHムービーを作りたい</h1>
+
+FreeBSDやNetBSDでも、Macromedia純正のFLASHプレイヤー(ただしFLASH 5)が
+動くようになった現在、FLASHはかなりユビキタスな処理系と言えます。<br>
+プラグインではなく単体で実行できるプレイヤーも提供されているので、例えば
+FLASHムービーをMagicPointに埋め込んでプレゼンテーションを作るといった
+ことも可能でしょう。<br>
+しかし再生できるだけでは一人前とは言えません。UNIX環境でもFLASHムービーを
+作成したくなるのが人情です。そこで、このページでは、FLASHの概論から始まり、
+UNIX上でFLASHムービーを作成する方法について解説します。
+<p>
+
+FLASHムービーを作成するためには、Mingというフリーのライブラリを用います。
+このライブラリは、元もとPHPから利用するものでしたが、PHP以外にもPerl,
+Ruby, Pyhton, C, C++からも利用できるようになっています。<br>
+これを読んで<b>「そうか、rubyで『移動するスプライトのクラス』を書いて、
+そのインスタンスに画面を跳ねさせたりできるんだな」</b>と思ったあなた、
+残念でした。
+<b><font color="red">できません。</font></b>
+これはMingではなくFLASHの仕様と言っても良いのですが、
+FLASHムービーで動的な軌道計算や対話的な処理を行なうためには、ActionScript
+というスクリプトを記述しなければなりません。MingにはActionScriptのコンパイラ
+が含まれていて、コンパイルしてムービーに埋め込みます。つまり、
+<b>Ruby(またはPerl, PHP, etc.)のスクリプトの中に、ActionScriptが混在する
+</b>という、今一つ
+ぐっとこないプログラムを書かなければなりません。言い替えると、Ruby(または
+Perl, PHP, etc.)とMingの知識の他に、ActionScriptの知識もないと凝ったFLASH
+ムービーは作成できません。
+
+<p>
+というわけで、私自身Mingを使いつつActionScriptの資料をいくつか読んでみた
+のですが、ほとんどに共通している点が、プログラミング言語の解説としては
+極めて未熟なものばかりであるという点でした。ActionScriptの説明を書いている
+本人がオブジェクト指向プログラミングやそもそもの「プログラミングとはなにか」
+を理解していないとしか思えない記事ばかりだったのです。
+これはWebページだけでなく、出版されている書籍についても同様でした。<br>
+
+ActionScriptとFLASHが歴史的なしがらみを引きずって、
+整理されていない設計になっているという問題もあるのでしょうが、それにしても
+理解しづらい資料ばかりで非常に苦労しました。まず悩んだのは
+<b>「ActionScriptというのは、
+要するにプロトタイプベースのOOスクリプト処理系なのか」</b>という
+ことでした。説明を読むとそうとしか理解できないのですが、そう明記してある
+ものがないのです。試しにgoogleで「ActionScript プロトタイプベース」を
+検索してみたところ、私が検索した時(2003年4月頃)には、
+MacroMediaのFlash MXの説明資料一件しか該当しません
+でした。これは(少なくとも日本語のWebページのうち)FLASHの
+説明を書いている人でプロトタイプベースとクラスベースの違いを理解している人が
+存在していない可能性を指唆しています。
+正直、唖然としました。
+ちゃんとした技術者のための解説資料が必要だと思いました。
+これがこのページを作成した動機の一つです。
+
+<p>
+
+このページではMingを扱うスクリプトとして、Rubyを採用します。Rubyについての
+説明は行なわないので、Rubyの基礎は知っている必要があります。
+このページが対象としている読者は「Rubyはだいたい知っている」「Mingはこれから
+勉強する」「FLASHはなんとなく知っているけれど作ったことはない」
+「オブジェクト指向プログラミングはちゃんと理解している」という人です。
+
+<p>
+FLASHの概要に始まり、Mingだけで何が作れるのかを説明し、ActionScriptと
+Mingを組み合わせた例を示しつつ解説し、最後にはCGIとの連携についても
+言及します。
+
+<p>
+
+<b>注意)</b> この文書では、Ming-0.2aを対象とします。Ming-0.2aではFLASH 5の
+ムービーしか作成できませんので、ActionScriptについてもFLASH 5のActionScript
+を前提として説明します。また、rubyはruby-1.6.8を用います。
+
+<p>
+<b>注意その2)</b> 上の方で偉そうなことを書いていますが、まだActionScriptの解説
+の部分は書いていません。ごめんなさい。許してください。
+
+<h2>目次</h2>
+
+<ul>
+  <li> <a href="flash_overview.html" >FLASHの概要 </a></li>
+  <li> <a href="ming.html" >Mingの概要とMingで出来ること</a></li>
+  <li> <a href="actionscript.html" >ActionScript</a></li>
+  <li> CGIとの連携</li>
+  <li> <a href="links.html" >参考資料(リンク集)</a></li>
+</ul>
+
+Keywords: Flash, Ming, Ruby, チュートリアル, ActionScript
+
+<hr>
+<address><a href="mailto:kimoto@ohnolab.org">Masahiko KIMOTO &lt;kimoto@ohnolab.org&gt;</a></address>
+<!-- hhmts start --> Last modified: Mon Jan 19 19:28:58 JST 2004 <!-- hhmts end -->
+</body> </html>

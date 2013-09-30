@@ -1,0 +1,1030 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+
+<title>団体情報／団体一覧 | CANPAN</title>
+
+<meta name="Description" content="NPOなどの公益活動（市民活動）を行う団体の情報を紹介するページです。" lang="ja" />
+<meta name="Keywords" content="カンパン,CANPAN,財団,公益,NPO,市民活動" lang="ja" />
+
+<meta name="viewport" content="width=1000" />
+
+<link rel="stylesheet" type="text/css" media="all" href="/shared/css/import.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/organizations/css/index.css" />
+
+<script type="text/javascript" src="/shared/js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="/shared/js/common.js"></script>
+<script type="text/javascript">	var _gaq = _gaq || [];	_gaq.push(['_setAccount', 'UA-29336251-1']);	_gaq.push(['_trackPageview']);	(function() {		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);	})();</script></head>
+<body>
+<div class="skiplink">
+	<a href="#container">このページの本文へ</a>
+</div>
+
+<div id="header" role="banner">
+	<div class="wrapper">
+		<p class="logo"><a href="/"><img src="/shared/img/common/fields_logo.gif" width="178" height="51" alt="CANPAN FIELDS" /></a></p>
+		<div class="members-menu">
+			<ul>
+				<li><a class="registration" href="/member/registration/agreement"><img src="/shared/img/common/link_registration.gif" width="109" height="32" alt="ユーザー登録する" /></a></li>
+				<li><a class="login" href="/member/login"><img src="/shared/img/common/link_login.gif" width="82" height="32" alt="ログインする" /></a></li>
+			</ul>
+		</div>
+		<ul class="main-menu" role="navigation">
+			<li class="topics"><a href="/topic/"><img src="/shared/img/common/link_topics.gif" width="95" height="112" alt="トピックス" /></a></li>
+			<li class="blog"><a href="/blog/"><img src="/shared/img/common/link_blog.gif" width="70" height="112" alt="ブログ" /></a></li>
+			<li class="organizations current"><a href="/organization/"><img src="/shared/img/common/link_organizations.gif" width="95" height="112" alt="団体情報" /></a></li>
+			<li class="reports"><a href="/report/"><img src="/shared/img/common/link_reports.gif" width="107" height="112" alt="事業成果物" /></a></li>
+			<li class="subsidies"><a href="/grant/"><img src="/shared/img/common/link_subsidies.gif" width="93" height="112" alt="助成制度" /></a></li>
+		</ul>
+		<ul class="sub-menu">
+			<li><a class="external" href="/help/"><img src="/shared/img/common/link_help.gif" width="54" height="32" alt="ヘルプ" /></a></li>
+		</ul>
+		<div class="serch-box">
+			<div id="cse-search-form" style="width: 100%;">Loading</div>
+			<script src="//www.google.com/jsapi" type="text/javascript"></script>
+			<script type="text/javascript"> 
+				google.load('search', '1', {language : 'ja'});
+				google.setOnLoadCallback(function() {
+					var customSearchControl = new google.search.CustomSearchControl('004680779670631568733:fbmwbkkatri');
+					customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+					var options = new google.search.DrawOptions();
+					options.enableSearchboxOnly("http://www.google.com/cse?cx=004680779670631568733:fbmwbkkatri");
+					customSearchControl.draw('cse-search-form', options);
+				}, true);
+			</script>
+			<link rel="stylesheet" href="/shared/css/default.css" type="text/css" />
+		</div>
+	</div>
+</div>
+
+<div id="container">
+	<div class="wrapper">
+		
+		<div id="page-title">
+			<h1><img src="/organizations/img/title_index.gif" width="165" height="17" alt="団体情報／団体一覧" /></h1>
+		</div>
+		
+		<div id="left-column">
+			<div class="wrapper">
+				
+				<form id="compact-search" action="/organization/search?mode=simple" method="post">
+					<h2><img src="/shared/img/title_search.gif" width="36" height="17" alt="検索" /></h2>
+					<div class="pgh first">
+						<div class="header">団体名</div>
+						<div class="input-line">
+							<input type="text" id="input_organization" name="name" size="30" title="団体名" value="" />
+						</div>
+					</div>
+					<div class="pgh">
+						<div class="btn search"><input type="image" src="/shared/img/btn_search.gif" name="" alt="検索する" /></div>
+						<p><a href="#full-search" onclick="javascript:canpan.toggleSearch();">詳細検索はこちら</a></p>
+					</div>
+				</form>
+				
+				<div class="section">
+					<h2 class="sound-only">新規登録</h2>
+					<div class="pgh first">
+						<p><a class="btn help_subsidie" href="/organization/register_basic_info?mode=new"><img src="/organizations/img/btn_addorganizations.gif" width="200" height="52" alt="新しい団体を登録する" /></a></p>
+						<p>団体を登録するためには、ユーザー登録が必要です。<br />
+							<a class="external" href="/help/member1.html">ユーザー登録について詳しくはこちら</a></p>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		
+		<div id="right-column" role="main">
+			
+			<div id="search-results">
+				<h2 class="sound-only">検索・ソート条件</h2>
+				<div class="box upper">
+					<div class="top"></div>
+					<dl>
+						<dt><span>一覧条件</span></dt>
+						<dd><p>
+							すべて
+						</p></dd>
+						<dt><span>表示件数</span></dt>
+						<dd>
+							<p class="count">20/12884件（1〜20件目）</p>
+							<ul class="paging">
+								<li>＜ 前へ</li>
+								<li class="current">1</li>
+								<li><a href="/organization/?page=2&sort=update&dir=desc">2</a></li>
+								<li><a href="/organization/?page=3&sort=update&dir=desc">3</a></li>
+								<li><a href="/organization/?page=4&sort=update&dir=desc">4</a></li>
+								<li><a href="/organization/?page=5&sort=update&dir=desc">5</a></li>
+								<li><a href="/organization/?page=2&sort=update&dir=desc">次へ ＞</a></li>
+							</ul>
+						</dd>
+						<dt><span>ソート</span></dt>
+						<dd>
+							<ul class="sorting">
+								<li class="first current"><a href="/organization/?page=1&sort=update&dir=asc">新着順<span class="descend"><img src="/shared/img/sortarrow.gif" width="8" height="34" alt="（降順）" /></span></a></li>
+								<li><a href="/organization/?page=1&sort=disclosure&dir=desc">情報開示レベル<span class="descend"><img src="/shared/img/sortarrow.gif" width="8" height="34" alt="（降順）" /></span></a></li>
+							</ul>
+						</dd>
+					</dl>
+					<div class="bottom-arrow"></div>
+				</div>
+				
+				<h2 class="sound-only">検索結果</h2>
+				<table>
+					<tbody>
+						<tr>
+							<th>
+								<div class="cell-wrapper first">概要</div>
+							</th>
+							<th>
+								<div class="cell-wrapper last">情報開示レベル・第三者認証</div>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1391935200">とす市民活動ネットワーク</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>鈴木 登美子</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>佐賀県鳥栖市</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars3.gif" width="75" height="11" alt="情報開示レベル★ ★ ★" /></p>
+
+									<p class="update">2013年8月26日 16:52更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1147996530">Joint Joy</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>山本 陽子</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>京都府八幡市</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars1.gif" width="75" height="11" alt="情報開示レベル★" /></p>
+
+									<p class="update">2013年8月26日 16:31更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1611611631">京都難病支援パッショーネ</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>上野山 裕久</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>京都府京都市伏見区</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars5.gif" width="75" height="11" alt="情報開示レベル★ ★ ★ ★ ★" /></p>
+
+									<p class="update">2013年8月26日 16:19更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1758072860">あおもり被害者支援センター</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>公益社団法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>田﨑 博一</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>青森県青森市</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars3.gif" width="75" height="11" alt="情報開示レベル★ ★ ★" /></p>
+
+									<p class="update">2013年8月26日 16:13更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1509371017">九州北部小型船安全協会</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>公益社団法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>中西 定美</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>福岡県北九州市門司区</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars1.gif" width="75" height="11" alt="情報開示レベル★" /></p>
+
+									<p class="update">2013年8月26日 15:57更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1135583860">新国立劇場運営財団</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>公益社団法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>福地 茂雄</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>東京都渋谷区</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars3.gif" width="75" height="11" alt="情報開示レベル★ ★ ★" /></p>
+
+									<p class="update">2013年8月26日 15:54更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1156674127">やすらぎ</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>竹内 慶光</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>奈良県磯城郡田原本町</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars1.gif" width="75" height="11" alt="情報開示レベル★" /></p>
+
+									<p class="update">2013年8月26日 15:36更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1441463443">特定非営利活動法人　せんだいファミリーサポート・ネットワーク</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>伊藤 千佐子</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>宮城県仙台市</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars4.gif" width="75" height="11" alt="情報開示レベル★ ★ ★ ★" /></p>
+
+									<ul class="marks">
+										<li><a class="external" href="http://kouekiportal.canpan.info/portal/?page_id=19"><img src="/data/partners/icons/ninsho_mark_0001.gif" width="30" height="30" alt="せんだい・みやぎNPOセンター" /></a></li>
+									</ul>
+									<p class="update">2013年8月26日 15:33更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1657020424">京都小だるまの会</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>小林 健二</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>京都府京都市左京区</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars1.gif" width="75" height="11" alt="情報開示レベル★" /></p>
+
+									<p class="update">2013年8月26日 15:31更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1291930632">MyStyle＠こだいら・ハタラボ</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>竹内 千寿恵</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>東京都小平市</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars1.gif" width="75" height="11" alt="情報開示レベル★" /></p>
+
+									<p class="update">2013年8月26日 14:12更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1248785147">日本リ・ファッション協会</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>一般社団法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>鈴木 純子</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>東京都中野区</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars1.gif" width="75" height="11" alt="情報開示レベル★" /></p>
+
+									<p class="update">2013年8月26日 13:42更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1477723322">粟崎善隣館　粟崎デイサービスセンター夕凪苑</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>社会福祉法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>遠田 敬</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>石川県金沢市</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars1.gif" width="75" height="11" alt="情報開示レベル★" /></p>
+
+									<p class="update">2013年8月26日 10:52更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1269214977">ゆずりは学園</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>沓名　 智彦</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>愛知県田原市田原町</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars3.gif" width="75" height="11" alt="情報開示レベル★ ★ ★" /></p>
+
+									<p class="update">2013年8月26日 10:17更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1179356363">はらっぱ</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>はらっぱ チーム</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>東京都</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars5.gif" width="75" height="11" alt="情報開示レベル★ ★ ★ ★ ★" /></p>
+
+									<p class="update">2013年8月26日 9:35更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1208399665">キャットレスキューねこじゃらし</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>任意団体</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>菅原 英樹</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>北海道札幌市豊平区</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars5.gif" width="75" height="11" alt="情報開示レベル★ ★ ★ ★ ★" /></p>
+
+									<p class="update">2013年8月26日 0:30更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1244125637">フラワー・サイコロジー協会</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>浜崎 英子</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>京都府京田辺市</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars4.gif" width="75" height="11" alt="情報開示レベル★ ★ ★ ★" /></p>
+
+									<p class="update">2013年8月25日 23:49更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1622002382">そら</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>地主 明広</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>京都府相楽郡精華町</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars3.gif" width="75" height="11" alt="情報開示レベル★ ★ ★" /></p>
+
+									<p class="update">2013年8月25日 20:08更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1263568915">まごの手</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>小暮 悦子</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>栃木県佐野市</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars4.gif" width="75" height="11" alt="情報開示レベル★ ★ ★ ★" /></p>
+
+									<ul class="marks">
+										<li><a class="external" href="http://kouekiportal.canpan.info/portal/?page_id=19"><img src="/data/partners/icons/ninsho_mark_0003.gif" width="30" height="30" alt="とちぎコミュニティ基金" /></a></li>
+									</ul>
+									<p class="update">2013年8月25日 18:26更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1268183595">あすなろ福祉会</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>又吉 利幸</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>沖縄県島尻郡与那原町</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars1.gif" width="75" height="11" alt="情報開示レベル★" /></p>
+
+									<p class="update">2013年8月25日 16:25更新</p>
+								</div>
+							</td>
+						</tr>
+						<tr class="even">
+							<td>
+								<div class="cell-wrapper first">
+									<dl>
+										<dt><span>団体名</span></dt>
+										<dd><h3><a href="/organization/detail/1206185215">ブロッサム</a></h3></dd>
+										<dt><span>法人の種類</span></dt>
+										<dd><p>特定非営利活動法人</p></dd>
+										<dt><span>代表者氏名</span></dt>
+										<dd><p>伊藤 覚</p></dd>
+										<dt><span>所在地</span></dt>
+										<dd><p>京都府京都市下京区</p></dd>
+									</dl>
+								</div>
+							</td>
+							<td>
+								<div class="cell-wrapper">
+									<p class="stars"><img src="/organizations/img/stars5.gif" width="75" height="11" alt="情報開示レベル★ ★ ★ ★ ★" /></p>
+
+									<ul class="marks">
+										<li><a class="external" href="http://kouekiportal.canpan.info/portal/?page_id=19"><img src="/data/partners/icons/ninsho_mark_0004.gif" width="30" height="30" alt="きょうとNPOセンター" /></a></li>
+									</ul>
+									<p class="update">2013年8月25日 0:06更新</p>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="box lower">
+					<div class="top-arrow"></div>
+					<dl>
+						<dt><span>表示件数</span></dt>
+						<dd>
+							<p class="count">20/12884件（1〜20件目）</p>
+							<ul class="paging">
+								<li>＜ 前へ</li>
+								<li class="current">1</li>
+								<li><a href="/organization/?page=2&sort=update&dir=desc">2</a></li>
+								<li><a href="/organization/?page=3&sort=update&dir=desc">3</a></li>
+								<li><a href="/organization/?page=4&sort=update&dir=desc">4</a></li>
+								<li><a href="/organization/?page=5&sort=update&dir=desc">5</a></li>
+								<li><a href="/organization/?page=2&sort=update&dir=desc">次へ ＞</a></li>
+							</ul>
+						</dd>
+					</dl>
+					<div class="bottom"></div>
+				</div>
+			</div>
+			
+		</div>
+		
+	</div>
+</div>
+
+<div id="footer" role="banner">
+	<div class="wrapper">
+		<a class="pagetop" href="#"><img src="/shared/img/common/link_pagetop.gif" width="61" height="30" alt="このページの先頭へ" /></a>
+	</div>
+	<div class="wrapper lower">
+		<ul class="footer-menu">
+			<li><a class="about external" href="http://canpan.info/about/"><img src="/shared/img/common/link_about.gif" width="87" height="32" alt="CANPANについて" /></a></li>
+			<li><a class="term external" href="http://canpan.info/term/canpan.html"><img src="/shared/img/common/link_term.gif" width="89" height="32" alt="CANPAN利用規約" /></a></li>
+			<li><a class="privacy external" href="http://canpan.info/term/privacy.html"><img src="/shared/img/common/link_privacy.gif" width="86" height="32" alt="個人情報について" /></a></li>
+			<li><a class="contact external" href="https://canpan.info/contact/"><img src="/shared/img/common/link_contact.gif" width="64" height="32" alt="お問い合わせ" /></a></li>
+		</ul>
+		<a class="nf external" href="http://www.nippon-foundation.or.jp/"><img src="/shared/img/common/nf-logo.gif" width="140" height="25" alt="日本財団 - The Nippon Foundation" /></a>
+		<p class="copyright"><img src="/shared/img/common/copyright.gif" width="144" height="10" alt="Copyright (C) The Nippon Foundation" /></p>
+	</div>
+</div>
+
+<div id="cover"></div>
+<div id="full-search">
+	<div class="top"></div>
+	<div class="middle">
+		<form id="edit-table" action="/organization/search?mode=detailed" method="post">
+			<div class="section">
+				<a class="btn close" href="javascript:canpan.toggleSearch();"><img src="/shared/img/btn_ss_close.gif" width="50" height="52" alt="閉じる" /></a>
+				<h2><img src="/shared/img/title_fullsearch.gif" width="73" height="17" alt="詳細検索" /></h2>
+				<p class="search-caution">※条件を指定しない場合、すべて表示されます。</p>
+				<table>
+
+					<tr class="first">
+						<td class="h">
+							<h3>認証マーク</h3>
+						</td>
+						<td class="first">
+							<div class="cell-wrapper">
+								<ul class="input-items l">
+									<li><input type="checkbox" id="select_marks" name="authentication_mark" /><label for="select_marks">あり</label></li>
+								</ul>
+								<p><a class="external" href="/help/organization1.html#anchor2">認証マークについて詳しくはこちら</a></p>
+							</div>
+						</td>
+					</tr>
+
+					<tr class="even">
+						<td class="h">
+							<h3>情報開示レベル</h3>
+						</td>
+						<td class="first">
+							<div class="cell-wrapper">
+								<ul class="input-items l">
+									<li><input type="checkbox" id="select_stars1" name="disclosure_point_1" /><label class="stars1" for="select_stars1"><img src="/organizations/img/stars.gif" width="75" height="11" alt="情報開示レベル★" /></label></li>
+									<li><input type="checkbox" id="select_stars2" name="disclosure_point_2" /><label class="stars2" for="select_stars2"><img src="/organizations/img/stars.gif" width="75" height="11" alt="情報開示レベル★★" /></label></li>
+									<li><input type="checkbox" id="select_stars3" name="disclosure_point_3" /><label class="stars3" for="select_stars3"><img src="/organizations/img/stars.gif" width="75" height="11" alt="情報開示レベル★★★" /></label></li>
+									<li><input type="checkbox" id="select_stars4" name="disclosure_point_4" /><label class="stars4" for="select_stars4"><img src="/organizations/img/stars.gif" width="75" height="11" alt="情報開示レベル★★★★" /></label></li>
+									<li><input type="checkbox" id="select_stars5" name="disclosure_point_5" /><label class="stars5" for="select_stars5"><img src="/organizations/img/stars.gif" width="75" height="11" alt="情報開示レベル★★★★★" /></label></li>
+								</ul>
+								<p><a class="external" href="/help/organization1.html#anchor1">★の基準について詳しくはこちら</a></p>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="h">
+							<h3>団体ID</h3>
+						</td>
+						<td>
+							<div class="cell-wrapper">
+								<p class="input-line">
+									<input type="text" id="input_id" name="dantai_id" title="団体ID（半角数字）" value="" /><span class="caution right">半角英数字</span>
+								</p>
+							</div>
+						</td>
+					</tr>
+
+					<tr class="even">
+						<td class="h">
+							<h3>法人の種類</h3>
+						</td>
+						<td>
+							<div class="cell-wrapper">
+								<ul class="input-items c3">
+									<li><input type="checkbox" id="select_class17" name="type_17" /><label for="select_class17">公益社団法人</label></li>
+									<li><input type="checkbox" id="select_class18" name="type_18" /><label for="select_class18">一般社団法人</label></li>
+									<li><input type="checkbox" id="select_class1" name="type_1" /><label for="select_class1">社団法人</label></li>
+									<li><input type="checkbox" id="select_class19" name="type_19" /><label for="select_class19">公益財団法人</label></li>
+									<li><input type="checkbox" id="select_class20" name="type_20" /><label for="select_class20">一般財団法人</label></li>
+									<li><input type="checkbox" id="select_class2" name="type_2" /><label for="select_class2">財団法人</label></li>
+									<li><input type="checkbox" id="select_class6" name="type_6" /><label for="select_class6">社会福祉法人</label></li>
+									<li><input type="checkbox" id="select_class4" name="type_4" /><label for="select_class4">特定非営利活動法人</label></li>
+									<li><input type="checkbox" id="select_class11" name="type_11" /><label for="select_class11">独立行政法人</label></li>
+									<li><input type="checkbox" id="select_class12" name="type_12" /><label for="select_class12">国立大学法人</label></li>
+									<li><input type="checkbox" id="select_class13" name="type_13" /><label for="select_class13">公立大学法人</label></li>
+									<li><input type="checkbox" id="select_class5" name="type_5" /><label for="select_class5">学校法人</label></li>
+									<li><input type="checkbox" id="select_class3" name="type_3" /><label for="select_class3">医療法人</label></li>
+									<li><input type="checkbox" id="select_class7" name="type_7" /><label for="select_class7">宗教法人</label></li>
+									<li><input type="checkbox" id="select_class8" name="type_8" /><label for="select_class8">協同組合</label></li>
+									<li><input type="checkbox" id="select_class9" name="type_9" /><label for="select_class9">中間法人</label></li>
+									<li><input type="checkbox" id="select_class10" name="type_10" /><label for="select_class10">その他各士業法に基づく法人</label></li>
+									<li><input type="checkbox" id="select_class14" name="type_14" /><label for="select_class14">株式会社</label></li>
+									<li><input type="checkbox" id="select_class15" name="type_15" /><label for="select_class15">その他の法人</label></li>
+									<li><input type="checkbox" id="select_class16" name="type_16" /><label for="select_class16">任意団体</label></li>
+									<li><input type="checkbox" id="select_class21" name="type_21" /><label for="select_class21">地方自治体</label></li>
+									<li><input type="checkbox" id="select_class22" name="type_22" /><label for="select_class22">その他</label></li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="h">
+							<h3>団体名</h3>
+						</td>
+						<td>
+							<div class="cell-wrapper">
+								<p class="input-line">
+									<input type="text" id="input_organization2" name="detailed_name" title="団体名" value="" />
+								</p>
+							</div>
+						</td>
+					</tr>
+
+					<tr class="even">
+						<td class="h">
+							<h3>代表者氏名</h3>
+						</td>
+						<td class="first">
+							<div class="cell-wrapper">
+								<p class="input-line">
+									<span class="label_name">姓　</span><input type="text" id="input_firstname" name="rep_surname" title="姓" value="" /><span class="label_name">名　</span><input type="text" id="input_lastname" name="rep_first_name" title="名" value="" />
+								</p>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="h">
+							<h3>代表者氏名ふりがな</h3>
+						</td>
+						<td>
+							<div class="cell-wrapper">
+								<p class="input-line">
+									<span class="label_name">せい</span><input type="text" id="kana_firstname" name="rep_surname_hiragana" title="せい" value="" /><span class="label_name">めい</span><input type="text" id="kana_lastname" name="rep_first_name_hiragana" title="めい" value="" />
+								</p>
+							</div>
+						</td>
+					</tr>
+
+					<tr class="even">
+						<td class="h">
+							<h3>主たる事業所の所在地</h3>
+						</td>
+						<td class="first">
+							<div class="cell-wrapper">
+								<p class="input-line">
+									<select id="select_address" class="formselector" name="prefecture" title="主たる事業所の所在地">
+										<option value="0">指定しない</option>
+										<option class="address_j" value="1">北海道</option>
+										<option class="address_j" value="2">青森県</option>
+										<option class="address_j" value="3">岩手県</option>
+										<option class="address_j" value="4">宮城県</option>
+										<option class="address_j" value="5">秋田県</option>
+										<option class="address_j" value="6">山形県</option>
+										<option class="address_j" value="7">福島県</option>
+										<option class="address_j" value="8">茨城県</option>
+										<option class="address_j" value="9">栃木県</option>
+										<option class="address_j" value="10">群馬県</option>
+										<option class="address_j" value="11">埼玉県</option>
+										<option class="address_j" value="12">千葉県</option>
+										<option class="address_j" value="13">東京都</option>
+										<option class="address_j" value="14">神奈川県</option>
+										<option class="address_j" value="15">新潟県</option>
+										<option class="address_j" value="16">富山県</option>
+										<option class="address_j" value="17">石川県</option>
+										<option class="address_j" value="18">福井県</option>
+										<option class="address_j" value="19">山梨県</option>
+										<option class="address_j" value="20">長野県</option>
+										<option class="address_j" value="21">岐阜県</option>
+										<option class="address_j" value="22">静岡県</option>
+										<option class="address_j" value="23">愛知県</option>
+										<option class="address_j" value="24">三重県</option>
+										<option class="address_j" value="25">滋賀県</option>
+										<option class="address_j" value="26">京都府</option>
+										<option class="address_j" value="27">大阪府</option>
+										<option class="address_j" value="28">兵庫県</option>
+										<option class="address_j" value="29">奈良県</option>
+										<option class="address_j" value="30">和歌山県</option>
+										<option class="address_j" value="31">鳥取県</option>
+										<option class="address_j" value="32">島根県</option>
+										<option class="address_j" value="33">岡山県</option>
+										<option class="address_j" value="34">広島県</option>
+										<option class="address_j" value="35">山口県</option>
+										<option class="address_j" value="36">徳島県</option>
+										<option class="address_j" value="37">香川県</option>
+										<option class="address_j" value="38">愛媛県</option>
+										<option class="address_j" value="39">高知県</option>
+										<option class="address_j" value="40">福岡県</option>
+										<option class="address_j" value="41">佐賀県</option>
+										<option class="address_j" value="42">長崎県</option>
+										<option class="address_j" value="43">熊本県</option>
+										<option class="address_j" value="44">大分県</option>
+										<option class="address_j" value="45">宮崎県</option>
+										<option class="address_j" value="46">鹿児島県</option>
+										<option class="address_j" value="47">沖縄県</option>
+										<option class="address_e" value="99">海外</option>
+									</select>
+								</p>
+
+								<div id="address_j">
+									<table class="inner-table">
+										<tr>
+											<td class="h">
+												<h4>市区町村</h4>
+											</td>
+											<td>
+												<div class="cell-wrapper">
+													<p class="input-line">
+														<input type="text" id="input_municipalities" name="city" title="市区町村" value="" />
+													</p>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+
+								<div id="address_e">
+									<table class="inner-table">
+										<tr>
+											<td class="h">
+												<h4>国名</h4>
+											</td>
+											<td>
+												<div class="cell-wrapper">
+													<p class="input-line">
+														<input type="text" id="input_country" name="foreign_country" title="国名" value="" />
+													</p>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="h">
+							<h3>ブログ</h3>
+						</td>
+						<td class="first">
+							<div class="cell-wrapper">
+								<ul class="input-items l">
+									<li><input type="checkbox" id="select_blog" name="has_blog" /><label for="select_blog">ブログが登録されている団体</label></li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+
+					<tr class="even">
+						<td class="h">
+							<h3>ブログURL</h3>
+						</td>
+						<td>
+							<div class="cell-wrapper">
+								<p class="input-line">
+									<input type="text" id="input_url" class="url" name="blog_url" title="ブログURL（半角英数字）" value="" /><span class="caution right">半角英数字</span>
+								</p>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="h">
+							<h3>設立年</h3>
+						</td>
+						<td>
+							<div class="cell-wrapper">
+								<p class="input-line">
+									<input type="text" id="input_establishedyearstart" name="established_year_start" title="設立年・開始年（半角数字）" value="" />
+									<span class="inline">年</span>
+									<span class="inline">〜</span>
+									<input type="text" id="input_establishedyearend" name="established_year_end" title="設立年・終了年（半角数字）" value="" />
+									<span class="inline">年</span>
+									<span class="caution right">半角数字</span>
+								</p>
+							</div>
+						</td>
+					</tr>
+
+					<tr class="even">
+						<td class="h">
+							<h3>活動分野</h3>
+						</td>
+						<td>
+							<div class="cell-wrapper">
+								<ul class="input-items c3">
+									<li><input type="checkbox" id="select_category1" name="activity_1" /><label for="select_category1">子ども</label></li>
+									<li><input type="checkbox" id="select_category2" name="activity_2" /><label for="select_category2">青少年</label></li>
+									<li><input type="checkbox" id="select_category3" name="activity_3" /><label for="select_category3">障がい者</label></li>
+									<li><input type="checkbox" id="select_category4" name="activity_4" /><label for="select_category4">高齢者</label></li>
+									<li><input type="checkbox" id="select_category5" name="activity_5" /><label for="select_category5">在日外国人・留学生</label></li>
+									<li><input type="checkbox" id="select_category6" name="activity_6" /><label for="select_category6">福祉</label></li>
+									<li><input type="checkbox" id="select_category7" name="activity_7" /><label for="select_category7">保健・医療</label></li>
+									<li><input type="checkbox" id="select_category8" name="activity_8" /><label for="select_category8">教育・学習支援</label></li>
+									<li><input type="checkbox" id="select_category9" name="activity_9" /><label for="select_category9">地域・まちづくり</label></li>
+									<li><input type="checkbox" id="select_category10" name="activity_10" /><label for="select_category10">文化・芸術の振興</label></li>
+									<li><input type="checkbox" id="select_category11" name="activity_11" /><label for="select_category11">スポーツの振興</label></li>
+									<li><input type="checkbox" id="select_category12" name="activity_12" /><label for="select_category12">環境・エコロジー</label></li>
+									<li><input type="checkbox" id="select_category13" name="activity_13" /><label for="select_category13">災害救援</label></li>
+									<li><input type="checkbox" id="select_category14" name="activity_14" /><label for="select_category14">地域安全</label></li>
+									<li><input type="checkbox" id="select_category15" name="activity_15" /><label for="select_category15">人権・平和</label></li>
+									<li><input type="checkbox" id="select_category16" name="activity_16" /><label for="select_category16">国際協力</label></li>
+									<li><input type="checkbox" id="select_category17" name="activity_17" /><label for="select_category17">国際交流</label></li>
+									<li><input type="checkbox" id="select_category18" name="activity_18" /><label for="select_category18">男女共同参画</label></li>
+									<li><input type="checkbox" id="select_category19" name="activity_19" /><label for="select_category19">ITの推進</label></li>
+									<li><input type="checkbox" id="select_category20" name="activity_20" /><label for="select_category20">科学技術の振興</label></li>
+									<li><input type="checkbox" id="select_category21" name="activity_21" /><label for="select_category21">経済活動の活性化</label></li>
+									<li><input type="checkbox" id="select_category22" name="activity_22" /><label for="select_category22">起業支援</label></li>
+									<li><input type="checkbox" id="select_category23" name="activity_23" /><label for="select_category23">就労支援・労働問題</label></li>
+									<li><input type="checkbox" id="select_category24" name="activity_24" /><label for="select_category24">消費者保護</label></li>
+									<li><input type="checkbox" id="select_category25" name="activity_25" /><label for="select_category25">市民活動団体の支援</label></li>
+									<li><input type="checkbox" id="select_category26" name="activity_26" /><label for="select_category26">観光</label></li>
+									<li><input type="checkbox" id="select_category27" name="activity_27" /><label for="select_category27">農山漁村・中山間</label></li>
+									<li><input type="checkbox" id="select_category28" name="activity_28" /><label for="select_category28">助成活動</label></li>
+									<li><input type="checkbox" id="select_category29" name="activity_29" /><label for="select_category29">食・産業、漁業、林業</label></li>
+									<li><input type="checkbox" id="select_category30" name="activity_30" /><label for="select_category30">行政監視・情報公開</label></li>
+									<li><input type="checkbox" id="select_category31" name="activity_31" /><label for="select_category31">行政への改策提言</label></li>
+									<li><input type="checkbox" id="select_category32" name="activity_32" /><label for="select_category32">学術研究（文学、哲学、教育学、心理学、社会学、史学）</label></li>
+									<li><input type="checkbox" id="select_category33" name="activity_33" /><label for="select_category33">学術研究（法律学、政治学）</label></li>
+									<li><input type="checkbox" id="select_category34" name="activity_34" /><label for="select_category34">学術研究（経済学、商学、経営学）</label></li>
+									<li><input type="checkbox" id="select_category35" name="activity_35" /><label for="select_category35">学術研究（理学）</label></li>
+									<li><input type="checkbox" id="select_category36" name="activity_36" /><label for="select_category36">学術研究（工学）</label></li>
+									<li><input type="checkbox" id="select_category37" name="activity_37" /><label for="select_category37">学術研究（農学）</label></li>
+									<li><input type="checkbox" id="select_category38" name="activity_38" /><label for="select_category38">学術研究（医学、歯学、薬学）</label></li>
+									<li><input type="checkbox" id="select_category39" name="activity_39" /><label for="select_category39">学術研究（複合領域分野、その他）</label></li>
+									<li><input type="checkbox" id="select_category40" name="activity_40" /><label for="select_category40">その他</label></li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="h">
+							<h3>最新決算総額</h3>
+						</td>
+						<td>
+							<div class="cell-wrapper">
+								<p class="input-line">
+									<select id="select_totalamount" name="last_fy_account_scale" title="最新決算総額">
+										<option value="0">指定しない</option>
+										<option value="1">100万円未満</option>
+										<option value="2">100万円～500万円未満</option>
+										<option value="3">500万円～1,000万円未満</option>
+										<option value="4">1,000万円～5,000万円未満</option>
+										<option value="5">5,000万円～1億円未満</option>
+										<option value="6">1億円～5億円未満</option>
+										<option value="7">5億円以上</option>
+									</select>
+								</p>
+							</div>
+						</td>
+					</tr>
+
+					<tr class="even">
+						<td class="h">
+							<h3>更新日時</h3>
+						</td>
+						<td class="first">
+							<div class="cell-wrapper">
+								<ul class="input-items l">
+									<li><input type="checkbox" id="select_update" name="defy_display_limit" /><label for="select_update">最終更新日時が3年以上前の団体も表示する</label></li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+
+				</table>
+			</div>
+			<ul class="buttons">
+				<li class="first"><div class="btn"><input type="image" src="/shared/img/btn_search.gif" name="" alt="検索する" /></div></li>
+			</ul>
+		</form>
+	</div>
+	<div class="bottom"></div>
+</div>
+
+</body>
+</html>

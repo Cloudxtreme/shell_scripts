@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8">
+            
+<!-- this should be per page -->
+        <meta lang="cs" name="keywords" content="Domény, Registrátoři, Registrace domén, CZ.NIC, WHOIS, DNS" />
+        <meta lang="en" name="keywords" content="Domains, Registrators, Domain registration, CZ.NIC, WHOIS, DNS" />
+        <meta lang="cs" name="description" content="Správce domén CZ." />
+        <meta lang="en" name="description" content="CZ domain registry." />
+        <link rel='shortcut icon' type='image/x-icon' href='/static/nic/images/favicon.ico' />
+
+        <title>CZ.NIC - Jak zprovoznit DNSSEC</title>
+        
+
+
+        <link href="/static/nic/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="/static/nic/css/print.css" rel="stylesheet" type="text/css" media="print" />
+        <link href="/static/nic/css/specific.css" rel="stylesheet" type="text/css" media="screen" />
+
+<!-- this should be in separate files -->
+        <meta name="google-site-verification" content="wuFFLLq-bqUtDNBDwq1UU27QOsvAX9cN-JY8oymPavY" />
+        <meta name="msvalidate.01" content="41F9105A2B1D5155132F833AEB5A129D" />
+        <script src="/static/js/jquery-1.8.0.min.js"></script>
+        <script src="/static/nic/js/jquery.placeholder.js?v=2.0.7"></script>
+        
+    
+        <link href="/static/nic/css/support.css" rel="stylesheet" type="text/css" media="screen" />
+
+        
+        
+    </head>
+
+    <body id="bodyblank">
+
+<script type="text/javascript">
+$(function() {
+ $('input, textarea').placeholder();
+});
+</script>
+
+
+        
+    <div id="header">
+        <div class="wrap">
+
+        <!-- Logo -->
+            <h1 id="logo"><a href="/" title="Back to nic.cz home page"><img src="/static/nic/images/logo_cs.png" width="316" height="114" alt ="Nic.cz | CZ Domain Registry" /></a></h1>
+            <div class="anchor"><a href="#main-menu">k navigaci &darr;</a></div>
+        <form action="/search/" method="get" id="search" class="searchbox">
+            <input type="submit" class="search-button" name="go" value=" " />
+            <input type="text" class="search-field txt" name="query" value="" placeholder="hledat&hellip;" />
+        </form>
+<!-- menu -->
+    <div id="podpora-contact">
+        <a href="http://podpora.nic.cz/page/357/">Kontakt</a>
+    </div>
+    <div class="cleaner"></div>
+        </div><!-- .wrap -->
+    </div><!-- #header -->
+<!-- /menu -->
+
+<div id="content" role="main">
+    <div class="wrap cs">
+        <div id="page" >
+            
+
+
+
+
+<!-- DEFAULT base : design/base_blank.html -->
+        <div id="content-main" >
+            <h1>Jak zprovoznit DNSSEC</h1>
+            <div class="article_text">
+                <div class="markdown-text"><h1>Zprovoznění DNSSEC na vlastním serveru</h1>
+<p>Pro zprovoznění DNSSEC je potřeba provést na svém rekurzivním DNS serveru dva kroky:
+</p>
+<ul>
+ <li>
+     zapnutí DNSSEC validace
+ </li>
+
+ <li>
+     konfigurace bodu důvěry.  To se provede nastavením klíče nebo otisku klíče jenž je vrcholem řetězce důvěry pro všechny ověřované záznamy. Příslušný klíč je možné získat z přímo z DNS, pro ověření jeho pravosti publikuje správce příslušné domény otisky tohoto klíče (DS záznamy) na svých stránkách. Pro doménu .cz a doménu 0.2.4.e164.arpa je tímto bodem důvěry klíč kořenové zóny, jehož pravost je možné ověřit přes webové stránky <a href="http://www.iana.org/dnssec">organizace IANA</a> .
+ </li>
+</ul>
+<p>Nezapomeňte se také přihlásit do <a href="dnssec-announce@lists.nic.cz">dnssec-announce@lists.nic.cz</a> na adrese <a href="https://lists.nic.cz/mailman/listinfo/dnssec-announce">https://lists.nic.cz/mailman/listinfo/dnssec-announce</a>, kde budou zveřejňovány technické informace o DNSSEC pro domény .cz. a 0.2.4.e164.arpa.
+</p>
+<p>Pro servery <a href="https://www.isc.org/software/bind">BIND</a> a <a href="http://www.unbound.net/">UNBOUND</a> se zapnutí DNSSEC validace přes klíč kořenové domény provede následujícím způsobem (pro doménu e164.arpa je to stejné, jen je třeba použít jiný klíč).
+</p>
+
+<h2>BIND</h2>
+<p>Zapnutí DNSSEC a DNSSEC validace se provede přidáním dvou konfiguračních řádků do sekce options v named.conf:
+</p>
+<pre><code>options {
+  ...
+  dnssec-enable yes;
+  dnssec-validation yes;
+  managed-keys-directory "/var/lib/named/dyn/"; 
+  ...
+};
+</code></pre><p>Konfigurace bodu důvěry pro kořenovou zónu je možné provést dvěma způsoby. Pokud máte již BIND-9.7 vložte do konfigurace následující text:
+</p>
+<pre><code>managed-keys {
+  "." initial-key 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
+  FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD 
+  X6RS6CXpoY68LsvPVjR0ZSwzz1apAzvN9dlzEheX7ICJBBtuA6G3LQpz W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS 
+  Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq QxA+Uk1ihz0=";
+};
+</code></pre><p>Tím zajistíte automatickou aktualizaci klíče v případě, že bude DNSSEC klíč změněn mechanismem popsaným v RFC5011. Při výměně klíče tak nebude nutný žádný zásah do konfigurace DNS serveru.
+</p>
+<p>Pokud máte starší verzi BIND-9.6 vložte do konfigurace následující text:
+</p>
+<pre><code>trusted-keys {
+ "." 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
+ FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD 
+ X6RS6CXpoY68LsvPVjR0ZSwzz1apAzvN9dlzEheX7ICJBBtuA6G3LQpz W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS 
+ Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq QxA+Uk1ihz0=";
+};
+</code></pre>
+<h2>UNBOUND</h2>
+<p>Unbound ve standardním nastavení již má zapnutou podporu pro technologii DNSSEC. Pro konfiguraci pevného bodu důvěry můžete použít celkem tři způsoby konfigurace:
+</p>
+<pre><code>trust-anchor-file: &lt;soubor&gt;
+</code></pre><p>Soubor s důvěrodnými klíči ve formátu standardního zónového souboru. V souboru můžou být buď DS nebo DNSKEY záznamy. Pro kořenovou doménu bude mít soubor následující obsah:
+</p>
+<pre><code>.           86400   IN  DNSKEY  257 3 8 AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
+FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD 
+X6RS6CXpoY68LsvPVjR0ZSwzz1apAzvN9dlzEheX7ICJBBtuA6G3LQpz W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS 
+Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq QxA+Uk1ihz0=
+</code></pre><p>Další varianta je klíč vložit rovnou do konfiguračního souboru:
+</p>
+<pre><code>trust-anchor: &lt;"Resource Record"&gt;
+</code></pre><p>Klíč musí být v uvozovkách a na jednom řádku. Tato konfigurační volba může být uvedena v konfiguračním souboru vícekrát:
+</p>
+<pre><code>trust-anchor: ".            86400   IN  DNSKEY  257 3 8 AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
+FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD 
+X6RS6CXpoY68LsvPVjR0ZSwzz1apAzvN9dlzEheX7ICJBBtuA6G3LQpz W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS 
+Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq QxA+Uk1ihz0="
+</code></pre><p>Poslední způsob používá formát souboru, který je kompatibilní s formátem pro DNS server BIND 9.
+</p>
+<pre><code>trusted-keys-file: &lt;soubor&gt;
+</code></pre><p>Soubor bude obsahovat pouze sekci "trusted-keys:" stejně jako kdybyste konfigurovali server BIND:
+</p>
+<pre><code>trusted-keys {
+ "." 257 3 8 "AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQbSEW0O8gcCjF
+ FVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh/RStIoO8g0NfnfL2MTJRkxoX bfDaUeVPQuYEhg37NZWAJQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaD 
+ X6RS6CXpoY68LsvPVjR0ZSwzz1apAzvN9dlzEheX7ICJBBtuA6G3LQpz W5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGOYl7OyQdXfZ57relS 
+ Qageu+ipAdTTJ25AsRTAoub8ONGcLmqrAmRLKBP1dfwhYB4N7knNnulq QxA+Uk1ihz0=";
+};
+</code></pre></div>
+            </div>
+        </div> <!-- page main -->
+
+
+
+
+    
+
+   <div class="cleaner" id="break"></div> <!-- base_support -->
+
+        </div> <!-- page -->
+    </div> <!-- wrap -->
+
+        
+    <!-- footer -->
+    <div id="footer" role="contentinfo">
+    <div class="wrap">
+        <p id="copyright">&copy; 2013 CZ.NIC, z. s. p. o.</p>
+        <p id="footer-navigation-heading">Ostatní weby:</p>
+    <ul id="footer-navigation">
+    <!-- site nic -->
+        
+        <li><a href="http://www.mojeid.cz/" title="mojeID">mojeID</a></li>
+        <li><a href="http://fred.nic.cz" title="Free Registry for ENUM and Domains">FRED</a></li>
+        <li><a href="http://www.nic.cz/dnssec/" title="DNSSEC">DNSSEC</a></li>
+        <li><a href="http://www.nic.cz/csirt/" title="CZ.NIC-CSIRT">CZ.NIC-CSIRT</a></li>
+        <li><a href="http://csirt.cz/" title="CSIRT">CSIRT.CZ</a></li>
+        
+           <li><a href="http://labs.nic.cz/" title="Laboratoře">Laboratoře</a></li>
+        
+        <li><a href="http://www.nic.cz/akademie/" title="Akademie">Akademie</a></li>
+        <li><a href="http://knihy.nic.cz/" title="Edice CZ.NIC">Edice CZ.NIC</a></li>
+        <li><a href="/page/357/"  title="Kontakt">Kontakt</a></li>
+    </ul>
+    <div id="footer-link-up"><a href="#content">Nahoru</a>
+    </div>
+    <div class="cleaner"></div>
+  </div><!-- .wrap -->
+</div><!-- #footer -->
+<p id="links"></p>
+
+
+        
+    </div>
+
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        _uacct = "UA-439372-1";
+        urchinTracker();
+    </script>
+
+
+
+
+    </body>
+
+</html>

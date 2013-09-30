@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="Jan-Piet Mens" />
+        <meta name="ICBM" content="52.0341, 8.4772" />
+	<link rel="apple-touch-icon" href="/inc/apple-touch-icon.png" />
+        <meta name="geo.position" content="52.0341;8.4772" />
+        <link rel="pavatar" href="http://jpmens.net/inc/pavatar.png" />
+        <meta name="DC.title" content="Jan-Piet Mens" />    
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@jpmens" />
+	<meta name="keywords" content="jpmens,jan-piet mens,jpm" /> 
+	<link rel="icon" href="/favicon.ico" type="image/x-icon" /> 
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> 
+	<meta name="google-site-verification" content="eOAtwQVe63Q3l-kJrBJQR8fsP_AqstRj-9lw3kx92tM" />
+	<link rel="alternate" type="application/atom+xml" title="Atom all posts" href="/atom.xml" />
+
+	<link rel="stylesheet" href="/css/style.css" type="text/css"/>
+	<link rel="stylesheet" href="/css/syntax.css" type="text/css"/>
+	<script type="text/javascript" src="/inc/jquery-min.js"></script>
+	<script type="text/javascript" src="/inc/jpmens.js"></script>
+	<script type="text/javascript" src="/inc/dnssecmagic.js"></script>
+
+	
+		<title>Jan-Piet Mens :: Create Directory of BlackBerry Enterprise Server Users</title>
+		<meta name="twitter:url" content="http://jpmens.net/pages/create-directory-of-blackberry-enterprise-server-users/" />
+		<meta name="twitter:title" content="Create Directory of BlackBerry Enterprise Server Users" />
+		<meta name="twitter:description" 
+			
+			  content="I stumbled across a good-looking bit of software called PINpoint by
+TENET that produces a list of users registered on a BlackBerry Enterprise
+Server (BES) and pushes that to the devices. In effect ..."
+			
+			/>
+	
+
+</head>
+<body>
+        <div id="header">
+            <div class="inner">
+		<div class='mygrep'>
+                <ul>
+			<li><span id='dnssecmagic'></span></li>
+			<li><span id='ipmagic'></span></li>
+			<li><a href="/atom.xml" ><img src="/inc/feed.png" width="16" height="16" alt="Atom" /></a></li>
+                    <li>
+                          <a title="grep" href='#' class='greplink'>Search</a>
+                          <div class='form'>
+                            <form id='qform' action="http://www.google.com/cse" method="get">
+                              <input type="hidden" name="cx" value="018110282457752677189:f9v9jgssdag" />
+                              <input type="hidden" name="ie" value="UTF-8" />
+                              <input id='grepfield' type="text" name="q" size="6" />
+                              <input type="hidden" name="sa" value="Search" />
+                            </form>
+                          </div>
+                    </li>
+                    <li><a title="more" href="/pages/index.html">Pages</a></li>
+                    <li><a title="ls -l" href="/archive/">Archives</a></li>
+		    <li><a title="Twitter" href="https://twitter.com/jpmens">@jpmens</a></li>
+                    <li>
+		         <a href="https://plus.google.com/107349548255760539356?rel=author">+</a>
+		    	<a title="whoami" href="/pages/about/">About</a></li>
+                </ul>
+		</div>
+                <h1><a href="/">Jan-Piet Mens</a></h1>
+            </div>
+        </div>
+
+
+
+
+
+        <div id="content">  
+	    <div id='searchres' class="inner">
+		<div class="post" id="528">
+		    <div class="title"><h1><a href="/pages/create-directory-of-blackberry-enterprise-server-users/">Create Directory of BlackBerry Enterprise Server Users</a></h1></div>
+		    <p>I stumbled across a good-looking bit of software called <a href="https://www.tenet.com/apps/pinpoint/">PINpoint</a> by
+<a href="https://www.tenet.com/">TENET</a> that produces a list of users registered on a BlackBerry Enterprise
+Server (BES) and pushes that to the devices. In effect users then have a
+company BlackBerry directory from which they can look up email addresses,
+telephone numbers and even PIN numbers. Since the software is a bit pricey and
+I'm operating on a shoe-string budget, there was no way I could purchase that
+for our environment. Instead I attempted and succeeded at producing similar
+information, admitedly without the elegance of afore mentioned software but
+also without its price tag.</p>
+
+<p>My version is not half as good looking as the commercial program, but it does
+the job. Oh, and you do always get what you pay for...</p>
+
+<p><img src="http://jpmens.net/media/userlist/userlist-main.png" alt="main screen" />
+<img src="http://jpmens.net/media/userlist/userlist-cti.png" alt="dial-a-number" /></p>
+
+<h3>What I Used</h3>
+
+<p>Our BES runs atop of Lotus Domino, so in the following I'll have one or Lotus
+specific details, but the general principle will probably run on a Microsoft
+Exchange or Novell Groupwise-based BlackBerry Enterprise Server. All of these
+use a dedicated SQL server or, in smaller environments, an dedicated <a href="http://en.wikipedia.org/wiki/MSDE">MSDE</a>
+database server, into which the BES writes details concerning the devices
+configured to use that BES as well as its users.</p>
+
+<p>The code below is not
+guaranteed to survive future versions of a BES; if RIM changes the database
+schema, the code will either have to be adapted, rewritten or even scrapped
+entirely. I developed and tested the code on a version 4.1 BES, but as far as
+I know, it should also work on a version 4.0, and perhaps even earlier
+versions. Your mileage may vary, and I have no way of testing that.</p>
+
+<p>I've tested the code below on a BES running atop Windows 2003 SP2 with a copy of
+<a href="http://www.activestate.com/Products/ActivePerl/">Active Perl</a> for Windows as well as the DBI and ODBC modules installed. To
+convert the XML to XSLT, I used the <a href="http://xmlsoft.org/">XML C Parser and Toolkit</a> which is
+also available <a href="http://www.zlatkovic.com/libxml.en.html">for Windows</a>, including a <a href="http://www.zlatkovic.com/pub/libxml/">download section for
+binaries</a>.</p>
+
+<h3>Getting the Details</h3>
+
+<p>The database schema used by the BES is undocumented as far as I can tell, but
+I knew that the information must be in there somewhere. If you look at the
+BlackBerry Desktop Manager, you see the details clearly: <img src="http://jpmens.net/media/userlist/besmanager.png" alt="main screen" /></p>
+
+<p>After poking around a bit inside the SQL server, or rather the MSDE server on
+our BES, I found the details I needed. Apart from username, telephone number,
+email address and PIN (those are the fields I most badly wanted to have),
+there are all sorts of goodies, such as the BlackBerry device operating system
+version, the model number, etc. The following Perl program runs on the BES
+server proper and dumps the information I want into an XML format.</p>
+
+<div class="highlight"><pre><code class="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span>
+<span class="cp">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;userlist.xsl&quot;?&gt;</span>
+<span class="nt">&lt;bblist&gt;</span>
+<span class="nt">&lt;user&gt;</span>
+ <span class="nt">&lt;dn&gt;</span>CN=Jane Public,OU=Marketing,O=Example<span class="nt">&lt;/dn&gt;</span>
+ <span class="nt">&lt;appsver&gt;</span>4.1.0.316<span class="nt">&lt;/appsver&gt;</span>
+ <span class="nt">&lt;homenetwork&gt;</span>Cingular<span class="nt">&lt;/homenetwork&gt;</span>
+ <span class="nt">&lt;id&gt;</span>1<span class="nt">&lt;/id&gt;</span>
+ <span class="nt">&lt;imei&gt;</span>323484.03.343503.0<span class="nt">&lt;/imei&gt;</span>
+ <span class="nt">&lt;itpolicy&gt;</span>Marketing<span class="nt">&lt;/itpolicy&gt;</span>
+ <span class="nt">&lt;lastcontact&gt;</span>2006-08-30 12:06:22.000<span class="nt">&lt;/lastcontact&gt;</span>
+ <span class="nt">&lt;mailaddr&gt;</span>jane.pub@example.com<span class="nt">&lt;/mailaddr&gt;</span>
+ <span class="nt">&lt;mailstore&gt;</span>BES\state\29535504.nsf<span class="nt">&lt;/mailstore&gt;</span>
+ <span class="nt">&lt;mforw&gt;</span>11<span class="nt">&lt;/mforw&gt;</span>
+ <span class="nt">&lt;model&gt;</span>7290<span class="nt">&lt;/model&gt;</span>
+ <span class="nt">&lt;mpend&gt;</span>1<span class="nt">&lt;/mpend&gt;</span>
+ <span class="nt">&lt;name&gt;</span>Public, Jane<span class="nt">&lt;/name&gt;</span>
+ <span class="nt">&lt;phone&gt;</span>+401721001002<span class="nt">&lt;/phone&gt;</span>
+ <span class="nt">&lt;pin&gt;</span>2E33232D<span class="nt">&lt;/pin&gt;</span>
+ <span class="nt">&lt;platformver&gt;</span>3.0.0.4<span class="nt">&lt;/platformver&gt;</span>
+ <span class="nt">&lt;username&gt;</span>CN=Jane Public/OU=Marketing/O=example<span class="nt">&lt;/username&gt;</span>
+<span class="nt">&lt;/user&gt;</span>
+<span class="nt">&lt;user&gt;</span>
+ <span class="nt">&lt;dn&gt;</span>CN=John Doe,OU=Marketing,O=Example<span class="nt">&lt;/dn&gt;</span>
+ <span class="nt">&lt;appsver&gt;</span>4.1.0.316<span class="nt">&lt;/appsver&gt;</span>
+ <span class="nt">&lt;homenetwork&gt;</span>vodafone ES<span class="nt">&lt;/homenetwork&gt;</span>
+ <span class="nt">&lt;id&gt;</span>8<span class="nt">&lt;/id&gt;</span>
+ <span class="nt">&lt;imei&gt;</span>359884.00.386503.0<span class="nt">&lt;/imei&gt;</span>
+ <span class="nt">&lt;itpolicy&gt;</span>Default<span class="nt">&lt;/itpolicy&gt;</span>
+ <span class="nt">&lt;lastcontact&gt;</span>2006-08-31 13:06:26.000<span class="nt">&lt;/lastcontact&gt;</span>
+ <span class="nt">&lt;mailaddr&gt;</span>john.doe@example.com<span class="nt">&lt;/mailaddr&gt;</span>
+ <span class="nt">&lt;mailstore&gt;</span>BES\state\495285504.nsf<span class="nt">&lt;/mailstore&gt;</span>
+ <span class="nt">&lt;mforw&gt;</span>71<span class="nt">&lt;/mforw&gt;</span>
+ <span class="nt">&lt;model&gt;</span>8707<span class="nt">&lt;/model&gt;</span>
+ <span class="nt">&lt;mpend&gt;</span>17<span class="nt">&lt;/mpend&gt;</span>
+ <span class="nt">&lt;name&gt;</span>Doe, John<span class="nt">&lt;/name&gt;</span>
+ <span class="nt">&lt;phone&gt;</span>+15559100<span class="nt">&lt;/phone&gt;</span>
+ <span class="nt">&lt;pin&gt;</span>2044C32D<span class="nt">&lt;/pin&gt;</span>
+ <span class="nt">&lt;platformver&gt;</span>3.0.0.41<span class="nt">&lt;/platformver&gt;</span>
+ <span class="nt">&lt;username&gt;</span>CN=John Doe/OU=Marketing/O=example<span class="nt">&lt;/username&gt;</span>
+<span class="nt">&lt;/user&gt;</span>
+<span class="nt">&lt;/bblist&gt;</span>
+    
+</code></pre>
+</div>
+
+
+<p>The XML should be rather self-explanatory. There is one <em>user</em> entry per user defined on the BES (by
+the way: you'll only get entries for users who have already done an enterprise
+activation; the reason for this is that the join in the program's SQL joins
+with the device table, which in turn is only filled after activation). Each
+<em>user</em> entry in turn has an element corresponding to the database field I'm
+interested in. Do note, that the elements only exist if the corresponding
+database field has a value. If for example one of the BES users hasn't set her
+telephone number on the device's SIM Card settings, the element <em>phone</em> will
+not exist.</p>
+
+<p>The Perl program <em>userlist.pl</em> shown below runs on Windows and
+connects via ODBC with the MSDE server. The <em>SELECT</em> statement joins three
+tables to find all the attributes I want to see.</p>
+
+<div class="highlight"><pre><code class="perl"><span class="c1">#!C:/Perl/bin/perl</span>
+<span class="c1"># userlist.pl (C)2006 by Jan-Piet Mens &lt;jpmens at gmail.com&gt;</span>
+<span class="c1"># Produce XML with list of BES users &amp; their devices.</span>
+<span class="c1"># --&gt; adjust name of interpreter on first line above!</span>
+
+<span class="k">use</span> <span class="n">DBI</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">Data::</span><span class="n">Dumper</span><span class="p">;</span>
+<span class="k">use</span> <span class="n">strict</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$server</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$DSN</span> <span class="o">=</span> <span class="s">&quot;DBI:ODBC:Driver={SQL Server};Server=$server;Database=BESMgmt&quot;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$dbh</span> <span class="o">=</span> <span class="n">DBI</span><span class="o">-&gt;</span><span class="nb">connect</span><span class="p">(</span><span class="nv">$DSN</span><span class="p">);</span>
+
+<span class="k">print</span> <span class="s">&quot;Content-type: text/xml\n\n&quot;</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nv">$dbh</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">print</span> <span class="s">&quot;&lt;error&gt;&quot;</span> <span class="o">.</span> <span class="nv">$</span><span class="nn">DBI::</span><span class="nv">errstr</span> <span class="o">.</span> <span class="s">&quot;&lt;/error&gt;\n&quot;</span><span class="p">;</span>
+    <span class="nb">die</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">print</span> <span class="s">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;&#39;</span> <span class="o">.</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+<span class="k">print</span> <span class="s">&#39;&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;userlist.xsl&quot;?&gt;&#39;</span> <span class="o">.</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$sql</span> <span class="o">=</span><span class="s">&lt;&lt;&quot;END&quot;;</span>
+<span class="s">   SELECT</span>
+<span class="s">    u.id AS id,</span>
+<span class="s">    u.userName AS username,</span>
+<span class="s">    u.displayname AS name,</span>
+<span class="s">    u.PIN AS pin,</span>
+<span class="s">    s.MsgsForwarded AS mforw,</span>
+<span class="s">    s.MsgsSent AS msent,</span>
+<span class="s">    s.MsgsPending AS mpend,</span>
+<span class="s">    s.LastContactTime AS lastcontact,</span>
+<span class="s">    u.mailboxsmtpaddr AS mailaddr,</span>
+<span class="s">    u.mailstoredisplayname AS mailstore,</span>
+<span class="s">    d.modelname AS model,</span>
+<span class="s">    d.Platformver AS platformver,</span>
+<span class="s">    d.AppsVer AS appsver,</span>
+<span class="s">    d.phonenumber AS phone,</span>
+<span class="s">    d.HomeNetwork AS homenetwork,</span>
+<span class="s">    d.ITPolicyName AS itpolicy,</span>
+<span class="s">    d.IMEI AS imei</span>
+<span class="s">   FROM</span>
+<span class="s">    SyncDeviceMgmtSummary d,</span>
+<span class="s">    UserConfig u,</span>
+<span class="s">    UserStats  s</span>
+<span class="s">    WHERE u.id = d.userconfigid AND u.id = s.id</span>
+<span class="s">   ORDER BY 1</span>
+
+<span class="s">END</span>
+
+<span class="k">my</span> <span class="nv">$st</span> <span class="o">=</span> <span class="nv">$dbh</span><span class="o">-&gt;</span><span class="n">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">)</span> <span class="o">||</span> <span class="nb">die</span> <span class="nv">$</span><span class="nn">DBH::</span><span class="nv">errstr</span><span class="p">;</span>
+<span class="nv">$st</span><span class="o">-&gt;</span><span class="n">execute</span> <span class="o">||</span> <span class="nb">die</span> <span class="nv">$</span><span class="nn">DBH::</span><span class="nv">errstr</span><span class="p">;</span>
+
+<span class="k">print</span> <span class="s">&quot;&lt;bblist&gt;\n&quot;</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$c</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="nb">defined</span> <span class="p">(</span><span class="nv">$c</span> <span class="o">=</span> <span class="nv">$st</span><span class="o">-&gt;</span><span class="n">fetchrow_hashref</span><span class="p">))</span> <span class="p">{</span>
+    
+    <span class="c1"># print $c-&gt;{username};</span>
+    <span class="c1"># print Dumper($c);</span>
+    
+    <span class="k">print</span> <span class="s">&quot;&lt;user&gt;\n&quot;</span><span class="p">;</span>
+    
+    <span class="k">my</span> <span class="nv">$dn</span> <span class="o">=</span> <span class="nv">$c</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">username</span><span class="p">};</span>
+    <span class="nv">$dn</span> <span class="o">=~</span> <span class="n">s</span><span class="o">|/</span><span class="p">([</span><span class="n">a</span><span class="o">-</span><span class="n">zA</span><span class="o">-</span><span class="n">Z</span><span class="p">]</span><span class="o">+=</span><span class="p">)</span><span class="o">|</span><span class="p">,</span><span class="nv">$1</span><span class="o">|</span><span class="n">g</span><span class="p">;</span>    <span class="c1"># normalize Lotus DN</span>
+    <span class="n">elem</span><span class="p">(</span><span class="s">&#39;dn&#39;</span><span class="p">,</span> <span class="nv">$dn</span><span class="p">);</span>
+    <span class="k">foreach</span> <span class="k">my</span> <span class="nv">$k</span> <span class="p">(</span><span class="nb">sort</span> <span class="nb">keys</span><span class="p">(</span><span class="nv">%$c</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">elem</span><span class="p">(</span><span class="nv">$k</span><span class="p">,</span> <span class="nv">%$c</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$k</span><span class="p">});</span>
+    <span class="p">}</span>
+    
+    <span class="k">print</span> <span class="s">&quot;&lt;/user&gt;\n&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">print</span> <span class="s">&quot;&lt;/bblist&gt;\n&quot;</span><span class="p">;</span>
+
+<span class="k">sub </span><span class="nf">elem</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$val</span><span class="p">)</span> <span class="o">=</span> <span class="nv">@_</span><span class="p">;</span>
+    
+    <span class="k">print</span> <span class="s">&quot; &lt;$key&gt;$val&lt;/$key&gt;\n&quot;</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$val</span><span class="p">);</span>
+<span class="p">}</span>
+    
+</code></pre>
+</div>
+
+
+<p>It ought to be quite easy to modify
+the program to produce an output format of your preference, such as CSV or
+even to dump it into a separate database. In a subsequent article, I'll be
+using this XML to fill a <a href="http://www.mysql.com">MySQL</a> database table.</p>
+
+<h3>Viewing Results on the Device</h3>
+
+<p>Now that we are able to produce XML output with the information we are
+interested in, we need to get that to the device. I'm going to use XSLT to
+transform the XML into HTML which can be retrieved via HTTP and viewed on the
+device. One word about the BlackBerry browser: do ensure that you've set it up
+to correctly use HTML tables and style sheets. My browser settings are <img src="http://jpmens.net/media/userlist/userlist-browserconfig.png" alt="main
+screen" /></p>
+
+<h3>XSLT</h3>
+
+<p>XSLT is a transformation language which can transform XML into a different
+format. For the task at hand, the target should be HTML. If you put both the
+<em>userlist.xml</em> and <em>userlist.xsl</em> files in the same location (on your web
+server or even on your local computer) and open the XML with a Mozilla Firefox
+browser (others may or may not work), you may be astonished to see that
+Firefox pulls up the XML, sees that it requires a style sheet and loads and
+applies the XSL to the XML on the fly. Unfortunately the BlackBerry Browser
+cannot do that, so we'll transform the XML on the web server. The style sheet
+proper is shown below:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot;  encoding=&quot;ISO-8859-1&quot; ?&gt;</span>
+<span class="nt">&lt;xsl:stylesheet</span> <span class="na">xmlns:xsl=</span><span class="s">&quot;http://www.w3.org/1999/XSL/Transform&quot;</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;xsl:output</span> <span class="na">method=</span><span class="s">&quot;html&quot;</span> <span class="na">indent=</span><span class="s">&quot;no&quot;</span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;xsl:template</span> <span class="na">match =</span> <span class="s">&quot;*&quot;</span><span class="nt">&gt;&lt;/xsl:template&gt;</span>
+
+<span class="nt">&lt;xsl:template</span> <span class="na">match =</span> <span class="s">&quot;bblist&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;&lt;title&gt;</span>fupps: userdirectory<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;style&gt;</span>
+    body { font: 12px Verdana,Arial,Sans-Serif; }
+    h3 { color: red; }
+    .pin { font-weight: bold; color: green; }
+    .fon { font-size: 4; color: #eee; }
+    <span class="nt">&lt;/style&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>BES User Directory<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;xsl:apply-templates</span> <span class="na">select =</span> <span class="s">&quot;user&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;/html&gt;</span>
+<span class="nt">&lt;/xsl:template&gt;</span>
+
+
+<span class="nt">&lt;xsl:template</span> <span class="na">match =</span> <span class="s">&quot;user&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div&gt;&lt;xsl:apply-templates</span> <span class="nt">/&gt;&lt;/div&gt;&lt;br</span> <span class="nt">/&gt;&lt;hr</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/xsl:template&gt;</span>
+
+<span class="nt">&lt;xsl:template</span> <span class="na">match =</span> <span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h3&gt;&lt;xsl:value-of</span> <span class="na">select =</span> <span class="s">&quot;.&quot;</span> <span class="nt">/&gt;&lt;/h3&gt;</span>
+<span class="nt">&lt;/xsl:template&gt;</span>
+
+<span class="nt">&lt;xsl:template</span> <span class="na">match =</span> <span class="s">&quot;pin&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">&quot;right&quot;</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- Build HTML href </span>
+<span class="c">      ** The result of this mess will be</span>
+<span class="c">      **</span>
+<span class="c">      ** &lt;a href=&quot;pin:111111&quot;&gt;11111&lt;/a&gt;</span>
+<span class="c">      **</span>
+<span class="c">      **</span>
+<span class="c">     --&gt;</span>
+    <span class="nt">&lt;xsl:element</span> <span class="na">name=</span><span class="s">&quot;a&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;xsl:attribute</span> <span class="na">name=</span><span class="s">&quot;href&quot;</span><span class="nt">&gt;</span>PIN:<span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">&#39;.&#39;</span><span class="nt">/&gt;&lt;/xsl:attribute&gt;</span>
+        <span class="nt">&lt;xsl:attribute</span> <span class="na">name=</span><span class="s">&quot;class&quot;</span><span class="nt">&gt;</span>pin<span class="nt">&lt;/xsl:attribute&gt;</span>
+        <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">&quot;.&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/xsl:element&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/xsl:template&gt;</span>
+
+<span class="nt">&lt;xsl:template</span> <span class="na">match =</span> <span class="s">&quot;phone&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">&quot;right&quot;</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- Build HTML href for CTI --&gt;</span>
+    <span class="nt">&lt;xsl:element</span> <span class="na">name=</span><span class="s">&quot;a&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;xsl:attribute</span> <span class="na">name=</span><span class="s">&quot;href&quot;</span><span class="nt">&gt;</span>cti:<span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">&#39;.&#39;</span><span class="nt">/&gt;&lt;/xsl:attribute&gt;</span>
+        <span class="nt">&lt;xsl:attribute</span> <span class="na">name=</span><span class="s">&quot;class&quot;</span><span class="nt">&gt;</span>fon<span class="nt">&lt;/xsl:attribute&gt;</span>
+        <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">&quot;.&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/xsl:element&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/xsl:template&gt;</span>
+
+<span class="nt">&lt;/xsl:stylesheet&gt;</span>
+    
+</code></pre>
+</div>
+
+
+<h3>Transform</h3>
+
+<p>Once we have the XML we can apply the style-sheet and transform it to HTML.
+The invocation of the <em>xsltproc</em> program is trivial: <code>xsltproc -o
+userlist.html userlist.xml</code>.</p>
+
+<p>What this does is to call the XSLT transformation program which reads the name
+of the stylesheet to use and applies that to the specified XML input file. The
+output is written to the file <em>userlist.html</em>.</p>
+
+<p>Note how in the resulting HTML, the links to both the phone number and the PIN
+use the BlackBerry-specific anchors to enable telephony and PIN recognition on
+the links <img src="http://jpmens.net/media/userlist/userlist-pin.png" alt="PIN the user" /> This transformation can be done periodically on
+the server by scheduling it.</p>
+
+<h3>How to Push the Directory to the Device?</h3>
+
+<p>In a future article I'll be demonstrating a technology with which to do this.</p>
+
+
+	
+		
+
+			<div class="info">
+<a href="/pages/create-directory-of-blackberry-enterprise-server-users/" title="Link to this article">04 Sep 2006</a> :: <a title="e-mail link to this article" href="mailto:?X-site=jpmens.net&amp;subject=Create Directory of BlackBerry Enterprise Server Users&amp;body=You%20might%20like%20this:%20http://jpmens.net/pages/create-directory-of-blackberry-enterprise-server-users/">e-mail</a>
+</div><!-- info -->
+
+			<div id='comments'>
+  <h3>Comments</h3>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jpmens-net';
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    var disqus_url = 'http://jpmens.net/pages/create-directory-of-blackberry-enterprise-server-users/';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+
+
+	
+		</div><!-- post -->
+	    </div><!-- inner -->
+        </div><!-- content -->
+
+
+
+ <div id="tail">
+ </div>
+
+<!-- Piwik --> 
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://jpmens.net/pi/piwik/" : "http://jpmens.net/pi/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://jpmens.net/pi/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+
+        <!-- Place this image somewhere at the bottom of your page -->
+        <span><img
+                src="http://www.dnssec-failed.org/1x1.gif"
+                width="1"
+                height="1"
+                id="dnssecmagicpixel"
+                onload="dnssecmagicpixelLoaded();" /></span>
+
+ </body>
+</html>
+

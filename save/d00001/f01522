@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    
+    <!--[if IE]><![endif]-->
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <base href="http://fasterdata.es.net/"><!--[if lte IE 6]></base><![endif]-->
+    <title>Science DMZ: Security</title>
+<meta name="generator" content="SilverStripe - http://silverstripe.org" />
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+<!--[if lte IE 8]>
+<script src="/mysite/javascript/html5.js"></script>
+<script src="/mysite/javascript/innershiv.min.js"></script>
+<![endif]-->
+
+    
+    
+    
+    <meta name="categories" content="DocumentationPage" />
+    
+    <meta name="robots" content="index,follow" />
+    
+    
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3580376-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+    
+<link rel="stylesheet" type="text/css" href="http://fasterdata.es.net/mysite/javascript/dataTables-1.7/media/css/demo_table_jui.css?m=1333472785" />
+<link rel="stylesheet" type="text/css" media="all" href="http://fasterdata.es.net/themes/esnet-sass/css/screen.css?m=1333472781" />
+<link rel="stylesheet" type="text/css" media="print" href="http://fasterdata.es.net/themes/esnet-sass/css/print.css?m=1333472781" />
+<link rel="stylesheet" type="text/css" href="http://fasterdata.es.net/mysite/javascript/shadowbox-3.0.3/shadowbox.css?m=1333472784" />
+<link rel="stylesheet" type="text/css" href="http://fasterdata.es.net/mysite/javascript/jquery.bookmark.package-1.3.1/jquery.bookmark.css?m=1333472785" />
+<link rel="stylesheet" type="text/css" href="http://fasterdata.es.net/themes/esnet-sass/javascript/jquery-ui-1.8.7.custom/css/custom-theme/jquery-ui-1.8.7.custom.css?m=1333472780" />
+</head>
+
+<!--[if lt IE 7 ]> <body class="ie ie6 lte6 lte7 lte8 lte9 DocumentationPage"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie ie7 lte7 lte8 lte9 DocumentationPage"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie ie8 lte8 lte9 DocumentationPage"> <![endif]-->
+<!--[if IE 9 ]>    <body class="ie ie9 lte9 DocumentationPage"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <body class="DocumentationPage"> <!--<![endif]-->
+    
+    <!--googleoff: snippet--><!--googleoff: index-->
+    <div class="container">
+        <div class="header">
+            <div id="branding">
+                    <div class="SiteTitle"><a href="" title="Home" accesskey="1"><img src="themes/esnet-sass/images/logo-tnsp.png" alt="fasterdata.es.net" class="noprint" /><img src="themes/esnet-sass/images/logo-blue.png" alt="fasterdata.es.net" class="print" /></a><span class="SiteTagline">ESnet Network Performance Knowledge Base</span></div>
+                <div class="tools">
+                    
+                    <span class="bookmarks"></span>
+                    <div class="SearchForm">
+                        <!-- template /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Form.ss -->
+
+<form  id="Form_SearchForm" action="/search-results/SearchForm" method="get" enctype="application/x-www-form-urlencoded">
+
+	
+	<p id="Form_SearchForm_error" class="message " style="display: none"></p>
+	
+	
+	<fieldset>
+	    
+		
+			<div id="Search" class="field text  nolabel"><div class="middleColumn"><input type="text" class="text nolabel" id="Form_SearchForm_Search" name="Search" value="search…" /></div></div>
+		
+		<div class="clear"><!-- --></div>
+	</fieldset>
+
+	
+	<div class="Actions">
+		
+			<input class="action " id="Form_SearchForm_action_ProcessSearchForm" type="submit" name="action_ProcessSearchForm" value="Go" title="Go" />
+		
+	</div>
+	
+
+</form>
+
+
+<!-- end template /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Form.ss -->
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="nav">
+        <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Navigation.ss -->
+<ul class="top-nav" id="Navigation">
+
+    <li class="link first"><a href="/" class="topnav-link">Fasterdata Home</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/fasterdata-home/requirements-and-expectations/">Network Requirements and Expectations</a></li>
+                
+            
+                
+                <li class="link "><a href="/fasterdata-home/learn-more/">Talks, Tutorials and other interesting links</a></li>
+                
+            
+                
+                <li class="link last"><a href="/fasterdata-home/contribute-updates-to-fasterdata/">Contribute Updates to Fasterdata</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="section "><a href="/science-dmz/" class="topnav-link">Science DMZ</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/science-dmz/motivation/">Motivation</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/science-dmz-architecture/">Architecture</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/science-dmz-network-components/">Network Components</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/advanced-services/">Advanced Services</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/DTN/">Data Transfer Nodes</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/science-dmz-performance-monitoring/">Performance Monitoring</a></li>
+                
+            
+                
+                <li class="current "><a href="/science-dmz/science-dmz-security/">Security</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/sensitive-data-environments/">Sensitive Data Environments</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/frequently-asked-questions/">FAQ</a></li>
+                
+            
+                
+                <li class="link "><a href="/science-dmz/learn-more/">Learn More</a></li>
+                
+            
+                
+                <li class="link last"><a href="http://es.net/about/case-studies/science-dmz-case-studies/">Case Studies</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="link "><a href="/host-tuning/" class="topnav-link">Host Tuning</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/host-tuning/background/">Background Information</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/linux/">Linux</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/osx/">Mac OSX</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/freebsd/">FreeBSD</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/ms-windows/">MS Windows</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/other/">Other OS</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/nic-tuning/">NIC Tuning</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/interrupt-binding/">Interrupt Binding</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/udp-tuning/">UDP Tuning</a></li>
+                
+            
+                
+                <li class="link "><a href="/host-tuning/virtual-machines/">Virtual Machines</a></li>
+                
+            
+                
+                <li class="link last"><a href="/host-tuning/packet-pacing/">Packet Pacing</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="link "><a href="/network-tuning/" class="topnav-link">Network Tuning</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/network-tuning/tcp-issues-explained/">TCP Issues Explained</a></li>
+                
+            
+                
+                <li class="link "><a href="/network-tuning/router-switch-buffer-size-issues/">Buffer Issues</a></li>
+                
+            
+                
+                <li class="link "><a href="/network-tuning/router-tuning/">Router Tuning</a></li>
+                
+            
+                
+                <li class="link "><a href="/network-tuning/firewall-performance-issues/">Firewall Issues</a></li>
+                
+            
+                
+                <li class="link "><a href="/network-tuning/mtu-issues/">MTU Issues</a></li>
+                
+            
+                
+                <li class="link last"><a href="/network-tuning/buffer-bloat/">Buffer Bloat</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="link "><a href="/data-transfer-tools/" class="topnav-link">Data Transfer Tools</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/data-transfer-tools/background/">Background</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/standard-unix-tools/">Standard Unix Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/other/">Other Unix Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/globus-online/">Globus Online</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/gridftp/">GridFTP</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/scp-and-sftp/">scp and sftp</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/commercial-tools/">Commercial Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/web-browser-tools-plugins/">Browser Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/ms-windows-tools/">MS Windows Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/data-transfer-tools/special-purpose-tools/">Special Purpose Tools</a></li>
+                
+            
+                
+                <li class="link last"><a href="/data-transfer-tools/DOE/">DOE Site Data Transfer Nodes</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="link "><a href="/performance-testing/" class="topnav-link">Performance Testing</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/performance-testing/network-performance-howto/">Network Performance HOWTO</a></li>
+                
+            
+                
+                <li class="link "><a href="/performance-testing/network-troubleshooting-tools/">Network Test Tools</a></li>
+                
+            
+                
+                <li class="link "><a href="/performance-testing/perfsonar/">perfSONAR</a></li>
+                
+            
+                
+                <li class="link last"><a href="/performance-testing/esnet-io-testers/">ESnet IO Testers</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+    <li class="link "><a href="http://www.es.net" class="topnav-link">ESnet Home</a>
+        
+        
+        
+    </li>
+
+    <li class="link last"><a href="/forums/" class="topnav-link">Forums</a>
+        
+        
+            <ul>
+            
+                
+                <li class="link first"><a href="/forums/general-discussion/">General Science DMZ Discussion</a></li>
+                
+            
+                
+                <li class="link last"><a href="/forums/openflow-discussion/">OpenFlow Discussion</a></li>
+                
+            
+            </ul>
+        
+        
+    </li>
+
+</ul>
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Navigation.ss -->
+    </div>
+    <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/BreadCrumbs.ss -->
+
+    
+	<div class="container">
+		<div id="Breadcrumbs"><a href="/">Home</a> &raquo; <a href="/science-dmz/">Science DMZ</a> &raquo; Security</div>
+	</div>
+    
+
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/BreadCrumbs.ss -->
+    <!--googleon: snippet--><!--googleon: index-->
+    <div class="container">
+        <div class="Layout columns-110 has-subnav">
+            <!-- template /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Layout/DocumentationPage.ss -->
+<!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/SubNav.ss -->
+<!--googleoff: snippet--><!--googleoff: index-->
+
+<div class="subnav">
+    <div class="vertical-menu">
+        <div class="label"><a class="section" href="/science-dmz/">Science DMZ</a></div>
+        <ul class="section menu">
+        
+            <li class="link"><a class="menuitem link" href="/science-dmz/motivation/">Motivation</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/science-dmz/science-dmz-architecture/">Architecture</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/science-dmz/science-dmz-network-components/">Network Components</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/science-dmz/advanced-services/">Advanced Services</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/science-dmz/DTN/">Data Transfer Nodes</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/science-dmz/science-dmz-performance-monitoring/">Performance Monitoring</a>
+
+            
+            </li>
+            
+            <li class="current"><a class="menuitem current" href="/science-dmz/science-dmz-security/">Security</a>
+
+            
+                
+                    <ul class="submenu">
+                    
+                        <li class="link"><a class="menuitem link" href="/science-dmz/science-dmz-security/best-practices-for-science-dmz-security/">Best Practices</a>
+
+
+                        
+
+
+
+                        </li>
+                    
+                        <li class="link"><a class="menuitem link" href="/science-dmz/science-dmz-security/host-ids/">Host IDS</a>
+
+
+                        
+
+
+
+                        </li>
+                    
+                        <li class="link"><a class="menuitem link" href="/science-dmz/science-dmz-security/network-ids/">Network IDS</a>
+
+
+                        
+
+
+
+                        </li>
+                    
+                        <li class="link"><a class="menuitem link" href="/science-dmz/science-dmz-security/black-hole-routing/">Black Hole Routing</a>
+
+
+                        
+
+
+
+                        </li>
+                    
+                    </ul>
+                 
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/science-dmz/sensitive-data-environments/">Sensitive Data Environments</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/science-dmz/frequently-asked-questions/">FAQ</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="/science-dmz/learn-more/">Learn More</a>
+
+            
+            </li>
+            
+            <li class="link"><a class="menuitem link" href="http://es.net/about/case-studies/science-dmz-case-studies/">Case Studies</a>
+
+            
+            </li>
+            
+        </ul>
+    </div>
+    <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Promos.ss -->
+<!--googleoff: snippet--><!--googleoff: index-->
+
+    <div class="Promos">
+    
+        <div class="Promo"></div>
+    
+    </div>
+
+<!--googleon: snippet--><!--googleon: index-->
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Promos.ss -->
+</div>
+
+<!--googleon: snippet--><!--googleon: index-->
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/SubNav.ss -->
+
+<div class="main">
+    <div class="main-wrapper">
+
+        <div class="pre_content">
+            
+                <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Pagination.ss -->
+<!--googleoff: snippet-->
+
+
+
+<!--googleon: snippet-->
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Pagination.ss -->
+            
+            <h1 id="page-heading">Science DMZ Security - Firewalls vs. Router ACLs</h1>
+            <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/DateAuthorCategories.ss -->
+<div class="DateAuthors">
+    
+    
+<!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/CategoryLinks.ss -->
+
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/CategoryLinks.ss -->
+</div>
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/DateAuthorCategories.ss -->
+        </div>
+
+        
+
+
+            
+                
+                    <div class="Content">
+                        
+                            
+                        
+                        
+                            
+                                
+                            
+                        
+                        <p>The defense of information systems is an essential function of a modern enterprise.  This is true whether the information systems are used for human resources and other business applications, scientific discovery, or any other function.  One of the great workhorses of network security is the firewall appliance, and firewalls work well for standard business applications - this is the primary purposed for which they are designed.  However, many scientific applications require very high network performance - not just in link speed, but in throughput delivered to the application. </p>
+<p>Firewalls are typically designed and built in ways that make them ill-suited to high-performance science environments.  As described below, firewalls have no special analysis features for scientific applications - all they can do is filter network traffic for science applications by IP address and port number.  This is very similar to the ways in which a router Access Control List (ACL) is used to provide security protections - namely, the filtering of traffic by IP address and port number. </p>
+<p>One great advantage of the Science DMZ model is that it allows network and security architects to optimize the tools and technologies employed in the defense of science-critical systems. In the Science DMZ model, ACLs are used to defend high-performance scientific applications, and institutional or departmental firewalls are used to defend business and end-user systems - just as they are today.  Since ACLs are usually implemented in the router's forwarding hardware, they typically do not compromise the performance of high-performance applications. </p>
+<p>As data-intensive science becomes the norm in many fields of science, high-performance data mobility is rapidly becoming a core scientific infrastructure requirement.  By deploying a Science DMZ, a research institution can both achieve high performance and defend its systems without having to make the choice between network security and the science mission of the institution. </p>
+<p>Security for a data-intensive science environment located on the Science  DMZ can be tailored for the data transfer systems on the Science DMZ.  These hosts typically run a well-defined and limited set of  special-purpose applications rather than the usual array of user  applications. Since the Science DMZ resources are assumed to interact  with external systems and are isolated from, or have carefully managed  access to, internal systems, the security policy for the Science DMZ is  tailored for these functions rather than to protect in interior of the  general site LAN.</p>
+<h4>Firewall functions</h4>
+<p>The primary function of a firewall ruleset is to permit or deny network traffic using packet header information in a process where each packet is typically matched against the firewall ruleset.  The primary criteria used to decide whether a packet conforms to security policy or not are source IP address, source port (if the packet is a TCP or UDP packet), destination IP address, and destination port.  This section describes, in general terms, the high-level operations performed by most firewalls.<br/><br/>The firewall maintains a lookup table that tracks the protocol state of the individual permitted connections (identified by the 4-tuple of source/destination address and port) traversing the firewall in real time.  When a packet arrives at the firewall, the firewall looks up the address/port 4-tuple of the incoming packet in its connection state table.  If the packet matches a state table entry, the state table entry is updated and the packet is permitted.  If there is no state table entry, the packet is matched against the firewall ruleset.  If the packet is permitted by the firewall ruleset, a new state table entry is created and the packet is permitted.  If the packet is not permitted by the ruleset, the packet is dropped.  The state table is central to the operation of the firewall - if the state table fills, new entries cannot be created (and therefore no new connections can be established across the firewall).  Also, the state table allows for significant performance leverage, because an address/port 4-tuple lookup is a fast operation.  However, the resources of the state table are finite, and so the state table must be managed.<br/><br/>When a connection terminates normally (e.g. if the connection is a TCP connection and the firewall sees a FIN/ACK sequence in both directions, or if the firewall sees a reset for a TCP connection), the firewall removes the associated connection state from the state table.  Some protocols such as UDP do not have explicit connection state, and so it is harder to tell when to clean up the connection state.  Also, TCP connections often do not terminate normally (e.g. if I'm late for a meeting and just close my laptop, open connections just stop sending traffic without cleaning up).  In order to prevent the state table from filling up, state table entries are managed by a timer.  If a state table entry has not been updated after a timeout interval (typically 5 to 15 minutes, and potentially different for different protocols), the firewall assumes that the connection is dead and removes the connection from the state table.  However, once the state table entry is gone, packets from that connection will be denied by the firewall - the firewall will not re-establish a state table entry for packets from the middle of an established connection.  <br/><br/>Modern firewalls can manage very large state tables - millions of connections are typically supported.  This traffic processing model is well-matched to the traffic profile of the modern business enterprise, which typically consists of a large number of short duration connections of relatively low data volume.  The firewall can be built from many parallel packet processing engines that can be combined to create a firewall capable of processing millions of connections at 10 gigabits per second.  This design pattern - the parallel processing of a large number of simultaneous connections by using a set of processing engines - is common to many firewalls.<br/><br/>In addition to address/port matching and connection state management, many more advanced firewalls are able to use deep packet inspection to track application-layer behavior.  They can detect email traffic, and scan emails for viruses on the fly, they can analyze web traffic to look for hostile behavior, and so on.  These application-layer functions exist because of the large number of enterprise customers that run the applications - there is a broad market for this functionality, and it is worth the investment in R&amp;D to build more advanced analysis for common protocols into a firewall.  In contrast, firewall vendors typically do not include application-layer analysis for scientific applications - the market is too small to make it worth building the analysis tools into the firewall appliance.</p>
+<h4>Interaction of firewalls with data-intensive science</h4>
+<p>A common task in data-intensive science is the movement of a large amount of data (several terabytes or more) from one location to another.  The reason is typically to get the data to a storage or analysis resource of some kind.  The transfer of large data sets typically involves a small number of TCP connections that use a significant fraction of the available path bandwidth.  Also, such transfers can take a long time (sometimes hours), and the data transfer applications need to communicate at the beginning and end of the transfer, but not always in the middle while the bulk data movement is occurring.  This traffic profile is a poor match for common firewall designs in several different respects.</p>
+<ul><li>Firewalls are designed to manage a large number of connections - data transfer applications typically use only a few.</li>
+<li>Firewalls are often composed of many processing engines with a peak performance that is significantly less than the overall device bandwidth (e.g. on a 10Gbps firewall, a set of 8 packet processors capable of 1.2Gbps each is typical).</li>
+</ul><p>When the internal data path for a network device is slower than the interface speed of the device (as is the case for the 10Gbps firewall described above), high-performance applications can induce packet loss at data rates significantly less than the nominal bandwidth of the network.  Because of the bursty nature of TCP it is often easy to cause loss inside a firewall that is built in this way.  Consider the example of a data transfer host with 10GE interfaces - the host will send 10Gbps packet bursts which the firewall above can process at 1.2Gbps.  The firewall must buffer the 10Gbps burst while the packets are processed at the lower rate, and some packets will be dropped unless the firewall's buffer can hold the burst until the firewall can process the packets.  Unless the firewall has reliable loss counters (and unless the security group that owns the firewall can be persuaded to publish those counters), all that the scientists can see is that "the network" performs poorly because of packet loss caused by the firewall.</p>
+<p>The management of the firewall's state table, particularly the removal of idle connections after a short time interval of inactivity, is a critical point of tension between long-running scientific applications and stateful firewalls.  If the firewall is configured to prevent the exhaustion of its state table, it breaks long-running applications with network connections that are idle while the application is doing other work, often on terabyte-scale data sets.  If the firewall is configured with a connection state timeout that matches the standard keepalive timer in host TCP/IP stacks (2 hours), the firewall is vulnerable to failure due to state table exhaustion.  This is not a theoretical concern - we have seen data corruption and transfer failures because of this problem (one case involved a large data transfer where the control connections were aged out of the firewall state table before the data connections completed, resulting in transfer failures).</p>
+<p>Note that hosts behind the site firewall that try to access their own local Science DMZ can often achieve reasonable performance.  The reason is that the very low latency between the local Science DMZ and the local users results in some of the issues caused by the site perimeter firewall being much less of a problem in practical terms.  TCP recovers from loss quickly at low latencies, and short-distance TCP dynamics are different enough from the TCP dynamics in long-distance transfers that packet loss that would exist if the wide area data transfers traversed the firewall may not even exist when local users access Science DMZ resources.  The key is to provide the long-distance TCP connections with uncongested, loss-free service.</p>
+<p>More information is available in several presentations:</p>
+<ul><li>Some sample results showing performance issues caused by a firewall are in <a href="assets/fasterdata/Firewall-tcptrace.pdf" target="_blank">these slides</a> from Internet2. </li>
+<li>Eli Dart's <a title="Science DMZ Security at TIP 2013" href="http://events.internet2.edu/2013/tip/agenda.cfm?go=session&amp;id=10002778&amp;event=1261" target="_blank">Science DMZ Security talk at TIP2013</a></li>
+</ul><p> </p>
+<p> </p>
+                    </div>
+                
+                <div class="clear"></div>
+                <div class="bottom-pagination"><!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Pagination.ss -->
+<!--googleoff: snippet-->
+
+
+
+<!--googleon: snippet-->
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Pagination.ss --></div>
+            
+            <div class="clear"></div>
+            
+            
+
+    </div>
+</div>
+
+
+
+<!-- end template /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Layout/DocumentationPage.ss -->
+        </div>
+        <!--googleoff: snippet--><!--googleoff: index-->
+        <div class="footer" id="site_info">
+            <!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Footer.ss -->
+<!-- include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/LastEdited.ss -->
+<div class="LastEdited">Last edited: 2013-05-16 09:44:28</div>
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/LastEdited.ss -->
+<div class="footer-wrapper">
+        <div class="badges">
+            <a href="http://www.es.net/"><img src="themes/esnet-sass/images/esnet-badge.png" class="badge-shadow" /></a>
+            <a href="http://www.lbl.gov/"><img src="themes/esnet-sass/images/berkeley-lab-badge.png" /></a>
+            <a href="http://science.energy.gov/"><img src="themes/esnet-sass/images/doe-badge.png" /></a>
+        </div>
+        
+        <ul class="footer-links">
+            
+                <li><a href="/fasterdata-home/contribute-updates-to-fasterdata/">Contribute Updates to Fasterdata</a></li>
+            
+                <li><a href="/contact-us/">Contact Us</a></li>
+            
+                <li><a href="http://www.lbl.gov">© 2003 – 2013 Lawrence Berkeley National Laboratory</a></li>
+            
+                <li><a href="http://www.lbl.gov/Disclaimers.html">Privacy &amp; Security</a></li>
+            
+            
+        </ul>
+        
+</div>
+
+
+
+<!-- end include /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Includes/Footer.ss -->
+        </div>
+    </div>
+
+<script type="text/javascript" src="http://fasterdata.es.net/sapphire/thirdparty/jquery/jquery.js?m=1268274554"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.beautyOfCode.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/dataTables-1.7/media/js/jquery.dataTables.min.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/shadowbox-3.0.3/shadowbox.js?m=1333472784"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.metadata.2.0/jquery.metadata.min.js?m=1333472784"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.media.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.oembed.min.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.cycle/jquery.cycle.all.min.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/jquery.bookmark.package-1.3.1/jquery.bookmark.min.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/themes/esnet-sass/javascript/jquery-ui-1.8.7.custom/js/jquery-ui-1.8.7.custom.min.js?m=1333472781"></script><script type="text/javascript" src="http://fasterdata.es.net/mysite/javascript/core.js?m=1333472785"></script><script type="text/javascript" src="http://fasterdata.es.net/themes/esnet-sass/javascript/theme-core.js?m=1333472781"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/thirdparty/prototype/prototype.js?m=1268274567"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/thirdparty/behaviour/behaviour.js?m=1267739533"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/javascript/prototype_improvements.js?m=1281399261"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/javascript/i18n.js?m=1245280480"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/javascript/lang/en_US.js?m=1242680243"></script><script type="text/javascript" src="http://fasterdata.es.net/sapphire/javascript/Validator.js?m=1286826382"></script><script type="text/javascript">//<![CDATA[
+Behaviour.register({
+	'#Form_SearchForm': {
+		validate : function(fromAnOnBlur) {
+			initialiseForm(this, fromAnOnBlur);
+			
+
+			var error = hasHadFormError();
+			if(!error && fromAnOnBlur) clearErrorMessage(fromAnOnBlur);
+			if(error && !fromAnOnBlur) focusOnFirstErroredField();
+			
+			return !error;
+		},
+		onsubmit : function() {
+			if(typeof this.bypassValidation == 'undefined' || !this.bypassValidation) return this.validate();
+		}
+	},
+	'#Form_SearchForm input' : {
+		initialise: function() {
+			if(!this.old_onblur) this.old_onblur = function() { return true; } 
+			if(!this.old_onfocus) this.old_onfocus = function() { return true; } 
+		},
+		onblur : function() {
+			if(this.old_onblur()) {
+				// Don't perform instant validation for CalendarDateField fields; it creates usability wierdness.
+				if(this.parentNode.className.indexOf('calendardate') == -1 || this.value) {
+					return $('Form_SearchForm').validate(this);
+				} else {
+					return true;
+				}
+			}
+		}
+	},
+	'#Form_SearchForm textarea' : {
+		initialise: function() {
+			if(!this.old_onblur) this.old_onblur = function() { return true; } 
+			if(!this.old_onfocus) this.old_onfocus = function() { return true; } 
+		},
+		onblur : function() {
+			if(this.old_onblur()) {
+				return $('Form_SearchForm').validate(this);
+			}
+		}
+	},
+	'#Form_SearchForm select' : {
+		initialise: function() {
+			if(!this.old_onblur) this.old_onblur = function() { return true; } 
+		},
+		onblur : function() {
+			if(this.old_onblur()) {
+				return $('Form_SearchForm').validate(this); 
+			}
+		}
+	}
+});
+
+//]]></script></body>
+</html><!-- end template /data/www-esnet/html-fasterdata/themes/esnet-sass/templates/Page.ss -->

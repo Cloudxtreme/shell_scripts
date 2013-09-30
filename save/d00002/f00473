@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+  <title>Algorithms and Complexity Seminar</title>
+  <link rel="stylesheet" href="tgs.css">
+  <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+  /**
+   * Configurations
+   */
+  calendarId = "ae9g2fjc5th5dvgin8so2m9ogg@group.calendar.google.com";
+  startmin = "2011-09-01";
+  startmax = "2011-12-31";
+  defaultLocs = new Array("Levine 307", "Levine307", "LVN 307", "LVN307", "");
+
+  /* Load Google Calendar API */
+  google.load("gdata", "2.x");
+
+  /**
+   * Simple Error message handler. Just show the error message returned by Google API.
+   *
+   * @param {Error} e is an instance of an Error
+   */
+  function handleError(e) {
+    if (e instanceof Error) {
+      /* Show the error message. It is ugly. */
+      alert('Error at line ' + e.lineNumber + ' in ' + e.fileName + '\n' +
+          'Message: ' + e.message);
+    } else {
+      /* I have no idea what's going on... */
+      alert(e.toString());
+    }
+  }
+
+  /**
+   * Pad zero to certain length
+   */
+  function padZeros(str, length) {
+    while (str.length < length) {
+      str = "0" + str;
+    }
+    return str;
+  }
+
+  /**
+   * Format time
+   */
+  function formatTime(hour, min) {
+    var timeString = "";
+
+    if (hour >= 12) {
+      timeString = "PM";
+      if (hour > 12)
+        hour -= 12;
+    } else {
+      timeString = "AM";
+      if (hour == 0)
+        hour = 12;
+    }
+
+    return hour + ":" + padZeros(min.toString(), 2) + timeString;
+  }
+
+  /**
+   * Format start and end date.
+   *
+   * @param {google.gdata.When} when is the start/end date/time of a seminar
+   */
+  function formatDate(when) {
+    var dayOfWeek = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
+        "Friday", "Saturday");
+    var month = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+
+    var startDateTime = when.getStartTime();
+    var startDate = startDateTime.getDate();
+    var dateTimeString = dayOfWeek[startDate.getDay()] 
+      + ", " + month[startDate.getMonth()]
+      + " " + padZeros(startDate.getDate().toString(), 2)
+      + ", " + startDate.getFullYear();
+
+    if (startDateTime.isDateOnly()) {
+      dateTimeString += ",  TBD";
+    } else {
+      var endDate = when.getEndTime().getDate();
+      dateTimeString += ",  " + formatTime(startDate.getHours(), startDate.getMinutes())
+        + "--" + formatTime(endDate.getHours(), endDate.getMinutes());
+    }
+
+    return dateTimeString;
+   }
+
+  /**
+   * Ouptut list of seminars.
+   *
+   * @param {json} feedRoot is the root of the feed, containing all events
+   */
+  function outputSchedule(feedRoot) {
+    var entries = feedRoot.feed.getEntries();
+    var events = document.getElementById("events");
+    
+    var n = entries.length;
+
+    for (var i = 0; i < n; i++) {
+      var entry = entries[i];
+
+      // Event div
+      var event = document.createElement("div");
+      event.setAttribute("class", "event");
+
+      // Event title
+      var titletext = entry.getTitle().getText();
+      if (titletext != "") {
+        var title = document.createElement("div");
+        title.setAttribute("class", "title");
+        title.innerHTML = "Talk: " + titletext;
+        event.appendChild(title);
+      }
+
+      // Fill in information
+      var info = "";
+
+      // Event date and time
+      var times = entry.getTimes();
+      if (times.length > 0) {
+        info += "<b>Date: </b>" + formatDate(times[0]) + "<br>";
+      }
+
+      // Event location
+      var locs = entry.getLocations();
+      if (locs.length>0) {
+        var label = locs[0].getValueString();
+
+        // Check if it is a default location
+        for (var j = 0; j < defaultLocs.length; j++) {
+          if (defaultLocs[j] == label)
+            break;
+        }
+
+        // Otherwise add the location info 
+        if (j == defaultLocs.length) {
+          info += "<b>Alternate Location: </b>" + label + "<br>";
+        }
+      }
+
+      var detail = entry.getContent().getText();
+
+      // Speaker
+      var speakerlength = detail.search("<br>");
+      if (speakerlength == -1) {
+        info += detail;
+        detail = "";
+      } else {
+        info += detail.slice(0,speakerlength) + "<br>";
+        detail = detail.slice(speakerlength+4);
+      }
+
+      if (info != "") {
+        var infoDiv = document.createElement("div"); 
+        infoDiv.setAttribute("class", "info");
+        infoDiv.innerHTML = info;
+        event.appendChild(infoDiv);
+      }
+
+      // Abstract
+      if (detail != "") {
+        var detailDiv = document.createElement("div"); 
+        detailDiv.id = "detail"+i;
+        detailDiv.innerHTML = detail;
+        detailDiv.style.display = "none";
+        event.appendChild(detailDiv);
+
+        // Add Show Hide Details
+        var toggleDiv = document.createElement("div");
+        toggleDiv.id = "toggle"+i;
+        toggleDiv.innerHTML = 
+          "<a href=/"javascript:toggle(\'"+i+"\');\">Show Talk Abstract</a>";
+        event.appendChild(toggleDiv);
+      }
+
+      // Add the event to the list
+      events.appendChild(event);
+    }
+  }
+
+  /**
+   * Show/Hide details.
+   *
+   * @param {string} Event ID to show/hide details
+   */
+  function toggle(eventID) {
+    var toggleDiv = document.getElementById("toggle"+eventID);
+    var detailDiv = document.getElementById("detail"+eventID);
+    if (detailDiv.style.display == "none") {
+      detailDiv.style.display = "block";
+      toggleDiv.innerHTML = 
+        "<a href=/"javascript:toggle(\'" + eventID +
+        "\');\">Hide Talk Abstract</a>";
+    } else {
+      detailDiv.style.display = "none";
+      toggleDiv.innerHTML = 
+        "<a href=/"javascript:toggle(\'" + eventID +
+        "\');\">Show Talk Abstract</a>";
+    }
+  }
+
+  /**
+   * Main routine. The function is called when the entire page has been
+   * finished loading. The function initialize API and load Calendar.
+   */
+  function main() {
+    // initialize Google Calendar API
+    google.gdata.client.init(handleError);
+    
+    // load calendar
+    var service = new google.gdata.calendar.CalendarService('gdata-js-client');
+    var query = new google.gdata.calendar.CalendarEventQuery(
+        'http://www.google.com/calendar/feeds/' + calendarId + '/public/full');
+    query.setOrderBy('starttime');
+    query.setSortOrder('ascending');
+    query.setMaxResults(50); // I hope we do not have more than 50 seminars...
+    query.setMinimumStartTime(startmin);
+    query.setMaximumStartTime(startmax);
+
+    service.getEventsFeed(query, outputSchedule, handleError);
+  }
+
+  google.setOnLoadCallback(main);
+  </script>
+</head>
+
+<body background="compbg.jpg">
+  <div id="header">
+    <hr>
+    <center>
+      <h2>Algorithms and Complexity Seminar</h2>
+      <h4> Thursdays 12:00 - 1:30 </h4>
+      <h4> Levine 307 </h4>
+    </center>
+    <hr>
+  </div>
+  <div id="events">
+  </div>
+  <div id="etc">
+    <iframe src="https://www.google.com/calendar/embed?height=360&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=ae9g2fjc5th5dvgin8so2m9ogg%40group.calendar.google.com&amp;color=%23711616&amp;ctz=America%2FNew_York" style=" border-width:0 " width="480" height="360" frameborder="0" scrolling="no"></iframe>
+  </div>
+  <div id="footer">
+    <hr>
+  </div>
+</body>
+
+</html>

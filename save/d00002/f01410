@@ -1,0 +1,369 @@
+
+<HTML>
+
+<!-- ------------------------------------------------------------ -->
+<HEAD>
+<TITLE>Software</TITLE>
+</HEAD>
+
+<!-- ------------------------------------------------------------ -->
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#330099" ALINK="#FF9933" VLINK="#6666CC">
+
+<H1>Software</H1>
+
+<!-- -------------------------------------------------------- -->
+<HR>
+
+<OL>
+<LI> <A HREF="#ALTQ">Alternate Queueing (ALTQ)</A> for BSD UNIX
+including CBQ, HFSC, PRIQ, WFQ, JoBS, RED, RIO, Blue<P>
+<LI> <A HREF="#aguri">Aguri</A> : An Aggregation-based Traffic Profiler<P>
+<LI> <A HREF="#ttt">Tele Traffic Tapper (ttt)</A> : Real-time
+Graphical Remote Traffic Monitor<P>
+</OL>
+
+<!-- -------------------------------------------------------- -->
+<A NAME="ALTQ">
+<HR>
+
+<H3>
+ALTQ: Alternate Queueing for BSD UNIX
+(<A HREF="dist/altq-3.1.tar.gz">version 3.1</A>)
+</H3>
+This is a release of Alternate Queueing for BSD UNIX.  ALTQ provides
+queueing disciplines and other QoS related components required to
+realize resource-sharing and quality of service.  The ALTQ release is
+intended to be a flexible platform to promote network research and
+gain field experience.
+<p>
+ALTQ consists of a system framework, QoS components, and management
+tools.  The system framework provides an abstraction of QoS components
+and interfaces QoS components into the existing operating system.
+The QoS components realizes actual service differentiation mechanisms.
+The management tools include altq daemon and altqstat monitoring tool.
+Note that ALTQ controls only outgoing traffic since queueing
+disciplines work only on outgoing interfaces.
+<p>
+Now that ALTQ is being developed in the KAME repository, this
+standalone ALTQ release is back-ported from KAME, and supports only
+FreeBSD-4.5, NetBSD-1.5.2 and OpenBSD-3.0.
+(some tools and documents haven't been merged into KAME, and are
+available only in this release.  OpenBSD-3.0 already integrates ALTQ
+so that this packages updates the ALTQ part.  ALTQ in OpenBSD-current
+as of February 26 isn't much different from altq-3.1.)
+<p>
+The release includes:
+<UL>
+<LI>	alternate queueing support for 
+<A HREF="http://www.freebsd.org/">FreeBSD-4.5</A>, 
+<A HREF="http://www.netbsd.org/">NetBSD-1.5.2</A> and
+<A HREF="http://www.openbsd.org/">OpenBSD-3.0</A>
+<LI>	<A HREF="http://www-nrg.ee.lbl.gov/floyd/cbq.html">CBQ</A>, 
+<A HREF="http://www.cs.cmu.edu/~hzhang/HFSC/main.html">HFSC</A>, 
+<A HREF="http://qosbox.cs.virginia.edu">JoBS</A>, 
+<A HREF="http://www.aciri.org/floyd/red.html">RED</A>, 
+<A HREF="http://diffserv.lcs.mit.edu/Papers/exp-alloc-ddc-wf.pdf">RIO</A>,
+<A HREF="http://www.eecs.umich.edu/~wuchang/blue/">Blue</A>, 
+WFQ, and PRIQ implementations
+<LI>	<A HREF="http://www.isi.edu/div7/rsvp/rsvp.html">RSVP</A> stubs for CBQ/HFSC
+<LI>	<A HREF="http://www.ietf.org/html.charters/diffserv-charter.html">diffserv</A> model support
+</UL>
+
+<p>
+What's New since version 3.0:
+<UL>
+<LI>	ECN (Explicit Congestion Notification) RFC3168 support
+	<UL>
+	<LI>packet marking by ALTQ
+	<LI>ECN support in TCP
+	<LI>fragment/tunnel handling in IPv4/IPv6
+	</UL>
+	the latter 2 are provided in a separate patch
+	which can be applied to stock FreeBSD/NetBSD/OpenBSD.
+<LI>	JoBS from University of Virginia<br>
+	JoBS is a joint buffer management and scheduling
+	algorithm. It provides, on a per-hop basis, absolute
+	and proportional service guarantees to traffic aggregates.
+	note that JoBS is still experimental.
+	(JoBS is also available in KAME snaps.)
+<LI>	more supported drivers<br>
+	this release supports most network drivers in FreeBSD/NetBSD/OpenBSD
+<LI>	code cleanup/bug fixes
+</UL>
+
+The latest version is 
+<A HREF="dist/altq-3.1.tar.gz">altq-3.1</A>. 
+(520KB) 
+release date: 2002/02/28; 
+<A HREF="dist/altq-3.1.errata.txt">Errata</A>
+<BR>
+<A HREF="dist/altq-3.1-sys-altq-freebsd-4.6.patch">
+a kernel patch for FreeBSD-4.6</A>. release date: 2002/07/08; updated 2002/7/22;
+(a merge error which leads to a panic was found in the original patch.
+if you downloaded the patch before 7/22, apply <A HREF="dist/if.c.diff">this</A> to sys-altq/net/if.c.)<br>
+<A HREF="dist/altq-3.1-sys-altq-freebsd-4.7.patch">
+a kernel patch for FreeBSD-4.7</A>. release date: 2002/10/17<br>
+<A HREF="dist/altq-3.1-sys-altq-freebsd-4.8.patch">
+a kernel patch for FreeBSD-4.8</A>. release date: 2003/04/18<br>
+An experimental FreeBSD-5.x support is available at 
+<A HREF="http://www.rofug.ro/projects/freebsd-altq/">here</A>.
+The <A HREF="http://www.kame.net">KAME</A> development tree also has
+FreeBSD-5.x support.
+<P>
+
+ALTQ is integrated into <A HREF="http://www.kame.net/">KAME IPv6</A>
+and being developed under the KAME CVS repository.  <BR>
+New features and bug fixes are committed first to the KAME repository,
+and an ALTQ release is created out of the KAME respository. <BR>
+You can get latest changes through
+<A HREF="http://www.kame.net/snap-users/">KAME-snap kit</A>. <BR>
+ALTQ is also available in OpenBSD-3.0 and NetBSD-current.<BR>
+OpenBSD-3.3 or later has ALTQ integrated into 
+<A HREF="http://www.openbsd.org/faq/pf/">pf</A> (OpenBSD's packet
+filter) so that you can take advantage of pf's stateful packet
+filtering and set up ALTQ as part of the pf configuration file.
+<A HREF="http://www.openbsd.org/faq/pf/queueing.html">(more on pf:queueing)</A>
+<P>
+
+ALTQ resources:
+<UL>
+<LI>	<A HREF="altq-new-design.txt">a design note on the
+	new ALTQ framework</A>
+<LI>	<A HREF="TIPS.txt">Tips for using ALTQ</A>
+<LI>	<A HREF="qop_api.txt">QOP API of ALTQ</A>
+<LI>	<A HREF="../papers/">papers</A> on ALTQ and other subjects.<BR>
+<LI>	<A HREF="http://corn.eos.nasa.gov/notebooks/ip-0007.html">
+	QoS Test reports</A> (using ALTQ/CBQ and ALTQ/WFQ) 
+	by George Uhl at NASA GSFC.<BR>
+<LI>	<A HREF="altq-rel-projects.html">A list of research projects
+	using ALTQ</A>.
+</UL>
+<P>
+
+<IMG SRC=cbq.gif ALT="[CBQ traffic trace]" ALIGN=left HSAPCE=10>
+
+This graph shows a trace of ALTQ/CBQ traffic control on 150M ATM. <P>
+6 TCP streams oscillate with FIFO queueing.  At time 18, CBQ is enabled.  
+The CBQ configuration gives 20Mbps to two TCP streams, 15Mbps to two TCPs, 
+and 10Mbps to 2 TCPs (total 90Mbps); the streams are classified by port 
+number. <P>
+
+Click <A HREF="cbq/perf.html">here</A> for more about ALTQ/CBQ 
+<B>performance</B>.<BR>
+Click <A HREF="red/perf.html">here</A> to see ALTQ/RED and ECN
+<B>performance</B>.<P>
+
+<BR clear=both>
+
+<!-- -------------------------------------------------------- -->
+<A NAME="aguri">
+<HR>
+
+<H3>
+Aguri: An Aggregation-based Traffic Profiler (version 0.7)
+</H3>
+joint work with <A HREF="http://www.sfc.wide.ad.jp/~kaizaki/">Ryo Kaizaki</A><br>
+(a beta version for BSD UNIX and doesn't support other platforms very well.)
+<p>
+Aguri is an aggregation-based traffic profiler targeted for near
+real-time, long-term, and wide-area traffic monitoring.
+Aguri adapts itself to spatial traffic distribution by aggregating
+small volume flows into aggregates, and achieves temporal
+aggregation by creating a summary of summaries applying the same
+algorithm to its outputs.
+A set of scripts are used for archiving and visualizing summaries in
+different time scales.
+Aguri does not need a predefined rule set and is capable of
+detecting an unexpected increase of unknown protocols or DoS attacks,
+which considerably simplifies the task of network monitoring.
+<p>
+Aguri produces four separate profiles for source addresses,
+destination addresses, source protocols and destination protocols.
+IP addresses are designed to be hierarchical and aggregatable so that
+it is natural to apply aggregation.  Both IPv4 and IPv6 are supported
+in address profiles.
+Although protocol numbers are not hierarchical, the same technique can
+be used to identify port ranges.
+We concatenate the IP version, the protocol number and the TCP/UDP
+port number to create a 32-bit key for a protocol profile.
+<p>
+Aguri monitors network traffic using libpcap(3), and produces a
+summary when it receives a HUP signal.
+Periodic summaries can be obtained by sending HUP signals from
+cron(8) to the running aguri program.
+<p>
+<b>Archive and Visualization:</b><br>
+Aguri's summary output is in a plain text format.
+Scripts are used to archive aguri outputs, and to plot graphs.
+Here are sample graphs: <A HREF="aguri-plot.html">a plot graph</A>
+and <A HREF="aguri-density.html">a traffic density graph</A>.
+<p>
+The latest version is 
+<A HREF="dist/aguri-0.7.tar.gz">aguri-0.7</A>. 
+(48KB) release date: 2003/03/13;
+<p>
+Here is a <A HREF="../papers/aguri.ps.gz">
+paper on aguri</A>.
+Also, <A HREF="http://mawi.wide.ad.jp/mawi/aguri-ports-B/2001/">
+sample daily plot graphs</A> from the WIDE backbone are available.
+<p>
+
+<!-- -------------------------------------------------------- -->
+<A NAME="ttt">
+<HR>
+
+<H3>
+TTT: Tele Traffic Tapper (version 1.8.1)
+</H3>
+
+ttt is yet another descendant of tcpdump but it is capable of real-time,
+graphical, and remote traffic-monitoring.  ttt won't replace tcpdump,
+rather, it helps you find out what to look into with tcpdump.
+
+ttt monitors the network and automatically picks up the main
+contributors of the traffic within the time window.
+The graphs are updated every second by default. 
+
+<P>
+Features:
+<UL>
+    <LI>Automatic Ranking of Protocols and Hosts
+    <LI>Real-Time Monitoring
+    <LI>Remote Monitoring with IP-Multicast support
+    <LI>Accepts tcpdump output
+    <LI>IPv6 Aware (experimental)
+    <LI>Portable and easy to customize
+</UL>
+
+I have tested this version on FreeBSD-4.9, NetBSD-1.6, Debian-linux-3.0. <p>
+Click on <A HREF="dist/ttt-1.8.1.tar.gz">ttt-1.8.1.tar.gz</A> to download the program. (135K bytes) release date: 2004/5/20
+<P>
+ttt is part of
+<A HREF="http://www.freebsd.org/ports/net.html">FreeBSD ports collection</A>
+and <A HREF="http://www.netbsd.org/packages/net/ttt/">NetBSD packages collection</A>.<BR>
+libBLT is also in the ports/packages collection.
+<P>
+What's new since 1.8.
+<UL>
+<LI>	1.8.1 is a minor update of 1.8.  it fixes prototype mismatches
+	with the latest libpcap.
+</UL>
+
+ttt uses two portable libraries for packet-capturing and graph-drawing.
+For packet capturing, "libpcap" of tcpdump from Lawrence Berkeley
+Laboratory is used.  For auto-scale graphs, "libBLT" for Tcl/Tk from
+AT&T Bell Laboratories is used.
+So, if you already have tcpdump and Tcl/Tk on your machine,
+there would be no problem to install ttt.
+<UL>
+<LI>Click on <A HREF="http://www.tcpdump.org/">tcpdump.org</A> to download libpcap.
+<LI>Click on <A HREF="dist/ttt-libs/BLT2.4z.tar.gz">BLT2.4z.tar.gz</A> to download libBLT.
+</UL>
+
+Here is a <A HREF="ttt.gif">graphical image</A> of ttt.
+
+<BR clear=both>
+
+<!-- -------------------------------------------------------- -->
+<A NAME="altq4ppp">
+<HR>
+
+<H3>
+ALTQ for PPP (version 0.1) (OBSOLETE)
+</H3>
+
+This release is a port of ALTQ (kernel version) to the userland ppp
+(aka iij-ppp).  Since the bottleneck of ppp is the serial link (not
+the tun interface), alternative queueing is implemented within the ppp
+program.
+
+This release is an alpha version and is not for general users but to
+ask for comments and suggestions.  Testers are supposed to have
+control of both ends of a dialup link.
+
+This version supports CBQ and is intended to be used at the server
+side (upstream side) of a dialup link (the current implementation
+controls only outgoing packets).
+
+The ppp part is based on the verion in FreeBSD-2.2.6-RELEASE.
+
+<P>
+Features:
+<UL>
+  <LI> a queueing framework as a userland program.
+  <LI> supports CBQ that controls the bandwidth use of hierarchically
+   configured classes.
+  <LI> RED can be enabled on a class queue basis to keep the queue length
+   short.
+  <LI> the native firewall mechanism is enhanced in order to work as a CBQ
+   classifier.
+</UL>
+<P>
+
+Click on <A HREF="dist/altq4ppp-0.1.tar.gz">
+altq4ppp-0.1.tar.gz</A> to download the program. 
+(208K bytes) release date: 1998/06/10
+<P>
+
+<!-- -------------------------------------------------------- -->
+<A NAME="LINKS">
+<HR>
+
+<H3>
+Links to Related Work
+</H3>
+
+<DL>
+<DT><A HREF="http://www.aciri.org/floyd/cbq.html">CBQ</A>,
+<A HREF="http://www.aciri.org/floyd/red.html">RED</A> and 
+<A HREF="http://www.aciri.org/floyd/ecn.html">ECN</A>
+<DD>CBQ, RED and ECN Home Pages at LBNL by Sally Floyd
+<DT><A HREF="http://www.isi.edu/div7/rsvp/rsvp.html">RSVP</A>
+<DD>RSVP Home Page at ISI
+<DT><A HREF="http://www.cs.cmu.edu/~hzhang/HFSC/main.html">HFSC</A>
+<DD> HFSC Home page at CMU by Hui Zhang
+<DT><A HREF="http://www.eecs.umich.edu/~wuchang/blue/">Blue</A>
+<DD> Blue Home Page at University of Michigan by Wu-chang Feng
+<DT><A HREF="http://qosbox.cs.virginia.edu">JoBS/QoSbox</A>
+<DD> QoSbox project homepage at the University of Virginia. Includes
+information about the JoBS queuing discipline.
+<DT><A HREF="http://www.freebsd.org/">FreeBSD</A>
+<DD>FreeBSD Home Page
+<DT><A HREF="http://www.netbsd.org/">NetBSD</A>
+<DD>NetBSD Home Page
+<DT><A HREF="http://www.openbsd.org/">OpenBSD</A>
+<DD>OpenBSD Home Page
+<DT><A HREF="http://dworkin.wustl.edu/pub/chuck/bsdatm/wucs.html">BSD ATM</A>
+<DD>BSD ATM Driver by Chuck Cranor
+<DT><A HREF="http://www.mt.cs.keio.ac.jp/person/miwa/contrib/index.html">ATM Switch Tools</A>
+<DD>ATM Switch Management Tools by Yasutaka Miwa
+<DT><A HREF="http://www.netperf.org/netperf/NetperfPage.html">Netperf</A>
+<DD>Network performance benchmark
+<DT><A HREF="http://www-nrg.ee.lbl.gov/nrg.html">libpcap</A>
+<DD>Packet Capture Library by LBNL
+<DT><A HREF="ftp://playground.sun.com/pub/rsvp/">Sun's RSVP</A>
+<DD>Sun's RSVP and CBQ related ftp site
+<DT><A HREF="http://www.ietf.org/html.charters/diffserv-charter.html">diffserv</A>
+<DD>Differentiated Service WG at IETF
+<DT><A HREF="http://www.kame.net/">KAME IPv6</A>
+<DD>KAME IPv6 stack for FreeBSD/NetBSD/BSD/OS
+<DT><A HREF="ftp://ftp.inria.fr/network/ipv6/">INRIA IPv6</A>
+<DD>INRIA IPv6 stack for FreeBSD/NetBSD
+<DT><A HREF="http://mip.ee.nus.edu.sg/">Mobile IP at NUS</A>
+<DD>NUS ported ALTQ to linux as part of their Mobile IP research
+<DT><A HREF="http://www.kuma-project.net/">Kuma Project</A>
+<DD>a joint effort to build a QoS policy framework
+</DL>
+
+<HR>
+
+Send bug reports, suggestions, etc. to kjc at iijlab.net.
+
+<A HREF=http://www.iijlab.net/~kjc/><H3>Back to my home page</H3></A>
+<P>
+
+<HR>
+$Date: 2006/09/28 03:00:40 $
+
+</BODY>
+</HTML>

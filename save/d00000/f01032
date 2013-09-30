@@ -1,0 +1,587 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>News items for tag ipv6 - Koos van den Hout</title>
+<base href="http://idefix.net/~koos/">
+<meta name="description" content="Koos van den Hout Homepage">
+<meta name="keywords" content="Koos van den Hout">
+<meta name="Author" content="Koos van den Hout">
+<link href="koos.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="alternate" title="Koos van den Hout" type="application/rss+xml" href="/~koos/index.rdf">
+</head>
+<body>
+<div class="blockcontainer">
+<h1>News items for tag ipv6 - Koos van den Hout</h1>
+<div class="entry">
+
+<div class="generalitem newsitem"><strong>2013-08-20</strong> (<a href="newsitem.cgi/1377023033" title="Permanent link" rel="bookmark">#</a>) <span class="age">5 days ago</span>
+<blockquote>Correctly firewalling IPv6 was a bit of a search for me but I think I
+managed it. There is a bit of an apparent contradiction: filtering too much
+ipv6-icmp will break things, and allowing it too much will allow a
+neighbour cache overflow attack. In the end I settled on allowing ipv6-icmp
+in the INPUT ip6tables rule but not on the FORWARD ip6tables rule. Both
+rules do have a rule for ESTABLISHED,RELATED traffic. This all for the
+external interface(s), internal interfaces are trusted.
+<p></p>
+I tested this with nmap from an external ipv6-enabled host and found out
+there is no way to input ipv6 address ranges. So to scan a number of addresses
+I had to type them all in full.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/security" title="News items tagged with security" rel="tag">security</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-08-16</strong> (<a href="newsitem.cgi/1376637557" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 week ago</span>
+<blockquote>More and easy fun with the rtl-sdr stick: receiving and decoding
+<a href="http://en.wikipedia.org/wiki/ADS-B">Automatic dependent surveillance-broadcast (ADS-B)</a> data from airplanes. Airplanes above a certain size
+regularly broadcast their location/altitude/speed in a data format which other
+airplanes can receive and use in collision-avoidance systems.
+<p></p>
+I used no special antenna, just
+the 'tv antenna' that came with the dvb-t stick. The <a href="https://github.com/antirez/dump1090">dump1090 application which can receive, decode and present
+the ADS-B data</a> includes a webserver which shows the results on google
+maps. Results with pictures:
+<a href="https://plus.google.com/114168607206195341184/posts/WeSyntabXgd">success in decoding ads-b data using an rtl-sdr stick, the added TV antenna and the dump1090 software - Koos van den Hout on google+</a>. Only downside that
+needs fixing: the included tcp networking code is IPv4-only.
+<p></p>
+<strong>Update:</strong>
+A bit of searching finds <a href="https://github.com/antirez/dump1090/pull/25">IPV6 support by proller · Pull Request #25 · antirez/dump1090</a> which fixes
+the lack of ipv6 support.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/hamradio" title="News items tagged with hamradio" rel="tag">hamradio</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-05-29</strong> (<a href="newsitem.cgi/1369835616" title="Permanent link" rel="bookmark">#</a>) <span class="age">2 months ago</span>
+<blockquote>I checked for updates of <a href="http://ndpmon.sourceforge.net/">NDPMon,
+an IPv6 neighbour discovery protocol monitor</a> and noticed I was way behind
+the current times. I also found out it can now monitor multiple network 
+interfaces in once instance of the program, so I can keep an eye on both
+wired and wireless networks at home.
+<p></p>
+Do take the advice of using the 'learning' mode of NDPMon as mentioned in
+the <a href="http://ndpmon.sourceforge.net/index.php?n=Doc.Configuration">documentation for NDPMon</a>. It makes getting the entire correct router advertisment
+correct into the datafile correctly so much easier. Downside is you have
+to run at a quiet time and after each IPv6 network reconfiguration.
+<p></p>
+It would also be nice if NDPMon would report on which interface certain
+traffic was seen.
+<p></p>
+<strong>Update:</strong>
+Ok, NDPMon still manages to warn about a router configuration it has learned
+itself. I found a remark in the <a href="http://ndpmon.sourceforge.net/index.php?n=Doc.Configuration">NDPMon documentation/configuration page</a>:
+<blockquote class="webquote">Under the tag addresses are listed the IPv6 global addresses of the router. This is not required for the tool to work properly, but can be useful is the router send NA messages for its global addresses (to avoid raising NA router flag alerts). </blockquote>
+So I added the global IPv6 addresses of the routers, let's see if this
+decreases the noise.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a>, <a href="newstag.cgi/network" title="News items tagged with network" rel="tag">network</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2013-05-13</strong> (<a href="newsitem.cgi/1368457661" title="Permanent link" rel="bookmark">#</a>) <span class="age">3 months ago</span>
+<blockquote>IPv6 is op steeds meer plekken, en toen Henk van de Kamer mij vroeg om een
+wijziging te maken om IPv4 zonetransfers weer mogelijk te maken, gaf ik
+als antwoord dat ik naast <a href="http://www.hetlab.tk/asterix/zonetransfer-via-ipv6">IPv4 ook IPv6 transfers wilde toestaan voor pcgg.nl</a>.
+Zo geconfigureerd, en nu werkt het, en het resultaat is er ook naar:
+<a href="http://ip6.nl/#!pcgg.nl">pcgg.nl op de ip6.nl readyness tester: 5
+sterren</a>. Mail en web diensten voor dit domein zijn volledig bereikbaar
+via zowel IPv6 als IPv4.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/nederlands" title="News items tagged with nederlands" rel="tag">nederlands</a>, <a href="newstag.cgi/pcgg" title="News items tagged with pcgg" rel="tag">pcgg</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-12-21</strong> (<a href="newsitem.cgi/1356126199" title="Permanent link" rel="bookmark">#</a>) <span class="age">8 months ago</span>
+<blockquote>The posting <a href="http://jpmens.net/2012/12/21/completely-different-bind-10/">Completely different: BIND 10 - Jan-Piet Mens</a> triggered me to have a
+look at my resolver/authoritive setup at home. I was running only bind
+9 both as authoritive server for several zones and as resolver for home
+systems but I decided to test a setup with those functions split. For
+fun I tried it with recursion in pdns-recursor, part of
+<a href="http://www.powerdns.com/content/open-source-community.html">PowerDNS</a>
+while keeping bind9 for the authoritive server. I had to select the right
+IPv6 and IPv4 addresses for authoritive and resolving servers. I do have enough addresses at home thanks to IPv6 and IPv4-with-NAT to do this, but I have
+to select the right ones. The server
+at home is known as <tt>ns2.idefix.net</tt> so the choice of addresses
+for the authoritive server is easy. So the relevant part of the bind9
+configuration in <tt>named.conf</tt>:
+<pre>
+    listen-on-v6 {
+        2001:980:14ca:42::694; # auth ext
+    };
+    listen-on {
+        82.95.196.202; # auth ext
+    };
+</pre>
+And the pdns-recursor in <tt>recursor.conf</tt> is set up like:
+<pre>
+# local-address IP addresses to listen on, separated by spaces or commas
+#
+local-address=127.0.0.1,2001:980:14ca:42::18,10.42.2.1,::1
+</pre>
+It was a bit of pondering which process got to listen on the v4/v6
+localhost address, but I think the resolver is the best candidate. The
+resolver advertised in <tt>radvd.conf</tt> has been adjusted.
+<p></p>
+The next thing to setup was a certain set of zones that the recursor
+can't find on the Internet, so they need to be asked directly from the
+authoritive bind9 server.  I configured this in <tt>recursor.conf</tt>
+like:
+<pre>
+forward-zones=koos.koffie.dot=82.95.196.202,10.in-addr.arpa=82.95.196.202,a.c.4.1.0.8.9.0.1.0.0.2.ip6.arpa=82.95.196.202
+</pre>
+<strike>I tried this with the IPv6 addresses for the authoritive server but this
+makes pdns-recursor not answer at all, so I reverted to IPv4 for the
+moment until I understand what is going wrong and why.</strike> Testing this makes
+pdns-recursor hang for other queries too, so for full debugging I need
+to test this in a way that doesn't affect the rest of my home network.
+From the command-line the requests work over both IPv6 and IPv4. Enabling
+query-logging in bind9 doesn't show those requests coming in.
+<p></p>
+<strong>Update:</strong>
+If I read things correctly forward-zones with IPv6 support only came in
+powerdns-recursor 3.2 and ubuntu 8.04 comes with pdns-recursor 3.1.4.
+Switching to pdns-recursor from hardy-backports upgrades to 3.3-2~hardy1
+and forward-zones starts working over IPv6. Less legacy IP, more IPv6!
+<pre>
+forward-zones=koos.koffie.dot=2001:980:14ca:42::694,10.in-addr.arpa=2001:980:14ca:42::694,a.c.4.1.0.8.9.0.1.0.0.2.ip6.arpa=2001:980:14ca:42::694
+</pre>
+And it works.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-11-30</strong> (<a href="newsitem.cgi/1354264895" title="Permanent link" rel="bookmark">#</a>) <span class="age">8 months ago</span>
+<blockquote>I <a href="http://idefix.net/~koos/newsitem.cgi/1354216640">mailed nos.nl about android security</a> but the mail got delayed:
+<pre>
+   ----- Transcript of session follows -----
+... while talking to mx0.mail.omroep.nl.:
+&gt;&gt;&gt; DATA
+&lt;&lt;&lt; 450 4.7.1 Client host rejected: cannot find your hostname, [2001:980:14ca:61::13]
+&lt;publieksreacties at nos.nl&gt;... Deferred: 450 4.7.1 Client host rejected: cannot find your hostname, [2001:980:14ca:61::13]
+&lt;&lt;&lt; 554 5.5.1 Error: no valid recipients
+</pre>
+So bonuspoints for publieke omroepen for implementing IPv6 and minus several
+points for xs4all for still not offering IPv6 reverse DNS.
+<p></p>
+So I rerouted the mail via the xs4all mailservers.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-11-10</strong> (<a href="newsitem.cgi/1352557976" title="Permanent link" rel="bookmark">#</a>) <span class="age">9 months ago</span>
+<blockquote>I just tried to visit <a href="http://hackaday.com/2012/11/09/laser-charged-glowing-display/">Laser charged glowing display - Hack a Day</a> but the page
+kept loading forever. The problem is with loading page content (images and
+scripts) from <tt>s0.wp.com</tt>, <tt>s1.wp.com</tt>, <tt>s2.wp.com</tt>.
+All of which seem to be part of wordpress hosting and come via the edgecast
+content distribution network:
+<pre class="commandlog">
+koos@machiavelli:~$ <strong>host s0.wp.com</strong>
+s0.wp.com is an alias for cs82.wac.edgecastcdn.net.
+cs82.wac.edgecastcdn.net has address 93.184.220.111
+cs82.wac.edgecastcdn.net has IPv6 address 2606:2800:234:1922:15a7:17bf:bb7:f09
+koos@machiavelli:~$ <strong>host s1.wp.com</strong>
+s1.wp.com is an alias for cs82.wac.edgecastcdn.net.
+cs82.wac.edgecastcdn.net has address 93.184.220.111
+cs82.wac.edgecastcdn.net has IPv6 address 2606:2800:234:1922:15a7:17bf:bb7:f09
+koos@machiavelli:~$ <strong>host s2.wp.com</strong>
+s2.wp.com is an alias for cs82.wac.edgecastcdn.net.
+cs82.wac.edgecastcdn.net has address 93.184.220.111
+cs82.wac.edgecastcdn.net has IPv6 address 2606:2800:234:1922:15a7:17bf:bb7:f09
+</pre>
+And all suffer from a reachability problem via IPv6:
+<pre class="commandlog">
+koos@machiavelli:~$ <strong>telnet s0.wp.com 80</strong>
+Trying 2606:2800:234:1922:15a7:17bf:bb7:f09...
+</pre>
+Taking a while to fall back to IPv4, which results in long page loading
+times. I noticed this on other sites too, like pages using gravatar. Which
+uses the same cdn with the same problem:
+<pre class="commandlog">
+koos@machiavelli:~$ <strong>host 0.gravatar.com</strong>
+0.gravatar.com is an alias for cs91.wac.edgecastcdn.net.
+cs91.wac.edgecastcdn.net has address 68.232.35.121
+cs91.wac.edgecastcdn.net has IPv6 address 2606:2800:234:124e:17ca:871:eb2:2067
+koos@machiavelli:~$ <strong>telnet 0.gravatar.com 80</strong>
+Trying 2606:2800:234:124e:17ca:871:eb2:2067...
+</pre>
+Seems edgecast has an IPv6 reachability problem from here (home, xs4all IPv6)
+but not from other places. I can't reach the edgecast site either since it's
+on their own network. Or at least I can't via the squid proxy, I can when
+not using a proxy, since firefox has its own ideas about timeouts.
+<p></p>
+I tried to notify edgecast via e-mail and twitter.
+<p></p>
+<strong>Update 2012-11-12:</strong>
+Noted by others: <a href="http://dereenigne.org/site/wordpress-ipv6-issues">WordPress IPv6 Issues - dereenigne.org</a> seeing something more like PMTU
+problems.
+<br>
+And Edgecast is working on it:
+<a href="https://twitter.com/edgecast/status/268104417033736192">Thanks, @jmccrohan and @khoos. We're working hard on this right now. More soon. cc @florianoverkamp @cwoodfield</a><br>
+<a href="https://twitter.com/edgecast/status/268147707896528896">After a few changes and a lot of testing, we believe the IPv6 issue experienced by some users is now resolved.</a><br>
+But I'm still seeing routing issues:
+<pre class="commandlog">
+$ <strong>traceroute6 www.edgecast.com</strong>
+traceroute to www.edgecast.com (2606:2800:234:1df9:13d:1d4e:6b0:10cf) from 2001:980:14ca:61::13, port 33434, from port 44865, 30 hops max, 60 byte packets
+ 1  lo1.dr4.1d12.xs4all.net (2001:888:0:4401::1)  15.529 ms  14.870 ms  16.175 ms 
+ 2  1314.ae3.xr3.3d12.xs4all.net (2001:888:0:4403::2)  15.349 ms  16.757 ms  14.426 ms 
+ 3  0.ge-1-2-0.xr1.sara.xs4all.net (2001:888:1:4005::1)  17.594 ms  16.123 ms  15.212 ms 
+ 4  ge-0.ams-ix.amstnl02.nl.bb.gin.ntt.net (2001:7f8:1::a500:2914:1)  17.108 ms  16.405 ms  15.552 ms 
+ 5  ae-2.r03.amstnl02.nl.bb.gin.ntt.net (2001:728:0:2000::12a)  18.093 ms  17.441 ms  16.083 ms 
+ 6  * * *         
+ 7  * * *         
+ 8  * * *         
+ 9  * * *         
+</pre>
+<p></p>
+<strong>Update 2012-11-15:</strong>
+More traceroutes to test. It seems the only thing unreachable is exactly the
+/48 which holds the IPv6 content server(s).
+<p></p>
+<strong>Update 2012-12-07:</strong>
+A network engineer at xs4all contacted Edgecast and got the problem solved
+pronto. I guess he has a better entry point!
+<pre class="commandlog">
+koos@greenblatt:~$ <strong>telnet -6 www.edgecast.com 80</strong>
+Trying 2606:2800:234:1df9:13d:1d4e:6b0:10cf...
+Connected to www.edgecast.com.
+Escape character is '^]'.
+</pre>
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/network" title="News items tagged with network" rel="tag">network</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-11-05</strong> (<a href="newsitem.cgi/1352144226" title="Permanent link" rel="bookmark">#</a>) <span class="age">9 months ago</span>
+<blockquote><img src="http://idefix.net/~koos/pics/google-ad-thankyou-for-helping-us-measure-ipv6.png" alt="Google ad: Thank you for helping us measure IPv6"
+title="Google ad: Thank you for helping us measure IPv6">
+<br>
+Interesting google ad: "Thank you for helping us measure IPv6", linking to
+<a href="http://labs.apnic.net/ipv6-measurement/">Measuring IPv6 - APNIC</a>.
+Yes, that was a session over IPv6 from home.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-10-10</strong> (<a href="newsitem.cgi/1349870721" title="Permanent link" rel="bookmark">#</a>) <span class="age">10 months ago</span>
+<blockquote>Good article on IPv4 depletion, IPv6 adoption and the influence this has on
+the further development and growth of the Internet:
+<a href="http://blogs.cisco.com/borderless/ipv4-depletion-threat-danger-crisis-turning-ipv6-up-and-ipv4-down/">IPv4 depletion: Threat? Danger? Crisis? Turning IPv6 Up and IPv4 Down - Cisco Blog</a>. A good article.</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-09-28</strong> (<a href="newsitem.cgi/1348863229" title="Permanent link" rel="bookmark">#</a>) <span class="age">11 months ago</span>
+<blockquote>I found <a href="https://addons.mozilla.org/en-US/firefox/addon/ipvfox/">IPvFox</a>,
+a firefox extension which lists all servers involved in a page and their
+IPv6/IPv4 addresses. The use-case is seeing how much of those use IPv6, but
+it's also interesting to see how many hosts are involved in a webpage. With
+images, frames, scripts which can all come from different places some pages
+have interesting dependencies. From a few sites which I tried the one which
+had the most servers involved turned out to be
+<a href="http://www.cbc.ca/north/">CBC North</a> with 23 servers. With
+a few dual-stack servers, including a trackingserver for
+<a href="http://www.visualrevenue.com/">visual revenue</a>, a company
+measuring web traffic for media companies, who seem to be interested in
+IPv6 traffic measurements.
+<p></p>
+<strong>Update:</strong>
+There is one detail.. as stated on the webpage:
+<blockquote class="webquote">IPvFox provides a panel listing the hosts from which the current page and its resources were loaded.</blockquote>
+So this is interesting in an environment with outside IPv4 and IPv6
+connections. When I use a proxy which can be connected via IPv6 the display
+gets very boring: the address of the host from which the resource was loaded
+is always the IPv6 address of the proxy.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/shiny" title="News items tagged with shiny" rel="tag">shiny</a>, <a href="newstag.cgi/web" title="News items tagged with web" rel="tag">web</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-09-25</strong> (<a href="newsitem.cgi/1348599676" title="Permanent link" rel="bookmark">#</a>) <span class="age">11 months ago</span>
+<blockquote>In a usenet discussion mentioning fidonet adresses and the fact that ipv6
+addresses are that much bigger I had to look in the original
+<a href="http://bbs.idefix.net/fidonetstandards/fts-0001.txt">Fidonet technical standard 001</a> how big zone / net / node (and point) addresses could be.
+Those are all 2-byte unsigned numbers, which gives us:
+<ul>
+<li>Potential fidonet node addresses: 65536*65536*65536 = 281474976710656
+<li>Potential fidonet point addresses: 65536*65536*65536*65536 = 18446744073709551616
+</ul>
+To compare:
+<ul>
+<li>Potential IPv4 addresses: 256*256*256*256 = 4294967296
+<li>Potential IPv6 addresses: 2^128 = 340282366920938463463374607431768211456
+</ul>
+So Fidonet was by design bigger than IPv4. And I'll keep promoting IPv6!
+<p></p>
+I'm skipping all kinds of 'overhead' and 'reserved' addresses.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/bbs" title="News items tagged with bbs" rel="tag">bbs</a>, <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/vroegah" title="News items tagged with vroegah" rel="tag">vroegah</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-09-18</strong> (<a href="newsitem.cgi/1348000730" title="Permanent link" rel="bookmark">#</a>) <span class="age">11 months ago</span>
+<blockquote>Something is not consistent here:
+<pre class="commandlog">
+koos@greenblatt:~$ <strong>rpcinfo -p eth0-1.idefix.net</strong>
+rpcinfo: eth0-1.idefix.net is unknown host
+koos@greenblatt:~$ <strong>rpcinfo -p ip6-loopback</strong>
+   program vers proto   port
+    100000    2   tcp    111  portmapper
+    100000    2   udp    111  portmapper
+</pre>
+The difference is that <tt>ip6-localhost</tt> comes from the hosts file and
+<tt>eth0-1.idefix.net</tt> comes from dns. All IPv4 addresses work fine.
+Seen both in Ubuntu 8.04 and 10.04.
+<p></p>
+And for added confusion:
+<pre class="commandlog">
+koos@greenblatt:~$ <strong>rpcinfo -p ::1</strong>
+rpcinfo: ::1 is unknown host
+</pre>
+Running with strace reveals that <tt>rpcinfo -p ip6-loopback</tt>
+still does:
+<pre>
+connect(3, {sa_family=AF_INET, sin_port=htons(111), sin_addr=inet_addr("127.0.0.1")}, 16) = 0
+</pre>
+Looks like there is a special rule in rpcinfo for this case.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/linux" title="News items tagged with linux" rel="tag">linux</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-09-18</strong> (<a href="newsitem.cgi/1347961290" title="Permanent link" rel="bookmark">#</a>) <span class="age">11 months ago</span>
+<blockquote>Yet more rearranging the deckchairs on the Titanic:
+<a href="http://blog.jgc.org/2012/09/the-uk-has-entire-unused-ipv4-8-that-is.html">The UK has an entire IPv4 /8 that it isn't using</a> even leading to
+a petition:
+<a href="http://epetitions.direct.gov.uk/petitions/38744">The DWP should sell its block of 16777216 IP addresses - HM Government e-petitions</a>.
+<p></p>
+Just because something isn't routable and isn't subnetted doesn't mean it
+is not in use. Two comments on the original article put matters in a
+different light:
+<blockquote class="webquote">
+The 51.* addresses are in fact heavily used by DWP, but only
+internally. The best bit is this: for security reasons, there is a policy
+that in any communication, the leading octet of all such IP addresses
+must be redacted. Not like it's a matter of public record or anything.
+<p></p>
+I did once toy with the idea of printing out the XKCD map of the IP4
+address space, write "you are here" on it and pin it to the wall near
+DWP data networks teams, but I didn't think it would go down well.
+</blockquote>
+And someone else isn't interested in more rearranging of deckchairs either:
+<blockquote class="webquote">It doesn't matter, save your energy for converting to v6
+<p></p>
+There are few dregs like this around that though not visible on the
+internet are used - many large ISP have hijacked the unadvertised spaces
+for use behind their own NATs. You can't see them doing this but if you
+use the space on the internet you'll have problems with their customers.
+<p></p>
+If these spaces were recycled you'd spend many months trying to get them
+clean for use and then they'd be used up in a few weeks, we'd still be
+out of space and we'd have yet more to go back and convert to v6. People
+have been dragging their feet on v6 migration for eyars, they only have
+themselves to blame when they are stuck by v4 running out
+<p></p>
+tldr: It's allocated, it's not available, nothing to see here, move along.
+</blockquote>
+Start implementing IPv6, put your effort in network protocols with a future.
+<p></p>
+<strong>Update 2012-09-21:</strong>
+Official documentation: the 51.0.0.0/8 block is used fine, via
+<a href="http://blogs.computerworlduk.com/digital-policy/2012/09/ukgov-not-squatting-on-1bn-unused-ipv4-addresses/index.htm">UK.gov NOT squatting on £1bn unused IPv4 addresses</a>.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/rant" title="News items tagged with rant" rel="tag">rant</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-09-14</strong> (<a href="newsitem.cgi/1347631656" title="Permanent link" rel="bookmark">#</a>) <span class="age">11 months ago</span>
+<blockquote><a href="http://www.ripe.net/internet-coordination/news/ripe-ncc-begins-to-allocate-ipv4-address-space-from-the-last-8">RIPE NCC Begins to Allocate IPv4 Address Space From the Last /8</a>
+<p></p>
+IPv4 addresses aren't "finished" at RIPE yet, but allocation is now according
+to quite strict rules: <a href="http://www.ripe.net/ripe/docs/ripe-553">IPv4 Address Allocation and Assignment Policies for the RIPE NCC Service Region</a>.</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/network" title="News items tagged with network" rel="tag">network</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-09-05</strong> (<a href="newsitem.cgi/1346870950" title="Permanent link" rel="bookmark">#</a>) <span class="age">11 months ago</span>
+<blockquote>I want to do some network measurements. Measuring throughput over tcp or
+udp is easy: use iperf. Although the iperf server process in daemon mode
+was using 100% cpu for each(!) measurement somehow, so the load on the
+machine tested ran up to more than 50.
+<p></p>
+But I am also interested in tcp setup time. It took a bit longer to find
+something which does that. Searching gave me <a href="http://www.huque.com/software/time-gai-connect/">measure tcp connection setup time: time-gai-connect</a>
+which was developed to measure differences in IPv4 and IPv6 tcp connection
+setup times. Interesting answers:
+<pre class="commandlog">
+$ <strong>./time-gai-connect.py www.google.com</strong>
+2a00:1450:400c:c05::63                   19.62209 ms
+173.194.78.147                           19.78207 ms
+173.194.78.106                           20.66183 ms
+173.194.78.105                           19.69004 ms
+173.194.78.103                           20.01190 ms
+173.194.78.99                            20.47896 ms
+173.194.78.104                           21.71206 ms
+</pre>
+And this one is really strange to me... on the machine which runs
+both the IPv4 address and IPv6 address for idefix.net:
+<pre class="commandlog">
+$ <strong>./time-gai-connect.py idefix.net</strong>
+2001:980:14ca:42::18                      0.35095 ms
+82.95.196.202                             0.18501 ms
+</pre>
+Yes, the IPv6 tcp connect setup takes longer with IPv6 on this local
+connection.
+<p>
+I added code to measure resolving time when testing it on my laptop, which
+now shows shorter times for IPv6 than IPv4, one wireless hop away from the
+same system.
+<pre class="commandlog">
+$ <strong>./time-gai-connect.py idefix.net</strong>
+Resolving                                 3.20196 ms
+2001:980:14ca:42::18                      0.96989 ms
+82.95.196.202                             1.49107 ms
+</pre>
+Measuring this gives more new questions than answers... it seems
+<em>remote</em> destinations are faster for IPv6 than for IPv4. Example
+from the same laptop:
+<pre class="commandlog">
+$ <strong>./time-gai-connect.py www.xs4all.nl</strong>
+Resolving                                34.10101 ms
+2001:888:0:18::80                        15.76281 ms
+194.109.6.92                             15.84506 ms
+</pre>
+And from the system running idefix.net:
+<pre class="commandlog">
+$ <strong>./time-gai-connect.py www.xs4all.nl</strong>
+Resolving                                 2.60282 ms
+2001:888:0:18::80                        14.32490 ms
+194.109.6.92                             15.16104 ms
+</pre>
+<p>
+But anyway, iperf and time-gai-connect will give me the answers I want to
+measure.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/statistics" title="News items tagged with statistics" rel="tag">statistics</a>, <a href="newstag.cgi/work" title="News items tagged with work" rel="tag">work</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-08-03</strong> (<a href="newsitem.cgi/1343995488" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 year ago</span>
+<blockquote>Time to count IPv6 visitor percentage to different websites again:
+<table>
+<tr style="text-align: left;"><th>Site</th><th>July 2009</th><th>July 2010</th><th>July 2011</th><th>July 2012</th></tr>
+<tr>
+<td><a href="http://idefix.net/"><span class="absoluteurl">http://idefix.net/</span> my homepage</a></td>
+<td>1%</td>
+<td>2%</td>
+<td>2%</td>
+<td>3%</td>
+</tr>
+<tr>
+<td><a href="http://weather.idefix.net/"><span class="absoluteurl">http://weather.idefix.net/</span> weather maps</a></td>
+<td>&lt; 1%</td>
+<td>5%</td>
+<td>6%</td>
+<td>7%</td>
+</tr>
+<tr>
+<td><a href="http://netwerk.pcgg.nl/"><span class="absoluteurl">http://netwerk.pcgg.nl/</span> hcc!pcgg netwerkgroep</a></td>
+<td>2%</td>
+<td>2%</td>
+<td>2%</td>
+<td>3%</td>
+</tr>
+<tr>
+<td><a href="http://bbs.idefix.net/"><span class="absoluteurl">http://bbs.idefix.net/</span> BBS files</a></td>
+<td></td>
+<td>1%</td>
+<td>1%</td>
+<td>1%</td>
+</tr>
+<tr>
+<td><a href="http://webcam.idefix.net/"><span class="absoluteurl">http://webcam.idefix.net/</span> the webcam</a></td>
+<td>&lt; 1%</td>
+<td>1%</td>
+<td>&lt; 1%</td>
+<td>2%</td>
+</tr>
+<tr>
+<td><a href="http://www.virtualbookcase.com/"><span class="absoluteurl">http://www.virtualbookcase.com/</span> The Virtual Bookcase</a></td>
+<td>&lt; 1%</td>
+<td>1%</td>
+<td>1%</td>
+<td>4%</td>
+</tr>
+<tr>
+<td><a href="http://www.camp-wireless.org/"><span class="absoluteurl">http://www.camp-wireless.org/</span> Camp Wireless</a></td>
+<td>&lt; 1%</td>
+<td>1%</td>
+<td>1%</td>
+<td>3%</td>
+</tr>
+</table>
+Interesting numbers. Websites with a more 'general' audience are now also
+growing this year.
+<p></p>
+Method: unique IPv6 addresses seen in the whole month / total unique addresses
+seen in the whole month.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/bbs" title="News items tagged with bbs" rel="tag">bbs</a>, <a href="newstag.cgi/campwireless" title="News items tagged with campwireless" rel="tag">campwireless</a>, <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/pcgg" title="News items tagged with pcgg" rel="tag">pcgg</a>, <a href="newstag.cgi/virtualbookcase" title="News items tagged with virtualbookcase" rel="tag">virtualbookcase</a>, <a href="newstag.cgi/weathermapsite" title="News items tagged with weathermapsite" rel="tag">weathermapsite</a>, <a href="newstag.cgi/web" title="News items tagged with web" rel="tag">web</a>, <a href="newstag.cgi/webcam" title="News items tagged with webcam" rel="tag">webcam</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-07-26</strong> (<a href="newsitem.cgi/1343310860" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 year ago</span>
+<blockquote>I run arpwatch on my home networks (wired and wireless are separate with
+slightly different policies). Since a Samsung Galaxy s3 showed up on the
+home wifi network things have been interesting. It does speak IPv6 with
+privacy enhancements. It also makes up a daily 10/8 address which get noted
+by arpwatch.</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/homeserver" title="News items tagged with homeserver" rel="tag">homeserver</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/network" title="News items tagged with network" rel="tag">network</a>, <a href="newstag.cgi/security" title="News items tagged with security" rel="tag">security</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-06-08</strong> (<a href="newsitem.cgi/1339145951" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 year ago</span>
+<blockquote>First comment-spam via IPv6 that I notice. Similar pattern probing like
+<a href="http://idefix.net/~koos/newsitem.cgi/1326141362">noticed before</a>.
+Oh well, the first mail that came in when <a href="http://mailman.nanog.org/pipermail/nanog/2012-June/048755.html">Comcast enabled an IPv6 MX was spam too</a>.
+One can try very hard to keep IPv6 only for 'clean' usage but it won't work
+in the long run and you hinder growth.
+<p></p>
+The spamming software is a bit broken here and there:
+<p></p>
+<tt>2001:660:5003:410:d69a:20ff:fef4:6bc - - [08/Jun/2012:07:17:30 +0200] "POST /serendipity/index.php?url=archives/31-Bijeenkomst-9-Januari-2010.html#feedback HTTP/1.1" 302 - "http://netwerk.pcgg.nl/serendipity/feeds/%22http://www.dosgg.nl/%22http://www.hccmuziek.nl/content/view/314/1/%22http://www.dosgg.nl/%22http://netwerk.pcgg.nl/serendipity/archives/31-Bijeenkomst-9-Januari-2010.html" "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.5) Gecko/2008120122 Firefox/3.0.5"</tt>
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/spam" title="News items tagged with spam" rel="tag">spam</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-06-06</strong> (<a href="newsitem.cgi/1338974214" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 year ago</span>
+<blockquote><a href="http://www.worldipv6launch.org/"><img src="http://idefix.net/~koos/icons/World_IPv6_launch_logo.png" class="imgfloatrightclear" style="width:96px; height: 120px;"></a>
+IPv6 launch day going, with as first visible change for me, google advertises
+AAAA records even on networks not in the google ipv6 program:
+<pre class="commandlog">
+koos@machiavelli:~$ <strong>host www.google.com</strong>
+www.google.com is an alias for www.l.google.com.
+www.l.google.com has address 173.194.67.103
+www.l.google.com has address 173.194.67.104
+www.l.google.com has address 173.194.67.105
+www.l.google.com has address 173.194.67.106
+www.l.google.com has address 173.194.67.147
+www.l.google.com has address 173.194.67.99
+www.l.google.com has IPv6 address 2a00:1450:4007:802::1012
+</pre>
+Statistics to peek at:
+<ul>
+<li><a href="http://ams-ix.net/sflow-stats/ipv6/">sflow stats ams-ix</a> not
+showing a spectacular rise in IPv6 traffic.. yet
+<li><a href="http://www.de-cix.net/about/statistics/">sflow stats de-cix</a>
+also not showing spectacular results
+<li><a href="http://www.akamai.com/ipv6">Akamai IPv6 statistics</a>
+</ul>
+At this time (~ 11:30 CEST) there are no big peaks or rises in IPv6 traffic
+visible.
+<p></p>
+<strong>Update 2012-06-06 16:15 :</strong>
+A rise is visible in IPv6 traffic on the ams-ix.
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/network" title="News items tagged with network" rel="tag">network</a></div>
+</div>
+<div class="generalitem newsitem"><strong>2012-06-04</strong> (<a href="newsitem.cgi/1338797808" title="Permanent link" rel="bookmark">#</a>) <span class="age">1 year ago</span>
+<blockquote>Article <a href="http://news.cnet.com/8301-1009_3-57445157-83/fbi-new-internet-addresses-could-hinder-police-investigations/?part=rss&subj=news&tag=title">FBI: New Internet addresses could hinder police investigations - CNET security &amp; privacy news</a>
+<blockquote class="webquote">Side effects from the transition to Internet Protocol version 6, or IPv6, "could have a profound effect on law enforcement," an FBI spokesman told CNET. "Additional tools" may need to be developed to conduct Internet investigations in the future, the spokesman said.</blockquote>
+Any new technology will have an effect on law enforcement. Law enforcement
+will have to learn about the technology and how it applies, and how to do
+investigations which involve the technology.
+<p></p>
+In reading the article completely, the problem isn't IPv6 by itself, which
+is what the headline suggests. The problem is the transitional period with
+dual-stack networks and carrier-grade NAT. So after the transition, things
+may actually be easier, although I expect the IPv6 address privacy extensions
+to reverse some of that 'easier' bit.
+<p></p>
+<span class="itemvia">Found via <a href="http://www.nu.nl/internet/2825930/invoering-ipv6-kan-fbi-onderzoeken-belemmeren.html">'Invoering IPv6 kan FBI-onderzoeken belemmeren' - nu.nl</a> (Dutch)</span>
+</blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/privacy" title="News items tagged with privacy" rel="tag">privacy</a></div>
+</div>
+&nbsp;&nbsp;<a href="newstag.cgi/ipv6/1">Older news items for tag ipv6 ⇒</a><hr class="hider">
+</div>
+</div>
+<div class="addressbox">
+<div class="infloatright"><a href="http://6bone.informatik.uni-leipzig.de/ipv6/stats/stats.php3" title="My homepage reachable via IPv6!"><img src="icons/ipv6-ready.png" style="width:80px; height: 15px; border: none;"><img src="http://6bone.informatik.uni-leipzig.de/ipv6/stats/log.php3?URL=page.idefix.net&ImageId=6" style="width: 1px; height: 1px; border: none; padding: 0px;" alt="IPv6 ready"></a></div>
+<a href="http://idefix.net/" rel="author">Koos van den Hout</a>, reachable as <a href="mailto:koos+website@koos.idefix.net">koos+website@koos.idefix.net</A>.
+<a href="http://pgp.surfnet.nl:11371/pks/lookup?op=vindex&amp;search=0xF0D7C263&amp;fingerprint=on">PGP key DSS/1024 0xF0D7C263</a>
+<a href="/~koos/index.rdf" title="RSS feed" class="rssfeed">RSS</a>
+<br>
+Other webprojects: <a href="http://www.camp-wireless.org/">Camp Wireless, wireless Internet access at campsites</a>,
+<a href="http://www.virtualbookcase.com/">The Virtual Bookcase, book reviews</a>,
+<a href="http://weather.idefix.net/">Weather maps</a>
+</div>
+</body>
+</html>

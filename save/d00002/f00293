@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="ja" xml:lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="description" content="恋愛ゲームキャラクタのデータベースです。" />
+<meta name="keywords" content="恋愛ゲーム キャラクタ データベース" />
+<title>Ragna Archives Network</title>
+<base href="http://www5.big.or.jp/~seraph/ragna/" />
+<link rel="stylesheet" href="styles2/default/main.css" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www5.big.or.jp/~seraph/ragna/feeds.cgi" />
+<link rel="shortcut icon" href="favicon.png" />
+</head>
+<body>
+
+<div align="center">
+<div class="header">
+<p class="adminmenu">
+<span class="adminmenu"><a href="../zero/research.htm">Research</a></span>&nbsp;|&nbsp;<span class="adminmenu"><a href="../ragna/ragna.cgi">Character</a></span>&nbsp;|&nbsp;<span class="adminmenu"><a href="../zero/attribute.cgi">Attribute</a></span>
+</p>
+</div>
+</div><div align="center">
+<div class="main">
+<h1 class="category">Ragna Archives Network 2 - 恋愛系ゲームキャラクタデータベース</h1>
+<p><a href="ragna.cgi">Ragna</a> | <a href="ragna.cgi?mode=statistics&amp;q=">統計モード</a> | <a href="ragna.cgi?mode=config">設定</a> | <a href="edit.cgi">データ編集</a> | <a href="xcn.htm">XCN</a> | <a href="ragna.cgi?mode=about">Ragnaとは</a></p>
+<h2>Characters Search(キャラクタ検索)</h2>
+
+<script language="JavaScript">
+function supportInput(){
+	if(document.input.support.options[document.input.support.selectedIndex].value!=""){
+		if(document.input.q.value==""){
+			document.input.q.value=document.input.support.options[document.input.support.selectedIndex].value;
+		}else{
+			document.input.q.value=document.input.q.value+" "+document.input.support.options[document.input.support.selectedIndex].value;
+		}
+	}
+}
+</script>
+
+<form method="get" action="ragna.cgi" name="input" id="input">
+<input type="text" name="q" size="40" maxlength="200" value="" class="solidinput" />
+<input type="hidden" name="mode" value="search">
+
+<input type="submit" value="　　検索　　" class="solidinput" /> 
+<a href="feeds.cgi?q="><img src="img/rss.png" width="16" height="16" alt="RSS" border="0"> 更新情報のRSSデータ</a><br />
+<br style="line-height:4px;" />
+詳細検索: <select name="support" id="support" onchange="supportInput()" class="solidinput">
+<option value="" style="color:#cccccc">(詳細検索コマンド選択)</option>
+<option value="attribute:">属性 (attribute:)</option>
+<option value="game:">ゲーム名 (game:)</option>
+<option value="gameeid:">ErogameScape ゲームID (gameeid:)</option>
+<option value="age:">年齢 (age:)</option>
+<option value="age&gt;=">年齢(～歳以上) (age&gt;=)</option>
+<option value="age&lt;=">年齢(～歳以下) (age&lt;=)</option>
+<option value="blood:">血液型 (blood:)</option>
+<option value="birthday:">誕生日 (birthday:)</option>
+<option value="zodiac:">星座 (zodiac:)</option>
+<option value="creator:">クリエイタ名【ES連動検索】 (creator:)</option>
+<option value="brand:">ブランド名【ES連動検索】 (brand:)</option>
+<option value="comeyear:">登場年【ES連動検索】 (comeyear:)</option>
+<option value="stature:">身長 (stature:)</option>
+<option value="stature&gt;=">身長(～cm以上) (stature&gt;=)</option>
+<option value="stature&lt;=">身長(～cm以下) (stature&lt;=)</option>
+<option value="bust:">バスト (bust:)</option>
+<option value="bust&gt;=">バスト(～cm以上) (bust&gt;=)</option>
+<option value="bust&lt;=">バスト(～cm以下) (bust&lt;=)</option>
+<option value="waist:">ウエスト (waist:)</option>
+<option value="waist&gt;=">ウエスト(～cm以上) (waist&lt;=)</option>
+<option value="waist&lt;=">ウエスト(～cm以下) (waist&lt;=)</option>
+<option value="hip:">ヒップ (hip:)</option>
+<option value="hip&gt;=">ヒップ(～cm以上) (hip&gt;=)</option>
+<option value="hip&lt;=">ヒップ(～cm以下) (hip&lt;=)</option>
+<option value="lastmodified:">最終更新日 (lastmodified:)</option>
+<option value="lastmodified&gt;=">最終更新日(～以後) (lastmodified&gt;=)</option>
+<option value="lastmodified&lt;=">最終更新日(～以前) (lastmodified&lt;=)</option>
+</select>
+</form><br />
+<h2>How to use(使い方)</h2>
+<ul type="square">
+<li>データベースをキーワードで検索します。複数キーワードを指定する場合は(半角)スペースで区切って記述します(and検索となります)。</li>
+<li>検索結果から特定のキーワードを除く場合は、キーワードの前に「-」をつけます(not検索)。</li>
+<li>詳細検索として各種検索コマンド(例えば「attribute:貧乳」など)が使えます。プルダウンを参考にしてください。詳細検索のうち、【ES連動検索】は、ErogameScapeを同時に検索するため、少し時間がかかります。なお、詳細検索にもand/not検索が使えます。</li>
+<li><a href="http://blueblueblue.fool.jp/wp/archives/3283">blueblueblues様提供のユーザースクリプト</a>(ChromeやFirefoxで利用可能)を利用することで、ErogameScapeにRagnaのキャラクタデータを統合することができます。また、キャラクタデータの登録支援スクリプトも提供されています。</li>
+</ul>
+
+<ul type="square">
+<li>一部REST風urlに仮対応。<a href="http://www5.big.or.jp/~seraph/ragna/characters/ロウきゅーぶ">http://www5.big.or.jp/~seraph/ragna/characters/ロウきゅーぶ</a>のような感じです。JSONで取得する際は、<a href="http://www5.big.or.jp/~seraph/ragna/characters/ロウきゅーぶ/json">http://www5.big.or.jp/~seraph/ragna/characters/ロウきゅーぶ/json</a>、RSS 1.0で取得する際は、<a href="http://www5.big.or.jp/~seraph/ragna/characters/ロウきゅーぶ/rss">http://www5.big.or.jp/~seraph/ragna/characters/ロウきゅーぶ/rss</a>です。JSON/RSS取得のurl形式を変更しました。(2013/01/18)</li>
+<li>bingを利用した画像検索結果表示機能をつけました。「<a href="ragna.cgi?mode=config">設定</a>」で有効にできます。昔の作品やマイナー作品の検索結果がメタメタなのはご愛嬌。bingの仕様変更により表示されなくなっていたのを修正しました。(2013/01/25)</li>
+</ul>
+
+<h2>Ragna API</h2>
+<ul type="square">
+<li>検索結果がRSS1.0形式に加えてJSON形式で取得できます。検索結果に表示されているリンクを参考にしてください。</li>
+</ul>
+
+
+<div align="right">
+<p>
+<span style="font-family: Arial,Helvetica">Ragna Archive Network 2 version 1.08.004 spec:0.03 / since 1997</span>
+</p>
+</div>
+
+</div>
+</div>
+</body>
+</html>

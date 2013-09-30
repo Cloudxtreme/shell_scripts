@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Eric Eaton</title>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+    <link href="main.css" type="text/css" rel="stylesheet">
+  </head>
+  <body id="home">
+    <div id="container">
+      <link href="header.css" rel="stylesheet" type="text/css">
+
+<script src="jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+if (typeof jQuery != 'undefined') {
+  jQuery(document).ready(function($) {
+    var filetypes = /\.(zip|gz|tar|exe|dmg|pdf|ps|doc.*|xls.*|ppt.*|mp3|txt|rar|wma|mov|avi|wmv|flv|wav)$/i;
+    var baseHref = '';
+    if (jQuery('base').attr('href') != undefined) baseHref = jQuery('base').attr('href');
+ 
+    jQuery('a').on('click', function(event) {
+      var el = jQuery(this);
+      var track = true;
+      var href = (typeof(el.attr('href')) != 'undefined' ) ? el.attr('href') :"";
+      var isThisDomain = href.match(document.domain.split('.').reverse()[1] + '.' + document.domain.split('.').reverse()[0]);
+      if (!href.match(/^javascript:/i)) {
+        var elEv = []; elEv.value=0, elEv.non_i=false;
+        if (href.match(/^mailto\:/i)) {
+          elEv.category = "email";
+          elEv.action = "click";
+          elEv.label = href.replace(/^mailto\:/i, '');
+          elEv.loc = href;
+        }
+        else if (href.match(filetypes)) {
+          var extension = (/[.]/.exec(href)) ? /[^.]+$/.exec(href) : undefined;
+          elEv.category = "download";
+          elEv.action = "click-" + extension[0];
+          elEv.label = href.replace(/ /g,"-");
+          elEv.loc = baseHref + href;
+        }
+        else if (href.match(/^https?\:/i) && !isThisDomain) {
+          elEv.category = "external";
+          elEv.action = "click";
+          elEv.label = href.replace(/^https?\:\/\//i, '');
+          elEv.non_i = true;
+          elEv.loc = href;
+        }
+        else if (href.match(/^tel\:/i)) {
+          elEv.category = "telephone";
+          elEv.action = "click";
+          elEv.label = href.replace(/^tel\:/i, '');
+          elEv.loc = href;
+        }
+        else track = false;
+ 
+        if (track) {
+          _gaq.push(['_trackEvent', elEv.category.toLowerCase(), elEv.action.toLowerCase(), elEv.label.toLowerCase(), elEv.value, elEv.non_i]);
+          if ( el.attr('target') == undefined || el.attr('target').toLowerCase() != '_blank') {
+            setTimeout(function() { location.href = elEv.loc; }, 400);
+            return false;
+      }
+    }
+      }
+    });
+  });
+}
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-12577472-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<div id="header"> 
+
+<img src="images/headshot-Eric1.jpg">
+
+<div id="name">
+<h1>Eric Eaton</h1>
+
+<div id="email"> <b>
+<script type="text/javascript">
+//<![CDATA[
+<!--
+var x="function f(x){var i,o=\"\",l=x.length;for(i=0;i<l;i+=2) {if(i+1<l)o+=" +
+"x.charAt(i+1);try{o+=x.charAt(i);}catch(e){}}return o;}f(\"ufcnitnof x({)av" +
+" r,i=o\\\"\\\"o,=l.xelgnhtl,o=;lhwli(e.xhcraoCedtAl(1/)3=!94{)rt{y+xx=l;=+;" +
+"lc}tahce({)}}of(r=i-l;1>i0=i;--{)+ox=c.ahAr(t)i};erutnro s.buts(r,0lo;)f}\\" +
+"\"(5),8\\\"\\\\>4%64)'hs;aal-eo\\\\r6\\\\01\\\\\\\\4W00\\\\\\\\24\\\\06\\\\" +
+"02\\\\\\\\02\\\\0/\\\\03\\\\04\\\\00\\\\\\\\35\\\\06\\\\00\\\\\\\\00\\\\06\\"+
+"\\00\\\\\\\\}_01\\\\0y\\\\05\\\\0j\\\\?0&%k93k03\\\\\\\\'01$02\\\\\\\\US\\\\"+
+"\\\\\\\\\\\\@G35\\\\0B\\\\HNiXJI@Wxzv!ycpz/b4W`aiq5^03\\\\\\\\ZF2^03\\\\\\\\"+
+"36\\\\05\\\\02\\\\\\\\32\\\\05\\\\00\\\\\\\\30\\\\07\\\\03\\\\\\\\0H02\\\\\\"+
+"\\14\\\\05\\\\00\\\\\\\\)379\\\\2(\\\"}fo;n uret}r);+)y+^(i)t(eAodrCha.c(xd" +
+"eCoarChomfrg.intr=So+7;12%=;y++)y85i<f({i+)i+l;i<0;i=r(foh;gten.l=x,l\\\"\\" +
+"\\\\\"\\\\o=i,r va){,y(x fontincfu)\\\"\")"                                  ;
+while(x=eval(x));
+//-->
+//]]>
+</script>
+<noscript><em><img
+
+style="width: 155px; height: 12px;" alt="ENABLE JAVASCRIPT TO VIEW
+E-MAIL" src="images/seas_upenn_email.gif"></em> </noscript></b> </div>
+</div>
+
+<div id="contact-information">
+<p>Department of Computer and Information Science<br>
+University of Pennsylvania</p>
+</div>
+
+<div id="header-menu">
+<ul id="menu">
+  <li><a id="menu-home" href="index.html">Home</a></li>
+  <li><a id="menu-research" href="research.html">Research</a></li>
+  <li><a id="menu-teaching" href="teaching.html">Teaching</a></li>
+  <li><a id="menu-publications" href="publications.html">Publications</a></li>
+  <li><a id="menu-cv" href="EatonCV.pdf">Curriculum Vitae</a></li>
+  <li class="rightborder"><a id="menu-software" href="software.html">Software</a></li>
+</ul>
+<div id="menu-backbar"></div>
+</div>
+</div>
+
+      
+      <div id="content">
+      
+        <div class="rightcolumn">
+      	  
+          <div id="teaching" class="frame">
+            <h3>Teaching<br>
+            </h3>
+            <p> 
+              Fall 2013:&nbsp; CIS 110 - Introduction to Computer Science<br>
+              Spring 2013:&nbsp; <a
+                href="http://cs.brynmawr.edu/Courses/cs380/spring2013/section02/">CMSC 380 - Relational Network Analysis</a><br>
+              Spring 2013:&nbsp; <a
+                href="http://cs.brynmawr.edu/Courses/cs246/spring2013/">CMSC 246 - Programming Paradigms</a><br>
+              Fall 2012:&nbsp; <a
+                href="http://cs.brynmawr.edu/Courses/cs206/fall2012">CMSC 206 - Data Structures</a><br>
+              Fall 2012:&nbsp; <a
+                href="http://cs.brynmawr.edu/Courses/cs110/fall2012/section001/">CMSC 110 - Introduction to Computing</a><br>
+              Spring 2012: &nbsp;&nbsp; 
+                <a href="http://cs.brynmawr.edu/Courses/cs372/spring2012/">CMSC 372 - Artificial Intelligence</a><br>
+              Spring 2012: &nbsp;&nbsp; 
+              <a href="http://cs.brynmawr.edu/Courses/cs206/spring2012">CMSC 206 - Data Structures</a><br>
+            </p>
+            <p>
+            <a href="teaching.html">Past courses</a> taught at Bryn Mawr, Swarthmore, and UMBC<br>
+            </p>
+            <p><br>
+              <img
+src="data:image/png;base64,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"
+                alt="">I'm happy to announce the online textbook <a
+href="http://en.wikibooks.org/wiki/Artificial_Intelligence_for_Computational_Sustainability:_A_Lab_Companion">Artificial
+                Intelligence for Computational Sustainability:&nbsp; A
+                Lab Companion</a> with Doug Fisher, Bistra Dilkina, and
+              Carla Gomes.&nbsp; This is an experiment in crowd-sourced
+              textbook creation, intended to supplement an AI course
+              with assignments related to sustainability.&nbsp; We
+              presented papers on this project at AAAI'12 and Computational Sustainability 2012. </p>
+          </div>
+          
+          
+          <div id="contact" class="frame">
+            <h3>Contact Information</h3>
+            <p>
+              <table>
+                <tbody>
+                  <tr valign="top">
+                    <td>
+                      <p><b>Mailing Address:</b><br>
+                        University of Pennsylvania <br>
+						Computer and Information Science Dept.<br>
+						Levine Hall <br>
+						3330 Walnut Street <br> 
+						Philadelphia, PA 19104-6309</p>
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>
+                      <p><b>Office:</b> Levine 264<br>
+                        <b>E-mail:</b>
+                        <script type="text/javascript">
+//<![CDATA[
+<!--
+var x="function f(x){var i,o=\"\",l=x.length;for(i=0;i<l;i+=2) {if(i+1<l)o+=" +
+"x.charAt(i+1);try{o+=x.charAt(i);}catch(e){}}return o;}f(\"ufcnitnof x({)av" +
+" r,i=o\\\"\\\"o,=l.xelgnhtl,o=;lhwli(e.xhcraoCedtAl(1/)3=!94{)rt{y+xx=l;=+;" +
+"lc}tahce({)}}of(r=i-l;1>i0=i;--{)+ox=c.ahAr(t)i};erutnro s.buts(r,0lo;)f}\\" +
+"\"(5),8\\\"\\\\>4%64)'hs;aal-eo\\\\r6\\\\01\\\\\\\\4W00\\\\\\\\24\\\\06\\\\" +
+"02\\\\\\\\02\\\\0/\\\\03\\\\04\\\\00\\\\\\\\35\\\\06\\\\00\\\\\\\\00\\\\06\\"+
+"\\00\\\\\\\\}_01\\\\0y\\\\05\\\\0j\\\\?0&%k93k03\\\\\\\\'01$02\\\\\\\\US\\\\"+
+"\\\\\\\\\\\\@G35\\\\0B\\\\HNiXJI@Wxzv!ycpz/b4W`aiq5^03\\\\\\\\ZF2^03\\\\\\\\"+
+"36\\\\05\\\\02\\\\\\\\32\\\\05\\\\00\\\\\\\\30\\\\07\\\\03\\\\\\\\0H02\\\\\\"+
+"\\14\\\\05\\\\00\\\\\\\\)379\\\\2(\\\"}fo;n uret}r);+)y+^(i)t(eAodrCha.c(xd" +
+"eCoarChomfrg.intr=So+7;12%=;y++)y85i<f({i+)i+l;i<0;i=r(foh;gten.l=x,l\\\"\\" +
+"\\\\\"\\\\o=i,r va){,y(x fontincfu)\\\"\")"                                  ;
+while(x=eval(x));
+//-->
+//]]>
+</script>
+<noscript><em><img
+
+style="width: 155px; height: 12px;" alt="ENABLE JAVASCRIPT TO VIEW
+E-MAIL" src="images/seas_upenn_email.gif"></em> </noscript><br>
+                        <b>Phone:</b> TBA<br>
+                        <b>Fax:</b> 215-898-0587<br>
+                        <br>
+                        <b>Office Hours (Summer 2013):</b><br>
+                        By appointment only </p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </p>
+          </div>
+          
+          <div id="about" class="frame">
+            <h3>About Eric</h3>
+<p>Eric Eaton is a faculty member in the 
+<a href="http://www.cis.upenn.edu/">Department of Computer and Information Science</a> 
+at the 
+<a href="http://www.upenn.edu">University of Pennsylvania</a>.  
+Prior to joining Penn, he was a Visiting Assistant Professor in the 
+<a href="http://www.cs.brynmawr.edu/">computer science department</a> 
+at 
+<a href="http://www.brynmawr.edu/">Bryn Mawr College</a>.  
+His primary research interests lie in the fields of machine learning, artificial intelligence, and data mining with applications to robotics, search & rescue, environmental sustainability, and medicine.  In particular, his research focuses on developing versatile AI systems that can learn multiple tasks over a lifetime of experience in complex environments, transfer learned knowledge to rapidly acquire new abilities, and collaborate effectively with humans and other agents through interaction.</p>
+
+<p>Before moving into academia, Eric spent two years as a senior research scientist at 
+<a href="http://www.atl.lmco.com/">Lockheed Martin Advanced Technology Laboratories</a> 
+working in applied research.  At Lockheed Martin ATL, he led a number of machine learning research projects in the Artificial Intelligence Lab with a focus on their application for a variety of DoD organizations.  While at Lockheed Martin, he was also part-time faculty in computer science at 
+<a href="http://www.swarthmore.edu/">Swarthmore College</a>.</p>
+
+<p>Eric received his Ph.D. in computer science from the <a href="http://www.umbc.edu">University of Maryland, Baltimore County</a> (UMBC), focusing on artificial intelligence and machine learning. His dissertation developed methods for selective knowledge transfer between learning tasks and was advised by 
+<a href="http://www.cs.umbc.edu/%7Emariedj/">Marie desJardins</a>. At UMBC, he was a member of the <a href="http://maple.cs.umbc.edu">Multi-Agent Planning and LEarning (MAPLE)</a> research group and also a part-time instructor.</p>
+
+<p>Further details are provided in his 
+<a href="EatonCV.pdf">curriculum vitae</a>.</p>
+          </div>
+          
+        </div>
+        
+        
+        
+        <div class="leftcolumn">
+        
+          <div id="research" class="frame">
+            <h3>Research</h3>
+            <p>My primary research interests are in the areas of
+              artificial intelligence and machine learning, with a focus
+              on the following topics:</p>
+            <ul>
+              <li><b>Lifelong learning</b> of multiple sequential tasks
+                over long time scales, </li>
+              <li><b>Knowledge transfer</b> between learning tasks, and</li>
+              <li><b>Interactive AI</b> methods that combine
+                system-driven active learning with extensive user-driven
+                control over learning and reasoning processes.<br>
+              </li>
+            </ul>
+            <p>I am also interested in applications of AI to medicine,
+              search and rescue, and space exploration.</p>
+            <p>Details of my research on these topics can be found on my
+              <a href="research.html">research</a> and <a
+                href="publications.html">publications</a> pages. This
+              research has also produced a number of <a
+                href="software.html">software</a> packages, which I make
+              freely available for academic and not-for-profit use. </p>
+            <p>This research is currently funded by: </p>
+            <ul>
+              <li>ONR Grant #N00014-11-1-0139, PI (Co-PI: Terran Lane) </li>
+              <li>ONR Contract #N00014-10-C-0192 via Lockheed Martin
+                ATL, PI </li>
+            </ul>
+          </div>
+          
+          <div id="news" class="frame">
+            <h3>Recent News</h3>
+            <p><img
+src="data:image/png;base64,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"
+                alt="">I have an <a href="openpositions.html">Opening
+                for a Postdoctoral Research Assistant</a> at Penn.</p>
+            <p><img
+src="data:image/png;base64,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"
+                alt="">Paul Ruvolo will be leaving his postdoc to become an Assistant Professor at Olin College.  Congratulations, Paul!</p>
+            <p><img
+src="data:image/png;base64,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"
+                alt="">In March 2013, I chaired the <a
+                href="AAAI-SSS13-LML/">AAAI 2013 Spring Symposium on
+                Lifelong Machine Learning</a>.<br>
+            </p>
+            <p><a href="news.html">See older news...</a></p>
+          </div>
+            
+          <div id="students" class="frame">
+            <h3>Students and Postdocs</h3>
+            <!--<p>I currently have openings for a <a
+                href="openpositions.html#Postdoc">Postdoctoral Research
+                Fellow in machine learning</a> and several <a
+                href="openpositions.html#RA">Summer Undergraduate or
+                Graduate Research Assistants</a>.<br>
+            </p>-->
+            <p>I've been fortunate to work with a number of talented
+              students on these research projects.<br>
+            </p>
+            <h4 style="margin-left: 20px;">Current Research Assistants<br>
+            </h4>
+            <ul>
+              <li>Fangyu Xiong (BS 2015, Haverford College):&nbsp;
+                lifelong object recognition<br>
+              </li>
+              <li>Gabriel Ryan (BS 2013, Swarthmore College):&nbsp;
+                lifelong RL with Horde<br>
+              </li>
+            </ul>
+            <h4 style="margin-left: 20px;">Alumni and Former Students</h4>
+            <ul>
+              <li><a href="http://cseweb.ucsd.edu/%7Epruvolo/">Paul
+                  Ruvolo</a> (Postdoc 2012-2013, Bryn Mawr College):&nbsp; lifelong learning,
+                knowledge transfer <br>(Continued to a faculty position at Olin College as an Assistant Professor)</li>
+              <li>Jacy Li (BS 2014, Bryn Mawr College):&nbsp; lifelong
+                learning </li>
+              <li>Rachel Li (BS 2014, Bryn Mawr College):&nbsp;
+                relational community detection using Gaussian processes</li>
+              <li>Caitlyn Clabaugh (BS 2013, Bryn Mawr College):&nbsp;
+                learning to create automatic A vs B music mashups <br>(Continued to PhD studies at USC)</li>
+              <li>Rose Abernathy (BS 2013, Haverford College):&nbsp;
+                social gaming</li>
+              <li>Meagan Neal (BS 2013, Bryn Mawr College):&nbsp; active
+                multi-task learning</li>
+              <li>Ben Cutilli (BS 2013, Haverford College):&nbsp; vision
+                and UGV control in USARsim</li>
+              <li>Leila Zilles (BS 2012, Bryn Mawr College):&nbsp;
+                active transfer learning for sparse language translation
+                <br>(Continued to PhD studies at UWashington under an NSF Grad Fellowship)</li>
+              <li>David Wilikofsky (BS 2012, Swarthmore College):&nbsp;
+                bootstrapping RL with human demonstration</li>
+              <li>Emily Levine (BS 2012, Bryn Mawr College):&nbsp;
+                learning to predict Parkinson's At Risk Syndrome</li>
+              <li>Steven Gutstein (Postdoc 2011-2012):&nbsp; lifelong
+                learning, knowledge transfer (Continued to work for JPMorgan)</li>
+              <li>Kerstin Baer (BS 2011, Bryn Mawr College):&nbsp;
+                continual knowledge transfer <br>(Continued to PhD studies at Stanford under an
+                NSF Grad Fellowship)</li>
+              <li>Alexandra Lee (BS 2011, Bryn Mawr College):&nbsp;
+                visualizing community detection <br>(Continued to a Masters program at UWashington)</li>
+              <li>Rachael Mansbach (BS 2011, Swarthmore College):&nbsp;
+                interactive community detection <br>(Continued to PhD studies at UIUC)
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div id="footer">
+<p align="center">
+Website Last Updated:&nbsp; 08/19/13
+<br>
+Copyright &copy; 2002-2013 Eric Eaton. &nbsp;&nbsp;
+Copyright restrictions apply to all files under the 
+website's directory.&nbsp;&nbsp; All rights reserved.
+</p>
+</div> </div>
+    </div>
+  </body>
+</html>

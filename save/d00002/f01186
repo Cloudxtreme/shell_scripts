@@ -1,0 +1,425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html
+xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head
+profile="http://gmpg.org/xfn/11"><meta
+http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Apache / Nginx: Visualize Web Server Access  Log In Real Time</title><meta
+name="robots" content="noodp, noydir" /><meta
+name="description" content="Explains how to install logstalgia under Debian / Ubuntu Linux to see Apache / Nginx / Lighttpd web-server logs in real time." /><meta
+name="keywords" content="Apache, Lighttpd, Log File Visualization, Nginx" /><link
+rel="stylesheet" href="http://s13.cyberciti.org/cms/mini_layout_v02.css" type="text/css" media="screen, projection" /> <!--[if lte IE 8]><link
+rel="stylesheet" href="http://s13.cyberciti.org/cms/mini_ie_v01.css" type="text/css" media="screen, projection" /><![endif]--><link
+rel="canonical" href="http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/" /><link
+rel="alternate" type="application/rss+xml" title="nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format RSS Feed" href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" /><link
+rel="pingback" href="http://www.cyberciti.biz/cms/xmlrpc.php" /><link
+rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.cyberciti.biz/cms/xmlrpc.php?rsd" /><link
+rel="alternate" type="application/rss+xml" title="nixCraft: Linux Tips, Hacks, Tutorials, And Ideas In Blog Format &raquo; Apache / Nginx: Visualize Web Server Access  Log In Real Time Comments Feed" href="http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/feed/" /> <script type='text/javascript' src='http://www.cyberciti.biz/cms/wp-includes/js/comment-reply.min.js?ver=3.6'></script> <script type="text/javascript"></script> <link
+rel="shortcut icon" href="http://s0.cyberciti.org/static/legacy/i/favicon.ico"><meta
+name="robots" content="noarchive" /> <script type='text/javascript'>var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+var gads = document.createElement('script');
+gads.async = true;
+gads.type = 'text/javascript';
+var useSSL = 'https:' == document.location.protocol;
+gads.src = (useSSL ? 'https:' : 'http:') +
+'//www.googletagservices.com/tag/js/gpt.js';
+var node = document.getElementsByTagName('script')[0];
+node.parentNode.insertBefore(gads, node);
+})();</script> <script type='text/javascript'>googletag.cmd.push(function() {
+googletag.defineSlot('/1010897/CBZ_ARTICLE_GAS_LAR_SKY_B', [300, 600], 'div-gpt-ad-1364634124258-0').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_GAS_MED_RECT_B', [300, 250], 'div-gpt-ad-1364634124258-1').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_LEADERBOARD_A', [728, 90], 'div-gpt-ad-1364634124258-2').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_MED_RECT_A', [300, 250], 'div-gpt-ad-1364634124258-3').addService(googletag.pubads());
+googletag.defineSlot('/1010897/CBZ_ARTICLE_MED_RECT_B', [300, 250], 'div-gpt-ad-1364634124258-4').addService(googletag.pubads());
+googletag.pubads().enableSingleRequest();
+googletag.pubads().collapseEmptyDivs();
+googletag.pubads().set("page_url", "http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/");
+googletag.enableServices();
+});</script> <!--
+	generated 46 seconds ago
+	generated in 0.328 seconds
+	served from batcache in 0.001 seconds
+	expires in 1454 seconds
+-->
+</head><body
+class="custom"><div
+id="container"><div
+id="page"><div
+class="menu-home-container"><ul
+id="menu-home" class="menu"><li
+id="menu-item-32" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-32"><a
+href="http://www.cyberciti.biz/topics/">Main Menu</a><ul
+class="sub-menu"><li
+id="menu-item-34" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-34"><a
+href="http://www.cyberciti.biz/topics/datacenter/">Datacenter</a></li><li
+id="menu-item-35" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35"><a
+href="http://www.cyberciti.biz/topics/hardware/">Hardware</a></li><li
+id="menu-item-38" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-38"><a
+href="http://www.cyberciti.biz/topics/security/">IT / Linux Security</a></li><li
+id="menu-item-37" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-37"><a
+href="http://www.cyberciti.biz/topics/open-source/">Open source</a></li><li
+id="menu-item-31" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-31"><a
+href="http://www.cyberciti.biz/topics/reviews/">Reviews</a></li><li
+id="menu-item-39" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-39"><a
+href="http://www.cyberciti.biz/topics/storage/">Storage</a></li><li
+id="menu-item-40" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40"><a
+href="http://www.cyberciti.biz/topics/virtualization/">Virtualization</a></li><li
+id="menu-item-33" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-33"><a
+href="http://www.cyberciti.biz/topics/cloud-computing/">Cloud Computing</a><ul
+class="sub-menu"><li
+id="menu-item-85" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-85"><a
+title="CDN " href="http://www.cyberciti.biz/topics/cloud-computing/content-delivery-network/">Content delivery network</a></li></ul></li><li
+id="menu-item-41" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-41"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/">Mobile</a><ul
+class="sub-menu"><li
+id="menu-item-42" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-42"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/android/">Android</a></li><li
+id="menu-item-43" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-43"><a
+href="http://www.cyberciti.biz/topics/mobile-devices/ios/">iOS</a></li></ul></li><li
+id="menu-item-36" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a
+href="http://www.cyberciti.biz/topics/networking/">Networking</a></li><li
+id="menu-item-28" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-28"><a
+href="http://www.cyberciti.biz/#">Programming</a><ul
+class="sub-menu"><li
+id="menu-item-29" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-29"><a
+title="Linux Shell Scripting Tutorial" href="http://bash.cyberciti.biz/guide/Main_Page">Linux Shell Scripting</a></li><li
+id="menu-item-30" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30"><a
+title="Python programming  tutorials" href="http://www.cyberciti.biz/topics/python-tutorials/">Python</a></li></ul></li><li
+id="menu-item-377" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-377"><a
+title="See all topics by Category or Month" href="http://www.cyberciti.biz/topics/">See all topics</a></li></ul></li><li
+id="menu-item-378" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-378"><a
+title="Linux How-To Articles, Tips, and Guides" href="http://www.cyberciti.biz/faq/">Linux How-To &#038; Tutorials</a></li><li
+id="menu-item-6" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6"><a
+title="Linux / Unix and Shell Scripting Forum" href="http://nixcraft.com/forum.php">Forums</a></li><li
+id="menu-item-62" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-62"><a
+title="About us" href="http://www.cyberciti.biz/tips/about-us">About</a></li><li
+id="menu-item-63" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-63"><a
+title="Email us " href="http://www.cyberciti.biz/tips/contact-us">Contact us</a></li><li
+id="menu-item-65" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-65"><a
+title="Various aspects of nixCraft can be monitored with RSS feeds." href="http://www.cyberciti.biz/nixcraft-rss-feed-syndication/">RSS/Feed</a></li></ul></div><div
+id="header"><div
+id="leaderboard"><div
+id="lbtop"><div
+id='div-gpt-ad-1364634124258-2'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-2'); });</script> </div></div></div><div
+id="crumbslogo"><a
+href="/" title="Home page">nixcraft - insight into linux admin work</a></div></div><div
+id="content_box"><div
+id="content" class="hfeed"><div
+class="post-371 post type-post status-publish format-standard hentry category-debian-linux category-open-source category-web-developer tag-apache tag-lighttpd tag-log-file-visualization tag-nginx post_box top" id="post-371"><div
+class="headline_area"><h1 class="entry-title">Apache / Nginx: Visualize Web Server Access  Log In Real Time</h1><p
+class="headline_meta">by <span
+class="author vcard"><a
+href="http://www.cyberciti.biz/tips/about-us" rel="author" class="url fn">nixCraft</a></span> on <abbr
+class="published" title="2013-05-01">May 1, 2013</abbr> &middot; <span><a
+href="http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/#comments" rel="nofollow"><span
+class="dsq-postid" rel="371 http://www.cyberciti.biz/?p=371">0 comments</span></a></span>&middot; <span>Last updated <abbr
+class="updated" title="2013-05-05">May 5, 2013</abbr><span></p><p
+class="headline_meta">in <span><a
+href="http://www.cyberciti.biz/topics/howto/debian-linux/" title="View all posts in Debian Linux" rel="category tag">Debian Linux</a>, <a
+href="http://www.cyberciti.biz/topics/open-source/" title="View all posts in Open Source" rel="category tag">Open Source</a>, <a
+href="http://www.cyberciti.biz/topics/web-developer/" title="View all posts in Web Developer" rel="category tag">Web Developer</a></span></p></div><div
+class="format_text entry-content"><p><span
+class="drop_cap">L</span>ogstalgia (also known as ApachePong) is a very powerful and handy app. It is a website access log visualization tool. It is an extremely useful tool to give you look at your web server traffic. I often use this kind of software to justify and convince my clients and/or boss that we need more servers to handle traffic. It streams Apache / Lighttpd / Nginx web-server access logs as a pong-like battle between the web server and a never ending torrent of requests.</p><p><a
+href="http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/"><img
+src="http://s0.cyberciti.org/images/faq/2013/04/logstalgia-welcome.jpeg" width="594" height="448" class="aligncenter" /></a><br
+/> <span
+id="more-371"></span><br
+/> From the official project site:</p><blockquote><p>Logstalgia is a website traffic visualization that replays web-server access logs as a pong-like battle between the web server and an never ending torrent of requests. Requests appear as colored balls (the same color as the host) which travel across the screen to arrive at the requested location. Successful requests are hit by the paddle while unsuccessful ones (eg 404 - File Not Found) are missed and pass through. The paths of requests are summarized within the available space by identifying common path prefixes. Related paths are grouped together under headings. For instance, by default paths ending in png, gif or jpg are grouped under the heading Images. Paths that don’t match any of the specified groups are lumped together under a Miscellaneous section.</p></blockquote><h2>Logstalgia requirements</h2><ol><li>Workstation/Laptop/Server with a video card supporting OpenGL.</li><li>A a fairly busy web-server to see interesting results.</li><li>Linux operating systems. I tested this app on both Fedora and Debian/Ubuntu Linux.</li></ol><h2>Binary package based installation</h2><p>Open a terminal and type the following command:<br
+/> <code>$ sudo apt-get install logstalgia</code><br
+/> Sample outputs:</p><pre>Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following NEW packages will be installed:
+  logstalgia
+0 upgraded, 1 newly installed, 0 to remove and 4 not upgraded.
+Need to get 161 kB of archives.
+After this operation, 1,102 kB of additional disk space will be used.
+Get:1 http://mirrors.kernel.org/debian/ stable/main logstalgia amd64 1.0.0-1+b1 [161 kB]
+Fetched 161 kB in 2s (73.9 kB/s)
+Selecting previously deselected package logstalgia.
+(Reading database ... 338532 files and directories currently installed.)
+Unpacking logstalgia (from .../logstalgia_1.0.0-1+b1_amd64.deb) ...
+Processing triggers for man-db ...
+Setting up logstalgia (1.0.0-1+b1) ...
+</pre><h2>Source code installation</h2><p>You need to install the following software to build logstalgia. Open a terminal and type the following command:<br
+/> <code>$ sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libpcre3-dev  libftgl-dev libpng12-dev libjpeg62-dev</code></p><h3>Download and build the software</h3><p>Type the <a
+href="http://www.cyberciti.biz/tips/linux-wget-your-ultimate-command-line-downloader.html">following wget command to download the software</a>:<br
+/> <code>$ cd /tmp<br
+/> $ wget https://logstalgia.googlecode.com/files/logstalgia-1.0.3.tar.gz</code><br
+/> Sample outputs:</p><pre class="ini">-<span style="">-2013</span><span style="">-04</span><span style="">-30</span> <span style="">15</span>:<span style="">17</span>:<span style="">41</span>--  https://logstalgia.googlecode.com/files/logstalgia<span style="">-1.0</span><span style="">.3</span>.tar.gz
+Resolving logstalgia.googlecode.com... <span style="">74.125</span><span style="">.135</span><span style="">.82</span>, <span style="">2404</span>:<span style="">6800</span>:<span style="">4001</span>:c01::<span style="">52</span>
+Connecting to logstalgia.googlecode.com|<span style="">74.125</span><span style="">.135</span><span style="">.82</span>|:<span style="">443</span>... connected.
+HTTP request sent, awaiting response... <span style="">200</span> OK
+Length: <span style="">841822</span> <span style="">&#40;</span>822K<span style="">&#41;</span> <span style="color: #000066; font-weight:bold;"><span style="">&#91;</span>application/x-gzip<span style="">&#93;</span></span>
+Saving to: `logstalgia<span style="">-1.0</span><span style="">.3</span>.tar.gz'
+&nbsp;
+<span style="">100</span>%<span style="color: #000066; font-weight:bold;"><span style="">&#91;</span>======================================&gt;<span style="">&#93;</span></span> <span style="">8</span>,<span style="">41</span>,<span style="">822</span>     456K/s   in <span style="">1</span>.8s
+&nbsp;
+<span style="">2013</span><span style="">-04</span><span style="">-30</span> <span style="">15</span>:<span style="">17</span>:<span style="">44</span> <span style="">&#40;</span><span style="">456</span> KB/s<span style="">&#41;</span> - `logstalgia<span style="">-1.0</span><span style="">.3</span>.tar.gz' saved <span style="color: #000066; font-weight:bold;"><span style="">&#91;</span><span style="">841822</span>/<span style="">841822</span><span style="">&#93;</span></span></pre><p><a
+href="http://www.cyberciti.biz/faq/tar-extract-linux/">Untar the tar ball with the tar command</a>, enter:<br
+/> <code>$ tar xvf logstalgia-1.0.3.tar.gz</code><br
+/> First, make sure you have gcc compiler and related tools are installed. Type the following command to build software:<br
+/> <code>$ cd logstalgia<br
+/> $ ./configure</code><br
+/> To compile logstalgia, type the following command:<br
+/> <code>$ make</code><br
+/> Finally, install logstalgia, enter:<br
+/> <code>$ sudo make install</code><br
+/> Sample outputs:</p><pre>make[1]: Entering directory `/tmp/logstalgia-1.0.3'
+test -z "/usr/local/bin" || /bin/mkdir -p "/usr/local/bin"
+  /usr/bin/install -c logstalgia '/usr/local/bin'
+test -z "/usr/local/share/logstalgia/fonts" || /bin/mkdir -p "/usr/local/share/logstalgia/fonts"
+ /usr/bin/install -c -m 644 data/fonts/README data/fonts/FreeMonoBold.ttf data/fonts/FreeSerif.ttf '/usr/local/share/logstalgia/fonts'
+test -z "/usr/local/share/logstalgia" || /bin/mkdir -p "/usr/local/share/logstalgia"
+ /usr/bin/install -c -m 644 data/ball.tga data/example.log data/glow.tga '/usr/local/share/logstalgia'
+make  install-data-hook
+make[2]: Entering directory `/tmp/logstalgia-1.0.3'
+mkdir -p -m 755 //usr/local/share/man/man1
+/bin/sed 's|SDLAPP_RESOURCE_DIR|/usr/local/share/logstalgia|g' data/logstalgia.1 | gzip -f9 > /usr/local/share/man/man1/logstalgia.1.gz
+make[2]: Leaving directory `/tmp/logstalgia-1.0.3'
+make[1]: Leaving directory `/tmp/logstalgia-1.0.3'</pre><h2>How do I use logstalgia?</h2><p>The syntax is as follows:</p><pre class="bash">&nbsp;
+logstalgia access_log
+logstalgia /var/www/httpd/access_log
+logstalgia <span style="color: #7a0874; font-weight: bold;">&#91;</span>options<span style="color: #7a0874; font-weight: bold;">&#93;</span> /var/www/httpd/access_log
+&nbsp;</pre><h3>Examples</h3><p>To watch <kbd>/var/www/apache2/access.log</kbd> file using the default settings, enter:<br
+/> <code>$ logstalgia /var/www/apache2/access.log </code><br
+/> You can force logstalgia to read <a
+href="http://bash.cyberciti.biz/guide/Standard_input">logs from STDIN</a>:<br
+/> <code>$ tail -f /var/log/httpd/access_log | logstalgia -</code><br
+/> OR<br
+/> <code>$ tail -f /var/log/httpd/access_log | logstalgia --sync</code></p><h3>How do I watch the live access.log from the remote server?</h3><p>Use the following syntax over the ssh session for piracy and security reasons:</p><pre class="bash">&nbsp;
+<span style="color: #c20cb9; font-weight: bold;">ssh</span> vivek@server1.cyberciti.biz <span style="color: #c20cb9; font-weight: bold;">tail</span> -f /var/log/apache2/access.log | logstalgia --<span style="color: #c20cb9; font-weight: bold;">sync</span>
+<span style="color: #c20cb9; font-weight: bold;">ssh</span> vivek@server1.cyberciti.biz <span style="color: #c20cb9; font-weight: bold;">tail</span> -f /var/log/nginx/www.cyberciti.bizaccess.log | logstalgia --<span style="color: #c20cb9; font-weight: bold;">sync</span>
+&nbsp;</pre><h3>How do I save logstalgia  output as a video file?</h3><p>You can create a video of Logstalgia using the <kbd>--output-ppm-stream</kbd> option. The syntax is to create ppm file:<br
+/> <code>$ logstalgia -1280x720 --output-ppm-stream output.ppm /var/log/httpd/access.log</code><br
+/> OR use the ssh command for remote web-server:<br
+/> <code>$ ssh user@server1.cyberciti.biz tail -f /var/log/nginx/www.cyberciti.biz_access.log | logstalgia -1280x720 --output-ppm-stream --sync output.ppm </code><br
+/> Finally, use the <kbd>ffmpeg</kbd> command as follows to create .mp4 file from .ppm file:<br
+/> <code>$ ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i output.ppm -vcodec libx264 -preset ultrafast -pix_fmt yuv420p -crf 1 -threads 0 -bf 0 nginx.server.log.mp4</code><br
+/> To <a
+href="http://www.cyberciti.biz/faq/tag/mplayer-command/">play the file nginx.server.log.mp4 use mplayer command</a>, type:<br
+/> <code>$ mplayer nginx.server.log.mp4</code></p><h3>Keyboard shortcuts</h3><p>Interactive keyboard commands are follows:</p><ol><li><kbd><strong>c</strong></kbd> : Displays Logstalgia logo.</li><li><kbd><strong>n</strong></kbd> : Jump forward in time to next log entry.</li><li><kbd><strong>+</strong></kbd> or <kbd><strong>-</strong></kbd> : Adjust simulation speed.</li><li><kbd><strong>&lt;</strong></kbd> or <kbd><strong>&gt;</strong></kbd> :  Adjust time scale.</li><li><kbd><strong>Esc</strong></kbd> : Quit the app.</li></ol><p>Type the following command to see all other supported options:<br
+/> <code>$ logstalgia --help</code></p><h2>Check out related media</h2><p>This tutorial is also available in a quick video format:<br
+/><center><br
+/> <iframe
+width="594" height="334" src="http://www.youtube.com/embed/jqlIQ0MXsnA?rel=0" frameborder="0" allowfullscreen></iframe><br
+/> <small>Video 01: <a
+href="http://youtu.be/jqlIQ0MXsnA">Linux / Unix Web Server Log File Visualization in Realtime With Logstalgia</a></small><br
+/></center></p><h2>Other realtime logfile visualization software for *nix</h2><ol><li><a
+target="_blank" href="http://www.fudgie.org/">glTail.rb</a> - a real-time logfile visualization written in Ruby.</li><li><a
+target="_blank" href="http://goaccess.prosoftcorp.com/">goaccess</a> -  a real-time open source web log analyzer and interactive viewer.</li></ol><h5>References</h5><ul><li><a
+target="_blank" href="https://code.google.com/p/logstalgia/">logstalgia</a> home page.</li></ul><p
+class="post_tags">Tagged as: <a
+href="http://www.cyberciti.biz/tutorials/apache/" rel="tag">Apache</a>, <a
+href="http://www.cyberciti.biz/tutorials/lighttpd/" rel="tag">Lighttpd</a>, <a
+href="http://www.cyberciti.biz/tutorials/log-file-visualization/" rel="tag">Log File Visualization</a>, <a
+href="http://www.cyberciti.biz/tutorials/nginx/" rel="tag">Nginx</a></p><ul
+class="share"><li
+class="tweeter"><a
+href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/" data-via="nixcraft">Tweet</a></li><li
+class="googleplus"><g:plusone size="medium" href="http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/"></g:plusone></script></li><li
+class="facebook"><iframe
+src="//www.facebook.com/plugins/like.php?href=http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe></li><li
+class="stubleupon"><su:badge layout="2" location="http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/"></su:badge></li><li
+class="reddit"><a
+href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false"> <img
+src="http://s0.cyberciti.org/images/misc/spreddit7.gif" alt="submit to reddit" border="0" /> </a></li><li
+class="pdfdl"><a
+href="http://www.cyberciti.biz/view/pdf/cms/371.php"><img
+src="http://s0.cyberciti.org/images/misc/pdfdlv1.jpg" alt="Download this as pdf"></a></li></ul> <br/><br/><p
+class="my_social_follow"> If you would like to be kept up to date with our posts, you can follow us on <a
+href="https://twitter.com/nixcraft" title="Find us on twitter">Twitter</a>, <a
+href="https://facebook.com/nixcraft" title="Find us on Facebook">Facebook</a>, <a
+href="https://plus.google.com/104257421720370350735" rel="publisher" title="Find us on Google+">Google+</a>, or even by subscribing to our <a
+href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks">RSS Feed</a>.</p> <br/><div
+class='my_featured_articles_9'> Featured Articles:<ul><li><a
+href="http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html">30 Handy Bash Shell Aliases For Linux / Unix / Mac OS X</a></li><li><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/">Top 30 Nmap Command Examples For Sys/Network Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/php-security-best-practices-tutorial.html">25 PHP Security Best Practices For Sys Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/top-linux-monitoring-tools.html">20 Linux System Monitoring Tools Every SysAdmin Should Know</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-security.html">20 Linux Server Hardening Security Tips</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-iptables-examples.html">Linux: 20 Iptables Examples For New SysAdmins</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html">Top 20 OpenSSH Server Best Security Practices </a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html">Top 20 Nginx WebServer Best Security Practices</a><li><A
+href="http://www.cyberciti.biz/tips/check-unix-linux-configuration-file-for-syntax-errors.html">20 Examples: Make Sure Unix / Linux Configuration Files Are Free From Syntax Errors</a><li><a
+href="http://www.cyberciti.biz/open-source/best-terminal-applications-for-linux-unix-macosx/">15 Greatest Open Source Terminal Applications Of 2012</a> <img
+style="verticalp-align: text-top; padding-left: 1px;" src="http://s0.cyberciti.org/static/legacy/i/new_post.png" alt="" border="0"></li><li><a
+href="http://www.cyberciti.biz/tips/my-10-unix-command-line-mistakes.html">My 10 UNIX Command Line Mistakes</a></li><li><a
+href="http://www.cyberciti.biz/tips/open-source-project-management-software.html">Top 10 Open Source Web-Based Project Management Software</a></li><li><a
+href="http://www.cyberciti.biz/tips/download-email-client-for-linux-mac-osx-windows.html">Top 5 Email Client For Linux, Mac OS X, and Windows Users</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-laptop.html">The Novice Guide To Buying A Linux Laptop</a></li></ul></div></div></div><div
+id="disqus_thread"></div> <script type="text/javascript">/*<![CDATA[*//*  */
+    var disqus_url = 'http://www.cyberciti.biz/open-source/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool/';
+    var disqus_identifier = '371 http://www.cyberciti.biz/?p=371';
+    var disqus_container_id = 'disqus_thread';
+    var disqus_domain = 'disqus.com';
+    var disqus_shortname = 'cyberciti';
+    var disqus_title = "Apache \/ Nginx: Visualize Web Server Access  Log In Real Time";
+        var disqus_config = function () {
+        var config = this; // Access to the config object
+        config.language = '';
+        /*
+           All currently supported events:
+            * preData — fires just before we request for initial data
+            * preInit - fires after we get initial data but before we load any dependencies
+            * onInit  - fires when all dependencies are resolved but before dtpl template is rendered
+            * afterRender - fires when template is rendered but before we show it
+            * onReady - everything is done
+         */
+        config.callbacks.preData.push(function() {
+            // clear out the container (its filled for SEO/legacy purposes)
+            document.getElementById(disqus_container_id).innerHTML = '';
+        });
+                config.callbacks.onReady.push(function() {
+            // sync comments in the background so we don't block the page
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = '?cf_action=sync_comments&post_id=371';
+            var firstScript = document.getElementsByTagName( "script" )[0];
+            firstScript.parentNode.insertBefore(script, firstScript);
+        });
+                    };
+/*  *//*]]>*/</script> <script type="text/javascript">/*  */
+    var DsqLocal = {
+        'trackbacks': [
+        ],
+        'trackback_url': "http:\/\/www.cyberciti.biz\/open-source\/use-logstalgia-apachepong-as-website-access-log-realtime-visualization-tool\/trackback\/"    };
+/*  */</script> <script type="text/javascript">/*<![CDATA[*//*  */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.' + 'disqus.com' + '/embed.js?pname=wordpress&pver=2.74';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+/*  *//*]]>*/</script> <div
+class="prev_next post_nav"><p
+class="previous">Previous post: <a
+href="http://www.cyberciti.biz/cloud-computing/aws/route-53-geodns-tutorial/" rel="prev">Amazon AWS Route 53 GEO DNS Configurations</a></p><p>Next post: <a
+href="http://www.cyberciti.biz/linux-news/download-debian-7-cd-dvd-iso/" rel="next">Download of The Day: Debian Linux 7 ( Wheezy )</a></p></div></div><div
+id="sidebars"><div
+id="multimedia_box" class="custom_box"><div
+id="custom_box"><div
+style='color: #555555; text-align:center; line-height: 200%;'> <span
+style='font-size: 22px; font-weight:bold;'>GET FREE TIPS &amp; NEWS</span> <br/> <span
+style='font-style:italic;'>Make the most of Linux Sysadmin work!</span> <br
+/></div><center><form
+action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=Nixcraft-LinuxFreebsdSolarisTipsTricks', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">&nbsp;&nbsp;&nbsp;&nbsp;<input
+type="text" class="text_input" name="email" value="Enter your email" id="name" onclick="if (this.value=='Enter your email') {this.value=''};" onblur="if (this.value=='') {this.value='Enter your email';}"/><input
+type="hidden" value="Nixcraft-LinuxFreebsdSolarisTipsTricks" name="uri"/> <input
+type="hidden" name="loc" value="en_US"/><input
+value="Join" class="form_submit" type="submit"></form> <br/> <span
+style="font-size: 12px;"> <a
+target="_blank" title="Connect with nixCraft on Youtube to see all our Linux video tutorials" href="https://www.youtube.com/user/nixcraftcom">Youtube </a> &nbsp; | &nbsp; <a
+target="_blank" href="https://twitter.com/nixcraft" title="Follow nixCraft on Twitter!">Twitter</a> &nbsp; | &nbsp; <a
+target="_blank" title="Connect with nixCraft on Google Plus!!" href="https://plus.google.com/104257421720370350735">Google +</a> </span></center></div></div><div
+id="sidebar_1" class="sidebar"><ul
+class="sidebar_list"><li
+class="widget widget_text" id="text-3"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-3' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-3'); });</script> </div></div></li><li
+class="widget widget_text" id="text-9"><div
+class="textwidget"><div
+id="cse-search-box" style="width: 100%;">Loading</div> <script src="http://www.google.com/jsapi" type="text/javascript"></script> <script type="text/javascript">google.load('search', '1', {language : 'en', style : google.loader.themes.V2_DEFAULT});
+  google.setOnLoadCallback(function() {
+    var customSearchOptions = {};
+    var imageSearchOptions = {};
+    imageSearchOptions['layout'] = google.search.ImageSearch.LAYOUT_POPUP;
+    customSearchOptions['enableImageSearch'] = true;
+    customSearchOptions['imageSearchOptions'] = imageSearchOptions;  var customSearchControl = new google.search.CustomSearchControl(
+      '002165917076592449621:riwi1tlrb1m', customSearchOptions);
+    customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+    var options = new google.search.DrawOptions();
+    options.setAutoComplete(true);
+    options.enableSearchboxOnly("http://www.cyberciti.biz/linux-search.php");
+    customSearchControl.draw('cse-search-box', options);
+  }, true);</script></div></li><li
+class="widget widget_text" id="text-5"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-4' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-4'); });</script> </div></div></li><li
+class="widget widget_text" id="text-7"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-1' style='width:300px; height:250px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-1'); });</script> </div></div></li><li
+class="widget widget_text" id="text-10"><div
+class="textwidget"><div
+class="g-plus" data-href="//plus.google.com/104257421720370350735" data-rel="publisher"></div></div></li><li
+class="widget widget_wp_related_posts" id="wp_related_posts_widget"><div
+class="wp_rp_wrap  wp_rp_modern" id="wp_rp_first"><div
+class="wp_rp_content"><h3>Related Posts</h3><ul
+class="related_post wp_rp" style="visibility: visible"><li ><a
+href="http://www.cyberciti.biz/cloud-computing/http-status-code-206-commad-line-test/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/5.jpg" alt="Testing HTTP Status: 206 Partial Content and Range Requests" /></a><a
+href="http://www.cyberciti.biz/cloud-computing/http-status-code-206-commad-line-test/" class="wp_rp_title">Testing HTTP Status: 206 Partial Content and Range Requests</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/best-terminal-applications-for-linux-unix-macosx/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/22.jpg" alt="15 Greatest Open Source Terminal Applications Of 2012" /></a><a
+href="http://www.cyberciti.biz/open-source/best-terminal-applications-for-linux-unix-macosx/" class="wp_rp_title">15 Greatest Open Source Terminal Applications Of 2012</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/oneko-app-creates-cute-cat-chasing-around-your-mouse/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/5.jpg" alt="Linux / Unix Desktop Fun: Cat And Mouse Chase All Over Your Screen" /></a><a
+href="http://www.cyberciti.biz/open-source/oneko-app-creates-cute-cat-chasing-around-your-mouse/" class="wp_rp_title">Linux / Unix Desktop Fun: Cat And Mouse Chase All Over Your Screen</a></li><li ><a
+href="http://www.cyberciti.biz/linux-news/download-debian-7-cd-dvd-iso/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/6.jpg" alt="Download of The Day: Debian Linux 7 ( Wheezy )" /></a><a
+href="http://www.cyberciti.biz/linux-news/download-debian-7-cd-dvd-iso/" class="wp_rp_title">Download of The Day: Debian Linux 7 ( Wheezy )</a></li><li ><a
+href="http://www.cyberciti.biz/programming/review-geany-ide-for-bsd-unix-appleosx/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/10.jpg" alt="Linux / Unix: Install and Use Geany Integrated Development Environment" /></a><a
+href="http://www.cyberciti.biz/programming/review-geany-ide-for-bsd-unix-appleosx/" class="wp_rp_title">Linux / Unix: Install and Use Geany Integrated Development Environment</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/linux-download-newly-released-mozilla-firefox-15/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/13.jpg" alt="Firefox 15 Released With Silent, Background Updates and Opus Audio Support" /></a><a
+href="http://www.cyberciti.biz/open-source/linux-download-newly-released-mozilla-firefox-15/" class="wp_rp_title">Firefox 15 Released With Silent, Background Updates and Opus Audio Support</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/linux-firefox-x11-turn-on-3d-view-button/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/28.jpg" alt="Linux Firefox X11: Turn On 3D View Button" /></a><a
+href="http://www.cyberciti.biz/open-source/linux-firefox-x11-turn-on-3d-view-button/" class="wp_rp_title">Linux Firefox X11: Turn On 3D View Button</a></li><li ><a
+href="http://www.cyberciti.biz/programming/color-terminal-highlighter-for-diff-files/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/4.jpg" alt="diff Command: Colorize Output On The Unix / Linux Command Line" /></a><a
+href="http://www.cyberciti.biz/programming/color-terminal-highlighter-for-diff-files/" class="wp_rp_title">diff Command: Colorize Output On The Unix / Linux Command Line</a></li><li ><a
+href="http://www.cyberciti.biz/linux-news/download-kali-linux-version-1-iso-dvd-images/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/0.jpg" alt="Download of the day: Kali Linux ( BackTrack Linux )" /></a><a
+href="http://www.cyberciti.biz/linux-news/download-kali-linux-version-1-iso-dvd-images/" class="wp_rp_title">Download of the day: Kali Linux ( BackTrack Linux )</a></li><li ><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/linux-run-command-as-different-user/" class="wp_rp_thumbnail"><img
+src="http://s13.cyberciti.org/images/shared/rp/3/10.jpg" alt="Linux Run Command As Another User " /></a><a
+href="http://www.cyberciti.biz/open-source/command-line-hacks/linux-run-command-as-different-user/" class="wp_rp_title">Linux Run Command As Another User </a></li></ul></div></div></li><li
+class="widget widget_text" id="text-11"><div
+class="textwidget"><div
+id='div-gpt-ad-1364634124258-0' style='width:300px; height:600px;'> <script type='text/javascript'>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364634124258-0'); });</script> </div> <br/> <a
+href="https://plus.google.com/b/104257421720370350735/" rel="publisher">Find us on Google+</a></div></li></ul></div></div></div><div
+id="footer"><div
+class="idglogo"> <img
+src="http://s0.cyberciti.org/static/legacy/i/idg-logo-new.gif" alt="" border="0" /></div><div
+class="copynotice"> &copy;2004-2013 nixCraft. All rights reserved. Cannot be reproduced without written permission. <br
+/> <a
+href="/tips/privacy">Privacy Policy</a> | <a
+href="/tips/disclaimer">Terms of Service</a> | <a
+href="/tips/contact-us" title="Email us / Contact us">Questions or Comments</a> | <a
+href="/tips/copyright" title="nixCraft copyright information">Copyright Info</a> | <a
+href="/tips/sitemaps" title="nixCraft sitemap">Sitemap</a></div>	</div>
+</div>
+</div>
+<!--[if lte IE 8]>
+<div id="ie_clear"></div>
+<![endif]-->
+<script src="http://www.cyberciti.biz/mint/?js" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-108650-1']);
+  _gaq.push(['_setDomainName', 'www.cyberciti.biz']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = '//apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script type="text/javascript">
+  (function() {
+    var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+    li.src = '//platform.stumbleupon.com/1/widgets.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+  })();
+</script>
+</body>
+</html>

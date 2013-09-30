@@ -1,0 +1,596 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html401/loose.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+<title>Mobile IPv6 for Linux Guide (with USAGI patch)</title>
+<link rev="made" href="mailto:www-admin@linux-ipv6.org">
+<link rel="stylesheet" type="text/css" href="simple.css" title="simple style">
+</head>
+<body>
+
+<div id="TOP">
+<!-- $Id: index.html.en,v 1.53 2008-03-31 04:50:34 nakam Exp $ //-->
+<h1>Mobile IPv6 for Linux Guide (with USAGI patch)</h1>
+
+[<a href="index.html.ja">Japanese version</a>]
+
+</div>
+
+<div id="TOC">
+<ul>
+ <li><a href="#INTRO">Introduction</a></li>
+ <li><a href="#SOFTWARE">Software</a>
+  <ul>
+   <li><a href="#SOFTWARE-COMMON">For all nodes(HA, MN and CN)</a></li>
+   <li><a href="#SOFTWARE-HA">For HA</a></li>
+   <li><a href="#SOFTWARE-HAMN">For HA and MN</a></li>
+  </ul>
+ </li>
+ <li><a href="#BUILDING">Building kernel and mip6d</a></li>
+ <li><a href="#CONFIG">Configuration</a>
+  <ul>
+   <li><a href="#CONFIG-HA">HA specific configuration</a></li>
+   <li><a href="#CONFIG-MN">MN specific configuration</a></li>
+   <li><a href="#CONFIG-CN">CN specific configuration</a></li>
+   <li><a href="#CONFIG-IPSEC">IPsec configuration</a></li>
+  </ul>
+ </li>
+ <li><a href="#BOOTSEQ">Boot sequence</a>
+  <ul>
+   <li><a href="#BOOTSEQ-HA">HA boot sequence</a></li>
+   <li><a href="#BOOTSEQ-MN">MN boot sequence</a></li>
+   <li><a href="#BOOTSEQ-CN">CN boot sequence</a></li>
+   <li><a href="#BOOTSEQ-EXAMPLE">Another examples</a></li>
+  </ul>
+ </li>
+ <li><a href="#VERIFICATION">Verification</a>
+  <ul>
+   <li><a href="#VERIFICATION-RUNNING">Running</a></li>
+   <li><a href="#VERIFICATION-BC">Binding cache</a></li>
+   <li><a href="#VERIFICATION-BUL">Binding update list</a></li>
+   <li><a href="#VERIFICATION-RO">Route optimization</a></li>
+  </ul>
+ </li>
+ <li><a href="#ISSUES">Known issues</a></li>
+ <li><a href="#LINKS">Links</a></li>
+</ul>
+</div>
+
+<hr>
+
+<div id="INTRO">
+<h2>Introduction</h2>
+
+<p>
+This article provides a tutorial on setting up Mobile IPv6(MIPv6) on Linux.
+</p>
+<p>
+Basic kernel configuration, IPv6 networking operation, configuration
+experience and basic MIPv6 knowledge are needed.  If you use
+IPsec, basic IPsec knowledge and IPv6 tunnel gateway configuration
+experience is also required.
+</p>
+
+<p>
+See <a href="#ISSUES">Known issues</a> at first.
+</p>
+<p>
+Old information is moved to <a href="umip-0.3/">umip-0.3</a>
+or <a href="umip-0.1/">umip-0.1</a> page.
+</p>
+
+</div>
+
+<hr>
+
+<div id="SOFTWARE">
+<h2>Software</h2>
+
+    <div id="SOFTWARE-COMMON">
+    <h3>For all nodes (HA, MN and CN)</h3>
+    <ul>
+      <li>mip6d umip-0.4 (<a
+    href="ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/daemon/tarball/mipv6-daemon-umip-0.4.tar.gz">mipv6-daemon-umip-0.4.tar.gz</a>
+    or <a
+    href="ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/daemon/patch/">patch</a>)
+    - A set of patches for MIPL2 by USAGI
+      </li>
+      <li>
+	optional (for testing)
+	<ul>
+	 <li><a
+    href="ftp://ftp.linux-ipv6.org/pub/usagi/patch/mipv6/umip-0.4/kernel/patch/">kernel
+    patch</a>
+         </li>
+	 <li><a
+    href="http://www.linux-ipv6.org/gitweb/gitweb.cgi?p=/gitroot/nakam/linux-2.6-mip6.git;a=summary">kernel
+    development git tree</a>
+         </li>
+	 <li><a
+    href="http://www.linux-ipv6.org/gitweb/gitweb.cgi?p=/gitroot/mipv6-daemon.git;a=summary">mip6d
+    development git tree</a>
+         </li>
+	 <li><a
+    href="http://www.linux-ipv6.org/gitweb/gitweb.cgi?p=/gitroot/nakam/iputils-mip6.git;a=summary">iputils-mip6</a>
+    - USAGI MIPv6 iputils tree
+         </li>
+        </ul>
+      </li>
+    </ul>
+    </div>
+    <div id="SOFTWARE-HA">
+    <h3>For HA</h3>
+    <ul>
+      <li>
+	radvd
+      </li>
+    </ul>
+    </div>
+    <div id="SOFTWARE-HAMN">
+    <h3>For HA and MN</h3>
+    <ul>
+      <li>
+	IPsec-Tools (If you use IPsec with MIPv6, regarding as RFC3776)
+      </li>
+    </ul>
+    </div>
+</div>
+
+<hr>
+
+<div id="BUILDING">
+<h2>Building kernel and mip6d</h2>
+
+<ul>
+ <li>Kernel
+  <ul>
+   <li>See <span class="path">INSTALL.kernel</span> included
+    by mip6d tree about kernel configuration and build it.</li>
+  </ul>
+ </li>
+ <li>mip6d
+  <ul>
+   <li>See <span class="path">INSTALL</span> included by mip6d source
+  and build it. Be sure to compile with debugging option using <span
+  class="var">&quot;--enable-vt&quot;</span>.</li>
+  </ul>
+ </li>
+</ul>
+</div>
+
+<hr>
+
+<div id="CONFIG">
+<h2>Configuration</h2>
+
+<p>
+After mip6d is installed, you can see <span class="path">mip6d.conf(5)</span>
+which has useful information about configuration.<br>
+</p>
+
+<div id="CONFIG-HA">
+<h3>HA specific configuration</h3>
+
+<ul>
+ <li>router: HA should be configured as an IPv6 router like
+  <span class="var">forwarding=1</span>.
+  </li>
+ <li>proxy ND: HA should be enabled proxy ND like
+  <span class="var">proxy_ndp=1</span> (required to support returning-home).
+ </li>
+ <li>IPsec: See <a href="#CONFIG-IPSEC">IPsec configuration</a>.</li>
+ <li>mip6d: See <span class="path">mip6d.conf(5)</span>.
+  An example is <span class="path"><a
+ href="mip6d-ha.conf">mip6d-ha.conf</a></span>.</li>
+ <li>RD:
+  Send RA with HA related options like
+  &quot;HA flag&quot;, HA address as network prefix
+  and &quot;router address flag&quot; on prefix information.
+  See also radvd.conf(5) for the detail if you use radvd.
+  An example is <span class="path"><a
+  href="radvd.conf">radvd.conf</a></span>.<br>
+  (optional):
+  It is recommended smaller router advertisement interval.
+  This also can be said to router on foreign link to where MN moves.<br>
+ </li>
+</ul>
+</div>
+
+<div id="CONFIG-MN">
+<h3>MN specific configuration</h3>
+
+<ul>
+<!--
+  <li>
+   kernel: disable sending RS from kernel:<br>
+   If you want to avoid to send RS from kernel, you can configure the
+   proc entry for the interface you want to use like <span
+   class="var">router_solicitations=0</span>,<span
+   class="var">router_solicitation_interval=0</span>.
+   An example is <a href="example-stop_kernel_rs.sh">example-stop_kernel_rs.sh</a>.This script must be run before the interface used by mip6d is brought up.
+  </li>
+ -->
+  <li>IPsec: See <a href="#CONFIG-IPSEC">IPsec configuration</a>.</li>
+  <li>mip6d: See <span class="path">mip6d.conf(5)</span>.
+   An example is <span class="path"><a href="mip6d-mn.conf">mip6d-mn.conf</a></span>.
+  </li>
+ </ul>
+</div>
+
+<div id="CONFIG-CN">
+<h3>CN specific configuration</h3>
+
+<ul>
+ <li>See <span class="path">mip6d.conf(5)</span> for mip6d.
+  An example is <span class="path"><a href="mip6d-cn.conf">mip6d-cn.conf</a></span>.
+ </li>
+</ul>
+</div>
+
+<div id="CONFIG-IPSEC">
+<h3>IPsec configuration</h3>
+
+<ul>
+ <li>[HA,MN]See <span class="path">README.IPsec</span>
+  included by mip6d source tree.
+  An example is <span class="path"><a href="setkey.conf">setkey.conf</a></span>.
+ </li>
+</ul>
+</div>
+
+</div>
+
+<hr>
+
+<div id="BOOTSEQ">
+<h2>Boot sequence</h2>
+
+<div id="BOOTSEQ-HA">
+<h3>HA boot sequence</h3>
+
+<ol>
+ <li>Before starting mip6d, the following conditions should be satisfied:
+  <ul>
+   <li>Be ready as a router</li>
+   <li>Be ready for proxying ND (when using returning-home)</li>
+   <li>Assigned a global unicast address on home link interface, as HA address</li>
+   <li>Configured IPsec SA (when using IPsec with static keying)</li>
+  </ul>
+ </li>
+ <li>Run mip6d</li>
+ <li>After started mip6d:
+  <ul>
+   <li>Start RD</li>
+  </ul>
+ </li>
+</ol>
+
+<p>
+An easy example boot script to do the above is
+<a href="mipv6-ha.sh">mipv6-ha.sh</a>.
+</p>
+</div>
+
+<div id="BOOTSEQ-MN">
+<h3>MN boot sequence</h3>
+
+<ol>
+ <li>Before starting mip6d, the following conditions should be satisfied:
+  <ul>
+<!--   <li>Disable sending RS from kernel(ready-logo, see below).<br>-->
+   <li>The interface is brought up before you run mip6d.</li>
+   <li>IPsec SA configuration (while using IPsec with static keying).</li>
+ </ul>
+ <li>After you made sure these conditions, you can run mip6d.</li>
+</ol>
+<!--
+Note that about running IPv6 Ready Logo phase 2 with this implementation:
+<ul>
+ <li>
+   If you want to run the IPv6 Ready Logo Phase 2 conformance test for
+   <em>IPv6 core protocol</em> as MN, you may want to configure not to send
+   RS from kernel.<br>
+ </li>
+
+ <li>
+  If you want to run the IPv6 Ready Logo Phase 2 interoperability test
+  for <em>MIPv6</em>, you may want to add the <span
+  class="var">InitialBindackTimeoutFirstReg</span> or <span
+  class="var">InitialBindackTimeoutReReg</span> in the <span
+  class="path"><a
+  href="mip6d-mn.conf">mip6d-mn.conf</a></span>(The comment about
+  this is inserted in this file).<br>
+  There is a probability that the first BU is queued in the kernel
+  more than 1 or 1.5 second because of some reason such like neighbor
+  discovery is under going, network performance, machine resources and
+  so on.
+  Each variable is used to configure InitialBindackTimeoutFirstReg and
+  INITIAL_BINDACK_TIMEOUT in RFC 3775.<br>
+ </li>
+</ul>
+-->
+<p>
+An easy example boot script is
+<a href="mipv6-mn.sh">mipv6-mn.sh</a>.
+</p>
+
+</div>
+
+<div id="BOOTSEQ-CN">
+<h3>CN boot sequence</h3>
+
+<ol>
+ <li>Run mip6d</li>
+</ol>
+
+<p>
+An easy example boot script is
+<a href="mipv6-cn.sh">mipv6-cn.sh</a>.
+</p>
+</div>
+
+<div id="BOOTSEQ-EXAMPLE">
+<h3>Another examples</h3>
+
+<ul>
+ <li>experimental mip6d init script using LSB (for Debian Distribution)
+  <ul>
+   <li>Copy <a href="init_d-mip6d">init_d-mip6d</a> to <span
+  class="path">/etc/init.d/mip6d</span></li>
+   <li>Copy <a href="default-mip6d">default-mip6d</a> to <span
+  class="path">/etc/default/mip6d</span> and edit it</li>
+  </ul>
+ </li>
+</ul>
+</div>
+
+</div>
+
+<hr>
+
+<div id="VERIFICATION">
+<h2>Verification</h2>
+
+<div id="VERIFICATION-RUNNING">
+<h3>Running</h3>
+<ul>
+ <li>mip6d writes start or stop message to syslog and you can check
+  it.</li>
+ <li>[HA] Try virtual terminal to see mip6d information like below:
+  <div class="raw">
+   $ telnet localhost 7777
+   Trying ::1...
+   Trying 127.0.0.1...
+   Connected to ip6-localhost.
+   Escape character is '^]'.
+   mip6d&gt; pl
+   eth1 3ffe:501:ffff:100:200:ff:fe00:a0a0/64
+    valid 2591997 / 2592000 preferred 604800 flags OAR
+   mip6d&gt;
+  </div>
+  If you could get home prefix valid lifetime with positive value there,
+  the HA is ready to serve.
+  Otherwise, you should check the RA configuration.
+ </li>
+</ul>
+</div>
+
+<div id="VERIFICATION-BC">
+<h3>Binding cache</h3>
+<ul>
+ <li>Try virtual terminal to see mip6d information like below:
+  <div class="raw">
+   $ telnet localhost 7777
+   Trying ::1...
+   Trying 127.0.0.1...
+   Connected to ip6-localhost.
+   Escape character is '^]'.
+   mip6d&gt; bc
+   hoa 3ffe:501:ffff:100::1 status registered
+    coa 3ffe:501:ffff:102::1 flags AH--
+    local 3ffe:501:ffff:100:200:ff:fe00:a0a0
+    lifetime 998 / 1000 seq 58722 unreach 0 mpa - / 0 retry 0
+   mip6d&gt; 
+  </div>
+  If the node has binding cache correctly, you will get entries there with
+  <span class="var">registered</span> [HA],
+  <span class="var">cached</span> [CN]
+  at &quot;status&quot; for each MN HoA respectively.
+ </li>
+</ul>
+</div>
+
+<div id="VERIFICATION-BUL">
+<h3>Binding update list</h3>
+
+<ul>
+ <li>[MN]Try virtual terminal to see mip6d information like below:
+  <div class="raw">
+   $ telnet localhost 7777
+   Trying ::1...
+   Connected to localhost.
+   Escape character is '^]'.
+   mip6d&gt; bul
+   == BUL_ENTRY ==
+   Home address    3ffe:501:ffff:100::1
+   Care-of address 3ffe:501:ffff:102::1
+   CN address      3ffe:501:ffff:100:200:ff:fe00:a0a0
+    lifetime = 262140,  delay = 249033000
+    flags: IP6_MH_BU_HOME IP6_MH_BU_ACK
+    ack ready
+    lifetime 262124 / 262140 seq 26633 resend 0 delay 249033(after 249017s)
+    mps 214747931 / 214747947
+   mip6d&gt;
+  </div>
+  If the MN sent BUs, you can find entries there for HA/CN respectively.
+  To confirm home registration is completed, check the HA entry whose
+  &quot;ack&quot; value is <span class="var">ready</span>
+ </li>
+</ul>
+</div>
+
+<div id="VERIFICATION-RO">
+<h3>Route optimization</h3>
+
+<p>
+We don't have an easy and good route optimization test
+for both-direction
+(other than using <a href="http://www.tahi.org">TAHI</a> test or
+ dumping packet).
+On the other hand, with ping6 command from USAGI git iputils-mip6 tree, 
+you can check whether inbound echo reply is route-optimized or not.
+</p>
+
+<ul>
+ <li>Prepare ping6 from iputils-mip6 git tree.</li>
+ <li>Try ping6 with <span class="var">&quot;-H&quot;</span> option to see
+  extension headers carried by echo reply. </li>
+</ul>
+
+<p>
+Examples:
+</p>
+<ul>
+ <li>[HA,CN] Receiving a route-optimized echo reply from MN
+  <div class="raw">
+   $ ping6 <span class="var">-H</span> -I HACN_ADDR MN_ADDR
+   ...
+   64 bytes from MN_ADDR<span class="var">[HAO]</span>: icmp_seq=1  ttl=61 time=1.04 ms
+  </div>
+ </li>
+ <li>[MN] Receiving a route-optimized echo reply from HA,CN
+  <div class="raw">
+   $ ping6 <span class="var">-H</span> HACN_ADDR
+   ...
+   64 bytes from HACN_ADDR<span class="var">[RT2]</span>: icmp_seq=1  ttl=61 time=1.04 ms
+  </div>
+</ul>
+</div>
+
+</div>
+
+<hr>
+
+<div id="ISSUES">
+<h2>Known issues</h2>
+
+<h3>Kernel support status</h3>
+
+<p>
+Here is the mainline kernel support status (as of 2.6.23).
+</p>
+<table border="1" summary="status">
+ <tr>
+  <th rowspan="2">node</th><th rowspan="2">basic</th><th colspan="2">IPsec</th>
+ </tr>
+ <tr>
+  <th>transport</th><th>tunnel</th>
+ </tr>
+ <tr>
+  <th>HA</th>
+  <td class="noerror">OK<a href="#TN1">*1</a></td>
+  <td class="noerror">OK<a href="#TN1">*1</a></td>
+  <td class="noerror">OK<a href="#TN3">*3</a></td>
+ </tr>
+ <tr>
+  <th>MN</th>
+  <td class="noerror">OK<a href="#TN2">*2</a></td>
+  <td class="noerror">OK<a href="#TN4">*4</a></td>
+  <td class="noerror">OK<a href="#TN4">*4</a>,<a href="#TN3">*3</a></td>
+ </tr>
+ <tr>
+  <th>CN</th>
+  <td class="noerror">OK<a href="#TN1">*1</a></td>
+  <td>-<a href="#TN5">*5</a>,<a href="#TN1">*1</a></td>
+  <td>-</td>
+ </tr>
+</table>
+
+<ul>
+ <li id="TN1">*1:2.6.19 or later</li>
+ <li id="TN2">*2:2.6.22 or later (Support combination action between
+ source address specific rule and source address selection)</li>
+ <li id="TN3">*3:2.6.21 or later (PFKEY_MIGRATE support)</li>
+ <li id="TN4">*4:2.6.22 or later (Fix IPsec combination; Restrict
+ upper layer information by bundle)</li>
+ <li id="TN5">*5:It works about RO over transport mode
+  IPsec.</li>
+</ul>
+
+<h3>Known issues</h3>
+
+<dl>
+ <dt>[MN] MN incorrectly sends bidirectional RO before both BCEs are
+ ready on Inter-MN RO</dt>
+  <dd>This issue is proceeded at the following steps:<br>
+  (1) Two MNs are on (each) foreign link and the both MNs bind each
+  other i.e. bidirectional RO (IPv6-RH2-HAO) communication has been
+  successful.<br>
+  (2) One MN(a) goes to another foreign link.<br>
+  (3) The other MN(b) sends unidirectional RO (IPv6-IPv6-HAO) echo
+  request before MN(a) completes binding to MN(b).<br>
+  (4) MN(a) receives the echo request and sends echo reply back over
+  bidirectional RO incorrectly.</dd>
+ <dt>[HA,MN,CN] TCP over RO issue <span class="note">(fixed with USAGI
+ kernel patch or 2.6.24)</span></dt>
+  <dd>If the node starts TCP connection without RO, the node
+  incorrectly continues the connection without RO even after RO is
+  ready on kernel. This issue is occurred for TCP over IPsec, too.</dd>
+ <dt>[HA] HA sends wrong Redirect for IPsec tunneled packet <span
+ class="note">(fixed with USAGI kernel patch or 2.6.24)</span></dt>
+  <dd>IPsec tunnel gateway incorrectly sends redirect to router or
+  sender when network device the IPsec tunneled packet is arrived is
+  the same as the one the de-capsulated packet is sent.</dd>
+ <dt>[MN] IPsec tunnel configuration &quot;TunnelMh&quot; and
+ &quot;TunnelPayload&quot; do not work</dt>
+  <dd>This is because the daemon has not supported yet to deal with
+  kernel change to use XFRM selector without specified if-index.</dd>
+ <dt>[MN] MN sends RO packet to default router's MAC address
+ <span class="note">(fixed with USAGI git (linux-2.6.24-mip6 branch or
+ later) or scheduled for 2.6.26)</span></dt>
+  <dd>When MN are on the link where CN is placed, the MN sends RO
+  packet to the CN with not the CN's but default router's MAC address
+  of the link without sending any NS. (The packet may be forwarded to
+  the CN by the router.)</dd>
+ <dt>[MN] MN does not learn from Redirect targeted for CN</dt>
+  <dd>When MN and CN are on the same link and the MN created a BCE on
+   the CN, the MN does not make neighbor cache for the CN even when the
+   MN is received Redirect targeted the CN from a router on the
+   link.</dd>
+ <dt>[MN] MN internally blocks to send BU to HA for the first boot time</dt>
+  <dd>(The detailed condition is not determined but) this is occurred
+  when IPsec is disabled or IPsec is enabled with
+ &quot;HomeRegBinding&quot; and &quot;MobPfxDisc&quot;. This can be
+ fixed if the daemon restarts.</dd>
+</dl>
+
+</div>
+
+<hr>
+
+<div id="LINKS">
+<h2>Links</h2>
+<ul>
+ <li><a href="http://www.linux-ipv6.org">USAGI Project</a></li>
+ <li><a href="http://www.mobile-ipv6.org">MIPL - Mobile IPv6 for Linux</a></li>
+ <li><a href="http://www.litech.org/radvd/">Linux IPv6 Router
+ Advertisement Daemon (radvd)</a></li>
+ <li><a href="http://ipsec-tools.sourceforge.net/">IPsec-Tools</a>
+</ul>
+</div>
+
+<hr>
+<div id="TAIL">
+<div class="banner">
+<a href="http://www.linux-ipv6.org"><IMG src="../../usabanner1.png" width="88" height="31" alt="[USAGI Project]" border="0"></a>
+</div>
+$Id: index.html.en,v 1.53 2008-03-31 04:50:34 nakam Exp $
+<address>
+Copyright &copy;2006,2007 <A href="mailto:www-admin@linux-ipv6.org">USAGI/WIDE Project</a>, All Rights Reserved.
+</address>
+</div>
+</body>
+</html>

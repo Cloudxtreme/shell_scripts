@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>I just tried to visit Laser charged glow ... / 2012-11-10 - Koos van den Hout</title>
+<base href="http://idefix.net/~koos/">
+<meta name="description" content="I just tried to visit Laser charged glowing display - Hack a Day but the page kept loading forever. The problem is with loading page content (images and scripts) from s0.wp.com, s1.wp.com, s2.wp.com. All of which seem to be part of wordpress hosting and c - Koos van den Hout Homepage"><meta name="keywords" content="Koos van den Hout">
+<meta name="Author" content="Koos van den Hout">
+<link rel="alternate" title="Koos van den Hout homepage" type="application/rss+xml" href="http://idefix.net/~koos/index.rdf">
+<link rel="alternate" title="khoos twitter feed" type="application/rss+xml" href="http://twitter.com/statuses/user_timeline/19301166.rss">
+<link href="koos.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link href="https://plus.google.com/114168607206195341184" rel="publisher"/>
+</head>
+<body>
+<div class="blockcontainer">
+<h1>I just tried to visit Laser charged glow ... / 2012-11-10 - Koos van den Hout</h1>
+<div class="entry">
+<div class="generalitem newsitem">
+<div style="float:right;">
+<script type="text/javascript"><!--
+google_ad_client = "pub-8892700809528379";
+/* newsitem ad */
+google_ad_slot = "5822100626";
+google_ad_width = 125;
+google_ad_height = 125;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<strong><a name="1352557976"></a>2012-11-10</strong> <span class="age">9 months ago</span>
+<blockquote><div>I just tried to visit <a href="http://hackaday.com/2012/11/09/laser-charged-glowing-display/">Laser charged glowing display - Hack a Day</a> but the page
+kept loading forever. The problem is with loading page content (images and
+scripts) from <tt>s0.wp.com</tt>, <tt>s1.wp.com</tt>, <tt>s2.wp.com</tt>.
+All of which seem to be part of wordpress hosting and come via the edgecast
+content distribution network:
+<pre class="commandlog">
+koos@machiavelli:~$ <strong>host s0.wp.com</strong>
+s0.wp.com is an alias for cs82.wac.edgecastcdn.net.
+cs82.wac.edgecastcdn.net has address 93.184.220.111
+cs82.wac.edgecastcdn.net has IPv6 address 2606:2800:234:1922:15a7:17bf:bb7:f09
+koos@machiavelli:~$ <strong>host s1.wp.com</strong>
+s1.wp.com is an alias for cs82.wac.edgecastcdn.net.
+cs82.wac.edgecastcdn.net has address 93.184.220.111
+cs82.wac.edgecastcdn.net has IPv6 address 2606:2800:234:1922:15a7:17bf:bb7:f09
+koos@machiavelli:~$ <strong>host s2.wp.com</strong>
+s2.wp.com is an alias for cs82.wac.edgecastcdn.net.
+cs82.wac.edgecastcdn.net has address 93.184.220.111
+cs82.wac.edgecastcdn.net has IPv6 address 2606:2800:234:1922:15a7:17bf:bb7:f09
+</pre>
+And all suffer from a reachability problem via IPv6:
+<pre class="commandlog">
+koos@machiavelli:~$ <strong>telnet s0.wp.com 80</strong>
+Trying 2606:2800:234:1922:15a7:17bf:bb7:f09...
+</pre>
+Taking a while to fall back to IPv4, which results in long page loading
+times. I noticed this on other sites too, like pages using gravatar. Which
+uses the same cdn with the same problem:
+<pre class="commandlog">
+koos@machiavelli:~$ <strong>host 0.gravatar.com</strong>
+0.gravatar.com is an alias for cs91.wac.edgecastcdn.net.
+cs91.wac.edgecastcdn.net has address 68.232.35.121
+cs91.wac.edgecastcdn.net has IPv6 address 2606:2800:234:124e:17ca:871:eb2:2067
+koos@machiavelli:~$ <strong>telnet 0.gravatar.com 80</strong>
+Trying 2606:2800:234:124e:17ca:871:eb2:2067...
+</pre>
+Seems edgecast has an IPv6 reachability problem from here (home, xs4all IPv6)
+but not from other places. I can't reach the edgecast site either since it's
+on their own network. Or at least I can't via the squid proxy, I can when
+not using a proxy, since firefox has its own ideas about timeouts.
+<p></p>
+I tried to notify edgecast via e-mail and twitter.
+<p></p>
+<strong>Update 2012-11-12:</strong>
+Noted by others: <a href="http://dereenigne.org/site/wordpress-ipv6-issues">WordPress IPv6 Issues - dereenigne.org</a> seeing something more like PMTU
+problems.
+<br>
+And Edgecast is working on it:
+<a href="https://twitter.com/edgecast/status/268104417033736192">Thanks, @jmccrohan and @khoos. We're working hard on this right now. More soon. cc @florianoverkamp @cwoodfield</a><br>
+<a href="https://twitter.com/edgecast/status/268147707896528896">After a few changes and a lot of testing, we believe the IPv6 issue experienced by some users is now resolved.</a><br>
+But I'm still seeing routing issues:
+<pre class="commandlog">
+$ <strong>traceroute6 www.edgecast.com</strong>
+traceroute to www.edgecast.com (2606:2800:234:1df9:13d:1d4e:6b0:10cf) from 2001:980:14ca:61::13, port 33434, from port 44865, 30 hops max, 60 byte packets
+ 1  lo1.dr4.1d12.xs4all.net (2001:888:0:4401::1)  15.529 ms  14.870 ms  16.175 ms 
+ 2  1314.ae3.xr3.3d12.xs4all.net (2001:888:0:4403::2)  15.349 ms  16.757 ms  14.426 ms 
+ 3  0.ge-1-2-0.xr1.sara.xs4all.net (2001:888:1:4005::1)  17.594 ms  16.123 ms  15.212 ms 
+ 4  ge-0.ams-ix.amstnl02.nl.bb.gin.ntt.net (2001:7f8:1::a500:2914:1)  17.108 ms  16.405 ms  15.552 ms 
+ 5  ae-2.r03.amstnl02.nl.bb.gin.ntt.net (2001:728:0:2000::12a)  18.093 ms  17.441 ms  16.083 ms 
+ 6  * * *         
+ 7  * * *         
+ 8  * * *         
+ 9  * * *         
+</pre>
+<p></p>
+<strong>Update 2012-11-15:</strong>
+More traceroutes to test. It seems the only thing unreachable is exactly the
+/48 which holds the IPv6 content server(s).
+<p></p>
+<strong>Update 2012-12-07:</strong>
+A network engineer at xs4all contacted Edgecast and got the problem solved
+pronto. I guess he has a better entry point!
+<pre class="commandlog">
+koos@greenblatt:~$ <strong>telnet -6 www.edgecast.com 80</strong>
+Trying 2606:2800:234:1df9:13d:1d4e:6b0:10cf...
+Connected to www.edgecast.com.
+Escape character is '^]'.
+</pre>
+</div></blockquote>
+<div class="tags">Tags: <a href="newstag.cgi/english" title="News items tagged with english" rel="tag">english</a>, <a href="newstag.cgi/ipv6" title="News items tagged with ipv6" rel="tag">ipv6</a>, <a href="newstag.cgi/network" title="News items tagged with network" rel="tag">network</a></div><hr class="newsitemcloser">
+</div>
+<hr class="hider">
+</div>
+</div>
+<div class="addressbox">
+<div class="infloatright"><a href="http://6bone.informatik.uni-leipzig.de/ipv6/stats/stats.php3" title="My homepage reachable via IPv6!"><img src="icons/ipv6-ready.png" style="width:80px; height: 15px; border: none;"><img src="http://6bone.informatik.uni-leipzig.de/ipv6/stats/log.php3?URL=page.idefix.net&ImageId=6" style="width: 1px; height: 1px; border: none; padding: 0px;" alt="IPv6 ready"></a></div>
+<a href="http://idefix.net/" rel="author">Koos van den Hout</a>, reachable as <a href="mailto:koos+website@koos.idefix.net">koos+website@koos.idefix.net</A>.
+<a href="http://pgp.surfnet.nl:11371/pks/lookup?op=vindex&amp;search=0xF0D7C263&amp;fingerprint=on">PGP key DSS/1024 0xF0D7C263</a>
+<a href="/~koos/index.rdf" title="RSS feed" class="rssfeed">RSS</a>
+<br>
+Other webprojects: <a href="http://www.camp-wireless.org/">Camp Wireless, wireless Internet access at campsites</a>,
+<a href="http://www.virtualbookcase.com/">The Virtual Bookcase, book reviews</a>,
+<a href="http://weather.idefix.net/">Weather maps</a>
+</div>
+<div class="smalltime">
+This page generated in 0.060007 seconds.</div>
+</body>
+</html>

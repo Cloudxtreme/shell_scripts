@@ -1,0 +1,654 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>
+      Topology Research 
+    </title><link href="/c2supportfiles/caida-min.css" type="text/css" rel="stylesheet"><link href="/c2supportfiles/print-min.css" media="print" type="text/css" rel="stylesheet"><link href="/favicon.ico" type="image/x-icon" rel="shortcut icon"><link href="/apple-touch-icon-144x144.png" sizes="144x144" type="image/png" rel="apple-touch-icon"><link href="/apple-touch-icon-114x114.png" sizes="114x114" type="image/png" rel="apple-touch-icon"><link href="/apple-touch-icon-72x72.png" sizes="72x72" type="image/png" rel="apple-touch-icon"><link href="/apple-touch-icon.png" type="image/png" rel="apple-touch-icon"><style>
+moreinfo { text-indent: 2em; }
+p.indent {  padding-left: 30px; }
+  </style><style media="screen, projection" type="text/css">
+/*\*//*/
+@import "/c2supportfiles/TJK_vertmenu_ie5mac-min.css";
+/**/
+</style><script src="/c2supportfiles/TJK_vertmenu-min.js" type="text/javascript"></script><!--[if lt IE 7]>
+<noscript>
+<style type="text/css" media="screen">
+@import "/c2supportfiles/TJK_vertmenu_noscript-min.css";
+</style>
+</noscript>
+<script defer src="/c2supportfiles/pngfix_ie6-min.js" type="text/javascript"></script>
+<![endif]--><script src="/c2supportfiles/ripe_ipv6_clientresolver.js" type="text/javascript"></script></head><body bgcolor="white" text="black" link="blue" alink="red" vlink="#770077">
+<div id="root">
+<a tabindex="-1" href="#content" id="contentskiplink">Skip to Content</a>
+<div id="caidabluebar">
+<div id="caidaglobe">
+<img height="132" width="141" alt="[CAIDA - Cooperative Association for Internet Data Analysis logo]" src="/images/caida_globe_faded.png"></div>
+<div id="caidatextlogo">
+<a tabindex="-1" href="/home/"><img src="/images/caida_whitewords.png" alt="[CAIDA]" border="0" width="88" height="47" title="Go to CAIDA home page"></a>
+</div>
+<div id="caidatextfull">
+<div title="CAIDA: Providing tools and analyses promoting the engineering and maintenance of a robust, scalable global Internet infrastructure">The Cooperative Association for Internet Data Analysis</div>
+</div>
+<div id="pageheader_sidebox">
+<div id="pageheader_searchbox">
+<form title="Search CAIDA with Google" id="cse-search-box" action="http://www.google.com/cse">
+<div>
+<input value="016962320605053137706:730jehqayws" name="cx" type="hidden"><input value="UTF-8" name="ie" type="hidden"><input id="searchfield" size="16" name="q" type="text"><input id="searchbutton" value="Search" name="sa" type="submit">
+</div>
+</form>
+<script src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en" type="text/javascript"></script>
+</div>
+<b class="searchrc3"></b><b class="searchrc2"></b><b class="searchrc1"></b><b class="searchrc0"></b>
+<div id="pageheader_linklist">
+<div>
+<a title="Make a Tax-deductible Donation to CAIDA" href="/home/donate/">DONATE</a>
+</div>
+<div>
+<a title="Contact and Visitor Information Page" href="/home/contactinfo/">CONTACT US</a>
+</div>
+</div>
+</div>
+</div>
+<div id="outercontent">
+<div id="tabnavbar">
+<ul id="TJK_dropDownMenu">
+<li>
+<a title="CAIDA Home Page" href="/home/">HOME</a>
+<ul>
+<li>
+<a title="About CAIDA" href="/home/about/">About</a>
+</li>
+<li>
+<a title="A summary of CAIDA's research goals and plans" href="/home/about/progplan/progplan2010/">Program Plan</a>
+</li>
+<li>
+<a title="A report on CAIDA research initiatives, project progress and results, etc." href="/home/about/annualreports/2012/">Annual Report</a>
+</li>
+<li>
+<a title="Becoming a CAIDA member" href="/home/about/joining/">Joining CAIDA</a>
+</li>
+<li>
+<a title="Staff members list" href="/home/staff/">Staff</a>
+</li>
+<li>
+<a title="Job postings at CAIDA" href="/home/jobs/">Jobs</a>
+</li>
+<li>
+<a title="Data Stewardship Agreements" href="/home/legal/">Legal Agreements</a>
+</li>
+<li>
+<a title="How to use specific CAIDA resources" href="/home/how-to/">How-To</a>
+</li>
+<li>
+<a title="CAIDA Blog: According to the Best Available Data" href="http://blog.caida.org/">Blog</a>
+</li>
+</ul>
+</li>
+<li class="selectedtab">
+<a title="Research at CAIDA" href="/research/">RESEARCH</a>
+<ul>
+<li>
+<a title="Results of research on Internet routing" href="/research/routing/">Routing</a>
+</li>
+<li>
+<a title="Results of research on Internet topology" href="/research/topology/">Topology</a>
+</li>
+<li>
+<a title="Results of research on the security of Internet infrastructure and analysis of malicious activities" href="/research/security/">Security</a>
+</li>
+<li>
+<a title="Results from Internet traffic analysis research" href="/research/traffic-analysis/">Traffic Analysis</a>
+</li>
+<li>
+<a title="Research related to Internet economics and policy" href="/research/policy/">Economics and Policy</a>
+</li>
+<li>
+<a title="Research activities on techniques for visualizing the Internet" href="/research/visualization/">Visualization</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="Data Collection at CAIDA" href="/data/">DATA</a>
+<ul>
+<li>
+<a title="Data overview chart and Access to CAIDA datasets and related request forms" href="/data/overview/">Overview</a>
+</li>
+<li>
+<a title="Promotion of Data Sharing at CAIDA" href="/data/sharing/">Data Sharing</a>
+</li>
+<li>
+<a title="Distribution Statistics for CAIDA Online Datasets" href="/data/about/">Distribution Statistics</a>
+</li>
+<li>
+<a title="How to document a data collection" href="/data/how-to/how-to_document_data.xml">How-to</a>
+</li>
+<li>
+<a title="Frequently Asked Questions about CAIDA Data usage" href="/data/data-usage-faq.xml">Data Usage FAQ</a>
+</li>
+<li>
+<a title="Publications by non-CAIDA researchers using CAIDA data" href="/data/publications/bydate/">Papers using CAIDA Data</a>
+</li>
+<li>
+<a title="Acceptable Use Agreement (AUA)" href="/data/../home/legal/aua/">Acceptable Use Agreement</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Tools and Software" href="/tools/">TOOLS</a>
+<ul>
+<li>
+<a title="CAIDA supported tools" href="/tools/./">Overview</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Publications" href="/publications/">PUBLICATIONS</a>
+<ul>
+<li>
+<a title="Papers and technical reports by CAIDA personnel and collaborators" href="/publications/papers/">Papers</a>
+</li>
+<li>
+<a title="Presentation slides by CAIDA personnel and collaborators" href="/publications/presentations/bydate/">Presentations</a>
+</li>
+<li>
+<a title="CAIDA Blog: According to the Best Available Data" href="http://blog.caida.org/">Blog</a>
+</li>
+<li>
+<a title="Visualizations to help illustrate the results of CAIDA research" href="/publications/visualizations/">Visualizations</a>
+</li>
+<li>
+<a title="Animated images and videos of visualized Internet data" href="/publications/animations/">- Animations</a>
+</li>
+<li>
+<a title="Poster-sized prints illustrating and describing CAIDA visualizations" href="/publications/posters/">- Posters</a>
+</li>
+<li>
+<a title="Annotated bibliography of non-CAIDA networking papers" href="/publications/bib/networking/">Networking Bibliography</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Workshops" href="/workshops/">WORKSHOPS</a>
+<ul>
+<li>
+<a title="Show all recent CAIDA Workshops" href="/workshops/./">Overview</a>
+</li>
+<li>
+<a title="Cyber-security Research Ethics Dialog &amp; Strategy (CREDS) Workshops series" href="/workshops/creds/">CREDS</a>
+</li>
+<li>
+<a title="Internet Statistics and Metrics Analysis (ISMA) Workshops series, including the Workshops on Active Internet Measurements (AIMS)" href="/workshops/isma/">ISMA / AIMS</a>
+</li>
+<li>
+<a title="International Workshop on Darkspace and UnSolicited Traffic Analysis (DUST) Workshops series" href="/workshops/dust/1205">DUST</a>
+</li>
+<li>
+<a title="UCSD Complex Network Seminar (DANCES) series" href="/workshops/dances/">DANCES</a>
+</li>
+<li>
+<a title="Workshop on Internet Economics (WIE) series" href="/workshops/wie/">WIE</a>
+</li>
+<li>
+<a title="Workshop collaborations with WIDE (Japan) and CASFI (South Korea)" href="/workshops/wide-casfi/">CAIDA-WIDE-CASFI</a>
+</li>
+<li>
+<a title="Related workshops held in collaboration between CAIDA and other groups" href="/workshops/collaborative/">Collaborative</a>
+</li>
+<li>
+<a title="Archive of past CAIDA workshops" href="/workshops/archive/">Archive</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="Projects and Infrastructure" href="/projects/">PROJECTS</a>
+<ul>
+<li>
+<a title="Macroscopic Topology project" href="/projects/macroscopic/">Macroscopic Topology</a>
+</li>
+<li>
+<a title="Cybersecurity project" href="/projects/cybersecurity/">Cybersecurity</a>
+</li>
+<li>
+<a title="Protected Repository for the Defense of Infrastructure Against Cyber Threats project" href="/projects/predict/">PREDICT</a>
+</li>
+<li>
+<a title="Archipelago Measurement Infrastructure" href="/projects/ark/">Ark</a>
+</li>
+<li>
+<a title="The UCSD Network Telescope project" href="/projects/network_telescope/">Network Telescope</a>
+</li>
+<li>
+<a title="Internet Measurement Data Catalog" href="/projects/trends/imdc/">IMDC (DatCat)</a>
+</li>
+<li>
+<a title="The Named Data Networking (NDN) project" href="/projects/ndn-fia/">NDN</a>
+</li>
+<li>
+<a title="The IPv6 Evolution project" href="/projects/ipv6_evolution/">IPv6 Evolution</a>
+</li>
+</ul>
+</li>
+<li>
+<a title="CAIDA Funding" href="/funding/">FUNDING</a>
+<ul>
+<li>
+<a title="Cartographic Capabilities for Critical Cyberinfrastructure, project summary and proposal" href="/funding/c4/">Cartographic Capabilities</a>
+</li>
+<li>
+<a title="Internet Laboratory for Empirical Network Science, project summary and proposal" href="/funding/ilens/">iLENS</a>
+</li>
+<li>
+<a title="Exploring the evolution of IPv6: topology, performance, and traffic, project summary and proposal" href="/funding/nets-ipv6/">IPv6</a>
+</li>
+<li>
+<a title="Detection and analysis of large-scale Internet infrastructure outages project summary and proposal" href="/funding/dals-satc/">DALS</a>
+</li>
+<li>
+<a title="Universal Laws of Structural Dynamics of Large Scale Graphs  project description and proposal" href="/funding/ulsd-darpa/">Dynamic Graphs</a>
+</li>
+<li>
+<a title="Discovering Hyperbolic Metric Spaces Hidden Beaneath the Internet and Other Complex Networks project description and proposal" href="/funding/netse/">Routing</a>
+</li>
+<li>
+<a title="Named Data Networking project description and proposal" href="/funding/ndn-fia/">Named Data Networking</a>
+</li>
+<li>
+<a title="The Economics of Transit and Peering Interconnections in the Internet project description and proposal" href="/funding/netse-econ/">Economics</a>
+</li>
+<li>
+<a title="Telescope: A Real-time Lens into Dark Address Space of the Internet, project summary and proposal" href="/funding/cri-telescope/">Telescope</a>
+</li>
+<li>
+<a title="Sustainable data-handling and analysis methodologies for the IRNC networks, project summary and proposal" href="/funding/irnc/">IRNC-SP</a>
+</li>
+<li>
+<a title="DatCat: Metadata Management Software Tools to Support Cybersecurity Research and Development of Sustainable Cyberinfrastructure, project summary and proposal" href="/funding/sdci-datcat/">DatCat</a>
+</li>
+<li>
+<a title="Supporting Research and Development of Security Technologies through Network and Security Data Collection, project summary and description" href="/funding/predict/">PREDICT</a>
+</li>
+<li>
+<a title="A summary of CAIDA's research goals and plans" href="/funding/../home/about/progplan/progplan2010/">Program Plan</a>
+</li>
+</ul>
+</li>
+</ul>
+<div style="clear:both"></div>
+</div>
+<div id="crumbnavbar">
+<span class="bold"><a href="http://www.caida.org/">www.caida.org</a>
+            &gt; </span><a href="/research/">research</a> : topology</div>
+</div>
+<div id="content">
+<span id="pagetitle">
+      Topology Research 
+    </span>
+<div id="summarybox">
+<img height="10" width="10" alt="" class="ul" src="/images/grc_ul.png"><img height="10" width="10" alt="" class="ur" src="/images/grc_ll.png"><img height="10" width="10" alt="" class="ll" src="/images/grc_ur.png"><img height="10" width="10" alt="" class="lr" src="/images/grc_lr.png"><div class="middle">
+
+
+<p>
+CAIDA has been measuring, analyzing, modeling, and visualizing
+Internet topology since 1998. We seek to characterize macroscopic
+Internet connectivity using both topological and geographical
+representations at multiple levels of aggregation granularity.
+This research goal is particularly challenging due to
+inconsistencies in different measurement tools and
+counterincentives for ISPs to support responding to tools
+that make inferences about connectivity. These constraints make
+it difficult and often impossible to validate scientific inferences
+about Internet topology against reality.  And yet,
+an empirically grounded understanding of the Internet's shape,
+structure, and evolution has already had profound implications
+for network science theory and practice.  
+</p>
+    
+<div style="clear: both"></div>
+</div>
+</div>
+<div>
+<div align="center">
+<font face="Helvetica,Arial,sans-serif" size="+1"><b>
+      |<span>  </span><a href="#Ongoing">Ongoing Research</a><span>  </span><span>  </span><a href="#Datasets">Datasets</a><span>  </span><span>  </span><a href="#Publications">Publications</a><span>  </span><span>  </span><a href="#Resources">Resources</a><span>  </span><span>  </span><a href="#Previous">Previous Research</a><span>  </span>|
+      </b></font>
+</div>
+<ul>
+<li>
+<a href="#Ongoing">Ongoing Research
+      <ul>
+<li>
+<a href="#mappingannotation">Internet Mapping and Annotation</a>
+</li>
+<li>
+<a href="#asrank">AS Ranking</a>
+</li>
+<li>
+<a href="#comparativeanalysistopologies">Comparative Analysis of Internet Topologies</a>
+</li>
+<li>
+<a href="#ascore">AS Core Network Visualizations</a>
+</li>
+<li>
+<a href="#hiddenmetricspaces">Theoretical Modeling of Complex Network Topologies</a>
+</li>
+</ul>
+  
+</a>
+</li>
+<li>
+<a href="#Datasets">Datasets</a>
+</li>
+<li>
+<a href="#Publications">Publications</a>
+</li>
+<li>
+<a href="#Resources">Resources</a>
+</li>
+<li>
+<a href="#Previous">Previous Research
+      <ul>
+<li>
+<a href="#dK">The dK-series and dK Annotations</a>
+</li>
+<li>
+<a href="#evolutionmodels">Internet Evolution Models</a>
+</li>
+<li>
+<a href="#asclassification">AS Classification and Taxonomy</a>
+</li>
+</ul>
+  
+</a>
+</li>
+</ul>
+<hr>
+
+<h2>
+<a name="Ongoing" id="Ongoing">Ongoing Research</a>
+</h2>
+<p>
+  
+
+</p>
+<h3 class="headerlink">
+<a href="internet_mapping/" name="mappingannotation" id="mappingannotation">Internet Mapping and Annotation</a>
+</h3>
+<p class="indent">
+
+CAIDA is a worldwide renown leader in Internet topology mapping research.
+Nearly two decades of experience in Internet topology measurement, analysis,
+modeling, and visualization support our <a href="internet_mapping/">current state-of-the-art results</a>
+in this area.
+</p>
+<p class="indent">
+Using the secure and versatile <a href="/projects/ark/">Ark measurement infrastructure</a> and
+<a href="/tools/measurement/scamper/">scamper probing tool</a>, CAIDA
+researchers conduct continuous traceroute-based Internet topology
+measurements in both IPv4 and IPv6 address space. We automatically
+abstract the collected traceroute measurement paths into AS adjacency
+matrices representing the Internet graph at the AS level.
+Computed daily, these matrices are <a href="/data/active/ipv4_routed_topology_aslinks_dataset.xml">available for public download</a>.
+</p>
+<p class="indent">
+We also produce <a href="/data/active/internet-topology-data-kit/">periodic updates for router-level and AS-level Internet topologies</a> integrated into the dual-layer router+AS-level
+topologies and richly annotated with AS business relationships,
+DNS names, and geographic attributes.
+</p>
+<h3 class="headerlink">
+<a href="http://as-rank.caida.org/" name="asrank" id="asrank">AS Ranking</a>
+</h3>
+<p class="indent">
+
+Analysis of the the Internet Service Provider (ISP) hierarchy at an Autonomous System and organization granularity is critical to a deeper understanding of technical, economic and regulatory aspects of the Internet inter-domain routing system. As part of our research agenda to measure and analyze macroscopic Internet structure, we have developed a <a href="http://as-rank.caida.org/?mode0=as-intro">procedure to rank Autonomous Systems</a> (<a href="http://as-rank.caida.org/">AS Rank</a>)
+by their location in the Internet hierarchy inferred using BGP data.  The ranking function is
+rooted in inferred economics of AS relationships observable 
+in the routing table, ranking each AS as a function of the number 
+of IP prefixes advertised by this AS, its customer ASes, 
+their customers ASes, and so on.
+
+</p>
+<div style="width:200px;" class="sidebox dropshadow float-right">
+  
+<a href="as_core_network/"><img src="as_core_network/pics/ascore-2010-aug-ipv4v6-standalone-300h250.png" width="200">Visualizing the AS Core</a>
+
+</div>
+<h3 class="headerlink">
+<a href="topo_comparison/" name="comparativeanalysistopologies" id="comparativeanalysistopologies">Comparative Analysis of Internet Topologies</a>
+</h3>
+<p class="indent">
+  
+Our Internet connectivity graphs are derived from active probing
+measurements and we use BGP data to map IP addresses to ASes. The
+resulting AS paths reflect packets that have actually traversed a
+forward path segment to a destination, rather than paths calculated
+and propagated across the loosely coupled BGP system. Thus, the
+traceroute data provides a view of Internet topology that differs
+from that derived from BGP tables. Note that the traceroute
+measurements sometimes have non-responding IP hops, which may lead
+to unobservable AS hops in AS paths.
+</p>
+<p class="indent">
+To shed more light on the differences between Internet topologies
+derived at different granularities (IP, router, AS) from
+data sources of different kind (active probing, BGP, IRR), we
+conducted a <a href="topo_comparison/">systematic comparative analysis</a>. We believe that it
+is the most comprehensive study thus far comparing and interpreting
+structural characteristics of topologies inferred from the best
+available data sources. We hope these results would facilitate
+more informed selection of topology datasets to support specific
+research or analysis needs.
+</p>
+<h3 class="headerlink">
+<a href="as_core_network/" name="ascore" id="ascore">AS Core Network Visualizations</a>
+</h3>
+<p class="indent">
+
+Since 2000, CAIDA has produced (resources permitting) a yearly <a href="as_core_network/">AS core map</a>, a visualization of the Internet's AS topology at a macroscopic scale, using our continuous active topology measurements as input. 
+Our most recent (2011) visualizations illustrate and compare 
+topological richness in the <a href="as_core_network/">IPv4 address space</a> and the <a href="as_core_network/ipv6.xml">IPv6 address space</a> as observed from our 54 IPv4 and 16 IPv6 vantage points (as of April 2011).
+</p>
+<div style="width:200px;margin-bottom:6px;" class="float-right sidebox dropshadow">
+  
+<a href="hiddenmetricspaces/"><img src="/research/topology/hiddenmetricspaces/images/hidden-structure-657x.png" width="200">Hidden Metric Spaces</a>
+
+</div>
+<h3 class="headerlink">
+<a href="hiddenmetricspaces/" name="hiddenmetricspaces" id="hiddenmetricspaces">Theoretical Modeling of Complex Network Topologies</a>
+</h3>
+<p class="indent">
+  
+We are exploring the concept of <a href="hiddenmetricspaces/">Hidden Metric Spaces</a>
+or &quot;geometry-under-topology&quot; model that helps to discover some geometric
+underpinnings of purely topological objects (graphs). Geometry makes the
+analysis of these objects tractable and intuitively transparent. Moreover,
+our research results indicate that the HMS model yields a most general
+explanation of intrinsic connection between complex network structure and
+functions.
+</p>
+<hr>
+<h2>
+<a name="Datasets" id="Datasets">Datasets</a>
+</h2>
+<p class="indent">
+  
+Datasets sources used for topology modeling and topology graphs are available for download.
+</p>
+<ul>
+<li>
+<a href="/data/active/internet-topology-data-kit/index.xml">Internet Topology Data Kit (ITDK)
+  
+</a>
+<br>
+<div class="indent">Ark-based. 2010 - ongoing</div>
+</li>
+<li>
+<a href="/data/active/ipv4_routed_24_topology_dataset.xml">The IPv4 Routed /24 Topology Dataset
+  
+</a>
+<br>
+<div class="indent">Sep 13, 2007 - ongoing</div>
+</li>
+<li>
+<a href="/data/active/ipv6_allpref_topology_dataset.xml">The IPv6 Topology Dataset
+  
+</a>
+<br>
+<div class="indent">Dec 12, 2008 - ongoing</div>
+</li>
+<li>
+<a href="/data/active/skitter_aslinks_dataset.xml">AS Links (AS Adjacencies)
+  
+</a>
+<br>
+<div class="indent">In IPv4.  Jan 2, 2000 - ongoing</div>
+</li>
+<li>
+<a href="/data/active/as-relationships/index.xml">AS Relationships
+  
+</a>
+<br>
+<div class="indent">Jan 5, 2004 - ongoing</div>
+</li>
+<li>
+<a href="/data/active/as_taxonomy/">AS Taxonomy
+  
+</a>
+<br>
+<div class="indent">2005</div>
+</li>
+<li>
+<a href="as_topo_comparisons/">Internet AS-level topology graphs obtained from skitter measurements, BGP tables, BGP updates, and the RIPE WHOIS database
+  
+</a>
+<br>
+<div class="indent">2005</div>
+</li>
+<li>
+<a href="/tools/measurement/skitter/">Raw Skitter Topology Traces
+  
+</a>
+<br>
+<div class="indent">Jan 17, 1998 to Feb 8, 2008</div>
+</li>
+<li>
+<a href="/tools/measurement/skitter/router_topology/">Router Adjacencies
+  
+</a>
+<br>
+<div class="indent">Apr 21, 2003 to May 8, 2003</div>
+</li>
+<li>
+<a href="/tools/measurement/skitter/idkdata.xml">Internet Topology Data Kit (ITDK)
+  
+</a>
+<br>
+<div class="indent">Skitter-based. Apr 21, 2003 to May 8, 2003</div>
+</li>
+</ul>
+<hr>
+<h2>
+<a name="Publications" id="Publications">Publications</a>
+</h2>
+<p class="indent">
+  
+
+
+</p><ul>
+<li>
+<a href="/publications/papers/bytopic/index.xml#topology">Papers</a>
+</li>
+<li>
+<a href="/publications/presentations/bytopic/index.xml#topology">Presentations</a>
+</li>
+<li>
+<a href="/publications/visualizations/">Visualizations</a>
+</li>
+</ul>
+
+
+
+<hr>
+<h2>
+<a name="Resources" id="Resources">Resources</a>
+</h2>
+<ul class="indent">
+<li>
+<a href="../routing/overview_greedy_routing.pdf">Overview of Greedy Routing on Hidden Metric Spaces</a> (pdf)</li>
+<li>
+<a href="/workshops/sfi/0808/">SFI Workshop on Networks and Navigation 2008</a>
+</li>
+<li>
+<a href="/workshops/isma/0605/">ISMA Workshop on the Internet Topology 2006</a>
+</li>
+<li>
+<a href="graphtheory.xml">Graph Theory Applied to Topology Analysis</a>
+</li>
+<li>
+<a href="router-level-topology.xml">On Router-Level Topology</a>
+</li>
+</ul>
+<hr>
+<h2>
+<a name="Previous" id="Previous">Previous Research</a>
+</h2>
+<p>
+  
+
+</p>
+<h3 class="headerlink" style="clear:both;">
+<a href="dk/" name="dK" id="dK">The dK-series and dK Annotations</a>
+</h3>
+<p class="indent">
+
+The ability to capture the fundamental characteristics that define the Internet topology stands as a key
+component toward generating realistic Internet models and understanding the driving forces of Internet
+evolution. CAIDA researchers developed a systematic method of analyzing and synthesizing topologies called the  <a href="dk/">dK-series</a>,
+which offers a dramatic improvement to the set of tools available to network topology and protocol researchers.
+We further refined the dK-series method by augmenting the network graphs with abstract annotations, called
+<a href="dk/index.xml#dk-annotations">dK annotations</a>, and by treating these annotations as an extended correlation profile of a network. The resulting
+topology modeling framework provides a generic mechanism to rescale annotated graphs for realistic simulations
+of networks of varying sizes.
+</p>
+<h3 class="headerlink">
+<a href="evolutionmodels/" name="evolutionmodels" id="evolutionmodels">Internet Evolution Models</a>
+</h3>
+<p class="indent">
+  
+To capture fundamental laws of network evolution, we studied the
+growth models of the Internet at the AS graph granularity level.
+In particular, we developed a new and analyzed an existing model
+simulating the <a href="evolutionmodels/">Internet AS graph evolution</a>.
+Our results are elegantly generic in nature; they potentially
+will shed light on evolution of not only the Internet but also of other
+types of self-evolving large-scale networks.
+</p>
+<h3 class="headerlink">
+<a href="/data/active/as_taxonomy/" name="asclassification" id="asclassification">AS Classification and Taxonomy</a>
+</h3>
+<p class="indent">
+
+In 2005-2007, in collaboration with Xenofontas Dimitropolous, we developed a scheme for <a href="http://www.ece.gatech.edu/research/labs/MANIACS/as_taxonomy/">taxonomizing ASes by type</a> 
+resulting in the most veracious Internet AS taxonomy to date.  We analyze data from IRRs and RouteViews to
+annotate every AS with the following six attributes: 1) the
+organization description record, 2) the number of inferred customers,
+3) the number of inferred providers, 4) the number of inferred
+peers, 5) the number of advertised IP prefixes, and 6) the equivalent
+number of /24 prefixes covering all the advertised IP space.  Using
+this method, we successfully classify 95.3% of ASes with an expected
+accuracy of 78.1%. We release to the community the <a href="/data/active/as_taxonomy/">Autonomous System Taxonomy Repository</a> as well as: 1) the AS taxonomy information and 2)
+the set of AS attributes we used to classify ASes.
+</p>
+</div>
+</div>
+<div id="footer">
+<div style="text-align:center">
+<a href="http://www.caida.org/">Cooperative Association for Internet Data Analysis</a>
+       |   Based at the <a href="http://www.sdsc.edu/">University of California's San Diego Supercomputer Center</a>
+</div>
+<div style="position:absolute; bottom:0.5em; right:1em;" class="noprint" id="privacynotice">
+<a href="/home/legal/privacy/">Privacy</a>
+</div>
+</div>
+<div id="pageinfo">
+       Last Modified: Tues Jan-29-2013 15:36:11 PDT<br>
+<div class="printonly">  Page URL: http://www.caida.org/research/topology/index.xml</div>
+</div>
+</div>
+</body></html>

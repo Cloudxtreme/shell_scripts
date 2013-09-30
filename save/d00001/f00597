@@ -1,0 +1,769 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #3765:
+ccd mirror panic on sun4m                                                                                                       
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #3765</h1>
+
+<pre>
+Received: (qmail 13942 invoked from network); 19 Jun 1997 10:05:43 -0000
+Message-Id: &lt;199706191004.DAA02996@digital.clock.org&gt;
+Date: Thu, 19 Jun 1997 03:04:40 -0700 (PDT)
+From: &quot;Erik E. Fair&quot; &lt;fair@digital.clock.org&gt;
+Reply-To: fair@digital.clock.org
+To: gnats-bugs@gnats.netbsd.org
+Subject: ccd mirror panic on sun4m
+X-Send-Pr-Version: 3.95
+
+
+<b>&gt;Number:</b>         3765
+<b>&gt;Category:</b>       kern
+<b>&gt;Synopsis:</b>       ccd mirror panic on sun4m
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       serious
+<b>&gt;Priority:</b>       high
+<b>&gt;Responsible:</b>    kern-bug-people
+<b>&gt;State:</b>          closed
+<b>&gt;Class:</b>          sw-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Thu Jun 19 03:20:03 +0000 1997
+<b>&gt;Closed-Date:</b>    Wed Nov 18 08:24:23 +0000 1998
+<b>&gt;Last-Modified:</b>  Wed Nov 18 08:33:35 +0000 1998
+<b>&gt;Originator:</b>     Erik E. Fair
+<b>&gt;Release:</b>        NetBSD-current June 18, 1997
+<b>&gt;Organization:</b>
+International Organization of Internet Clock Watchers
+<b>&gt;Environment:</b>
+
+
+
+
+Type  help  for more information
+ok boot -s
+Resetting ...
+
+
+SPARCstation LX, No Keyboard
+ROM Rev. 2.10, 96 MB memory installed, Serial #7381056.
+Ethernet address 8:0:20:19:c2:65, Host ID: 8070a040.
+
+
+
+
+Rebooting with command: -s
+Boot device: /iommu/sbus/dma@0,81000/esp@0,80000/sd@0,0   File and args: -s
+<b>&gt;Description:</b>
+	an attempt to use a mirror ccd on NetBSD-current on sun4m
+	causes the following:
+
+
+		pmap_extract: invalid pte of type 0
+		panic: dvma_mapin: null page frame
+
+
+<b>&gt;How-To-Repeat:</b>
+
+
+Enter pathname of shell or RETURN for sh:
+Don't login as root, use the su command.
+# fsck -p
+/dev/rsd4a: file system is clean; not checking
+/dev/rsd4d: file system is clean; not checking
+/dev/rsd3e: file system is clean; not checking
+/dev/rsd4e: file system is clean; not checking
+/dev/rsd4f: file system is clean; not checking
+/dev/rsd3f: file system is clean; not checking
+/dev/rsd4g: file system is clean; not checking
+/dev/rsd3h: file system is clean; not checking
+/dev/rsd8a: file system is clean; not checking
+/dev/rsd8d: file system is clean; not checking
+/dev/rsd8e: file system is clean; not checking
+/dev/rsd8f: file system is clean; not checking
+/dev/rsd8g: file system is clean; not checking
+# swapctl -A
+swapctl: adding /dev/sd4b as swap device at priority 0
+swapctl: adding /dev/sd8b as swap device at priority 0
+# ccdconfig -v -C
+ccd0: 2 components (sd9h, sd5h), 4192020 blocks interleaved at 35 blocks
+# disklabel ccd0
+# /dev/rccd0c:
+type: ccd
+disk: ccd
+label: default label
+flags:
+bytes/sector: 512
+sectors/track: 2048
+tracks/cylinder: 1
+sectors/cylinder: 2048
+cylinders: 2046
+total sectors: 4192020
+rpm: 5400
+interleave: 1
+trackskew: 0
+cylinderskew: 0
+headswitch: 0           # milliseconds
+track-to-track seek: 0  # milliseconds
+drivedata: 0
+
+
+8 partitions:
+#        size   offset    fstype   [fsize bsize   cpg]
+  a:  4192020        0    4.2BSD     1024  8192    32   # (Cyl.    0 - 2046*)
+  c:  4192020        0    unused        0     0         # (Cyl.    0 - 2046*)
+# newfs /dev/rccd0a
+Warning: 236 sector(
+
+
+pmap_extract: invalid pte of type 0
+panic: dvma_mapin: null page frame
+syncing disks... done
+Frame pointer is at 0xf8123c00
+Call traceback:
+  pc = f80ff430  args = (0, 41001fe5, f8139c00, f8123d20, f8101e38, f8143800, f8123c68) fp = 0xf8123c68
+  pc = f802c80c  args = (100, 0, 1, f8799e00, f8da3800, fe000000, f8123cd0) fp = 0xf8123cd0
+  pc = f810a190  args = (f810a070, 100, 0, 1, f8197ab0, bf81e, f8123d38) fp = 0xf8123d38
+  pc = f8109f8c  args = (fc004000, fc62eb68, 1400, fc005000, 1, 0, f8123da0) fp= 0xf8123da0
+  pc = f80f2e54  args = (fc62eb68, 1400, 0, f81ec000, 50, 0, f8123e08) fp = 0xf8123e08
+  pc = f80f3d48  args = (f8780980, f87aee50, f87aee54, 0, f8123f40, f80f2c6c, f8123e70) fp = 0xf8123e70
+  pc = f800e434  args = (f87ae800, f87aee50, f87aee54, 0, f8123f40, f80f3d30, f8123ed8) fp = 0xf8123ed8
+  pc = f80069ac  args = (f87ae800, f800d274, f879b8e0, 0, f8101e38, f8143800, f8123f50) fp = 0xf8123f50
+  pc = f810584c  args = (410010e6, b8, f8173400, f81734b8, f8002000, fe000000, fc62cab8) fp = 0xfc62cab8
+
+
+0xf80ff430 &lt;cpu_reboot+196&gt;:     0x40000093
+0xf802c80c &lt;panic+80&gt;:   0x40034ad8
+0xf810a190 &lt;dvma_mapin+260&gt;:     0x7ffc898b
+0xf8109f8c &lt;kdvma_mapin+20&gt;:     0x40000040
+0xf80f2e54 &lt;dma_setup+488&gt;:      0x40005c49
+0xf80f3d48 &lt;esp_dma_setup+24&gt;:   0x9fc34000
+0xf800e434 &lt;ncr53c9x_intr+4544&gt;: 0x9fc34000
+0xf80069ac &lt;sparc_interrupt_common+368&gt;: 0x9fc24000
+0xf810584c &lt;pmap_enk4m+428&gt;:     0x7ffff187
+
+
+dumping to dev 721, offset 203504
+dump sd4(esp1:0:0): esp1: timed out [ecb 0xf87ae8c4 (flags 0x1, dleft 200, stat0)], &lt;state 4, nexus 0xf87ae890, phase(c 0, p 101), resid 1400, msg(q 0,o 0) &gt;
+sd4(esp1:0:0): esp1: timed out [ecb 0xf87ae8c4 (flags 0x41, dleft 200, stat 0)],
+o 0) &gt; AGAIN
+stray interrupt ipl c pc=f80e4bac npc=f80e4bb0 psr=410015c1&lt;EF,S,PS&gt;
+ccd0: error 0 an component 1 (mirror)
+stray interrupt ipl c pc=f80e4bac npc=f80e4bb0 psr=410015c4&lt;EF,S,PS&gt;
+stray interrupt ipl c pc=f80e4bac npc=f80e4bb0 psr=410015c4&lt;EF,S,PS&gt;
+stray interrupt ipl c pc=f80e4bac npc=f80e4bb0 psr=410015c4&lt;EF,S,PS&gt;
+stray interrupt ipl c pc=f80e4bac npc=f80e4bb0 psr=410015c4&lt;EF,S,PS&gt;
+stray interrupt ipl c pc=f80e4bac npc=f80e4bb0 psr=410015c4&lt;EF,S,PS&gt;
+stray interrupt ipl c pc=f80e4bac npc=f80e4bb0 psr=410015c4&lt;EF,S,PS&gt;
+panic: esp1: nexus in reset state
+Frame pointer is at 0xf8123688
+Call traceback:
+  pc = f80ff430  args = (f00, 41001fe4, 0, f81237a8, f8123c48, 0, f81236f0) fp = 0xf81236f0
+  pc = f802c80c  args = (104, 0, 1, f80f3cc8, f8142000, 500, f8123758) fp = 0xf8123758
+  pc = f800d36c  args = (f800ccb8, 104, f80f3cb4, f80f3cc8, 0, 650, f81237c0) fp = 0xf81237c0
+  pc = f800afcc  args = (f87ae800, f80f3cdc, 1, 41, 200, 0, f8123838) fp = 0xf8123838
+  pc = f800aef8  args = (f87ae800, f813cb98, 2710, a, 0, 0, f81238a0) fp = 0xf81238a0
+  pc = f80f0384  args = (f813cb98, f800ada8, a, 0, 0, 200, f8123908) fp = 0xf8123908
+  pc = f810836c  args = (f813cb98, 41ed1, f81239e8, 1, 200, f81734b8, f8123980)fp = 0xf8123980
+  pc = f80ff758  args = (0, 31af1, 1, f8123d80, f8123c48, 0, f8123c00) fp = 0xf8123c00
+  pc = f80ff430  args = (0, f80f01e0, f8139c00, f8123d20, f8101e38, f8143800, f8123c68) fp = 0xf8123c68
+  pc = f802c80c  args = (100, 0, 1, f8799e00, f8da3800, fe000000, f8123cd0) fp = 0xf8123cd0
+  pc = f810a190  args = (f810a070, 100, 0, 1, f8197ab0, bf81e, f8123d38) fp = 0xf8123d38
+  pc = f8109f8c  args = (fc004000, fc62eb68, 1400, fc005000, 1, 0, f8123da0) fp= 0xf8123da0
+  pc = f80f2e54  args = (fc62eb68, 1400, 0, f81ec000, 50, 0, f8123e08) fp = 0xf8123e08
+  pc = f80f3d48  args = (f8780980, f87aee50, f87aee54, 0, f8123f40, f80f2c6c, f8123e70) fp = 0xf8123e70
+  pc = f800e434  args = (f87ae800, f87aee50, f87aee54, 0, f8123f40, f80f3d30, f8123ed8) fp = 0xf8123ed8
+  pc = f80069ac  args = (f87ae800, f800d274, f879b8e0, 0, f8101e38, f8143800, f8123f50) fp = 0xf8123f50
+  pc = f810584c  args = (410010e6, b8, f8173400, f81734b8, f8002000, fe000000, fc62cab8) fp = 0xfc62cab8
+
+
+0xf80ff430 &lt;cpu_reboot+196&gt;:    0x40000093
+0xf802c80c &lt;panic+80&gt;:  0x40034ad8
+0xf800d36c &lt;ncr53c9x_intr+248&gt;: 0x40007d14
+0xf800afcc &lt;ncr53c9x_poll+76&gt;:  0x400008aa
+0xf800aef8 &lt;ncr53c9x_scsi_cmd+336&gt;:     0x40000022
+0xf80f0384 &lt;sddump+420&gt;:        0x9fc24000
+0xf810836c &lt;pmap_dumpmmu+164&gt;:  0x9fc58000
+0xf80ff758 &lt;dumpsys+220&gt;:       0x400022dc
+0xf80ff430 &lt;cpu_reboot+196&gt;:    0x40000093
+0xf802c80c &lt;panic+80&gt;:  0x40034ad8
+0xf810a190 &lt;dvma_mapin+260&gt;:    0x7ffc898b
+0xf8109f8c &lt;kdvma_mapin+20&gt;:    0x40000040
+0xf80f2e54 &lt;dma_setup+488&gt;:     0x40005c49
+0xf80f3d48 &lt;esp_dma_setup+24&gt;:  0x9fc34000
+0xf800e434 &lt;ncr53c9x_intr+4544&gt;:        0x9fc34000
+0xf80069ac &lt;sparc_interrupt_common+368&gt;:        0x9fc24000
+0xf810584c &lt;pmap_enk4m+428&gt;:    0x7ffff187
+
+
+dumping to dev 721, offset 203504
+dump device not ready
+rebooting
+Resetting ...
+
+
+<b>&gt;Fix:</b>
+
+
+<b>&gt;Release-Note:</b>
+<b>&gt;Audit-Trail:</b>
+
+
+From: Paul Kranenburg &lt;pk@cs.few.eur.nl&gt;
+To: gnats-bugs@gnats.netbsd.org, fair@digital.clock.org
+Cc: netbsd-bugs@NetBSD.ORG
+Subject: Re: kern/3765: ccd mirror panic on sun4m
+Date: Fri, 20 Jun 97 16:21:46 +0200
+
+
+ &gt; 	an attempt to use a mirror ccd on NetBSD-current on sun4m
+ &gt; 	causes the following:
+ &gt; 
+ &gt; 		pmap_extract: invalid pte of type 0
+ &gt; 		panic: dvma_mapin: null page frame
+
+ 
+
+ 
+ I think the twin transactions started by ccd on mirrored configurations
+ should wait for each other to complete. Otherwise, the original buffer
+ may be dismantled while the &quot;mirrored&quot; I/O is still in progress.
+
+ 
+ Can you give this patch a try, please?
+
+ 
+ -------------------------------------------------------------------------------
+
+ 
+ *** /usr/src/sys/dev/ccd.c	Fri Jun 20 16:08:02 1997
+ --- ccd.c	Fri Jun 20 16:09:02 1997
+ ***************
+ *** 132,142 ****
+ --- 132,144 ----
+   	int		cb_unit;	/* target unit */
+   	int		cb_comp;	/* target component */
+   	int		cb_flags;	/* misc. flags */
+ + 	struct ccdbuf	*cb_other;	/* ptr to twin mirror buffer */
+   	LIST_ENTRY(ccdbuf) cb_list;	/* entry on freelist */
+   };
+
+   
+   /* cb_flags */
+   #define CBF_MIRROR	0x01		/* we're for a mirror component */
+ + #define CBF_WAITOTHER	0x02		/* wait for mirror component to complete */
+
+   
+   /*
+    * Number of freelist buffers per component.  Overridable in kernel
+ ***************
+ *** 880,885 ****
+ --- 882,888 ----
+   	cbp-&gt;cb_obp = bp;
+   	cbp-&gt;cb_unit = cs-&gt;sc_unit;
+   	cbp-&gt;cb_comp = ccdisk;
+ + 	cbp-&gt;cb_other = NULL;
+
+   
+   	/* First buffer is dealt with. */
+   	cbpp[0] = cbp;
+ ***************
+ *** 903,908 ****
+ --- 906,915 ----
+   		cbp-&gt;cb_buf.b_dev = ci2-&gt;ci_dev;	/* XXX */
+   		cbp-&gt;cb_buf.b_vp = ci2-&gt;ci_vp;
+   		cbp-&gt;cb_comp = ci2 - cs-&gt;sc_cinfo;
+ + 		cbp-&gt;cb_other = cbpp[0];
+ + 		cbpp[0]-&gt;cb_other = cbp;
+ + 		cbpp[0]-&gt;cb_flags |= CBF_WAITOTHER;
+ + 		cbp-&gt;cb_flags |= CBF_WAITOTHER;
+   		cbpp[1] = cbp;
+   	}
+   }
+ ***************
+ *** 974,979 ****
+ --- 981,992 ----
+   	}
+   	count = cbp-&gt;cb_buf.b_bcount;
+   	cbflags = cbp-&gt;cb_flags;
+ + 
+ + 	if ((cbflags &amp; CBF_WAITOTHER) != 0) {
+ + 		if (cbp-&gt;cb_other == NULL)
+ + 			panic(&quot;ccdiodone: other == NULL&quot;);
+ + 		cbp-&gt;cb_other-&gt;cb_flags &amp;= ~CBF_WAITOTHER;
+ + 	}
+   	CCDPUTBUF(cs, cbp);
+
+   
+   	/*
+ ***************
+ *** 986,994 ****
+   		bp-&gt;b_resid -= count;
+   		if (bp-&gt;b_resid &lt; 0)
+   			panic(&quot;ccdiodone: count&quot;);
+ ! 		if (bp-&gt;b_resid == 0)
+   			ccdintr(&amp;ccd_softc[unit], bp);
+ ! 	}
+   	splx(s);
+   }
+
+   
+ --- 999,1009 ----
+   		bp-&gt;b_resid -= count;
+   		if (bp-&gt;b_resid &lt; 0)
+   			panic(&quot;ccdiodone: count&quot;);
+ ! 		if (bp-&gt;b_resid == 0 &amp;&amp; (cbflags &amp; CBF_WAITOTHER) == 0)
+   			ccdintr(&amp;ccd_softc[unit], bp);
+ ! 	} else if (bp-&gt;b_resid == 0 &amp;&amp; (cbflags &amp; CBF_WAITOTHER) == 0)
+ ! 		ccdintr(&amp;ccd_softc[unit], bp);
+ ! 
+   	splx(s);
+   }
+
+   
+
+
+From: &quot;Erik E. Fair&quot; (Time Keeper) &lt;fair@clock.org&gt;
+To: Paul Kranenburg &lt;pk@cs.few.eur.nl&gt;
+Cc: gnats-bugs@gnats.netbsd.org, fair@digital.clock.org,
+        netbsd-bugs@NetBSD.ORG
+Subject: Re: kern/3765: ccd mirror panic on sun4m
+Date: Fri, 20 Jun 1997 14:49:21 -0700
+
+
+ I tried the patch, with essentially the same results - I'll give the stack
+ backtrace and console session when I finish restoring the filesystem...
+
+ 
+ 	Erik &lt;fair@clock.org&gt;
+
+ 
+
+ 
+
+
+From: &quot;Erik E. Fair&quot; (Time Keeper) &lt;fair@clock.org&gt;
+To: Paul Kranenburg &lt;pk@cs.few.eur.nl&gt;
+Cc: gnats-bugs@gnats.netbsd.org, fair@digital.clock.org,
+        netbsd-bugs@NetBSD.ORG
+Subject: Re: kern/3765: ccd mirror panic on sun4m
+Date: Fri, 20 Jun 1997 17:00:09 -0700
+
+
+ Boot device: /iommu/sbus/dma@0,81000/esp@0,80000/sd@0,0   File and args: -s
+ &gt;&gt; NetBSD BOOT [$Revision: 1.4 $]
+ Booting netbsd @ 0x4000
+ 1163264+112952+70736+[71904+83654]=3D0x172d36
+ pmap_bootstrap: installing kernel page tables...done.
+ Copyright (c) 1982, 1986, 1989, 1991, 1993
+     The Regents of the University of California.  All rights reserved.
+
+ 
+ NetBSD 1.2G (DIGITAL) #8: Fri Jun 20 12:22:19 PDT 1997
+     root@digital.clock.org:/usr/src/sys/arch/sparc/compile/DIGITAL
+ real mem =3D 100171776
+ avail mem =3D 93540352
+ using 768 buffers containing 3145728 bytes of memory
+ bootpath: /iommu@0,10000000/sbus@0,10001000/dma@0,81000/esp@0,80000/sd@0,0
+ mainbus0 (root): SUNW,SPARCstation-LX
+ cpu0 at mainbus0: TMS390S10 @ 50 MHz, on-chip FPU
+ cpu0: physical 4K instruction (32 b/l), 2K data (16 b/l) cache enabled
+ obio0 at mainbus0
+ clock0 at obio0 addr 0x71200000: mk48t08 (eeprom)
+ timer0 at obio0 addr 0x71d00000 delay constant 23
+ zs0 at obio0 addr 0x71100000 pri 12, softpri 6
+ zs0a: console i/o
+ zs1 at obio0 addr 0x71000000 pri 12, softpri 6
+ [slavioconfig at obio0] addr 0x71800000 not configured
+ auxreg0 at obio0 addr 0x71900000
+ power0 at obio0 addr 0x71910000
+ fdc0 at obio0 addr 0x71400000 pri 11, softpri 4: chip 82077
+ iommu0 at mainbus0 addr 0x10000000: version 1/4, page-size 4096, range 64MB
+ sbus0 at iommu0: clock =3D 25 MHz
+ dma0 at sbus0 slot 4 offset 0x8400000: rev 2
+ esp0 at dma0 slot 0x4 offset 0x8800000 pri 4: ESP200, 40MHz, SCSI ID 7
+ scsibus0 at esp0: 8 targets
+ probe(esp0:1:0): max sync rate 10.00Mb/s
+ sd1 at scsibus0 targ 1 lun 0: &lt;QUANTUM, XP34301, 1037&gt; SCSI2 0/direct fixed
+ sd1: 4106MB, 4076 cyl, 20 head, 103 sec, 512 bytes/sec
+ probe(esp0:3:0): max sync rate 10.00Mb/s
+ sd3 at scsibus0 targ 3 lun 0: &lt;QUANTUM, FIREBALL_TM3200S, 300X&gt; SCSI2
+ 0/direct fixed
+ sd3: 3067MB, 6810 cyl, 5 head, 184 sec, 512 bytes/sec
+ SUNW,bpp at sbus0 slot 4 offset 0xc800000 not configured
+ ledma0 at sbus0 slot 4 offset 0x8400010: rev 2
+ le0 at ledma0 slot 0x4 offset 0x8c00000 pri 6: address 08:00:20:19:c2:65
+ le0: 8 receive buffers, 2 transmit buffers
+ dma1 at sbus0 slot 0 offset 0x81000: rev esc
+ esp1 at dma1 slot 0x0 offset 0x80000 pri 5: ESP200, 40MHz, SCSI ID 7
+ scsibus1 at esp1: 8 targets
+ probe(esp1:0:0): max sync rate 10.00Mb/s
+ sd4 at scsibus1 targ 0 lun 0: &lt;SEAGATE, ST43400N, 1028&gt; SCSI2 0/direct fixed
+ sd4: 2777MB, 2737 cyl, 21 head, 98 sec, 512 bytes/sec
+ probe(esp1:1:0): max sync rate 10.00Mb/s
+ sd5 at scsibus1 targ 1 lun 0: &lt;HP, C3725S, 6019&gt; SCSI2 0/direct fixed
+ sd5: 2047MB, 3703 cyl, 9 head, 125 sec, 512 bytes/sec
+ lebuffer0 at sbus0 slot 0 offset 0x40000
+ le1 at lebuffer0 slot 0x0 offset 0x60000 pri 7: address 08:00:20:19:c2:65
+ le1: 64 receive buffers, 16 transmit buffers
+ dma2 at sbus0 slot 1 offset 0x81000: rev esc
+ esp2 at dma2 slot 0x1 offset 0x80000 pri 5: ESP200, 40MHz, SCSI ID 7
+ scsibus2 at esp2: 8 targets
+ probe(esp2:0:0): max sync rate 10.00Mb/s
+ sd8 at scsibus2 targ 0 lun 0: &lt;SEAGATE, ST43400N, 1028&gt; SCSI2 0/direct fixed
+ sd8: 2777MB, 2737 cyl, 21 head, 98 sec, 512 bytes/sec
+ probe(esp2:1:0): max sync rate 10.00Mb/s
+ sd9 at scsibus2 targ 1 lun 0: &lt;HP, C3725S, 6039&gt; SCSI2 0/direct fixed
+ sd9: 2047MB, 3703 cyl, 9 head, 125 sec, 512 bytes/sec
+ lebuffer1 at sbus0 slot 1 offset 0x40000
+ le2 at lebuffer1 slot 0x1 offset 0x60000 pri 7: address 08:00:20:19:c2:65
+ le2: 64 receive buffers, 16 transmit buffers
+ SUNW,DBRIe at sbus0 slot 2 offset 0x10000 not configured
+ cgsix0 at sbus0 slot 3 offset 0x0: SUNW,501-1672, 1152 x 900, rev 8
+ root on sd4a dumps on sd4b
+ mountroot: trying ffs...
+ root file system type: ffs
+ init: copying out flags `-s' 3
+ init: copying out path `/sbin/init' 11
+ Enter pathname of shell or RETURN for sh:
+ Don't login as root, use the su command.
+ # fsck -p
+ /dev/rsd4a: file system is clean; not checking
+ /dev/rsd4d: file system is clean; not checking
+ /dev/rsd3e: file system is clean; not checking
+ /dev/rsd4e: file system is clean; not checking
+ /dev/rsd4f: file system is clean; not checking
+ /dev/rsd3f: file system is clean; not checking
+ /dev/rsd4g: file system is clean; not checking
+ /dev/rsd3h: file system is clean; not checking
+ /dev/rsd8a: file system is clean; not checking
+ /dev/rsd8d: file system is clean; not checking
+ /dev/rsd8e: file system is clean; not checking
+ /dev/rsd8f: file system is clean; not checking
+ /dev/rsd8g: file system is clean; not checking
+ # swapctl -A
+ swapctl: adding /dev/sd4b as swap device at priority 0
+ swapctl: adding /dev/sd8b as swap device at priority 0
+ # ccdconfig -v -C
+ ccd0: 2 components (sd9h, sd5h), 4192020 blocks interleaved at 35 blocks
+ # disklabel ccd0
+ # /dev/rccd0c:
+ type: ccd
+ disk: ccd
+ label: default label
+ flags:
+ bytes/sector: 512
+ sectors/track: 2048
+ tracks/cylinder: 1
+ sectors/cylinder: 2048
+ cylinders: 2046
+ total sectors: 4192020
+ rpm: 5400
+ interleave: 1
+ trackskew: 0
+ cylinderskew: 0
+ headswitch: 0           # milliseconds
+ track-to-track seek: 0  # milliseconds
+ drivedata: 0
+
+ 
+ 8 partitions:
+ #        size   offset    fstype   [fsize bsize   cpg]
+   a:  4192020        0    4.2BSD     1024  8192    32   # (Cyl.    0 - 2046*=
+ )
+   c:  4192020        0    unused        0     0         # (Cyl.    0 - 2046*=
+ )
+ # newfs /dev/rccd0a
+ Warning: 236 sector(s) in last cylinder unallocated
+ /dev/rccd0a:    4192020 sectors in 2047 cylinders of 1 tracks, 2048 sectors
+         2046.9MB in 128 cyl groups (16 c/g, 16.00MB/g, 3840 i/g)
+ pmap_extract: invalid pte of type 0
+ panic: dvma_mapin: null page frame
+ syncing disks... done
+ =46rame pointer is at 0xf8123c00
+ Call traceback:
+   pc =3D f80ff4b8  args =3D (0, 41001fe1, f8139c00, f8123d20, 1, 0, f8123c68=
+ )
+ fp =3D 0xf8123c68
+   pc =3D f802c894  args =3D (100, 0, 1, 1ffc, f8da3800, 5, f8123cd0) fp =3D
+ 0xf8123cd0
+   pc =3D f810a218  args =3D (f810a0f8, 100, 0, c, f8022698, fc62ce98, f8123d=
+ 38)
+ fp =3D 0xf8123d38
+   pc =3D f810a014  args =3D (fc004000, fc62fd68, 200, fc004000, 0, bc78e,
+ f8123da0)fp =3D 0xf8123da0
+   pc =3D f80f2edc  args =3D (fc62fd68, 200, 0, 7, 1, fc62ca9c, f8123e08) fp =
+ =3D
+ 0xf8123e08
+   pc =3D f80f3dd0  args =3D (f8780980, f87aee50, f87aee54, 0, f8123f40,
+ f80f2cf4, f8123e70) fp =3D 0xf8123e70
+   pc =3D f800e434  args =3D (f87ae800, f87aee50, f87aee54, 0, f8123f40,
+ f80f3db8, f8123ed8) fp =3D 0xf8123ed8
+   pc =3D f80069ac  args =3D (f87ae800, f800d274, 4d000, 0, 1, 0, f8123f50)=
+  fp =3D
+ 0xf8123f50
+   pc =3D f8105094  args =3D (414010e2, f813d030, 0, 5c000, 1, 5, fc62c8c0)=
+  fp =3D
+ 0xfc62c8c0
+
+ 
+ 0xf80ff4b8 &lt;cpu_reboot+196&gt;:    0x40000093
+ 0xf802c894 &lt;panic+80&gt;:  0x40034ad8
+ 0xf810a218 &lt;dvma_mapin+260&gt;:    0x7ffc898b
+ 0xf810a014 &lt;kdvma_mapin+20&gt;:    0x40000040
+ 0xf80f2edc &lt;dma_setup+488&gt;:     0x40005c49
+ 0xf80f3dd0 &lt;esp_dma_setup+24&gt;:  0x9fc34000
+ 0xf800e434 &lt;ncr53c9x_intr+4544&gt;:        0x9fc34000
+ 0xf80069ac &lt;sparc_interrupt_common+368&gt;:        0x9fc24000
+ 0xf8105094 &lt;pmap_changeprot4m+48&gt;:      0x7ffc09f7
+
+ 
+ dumping to dev 721, offset 203504
+ dump
+ sd4(esp1:0:0): esp1: timed out [ecb 0xf87ae8c4 (flags 0x1, dleft 200,
+ stat0)], &lt;state 4, nexus 0xf87ae890, phase(c 0, p 101), resid 200, msg(q
+ 0,o 0) &gt;
+ sd4(esp1:0:0): esp1: timed out [ecb 0xf87ae8c4 (flags 0x41, dleft 200, stat
+ 0)], &lt;state 4, nexus 0xf87ae890, phase(c 0, p 101), resid 200, msg(q 0,o 0)
+ &gt; AGAIN
+ ccd0: error 0 on component 1 (mirror)
+ panic: disk_unbusy: ccd0: dk_busy &lt; 0
+ =46rame pointer is at 0xf81233f0
+ Call traceback:
+   pc =3D f80ff4b8  args =3D (500, 41001fe1, 0, f8123510, 0, f8123388, f81234=
+ 58)
+ fp =3D 0xf8123458
+   pc =3D f802c894  args =3D (104, 0, 1, a, 31, a, f81234c0) fp =3D 0xf81234c=
+ 0
+   pc =3D f802ae30  args =3D (f802adf0, 104, fe012000, f81234e4, f8123580, 0,
+ f8123528) fp =3D 0xf8123528
+   pc =3D f8012848  args =3D (f87b7838, 2000, 2000, f8123660, 0, 0, f81235a0)=
+  fp
+ =3D 0xf81235a0
+   pc =3D f8012b7c  args =3D (f87b7800, f8d88864, f87b7800, 1, f80128e8, 10,
+ f8123608) fp =3D 0xf8123608
+   pc =3D f8042324  args =3D (f87cd200, c0a10, f8012954, f8149a50, ffffffff, =
+ 28,
+ f8123678) fp =3D 0xf8123678
+   pc =3D f80ea2a0  args =3D (f87cd200, 1, 0, 0, f8149a28, f8149800, f81236e0=
+ )
+ fp =3D 0xf81236e0
+   pc =3D f800b4b4  args =3D (f8780b00, 58, 1019, f8d7f050, f8142000, 500,
+ f8123748)fp =3D 0xf8123748
+   pc =3D f800a628  args =3D (f87ae800, f87ae890, 2, f8780b00, 0, a, f81237b0=
+ )
+ fp =3D 0xf81237b0
+   pc =3D f800e9bc  args =3D (f87ae800, 1, 1, 41, 200, 0, f8123818) fp =3D 0x=
+ f8123818
+   pc =3D f800af30  args =3D (f87ae8c4, f813cb98, 0, a, 0, 0, f81238a0) fp =
+ =3D
+ 0xf81238a0
+   pc =3D f80f040c  args =3D (2, f800ada8, a, fffffe00, 0, 200, f8123908) fp =
+ =3D
+ 0xf8123908
+   pc =3D f81083f4  args =3D (f813cb98, 41ed0, f81239e8, 1, 200, 5c000,
+ f8123980) fp=3D 0xf8123980
+   pc =3D f80ff7e0  args =3D (0, 31af0, 1, f8123d80, f8123c48, 0, f8123c00)=
+  fp =3D
+ 0xf8123c00
+   pc =3D f80ff4b8  args =3D (0, f80f0268, f8139c00, f8123d20, 1, 0, f8123c68=
+ )
+ fp =3D 0xf8123c68
+   pc =3D f802c894  args =3D (100, 0, 1, 1ffc, f8da3800, 5, f8123cd0) fp =3D
+ 0xf8123cd0
+   pc =3D f810a218  args =3D (f810a0f8, 100, 0, c, f8022698, fc62ce98, f8123d=
+ 38)
+ fp =3D 0xf8123d38
+   pc =3D f810a014  args =3D (fc004000, fc62fd68, 200, fc004000, 0, bc78e,
+ f8123da0)fp =3D 0xf8123da0
+   pc =3D f80f2edc  args =3D (fc62fd68, 200, 0, 7, 1, fc62ca9c, f8123e08) fp =
+ =3D
+ 0xf8123e08
+   pc =3D f80f3dd0  args =3D (f8780980, f87aee50, f87aee54, 0, f8123f40,
+ f80f2cf4, f8123e70) fp =3D 0xf8123e70
+   pc =3D f800e434  args =3D (f87ae800, f87aee50, f87aee54, 0, f8123f40,
+ f80f3db8, f8123ed8) fp =3D 0xf8123ed8
+   pc =3D f80069ac  args =3D (f87ae800, f800d274, 4d000, 0, 1, 0, f8123f50)=
+  fp =3D
+ 0xf8123f50
+   pc =3D f8105094  args =3D (414010e2, f813d030, 0, 5c000, 1, 5, fc62c8c0)=
+  fp =3D
+ 0xfc62c8c0
+
+ 
+ 0xf80ff4b8 &lt;cpu_reboot+196&gt;:    0x40000093
+ 0xf802c894 &lt;panic+80&gt;:  0x40034ad8
+ 0xf802ae30 &lt;disk_unbusy+32&gt;:    0x40000685
+ 0xf8012848 &lt;ccdintr+76&gt;:        0x40006172
+ 0xf8012b7c &lt;ccdiodone+552&gt;:     0x7fffff20
+ 0xf8042324 &lt;biodone+156&gt;:       0x7fff9a6b
+ 0xf80ea2a0 &lt;scsi_done+288&gt;:     0x7ffd5ffa
+ 0xf800b4b4 &lt;ncr53c9x_done+416&gt;: 0x40037b33
+ 0xf800a628 &lt;ncr53c9x_init+200&gt;: 0x4000033b
+ 0xf800e9bc &lt;ncr53c9x_timeout+216&gt;:      0x7fffeee9
+ 0xf800af30 &lt;ncr53c9x_scsi_cmd+392&gt;:     0x40000e6d
+ 0xf80f040c &lt;sddump+420&gt;:        0x9fc24000
+ 0xf81083f4 &lt;pmap_dumpmmu+164&gt;:  0x9fc58000
+ 0xf80ff7e0 &lt;dumpsys+220&gt;:       0x400022dc
+ 0xf80ff4b8 &lt;cpu_reboot+196&gt;:    0x40000093
+ 0xf802c894 &lt;panic+80&gt;:  0x40034ad8
+ 0xf810a218 &lt;dvma_mapin+260&gt;:    0x7ffc898b
+ 0xf810a014 &lt;kdvma_mapin+20&gt;:    0x40000040
+ 0xf80f2edc &lt;dma_setup+488&gt;:     0x40005c49
+ 0xf80f3dd0 &lt;esp_dma_setup+24&gt;:  0x9fc34000
+ 0xf800e434 &lt;ncr53c9x_intr+4544&gt;:        0x9fc34000
+ 0xf80069ac &lt;sparc_interrupt_common+368&gt;:        0x9fc24000
+ 0xf8105094 &lt;pmap_changeprot4m+48&gt;:      0x7ffc09f7
+
+ 
+ dumping to dev 721, offset 203504
+ dump device not ready
+ rebooting
+
+ 
+ Resetting ...
+
+ 
+
+ 
+State-Changed-From-To: open-&gt;closed 
+State-Changed-By: fair 
+State-Changed-When: Wed Nov 18 00:24:23 PST 1998 
+State-Changed-Why:  
+ccd mirror code has been removed from the kernel sources in favor of 
+the new RAIDframe code for mirroring (RAID 1). This PR is moot. 
+<b>&gt;Unformatted:</b>
+ &gt;&gt; NetBSD BOOT [$Revision: 1.4 $]
+ Booting netbsd @ 0x4000
+ 1163264+112952+70736+[71904+83662]=0x172d3e
+ pmap_bootstrap: installing kernel page tables...done.
+ Copyright (c) 1982, 1986, 1989, 1991, 1993
+     The Regents of the University of California.  All rights reserved.
+
+ 
+ NetBSD 1.2G (DIGITAL) #7: Wed Jun 18 13:56:59 PDT 1997
+     root@digital.clock.org:/usr/src/sys/arch/sparc/compile/DIGITAL
+ real mem = 100171776
+ avail mem = 93540352
+ using 768 buffers containing 3145728 bytes of memory
+ bootpath: /iommu@0,10000000/sbus@0,10001000/dma@0,81000/esp@0,80000/sd@0,0
+ mainbus0 (root): SUNW,SPARCstation-LX
+ cpu0 at mainbus0: TMS390S10 @ 50 MHz, on-chip FPU
+ cpu0: physical 4K instruction (32 b/l), 2K data (16 b/l) cache enabled
+ obio0 at mainbus0
+ clock0 at obio0 addr 0x71200000: mk48t08 (eeprom)
+ timer0 at obio0 addr 0x71d00000 delay constant 23
+ zs0 at obio0 addr 0x71100000 pri 12, softpri 6
+ zs0a: console i/o
+ zs1 at obio0 addr 0x71000000 pri 12, softpri 6
+ [slavioconfig at obio0] addr 0x71800000 not configured
+ auxreg0 at obio0 addr 0x71900000
+ power0 at obio0 addr 0x71910000
+ fdc0 at obio0 addr 0x71400000 pri 11, softpri 4: chip 82077
+ iommu0 at mainbus0 addr 0x10000000: version 1/4, page-size 4096, range 64MB
+ sbus0 at iommu0: clock = 25 MHz
+ dma0 at sbus0 slot 4 offset 0x8400000: rev 2
+ esp0 at dma0 slot 0x4 offset 0x8800000 pri 4: ESP200, 40MHz, SCSI ID 7
+ scsibus0 at esp0: 8 targets
+ probe(esp0:1:0): max sync rate 10.00Mb/s
+ sd1 at scsibus0 targ 1 lun 0: &lt;QUANTUM, XP34301, 1037&gt; SCSI2 0/direct fixed
+ sd1: 4106MB, 4076 cyl, 20 head, 103 sec, 512 bytes/sec
+ probe(esp0:3:0): max sync rate 10.00Mb/s
+ sd3 at scsibus0 targ 3 lun 0: &lt;QUANTUM, FIREBALL_TM3200S, 300X&gt; SCSI2 0/direct fixed
+ sd3: 3067MB, 6810 cyl, 5 head, 184 sec, 512 bytes/sec
+ SUNW,bpp at sbus0 slot 4 offset 0xc800000 not configured
+ ledma0 at sbus0 slot 4 offset 0x8400010: rev 2
+ le0 at ledma0 slot 0x4 offset 0x8c00000 pri 6: address 08:00:20:19:c2:65
+ le0: 8 receive buffers, 2 transmit buffers
+ dma1 at sbus0 slot 0 offset 0x81000: rev esc
+ esp1 at dma1 slot 0x0 offset 0x80000 pri 5: ESP200, 40MHz, SCSI ID 7
+ scsibus1 at esp1: 8 targets
+ probe(esp1:0:0): max sync rate 10.00Mb/s
+ sd4 at scsibus1 targ 0 lun 0: &lt;SEAGATE, ST43400N, 1028&gt; SCSI2 0/direct fixed
+ sd4: 2777MB, 2737 cyl, 21 head, 98 sec, 512 bytes/sec
+ probe(esp1:1:0): max sync rate 10.00Mb/s
+ sd5 at scsibus1 targ 1 lun 0: &lt;HP, C3725S, 6019&gt; SCSI2 0/direct fixed
+ sd5: 2047MB, 3703 cyl, 9 head, 125 sec, 512 bytes/sec
+ lebuffer0 at sbus0 slot 0 offset 0x40000
+ le1 at lebuffer0 slot 0x0 offset 0x60000 pri 7: address 08:00:20:19:c2:65
+ le1: 64 receive buffers, 16 transmit buffers
+ dma2 at sbus0 slot 1 offset 0x81000: rev esc
+ esp2 at dma2 slot 0x1 offset 0x80000 pri 5: ESP200, 40MHz, SCSI ID 7
+ scsibus2 at esp2: 8 targets
+ probe(esp2:0:0): max sync rate 10.00Mb/s
+ sd8 at scsibus2 targ 0 lun 0: &lt;SEAGATE, ST43400N, 1028&gt; SCSI2 0/direct fixed
+ sd8: 2777MB, 2737 cyl, 21 head, 98 sec, 512 bytes/sec
+ probe(esp2:1:0): max sync rate 10.00Mb/s
+ sd9 at scsibus2 targ 1 lun 0: &lt;HP, C3725S, 6039&gt; SCSI2 0/direct fixed
+ sd9: 2047MB, 3703 cyl, 9 head, 125 sec, 512 bytes/sec
+ lebuffer1 at sbus0 slot 1 offset 0x40000
+ le2 at lebuffer1 slot 0x1 offset 0x60000 pri 7: address 08:00:20:19:c2:65
+ le2: 64 receive buffers, 16 transmit buffers
+ SUNW,DBRIe at sbus0 slot 2 offset 0x10000 not configured
+ cgsix0 at sbus0 slot 3 offset 0x0: SUNW,501-1672, 1152 x 900, rev 8
+ root on sd4a dumps on sd4b
+ mountroot: trying ffs...
+ root file system type: ffs
+ init: copying out flags `-s' 3
+ init: copying out path `/sbin/init' 11
+
+ 
+ fair@digital 7} cat /etc/ccd.conf.not
+ # ccd   ileave  flags   component devices
+ ccd0    35      4       /dev/sd9h /dev/sd5h
+
+ 
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

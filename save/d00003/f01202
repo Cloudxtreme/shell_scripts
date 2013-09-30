@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="generator" content="Website XSL Stylesheet V2.6.0">
+<link rel="home" href="../." title="Welcome to The NetBSD Project: Of course it runs NetBSD.">
+<link rel="up" href="../changes/." title="NetBSD: Recent Changes and News">
+<link rel="previous" href="../changes/." title="NetBSD: Recent Changes and News">
+<link rel="next" href="../changes/1998.html" title="Changes and NetBSD News in 1998">
+<link rel="last" href="../changes/rss.html" title="NetBSD News Channels">
+<link rel="stylesheet" href="../global.css" type="text/css">
+<title>Speed improvements for crypto library: Before and After</title>
+</head>
+<body class="website"><div class="webpage">
+<a name="changes-000804"></a><div id="top"><a href="#mainContent" class="doNotDisplay doNotPrint">Skip to main content.</a></div>
+<div id="centralHeader">
+<div id="logo">
+<a href="../"><img alt="[NetBSD Logo]" src="../images/NetBSD-smaller.png"></a><div id="name"><a href="../">
+	  The NetBSD Project
+	</a></div>
+<div id="slogan"><a href="../">
+	  &#8220;Of course it runs NetBSD&#8221;
+	</a></div>
+</div>
+<div id="headerTools">
+<div id="header-cse-search-form">Google custom search</div>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script><script type="text/javascript"> 
+		  google.load('search', '1', {language : 'en'});
+		  google.setOnLoadCallback(function() {
+		    var header_customSearchControl = new google.search.CustomSearchControl('006277936787196004968:mbdhrauy1wm');
+		    header_customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+		    var header_options = new google.search.DrawOptions();
+		    header_options.enableSearchboxOnly("http://google.com/cse?cx=006277936787196004968:mbdhrauy1wm");    
+		    header_customSearchControl.draw('header-cse-search-form', header_options);
+		  }, true);
+		</script>
+</div>
+</div>
+<div id="navBar" role="navigation">
+<span class="doNotDisplay">
+	  Navigation:
+	</span><ul>
+<li><a href="../">
+	  Home</a></li>
+<li>
+<a href="../">
+	  News &amp; Media</a><ul>
+<li><a href="../changes/">
+	    Recent changes</a></li>
+<li><a href="http://blog.NetBSD.org/">
+	    NetBSD blog</a></li>
+<li><a href="../gallery/events.html">
+	    Events</a></li>
+<li><a href="../changes/rss.html">
+	    Feeds</a></li>
+</ul>
+</li>
+<li>
+<a href="../about/">
+	  About</a><ul>
+<li><a href="../about/">
+	    NetBSD</a></li>
+<li><a href="../foundation/">
+	    The NetBSD Foundation</a></li>
+<li><a href="../gallery/">
+	    Advocacy</a></li>
+</ul>
+</li>
+<li>
+<a href="../docs/">
+	  Documentation</a><ul>
+<li><a href="../docs/misc/index.html">
+	    FAQ &amp; HOWTOs</a></li>
+<li><a href="../docs/guide/en/">
+	    The Guide</a></li>
+<li><a href="http://man.NetBSD.org/">
+	    Manual pages</a></li>
+<li><a href="http://wiki.NetBSD.org/">
+	    Wiki</a></li>
+</ul>
+</li>
+<li>
+<a href="../support/">
+	  Support</a><ul>
+<li><a href="../support/send-pr.html">
+	    Problem report guide</a></li>
+<li><a href="../cgi-bin/sendpr.cgi?gndb=netbsd">
+	    Report a bug</a></li>
+<li><a href="../support/query-pr.html">
+	    Query bug database</a></li>
+<li><a href="../support/security/">
+	    Security</a></li>
+</ul>
+</li>
+<li>
+<a href="../community/">
+	  Community</a><ul>
+<li><a href="http://onetbsd.org/">
+	    Blogs</a></li>
+<li><a href="../mailinglists/">
+	    Mailing lists</a></li>
+<li><a href="http://mail-index.NetBSD.org/">
+	    List archives</a></li>
+</ul>
+</li>
+<li>
+<a href="../developers/">
+	  Developers</a><ul>
+<li><a href="http://cvsweb.NetBSD.org/">
+	    Browse source</a></li>
+<li><a href="http://nxr.NetBSD.org/">
+	    Cross-reference</a></li>
+<li><a href="http://releng.NetBSD.org/">
+	    Release engineering</a></li>
+<li><a href="http://wiki.NetBSD.org/projects/">
+	    Projects list</a></li>
+</ul>
+</li>
+<li>
+<a href="../ports/">
+	  Ports</a><ul>
+<li><a href="../ports/history.html">
+	    History</a></li>
+<li><a href="../ports/emulators.html">
+	    Emulators</a></li>
+</ul>
+</li>
+<li>
+<a href="http://www.pkgsrc.org/">
+	  Packages</a><ul>
+<li><a href="http://www.pkgsrc.se/">
+	    Browse packages</a></li>
+<li><a href="http://releng.NetBSD.org/index-pkgsrc.html">
+	    Release engineering</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="content"><div class="fullWidth"><div class="rowOfBoxes">
+<h1>Speed improvements for crypto library: Before and After</h1>
+<div class="sect1">
+<div class="titlepage"></div>
+
+<div class="sect2">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="intro"></a>Speed improvements for crypto library (04 Aug 2000)</h3></div></div></div>
+
+
+<div class="sect3">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="before-and-after"></a>Before and after comparisons</h4></div></div></div>
+
+<p>
+
+What follows are collected numbers showing that the performance differences,
+after Jason Thorpe's recent commits, are quite noticeable:
+</p>
+
+<hr>
+<pre>
+<span class="bold"><strong>Blowfish</strong></span>
+
+Before:
+Doing blowfish cbc for 3s on 8 size blocks: 2891026 blowfish cbc's in 2.97s
+Doing blowfish cbc for 3s on 64 size blocks: 411766 blowfish cbc's in 3.10s
+Doing blowfish cbc for 3s on 256 size blocks: 104721 blowfish cbc's in 3.00s
+Doing blowfish cbc for 3s on 1024 size blocks: 26291 blowfish cbc's in 2.98s
+Doing blowfish cbc for 3s on 8192 size blocks: 3290 blowfish cbc's in 3.10s
+type              8 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes
+blowfish cbc      7787.28k     8755.16k     8936.19k     9034.22k     8954.05k
+
+After:
+Doing blowfish cbc for 3s on 8 size blocks: 4573792 blowfish cbc's in 3.10s
+Doing blowfish cbc for 3s on 64 size blocks: 713440 blowfish cbc's in 2.99s
+Doing blowfish cbc for 3s on 256 size blocks: 183125 blowfish cbc's in 3.00s
+Doing blowfish cbc for 3s on 1024 size blocks: 46221 blowfish cbc's in 3.00s
+Doing blowfish cbc for 3s on 8192 size blocks: 5787 blowfish cbc's in 3.00s
+type              8 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes
+blowfish cbc     12156.26k    15270.96k    15626.67k    15776.77k    15802.37k
+</pre>
+<hr>
+<pre>
+<span class="bold"><strong>MD5</strong></span>
+
+Before:
+Doing md5 for 3s on 8 size blocks: 1490796 md5's in 3.00s
+Doing md5 for 3s on 64 size blocks: 895849 md5's in 3.00s
+Doing md5 for 3s on 256 size blocks: 410807 md5's in 3.00s
+Doing md5 for 3s on 1024 size blocks: 129416 md5's in 3.00s
+Doing md5 for 3s on 8192 size blocks: 17527 md5's in 3.00s
+type              8 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes
+md5               3975.46k    19111.45k    35055.53k    44173.99k    47860.39k
+
+After:
+Doing md5 for 3s on 8 size blocks: 2041410 md5's in 3.00s
+Doing md5 for 3s on 64 size blocks: 1345402 md5's in 3.00s
+Doing md5 for 3s on 256 size blocks: 669827 md5's in 3.10s
+Doing md5 for 3s on 1024 size blocks: 221744 md5's in 2.96s
+Doing md5 for 3s on 8192 size blocks: 30685 md5's in 3.00s
+type              8 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes
+md5               5443.76k    28701.91k    56968.68k    76711.44k    83790.51k
+</pre>
+<hr>
+<pre>
+<span class="bold"><strong>RMD160</strong></span>
+
+Before:
+Doing rmd160 for 3s on 8 size blocks: 778828 rmd160's in 3.00s
+Doing rmd160 for 3s on 64 size blocks: 430214 rmd160's in 3.00s
+Doing rmd160 for 3s on 256 size blocks: 182108 rmd160's in 3.00s
+Doing rmd160 for 3s on 1024 size blocks: 55050 rmd160's in 3.00s
+Doing rmd160 for 3s on 8192 size blocks: 7339 rmd160's in 3.00s
+type              8 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes
+rmd160            2076.87k     9177.90k    15539.88k    18790.40k    20040.36k
+
+After:
+Doing rmd160 for 3s on 8 size blocks: 1084941 rmd160's in 3.00s
+Doing rmd160 for 3s on 64 size blocks: 617966 rmd160's in 3.00s
+Doing rmd160 for 3s on 256 size blocks: 267381 rmd160's in 2.99s
+Doing rmd160 for 3s on 1024 size blocks: 82001 rmd160's in 3.00s
+Doing rmd160 for 3s on 8192 size blocks: 10974 rmd160's in 3.00s
+type              8 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes
+rmd160            2893.18k    13183.27k    22892.82k    27989.67k    29966.34k
+</pre>
+<hr>
+<pre>
+<span class="bold"><strong>BIGNUM routines</strong></span>
+
+Before:
+Doing 512 bit sign dsa's for 10s: 965 512 bit DSA signs in 9.97s
+Doing 512 bit verify dsa's for 10s: 766 512 bit DSA verify in 9.93s
+Doing 1024 bit sign dsa's for 10s: 276 1024 bit DSA signs in 9.99s
+Doing 1024 bit verify dsa's for 10s: 217 1024 bit DSA verify in 9.93s
+                  sign    verify    sign/s verify/s
+dsa  512 bits   0.0103s   0.0130s     96.8     77.1
+dsa 1024 bits   0.0362s   0.0458s     27.6     21.9
+
+After:
+Doing 512 bit sign dsa's for 10s: 3742 512 bit DSA signs in 9.88s
+Doing 512 bit verify dsa's for 10s: 3065 512 bit DSA verify in 9.92s
+Doing 1024 bit sign dsa's for 10s: 1357 1024 bit DSA signs in 9.99s
+Doing 1024 bit verify dsa's for 10s: 1094 1024 bit DSA verify in 9.83s
+                  sign    verify    sign/s verify/s
+dsa  512 bits   0.0026s   0.0032s    378.7    309.0
+dsa 1024 bits   0.0074s   0.0090s    135.8    111.3
+</pre>
+
+</div>
+</div>
+</div>
+</div></div></div>
+<div class="navfoot"></div>
+<div id="footer"><div id="footerContent"><center>
+<span class="footfeed"><a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">
+	  Contact</a> |
+      </span><span class="footcopy"><a href="../about/disclaimer.html">
+      Disclaimer</a> |
+
+      <span class="copyright">Copyright © 1994-2013 The NetBSD Foundation, Inc. </span>ALL RIGHTS RESERVED.<br>NetBSD<sup>®</sup> is a registered trademark of The NetBSD
+	Foundation, Inc.</span>
+</center></div></div>
+</div></body>
+</html>

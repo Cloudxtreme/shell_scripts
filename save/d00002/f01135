@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>FreeBSD SysVR4 Emulation</title>
+</head>
+<body bgcolor="#ffffff">
+<center>
+<table border=0 cols=2>
+<tr>
+<td><img src="svr4.gif"></td>
+<td align=center>
+  <h1>FreeBSD SysVR4 Emulation</h1></h1>
+  <i>Mark Newton,
+     <a href="mailto:newton@atdot.dotat.org">newton@atdot.dotat.org</a>
+     </i>
+</td>
+</tr>
+</table>
+</center>
+<hr>
+<p>
+
+<h2><tt>svr4_kdump</tt> ideas</h2>
+I've had an idea of getting the syscall#->syscallname and ioctl#->ioctlname
+translations out of a config file so that pointing the same kdump 
+executable at different config files can allow it to dump syscall
+traces from different emulators.
+<p>
+Once that has been done, the next step would be to hack kernfs to 
+make the translation information available in /kern in the same format,
+obviating the need to hand-write a config file.  After all, the translation
+data is in the kernel already, there's no point duplicating it in
+ktrace/kdump.
+<p>
+In the meantime, I have a mostly complete port of linux_kdump for SysVR4
+emulation.  <a href="mailto:newton@atdot.dotat.org">Email me</a> if you want to finish work on it.
+<p>
+<hr>
+<i><a href="index.html#faq">Back</a></i>

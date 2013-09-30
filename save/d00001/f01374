@@ -1,0 +1,673 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Tarsnap - tarsnap(1)</title>
+<link rel="stylesheet" type="text/css" title="Default style" href="tarsnap.css">
+<link rel="canonical" href="http://www.tarsnap.com/man-tarsnap.1.html">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Tarsnap is a secure online backup system for Linux, BSD, OS X, and other UNIX-like operating systems">
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10889726-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    if("http:" == document.location.protocol) {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = 'http://www.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    }
+  })();
+</script>
+</head>
+<body>
+<div class="banner">
+<h1><a href="http://www.tarsnap.com/">Tarsnap</a></h1>
+<p class="tagline">Online backups for the truly paranoid</p>
+<a href="#nav" style="display: none">Navigation menu</a>
+</div>
+<div class="nonbanner">
+<div class="main">
+<div class="onecol">
+  <div class="box">
+    <h3 class="doc">tarsnap(1)</h3>
+    <div class="boxcontents">
+<h4>NAME</h4><pre>     tarsnap -- manipulate remote encrypted backups
+</pre><h4>SYNOPSIS</h4><pre>     tarsnap {-c} --keyfile key-file --cachedir cache-dir -f archive-name
+             [options] [files | directories]
+     tarsnap {-d} --keyfile key-file --cachedir cache-dir -f archive-name
+             [options]
+     tarsnap {-t | -x} --keyfile key-file -f archive-name [options] [patterns]
+     tarsnap {-r} --keyfile key-file -f archive-name
+     tarsnap {--list-archives} --keyfile key-file
+     tarsnap {--print-stats} --keyfile key-file --cachedir cache-dir
+             [-f archive-name]
+     tarsnap {--recover} --keyfile key-file --cachedir cache-dir
+     tarsnap {--fsck} --keyfile key-file --cachedir cache-dir
+     tarsnap {--fsck-prune} --keyfile key-file --cachedir cache-dir
+     tarsnap {--nuke} --keyfile key-file
+</pre><h4>DESCRIPTION</h4><pre>     tarsnap creates, reads, deletes, and otherwise manages online backups.
+
+     The first option to tarsnap is a mode indicator from the following list:
+     -c      Create an archive containing the specified items and name.
+     -d      Delete the specified archive.
+     -t      List archive contents to stdout.
+     -x      Extract to disk from the archive.
+     -r      Read the specified archive, convert it to a tar stream, and write
+             it to stdout.
+     --list-archives
+             Print the names of archives stored.  If the -v flag is specified
+             one or more times, the creation time of each archive is also
+             printed; if the -v flag is specified two or more times, the com-
+             mand line with which tarsnap was invoked to create each archive
+             is also printed.
+     --print-stats
+             Print global statistics concerning the archives stored, and
+             optionally information about individual archive(s).  See "PRINT-
+             ING ARCHIVE STATISTICS" below for information on the output for-
+             mat.
+     --recover
+             Recover a partial archive from a checkpoint if such an archive
+             exists.  This is also done automatically the next time an archive
+             is created or deleted.
+     --fsck  Perform some integrity checks on the archives stored, and recon-
+             struct the cache directory cache-dir.  In the unlikely event that
+             there are corrupted archives, tarsnap will exit and request that
+             it be run with the --fsck-prune option.
+     --fsck-prune
+             Run as --fsck, but if corrupt archives are detected, prune the
+             broken data.
+     --nuke  Delete all of the archives stored.  To protect against accidental
+             data loss, tarsnap will ask you to type the text "No Tomorrow"
+             when using the --nuke command.
+
+     In -c mode, each specified file or directory is added to the archive in
+     the order specified on the command line.  By default, the contents of
+     each directory are also archived.
+
+     In -t or -x mode, the entire command line is read and parsed before the
+     archive is opened.  The pathnames or patterns on the command line indi-
+     cate which items in the archive should be processed.  Patterns are shell-
+     style globbing patterns as documented in tcsh(1).
+</pre><h4>OPTIONS</h4><pre>     @archive-file
+             (c mode only) The specified archive file is read and the entries
+             in it will be appended to the current archive.  As an example,
+                   tarsnap -c --keyfile key-file --cachedir cache-dir -f
+                   mybackup @backup.tar
+             reads the archive file backup.tar from disk and stores it using
+             tarsnap.
+
+     @@archive-name
+             (c mode only) The specified tarsnap archive is read and the
+             entries in it will be appended to the current archive.
+
+     --aggressive-networking
+             (c mode only) Use multiple TCP connections to send data to the
+             tarsnap server.  If the upload rate is congestion-limited rather
+             than being limited by individual bottleneck(s), this may allow
+             tarsnap to use a significantly larger fraction of the available
+             bandwidth, at the expense of slowing down any other network traf-
+             fic.
+
+     -C directory
+             (c and x modes only) In c mode, this changes the directory before
+             adding the following files.  In x mode, change directories after
+             opening the archive but before extracting entries from the ar-
+             chive.
+
+     --cachedir cache-dir
+             (c, d, print-stats, and fsck modes) Cache information about the
+             archives stored by tarsnap in the directory cache-dir.  The con-
+             tents of this directory will not be backed up by tarsnap, so it
+             should not be used for any other purpose.  If the directory
+             cache-dir is lost, it can be reconstructed by running tarsnap
+             --fsck.
+
+     --check-links
+             (c mode only) Issue a warning message unless all links to each
+             file are archived.
+
+     --checkpoint-bytes bytespercheckpoint
+             (c mode only) Create a checkpoint after every bytespercheckpoint
+             bytes of uploaded data.  The value bytespercheckpoint must be at
+             least 1000000, and a higher value is recommended since creating a
+             checkpoint in an archive can take a few seconds and several hun-
+             dred kB of bandwidth.
+
+     --chroot
+             (x mode only) chroot() to the current directory after processing
+             any -C options and before extracting any files.
+
+     --configfile file
+             Add file to the list of configuration files to be read; options
+             set via these take priority over the default configuration files.
+             This option can be specified multiple times, in which case all
+             the files will be read; where settings conflict, the earlier con-
+             figuration file will take priority.
+
+     --disk-pause X
+             (c mode only) Pause for X ms between storing archive entries and
+             after every 64 kB of file data.  This will slow down tarsnap and
+             thereby reduce its impact on other applications.  For archiving
+             files which are stored on an ATA disk and are not in the operat-
+             ing system disk cache, a value of --disk-pause 10 will approxi-
+             mately double the time taken.
+
+     --dry-run
+             (c mode only) Don't really create an archive; just simulate doing
+             so.  The list of paths added to an archive (if the -v option is
+             used) and statistics printed (if the --print-stats option is
+             used) will be identical to if tarsnap is run without the
+             --dry-run option.
+
+             Note that the --maxbw option does not work in combination with
+             --dry-run, since no bandwidth is actually used, and that since
+             tarsnap does not contact the tarsnap server when performing a dry
+             run, it will not detect an attempt to create an archive with the
+             same name as one which already exists.
+
+     --exclude pattern
+             (c, x, and t modes only) Do not process files or directories that
+             match the specified pattern.  Note that exclusions take prece-
+             dence over patterns or filenames specified on the command line.
+
+     -f archive-name
+             (c, d, x, t, r, and print-stats modes only) Operate on the ar-
+             chive archive-name.  In mode c, if archive creation is inter-
+             rupted by ^Q, the SIGQUIT signal, or reaching the bandwidth limit
+             specified via a --maxbw option, the archive will be stored with
+             ".part" appended to its name.  In mode print-stats, if
+             archive-name is *, statistics will be printed for every archive.
+             In the print-stats and d modes, -f archive-name can be specified
+             multiple times, in which case the operation (printing statistics,
+             or deletion) will be performed for each of the specified ar-
+             chives.
+
+             Note that each archive created must have a different name; conse-
+             quently many users find it useful to include timestamps in ar-
+             chive names when repeatedly creating archives from the same
+             files/directories (e.g., daily backups).
+
+     -H      (c mode only) Symbolic links named on the command line will be
+             followed; the target of the link will be archived, not the link
+             itself.
+
+     -h      (c mode only) Synonym for -L.
+
+     --humanize-numbers
+             Use SI prefixes to make numbers printed by --print-stats more
+             readable.
+
+     -I      Synonym for -T.
+
+     --include pattern
+             (c, x, and t modes only) Process only files or directories that
+             match the specified pattern.  Note that exclusions specified with
+             --exclude take precedence over inclusions.  If no inclusions are
+             explicitly specified, all entries are processed by default.  The
+             --include option is especially useful when filtering archives.
+             For example, the command
+                   tarsnap -c -f foo-backup --include='*foo*' @@all-backup
+             creates a new archive foo-backup containing only the entries from
+             all-backup containing the string `foo'.
+
+     --insane-filesystems
+             (c mode only) Allow descent into synthetic filesystems such as
+             procfs.  Normally archiving of such filesystems is a silly thing
+             to do, hence the name of the option.
+
+     -k      (x mode only) Do not overwrite existing files.  In particular, if
+             a file appears more than once in an archive, later copies will
+             not overwrite earlier copies.
+
+     --keep-newer-files
+             (x mode only) Do not overwrite existing files that are newer than
+             the versions appearing in the archive being extracted.
+
+     --keyfile key-file
+             (all modes) Obtain encryption, authentication, and access keys
+             from key-file.  This file should have been generated by
+             tarsnap-keygen(1).
+
+     -L      (c mode only) All symbolic links will be followed.  Normally,
+             symbolic links are archived as such.  With this option, the tar-
+             get of the link will be archived instead.
+
+     -l      This is a synonym for the --check-links option.
+
+     --lowmem
+             (c mode only) Reduce memory usage by not caching small files.
+             This may be useful when backing up files of average size less
+             than 1 MB if the available RAM in kilobytes is less than the num-
+             ber of files being backed up.
+
+     -m      (x mode only) Do not extract modification time.  By default, the
+             modification time is set to the time stored in the archive.
+
+     --maxbw numbytes
+             (c mode only) Interrupt archival if more than numbytes bytes of
+             upstream bandwidth is used (see INTERRUPTING ARCHIVAL below for
+             details).
+
+     --maxbw-rate bytespersecond
+             Limit download and upload bandwidth used to bytespersecond bytes
+             per second.
+
+     --maxbw-rate-down bytespersecond
+             Limit download bandwidth used to bytespersecond bytes per second.
+
+     --maxbw-rate-up bytespersecond
+             Limit upload bandwidth used to bytespersecond bytes per second.
+
+     -n      (c mode only) Do not recursively archive the contents of directo-
+             ries.
+
+     --newer date
+             (c mode only) Only include files and directories newer than the
+             specified date.  This compares ctime entries.
+
+     --newer-mtime date
+             (c mode only) Like --newer, except it compares mtime entries
+             instead of ctime entries.
+
+     --newer-than file
+             (c mode only) Only include files and directories newer than the
+             specified file.  This compares ctime entries.
+
+     --newer-mtime-than file
+             (c mode only) Like --newer-than, except it compares mtime entries
+             instead of ctime entries.
+
+     --nodump
+             (c mode only) Honor the nodump file flag by skipping this file.
+
+     --noisy-warnings
+             Be verbose when warning about network glitches.  This is probably
+             only useful for debugging purposes.
+
+     --normalmem
+             Ignore any lowmem or verylowmem option specified in a configura-
+             tion file.
+
+     --no-aggressive-networking
+             Ignore any aggressive-networking option specified in a configura-
+             tion file.
+
+     --no-config-exclude
+             Ignore any exclude option specified in a configuration file.
+             Normally exclude options specified via configuration files and
+             the command line all take effect.
+
+     --no-config-include
+             Ignore any include option specified in a configuration file.
+             Normally include options specified via configuration files and
+             the command line all take effect.
+
+     --no-default-config
+             Do not read the default configuration files
+             /usr/local/etc/tarsnap.conf and ~/.tarsnaprc
+
+     --no-disk-pause
+             Ignore any disk-pause option specified in a configuration file.
+
+     --no-humanize-numbers
+             Ignore any humanize-numbers option specified in a configuration
+             file.
+
+     --no-insane-filesystems
+             Ignore any insane-filesystems option specified in a configuration
+             file.
+
+     --no-maxbw
+             Ignore any maxbw option specified in a configuration file.
+
+     --no-maxbw-rate-down
+             Ignore any maxbw-rate-down option specified in a configuration
+             file.  If a maxbw-rate option is specified in a configuration
+             file, it will not affect the download bandwidth used, but may
+             affect the upload bandwidth used (unless --no-maxbw-rate-up is
+             also specified).
+
+     --no-maxbw-rate-up
+             Ignore any maxbw-rate-up option specified in a configuration
+             file.  If a maxbw-rate option is specified in a configuration
+             file, it will not affect the upload bandwidth used, but may
+             affect the download bandwidth used (unless --no-maxbw-rate-down
+             is also specified).
+
+     --no-nodump
+             Ignore any nodump option specified in a configuration file.
+
+     --no-print-stats
+             Ignore any print-stats option specified in a configuration file.
+
+     --no-quiet
+             Ignore any quiet option specified in a configuration file.
+
+     --no-snaptime
+             Ignore any snaptime option specified in a configuration file.
+
+     --no-store-atime
+             Ignore any store-atime option specified in a configuration file.
+
+     --no-totals
+             Ignore any totals option specified in a configuration file.
+
+     --null  (use with -I, -T, or -X) Filenames or patterns are separated by
+             null characters, not by newlines.  This is often used to read
+             filenames output by the -print0 option to find(1).
+
+     --numeric-owner
+             (x mode only) Ignore symbolic user and group names when restoring
+             archives to disk, only numeric uid and gid values will be obeyed.
+
+     -O      (x and t modes only) In extract (-x) mode, files will be written
+             to standard out rather than being extracted to disk.  In list
+             (-t) mode, the file listing will be written to stderr rather than
+             the usual stdout.
+
+     -o      (x mode only) Use the user and group of the user running the pro-
+             gram rather than those specified in the archive.  Note that this
+             has no significance unless -p is specified, and the program is
+             being run by the root user.  In this case, the file modes and
+             flags from the archive will be restored, but ACLs or owner infor-
+             mation in the archive will be discarded.
+
+     --one-file-system
+             (c mode only) Do not cross mount points.
+
+     -P      (c, x, and t modes only) Preserve pathnames.  By default, abso-
+             lute pathnames (those that begin with a / character) have the
+             leading slash removed both when creating archives and extracting
+             from them.  Also, tarsnap will refuse to extract archive entries
+             whose pathnames contain .. or whose target directory would be
+             altered by a symlink.  This option suppresses these behaviors.
+
+     -p      (x mode only) Preserve file permissions.  Attempt to restore the
+             full permissions, including owner, file modes, file flags and
+             ACLs, if available, for each item extracted from the archive.  By
+             default, newly-created files are owned by the user running
+             tarsnap, the file mode is restored for newly-created regular
+             files, and all other types of entries receive default permis-
+             sions.  If tarsnap is being run by root, the default is to
+             restore the owner unless the -o option is also specified.
+
+     --print-stats
+             (c and d modes only) Print statistics for the archive being cre-
+             ated (c mode) or delete (d mode).  See "PRINTING ARCHIVE STATIS-
+             TICS" below for information on the output format.
+
+     -q (--fast-read)
+             (x and t modes only) Extract or list only the first archive entry
+             that matches each pattern or filename operand.  Exit as soon as
+             each specified pattern or filename has been matched.  By default,
+             the archive is always read to the very end, since there can be
+             multiple entries with the same name and, by convention, later
+             entries overwrite earlier entries.  This option is provided as a
+             performance optimization.
+
+     --quiet
+             Avoid printing some warnings.  Currently the warnings which are
+             silenced by this option are "Removing leading '/' ...", "Not
+             adding cache directory to archive", "... file may have grown
+             while being archived", and "Skipping entry on filesystem of type
+             ...", but it is likely that other warnings will be silenced by
+             this option in future versions of tarsnap.
+
+     -S      (x mode only) Extract files as sparse files.  For every block on
+             disk, check first if it contains any non-NULL bytes and seek over
+             it otherwise.  This works similar to the conv=sparse option of
+             dd.
+
+     -s pattern
+             Modify file or archive member names according to pattern.  The
+             pattern has the format /old/new/[gps].  old is a basic regular
+             expression.  If it doesn't apply, the pattern is skipped.  new is
+             the replacement string of the matched part.  ~ is substituted
+             with the match, \1 to \9 with the contents of the corresponding
+             captured group.  The optional trailing g specifies that matching
+             should continue after the matched part and stop on the first
+             unmatched pattern.  The optional trailing s specifies that the
+             pattern applies to the value of symbolic links.  The optional
+             trailing p specifies that after a successful substitution the
+             original path name and the new path name should be printed to
+             standard error.
+
+     --strip-components count
+             (x mode only) Remove the specified number of leading path ele-
+             ments.  Pathnames with fewer elements will be silently skipped.
+             Note that the pathname is edited after checking inclusion/exclu-
+             sion patterns but before security checks.
+
+     --snaptime file
+             (c mode only) This option MUST be specified when creating a
+             backup from a filesystem snapshot, and file must have a modifica-
+             tion time prior to when the filesystem snapshot was created.
+             (This is necessary to prevent races between file modification and
+             snapshot creation which could result in tarsnap failing to recog-
+             nize that a file has been modified.)
+
+     --store-atime
+             (c mode only) Enable the storing of file access times.  The
+             default behaviour of tarsnap is to not store file access times,
+             since this can cause a significant amount of bandwidth and stor-
+             age to be wasted when the same set of files are archived several
+             times (e.g., if daily backup archives are created) due to tarsnap
+             itself accessing files and thereby causing their access times to
+             be changed.
+
+     -T filename
+             (c, x, and t modes only) In x or t mode, tarsnap will read the
+             list of names to be extracted from filename.  In c mode, tarsnap
+             will read names to be archived from filename.  The special name
+             ``-C'' on a line by itself will cause the current directory to be
+             changed to the directory specified on the following line.  Names
+             are terminated by newlines unless --null is specified.  Note that
+             --null also disables the special handling of lines containing
+             ``-C''.
+
+     --totals
+             (c mode only) Print the size of the archive after creating it.
+             This option is provided mainly for compatibility with GNU tar; in
+             most situations the --print-stats option will be far more useful.
+
+     -U      (x mode only) Unlink files before creating them.  Without this
+             option, tarsnap overwrites existing files, which preserves exist-
+             ing hardlinks.  With this option, existing hardlinks will be bro-
+             ken, as will any symlink that would affect the location of an
+             extracted file.
+
+     -v      (c, t, x, and list-archives modes only) Produce verbose output.
+             In create and extract modes, tarsnap will list each file name as
+             it is read from or written to the archive.  In list mode, tarsnap
+             will produce output similar to that of ls(1).  Additional -v
+             options will provide additional detail.
+
+     --verylowmem
+             (c mode only) Reduce memory usage, by approximately a factor of 2
+             beyond the memory usage when --lowmem is specified, by not
+             caching anything.
+
+     --version
+             Print version of tarsnap, and exit.
+
+     -w      (c and x modes only) Ask for confirmation for every action.
+
+     -X filename
+             (c, x, and t modes only) Read a list of exclusion patterns from
+             the specified file.  See --exclude for more information about the
+             handling of exclusions.
+</pre><h4>SIGNALS</h4><pre>     tarsnap provides special treatment of the following signals:
+
+     SIGUSR1 & SIGINFO
+              On receipt of the SIGUSR1 signal or (on platforms where it
+              exists) the SIGINFO signal, tarsnap prints the current file or
+              directory being processed, and (for files) its progress within
+              the file.  Note that due to network buffering this position will
+              not align precisely with how much data has been sent to or
+              received from the tarsnap server.
+
+     SIGUSR2  On receipt of the SIGUSR2 signal, if tarsnap is creating an ar-
+              chive (mode c), it will create a checkpoint at the current posi-
+              tion.
+
+     SIGQUIT  On receipt of the SIGQUIT signal, if tarsnap is creating an ar-
+              chive (mode c) it will truncate the archive at the current posi-
+              tion and exit (see "INTERRUPTING ARCHIVAL" below).
+</pre><h4>PRINTING ARCHIVE STATISTICS</h4><pre>     Statistics on archives can be printed by running tarsnap --print-stats
+     and during archive creation or deletion statistics on the created or
+     deleted archive can be printed using the --print-stats option.  In either
+     case, tarsnap will print to the standard output a table in the following
+     format:
+
+                                            Total size  Compressed size
+     All archives                         104491640436      51510524844
+       (unique data)                       14830618089       7733620463
+     This archive                            808723344        289077325
+     New data                                 17858641          5658308
+
+     In this example, the combined size of all archives stored by tarsnap
+     using the same keys is 104 GB, and the combined size post-compression
+     would be 51 GB; but after removing duplicate blocks, there is only 14.8
+     GB which is compressed down to 7.7 GB.  (It is this 7.7 GB which is
+     stored via the Tarsnap service and must thus be paid for.)  The newly
+     created archive is 808 MB in size (compressible to 289 MB), but only 17.8
+     MB of the data is new, and after compression only 5.6 MB is uploaded to
+     the Tarsnap server.
+</pre><h4>INTERRUPTING ARCHIVAL</h4><pre>     Upon receipt of the SIGQUIT signal or ^Q, or if the bandwidth limit spec-
+     ified via a --maxbw option is reached, tarsnap will interrupt the cre-
+     ation of an archive and truncate it at the current position.  When an ar-
+     chive is truncated, it will be named according to the user-specified name
+     plus ".part" to denote the fact that it is incomplete.  Such a truncated
+     archive may be useful in its own right, but also offers the benefit that
+     future attempts to archive the same data will be faster and use less
+     bandwidth.
+</pre><h4>FIREWALLS</h4><pre>     tarsnap communicates with the tarsnap server via a TCP connection to port
+     9279; in some environments it may be necessary to add a firewall rule to
+     allow outgoing TCP connections to this port.  At the present time (July
+     2009) there is only one IP address in use for the tarsnap server, so net-
+     work administrators may wish to hard-code that IP address; however, it is
+     likely that at some point in the future that IP address will change
+     and/or other IP addresses will be added.
+</pre><h4>ENVIRONMENT</h4><pre>     The following environment variables affect the execution of tarsnap:
+
+     LANG       The locale to use.  See environ(7) for more information.
+
+     TZ         The timezone to use when displaying dates.  See environ(7) for
+                more information.
+</pre><h4>EXIT STATUS</h4><pre>     The tarsnap utility exits 0 on success, and >0 if an error occurs.
+</pre><h4>EXAMPLES</h4><pre>     Register with the server and generate keys:
+           tarsnap-keygen --keyfile /usr/tarsnap.key --user me@example.com
+           --machine myserver
+
+     Perform a backup of /usr/home and /other/stuff/to/backup:
+           tarsnap --keyfile /usr/tarsnap.key --cachedir /usr/tarsnap-cache -c
+           -f backup-2008-04-24 /usr/home /other/stuff/to/backup
+
+     Perform another backup, a day later; this is much faster since tarsnap
+     will avoid storing data which was previously stored:
+           tarsnap --keyfile /usr/tarsnap.key --cachedir /usr/tarsnap-cache -c
+           -f backup-2008-04-25 /usr/home /other/stuff/to/backup
+
+     List the archives:
+           tarsnap --keyfile /usr/tarsnap.key --list-archives
+
+     Delete the first backup, leaving the second backup intact:
+           tarsnap --keyfile /usr/tarsnap.key --cachedir /usr/tarsnap-cache -d
+           -f backup-2008-04-24
+
+     List the files in the remaining backup:
+           tarsnap --keyfile /usr/tarsnap.key -tv -f backup-2008-04-25
+
+     Restore two users' home directories from the backup:
+           tarsnap --keyfile /usr/tarsnap.key -x -f backup-2008-04-25
+           usr/home/auser usr/home/anotheruser
+
+     In /etc/crontab to create a backup of the entire system at 10:32 each
+     day:
+           32 10 * * * root tarsnap --keyfile /usr/tarsnap.key --cachedir
+           /usr/tarsnap-cache -c -f backup-`date +\%Y\%m\%d` /
+
+     Note that the --keyfile and --cachedir options can be specified via the
+     tarsnap.conf(5) configuration file, in which case they may be omitted
+     from the command line.
+</pre><h4>SECURITY</h4><pre>     Certain security issues are common to many archiving programs, including
+     tarsnap.  In particular, carefully-crafted archives can request that
+     tarsnap extract files to locations outside of the target directory.  This
+     can potentially be used to cause unwitting users to overwrite files they
+     did not intend to overwrite.  If the archive is being extracted by the
+     superuser, any file on the system can potentially be overwritten.  There
+     are three ways this can happen.  Although tarsnap has mechanisms to pro-
+     tect against each one, savvy users should be aware of the implications:
+
+     o       Archive entries can have absolute pathnames.  By default, tarsnap
+             removes the leading / character from filenames before restoring
+             them to guard against this problem.
+
+     o       Archive entries can have pathnames that include .. components.
+             By default, tarsnap will not extract files containing .. compo-
+             nents in their pathname.
+
+     o       Archive entries can exploit symbolic links to restore files to
+             other directories.  An archive can restore a symbolic link to
+             another directory, then use that link to restore a file into that
+             directory.  To guard against this, tarsnap checks each extracted
+             path for symlinks.  If the final path element is a symlink, it
+             will be removed and replaced with the archive entry.  If -U is
+             specified, any intermediate symlink will also be unconditionally
+             removed.  If neither -U nor -P is specified, tarsnap will refuse
+             to extract the entry.
+
+     Although tarsnap cryptographically signs archives in such a manner that
+     it is believed to be unfeasible for an attacker to forge an archive with-
+     out having possession of key-file, you may wish to examine the contents
+     of archive(s) with
+           tarsnap -t --keyfile key-file -f archive-name
+     before extraction.  Note that the -P option to tarsnap disables the secu-
+     rity checks above and allows you to extract an archive while preserving
+     any absolute pathnames, .. components, or symlinks to other directories.
+</pre><h4>FILES</h4><pre>     /usr/local/etc/tarsnap.conf
+             The system global tarsnap configuration file.  Parameters speci-
+             fied here only take effect if they are not specified via the cur-
+             rent user's local configuration file or via the command line.
+
+     ~/.tarsnaprc
+             The tarsnap configuration file for the current user.  Parameters
+             specified here take effect unless they are specified via the com-
+             mand line.
+</pre><h4>SEE ALSO</h4><pre>     tarsnap-keygen(1), tarsnap.conf(5), tar(5)
+</pre><h4>HISTORY</h4><pre>     A tar command appeared in Seventh Edition Unix, which was released in
+     January, 1979.  There have been numerous other implementations, many of
+     which extended the file format.  John Gilmore's pdtar public-domain
+     implementation (circa November, 1987) was quite influential, and formed
+     the basis of GNU tar.  GNU tar was included as the standard system tar in
+     FreeBSD beginning with FreeBSD 1.0, but was replaced by Tim Kientzle's
+     bsdtar utility and libarchive(3) library in FreeBSD 5.3.
+
+     tarsnap is built around bsdtar and libarchive(3).
+</pre><h4>BUGS</h4><pre>     This program follows ISO/IEC 9945-1:1996 (``POSIX.1'') for the definition
+     of the -l option to tar(5).  Note that GNU tar prior to version 1.15
+     treated -l as a synonym for the --one-file-system option.
+
+     To archive a file called @foo, @@foo, or -foo you must specify it as
+     ./@foo, ./@@foo, or ./-foo, respectively.
+
+     In create mode, a leading ./ is always removed.  A leading / is stripped
+     unless the -P option is specified.
+
+     Hard link information may be lost if an archive file which is included
+     via the @archive-file option is in a non-"tar" format.  (This is a conse-
+     quence of the incompatible ways that different archive formats store
+     hardlink information.)
+
+     There are alternative long options for many of the short options that are
+     deliberately not documented.
+
+     The limit specified by a --maxbw option is not strictly enforced; in par-
+     ticular, due to the need to cleanly terminate an archive, the amount of
+     bandwidth used may slightly exceed the limit.
+
+</pre>    </div>
+  </div>
+</div>
+</div>
+<div class="leftmargin"><div class="nav" id="nav"><ul class="navtop"><li><a href="index.html">Tarsnap</a></li><li><a href="design.html">Design</a></li><li><a href="https://www.tarsnap.com/download.html">Download</a></li><li><a href="documentation.html">Documentation</a><ul><li><a href="gettingstarted.html">Getting started</a></li><li><a href="usage.html">General usage</a></li><li><a href="man.html">Man pages</a><ul><li><a class="current" href="man-tarsnap.1.html">tarsnap(1)</a></li><li><a href="man-tarsnap-keygen.1.html">tarsnap-keygen(1)</a></li><li><a href="man-tarsnap-keymgmt.1.html">tarsnap-keymgmt(1)</a></li><li><a href="man-tarsnap-keyregen.1.html">tarsnap-keyregen(1)</a></li><li><a href="man-tarsnap-recrypt.1.html">tarsnap-recrypt(1)</a></li><li><a href="man-tarsnap.conf.5.html">tarsnap.conf(5)</a></li></ul></li><li><a href="technical.html">Technical details</a></li><li><a href="faq.html">FAQ</a></li></ul></li><li><a href="support.html">Support</a></li><li><a href="https://www.tarsnap.com/account.html">Accounts</a></li></ul></div></div></div>
+</body></html>

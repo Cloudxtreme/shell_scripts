@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html><head>
+<link rel="home" href="http://www.NetBSD.org/">
+<link rel="find" href="http://www.NetBSD.org/support/query-pr.html">
+<link rel="contents" href="/summary/">
+<link rel="index" href="/summary/">
+<link rel="made" href="mailto:www@NetBSD.org">
+<link rel="copyright" href="http://www.NetBSD.org/about/disclaimer.html">
+<title>NetBSD Problem Report #47579:
+compat module does not provide kern.oboottime sysctl                                                                            
+</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>NetBSD Problem Report #47579</h1>
+
+<pre>
+From paul@whooppee.com  Wed Feb 20 01:18:53 2013
+Return-Path: &lt;paul@whooppee.com&gt;
+Received: from mail.netbsd.org (mail.netbsd.org [149.20.53.66])
+	by www.NetBSD.org (Postfix) with ESMTP id 8203C63E520
+	for &lt;gnats-bugs@gnats.NetBSD.org&gt;; Wed, 20 Feb 2013 01:18:53 +0000 (UTC)
+Message-Id: &lt;20130220011852.3C36D246FE5@screamer.whooppee.com&gt;
+Date: Tue, 19 Feb 2013 17:18:52 -0800 (PST)
+From: paul@whooppee.com
+Reply-To: paul@whooppee.com
+To: gnats-bugs@gnats.NetBSD.org
+Subject: compat module does not provide kern.oboottime sysctl
+X-Send-Pr-Version: 3.95
+
+
+<b>&gt;Number:</b>         47579
+<b>&gt;Category:</b>       kern
+<b>&gt;Synopsis:</b>       compat module does not provide kern.oboottime sysctl
+<b>&gt;Confidential:</b>   no
+<b>&gt;Severity:</b>       serious
+<b>&gt;Priority:</b>       medium
+<b>&gt;Responsible:</b>    pgoyette
+<b>&gt;State:</b>          closed
+<b>&gt;Class:</b>          sw-bug
+<b>&gt;Submitter-Id:</b>   net
+<b>&gt;Arrival-Date:</b>   Wed Feb 20 01:20:01 +0000 2013
+<b>&gt;Closed-Date:</b>    Thu Mar 14 16:55:18 +0000 2013
+<b>&gt;Last-Modified:</b>  Thu Mar 14 16:55:18 +0000 2013
+<b>&gt;Originator:</b>     Paul Goyette
+<b>&gt;Release:</b>        NetBSD 6.99.14
+<b>&gt;Organization:</b>
+-------------------------------------------------------------------------
+| Paul Goyette     | PGP Key fingerprint:     | E-mail addresses:       |
+| Customer Service | FA29 0E3B 35AF E8AE 6651 | paul at whooppee.com    |
+| Network Engineer | 0786 F758 55DE 53BA 7731 | pgoyette at juniper.net |
+| Kernel Developer |                          | pgoyette at netbsd.org  |
+-------------------------------------------------------------------------
+<b>&gt;Environment:</b>
+
+	
+
+	
+System: NetBSD screamer.whooppee.com 6.99.14 NetBSD 6.99.14 (WHOOPPEE (shared) 2012-10-20 17:00:50) #52: Sat Oct 20 10:04:12 PDT 2012 paul@screamer.whooppee.com:/build/netbsd-local/obj/amd64/sys/arch/amd64/compile/WHOOPPEE amd64
+Architecture: x86_64
+Machine: amd64
+<b>&gt;Description:</b>
+	If you build a kernel with 'options COMPAT_50' it will create a
+	sysctl variable kern.oboottime.  However, the compat module does
+	not provide this variable.  So, if you have older images that
+	require this variable, you cannot use the compat module.
+<b>&gt;How-To-Repeat:</b>
+
+	
+<b>&gt;Fix:</b>
+	Move the sysctl code out of kern/sysctl_init.c and into
+	kern/kern_time_50.c, and update compat/common/compat_mod.c to
+	initialize it.
+
+
+<b>&gt;Release-Note:</b>
+
+
+<b>&gt;Audit-Trail:</b>
+From: &quot;Paul Goyette&quot; &lt;pgoyette@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47579 CVS commit: src/sys
+Date: Thu, 21 Feb 2013 01:39:56 +0000
+
+
+ Module Name:	src
+ Committed By:	pgoyette
+ Date:		Thu Feb 21 01:39:55 UTC 2013
+
+ 
+ Modified Files:
+ 	src/sys/compat/common: compat_mod.c compat_util.h kern_time_50.c
+ 	    vfs_syscalls_43.c
+ 	src/sys/kern: init_main.c init_sysctl.c
+ Added Files:
+ 	src/sys/compat/common: compat_mod.h
+
+ 
+ Log Message:
+ Move boottime50 and its associated sysctl into the compat module.  As
+ noted on tech-kern.  Should fix PR/47579.
+
+ 
+ OK christos@
+
+ 
+ Will request pull-up to 6.0 in a few days.
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.15 -r1.16 src/sys/compat/common/compat_mod.c
+ cvs rdiff -u -r0 -r1.1 src/sys/compat/common/compat_mod.h
+ cvs rdiff -u -r1.22 -r1.23 src/sys/compat/common/compat_util.h
+ cvs rdiff -u -r1.24 -r1.25 src/sys/compat/common/kern_time_50.c
+ cvs rdiff -u -r1.54 -r1.55 src/sys/compat/common/vfs_syscalls_43.c
+ cvs rdiff -u -r1.446 -r1.447 src/sys/kern/init_main.c
+ cvs rdiff -u -r1.194 -r1.195 src/sys/kern/init_sysctl.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+Responsible-Changed-From-To: kern-bug-people-&gt;pgoyette
+Responsible-Changed-By: pgoyette@NetBSD.org
+Responsible-Changed-When: Thu, 21 Feb 2013 01:42:19 +0000
+Responsible-Changed-Why:
+I'm working this one.
+
+
+
+
+State-Changed-From-To: open-&gt;feedback
+State-Changed-By: pgoyette@NetBSD.org
+State-Changed-When: Thu, 21 Feb 2013 01:42:19 +0000
+State-Changed-Why:
+Fix committed, will request pull-up to 60 soon.
+
+
+
+
+From: &quot;Jeff Rizzo&quot; &lt;riz@netbsd.org&gt;
+To: gnats-bugs@gnats.NetBSD.org
+Cc: 
+Subject: PR/47579 CVS commit: [netbsd-6] src/sys
+Date: Thu, 14 Mar 2013 16:33:11 +0000
+
+
+ Module Name:	src
+ Committed By:	riz
+ Date:		Thu Mar 14 16:33:10 UTC 2013
+
+ 
+ Modified Files:
+ 	src/sys/compat/common [netbsd-6]: compat_mod.c compat_util.h
+ 	    kern_time_50.c vfs_syscalls_43.c
+ 	src/sys/kern [netbsd-6]: init_main.c init_sysctl.c
+ Added Files:
+ 	src/sys/compat/common [netbsd-6]: compat_mod.h
+
+ 
+ Log Message:
+ Pull up following revision(s) (requested by pgoyette in ticket #837):
+ 	sys/compat/common/kern_time_50.c: revision 1.25
+ 	sys/kern/init_sysctl.c: revision 1.195
+ 	sys/kern/init_main.c: revision 1.447
+ 	sys/compat/common/compat_util.h: revision 1.23
+ 	sys/compat/common/compat_mod.h: revision 1.1
+ 	sys/compat/common/compat_mod.c: revision 1.16
+ 	sys/compat/common/compat_mod.c: revision 1.17
+ 	sys/compat/common/compat_mod.c: revision 1.18
+ 	sys/compat/common/vfs_syscalls_43.c: revision 1.55
+ Move boottime50 and its associated sysctl into the compat module.  As
+ noted on tech-kern.  Should fix PR/47579.
+ OK christos@
+ Will request pull-up to 6.0 in a few days.
+ Wrap sysctl_teardown(&amp;compat_clog) with the appropriate #if defined()s
+ remove empty #if
+
+ 
+
+ 
+ To generate a diff of this commit:
+ cvs rdiff -u -r1.14 -r1.14.8.1 src/sys/compat/common/compat_mod.c
+ cvs rdiff -u -r0 -r1.1.6.2 src/sys/compat/common/compat_mod.h
+ cvs rdiff -u -r1.22 -r1.22.18.1 src/sys/compat/common/compat_util.h
+ cvs rdiff -u -r1.22 -r1.22.2.1 src/sys/compat/common/kern_time_50.c
+ cvs rdiff -u -r1.54 -r1.54.14.1 src/sys/compat/common/vfs_syscalls_43.c
+ cvs rdiff -u -r1.441.2.2 -r1.441.2.3 src/sys/kern/init_main.c
+ cvs rdiff -u -r1.186 -r1.186.2.1 src/sys/kern/init_sysctl.c
+
+ 
+ Please note that diffs are not public domain; they are subject to the
+ copyright notices on the relevant files.
+
+ 
+State-Changed-From-To: feedback-&gt;closed
+State-Changed-By: pgoyette@NetBSD.org
+State-Changed-When: Thu, 14 Mar 2013 16:55:18 +0000
+State-Changed-Why:
+Pull-up completed, bug fixed.
+
+
+
+
+<b>&gt;Unformatted:</b>
+
+ 	
+
+ 	
+
+
+</pre>
+
+<hr>
+
+<table width="100%"><tr> 
+<td> 
+  <table><tr>
+  <td>
+    <a href="http://www.NetBSD.org/"> 
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">Home</a>
+  </td>
+  </tr></table>
+</td><td> 
+  <table><tr> 
+  <td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/NetBSD-flag.png" border="0"
+            width="90" height="90" alt=""></a>
+  </td><td>
+    <a href="http://www.NetBSD.org/support/query-pr.html">
+    <img src="http://www.NetBSD.org/images/empty.gif" border="0"
+            width="1" height="1" alt="NetBSD ">PR Database Search</a>
+  </td>
+  </tr></table>
+</td>
+</table>
+
+<hr>
+<address>
+  <small>
+  <a href="http://www.NetBSD.org/cgi-bin/feedback.cgi">(Contact us)</a>
+  $NetBSD: query-full-pr,v 1.36 2007/11/24 03:27:39 kano Exp $<br>
+  $NetBSD: gnats_config.sh,v 1.8 2006/05/07 09:23:38 tsutsui Exp $<br>
+  <a href="http://www.NetBSD.org/about/disclaimer.html">Copyright &copy; 1994-2007
+  The NetBSD Foundation, Inc.  ALL RIGHTS RESERVED.</a>
+  </small>
+</address>
+
+</body>
+</html>

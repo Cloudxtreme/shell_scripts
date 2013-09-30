@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="iso-8859-1">
+
+<meta name="author" content="CERT.br" />
+<meta name="description" content="Mecanismos de segurança" />
+<meta name="keywords" content="segurança, Internet, mecanismos, ferramentas, identificação, autenticação, autorização, integridade, confidencialidade, sigilo, não repúdio, disponibilidade, política de segurança, privacidade, uso aceitável, PUA, AUP, backup, termo de uso, termo de serviço, incidentes, notificação, abuso, conta, senha, criptografia, cópia de segurança, backup, registro de eventos, logs, antimalware, antivírus, antispyware, antirootkit, antitrojan, assinatura, heurística, comportamento, firewall, antispam, antiphishing, filtro, anonymizer" />
+
+<link rel="stylesheet" type="text/css" media="screen" href="/css/cartilha.css" />
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+<script type="text/javascript" src="/js/modernizr.js"></script>
+
+<title>Cartilha de Segurança -- Mecanismos de segurança</title>
+
+</head>
+
+<body>
+
+<!-- ************************************************************ -->
+<!-- ******* Begin header *************************************** -->
+
+<header>
+<section id="header-cert">
+
+<h1>
+<a href="http://www.cert.br/">
+<img src="/images/logo_cert.png" alt="CERT.br" />
+</a>
+</h1>
+<span><a href="http://www.cert.br/">Centro de Estudos, Resposta e
+Tratamento de<br />Incidentes de Segurança no Brasil</a></span>
+
+<div id="header-cgi-nic">
+<a href="http://www.nic.br/" title="Núcleo de Informação e Coordenação do Ponto BR">
+<img src="/images/logo_nic.png" alt="NIC.br" class="logo-nic" />
+</a>
+<a href="http://www.cgi.br/" title="Comitê Gestor da Internet no Brasil">
+<img src="/images/logo_cgi.png" alt="CGI.br" />
+</a>
+</div>
+
+</section>
+
+<section class="topo">
+
+<h2>
+<a href="/" accesskey="1">
+<img src="/images/logo_cartilha.png"
+alt="Cartilha de Segurança para Internet" class="logo-cartilha" />
+</a>
+</h2>
+
+<nav>
+<ul>
+  <li><a href="/">Início</a></li>
+  <li><a href="/livro/">Livro</a></li>
+  <li><a href="/fasciculos/">Fascículos</a></li>
+  <li><a href="/sobre/">Sobre</a></li>
+</ul>
+</nav>
+
+<form method="get" class="search-form" action="http://www.google.com/search" >
+  <input type="text" value="Buscar" name="q" size="20"
+         class="searchInput" />
+  <input type="hidden" name="sitesearch" value="cartilha.cert.br" />
+  <input type="image" name="submit" class="searchButton"
+         src="/images/button_search.png" alt="Search" />
+</form>
+
+<span class="ir-conteudo"><a href="#content" accesskey="2">Ir para o
+conteúdo</a></span>
+
+<div class="breadcrumb">
+  Você está em: <a href="/">Cartilha</a> &gt;
+  <strong>7. Mecanismos de segurança</strong>
+</div>
+
+</section>
+</header>
+
+<!-- ******* End header ***************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin sumario ************************************** -->
+
+<aside>
+  <nav>
+    <div class="menu-navigation-container">
+      <p>Sumário</p>
+      <ul id="menu-navigation" class="menu">
+        <li><a href="/seguranca/">1. Segurança na Internet</a></li>
+        <li><a href="/golpes/">2. Golpes na Internet</a></li>
+        <li><a href="/ataques/">3. Ataques na Internet</a></li>
+        <li><a href="/malware/">4. Códigos Maliciosos (Malware)</a></li>
+        <li><a href="/spam/">5. Spam</a></li>
+        <li><a href="/riscos/">6. Outros riscos</a></li>
+        <li class="on"><a href="/mecanismos/">7. Mecanismos de segurança</a></li>
+        <li><a href="/senhas/">8. Contas e senhas</a></li>
+        <li><a href="/criptografia/">9. Criptografia</a></li>
+        <li><a href="/uso-seguro/">10. Uso seguro da Internet</a></li>
+        <li><a href="/privacidade/">11. Privacidade</a></li>
+        <li><a href="/computadores/">12. Segurança de computadores</a></li>
+        <li><a href="/redes/">13. Segurança de redes</a></li>
+        <li><a href="/dispositivos-moveis/">14. Segurança em dispositivos móveis</a></li>
+        <li><a href="/glossario/">Glossário</a></li>
+      </ul>
+    </div>
+  </nav>
+</aside>
+
+<!-- ******* End sumario **************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin conteudo ************************************* -->
+
+<a name="content"></a>
+
+<!-- ************************************************************ -->
+
+<article id="chapter_7">
+
+<div class="posicaoConteudo">
+<div class="conteudoLateralEsquerda">
+<div class="conteudoLateralDireita">
+<div class="inicioConteudo"></div>
+<div class="conteudo">
+
+<h3>
+<a name="7"></a>
+7. Mecanismos de segurança
+</h3>
+
+  <img class="ilustracao-r" src="/images/situacoes/mecanismos-seguranca.jpg"
+       alt="[Mecanismos de segurança]" title="Mecanismos de segurança" />
+
+<p>
+Agora que você já está ciente de alguns dos riscos relacionados ao uso
+de computadores e da Internet e que, apesar disso, reconhece que não é
+possível deixar de usar estes recursos, está no momento de aprender
+detalhadamente a se proteger.
+</p>
+
+<p>
+No seu dia a dia, há cuidados que você toma, muitas vezes de forma
+instintiva, para detectar e evitar riscos. Por exemplo: o contato
+pessoal e a apresentação de documentos possibilitam que você confirme a
+identidade de alguém, a presença na agência do seu banco garante que há
+um relacionamento com ele, os Cartórios podem reconhecer a veracidade da
+assinatura de alguém, etc.
+</p>
+
+<p>
+E como fazer isto na Internet, onde as ações são realizadas sem contato
+pessoal e por um meio de comunicação que, em princípio, é considerado
+inseguro?
+</p>
+
+<p>
+Para permitir que você possa aplicar na Internet cuidados similares aos
+que costuma tomar em seu dia a dia, é necessário que os serviços
+disponibilizados e as comunicações realizadas por este meio garantam
+alguns requisitos básicos de segurança, como:
+</p>
+
+<dl>
+
+  <dd> <b>Identificação:</b> permitir que uma entidade<a
+  name="sup_footnote001"></a><a href="#footnote001"
+  class="footnote">1</a> se identifique, ou seja, diga quem ela é.
+
+  <dd> <b>Autenticação:</b> verificar se a entidade é realmente quem ela
+  diz ser.
+
+  <dd> <b>Autorização:</b> determinar as ações que a entidade pode
+  executar.
+
+  <dd> <b>Integridade:</b> proteger a informação contra alteração não
+  autorizada.
+
+  <dd> <b>Confidencialidade ou sigilo:</b> proteger uma informação
+  contra acesso não autorizado.
+
+  <dd> <b>Não repúdio:</b> evitar que uma entidade possa negar que foi
+  ela quem executou uma ação.
+
+  <dd> <b>Disponibilidade:</b> garantir que um recurso esteja disponível
+  sempre que necessário.
+
+</dl>
+
+<p>
+Para prover e garantir estes requisitos, foram adaptados e desenvolvidos
+os mecanismos de segurança que, quando corretamente configurados e
+utilizados, podem auxiliá-lo a se proteger dos riscos envolvendo o uso
+da Internet.
+</p>
+
+<p>
+Antes de detalhar estes mecanismos, porém, é importante que você seja
+advertido sobre a possibilidade de ocorrência de <b>"falso
+positivo"</b>. Este termo é usado para designar uma situação na qual um
+mecanismo de segurança aponta uma atividade como sendo maliciosa ou
+anômala, quando na verdade trata-se de uma atividade legítima. Um falso
+positivo pode ser considerado um falso alarme (ou um alarme falso).
+</p>
+
+<p>
+Um falso positivo ocorre, por exemplo, quando uma página legítima é
+classificada como <i>phishing</i>, uma mensagem legítima é considerada
+<i>spam</i>, um arquivo é erroneamente detectado como estando infectado
+ou um <i>firewall</i> indica como ataques algumas respostas dadas às
+solicitações feitas pelo próprio usuário.
+</p>
+
+<p>
+Apesar de existir esta possibilidade, isto não deve ser motivo para que
+os mecanismos de segurança não sejam usados, pois a ocorrência destes
+casos é geralmente baixa e, muitas vezes, pode ser resolvida com
+alterações de configuração ou nas regras de verificação.
+</p>
+
+<p>
+Nas próximas seções são apresentados alguns dos principais mecanismos de
+segurança e os cuidados que você deve tomar ao usar cada um deles.
+</p>
+
+<div class="textoFootnote">
+<a name="footnote001"></a>
+<strong>[1]</strong> Uma entidade pode ser, por exemplo, uma pessoa, uma
+empresa ou um programa de computador.
+<span class="voltarTopo"><a href="#sup_footnote001">voltar</a></span>
+<br />
+</div>
+
+<!-- ************************************************************ -->
+
+<section id="section_7_1">
+
+<h4>
+<a name="7.1"></a>
+7.1. Política de segurança
+</h4>
+
+<p>
+A política de segurança define os direitos e as responsabilidades de
+cada um em relação à segurança dos recursos computacionais que utiliza e
+as penalidades às quais está sujeito, caso não a cumpra.
+</p>
+
+<p>
+É considerada como um importante mecanismo de segurança, tanto para as
+instituições como para os usuários, pois com ela é possível deixar claro
+o comportamento esperado de cada um. Desta forma, casos de mau
+comportamento, que estejam previstos na política, podem ser tratados de
+forma adequada pelas partes envolvidas.
+</p>
+
+<p>
+A política de segurança pode conter outras políticas específicas, como:
+</p>
+
+<dl>
+
+  <dd> <b>Política de senhas:</b> define as regras sobre o uso de senhas
+  nos recursos computacionais, como tamanho mínimo e máximo, regra de
+  formação e periodicidade de troca.
+
+  <dd> <b>Política de <i>backup</i>:</b> define as regras sobre a
+  realização de cópias de segurança, como tipo de mídia utilizada,
+  período de retenção e frequência de execução.
+
+  <dd> <b>Política de privacidade:</b> define como são tratadas as
+  informações pessoais, sejam elas de clientes, usuários ou
+  funcionários.
+
+  <dd> <b>Política de confidencialidade:</b> define como são tratadas as
+  informações institucionais, ou seja, se elas podem ser repassadas a
+  terceiros.
+
+  <dd> <b>Política de uso aceitável (PUA) ou <i><b>A</b>cceptable
+  <b>U</b>se <b>P</b>olicy</i> (AUP):</b> também chamada de "Termo de
+  Uso" ou "Termo de Serviço", define as regras de uso dos recursos
+  computacionais, os direitos e as responsabilidades de quem os utiliza
+  e as situações que são consideradas abusivas.
+
+</dl>
+
+<p>
+A política de uso aceitável costuma ser disponibilizada na página
+<i>Web</i> e/ou ser apresentada no momento em que a pessoa passa a ter
+acesso aos recursos. Talvez você já tenha se deparado com estas
+políticas, por exemplo, ao ser admitido em uma empresa, ao contratar um
+provedor de acesso e ao utilizar serviços disponibilizados por meio da
+Internet, como redes sociais e <i>Webmail</i>.
+</p>
+
+<p>
+Algumas situações que geralmente são consideradas de uso abusivo (não
+aceitável) são:
+</p>
+
+<ul>
+
+  <li> compartilhamento de senhas;
+
+  <li> divulgação de informações confidenciais;
+
+  <li> envio de boatos e mensagens contendo <i>spam</i> e códigos
+  maliciosos;
+
+  <li> envio de mensagens com objetivo de difamar, caluniar ou ameaçar
+  alguém;
+
+  <li> cópia e distribuição não autorizada de material protegido por
+  direitos autorais;
+
+  <li> ataques a outros computadores;
+
+  <li> comprometimento de computadores ou redes.
+
+</ul>
+
+<p>
+O desrespeito à política de segurança ou à política de uso aceitável de
+uma instituição pode ser considerado como um incidente de segurança e,
+dependendo das circunstâncias, ser motivo para encerramento de contrato
+(de trabalho, de prestação de serviços, etc.).
+</p>
+
+<p>
+<b>Cuidados a serem tomados:</b>
+</p>
+
+<ul>
+
+  <li> procure estar ciente da política de segurança da empresa onde
+  você trabalha e dos serviços que você utiliza (como <i>Webmail</i> e
+  redes sociais);
+
+  <li> fique atento às mudanças que possam ocorrer nas políticas de uso
+  e de privacidade dos serviços que você utiliza, principalmente aquelas
+  relacionadas ao tratamento de dados pessoais, para não ser
+  surpreendido com alterações que possam comprometer a sua privacidade;
+
+  <li> fique atento à política de confidencialidade da empresa onde você
+  trabalha e seja cuidadoso ao divulgar informações profissionais,
+  principalmente em <i>blogs</i> e redes sociais (mais detalhes na Seção
+  <a href="/privacidade/#11.1">11.1</a> do Capítulo <a
+  href="/privacidade/">Privacidade</a>);
+
+  <li> notifique sempre que se deparar com uma atitude considerada
+  abusiva (mais detalhes na Seção <a href="#7.2">7.2</a>).
+
+</ul>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_7_2">
+
+<h4>
+<a name="7.2"></a>
+7.2. Notificação de incidentes e abusos
+</h4>
+
+<p>
+Um incidente de segurança pode ser definido como qualquer evento
+adverso, confirmado ou sob suspeita, relacionado à segurança de sistemas
+de computação ou de redes de computadores.
+</p>
+
+<p>
+Alguns exemplos de incidentes de segurança são: tentativa de uso ou
+acesso não autorizado a sistemas ou dados, tentativa de tornar serviços
+indisponíveis, modificação em sistemas (sem o conhecimento ou
+consentimento prévio dos donos) e o desrespeito à política de segurança
+ou à política de uso aceitável de uma instituição.
+</p>
+
+<p>
+É muito importante que você notifique sempre que se deparar com uma
+atitude que considere abusiva ou com um incidente de segurança. De modo
+geral, a lista de pessoas/entidades a serem notificadas inclui: os
+responsáveis pelo computador que originou a atividade, os responsáveis
+pela rede que originou o incidente (incluindo o grupo de segurança e
+abusos, se existir um para aquela rede) e o grupo de segurança e abusos
+da rede a qual você está conectado (seja um provedor, empresa,
+universidade ou outro tipo de instituição).
+</p>
+
+<p>
+Ao notificar um incidente, além de se proteger e contribuir para a
+segurança global da Internet, também ajudará outras pessoas a detectarem
+problemas, como computadores infectados, falhas de configuração e
+violações em políticas de segurança ou de uso aceitável de recursos.
+</p>
+
+<p>
+Para encontrar os responsáveis por uma rede você deve consultar um
+"servidor de WHOIS", onde são mantidas as bases de dados sobre os
+responsáveis por cada bloco de números IP existentes. Para IPs alocados
+ao Brasil você pode consultar o servidor em <a
+href="http://registro.br/cgi-bin/whois/">http://registro.br/cgi-bin/whois/</a>,
+para os demais países você pode acessar o <i>site</i> <a
+href="http://www.geektools.com/whois.php">http://www.geektools.com/whois.php</a>
+que aceita consultas referentes a qualquer número IP e as redireciona
+para os servidores apropriados<a name="sup_footnote002"></a><a
+href="#footnote002" class="footnote">2</a>.
+</p>
+
+<p>
+É importante que você mantenha o CERT.br na cópia das suas
+notificações<a name="sup_footnote003"></a><a href="#footnote003"
+class="footnote">3</a>, pois isto contribuirá para as atividades deste
+grupo e permitirá que:
+</p>
+
+<ul>
+
+  <li> os dados relativos a vários incidentes sejam correlacionados,
+  ataques coordenados sejam identificados e novos tipos de ataques sejam
+  descobertos;
+
+  <li> ações corretivas possam ser organizadas em cooperação com outras
+  instituições;
+
+  <li> sejam geradas estatísticas que reflitam os incidentes ocorridos
+  na Internet brasileira;
+
+  <li> sejam geradas estatísticas sobre a incidência e origem de
+  <i>spams</i> no Brasil;
+
+  <li> sejam escritos documentos, como recomendações e manuais,
+  direcionados às necessidades dos usuários da Internet no Brasil.
+
+</ul>
+
+<p>
+A notificação deve incluir a maior quantidade de informações possível,
+tais como:
+</p>
+
+<ul>
+
+  <li> <i>logs</i> completos;
+
+  <li> data, horário e fuso horário (<i>time zone</i>) dos <i>logs</i>
+  ou da atividade que está sendo notificada;
+
+  <li> o <i>e-mail</i> completo, incluindo cabeçalhos e conteúdo (no
+  caso de notificação de <i>spam</i>, <i>trojan</i>, <i>phishing</i> ou
+  outras atividades maliciosas recebidas por <i>e-mail</i>);
+
+  <li> dados completos do incidente ou qualquer outra informação que
+  tenha sido utilizada para identificar a atividade.
+
+</ul>
+
+<p>
+Outras informações e respostas para as dúvidas mais comuns referentes ao
+processo de notificação de incidentes podem ser encontradas na lista de
+questões mais frequentes (FAQ) mantida pelo CERT.br e disponível em <a
+href="http://www.cert.br/docs/faq1.html">http://www.cert.br/docs/faq1.html</a>.
+</p>
+
+<div class="textoFootnote">
+<a name="footnote002"></a>
+<strong>[2]</strong> Os <i>e-mails</i> encontrados nestas consultas não
+são necessariamente da pessoa que praticou o ataque, mas sim dos
+responsáveis pela rede à qual o computador está conectado, ou seja,
+podem ser os administradores da rede, sócios da empresa, ou qualquer
+outra pessoa que foi designada para cuidar da conexão da instituição com
+a Internet.
+<span class="voltarTopo"><a href="#sup_footnote002">voltar</a></span>
+<br />
+<a name="footnote003"></a>
+<strong>[3]</strong> Os endereços de <i>e-mail</i> usados pelo CERT.br
+para o tratamento de incidentes de segurança são: <a
+href="mailto:cert@cert.br">cert@cert.br</a> (para notificações gerais) e
+<a href="mailto:mail-abuse@cert.br">mail-abuse@cert.br</a> (específico
+para reclamações de <i>spam</i>).
+<span class="voltarTopo"><a href="#sup_footnote003">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_7_3">
+
+<h4>
+<a name="7.3"></a>
+7.3. Contas e senhas
+</h4>
+
+  <img class="ilustracao-r" src="/images/situacoes/contas-senhas-scaled.jpg"
+       alt="[Contas e senhas]" title="Contas e senhas" />
+
+<p>
+Contas e senhas são atualmente o mecanismo de autenticação mais usado
+para o controle de acesso a <i>sites</i> e serviços oferecidos pela
+Internet.
+</p>
+
+<p>
+É por meio das suas contas e senhas que os sistemas conseguem saber quem
+você é e definir as ações que você pode realizar.
+</p>
+
+<p>
+Dicas de elaboração, alteração e gerenciamento, assim como os cuidados
+que você deve ter ao usar suas contas e senhas, são apresentados no
+Capítulo <a href="/senhas/">Contas e senhas</a>.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_7_4">
+
+<h4>
+<a name="7.4"></a>
+7.4. Criptografia
+</h4>
+
+  <img class="ilustracao-r" src="/images/situacoes/criptografia-scaled.jpg"
+       alt="[Criptografia]" title="Criptografia" />
+
+<p>
+Usando criptografia você pode proteger seus dados contra acessos
+indevidos, tanto os que trafegam pela Internet como os já gravados em
+seu computador.
+</p>
+
+<p>
+Detalhes sobre como a criptografia pode contribuir para manter a
+segurança dos seus dados e os conceitos de certificados e assinaturas
+digitais são apresentados no Capítulo <a
+href="/criptografia/">Criptografia</a>.
+</p>
+
+<p>
+Detalhes sobre como a criptografia pode ser usada para garantir a
+conexão segura aos <i>sites</i> na Internet são apresentados na Seção <a
+href="/uso-seguro/#10.1">10.1</a> do Capítulo <a href="/uso-seguro/">Uso
+seguro da Internet</a>.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_7_5">
+
+<h4>
+<a name="7.5"></a>
+7.5. Cópias de segurança (<i>Backups</i>)
+</h4>
+
+<p>
+Você já imaginou o que aconteceria se, de uma hora para outra, perdesse
+alguns ou até mesmo todos os dados armazenados em seu computador? E se
+fossem todas as suas fotos ou os dados armazenados em seus dispositivos
+móveis? E se, ao enviar seu computador para manutenção, você o recebesse
+de volta com o disco rígido formatado? Para evitar que estas situações
+aconteçam, é necessário que você aja de forma preventiva e realize
+cópias de segurança (<i>backups</i>).
+</p>
+
+<p>
+Muitas pessoas, infelizmente, só percebem a importância de ter
+<i>backups</i> quando já é tarde demais, ou seja, quando os dados já
+foram perdidos e não se pode fazer mais nada para recuperá-los.
+<i>Backups</i> são extremamente importantes, pois permitem:
+</p>
+
+<dl>
+
+  <dd> <b>Proteção de dados:</b> você pode preservar seus dados para que
+  sejam recuperados em situações como falha de disco rígido, atualização
+  mal-sucedida do sistema operacional, exclusão ou substituição
+  acidental de arquivos, ação de códigos maliciosos/atacantes e
+  furto/perda de dispositivos.
+
+  <dd> <b>Recuperação de versões:</b> você pode recuperar uma versão
+  antiga de um arquivo alterado, como uma parte excluída de um texto
+  editado ou a imagem original de uma foto manipulada.
+
+  <dd> <b>Arquivamento:</b> você pode copiar ou mover dados que deseja
+  ou que precisa guardar, mas que não são necessários no seu dia a dia e
+  que raramente são alterados.
+
+</dl>
+
+<p>
+Muitos sistemas operacionais já possuem ferramentas de <i>backup</i> e
+recuperação integradas e também há a opção de instalar programas
+externos. Na maioria dos casos, ao usar estas ferramentas, basta que
+você tome algumas decisões, como:
+</p>
+
+<dl>
+
+  <dd> <b>Onde gravar os <i>backups</i>:</b> você pode usar mídias (como
+  CD, DVD, <i>pen-drive</i>, disco de Blu-ray e disco rígido interno ou
+  externo) ou armazená-los remotamente (<i>online</i> ou
+  <i>off-site</i>). A escolha depende do programa de <i>backup</i> que
+  está sendo usado e de questões como capacidade de armazenamento, custo
+  e confiabilidade. Um CD, DVD ou Blu-ray pode bastar para pequenas
+  quantidades de dados, um <i>pen-drive</i> pode ser indicado para dados
+  constantemente modificados, ao passo que um disco rígido pode ser
+  usado para grandes volumes que devam perdurar.
+
+  <dd> <b>Quais arquivos copiar:</b> apenas arquivos confiáveis<a
+  name="sup_footnote004"></a><a href="#footnote004"
+  class="footnote">4</a> e que tenham importância para você devem ser
+  copiados. Arquivos de programas que podem ser reinstalados,
+  geralmente, não precisam ser copiados. Fazer cópia de arquivos
+  desnecessários pode ocupar espaço inutilmente e dificultar a
+  localização dos demais dados. Muitos programas de <i>backup</i> já
+  possuem listas de arquivos e diretórios recomendados, você pode optar
+  por aceitá-las ou criar suas próprias listas.
+
+  <dd> <b>Com que periodicidade devo realizá-los:</b> depende da
+  frequência com que você cria ou modifica arquivos. Arquivos
+  frequentemente modificados podem ser copiados diariamente ao passo que
+  aqueles pouco alterados podem ser copiados semanalmente ou
+  mensalmente.
+
+</dl>
+
+<p>
+<b>Cuidados a serem tomados:</b>
+</p>
+
+<ul>
+
+  <li> mantenha seus <i>backups</i> atualizados, de acordo com a
+  frequência de alteração dos dados;
+
+  <li> mantenha seus <i>backups</i> em locais seguros, bem condicionados
+  (longe de poeira, muito calor ou umidade) e com acesso restrito
+  (apenas de pessoas autorizadas);
+
+  <li> configure para que seus <i>backups</i> sejam realizados
+  automaticamente e certifique-se de que eles estejam realmente sendo
+  feitos (<i>backups</i> manuais estão mais propensos a erros e
+  esquecimento);
+
+  <li> além dos <i>backups</i> periódicos, sempre faça <i>backups</i>
+  antes de efetuar grandes alterações no sistema (adição de
+  <i>hardware</i>, atualização do sistema operacional, etc.) e de enviar
+  o computador para manutenção;
+
+  <li> armazene dados sensíveis em formato criptografado (mais detalhes
+  no Capítulo <a href="/criptografia/">Criptografia</a>);
+
+  <li> mantenha <i>backups</i> redundantes, ou seja, várias cópias, para
+  evitar perder seus dados em um incêndio, inundação, furto ou pelo uso
+  de mídias defeituosas (você pode escolher pelo menos duas das
+  seguintes possibilidades: sua casa, seu escritório e um repositório
+  remoto);
+
+  <li> cuidado com mídias obsoletas (disquetes já foram muito usados
+  para <i>backups</i>, porém, atualmente, acessá-los têm-se se tornado
+  cada vez mais complicado pela dificuldade em encontrar computadores
+  com leitores deste tipo de mídia e pela degradação natural do
+  material);
+
+  <li> assegure-se de conseguir recuperar seus <i>backups</i> (a
+  realização de testes periódicos pode evitar a péssima surpresa de
+  descobrir que os dados estão corrompidos, em formato obsoleto ou que
+  você não possui mais o programa de recuperação);
+
+  <li> mantenha seus <i>backups</i> organizados e identificados (você
+  pode etiquetá-los ou nomeá-los com informações que facilitem a
+  localização, como tipo do dado armazenado e data de gravação);
+
+  <li> copie dados que você considere importantes e evite aqueles que
+  podem ser obtidos de fontes externas confiáveis, como os referentes ao
+  sistema operacional ou aos programas instalados;
+
+  <li> nunca recupere um <i>backup</i> se desconfiar que ele contém
+  dados não confiáveis.
+
+</ul>
+
+<p>
+Ao utilizar serviços de <i>backup online</i> há alguns cuidados
+adicionais que você deve tomar, como:
+</p>
+
+<ul>
+
+  <li> observe a disponibilidade do serviço e procure escolher um com
+  poucas interrupções (alta disponibilidade);
+
+  <li> observe o tempo estimado de transmissão de dados (tanto para
+  realização do <i>backup</i> quanto para recuperação dos dados).
+  Dependendo da banda disponível e da quantidade de dados a ser copiada
+  (ou recuperada), o <i>backup online</i> pode se tornar impraticável;
+
+  <li> seja seletivo ao escolher o serviço. Observe critérios como
+  suporte, tempo no mercado (há quanto tempo o serviço é oferecido), a
+  opinião dos demais usuários e outras referências que você possa ter;
+
+  <li> leve em consideração o tempo que seus arquivos são mantidos, o
+  espaço de armazenagem e a política de privacidade e de segurança;
+
+  <li> procure aqueles nos quais seus dados trafeguem pela rede de forma
+  criptografada (caso não haja esta possibilidade, procure você mesmo
+  criptografar os dados antes de enviá-los).
+
+</ul>
+
+<div class="textoFootnote">
+<a name="footnote004"></a>
+<strong>[4]</strong> Arquivos que possam conter códigos maliciosos ou
+ter sido modificados/substituídos por invasores não devem ser copiados.
+<span class="voltarTopo"><a href="#sup_footnote004">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_7_6">
+
+<h4>
+<a name="7.6"></a>
+7.6. Registro de eventos (<i>Logs</i>)
+</h4>
+
+<p>
+<i>Log</i><a name="sup_footnote005"></a><a href="#footnote005"
+class="footnote">5</a> é o registro de atividade gerado por programas e
+serviços de um computador. Ele pode ficar armazenado em arquivos, na
+memória do computador ou em bases de dados. A partir da análise desta
+informação você pode ser capaz de:
+</p>
+
+<ul>
+
+  <li> detectar o uso indevido do seu computador, como um usuário
+  tentando acessar arquivos de outros usuários, ou alterar arquivos do
+  sistema;
+
+  <li> detectar um ataque, como de força bruta ou a exploração de alguma
+  vulnerabilidade;
+
+  <li> rastrear (auditar) as ações executadas por um usuário no seu
+  computador, como programas utilizados, comandos executados e tempo de
+  uso do sistema;
+
+  <li> detectar problemas de <i>hardware</i> ou nos programas e serviços
+  instalados no computador.
+
+</ul>
+
+<p>
+Baseado nisto, você pode tomar medidas preventivas para tentar evitar
+que um problema maior ocorra ou, caso não seja possível, tentar reduzir
+os danos. Alguns exemplos são:
+</p>
+
+<ul>
+
+  <li> se o disco rígido do seu computador estiver apresentando
+  mensagens de erro, você pode se antecipar, fazer <i>backup</i> dos
+  dados nele contidos e no momento oportuno enviá-lo para manutenção;
+
+  <li> se um atacante estiver tentando explorar uma vulnerabilidade em
+  seu computador, você pode verificar se as medidas preventivas já foram
+  aplicadas e tentar evitar que o ataque ocorra;
+
+  <li> se não for possível evitar um ataque, os <i>logs</i> podem
+  permitir que as ações executadas pelo atacante sejam rastreadas, como
+  arquivos alterados e as informações acessadas.
+
+</ul>
+
+<p>
+<i>Logs</i> são essenciais para notificação de incidentes, pois permitem
+que diversas informações importantes sejam detectadas, como por exemplo:
+a data e o horário em que uma determinada atividade ocorreu, o fuso
+horário do <i>log</i>, o endereço IP de origem da atividade, as portas
+envolvidas e o protocolo utilizado no ataque (TCP, UDP, ICMP, etc.), os
+dados completos que foram enviados para o computador ou rede e o
+resultado da atividade (se ela ocorreu com sucesso ou não).
+</p>
+
+<p>
+<b>Cuidados a serem tomados:</b>
+</p>
+
+<ul>
+
+  <li> mantenha o seu computador com o horário correto (o horário em que
+  o <i>log</i> é registrado é usado na correlação de incidentes de
+  segurança e, por este motivo, deve estar sincronizado<a
+  name="sup_footnote006"></a><a href="#footnote006"
+  class="footnote">6</a>);
+
+  <li> verifique o espaço em disco livre em seu computador (<i>logs</i>
+  podem ocupar bastante espaço em disco, dependendo das configurações
+  feitas);
+
+  <li> evite registrar dados desnecessários, pois isto, além de poder
+  ocupar espaço excessivo no disco, também pode degradar o desempenho do
+  computador, comprometer a execução de tarefas básicas e dificultar a
+  localização de informações de interesse;
+
+  <li> fique atento e desconfie caso perceba que os <i>logs</i> do seu
+  computador foram apagados ou que deixaram de ser gerados por um
+  período (muitos atacantes, na tentativa de esconder as ações
+  executadas, desabilitam os serviços de <i>logs</i> e apagam os
+  registros relacionados ao ataque ou, até mesmo, os próprios arquivos
+  de <i>logs</i>);
+
+  <li> restrinja o acesso aos arquivos de <i>logs</i>. Não é necessário
+  que todos os usuários tenham acesso às informações contidas nos
+  <i>logs</i>. Por isto, sempre que possível, permita que apenas o
+  usuário administrador tenha acesso a estes dados.
+
+</ul>
+
+<div class="textoFootnote">
+<a name="footnote005"></a>
+<strong>[5]</strong> <i>Log</i> é um termo técnico que se refere ao
+registro de atividades de diversos tipos como, por exemplo, de conexão
+(informações sobre a conexão de um computador à Internet) e de acesso a
+aplicações (informações de acesso de um computador a uma aplicação de
+Internet). Na Cartilha este termo é usado para se referir ao registro
+das atividades que ocorrem no computador do usuário.
+<span class="voltarTopo"><a href="#sup_footnote005">voltar</a></span>
+<br />
+<a name="footnote006"></a>
+<strong>[6]</strong> Informações sobre como manter o horário do seu
+computador sincronizado podem ser obtidas em <a
+href="http://ntp.br/">http://ntp.br/</a>.
+<span class="voltarTopo"><a href="#sup_footnote006">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_7_7">
+
+<h4>
+<a name="7.7"></a>
+7.7. Ferramentas <i>antimalware</i>
+</h4>
+
+  <img class="ilustracao-r" src="/images/personagens/antivirus.jpg"
+       alt="[Antivírus]" title="Antivírus" />
+
+<p>
+Ferramentas <i>antimalware</i> são aquelas que procuram detectar e,
+então, anular ou remover os códigos maliciosos de um computador.
+Antivírus, <i>antispyware</i>, <i>antirootkit</i> e <i>antitrojan</i>
+são exemplos de ferramentas deste tipo.
+</p>
+
+<p>
+Ainda que existam ferramentas específicas para os diferentes tipos de
+códigos maliciosos, muitas vezes é difícil delimitar a área de atuação
+de cada uma delas, pois a definição do tipo de código malicioso depende
+de cada fabricante e muitos códigos mesclam as características dos
+demais tipos (mais detalhes no Capítulo <a href="/malware/">Códigos
+Maliciosos (<i>Malware</i>)</a>).
+</p>
+
+<p>
+Entre as diferentes ferramentas existentes, a que engloba a maior
+quantidade de funcionalidades é o antivírus. Apesar de inicialmente eles
+terem sido criados para atuar especificamente sobre vírus, com o passar
+do tempo, passaram também a englobar as funcionalidades dos demais
+programas, fazendo com que alguns deles caíssem em desuso.
+</p>
+
+<p>
+Há diversos tipos de programas <i>antimalware</i> que diferem entre si
+das seguintes formas:
+</p>
+
+<dl>
+
+  <dd> <b>Método de detecção:</b> assinatura (uma lista de assinaturas<a
+  name="sup_footnote007"></a><a href="#footnote007"
+  class="footnote">7</a> é usada à procura de padrões), heurística
+  (baseia-se nas estruturas, instruções e características que o código
+  malicioso possui) e comportamento (baseia-se no comportamento
+  apresentado pelo código malicioso quando executado) são alguns dos
+  métodos mais comuns.
+
+  <dd> <b>Forma de obtenção:</b> podem ser gratuitos (quando livremente
+  obtidos na Internet e usados por prazo indeterminado), experimentais
+  (<i>trial</i>, usados livremente por um prazo predeterminado) e pagos
+  (exigem que uma licença seja adquirida). Um mesmo fabricante pode
+  disponibilizar mais de um tipo de programa, sendo que a versão
+  gratuita costuma possuir funcionalidades básicas ao passo que a versão
+  paga possui funcionalidades extras, além de poder contar com suporte.
+
+  <dd> <b>Execução:</b> podem ser localmente instalados no computador ou
+  executados sob demanda por intermédio do navegador <i>Web</i>. Também
+  podem ser <i>online</i>, quando enviados para serem executados em
+  servidores remotos, por um ou mais programas.
+
+  <dd> <b>Funcionalidades apresentadas:</b> além das funções básicas
+  (detectar, anular e remover códigos maliciosos) também podem
+  apresentar outras funcionalidade integradas, como a possibilidade de
+  geração de discos de emergência e <i>firewall</i> pessoal (mais
+  detalhes na Seção <a href="#7.8">7.8</a>).
+
+</dl>
+
+<p>
+Alguns exemplos de <i>antimalware online</i> são:
+</p>
+
+<ul>
+
+  <li> Anubis - <i>Analyzing Unknown Binaries</i> <br /> <a
+  href="http://anubis.iseclab.org/">http://anubis.iseclab.org/</a>
+
+  <li> Norman Sandbox - <i>SandBox Information Center</i> <br /> <a
+  href="http://www.norman.com/security_center/security_tools/">http://www.norman.com/security_center/security_tools/</a>
+
+  <li> ThreatExpert - <i>Automated Threat Analysis</i> <br /> <a
+  href="http://www.threatexpert.com/">http://www.threatexpert.com/</a>
+
+  <li> VirusTotal - <i>Free Online Virus, Malware and URL Scanner</i>
+  <br /> <a
+  href="https://www.virustotal.com/">https://www.virustotal.com/</a>
+
+</ul>
+
+<p>
+Para escolher o <i>antimalware</i> que melhor se adapta à sua
+necessidade é importante levar em conta o uso que você faz e as
+características de cada versão. Observe que não há relação entre o custo
+e a eficiência de um programa, pois há versões gratuitas que apresentam
+mais funcionalidades que versões pagas de outros fabricantes. Alguns
+<i>sites</i> apresentam comparativos entre os programas de diferentes
+fabricantes que podem guiá-lo na escolha do qual melhor lhe atende, tais
+como:
+</p>
+
+<ul>
+
+  <li> AV-Comparatives - <i>Independent Tests of Anti-Virus
+  Software</i><br /> <a
+  href="http://www.av-comparatives.org/">http://www.av-comparatives.org/</a>
+
+  <li> Virus Bulletin - <i>Independent Malware Advice</i><br /> <a
+  href="http://www.virusbtn.com/">http://www.virusbtn.com/</a>
+
+</ul>
+
+<p>
+<b>Cuidados a serem tomados:</b>
+</p>
+
+<ul>
+
+  <li> tenha um <i>antimalware</i> instalado em seu computador
+  (programas <i>online</i>, apesar de bastante úteis, exigem que seu
+  computador esteja conectado à Internet para que funcionem corretamente
+  e podem conter funcionalidades reduzidas);
+
+  <li> utilize programas <i>online</i> quando suspeitar que o
+  <i>antimalware</i> local esteja desabilitado/comprometido ou quando
+  necessitar de uma segunda opinião (quiser confirmar o estado de um
+  arquivo que já foi verificado pelo <i>antimalware</i> local);
+
+  <li> configure o <i>antimalware</i> para verificar toda e qualquer
+  extensão de arquivo;
+
+  <li> configure o <i>antimalware</i> para verificar automaticamente
+  arquivos anexados aos <i>e-mails</i> e obtidos pela Internet;
+
+  <li> configure o <i>antimalware</i> para verificar automaticamente os
+  discos rígidos e as unidades removíveis (como <i>pen-drives</i>, CDs,
+  DVDs e discos externos);
+
+  <li> mantenha o arquivo de assinaturas sempre atualizado (configure o
+  <i>antimalware</i> para atualizá-lo automaticamente pela rede, de
+  preferência diariamente);
+
+  <li> mantenha o <i>antimalware</i> sempre atualizado, com a versão
+  mais recente e com todas as atualizações existentes aplicadas;
+
+  <li> evite executar simultaneamente diferentes programas
+  <i>antimalware</i> (eles podem entrar em conflito, afetar o desempenho
+  do computador e interferir na capacidade de detecção um do outro);
+
+  <li> crie um disco de emergência e o utilize-o quando desconfiar que o
+  <i>antimalware</i> instalado está desabilitado/comprometido ou que o
+  comportamento do computador está estranho (mais lento, gravando ou
+  lendo o disco rígido com muita frequência, etc.).
+
+</ul>
+
+<div class="textoFootnote">
+<a name="footnote007"></a>
+<strong>[7]</strong> A assinatura de um código malicioso corresponde a
+características específicas nele contidas e que permitem que seja
+identificado unicamente. Um arquivo de assinaturas corresponde ao
+conjunto de assinaturas definidas pelo fabricante para os códigos
+maliciosos já detectados.
+<span class="voltarTopo"><a href="#sup_footnote007">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_7_8">
+
+<h4>
+<a name="7.8"></a>
+7.8. <i>Firewall</i> pessoal
+</h4>
+
+  <img class="ilustracao-r" src="/images/personagens/firewall.jpg"
+       alt="[Firewall]" title="Firewall" />
+
+<p>
+<i>Firewall</i> pessoal é um tipo específico de <i>firewall</i> que é
+utilizado para proteger um computador contra acessos não autorizados
+vindos da Internet.
+</p>
+
+<p>
+Os programas <i>antimalware</i>, apesar da grande quantidade de
+funcionalidades, não são capazes de impedir que um atacante tente
+explorar, via rede, alguma vulnerabilidade existente em seu computador e
+nem de evitar o acesso não autorizado, caso haja algum <i>backdoor</i>
+nele instalado<a name="sup_footnote008"></a><a href="#footnote008"
+class="footnote">8</a>. Devido a isto, além da instalação do
+<i>antimalware</i>, é necessário que você utilize um <i>firewall</i>
+pessoal.
+</p>
+
+<p>
+Quando bem configurado, o <i>firewall</i> pessoal pode ser capaz de:
+</p>
+
+<ul>
+
+  <li> registrar as tentativas de acesso aos serviços habilitados no seu
+  computador;
+
+  <li> bloquear o envio para terceiros de informações coletadas por
+  invasores e códigos maliciosos;
+
+  <li> bloquear as tentativas de invasão e de exploração de
+  vulnerabilidades do seu computador e possibilitar a identificação das
+  origens destas tentativas;
+
+  <li> analisar continuamente o conteúdo das conexões, filtrando
+  diversos tipos de códigos maliciosos e barrando a comunicação entre um
+  invasor e um código malicioso já instalado;
+
+  <li> evitar que um código malicioso já instalado seja capaz de se
+  propagar, impedindo que vulnerabilidades em outros computadores sejam
+  exploradas.
+
+</ul>
+
+<p>
+Alguns sistemas operacionais possuem <i>firewall</i> pessoal integrado.
+Caso o sistema instalado em seu computador não possua um ou você não
+queira usá-lo, há diversas opções disponíveis (pagas ou gratuitas). Você
+também pode optar por um <i>antimalware</i> com funcionalidades de
+<i>firewall</i> pessoal integradas.
+</p>
+
+<p>
+<b>Cuidados a serem tomados:</b>
+</p>
+
+<ul>
+
+  <li> antes de obter um <i>firewall</i> pessoal, verifique a
+  procedência e certifique-se de que o fabricante é confiável;
+
+  <li> certifique-se de que o <i>firewall</i> instalado esteja ativo
+  (estado: ativado);
+
+  <li> configure seu <i>firewall</i> para registrar a maior quantidade
+  de informações possíveis (desta forma, é possível detectar tentativas
+  de invasão ou rastrear as conexões de um invasor).
+
+</ul>
+
+<p>
+As configurações do <i>firewall</i> dependem de cada fabricante. De
+forma geral, a mais indicada é:
+</p>
+
+<ul>
+
+  <li> liberar todo tráfego de saída do seu computador (ou seja,
+  permitir que seu computador acesse outros computadores e serviços) e;
+
+  <li> bloquear todo tráfego de entrada ao seu computador (ou seja,
+  impedir que seu computador seja acessado por outros computadores e
+  serviços) e liberar as conexões conforme necessário, de acordo com os
+  programas usados.
+
+</ul>
+
+<div class="textoFootnote">
+<a name="footnote008"></a>
+<strong>[8]</strong> Exceto aqueles que possuem <i>firewall</i> pessoal
+integrado.
+<span class="voltarTopo"><a href="#sup_footnote008">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_7_9">
+
+<h4>
+<a name="7.9"></a>
+7.9. Filtro <i>antispam</i>
+</h4>
+
+  <img class="ilustracao-r" src="/images/personagens/filtro-antispam.jpg"
+       alt="[Filtro antispam]" title="Filtro antispam" />
+
+<p>
+Os filtros <i>antispam</i> já vem integrado à maioria dos
+<i>Webmails</i> e programas leitores de <i>e-mails</i> e permite separar
+os <i>e-mails</i> desejados dos indesejados (<i>spams</i>). A maioria
+dos filtros passa por um período inicial de treinamento, no qual o
+usuário seleciona manualmente as mensagens consideradas <i>spam</i> e,
+com base nas classificações, o filtro vai "aprendendo" a distinguir as
+mensagens.
+</p>
+
+<p>
+Mais informações sobre filtros <i>antispam</i> e cuidados a serem
+tomados podem ser encontradas em <a
+href="http://antispam.br/">http://antispam.br/</a>. Mais detalhes sobre
+outras formas de prevenção contra <i>spam</i> são apresentadas no
+Capítulo <a href="/spam/"><i>Spam</i></a>.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_7_10">
+
+<h4>
+<a name="7.10"></a>
+7.10. Outros mecanismos
+</h4>
+
+<dl>
+
+  <dd> <b>Filtro <i>antiphishing</i>:</b> já vem integrado à maioria dos
+  navegadores <i>Web</i> e serve para alertar os usuários quando uma
+  página suspeita de ser falsa é acessada. O usuário pode então decidir
+  se quer acessá-la mesmo assim ou navegar para outra página.
+
+  <dd> <b>Filtro de janelas de <i>pop-up</i>:</b> já vem integrado à
+  maioria dos navegadores <i>Web</i> e permite que você controle a
+  exibição de janelas de <i>pop-up</i>. Você pode optar por bloquear,
+  liberar totalmente ou permitir apenas para <i>sites</i> específicos.
+
+  <dd> <b>Filtro de códigos móveis:</b> filtros, como o NoScript,
+  permitem que você controle a execução de códigos <i>Java</i> e
+  <i>JavaScript</i>. Você pode decidir quando permitir a execução destes
+  códigos e se eles serão executados temporariamente ou permanentemente
+  - <a href="http://noscript.net/">http://noscript.net/</a>
+
+  <dd> <b>Filtro de bloqueio de propagandas:</b> filtros, como o
+  Adblock, permitem o bloqueio de <i>sites</i> conhecidos por
+  apresentarem propagandas - <a
+  href="http://adblockplus.org/">http://adblockplus.org/</a>
+
+  <dd> <b>Teste de reputação de <i>site</i>:</b> complementos, como o
+  WOT (<i>Web of Trust</i>), permitem determinar a reputação dos
+  <i>sites</i> que você acessa. Por meio de um esquema de cores, ele
+  indica a reputação do <i>site</i>, como: verde escuro (excelente),
+  verde claro (boa), amarelo (insatisfatória), vermelho claro (má) e
+  vermelho escuro (péssima) - <a
+  href="http://www.mywot.com/">http://www.mywot.com/</a>
+
+  <dd> <b>Programa para verificação de vulnerabilidades:</b> programas,
+  como o PSI (<i>Secunia Personal Software Inspector</i>), permitem
+  verificar vulnerabilidades nos programas instalados em seu computador
+  e determinar quais devem ser atualizados - <br /> <a
+  href="http://secunia.com/vulnerability_scanning/personal/">http://secunia.com/vulnerability_scanning/personal/</a>
+
+  <dd> <b><i>Sites</i> e complementos para expansão de <i>links</i>
+  curtos:</b> complementos ou <i>sites</i> específicos, como o LongURL,
+  permitem verificar qual é o <i>link</i> de destino de um <i>link</i>
+  curto. Desta forma, você pode verificar a URL de destino, sem que para
+  isto necessite acessar o <i>link</i> curto - <br /> <a
+  href="http://longurl.org/">http://longurl.org/</a>
+
+  <dd> <b><i>Anonymizer</i>:</b> <i>sites</i> para navegação anônima,
+  conhecidos como <i>anonymizers</i>, intermediam o envio e recebimento
+  de informações entre o seu navegador <i>Web</i> e o <i>site</i> que
+  você deseja visitar. Desta forma, o seu navegador não recebe
+  <i>cookies</i> e as informações por ele fornecidas não são repassadas
+  para o <i>site</i> visitado - <a
+  href="http://www.anonymizer.com/">http://www.anonymizer.com/</a>
+
+</dl>
+
+</section>
+
+</div>
+</div>
+</div>
+</div>
+
+</article>
+
+<!-- ******* End content **************************************** -->
+<!-- ************************************************************ -->
+
+<div id="rodape">
+  <ul>
+    <li><a href="/cc/">Licença</a></li>
+    <li><a href="/creditos/">Créditos</a></li>
+    <li><a href="/avisos/">Avisos</a></li>
+    <li><a href="/downloads/">Downloads</a></li>
+    <li class="last"><a href="/divulgue/">Divulgue</a></li>
+  </ul>
+  <p>
+    <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/br/">
+    <img src="/images/ic_creativeCommons.png"
+    alt="Licença Creative Commons CERT.br">
+    </a>
+    Cartilha de Segurança para Internet - CERT.br - $Date: 2012/06/03 01:41:42 $
+  </p>
+    <div class="selosRodape">
+      <a href="http://ipv6.br/">
+      <img src="/images/ic_ipv6.png"
+      alt="Site acessível via IPv6" title="Site acessível via IPv6">
+      </a>
+      <a href="http://jigsaw.w3.org/css-validator">
+      <img src="/images/ic_css.png" alt="CSS Válido" title="CSS Válido">
+      </a>
+      <img src="/images/ic_html5.png" alt="Desenvolvido em HTML 5"
+      title="Desenvolvido em HTML 5">
+    </div>
+</div>
+
+</body>
+</html>

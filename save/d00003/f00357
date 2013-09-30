@@ -1,0 +1,101 @@
+From: Marco d'Itri <md@linux.it>
+Subject: FAQ: How to add linux.* newsgroups
+Newsgroups: linux.admin.news,news.admin.hierarchies,linux.debian.user,linux.redhat.install,linux.redhat.misc,linux.kernel
+Followup-To: linux.admin.news,news.admin.hierarchies
+Organization: The Italian Usenet Cabal
+Approved: md@linux.it
+Summary: News configuration for the linux.* hierarchy
+
+Posting-frequency: monthly
+Archive-maintainer: md@linux.it (Marco d'Itri)
+Last-modified: Jan 10, 2003
+
+=========================== PLEASE READ THIS! ==============================
+If you are a linux.* user, please read this FAQ.
+It contains very important information about the changes happening
+in the hierarchy. Please post your questions and suggestions to the
+linux.admin.news group.
+=========================== PLEASE READ THIS! ==============================
+
+How to add linux.* hierarchy to a news server.
+
+This document contains the most important things related to adding the
+linux.* news hierarchy to a news server or just configuring the server
+to carry it properly if linux.* groups are already there.
+It is intended mainly for news system administrators.
+
+----------------------------------------------------------------------------
+. What is the linux.* hierarchy?
+
+It's composed mostly of newsgroups containing messages from a mailing
+list gateway. All these newsgroups are moderated to allow proper gating.
+These are not generic linux newsgroups, if you want to write about linux
+please move to the comp.os.linux.* hierarchy.
+
+Remember: these newsgroups are moderated. If you can directly post to
+them your server is misconfigured and nobody will see your articles
+(if this happens, please forward this FAQ to your news administrator).
+
+Due to historical reasons, currently some linux.* groups are not gated.
+I'm going to fix that someday, and will also develop a policy for
+creating new groups.
+If you have some input please post to linux.admin.news.
+
+If you know some high traffic linux-related mailing list you think
+should be gated, please write me.
+
+----------------------------------------------------------------------------
+. Who administers the linux.* hierarchy?
+
+Currenly Marco d'Itri <md@linux.it> is in charge of the administration
+of linux.*.
+In the past, the hierarchy has been administrated by H. Peter Anvin,
+Adam Richter and then Christoph Lameter.
+This FAQ can be downloaded from http://www.linux.it/~md/linux-faq .
+
+----------------------------------------------------------------------------
+. PGP key
+
+Control messages are signed by the administrator with this PGP key:
+
+pub  1024R/7D960EBD 2000-10-11 linux-admin@bofh.it
+sig        7D960EBD 2000-10-11  linux-admin@bofh.it
+     Key fingerprint = 81 B3 27 99 4F CE 32 D1  1B C9 01 0D BB B3 2E 41
+
+For your convenience, the key is included here:
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Comment: GnuPG v1.0.0 - For info see http://gnupg.linux.it
+
+mQCNAznkyGYAAAEEAMaVTjuoCEUDGr+oYbhaQE0KZ8r3q9ozitEMidPATc723yY8
+ZXevQ7mTirBxD8W5g8zAq16ZXAJ7NELwt0rA2QvOoQ3NQAVSLXTmfWgk/WaUYGdt
+uSl+CW7Lm7uwZtxU40krvuHJNmH7+zC3N2JtLEHTuAnC3LNKSaY+DxZ9lg69AAUR
+tBNsaW51eC1hZG1pbkBib2ZoLml0iQCVAwUTOeT9R6Y+DxZ9lg69AQH8iQP9HoLQ
+VrlshmMYOPMH5zC7Cl546frYP5lWLkd4ZV3Hb9QQ7GrzjSH7LBPA7r8JmyXaEUfO
+Ur3QCXJWxhwvp5vo9xpUmttrX5FXjWJh/06lYhEPtNuIERmS9hlVjJjhJPckunJy
+AMGo/13kFkuGd5uxVfI6M/cL1Ctw1df0LrALYn0=
+=bXOA
+-----END PGP PUBLIC KEY BLOCK-----
+
+----------------------------------------------------------------------------
+. Automatic newsgroups creation
+
+If you use INN you can add those lines to your control.ctl file:
+
+checkgroups:linux-admin@bofh.it:linux.*:verify-linux-admin@bofh.it=miscctl
+newgroup:linux-admin@bofh.it:linux.*:verify-linux-admin@bofh.it
+rmgroup:linux-admin@bofh.it:linux.*:verify-linux-admin@bofh.it
+
+----------------------------------------------------------------------------
+. Moderators file
+
+All postings to moderated groups within linux.* should be sent to the
+address linux-group-name@moderators.bofh.it . If you use INN you can
+add this line to the beginning of your moderators file:
+
+linux.*:%s@moderators.bofh.it
+
+The standard moderators.isc.org addresses will also work.
+
+----------------------------------------------------------------------------
+

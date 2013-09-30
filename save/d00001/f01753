@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Message Queue: Exploring Queues | SoftLayer Development Network</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/sites/all/themes/softlayer/favicon.ico" type="image/x-icon" />
+  <link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/ldap_integration/ldaphelp/ldaphelp.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/aggregator/aggregator.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/node/node.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/defaults.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/system.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/system/system-menus.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/modules/user/user.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/apachesolr_autocomplete/apachesolr_autocomplete.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/apachesolr_autocomplete/jquery-autocomplete/jquery.autocomplete.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/cck/theme/content-module.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/ctools/css/ctools.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/dhtml_menu/dhtml_menu.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/geshifilter/geshifilter.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/panels/css/panels.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/rate/rate.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/tableofcontents/tableofcontents.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/cck/modules/fieldgroup/fieldgroup.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/views/css/views.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/modules/flagger/css/flagger.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/softlayer/style.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/softlayer/css/black.css?s" />
+<link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/softlayer/css/suckerfish_black.css?s" />
+  <script type="text/javascript"> </script>
+  <!--[if lte IE 6]>
+<script type="text/javascript"> 
+    $(document).ready(function(){ 
+        $(document).pngFix(); 
+    }); 
+</script> 
+<![endif]-->
+    <!--[if IE]>
+<style type="text/css" media="all">@import "/sites/all/themes/softlayer/css/ie.css";</style>
+<![endif]-->
+      <!--[if lte IE 6]>
+<script type="text/javascript" src="http://sldn.softlayer.com/sites/all/themes/softlayer/js/suckerfish.js"></script>
+<![endif]-->
+        <script type="text/javascript" src="http://sldn.softlayer.com/sites/all/themes/softlayer/js/pickstyle.js"></script>
+</head>
+<body class="sidebar-left">
+  
+  <div id="header" class="clear-block">
+      <div id="logo-title">
+                              <a href="/" title="SoftLayer.com"> <img src="/sites/all/themes/softlayer/logo.png" alt="Home" id="logo" /> </a>
+                        </div><!-- /logo-title -->
+      <div id="name-and-slogan">
+        
+              </div><!-- /name-and-slogan -->
+            <form action="/article/Message-Queue-Exploring-Queues"  accept-charset="UTF-8" method="post" id="search-theme-form">
+<div><div id="search" class="container-inline">
+  <div class="form-item" id="edit-search-theme-form-1-wrapper">
+ <label for="edit-search-theme-form-1">Search this site: </label>
+ <input type="text" maxlength="128" name="search_theme_form" id="edit-search-theme-form-1" size="15" value="" title="Enter the terms you wish to search for." class="form-text apachesolr-autocomplete unprocessed" />
+</div>
+<input type="submit" name="op" id="edit-submit-2" value="Search"  class="form-submit" />
+<input type="hidden" name="form_build_id" id="form-bf294486577534e8bcdd32ac2f3a9052" value="form-bf294486577534e8bcdd32ac2f3a9052"  />
+<input type="hidden" name="form_id" id="edit-search-theme-form" value="search_theme_form"  />
+</div>
+
+</div></form>
+      
+
+      <!-- Needs to be fixed, only temporary fix for now -->
+              <div style="clear:both"></div>
+        <div id="suckerfishmenu" class="clear-block">   <div class="block block-menu" id="block-menu-primary-links">
+  <h2 class="title">Primary links</h2>  <div class="content"><ul class="menu"><li class="leaf first dhtml-menu "><a href="/articles" title="" id="dhtml_menu-1452">Articles</a></li>
+<li class="leaf  dhtml-menu "><a href="/blog" title="" id="dhtml_menu-3611">Blog</a></li>
+<li class="leaf  dhtml-menu "><a href="/reference/overview" title="" id="dhtml_menu-713">Reference</a></li>
+<li class="leaf last dhtml-menu "><a href="https://forums.softlayer.com/forumdisplay.php?f=27" title="Forums" id="dhtml_menu-714">Forums</a></li>
+</ul></div></div>
+ </div>
+          </div><!-- /header -->
+
+
+  <div id="page">
+    <div id="sub-banner">
+        <div class="navtext">
+          <div class="homelink"><a href="/" class="homelink">SLDN</a></div>
+          <div class="sectionsep"> | </div> 
+          <div class="sectionlink"><a href="/articles" class="sectionlink">Articles</a></div>
+      </div>
+    </div><!--/hero-banner -->
+            <div id="middlecontainer">
+              <div id="sidebar-left"><div class="sidebar-spacer"></div>  <div class="block block-views" id="block-views-Key_Articles-block_2">
+  <h2 class="title">Key Articles</h2>  <div class="content"><div class="view view-Key-Articles view-id-Key_Articles view-display-id-block_2 view-dom-id-1">
+    
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/article/Object-Masks">Object Masks</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-2 views-row-even">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/article/CDN-Integration-%E2%80%93-Getting-Information-you-Need-Faster">CDN Integration – Getting the Information you Need, Faster</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-3 views-row-odd">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/article/API-Operations-Search-Services">API Operations for Search Services</a></span>
+  </div>
+  </div>
+  <div class="views-row views-row-4 views-row-even views-row-last">
+      
+  <div class="views-field-title">
+                <span class="field-content"><a href="/article/Legacy-Object-Masks">Legacy Object Masks</a></span>
+  </div>
+  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div> </div></div>
+</div>
+            <div id="main">
+        <div id="squeeze">
+                                    <div id="breadcrumb"> <div class="breadcrumb"><a href="/articles">Articles</a> › Message Queue: Exploring Queues</div> </div>
+                                          <div id="squeeze-content">
+            <div id="inner-content">
+             
+                              <div id="service-links">Share this article:   <div class="block block-service_links" id="block-service_links-service_links">
+    <div class="content"><div class="service-links"><a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FMessage-Queue-Exploring-Queues&amp;title=Message+Queue%3A+Exploring+Queues" title="Digg this post on digg.com" class="service-links-digg" rel="nofollow"><img src="/sites/all/modules/service_links/images/digg.png" alt="Digg" title="" width="16" height="16" /></a> <a href="http://reddit.com/submit?url=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FMessage-Queue-Exploring-Queues&amp;title=Message+Queue%3A+Exploring+Queues" title="Submit this post on reddit.com." class="service-links-reddit" rel="nofollow"><img src="/sites/all/modules/service_links/images/reddit.png" alt="Reddit" title="" width="16" height="16" /></a> <a href="http://twitter.com/share?url=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FMessage-Queue-Exploring-Queues&amp;text=Message%20Queue%3A%20Exploring%20Queues" title="Share this on Twitter" class="service-links-twitter" rel="nofollow"><img src="/sites/all/modules/service_links/images/twitter.png" alt="Twitter" title="" width="16" height="16" /></a> <a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FMessage-Queue-Exploring-Queues&amp;t=Message+Queue%3A+Exploring+Queues" title="Share on Facebook." class="service-links-facebook" rel="nofollow"><img src="/sites/all/modules/service_links/images/facebook.png" alt="Facebook" title="" width="16" height="16" /></a> <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FMessage-Queue-Exploring-Queues&amp;title=Message+Queue%3A+Exploring+Queues&amp;summary=&amp;source=SoftLayer+Development+Network" title="Publish this post to LinkedIn" class="service-links-linkedin" rel="nofollow"><img src="/sites/all/modules/service_links/images/linkedin.png" alt="LinkedIn" title="" width="16" height="16" /></a> <a href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Fsldn.softlayer.com%2Farticle%2FMessage-Queue-Exploring-Queues&amp;title=Message+Queue%3A+Exploring+Queues" title="Thumb this up at StumbleUpon" class="service-links-stumbleupon" rel="nofollow"><img src="/sites/all/modules/service_links/images/stumbleit.png" alt="StumbleUpon" title="" width="16" height="16" /></a></div></div></div>
+</div>
+                <div style="clear:both;"></div>
+              
+              <h1 class="title">Message Queue: Exploring Queues</h1>
+              <div class="tabs"></div>
+                                          <div class="node">
+    
+  
+  
+  <div class="content"><h2>Terminology</h2>
+<ul>
+<li><b>Visibility delay</b> -- the amount of time in seconds that the queue should wait before making a message visible to workers/consumers.</li>
+<li><b>Visibility interval</b> -- the amount of time in seconds that the queue should wait before allowing a message to reappear in the queue each time it has been retrieved from a queue without being deleted first.</li>
+<li><b>Queue tags</b> -- a collection of individual tag names that may be helpful in classifying and grouping queues.</li>
+<li><b>Message fields</b> -- a structured key-value collection that can be added to individual messages.</li>
+<li><b>Expiration</b> -- amount of time in seconds that the queue should wait before automatically deleting a message that has not been explicitly deleted otherwise.</li>
+<li><b>Initial entry time</b> -- the specific timestamp indicating the exact time at which a message was first published to a queue. Represented as a standard UNIX timestamp (seconds elapsed since 1970-01-01 00:00:00 UTC).</li>
+</ul>
+<h2>Creating and Updating a Queue</h2>
+<p>In <a href="/article/Message-Queue-Getting-Started">Message Queue: Getting Started</a> we aquired our API key and bootstrapped our example application. Now that we've successfully authenticated, we can create and modify a queue, and begin publishing and consuming messages.</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #000088;">$messaging</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> SoftLayer_Messaging<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #b1b100;">if</span> <span style="color: #009900;">&#40;</span><span style="color: #339933;">!</span><span style="color: #000088;">$messaging</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">authenticate</span><span style="color: #009900;">&#40;</span>QUEUE_ACCOUNT<span style="color: #339933;">,</span> QUEUE_USERNAME<span style="color: #339933;">,</span> QUEUE_API_KEY<span style="color: #009900;">&#41;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    <a href="http://www.php.net/echo"><span style="color: #990000;">echo</span></a> <span style="color: #0000ff;">&quot;Unable to authenticate!&quot;</span> <span style="color: #339933;">.</span> PHP_EOL<span style="color: #339933;">;</span>
+    <a href="http://www.php.net/exit"><span style="color: #990000;">exit</span></a><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span>
+&nbsp;
+<span style="color: #000088;">$my_first_queue</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$messaging</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">queue</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'my_first_queue'</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">create</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>As seen here, the only parameter required to create a queue is its name. Once created, various properties of the queue can be modified. We can add tags, change the message visibility interval, or update the age at which messages will expire.</p>
+<p>We already have a handle on the queue itself, so attributes can be updated by simply setting their values and updating the queue.</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">setVisibilityInterval</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">60</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">setExpiration</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">604800</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span> <span style="color: #666666; font-style: italic;">// 1 week</span>
+<span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">setTags</span><span style="color: #009900;">&#40;</span><a href="http://www.php.net/array"><span style="color: #990000;">array</span></a><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'tag1'</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">update</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<h2>Publishing Messages to a Queue</h2>
+<p>Once we've set up a queue we can begin publishing messages to it. In our PHP client library, this is as simple as the following:</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">message</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">setBody</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'body text'</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">create</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>The body can really be anything you want--a JSON- or XML-encoded data structure, binary data, a sentence, the name of your favorite Kylie Minogue song, and so on.</p>
+<p>Messages may optionally include fields, which are simple key-value pairs stored in a dictionary with the message. This is handy if you wish to include additional structured data with your message, and is required if you wish to use them in variable substitutions for topic notifications (we'll discuss this more in <a href="/article/Message-Queue-Exploring-Topics">Message Queue: Exploring Topics</a>).</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// Creates a message with two fields.</span>
+<span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">message</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">setBody</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'body text'</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">addField</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'hosting_provider'</span><span style="color: #339933;">,</span> <span style="color: #0000ff;">'SoftLayer'</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">addField</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'hosting_rating'</span><span style="color: #339933;">,</span> <span style="color: #0000ff;">'awesome'</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">addField</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'snack_of_the_century'</span><span style="color: #339933;">,</span> <span style="color: #0000ff;">'legumes'</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">addField</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'is_sorry_for_party_rockin'</span><span style="color: #339933;">,</span> <span style="color: #0000ff;">'no'</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">create</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>Other options you can set on messages include the initial visibility delay, and the ongoing visibility interval.</p>
+<p>Visibility delay simply allows us to ensure that, once we initially publish a message, that it won't be visible to any consumers for a specific amount of time.</p>
+<p>The visibility interval allows us to define the same behavior, except that it is only triggered each time the message is retrieved from a queue; once a consumer retrieves the message, it won't be visible to any consumers again for the specified amount of time. This is ideal if you want to ensure that a consumer has enough time to process a message prior to you explicitly deleting it, so that two consumers don't attempt to process the same thing simultaneously. And, in the event a consumer crashes or mysteriously vanishes into thin air whilst processing the message, leaving it unprocessed, another worker may pick it up and process it after the visibility interval has elapsed and the message becomes visible again.</p>
+<p>Both values are defined in seconds.</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// Creates a message with a specific visibility delay and interval,</span>
+<span style="color: #666666; font-style: italic;">// as well as a field.</span>
+<span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">message</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">setVisibilityDelay</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">10</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">setVisibilityInterval</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">30</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">setBody</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'making toast'</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">addField</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'update_type'</span><span style="color: #339933;">,</span> <span style="color: #0000ff;">'tweet'</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">create</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span></pre></div>
+<h2>Retrieving Messages</h2>
+<p>Once you've published to a queue, you might like to retrieve them eventually. You can perform this one message at a time, or in larger batches of up to 100 mssages:</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// Retrieve one message</span>
+<span style="color: #000088;">$messages</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">messages</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Retrieve up to 50 messages at once</span>
+<span style="color: #000088;">$messages</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">messages</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">50</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #b1b100;">foreach</span> <span style="color: #009900;">&#40;</span><span style="color: #000088;">$messages</span> <span style="color: #b1b100;">as</span> <span style="color: #000088;">$message</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    <a href="http://www.php.net/echo"><span style="color: #990000;">echo</span></a> <span style="color: #0000ff;">&quot;Picked up message &quot;</span> <span style="color: #339933;">.</span> <span style="color: #000088;">$message</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getId</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #339933;">.</span> PHP_EOL<span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span></pre></div>
+<p>Note that, for sake of consistency, you'll receive an array of message objects in either case. In the event no messages are in the queue, you'll simply get an empty array.</p>
+<h2>Deleting Messages</h2>
+<p>After yol successfully process your messages, you likely want to delete them so you don't perform the same work all over again. To do so, you'll just need to be sure you keep a copy of the message object around, then call its delete method:</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// If we still have the message object sitting around:</span>
+<span style="color: #000088;">$message</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">delete</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Alternatively, if we decide only to keep track of the message ID:</span>
+<span style="color: #000088;">$message_id</span> <span style="color: #339933;">=</span> <span style="color: #0000ff;">'a7bcf689887bf3e2ea9b4'</span><span style="color: #339933;">;</span>
+<span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">message</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span>
+    <span style="color: #339933;">-&gt;</span><span style="color: #004000;">delete</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$message_id</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></pre></div>
+<p>In most cases you'll want to perform this directly after processing a message. For instance, assuming we've created a processing function <span class="geshifilter"><code class="text geshifilter-text">reticulate_splines</code></span> that returns true if it processed successfully, and false otherwise, our retrieval, processing, and deletion may appear thusly:</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #000088;">$messages</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$my_first_queue</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">messages</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+<span style="color: #b1b100;">foreach</span> <span style="color: #009900;">&#40;</span><span style="color: #000088;">$messages</span> <span style="color: #b1b100;">as</span> <span style="color: #000088;">$message</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    <a href="http://www.php.net/echo"><span style="color: #990000;">echo</span></a> <span style="color: #0000ff;">&quot;Message &quot;</span> <span style="color: #339933;">.</span> <span style="color: #000088;">$message</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getId</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #339933;">.</span> PHP_EOL<span style="color: #339933;">;</span>
+    <span style="color: #b1b100;">if</span> <span style="color: #009900;">&#40;</span>reticulate_splines<span style="color: #009900;">&#40;</span><span style="color: #000088;">$message</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <a href="http://www.php.net/echo"><span style="color: #990000;">echo</span></a> <span style="color: #0000ff;">&quot; - Processed, deleting.&quot;</span> <span style="color: #339933;">.</span> PHP_EOL<span style="color: #339933;">;</span>
+        <span style="color: #000088;">$message</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">delete</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span>
+    <span style="color: #b1b100;">else</span> <span style="color: #009900;">&#123;</span>
+        <a href="http://www.php.net/echo"><span style="color: #990000;">echo</span></a> <span style="color: #0000ff;">&quot; - Could not process!&quot;</span> <span style="color: #339933;">.</span> PHP_EOL<span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span>
+<span style="color: #009900;">&#125;</span></pre></div>
+<h2>Tagging Scenearios</h2>
+<p>Tagging allows us to create interesting workflows where we may not know (or care to persist elsewhere) the name of each queue or its role. We can simply gather up all queues tagged with <span class="geshifilter"><code class="text geshifilter-text">image_resizing</code></span>, for example, to help us in resizing an original image into several smaller sizes.</p>
+<p>While it may not be immediately clear why we would do that, reducing a workflow to small, simple components allows us to create massively parelleled systems which can scale much more simply than larger, tightly-coupled components. Imagine we have a 1920x1080 lossless 10MB image which may take 200ms to resample to 1280x720, and 50ms to resample the same image to a 100x100 cropped lossy thumbnail.</p>
+<div class="geshifilter">
+<pre class="text geshifilter-text" style="font-family:monospace;">(1x worker, 250ms total)
+[1920x1080] ---&gt; [1280x720] ---&gt; [100x100]</pre></div>
+<p>In this scenario, why let one worker resample into two different resolutions, one after the other? This could take much longer than allowing multiple workers to handle differing resolutions.</p>
+<p>For instance, assuming we have two different types of workers to match the two different sizes to which we resample images, we can launch 4 workers to handle the large 1280x720 images, and 1 worker to handle the small 100x100 thumbnails.</p>
+<p>We can then perform 4 high-resolution resamples in the amount of time it normally takes to perform 1, and in that same 200ms span of time we can also perform 4 thumbnail resamples with our low-resolution worker, since each one takes 50ms.</p>
+<p>In the end, we'll have a complete set of high-res and low-res images for a batch of 4 separate source images. By connecting 4 additional concurrent workers to our queue, we've completed four times the amount of work in virtually the same amount of time. For a busy site that resizes images on a regular basis, this scales up a simple, moderately CPU-intensive component of the site's operation that might otherwise fall behind during unexpected spikes in traffic.</p>
+<div class="geshifilter">
+<pre class="text geshifilter-text" style="font-family:monospace;">(4x high-res workers, 200ms total)
+    [1920x1080] ---&gt; [1280x720]
+    [1920x1080] ---&gt; [1280x720]
+    [1920x1080] ---&gt; [1280x720]
+    [1920x1080] ---&gt; [1280x720]
+(1x low-res worker, 200ms total)
+    [1920x1080] ---&gt; [100x100], [1920x1080] ---&gt; [100x100], [1920x1080] ---&gt; [100x100], [1920x1080] ---&gt; [100x100]</pre></div>
+<h2>Publisher Script</h2>
+<p>To publish these jobs, let's assume we've created a <span class="geshifilter"><code class="text geshifilter-text">resampler_highres</code></span> queue for high-res resampling, and a separate <span class="geshifilter"><code class="text geshifilter-text">resampler_lowres</code></span> queue for low-res resampling, tagging both of them with <span class="geshifilter"><code class="text geshifilter-text">resamplers</code></span>. When submitting jobs to resize an image into all its various resolutions, we don't care specifically which queues want this information, just what <i>type</i> of queue does. We have thusly tagged our queues with <span class="geshifilter"><code class="text geshifilter-text">resamplers</code></span> in this case.</p>
+<p>Our next step in submitting jobs to each queue is obtaining the list of queues which have this tag, and pushing a message to each of them:</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #000088;">$resamplers</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$messaging</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">queues</span><span style="color: #009900;">&#40;</span><a href="http://www.php.net/array"><span style="color: #990000;">array</span></a><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'resamplers'</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+<span style="color: #b1b100;">foreach</span> <span style="color: #009900;">&#40;</span><span style="color: #000088;">$resamplers</span> <span style="color: #b1b100;">as</span> <span style="color: #000088;">$resampler</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    <span style="color: #000088;">$resampler</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">message</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span>
+        <span style="color: #339933;">-&gt;</span><span style="color: #004000;">setBody</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'my_original_image.png'</span><span style="color: #009900;">&#41;</span>
+        <span style="color: #339933;">-&gt;</span><span style="color: #004000;">create</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span></pre></div>
+<h2>Worker/Consumer Scripts</h2>
+<p>Contrary to the way our producer behaves, our workers know specifically which queue they need to watch in order to pick up new resample jobs. They have no concept (nor should they) of tags. We have already distributed the messages--these workers should be completely single-minded.</p>
+<p>Our high-res worker script may look like this:</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #b1b100;">while</span> <span style="color: #009900;">&#40;</span><span style="color: #000000; font-weight: bold;">true</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    <span style="color: #666666; font-style: italic;">// Grab one message out of the high-res queue</span>
+    <span style="color: #000088;">$messages</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$messaging</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">queue</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'resampler_highres'</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">messages</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #b1b100;">foreach</span> <span style="color: #009900;">&#40;</span><span style="color: #000088;">$messages</span> <span style="color: #b1b100;">as</span> <span style="color: #000088;">$message</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #000088;">$image_name</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$message</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getBody</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        <span style="color: #000088;">$result</span> <span style="color: #339933;">=</span> resample_image<span style="color: #009900;">&#40;</span><span style="color: #000088;">$image_name</span><span style="color: #339933;">,</span> <span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'1280x720-'</span> <span style="color: #339933;">.</span> <span style="color: #000088;">$image_name</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">,</span> <span style="color: #cc66cc;">1280</span><span style="color: #339933;">,</span> <span style="color: #cc66cc;">720</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        <span style="color: #b1b100;">if</span> <span style="color: #009900;">&#40;</span><span style="color: #000088;">$result</span> <span style="color: #339933;">===</span> <span style="color: #000000; font-weight: bold;">true</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+            <span style="color: #000088;">$message</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">delete</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        <span style="color: #009900;">&#125;</span>
+    <span style="color: #009900;">&#125;</span>
+    <a href="http://www.php.net/sleep"><span style="color: #990000;">sleep</span></a><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span></pre></div>
+<p>Similarly, our low-res worker script may look like this:</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #b1b100;">while</span> <span style="color: #009900;">&#40;</span><span style="color: #000000; font-weight: bold;">true</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    <span style="color: #666666; font-style: italic;">// Grab one message out of the low-res thumbnail queue</span>
+    <span style="color: #000088;">$messages</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$messaging</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">queue</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'resampler_thumbnail'</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">messages</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #b1b100;">foreach</span> <span style="color: #009900;">&#40;</span><span style="color: #000088;">$messages</span> <span style="color: #b1b100;">as</span> <span style="color: #000088;">$message</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #000088;">$image_name</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$message</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getBody</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        <span style="color: #000088;">$result</span> <span style="color: #339933;">=</span> resample_image<span style="color: #009900;">&#40;</span><span style="color: #000088;">$image_name</span><span style="color: #339933;">,</span> <span style="color: #009900;">&#40;</span><span style="color: #0000ff;">'100x100-'</span> <span style="color: #339933;">.</span> <span style="color: #000088;">$image_name</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">,</span> <span style="color: #cc66cc;">100</span><span style="color: #339933;">,</span> <span style="color: #cc66cc;">100</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        <span style="color: #b1b100;">if</span> <span style="color: #009900;">&#40;</span><span style="color: #000088;">$result</span> <span style="color: #339933;">===</span> <span style="color: #000000; font-weight: bold;">true</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+            <span style="color: #000088;">$message</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">delete</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        <span style="color: #009900;">&#125;</span>
+    <span style="color: #009900;">&#125;</span>
+    <a href="http://www.php.net/sleep"><span style="color: #990000;">sleep</span></a><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span></pre></div>
+<p>And finally, our resample function, accepting source image name, destination image name, and width/height parameters (same for both workers, naturally):</p>
+<div class="geshifilter">
+<pre class="php geshifilter-php" style="font-family:monospace;"><span style="color: #000000; font-weight: bold;">function</span> resample_image<span style="color: #009900;">&#40;</span><span style="color: #000088;">$image_name</span><span style="color: #339933;">,</span> <span style="color: #000088;">$new_name</span><span style="color: #339933;">,</span> <span style="color: #000088;">$new_width</span><span style="color: #339933;">,</span> <span style="color: #000088;">$new_height</span><span style="color: #009900;">&#41;</span>
+<span style="color: #009900;">&#123;</span>
+    <span style="color: #000088;">$image</span> <span style="color: #339933;">=</span> ExampleImageLib<span style="color: #339933;">::</span><span style="color: #004000;">createImageFromFile</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$image_name</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #000088;">$image</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">resample</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$new_width</span><span style="color: #339933;">,</span> <span style="color: #000088;">$new_height</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #000088;">$source_ratio</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$image</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getWidth</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span> <span style="color: #339933;">/</span> <span style="color: #000088;">$image</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getHeight</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #000088;">$target_ratio</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$new_width</span> <span style="color: #339933;">/</span> <span style="color: #000088;">$new_height</span><span style="color: #339933;">;</span>
+    <span style="color: #b1b100;">if</span> <span style="color: #009900;">&#40;</span><span style="color: #000088;">$target_ratio</span> <span style="color: #339933;">!=</span> <span style="color: #000088;">$source_ratio</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        <span style="color: #000088;">$image</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">cropFromCenter</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$new_width</span><span style="color: #339933;">,</span> <span style="color: #000088;">$new_height</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span>
+    <span style="color: #000088;">$image</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">saveToFile</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$new_name</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span></pre></div>
+<h2>Conclusion</h2>
+<p>Since we've tagged our resampling queues, any message publisher that needs an image resized into a number of different sizes can simply publish the same message to all queues matching a specific tag. This is only one use case for tags, however; the possibilities are endless.</p>
+<p>Additionally, as long as we have workers watching each of those queues who each resample into a specific size, adding new image sizes simply involves adding a queue and firing up another worker to process that queue's messages. <i>(At this rate, you could probably use some object storage for your growing arsenal of images, or a small army of cloud servers to do your bidding!)</i></p>
+<p>As you'll see in <a href="/article/Message-Queue-Exploring-Topics">Message Queue: Exploring Topics</a>, publishing to a number of queues can be made even simpler through topics and subscriptions.</p>
+<div class="flagger">
+					<span class="flaggertitle">Was this helpful?</span>
+					<div class="flaggeroption"><a id="flaggeryes" href="#">Yes</a></div>
+					<div class="flaggeroption"><a id="flaggerno" href="#">No</a></div>
+					<form id="flaggerform" method="post">
+					<div style="display:none;" class="flaggermessage">Thank you! If you'd like to leave a comment, please use the form below: <div class="flaggercomment"><textarea class="flaggertext" name="flaggertext"></textarea><input type="submit" class="submit" id="flaggersubmit" value="Submit" /></div></div><div style="display:none" class="flaggersuccess">Your comment has been submitted! Thank you for your feedback.</div>
+					</form>
+				</div>
+				<div id="flaggerget" style="display:none;"></div>
+				<div id="flaggernode" style="display:none;">266669</div></div>
+  <div class="clear-block clear"></div>
+
+      <div class="links"><ul class="links inline"><li class="comment_forbidden first last"></li>
+</ul></div>
+  
+</div>
+ 
+                                        </div><!-- /inner-content -->
+          </div><!-- /squeeze-content -->
+        </div><!-- /squeeze -->
+      </div><!-- /main -->
+          </div><!-- /middle-container -->
+    <div style="clear:both"></div>
+            <div id="footer">
+              <div id="footer-region">  <div class="block block-block" id="block-block-3">
+    <div class="content"><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-22553883-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></div></div>
+</div>
+                  
+      &copy; 2013 SoftLayer Technologies, Inc. All rights reserved.
+    </div><!-- /footer -->
+  <div style="clear:both"></div>
+  <script type="text/javascript" src="/sites/all/modules/jquery_update/replace/jquery.min.js?s"></script>
+<script type="text/javascript" src="/misc/drupal.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/apachesolr_autocomplete/apachesolr_autocomplete.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/apachesolr_autocomplete/jquery-autocomplete/jquery.autocomplete.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/dhtml_menu/dhtml_menu.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/panels/js/panels.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/tableofcontents/jquery.scrollTo-min.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/tableofcontents/jquery.localscroll-min.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/tableofcontents/tableofcontents.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/flagger/js/flagger.js?s"></script>
+<script type="text/javascript" src="/misc/collapse.js?s"></script>
+<script type="text/javascript" src="/misc/tableheader.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/views/js/base.js?s"></script>
+<script type="text/javascript" src="/sites/all/modules/views/js/ajax_view.js?s"></script>
+<script type="text/javascript" src="/sites/all/themes/softlayer/js/jquery.pngFix.js?s"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/", "apachesolr_autocomplete": { "path": "/apachesolr_autocomplete" }, "dhtmlMenu": { "slide": "slide", "clone": "clone" }, "views": { "ajax_path": "/views/ajax", "ajaxViews": [ { "view_name": "Key_Articles", "view_display_id": "block_2", "view_args": "", "view_path": "node/266669", "view_base_path": "articles", "view_dom_id": 1, "pager_element": 0 } ] } });
+//--><!]]>
+</script>
+    </div> <!-- /page -->
+</body>
+</html>

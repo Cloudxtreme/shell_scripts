@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="iso-8859-1">
+
+<meta name="author" content="CERT.br" />
+<meta name="description" content="Ataques na Internet" />
+<meta name="keywords" content="segurança, Internet, prevenção, riscos, ataques, vulnerabilidade, varredura em redes, scan, falsificação de e-mail, e-mail spoofing, interceptação de tráfego, sniffing, força bruta, brute force, desfiguração de páginas, defacement, defacer, pichação, negação de serviço, negação de serviço distribuído, denial of service, distributed denial of service, DoS, DDoS" />
+
+<link rel="stylesheet" type="text/css" media="screen" href="/css/cartilha.css" />
+<link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+<script type="text/javascript" src="/js/modernizr.js"></script>
+
+<title>Cartilha de Segurança -- Ataques na Internet</title>
+
+</head>
+
+<body>
+
+<!-- ************************************************************ -->
+<!-- ******* Begin header *************************************** -->
+
+<header>
+<section id="header-cert">
+
+<h1>
+<a href="http://www.cert.br/">
+<img src="/images/logo_cert.png" alt="CERT.br" />
+</a>
+</h1>
+<span><a href="http://www.cert.br/">Centro de Estudos, Resposta e
+Tratamento de<br />Incidentes de Segurança no Brasil</a></span>
+
+<div id="header-cgi-nic">
+<a href="http://www.nic.br/" title="Núcleo de Informação e Coordenação do Ponto BR">
+<img src="/images/logo_nic.png" alt="NIC.br" class="logo-nic" />
+</a>
+<a href="http://www.cgi.br/" title="Comitê Gestor da Internet no Brasil">
+<img src="/images/logo_cgi.png" alt="CGI.br" />
+</a>
+</div>
+
+</section>
+
+<section class="topo">
+
+<h2>
+<a href="/" accesskey="1">
+<img src="/images/logo_cartilha.png"
+alt="Cartilha de Segurança para Internet" class="logo-cartilha" />
+</a>
+</h2>
+
+<nav>
+<ul>
+  <li><a href="/">Início</a></li>
+  <li><a href="/livro/">Livro</a></li>
+  <li><a href="/fasciculos/">Fascículos</a></li>
+  <li><a href="/sobre/">Sobre</a></li>
+</ul>
+</nav>
+
+<form method="get" class="search-form" action="http://www.google.com/search" >
+  <input type="text" value="Buscar" name="q" size="20"
+         class="searchInput" />
+  <input type="hidden" name="sitesearch" value="cartilha.cert.br" />
+  <input type="image" name="submit" class="searchButton"
+         src="/images/button_search.png" alt="Search" />
+</form>
+
+<span class="ir-conteudo"><a href="#content" accesskey="2">Ir para o
+conteúdo</a></span>
+
+<div class="breadcrumb">
+  Você está em: <a href="/">Cartilha</a> &gt;
+  <strong>3. Ataques na Internet</strong>
+</div>
+
+</section>
+</header>
+
+<!-- ******* End header ***************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin sumario ************************************** -->
+
+<aside>
+  <nav>
+    <div class="menu-navigation-container">
+      <p>Sumário</p>
+      <ul id="menu-navigation" class="menu">
+        <li><a href="/seguranca/">1. Segurança na Internet</a></li>
+        <li><a href="/golpes/">2. Golpes na Internet</a></li>
+        <li class="on"><a href="/ataques/">3. Ataques na Internet</a></li>
+        <li><a href="/malware/">4. Códigos Maliciosos (Malware)</a></li>
+        <li><a href="/spam/">5. Spam</a></li>
+        <li><a href="/riscos/">6. Outros riscos</a></li>
+        <li><a href="/mecanismos/">7. Mecanismos de segurança</a></li>
+        <li><a href="/senhas/">8. Contas e senhas</a></li>
+        <li><a href="/criptografia/">9. Criptografia</a></li>
+        <li><a href="/uso-seguro/">10. Uso seguro da Internet</a></li>
+        <li><a href="/privacidade/">11. Privacidade</a></li>
+        <li><a href="/computadores/">12. Segurança de computadores</a></li>
+        <li><a href="/redes/">13. Segurança de redes</a></li>
+        <li><a href="/dispositivos-moveis/">14. Segurança em dispositivos móveis</a></li>
+        <li><a href="/glossario/">Glossário</a></li>
+      </ul>
+    </div>
+  </nav>
+</aside>
+
+<!-- ******* End sumario **************************************** -->
+<!-- ************************************************************ -->
+
+<!-- ************************************************************ -->
+<!-- ******* Begin conteudo ************************************* -->
+
+<a name="content"></a>
+
+<!-- ************************************************************ -->
+
+<article id="chapter_3">
+
+<div class="posicaoConteudo">
+<div class="conteudoLateralEsquerda">
+<div class="conteudoLateralDireita">
+<div class="inicioConteudo"></div>
+<div class="conteudo">
+
+<h3>
+<a name="3"></a>
+3. Ataques na Internet
+</h3>
+
+  <img class="ilustracao-r" src="/images/situacoes/ataques.jpg"
+       alt="[Ataques na Internet]" title="Ataques na Internet" />
+
+<p>
+Ataques costumam ocorrer na Internet com diversos objetivos, visando
+diferentes alvos e usando variadas técnicas. Qualquer serviço,
+computador ou rede que seja acessível via Internet pode ser alvo de um
+ataque, assim como qualquer computador com acesso à Internet pode
+participar de um ataque.
+</p>
+
+<p>
+Os motivos que levam os atacantes a desferir ataques na Internet são
+bastante diversos, variando da simples diversão até a realização de
+ações criminosas. Alguns exemplos são:
+</p>
+
+<dl>
+
+  <dd> <b>Demonstração de poder:</b> mostrar a uma empresa que ela pode
+  ser invadida ou ter os serviços suspensos e, assim, tentar vender
+  serviços ou chantageá-la para que o ataque não ocorra novamente.
+
+  <dd> <b>Prestígio:</b> vangloriar-se, perante outros atacantes, por
+  ter conseguido invadir computadores, tornar serviços inacessíveis ou
+  desfigurar <i>sites</i> considerados visados ou difíceis de serem
+  atacados; disputar com outros atacantes ou grupos de atacantes para
+  revelar quem consegue realizar o maior número de ataques ou ser o
+  primeiro a conseguir atingir um determinado alvo.
+
+  <dd> <b>Motivações financeiras:</b> coletar e utilizar informações
+  confidenciais de usuários para aplicar golpes (mais detalhes no
+  Capítulo <a href="/golpes/">Golpes na Internet</a>).
+
+  <dd> <b>Motivações ideológicas:</b> tornar inacessível ou invadir
+  <i>sites</i> que divulguem conteúdo contrário à opinião do atacante;
+  divulgar mensagens de apoio ou contrárias a uma determinada ideologia.
+
+  <dd> <b>Motivações comerciais:</b> tornar inacessível ou invadir
+  <i>sites</i> e computadores de empresas concorrentes, para tentar
+  impedir o acesso dos clientes ou comprometer a reputação destas
+  empresas.
+
+</dl>
+
+<p>
+Para alcançar estes objetivos os atacantes costumam usar técnicas, como
+as descritas nas próximas seções.
+</p>
+
+
+<!-- ************************************************************ -->
+
+<section id="section_3_1">
+
+<h4>
+<a name="3.1"></a>
+3.1. Exploração de vulnerabilidades
+</h4>
+
+<p>
+Uma vulnerabilidade é definida como uma condição que, quando explorada
+por um atacante, pode resultar em uma violação de segurança. Exemplos de
+vulnerabilidades são falhas no projeto, na implementação ou na
+configuração de programas, serviços ou equipamentos de rede.
+</p>
+
+<p>
+Um ataque de exploração de vulnerabilidades ocorre quando um atacante,
+utilizando-se de uma vulnerabilidade, tenta executar ações maliciosas,
+como invadir um sistema, acessar informações confidenciais, disparar
+ataques contra outros computadores ou tornar um serviço inacessível.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_3_2">
+
+<h4>
+<a name="3.2"></a>
+3.2. Varredura em redes (<i>Scan</i>)
+</h4>
+
+<p>
+Varredura em redes, ou <i>scan</i><a name="sup_footnote001"></a><a
+href="#footnote001" class="footnote">1</a>, é uma técnica que consiste
+em efetuar buscas minuciosas em redes, com o objetivo de identificar
+computadores ativos e coletar informações sobre eles como, por exemplo,
+serviços disponibilizados e programas instalados. Com base nas
+informações coletadas é possível associar possíveis vulnerabilidades aos
+serviços disponibilizados e aos programas instalados nos computadores
+ativos detectados.
+</p>
+
+<p>
+A varredura em redes e a exploração de vulnerabilidades associadas podem
+ser usadas de forma:
+</p>
+
+<dl>
+
+  <dd> <b>Legítima:</b> por pessoas devidamente autorizadas, para
+  verificar a segurança de computadores e redes e, assim, tomar medidas
+  corretivas e preventivas.
+
+  <dd> <b>Maliciosa:</b> por atacantes, para explorar as
+  vulnerabilidades encontradas nos serviços disponibilizados e nos
+  programas instalados para a execução de atividades maliciosas. Os
+  atacantes também podem utilizar os computadores ativos detectados como
+  potenciais alvos no processo de propagação automática de códigos
+  maliciosos e em ataques de força bruta (mais detalhes no Capítulo <a
+  href="/malware/">Códigos Maliciosos (<i>Malware</i>)</a> e na Seção <a
+  href="#3.5">3.5</a>, respectivamente).
+
+</dl>
+
+<div class="textoFootnote">
+<a name="footnote001"></a>
+<strong>[1]</strong> Não confunda <i>scan</i> com <i>scam</i>.
+<i>Scams</i>, com "m", são esquemas para enganar um usuário, geralmente,
+com finalidade de obter vantagens financeiras (mais detalhes no Capítulo
+<a href="/golpes/">Golpes na Internet</a>).
+<span class="voltarTopo"><a href="#sup_footnote001">voltar</a></span>
+<br />
+</div>
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_3_3">
+
+<h4>
+<a name="3.3"></a>
+3.3. Falsificação de <i>e-mail</i> (<i>E-mail spoofing</i>)
+</h4>
+
+<p>
+Falsificação de <i>e-mail</i>, ou <i>e-mail spoofing</i>, é uma técnica
+que consiste em alterar campos do cabeçalho de um <i>e-mail</i>, de
+forma a aparentar que ele foi enviado de uma determinada origem quando,
+na verdade, foi enviado de outra.
+</p>
+
+<p>
+Esta técnica é possível devido a características do protocolo SMTP
+(<i><b>S</b>imple <b>M</b>ail <b>T</b>ransfer <b>P</b>rotocol</i>) que
+permitem que campos do cabeçalho, como "<code>From:</code>" (endereço de
+quem enviou a mensagem), "<code>Reply-To</code>" (endereço de resposta
+da mensagem) e "<code>Return-Path</code>" (endereço para onde possíveis
+erros no envio da mensagem são reportados), sejam falsificados.
+</p>
+
+<p>
+Ataques deste tipo são bastante usados para propagação de códigos
+maliciosos, envio de <i>spam</i> e em golpes de <i>phishing</i>.
+Atacantes utilizam-se de endereços de <i>e-mail</i> coletados de
+computadores infectados para enviar mensagens e tentar fazer com que os
+seus destinatários acreditem que elas partiram de pessoas conhecidas.
+</p>
+
+<p>
+Exemplos de <i>e-mails</i> com campos falsificados são aqueles recebidos
+como sendo:
+</p>
+
+<ul>
+
+  <li> de alguém conhecido, solicitando que você clique em um
+  <i>link</i> ou execute um arquivo anexo;
+
+  <li> do seu banco, solicitando que você siga um <i>link</i> fornecido
+  na própria mensagem e informe dados da sua conta bancária;
+
+  <li> do administrador do serviço de <i>e-mail</i> que você utiliza,
+  solicitando informações pessoais e ameaçando bloquear a sua conta caso
+  você não as envie.
+
+</ul>
+
+<p>
+Você também pode já ter observado situações onde o seu próprio endereço
+de <i>e-mail</i> foi indevidamente utilizado. Alguns indícios disto são:
+</p>
+
+<ul>
+
+  <li> você recebe respostas de <i>e-mails</i> que você nunca enviou;
+
+  <li> você recebe <i>e-mails</i> aparentemente enviados por você mesmo,
+  sem que você tenha feito isto;
+
+  <li> você recebe mensagens de devolução de <i>e-mails</i> que você
+  nunca enviou, reportando erros como usuário desconhecido e caixa de
+  entrada lotada (cota excedida).
+
+</ul>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_3_4">
+
+<h4>
+<a name="3.4"></a>
+3.4. Interceptação de tráfego (<i>Sniffing</i>)
+</h4>
+
+<p>
+Interceptação de tráfego, ou <i>sniffing</i>, é uma técnica que consiste
+em inspecionar os dados trafegados em redes de computadores, por meio do
+uso de programas específicos chamados de <i>sniffers</i>. Esta técnica
+pode ser utilizada de forma:
+</p>
+
+<dl>
+
+  <dd> <b>Legítima:</b> por administradores de redes, para detectar
+  problemas, analisar desempenho e monitorar atividades maliciosas
+  relativas aos computadores ou redes por eles administrados.
+
+  <dd> <b>Maliciosa:</b> por atacantes, para capturar informações
+  sensíveis, como senhas, números de cartão de crédito e o conteúdo de
+  arquivos confidenciais que estejam trafegando por meio de conexões
+  inseguras, ou seja, sem criptografia.
+
+</dl>
+
+<p>
+Note que as informações capturadas por esta técnica são armazenadas na
+forma como trafegam, ou seja, informações que trafegam criptografadas
+apenas serão úteis ao atacante se ele conseguir decodificá-las (mais
+detalhes no Capítulo <a href="/criptografia/">Criptografia</a>).
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_3_5">
+
+<h4>
+<a name="3.5"></a>
+3.5. Força bruta (<i>Brute force</i>)
+</h4>
+
+<p>
+Um ataque de força bruta, ou <i>brute force</i>, consiste em adivinhar,
+por tentativa e erro, um nome de usuário e senha e, assim, executar
+processos e acessar <i>sites</i>, computadores e serviços em nome e com
+os mesmos privilégios deste usuário.
+</p>
+
+<p>
+Qualquer computador, equipamento de rede ou serviço que seja acessível
+via Internet, com um nome de usuário e uma senha, pode ser alvo de um
+ataque de força bruta. Dispositivos móveis, que estejam protegidos por
+senha, além de poderem ser atacados pela rede, também podem ser alvo
+deste tipo de ataque caso o atacante tenha acesso físico a eles.
+</p>
+
+<p>
+Se um atacante tiver conhecimento do seu nome de usuário e da sua senha
+ele pode efetuar ações maliciosas em seu nome como, por exemplo:
+</p>
+
+<ul>
+
+  <li> trocar a sua senha, dificultando que você acesse novamente o
+  <i>site</i> ou computador invadido;
+
+  <li> invadir o serviço de <i>e-mail</i> que você utiliza e ter acesso
+  ao conteúdo das suas mensagens e à sua lista de contatos, além de
+  poder enviar mensagens em seu nome;
+
+  <li> acessar a sua rede social e enviar mensagens aos seus seguidores
+  contendo códigos maliciosos ou alterar as suas opções de privacidade;
+
+  <li> invadir o seu computador e, de acordo com as permissões do seu
+  usuário, executar ações, como apagar arquivos, obter informações
+  confidenciais e instalar códigos maliciosos.
+
+</ul>
+
+<p>
+Mesmo que o atacante não consiga descobrir a sua senha, você pode ter
+problemas ao acessar a sua conta caso ela tenha sofrido um ataque de
+força bruta, pois muitos sistemas bloqueiam as contas quando várias
+tentativas de acesso sem sucesso são realizadas.
+</p>
+
+<p>
+Apesar dos ataques de força bruta poderem ser realizados manualmente, na
+grande maioria dos casos, eles são realizados com o uso de ferramentas
+automatizadas facilmente obtidas na Internet e que permitem tornar o
+ataque bem mais efetivo.
+</p>
+
+<p>
+As tentativas de adivinhação costumam ser baseadas em:
+</p>
+
+<ul>
+
+  <li> dicionários de diferentes idiomas e que podem ser facilmente
+  obtidos na Internet;
+
+  <li> listas de palavras comumente usadas, como personagens de filmes e
+  nomes de times de futebol;
+
+  <li> substituições óbvias de caracteres, como trocar "<code>a</code>"
+  por "<code>@</code>" e "<code>o</code>" por "<code>0</code>"';
+
+  <li> sequências numéricas e de teclado, como "<code>123456</code>",
+  "<code>qwert</code>" e "<code>1qaz2wsx</code>";
+
+  <li> informações pessoais, de conhecimento prévio do atacante ou
+  coletadas na Internet em redes sociais e <i>blogs</i>, como nome,
+  sobrenome, datas e números de documentos.
+
+</ul>
+
+<p>
+Um ataque de força bruta, dependendo de como é realizado, pode resultar
+em um ataque de negação de serviço, devido à sobrecarga produzida pela
+grande quantidade de tentativas realizadas em um pequeno período de
+tempo (mais detalhes no Capítulo <a href="/senhas/">Contas e
+senhas</a>).
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_3_6">
+
+<h4>
+<a name="3.6"></a>
+3.6. Desfiguração de página (<i>Defacement</i>)
+</h4>
+
+<p>
+Desfiguração de página, <i>defacement</i> ou pichação, é uma técnica que
+consiste em alterar o conteúdo da página <i>Web</i> de um <i>site</i>.
+</p>
+
+<p>
+As principais formas que um atacante, neste caso também chamado de
+<i>defacer</i>, pode utilizar para desfigurar uma página <i>Web</i> são:
+</p>
+
+<ul>
+
+  <li> explorar erros da aplicação <i>Web</i>;
+
+  <li> explorar vulnerabilidades do servidor de aplicação <i>Web</i>;
+
+  <li> explorar vulnerabilidades da linguagem de programação ou dos
+  pacotes utilizados no desenvolvimento da aplicação <i>Web</i>;
+
+  <li> invadir o servidor onde a aplicação <i>Web</i> está hospedada e
+  alterar diretamente os arquivos que compõem o <i>site</i>;
+
+  <li> furtar senhas de acesso à interface <i>Web</i> usada para
+  administração remota.
+
+</ul>
+
+<p>
+Para ganhar mais visibilidade, chamar mais atenção e atingir maior
+número de visitantes, geralmente, os atacantes alteram a página
+principal do <i>site</i>, porém páginas internas também podem ser
+alteradas.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_3_7">
+
+<h4>
+<a name="3.7"></a>
+3.7. Negação de serviço (DoS e DDoS)
+</h4>
+
+<p>
+Negação de serviço, ou DoS (<i><b>D</b>enial <b>o</b>f
+<b>S</b>ervice</i>), é uma técnica pela qual um atacante utiliza <b>um
+computador</b> para tirar de operação um serviço, um computador ou uma
+rede conectada à Internet. Quando utilizada de forma coordenada e
+distribuída, ou seja, quando <b>um conjunto de computadores</b> é
+utilizado no ataque, recebe o nome de negação de serviço distribuído, ou
+DDoS (<i><b>D</b>istributed <b>D</b>enial of <b>S</b>ervice</i>).
+</p>
+
+<p>
+O objetivo destes ataques não é invadir e nem coletar informações, mas
+sim exaurir recursos e causar indisponibilidades ao alvo. Quando isto
+ocorre, todas as pessoas que dependem dos recursos afetados são
+prejudicadas, pois ficam impossibilitadas de acessar ou realizar as
+operações desejadas.
+</p>
+
+<p>
+Nos casos já registrados de ataques, os alvos ficaram impedidos de
+oferecer serviços durante o período em que eles ocorreram, mas, ao
+final, voltaram a operar normalmente, sem que tivesse havido vazamento
+de informações ou comprometimento de sistemas ou computadores.
+</p>
+
+<p>
+Uma pessoa pode voluntariamente usar ferramentas e fazer com que seu
+computador seja utilizado em ataques. A grande maioria dos computadores,
+porém, participa dos ataques sem o conhecimento de seu dono, por estar
+infectado e fazendo parte de <i>botnets</i> (mais detalhes na Seção <a
+href="/malware/#4.3">4.3</a> do Capítulo <a href="/malware/">Códigos
+Maliciosos (<i>Malware</i>)</a>).
+</p>
+
+<p>
+Ataques de negação de serviço podem ser realizados por diversos meios,
+como:
+</p>
+
+<ul>
+
+  <li> pelo envio de grande quantidade de requisições para um serviço,
+  consumindo os recursos necessários ao seu funcionamento
+  (processamento, número de conexões simultâneas, memória e espaço em
+  disco, por exemplo) e impedindo que as requisições dos demais usuários
+  sejam atendidas;
+
+  <li> pela geração de grande tráfego de dados para uma rede, ocupando
+  toda a banda disponível e tornando indisponível qualquer acesso a
+  computadores ou serviços desta rede;
+
+  <li> pela exploração de vulnerabilidades existentes em programas, que
+  podem fazer com que um determinado serviço fique inacessível.
+
+</ul>
+
+<p>
+Nas situações onde há saturação de recursos, caso um serviço não tenha
+sido bem dimensionado, ele pode ficar inoperante ao tentar atender as
+próprias solicitações legítimas. Por exemplo, um <i>site</i> de
+transmissão dos jogos da Copa de Mundo pode não suportar uma grande
+quantidade de usuários que queiram assistir aos jogos finais e parar de
+funcionar.
+</p>
+
+</section>
+
+<!-- ************************************************************ -->
+
+<section id="section_3_8">
+
+<h4>
+<a name="3.8"></a>
+3.8. Prevenção
+</h4>
+
+<p>
+O que define as chances de um ataque na Internet ser ou não bem sucedido
+é o conjunto de medidas preventivas tomadas pelos usuários,
+desenvolvedores de aplicações e administradores dos computadores,
+serviços e equipamentos envolvidos.
+</p>
+
+<p>
+Se cada um fizer a sua parte, muitos dos ataques realizados via Internet
+podem ser evitados ou, ao menos, minimizados.
+</p>
+
+<p>
+A parte que cabe a você, como usuário da Internet, é proteger os seus
+dados, fazer uso dos mecanismos de proteção disponíveis e manter o seu
+computador atualizado e livre de códigos maliciosos. Ao fazer isto, você
+estará contribuindo para a segurança geral da Internet, pois:
+</p>
+
+<ul>
+
+  <li> quanto menor a quantidade de computadores vulneráveis e
+  infectados, menor será a potência das <i>botnets</i> e menos eficazes
+  serão os ataques de negação de serviço (mais detalhes na Seção <a
+  href="/malware/#4.3">4.3</a>, do Capítulo <a href="/malware/">Códigos
+  Maliciosos (<i>Malware</i>)</a>);
+
+  <li> quanto mais consciente dos mecanismos de segurança você estiver,
+  menores serão as chances de sucesso dos atacantes (mais detalhes no
+  Capítulo <a href="/mecanismos/">Mecanismos de segurança</a>);
+
+  <li> quanto melhores forem as suas senhas, menores serão as chances de
+  sucesso de ataques de força bruta e, consequentemente, de suas contas
+  serem invadidas (mais detalhes no Capítulo <a href="/senhas/">Contas e
+  senhas</a>);
+
+  <li> quanto mais os usuários usarem criptografia para proteger os
+  dados armazenados nos computadores ou aqueles transmitidos pela
+  Internet, menores serão as chances de tráfego em texto claro ser
+  interceptado por atacantes (mais detalhes no Capítulo <a
+  href="/criptografia/">Criptografia</a>);
+
+  <li> quanto menor a quantidade de vulnerabilidades existentes em seu
+  computador, menores serão as chances de ele ser invadido ou infectado
+  (mais detalhes no Capítulo <a href="/computadores/">Segurança de
+  computadores</a>).
+
+</ul>
+
+<p>
+Faça sua parte e contribua para a segurança da Internet, incluindo a sua
+própria!
+</p>
+
+</section>
+
+</div>
+</div>
+</div>
+</div>
+
+</article>
+
+<!-- ******* End content **************************************** -->
+<!-- ************************************************************ -->
+
+<div id="rodape">
+  <ul>
+    <li><a href="/cc/">Licença</a></li>
+    <li><a href="/creditos/">Créditos</a></li>
+    <li><a href="/avisos/">Avisos</a></li>
+    <li><a href="/downloads/">Downloads</a></li>
+    <li class="last"><a href="/divulgue/">Divulgue</a></li>
+  </ul>
+  <p>
+    <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/br/">
+    <img src="/images/ic_creativeCommons.png"
+    alt="Licença Creative Commons CERT.br">
+    </a>
+    Cartilha de Segurança para Internet - CERT.br - $Date: 2012/06/03 01:41:42 $
+  </p>
+    <div class="selosRodape">
+      <a href="http://ipv6.br/">
+      <img src="/images/ic_ipv6.png"
+      alt="Site acessível via IPv6" title="Site acessível via IPv6">
+      </a>
+      <a href="http://jigsaw.w3.org/css-validator">
+      <img src="/images/ic_css.png" alt="CSS Válido" title="CSS Válido">
+      </a>
+      <img src="/images/ic_html5.png" alt="Desenvolvido em HTML 5"
+      title="Desenvolvido em HTML 5">
+    </div>
+</div>
+
+</body>
+</html>

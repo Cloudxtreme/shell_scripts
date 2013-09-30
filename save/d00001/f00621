@@ -1,0 +1,1567 @@
+
+
+<html>
+	
+	<head id="ctl00_Head1">
+				
+		<LINK title="medium_original" href="../skins/default_customer/medium.css" type=text/css rel=stylesheet>
+    		<LINK title="vsmall" href="../skins/default_customer/vsmall.css" type=text/css rel="alternate stylesheet">
+    		<LINK title="small" href="../skins/default_customer/small.css" type=text/css rel="alternate stylesheet">
+    		<LINK title="medium" href="../skins/default_customer/medium.css" type=text/css rel="alternate stylesheet">
+    		<LINK title="large" href="../skins/default_customer/large.css" type=text/css rel="alternate stylesheet">
+    		<LINK title="vlarge" href="../skins/default_customer/vlarge.css" type=text/css rel="alternate stylesheet">
+    		<LINK title="medium_original" href="../skins/default_customer/medium.css" type=text/css rel=stylesheet>
+    		<script type="text/javascript" src="sw_analytics.js"></script> 
+	<title>
+		MDA - FAQs
+	</title>
+	
+	
+
+</head>
+
+<style type="text/css">
+
+.bodytext {
+color:#000000;
+font-family:Arial;
+font-size:12px;
+font-style:normal;
+text-decoration:none;
+}
+
+.style12 a {
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-size: 9px;
+
+	color: #666666;
+
+}
+
+.style12 {
+
+	font-family: Arial, Helvetica, sans-serif;
+
+	font-size: 9px;
+
+	color: #666666;
+
+}
+
+
+.footerLstUpdate{color:#555555;  
+font-size: xx-small; 
+font-family: verdana;
+font-style: italic;
+font-weight:normal;
+}
+
+</style>
+
+	<body onload="javascript:if(document.forms[0].txtKeyword !=null){document.forms[0].txtKeyword.focus();}" leftmargin="0px" rightmargin="0px" topmargin="0px" bottommargin="0px" >
+
+<script>
+
+function openwindow(url) {
+	window.open(url);
+}
+
+
+
+function showalldiv(){
+	var x = document.getElementsByTagName('div');
+	for (var i=0;i<x.length;i++)
+	{
+			
+			if (x[i].id.indexOf("iv_") > 0) x[i].style.display = '';
+			
+	}
+
+}
+function hidealldiv(){
+	var x = document.getElementsByTagName('div');
+	for (var i=0;i<x.length;i++)
+	{
+			if (x[i].id.indexOf("iv_") > 0) x[i].style.display = 'none';
+			
+	}
+
+}
+
+
+
+var IFrameObj; // our IFrame object
+function callToServer(ptype, pfaqsysid, pScore) {
+
+	
+  if (!document.createElement) {return true};
+  var IFrameDoc;
+  var URL;
+  if(ptype=='RATINGS'){
+  	var searchphrase;
+  	searchphrase='';
+  	if (document.forms[0].txtKeyword != null) {
+  		searchphrase = searchphrase + ' ' + document.forms[0].txtKeyword.value;
+  	}
+  	
+  	if (document.forms[0].txtBoolean_All != null) {
+  		searchphrase = searchphrase + ' ' + document.forms[0].txtBoolean_All.value;
+  	}
+  	
+  	if (document.forms[0].txtBoolean_exact != null) {
+  		searchphrase = searchphrase + ' ' + document.forms[0].txtBoolean_exact.value;
+  	}
+  	
+  	if (document.forms[0].txtBoolean_OR != null) {
+  		searchphrase = searchphrase + ' ' + document.forms[0].txtBoolean_OR.value;
+  	}
+  	
+  	if (document.forms[0].txtBoolean_exclude != null) {
+  		searchphrase = searchphrase + ' ' + document.forms[0].txtBoolean_exclude.value;
+  	}
+  	
+  	//URL = 'fcd_updatehits.aspx?_strFAQSysID=' + pfaqsysid + '&_strpType=' + ptype + '&_pScore=' + pScore + '&_strKeyword=' + encodeURIComponent(document.forms[0].txtKeyword.value);
+  	URL = 'fcd_updatehits.aspx?_strFAQSysID=' + pfaqsysid + '&_strpType=' + ptype + '&_pScore=' + pScore + '&_strKeyword=' + encodeURIComponent(searchphrase);
+  }
+  else{
+   	URL = 'fcd_updatehits.aspx?_strFAQSysID=' + pfaqsysid + '&_strpType=' + ptype;
+  }
+ 
+  ////////////////////////////
+   	//call xmlhttp	
+	var blnxml_flag;
+	blnxml_flag = loadXMLDoc(URL);
+	///////////////////
+ 
+	if (!blnxml_flag) { 	
+ 
+	  if (!IFrameObj && document.createElement) {
+	    // create the IFrame and assign a reference to the
+	    // object to our global variable IFrameObj.
+	    // this will only happen the first time 
+	    // callToServer() is called
+	   try {
+	      var tempIFrame=document.createElement('iframe');
+	      tempIFrame.setAttribute('id','RSIFrame');
+	      tempIFrame.style.border='0px';
+	      tempIFrame.style.width='0px';
+	      tempIFrame.style.height='0px';
+	      IFrameObj = document.body.appendChild(tempIFrame);
+	      
+	      if (document.frames) {
+	        // this is for IE5 Mac, because it will only
+	        // allow access to the document object
+	        // of the IFrame if we access it through
+	        // the document.frames array
+	        IFrameObj = document.frames['RSIFrame'];
+	      }
+	    } catch(exception) {
+	      // This is for IE5 PC, which does not allow dynamic creation
+	      // and manipulation of an iframe object. Instead, we'll fake
+	      // it up by creating our own objects.
+	      iframeHTML='\<iframe id="RSIFrame" style="';
+	      iframeHTML+='border:0px;';
+	      iframeHTML+='width:0px;';
+	      iframeHTML+='height:0px;';
+	      iframeHTML+='"><\/iframe>';
+	      document.body.innerHTML+=iframeHTML;
+	      IFrameObj = new Object();
+	      IFrameObj.document = new Object();
+	      IFrameObj.document.location = new Object();
+	      IFrameObj.document.location.iframe = document.getElementById('RSIFrame');
+	      IFrameObj.document.location.replace = function(location) {
+	        this.iframe.src = location;
+	      }
+	    }
+	  }
+	  
+	  if (navigator.userAgent.indexOf('Gecko') !=-1 && !IFrameObj.contentDocument) {
+	    // we have to give NS6 a fraction of a second
+	    // to recognize the new IFrame
+	    setTimeout('callToServer()',10);
+	    //return false;
+	  }
+	  
+	  if (IFrameObj.contentDocument) {
+	    // For NS6
+	    IFrameDoc = IFrameObj.contentDocument; 
+	  } else if (IFrameObj.contentWindow) {
+	    // For IE5.5 and IE6
+	    IFrameDoc = IFrameObj.contentWindow.document;
+	  } else if (IFrameObj.document) {
+	    // For IE5
+	    IFrameDoc = IFrameObj.document;
+	  } else {
+	   // return true;
+	  }
+	  
+	  IFrameDoc.location.replace(URL);
+	  //return false;
+	}
+		  
+  	if(ptype=='RATINGS'){
+  	alert('Thank you for your input.  We will use your input to refine future searches.');
+  	}
+}
+
+function loadXMLDoc(url){
+
+ xmlhttp=null;
+ try {
+ xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");
+ }
+ catch(e) {
+ try {
+ xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+ }
+ catch(oc) {
+ xmlhttp=null;
+ }
+ }
+
+ if ( !xmlhttp && typeof XMLHttpRequest != "undefined" ) {
+ xmlhttp=new XMLHttpRequest();
+ }
+
+
+  	
+	if (xmlhttp!=null){
+  		xmlhttp.onreadystatechange=state_Change;
+  		xmlhttp.open("GET",url,true);
+  		xmlhttp.send(null);
+  		return true;
+  	}
+	else{
+  		alert("Your browser does not support XMLHTTP.");
+  		return false;	
+  	}
+}
+
+
+
+
+
+
+
+
+function loadXMLDoc1(url){
+	xmlhttp=null
+	// code for Mozilla, etc.
+	if (window.XMLHttpRequest){
+  		xmlhttp=new XMLHttpRequest();
+  	}
+	// code for IE
+	else if (window.ActiveXObject){
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+	if (xmlhttp!=null){
+  		xmlhttp.onreadystatechange=state_Change;
+  		xmlhttp.open("GET",url,true);
+  		xmlhttp.send(null);
+  		loadXMLDoc == true;
+  	}
+	else{
+  		alert("Your browser does not support XMLHTTP.");
+  		loadXMLDoc == true;	
+  	}
+}
+	
+function state_Change(){
+	// if xmlhttp shows "loaded"
+	if (xmlhttp.readyState==4){
+	  	// if "OK"
+	  	if (xmlhttp.status==200){
+	  		//alert('ok');
+	    }
+	  	else{
+	    	//alert("Problem retrieving XML data")
+	    }
+  	}
+}
+
+
+//added 23 Mar 2008
+function generate_search_string(strquerystring){
+	var strurl;
+	var strvalue;
+	strvalue ="";
+	
+	if (document.forms[0].txtKeyword != null){
+		if (document.forms[0].txtKeyword.value != null){
+			strvalue = strvalue + document.forms[0].txtKeyword.value;
+		}	
+	}
+	
+	if (document.forms[0].txtBoolean_All != null){
+		if (document.forms[0].txtBoolean_All.value != ''){
+		strvalue = strvalue + '&q1=' + document.forms[0].txtBoolean_All.value;
+		}
+	}
+	
+	if (document.forms[0].txtBoolean_exact != null){
+		if (document.forms[0].txtBoolean_exact.value != ''){
+			strvalue = strvalue + '&q2=' + document.forms[0].txtBoolean_exact.value;
+		}
+	}
+	
+	if (document.forms[0].txtBoolean_OR != null){
+		if (document.forms[0].txtBoolean_OR.value != ''){
+			strvalue = strvalue + '&q3=' + document.forms[0].txtBoolean_OR.value;
+		}
+	}
+	
+	if (document.forms[0].txtBoolean_exclude != null){
+		if (document.forms[0].txtBoolean_exclude.value != ''){
+			strvalue = strvalue + '&q4=' + document.forms[0].txtBoolean_exclude.value;
+		}
+	}
+	
+	//amended 6 Aug 2009
+	if (document.forms[0].m_strSearch_Choice_2 != null){
+		if (document.forms[0].m_strSearch_Choice_2.checked==true){
+			strvalue = strvalue + '&searchchoice=' + document.forms[0].m_strSearch_Choice_2.value;
+		}
+		else if(document.forms[0].m_strSearch_Choice_1 .checked==true){
+			strvalue = strvalue + '&searchchoice=' + document.forms[0].m_strSearch_Choice_1.value;
+		}
+	}
+	else if (document.forms[0].m_strSearch_Choice_1 != null){
+		if(document.forms[0].m_strSearch_Choice_1.checked==true){
+			strvalue = strvalue + '&searchchoice=' + document.forms[0].m_strSearch_Choice_1.value;
+		}
+	}
+	
+	//amended 6 Aug 2009
+	
+	if (document.forms[0].txtKeyword != null){
+		strurl = '../apps/fcd_faqmain.aspx?qst=' + strquerystring + '&q=' + strvalue + '&keyword='+ document.forms[0].txtKeyword.value + '&_intPage=' + document.forms[0].m_intPage.value;
+	}
+	else{
+		strurl = '../apps/fcd_faqmain.aspx?qst=' + strquerystring + '&q=' + strvalue + '&_intPage=' + document.forms[0].m_intPage.value;
+	}	
+	
+	
+	window.open(strurl);
+}
+
+function bookmark(url, title) {
+
+    if ((navigator.appName == "Microsoft Internet Explorer") && (parseInt(navigator.appVersion) >= 4)) {
+        window.external.AddFavorite(url, title);
+    }
+    //else if (navigator.appName == "Netscape") {
+    //window.sidebar.addPanel(title,url,"",true);
+    //} 
+    else {
+        alert("Press CTRL-D (Netscape and Firefox) or CTRL-T (Opera) to bookmark");
+    }
+}
+
+
+</script>
+<script type="text/javascript" src="SGMSDecentralised.js"></script>
+<script type="text/javascript" src="fontSizeControl.js"></script>
+
+
+<form name="ctl00" method="post" action="fcd_faqmain.aspx" id="ctl00">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+
+<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="cF1nA2fedMNmOvJ/k/tcDzl1HIi+LJVzF10SmJ3xLRO8rd22/ZW0LCW0lfdad3Z2DrBShmCoLrQdRGhpY05pfRGDakNsEM7T1t9/qu6FXCz/306ak0VByQAXhStL1gygYGR+4R7BeojNtdBrh1HBXBhADyo=" />
+
+<script>
+function toggle(strID, strfaqsysid) {
+if( document.getElementById(strID).style.display=='none' ){
+document.getElementById(strID).style.display = '';
+}else{
+document.getElementById(strID).style.display = 'none';
+}
+}
+</script>
+	
+
+
+
+
+<!-- start main column -->
+
+
+<!-- 20130130 removed from table background="../skins/default_customer/Images/bg.gif"-->
+<table width="100%" border="0" align="center"  cellspacing="0" cellpadding="0"><tr><td >
+
+<table cellspacing=0 cellpadding=0  border=0 width="960px"  valign="center"  align="center" >
+
+<tr>
+<!-- 4 OCT 2007 Start -->
+	<td valign=top  align="center"  style="background:url('../skins/default_customer/Images/bg.gif')">
+<!---- top banner -->
+
+
+<!--- --- ---  Horizontal Top Navigation Bar --- --- --->
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" align="center" style="background:#ffffff;" >
+	<tr>
+		<td valign="top" align="center"><div class="ms-WPBody"><div id="wrapper" class="clearfix">
+<div id="maskhead" >
+		<div class="floatLeft"><a href="http://www.mda.gov.sg"><img src="../skins/default_customer/Images/logo_mda.gif" width="208" height="119" border="0"/></a></div>
+		<div> <a href="http://www.gov.sg/" title="Singapore Government" target="_blank"><img src="../skins/default_customer/Images/logo_sg.gif" width="178" height="24" class="floatRight" border="0" /></a>
+<div id="sglinks" ><a href="http://www.ifaq.gov.sg/mda/apps/fcd_faqmain.aspx"  target="_blank" class="links">FAQ</a>  |  <a href="http://www.mda.gov.sg/Pages/ContactInformation.aspx">Contact Information</a>  |  <a href="https://mdaonline.mda.gov.sg/onlineservices/Feedback/FBSubmission.aspx" target="_blank">Feedback</a>  |  <a href="http://www.mda.gov.sg/Pages/SiteMap.aspx">Sitemap</a>  |  <a href="http://www.mda.gov.sg/Pages/UserfulLinks.aspx">Useful Links</a> </div>
+			</div>
+	
+	
+	<!--- --- ---  Search --- --- --->
+
+<div id="topNav">
+
+	<ul id="sddm">
+<li><a href="http://www.mda.gov.sg/Pages/Home.aspx" id="lbl_home" class="selected" onmouseover="homenav_m_over('lbl_home', '1')" onmouseout="homenav_m_out('lbl_home', '1')" style="background-color: rgb(255, 255, 255); color: rgb(255, 51, 153);">Home</a></li>
+<li><a id="lbl_main01" href="http://www.mda.gov.sg/AboutUs" onmouseover="mopen('m1', 'lbl_main01')" onmouseout="mclosetime()" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">About Us</a>
+<div id="m1" onmouseover="mcancelclosetime()" onmouseout="mclosetime()" style="visibility: hidden;">
+	<a href="http://www.mda.gov.sg/AboutUs/Overview">Overview</a>
+	<!-- <a href="http://www.mda.gov.sg/AboutUs/Pages/OrganisationStructure.aspx">Organisation Structure</a> -->
+	
+	<a href="http://www.mda.gov.sg/AboutUs/Pages/SeniorManagement.aspx">Senior Management</a>
+<a href="http://www.mda.gov.sg/AboutUs/Pages/BoardofDirectors.aspx">Board of Directors</a>
+	<a href="http://www.mda.gov.sg/AboutUs/Pages/Annualreports.aspx">Annual reports</a>
+	<a href="http://www.mda.gov.sg/AboutUs/Pages/CollaborateWithUs.aspx">Collaborate With Us</a>
+	<a href="http://www.mda.gov.sg/AboutUs/Pages/ServiceStandard.aspx">Service Standards</a>
+<a href="http://www.mda.gov.sg/Mediapolis">Mediapolis</a>
+
+</div>
+</li>
+
+<li><a id="lbl_main02" href="http://www.mda.gov.sg/Industry" onmouseover="mopen('m2', 'lbl_main02')" onmouseout="mclosetime()" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">Industry</a>
+<div id="m2" onmouseover="mcancelclosetime()" onmouseout="mclosetime()" style="visibility: hidden;">
+	<a href="http://www.mda.gov.sg/Industry/Digital/Pages/default.aspx">Digital Media</a>
+	<a href="http://www.mda.gov.sg/Industry/Films/Pages/default.aspx">Films</a>
+	<a href="http://www.mda.gov.sg/Industry/Video/Pages/default.aspx">Video Games</a>
+	<a href="http://www.mda.gov.sg/Industry/Music/Pages/default.aspx">Music</a>
+	<a href="http://www.mda.gov.sg/Industry/Publishing/Pages/default.aspx">Publishing</a>
+	<a href="http://www.mda.gov.sg/Industry/Radio/Pages/default.aspx">Radio</a>
+	<a href="http://www.mda.gov.sg/Industry/TV/Pages/default.aspx">TV</a>
+	<!--<a href="http://www.mda.gov.sg/Industry/MediaLearning/Pages/default.aspx">Media-in-Learning</a>-->
+	<a href="http://www.mda.gov.sg/Industry/Others/Pages/default.aspx">Others</a>
+
+</div>
+</li>
+
+<li><a id="lbl_main03" href="http://www.mda.gov.sg/Public" onmouseover="mopen('m3', 'lbl_main03')" onmouseout="mclosetime()" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">Public</a>
+<div id="m3" onmouseover="mcancelclosetime()" onmouseout="mclosetime()" style="visibility: hidden;">
+	<a href="#"> <strong> <span style="font-size:11pt;">MDA &amp; You </span></strong></a>
+	    <a href="http://www.mda.gov.sg/Public/Pages/MDAsRole.aspx"> » MDA's role in the community</a>
+	    <a href="http://www.mda.gov.sg/Public/DigitalTV"> » Digital TV</a>
+	    <!--<a href="http://www.mda.gov.sg/Public/3DTV"> &raquo; 3D TV</a>-->
+	    <a href="http://www.mda.gov.sg/Public/Pages/CyberWellness.aspx"> » Cyber Wellness</a>
+	<a href="http://www.mda.gov.sg/PUBLIC/CONSULTATION/Pages/ConsultationwithCommittees.aspx"> » Consultation with Committees</a>
+	<a href="http://www.mda.gov.sg/Public/MediaClassification/Pages/MediaClassification.aspx"> » Media Classification</a>
+    <a href="http://www.mda.gov.sg/Public/PublicService/Pages/PSC.aspx"> » Public Service Broadcast Programmes</a>
+      <a href="#">  <strong><span style="font-size:11pt ">Public Resources </span></strong></a>
+      <a href="http://www.mda.gov.sg/Public/PublicEducation/Pages/PublicEducation.aspx">» Public Education</a>
+	<a href="http://www.mda.gov.sg/Public/Educators/Pages/Educators.aspx">» Educators</a>
+	<a href="http://www.mda.gov.sg/Public/Parents/Pages/Parents.aspx">» Parents</a>
+	<a href="http://www.mda.gov.sg/Public/Pages/StudentsandYouth.aspx">» Students &amp; Youth</a>
+	</div>
+</li>
+
+<li><a id="lbl_main04" href="http://www.mda.gov.sg/International" onmouseover="mopen('m4', 'lbl_main04')" onmouseout="mclosetime()" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">International</a>
+<div id="m4" onmouseover="mcancelclosetime()" onmouseout="mclosetime()" style="visibility: hidden;">
+	<a href="http://www.mda.gov.sg/International/BilCoAgreement/Pages/agreements.aspx">Bilateral Co-Production Agreements</a>
+	<a href="http://www.mda.gov.sg/International/Pages/ASEAN.aspx">ASEAN</a>
+	<a href="http://www.mda.gov.sg/International/Collaboration/Pages/Collaboration.aspx">Global Collaboration</a></div>
+</li>
+
+<li><a id="lbl_main05" href="http://www.mda.gov.sg/Policies" onmouseover="mopen('m5', 'lbl_main05')" onmouseout="mclosetime()" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">Policies</a>
+<div id="m5" onmouseover="mcancelclosetime()" onmouseout="mclosetime()" style="visibility: hidden;">
+	<a href="http://www.mda.gov.sg/Policies/Pages/Overview.aspx">Overview</a>
+	<a href="http://www.mda.gov.sg/Policies/Pages/CoRegulationwithIndustry.aspx">Co-Regulation with Industry</a>
+	<a href="http://www.mda.gov.sg/Policies/MediaClassification/Pages/MediaClassification.aspx">Media Classification</a>
+	<!--<a href="http://www.mda.gov.sg/Policies/Pages/Legislation1.aspx">Legislation</a>-->
+	<a href="http://www.mda.gov.sg/Policies/PoliciesandContentGuidelines/Pages/default.aspx">Policies &amp; Guidelines</a>
+	</div>
+</li>
+
+<li><a id="lbl_main06" href="http://www.mda.gov.sg/Licences" onmouseover="mopen('m6', 'lbl_main06')" onmouseout="mclosetime()" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">Licences</a>
+<div id="m6" onmouseover="mcancelclosetime()" onmouseout="mclosetime()" style="visibility: hidden;">
+	<a href="http://www.mda.gov.sg/Licences/OnlineServices/Pages/default.aspx">Online Services</a>
+	<a href="http://www.mda.gov.sg/Licences/OnlineServices/Pages/default.aspx">TV &amp; Radio Licences</a>
+	<!--<a href="#"><strong><span style="margin-left:5px; font-family:Arial, sans-serif; font-size:11pt ">Public Licences</span></strong></a>
+	<a href="http://www.mda.gov.sg/Licences/Pages/TVResidentialLicence.aspx"><span style="margin-left:5px; font-family:Arial, sans-serif ">&raquo; TV (Residential) Licence</span> </a>
+        <a href="http://www.mda.gov.sg/Licences/Pages/VehicleRadioLicence.aspx"><span style="margin-left:5px; font-family:Arial, sans-serif ">&raquo; Vehicle Radio Licence</span> </a>-->
+<a href="#"> <strong>  <span style="font-size:11pt ">Business Licences </span></strong></a>
+	<a href="http://www.mda.gov.sg/Licences/Pages/ArtsEntLicence.aspx">Arts Entertainment Licence</a>
+	<a href="http://www.mda.gov.sg/Licences/Pages/FilmDistLicence.aspx">Film Distribution Licence</a>
+	<a href="http://www.mda.gov.sg/Licences/Pages/FilmExLicence.aspx">Film Exhibition Licence</a>
+	<!--<a href="http://www.mda.gov.sg/Licences/Pages/DealersLicence.aspx">Dealers' Licence</a>
+	<a href="http://www.mda.gov.sg/Licences/Pages/NonResTVLicence.aspx">TV (Non-Residential) Licence</a>-->
+	<a href="http://www.mda.gov.sg/Licences/Pages/NewspaperPermit.aspx">Newspaper Permit</a>
+	<a href="http://www.mda.gov.sg/Licences/Pages/PrintingPressLicence.aspx">Printing Press Licence</a>
+	<a href="http://www.mda.gov.sg/Licences/Pages/IPTVLicences.aspx">Broadcast TV Licence</a>
+	<a href="http://www.mda.gov.sg/Licences/Pages/IntSCPCLicence.aspx">Internet Service &amp; Content Provider Class Licence</a>
+	
+	<a href="http://www.mda.gov.sg/Licences/Pages/TVReceiveOnlyLicence.aspx">TV Receive-Only Licence (TVRO)</a>
+	
+	<a href="http://www.mda.gov.sg/Licences/Pages/SBCLicence.aspx">Satellite Broadcasting Licence</a>
+	<a href="http://www.mda.gov.sg/Licences/Pages/Audiotext.aspx">Audiotext</a>
+		
+</div>
+</li>
+
+<li><a id="lbl_main07" href="http://www.mda.gov.sg/Schemes/Pages/GrantSchemes.aspx" onmouseover="mopen('m7', 'lbl_main07')" onmouseout="mclosetime()" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">Schemes</a>
+<div id="m7" onmouseover="mcancelclosetime()" onmouseout="mclosetime()" style="visibility: hidden;">
+<a href="http://www.mda.gov.sg/Schemes/Pages/DevelopmentAssistance.aspx">Development Assistance</a>
+<a href="http://www.mda.gov.sg/Schemes/Pages/ProductionAssistance.aspx">Production Assistance</a>
+<a href="http://www.mda.gov.sg/Schemes/Pages/MarketingAssistance.aspx">Marketing Assistance</a>
+<a href="http://www.mda.gov.sg/Schemes/Pages/TalentAssistance.aspx">Talent Assistance</a>
+<a href="http://www.mda.gov.sg/Schemes/Pages/NewTalentFeatureGrant.aspx">New Talent Feature Grant</a>
+<a href="http://www.mda.gov.sg/Schemes/Pages/FilmMentorshipInitiative.aspx">Film Mentorship Initiative</a>
+<a href="http://www.mda.gov.sg/Schemes/Pages/MediaEducationScheme.aspx">Media Education Scheme</a> 
+<a href="http://www.mda.gov.sg/Schemes/Pages/Grantapprovals.aspx">Grant Approvals &amp; Projects Supported</a>
+		 
+</div>
+</li>
+
+<li><a id="lbl_main08" href="http://www.mda.gov.sg/Reports" onmouseover="mopen('m8', 'lbl_main08')" onmouseout="mclosetime()" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">Research &amp; Consultation</a>
+<div id="m8" onmouseover="mcancelclosetime()" onmouseout="mclosetime()" style="visibility: hidden;">
+	<a href="http://www.mda.gov.sg/Reports/ConsultationReports/Pages/ConsultationReports.aspx">Consultation Papers</a>
+	<a href="http://www.mda.gov.sg/Reports/ResearchGrants/Pages/AEP.aspx">Research Grants</a>
+	<a href="http://www.mda.gov.sg/Reports/Pages/MediaConvergenceReviewPanel.aspx">Media Convergence Review Panel</a>
+	<a href="http://www.mda.gov.sg/Reports/Pages/MediaConsumerExperienceStudy.aspx">Media Consumer Experience Study</a>
+	<!-- <a href="http://www.mda.gov.sg/Reports/ResearchReports/Pages/ResearchReports.aspx">Research Reports</a> -->
+</div>
+</li>
+
+<li><a id="lbl_main09" href="http://www.mda.gov.sg/NewsAndEvents" onmouseover="mopen('m9', 'lbl_main09')" onmouseout="mclosetime()" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">News &amp; Events</a>
+<div id="m9" onmouseover="mcancelclosetime()" onmouseout="mclosetime()" style="visibility: hidden;">
+	<a href="http://www.mda.gov.sg/NewsAndEvents/Announcements/Pages/default.aspx">Announcements</a>
+	<a href="http://www.mda.gov.sg/NewsAndEvents/PressRelease/Pages/default.aspx">News Releases</a>
+	<a href="http://www.mda.gov.sg/NEWSANDEVENTS/Newsletters/2012/15/Pages/index.aspx">Newsletter</a>
+	<a href="http://www.mda.gov.sg/NewsAndEvents/Calendar/Pages/default.aspx">Calendar of Events</a>
+	<!--<a href="#">Newsletters</a>-->
+	<!--<a href="http://www.mda.gov.sg/NewsAndEvents/Gallery/Pages/default.aspx">Image Gallery</a>-->
+	<a href="http://www.mda.gov.sg/NewsAndEvents/Speeches/Pages/default.aspx">Speeches</a>
+	<!--<a href="http://www.mda.gov.sg/NewsAndEvents/Pages/ArtsHeritageDistrictBanner.aspx">Arts Heritage District Banner</a>-->
+</div>
+</li>
+
+<li><a id="lbl_main010" href="http://www.mda.gov.sg/Careers/Pages/WhyMDA.aspx" onmouseover="mopen('m10', 'lbl_main010')" onmouseout="mclosetime()" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">Careers</a>
+<div id="m10" onmouseover="mcancelclosetime()" onmouseout="mclosetime()" style="visibility: hidden;">
+	<a href="http://www.mda.gov.sg/Careers/Pages/WhyMDA.aspx">Why MDA</a>
+<a href="http://www.mda.gov.sg/Careers/Pages/Register_Login.aspx">Register / Login</a>
+</div>
+</li>
+
+
+	</ul>
+	
+	<div class="fontSelect" style="padding-right:6px;">FONT 
+		 <a href="#" alt="Increase Text" title="" onclick="increaseStyleSheet();">  <img src='../skins/default_customer/images/font_plus.gif' border='0'   /> </a>
+		 <a href="#" alt="Decrease Text" title="" onclick="decreaseStyleSheet();">  <img src='../skins/default_customer/images/font_minus.gif' border='0'   /> </a>
+	</div>
+	
+</div>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:ContentType msdt:dt="string">Document</mso:ContentType>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+<title>MDATopNav</title></head></div></td>
+	</tr>
+</table>
+	
+
+			
+
+	<div id="topDiv" style="background:url('../skins/default_customer/images/line_tiles.gif') left repeat-x; margin:0; clear:both;"><img src="../skins/default_customer/Images/spacer.gif" width="10" height="6" /></div>
+
+	
+
+<!--- --- ---  End of Horizontal Top Navigation Bar --- --- --->
+
+
+</TD></TR>
+
+
+  			  
+<tr><td >
+
+
+
+	
+<div id="main">
+		
+
+	<!-- 20130131 removed from table style="border-style: none solid none solid; border-width: 1px;  border-color: #8F9092;"-->
+	<table cellspacing="0" cellpadding="0" width="960px" height="100%" align="center" border="0" bgcolor="#ffffff" >
+
+
+	<!--- Start of Top Header -------->
+	
+	<!--- End of Top Header -------->	
+
+
+	<!--- Start of Body -------->
+	
+			
+		
+	
+
+	
+	<tr>
+		<td colspan="3" style="background:#FF0099; padding-left:5px;" valign="top">
+				<table border="0" cellspacing=0 cellpadding=0  valign="top">
+						<tr >
+							<td valign="center" nowrap align="left" height="25px" >
+								<span class="breadcrumbs"><a href="http://www.mda.gov.sg" class="pathway">Home</a></span>&nbsp; <font color="#ffffff"> &gt; </font>  </td>
+							<td valign="center" nowrap align="left" > 
+								&nbsp;<span class="breadcrumbs"><a href="fcd_faqmain.aspx" class="pathway">FAQs</a></span>&nbsp;</td>
+							<td  valign="center" nowrap align="left" >
+								
+								<span class="breadcrumbs">
+							</td>
+							<td  valign="center" nowrap align="left">
+								<span><span id="lblCrumbs3" class="breadcrumbs"></span>
+							</td>
+						</tr>
+					</table>		
+				
+		</td>	
+	</tr>		
+		
+		
+	<tr>
+	<!-- left column -->
+
+    <td valign="top" height="100%" style="background:#EEEEEE;">
+    <table width="100%"  border="0" height="100%" cellspacing="0" cellpadding="5" style="border-style: none none none none; border-width: 1px;">
+        <tr>
+		<td valign="top" height="100%" width="100%"  align="left">
+		<table width="100%"  cellspacing="0" cellpadding="0" id="subnav">
+			<tr> <td  width="100%" > &nbsp; </td></tr>			
+			<tr><td width="100%" >
+			<input name="default_qst" type="hidden" id="default_qst" value="r0GTeEeeTbctRFSD38SyS%2fh%2bdqCMHcNJJj2MAEp3I1XFp6HktgV1OiJ7%2fnTCLS9Zwg1tbULFjklxnynhbX0nS0med83MbnyU" />
+			<input name="m_intPage" type="hidden" id="m_intPage" value="0" />
+			<input name="m_strRecordcount_FAQ" type="hidden" id="m_strRecordcount_FAQ" />
+			<table id="dgLevel1" cellspacing="0" cellpadding="0" border="0" width="160">
+		<tr>
+			<td>
+					<tr >
+						<td class="level0" valign=top style="padding-right:0px; padding-bottom:5px;padding-top:5px;padding-left:5px;"> 							                            
+							<a id="dgLevel1_ctl00_btnLevel2" class="level0" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLDRcdq7t7QaixdenQl0teHgm%2b4bFBcFfyKfzGAsjMuKvqfvi1W7KqHkk3R0s9GZ5UjKyijeTxov3Knzj%2f6V3QpuZZu3drrnJizj%2bFmIaQ669JZemNO4e5%2bKkcRSJP5RlwDx2wqYp%2fnP8EmCOSVknlptZu6OlrOeuw4%3d">Hot Topics</a>
+						</td>
+						
+					</tr>
+					<tr >
+						<td colspan=3 align="left" >
+							
+								
+						
+						</td>
+					</tr>	
+				</td>
+		</tr><tr>
+			<td>
+					<tr>
+						
+						
+						<td class="level0" valign=top style="padding-right:0px; padding-bottom:5px;padding-top:5px;padding-left:5px;">
+                            
+							<a id="dgLevel1_ctl01_btnLevel2" class="level0" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLAh9uVFT1GsRosR13Oa4rf8QaveGM3SXywwo7tFCY5r3HRWgxIMNHvzSN%2f5VHjSz9OrhF0prb3Ma7qaSFsHjFl3yNWA8ebKghj0cDuR4yQiRo6ANe0%2fl9tV8Tcy7W%2bAH8arvFgR0rCI0TiiUKBJwXXJsgcY0DtuTGLmn%2ft87BtAhMZ1%2fXAhsBcLQU6CetSWspI%3d">General</a>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan=3 align="left" style="padding-top:0px;">
+							
+								
+							
+							
+							
+							
+						</td>
+					</tr>	
+		
+				</td>
+		</tr><tr>
+			<td>
+					<tr >
+						<td class="level0" valign=top style="padding-right:0px; padding-bottom:5px;padding-top:5px;padding-left:5px;"> 							                            
+							<a id="dgLevel1_ctl02_btnLevel2" class="level0" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLAyc1mFTmni5XWQ5uZzBpYWaogmeoRJGrPfbeThRruFUIjbP5B8ftkNGdowBLHj6HmIHH9r03pJzvZ33EOaCa%2bJVaHvNeJu2rDmrC%2bNZdOWNkJaw%2fhpUj3mCY8Y39fJB3NL2DCD5r5NKYManvpfcR1hRc%2bJxTB7dnB2TWq3nkgF9vYzyrRPWiNmeqJ6u1VzrRc%3d">MDA Grant Schemes</a>
+						</td>
+						
+					</tr>
+					<tr >
+						<td colspan=3 align="left" >
+							
+								
+						
+						</td>
+					</tr>	
+				</td>
+		</tr><tr>
+			<td>
+					<tr>
+						
+						
+						<td class="level0" valign=top style="padding-right:0px; padding-bottom:5px;padding-top:5px;padding-left:5px;">
+                            
+							<a id="dgLevel1_ctl03_btnLevel2" class="level0" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLCgoyEVdvVNlJ7LJobyWdhv95JCu0zXqXwt1SMSzcBHQZF9O%2b00TQG7tcWtG36PE%2bmJRcaobR41i2C80zCZWFfPY93HPkH%2bKX4%2fUX%2beVpDj0Du%2f6n5nvERjb6xjix%2fmcQ2QM6jrOZfhBkW4N8bX3mkYzmlLJHVyy08ffLS9UTnHu3EJe%2fjD4MUBMKMFKS3vbi8%3d">Policies & Guidelines</a>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan=3 align="left" style="padding-top:0px;">
+							
+								
+							
+							
+							
+							
+						</td>
+					</tr>	
+		
+				</td>
+		</tr><tr>
+			<td>
+					<tr >
+						<td class="level0" valign=top style="padding-right:0px; padding-bottom:5px;padding-top:5px;padding-left:5px;"> 							                            
+							<a id="dgLevel1_ctl04_btnLevel2" class="level0" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLAbpJTJMxxjMnNnM8cepYPd64uJipG7EM39l9NrXsf39HSuVXB7Ox31Z5ffjBsQte%2bf9Tzq0Nm8BEbYQGfAsrtRXGoFVUP7Aga9NbgJgdCbSFl65BCELd67e1IsU44hL5Ia8bwUGg0Y0bPk5pp2c%2bViaeFai2%2fpP5zr2vSYePyZdgCvr5MnKXq%2bFBxVSlIqkjU%3d">Licences & Fees</a>
+						</td>
+						
+					</tr>
+					<tr >
+						<td colspan=3 align="left" >
+							
+								
+						
+						</td>
+					</tr>	
+				</td>
+		</tr><tr>
+			<td>
+					<tr>
+						
+						
+						<td class="level0" valign=top style="padding-right:0px; padding-bottom:5px;padding-top:5px;padding-left:5px;">
+                            
+							<a id="dgLevel1_ctl05_btnLevel2" class="level0" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLCnlRQExhaO0cvps7C0omVCJsYhHQHOsU75bqoPbmLBj8YpNDJeo9aI5IUXcKwI2iBztH107ZP6%2fkme4sguwOjYPOomsz5%2fy08dewGCFskk%2b8FLTaMZ5L1Dy5KHc4BkriuzENh0KrSvdE%2bbiRsFDUaLK6rrNmwBP2kaZ46rh3Y6XANXluzBqe%2bxHiRY4YWOW1s%3d">Singapore Film Commission</a>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan=3 align="left" style="padding-top:0px;">
+							
+								
+							
+							
+							
+							
+						</td>
+					</tr>	
+		
+				</td>
+		</tr><tr>
+			<td>
+					<tr >
+						<td class="level0" valign=top style="padding-right:0px; padding-bottom:5px;padding-top:5px;padding-left:5px;"> 							                            
+							<a id="dgLevel1_ctl06_btnLevel2" class="level0" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLDAak4TEoeDQREBpKHqktWBdMae%2f8m%2fC0Fu7FNJFbsFNo4wVtEAL33q2PWrOe2EnuFcKOO5i2P5wFdaqPIDC7wShE9NCUtC6QOwB4hvZ15z4QCFLlI3ZqwVghKMZVDdoGmIOyfup%2f8kXt1hdou%2fWugoMZQ8pQ5jlkVoHKseQNMai5B9bTPewVsd6gTwL8rQaxU%3d">Interactive Digital Media</a>
+						</td>
+						
+					</tr>
+					<tr >
+						<td colspan=3 align="left" >
+							
+								
+						
+						</td>
+					</tr>	
+				</td>
+		</tr><tr>
+			<td>
+					<tr>
+						
+						
+						<td class="level0" valign=top style="padding-right:0px; padding-bottom:5px;padding-top:5px;padding-left:5px;">
+                            
+							<a id="dgLevel1_ctl07_btnLevel2" class="level0" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLBM%2f2jWEo3WyYQ3gnpoFNGxaqC7CGrKZlMtlfmSWGHRsJAU%2bBXIx3vbbuGlFhQHDeQJOPfv%2f2Ljc3G3P2ogWwIQZ5P96dCzW3BoIW7Z86z3G9maKxhn1NEjzRm6GDo5Ux68CtKwSEspuyImXiyJimJUMFrgQKSjFwiFflQLdydQYRW4w8mBfEdsbWIlVcFmh6M%3d">Digital TV</a>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan=3 align="left" style="padding-top:0px;">
+							
+								
+							
+							
+							
+							
+						</td>
+					</tr>	
+		
+				</td>
+		</tr><tr>
+			<td>
+					<tr >
+						<td class="level0" valign=top style="padding-right:0px; padding-bottom:5px;padding-top:5px;padding-left:5px;"> 							                            
+							<a id="dgLevel1_ctl08_btnLevel2" class="level0" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLAaK%2bTqE8HtYVlgxmu3vp1T7qAYKMLvhP1QC%2f7LXpXGcK%2bGqldvjqbBGBxFkfQdAqilvD4Iw1cZ6FOf9J8B0LI9xsyCSHTYUWYjo7Rq7A2V3zDB8KluMxyBnEXe9cSFI41JmYHCQ8f8DzbAqS4ss%2fbxOlrWNM1hpjUV1MLVsM6hdOzoTdd6zudbWpsIaxv%2b08E%3d">Research & Consultation</a>
+						</td>
+						
+					</tr>
+					<tr >
+						<td colspan=3 align="left" >
+							
+								
+						
+						</td>
+					</tr>	
+				</td>
+		</tr><tr>
+			<td>
+					<tr>
+						
+						
+						<td class="level0" valign=top style="padding-right:0px; padding-bottom:5px;padding-top:5px;padding-left:5px;">
+                            
+							<a id="dgLevel1_ctl09_btnLevel2" class="level0" href="fcd_faqmain.aspx?qst=2fN7e274RAp%2bbUzLdEL%2fmCxs7iwcgv8gv2atNDOvsLDCbRKjqiV0kpL2v7v%2fNW0rHtO4SpDzZdlzYSjv2vPNc5uPKsd3QKW%2flms3NT38XJsvrES4jBbn4XJowf2X3v8svevXuqNlJ0p15F9m7hbJ%2fGF4XsEzNdYDaVy2AXVbKTB9ab0pmes8d3MEzSwdkNOWj5QVsTjAxLOwM2ORUxbaOok7m%2fNvFp4fokuJ7aLyOtA%3d">Public Service Broadcast Programme</a>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan=3 align="left" style="padding-top:0px;">
+							
+								
+							
+							
+							
+							
+						</td>
+					</tr>	
+		
+				</td>
+		</tr>
+	</table>
+			<br><br>
+			</td></tr>				
+			</table>
+
+			
+		</td>
+        </tr>
+        
+        
+    </table>
+    </td>
+		
+		
+		<td valign=top colspan="2" width="100%"  style="padding-left:15px;" bgcolor="#ffffff">
+		
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"  height="700px" width="400px" bgcolor="#ffffff">
+<tr>
+<td> 
+    	</td></tr>
+			
+			
+			<tr>
+			
+			<td valign=top height="150px">
+				
+				<table cellspacing=0 cellpadding=0 border=0 >    		
+	<tr  height=20 >
+   				<td align=left valign=top >
+    		<table width=95% border=0 cellspacing=0 cellpadding=0 >
+    			<tr>
+    				<Td valign=top  >
+    		 			<!-- breadcrumbs -->
+    		    </td>
+				<tr>
+    					<td valign="center" align="right" width="800px" height="50px" ><span id="lblprint"><table cellspacing="0" cellpadding="0"><tr><td valign="middle" class="blue"><a href="#" class="blue"  onClick="window.open('fcd_sendemail.aspx?qst=Ckxf7Qqeo5GXTkzZZDE8aN2O499HTRq3uc3%2fFLpYJMjKOxlPJMTMmDB8Yc%2bHhfD%2bkYjd7TtBtcdQa02OgnfmwP%2flKw2DOROQ1zPMQVK6%2bQ1olg%2f2s5ECnnuStzaQcqsAvBdg8wHucolbfVTjCY%2fr0q7LZJrCWiWGBkDkXdXQKgKcjJftghyaYD9SbdRr31zwBndLewl32B8DjJYiqyvEBEBkwjwePAQ%2bFVb7t6AwBEQ%3d');"><img border="0" align="left" alt="Email to Friend (image)" src="../skins/default_customer/images/i_email_friend.gif" /></a></td><td valign="middle" class="blue"><a href="#" class="blue"  onClick="window.open('fcd_sendemail.aspx?qst=Ckxf7Qqeo5GXTkzZZDE8aN2O499HTRq3uc3%2fFLpYJMjKOxlPJMTMmDB8Yc%2bHhfD%2bkYjd7TtBtcdQa02OgnfmwP%2flKw2DOROQ1zPMQVK6%2bQ1olg%2f2s5ECnnuStzaQcqsAvBdg8wHucolbfVTjCY%2fr0q7LZJrCWiWGBkDkXdXQKgKcjJftghyaYD9SbdRr31zwBndLewl32B8DjJYiqyvEBEBkwjwePAQ%2bFVb7t6AwBEQ%3d');">Email to a friend</a></td><td>&nbsp;&nbsp;</td><td valign="middle" class="blue"><a href="#" onClick="javascript:generate_search_string('Ckxf7Qqeo5GXTkzZZDE8aN2O499HTRq3uc3%2fFLpYJMjKOxlPJMTMmDB8Yc%2bHhfD%2bkYjd7TtBtcdQa02OgnfmwP%2flKw2DOROQ1zPMQVK6%2bQ1olg%2f2s5ECnnuStzaQcqsAvBdg8wHucolbfVTjCY%2fr0q7LZJrCWiWGBkDkXdXQKgKcjJftghyaYD9SbdRr31zwBndLewl32B8DjJYiqyvEBEBkwjwePAQ%2bFVb7t6AwBEQ%3d');"><img src="../skins/default_customer/images/i_print.gif" border="0" alt="Printer Friendly Version (image)" ></a>&nbsp;</td><td valign="middle" class="blue"><a href="#" class="blue"   onClick="javascript:generate_search_string('Ckxf7Qqeo5GXTkzZZDE8aN2O499HTRq3uc3%2fFLpYJMjKOxlPJMTMmDB8Yc%2bHhfD%2bkYjd7TtBtcdQa02OgnfmwP%2flKw2DOROQ1zPMQVK6%2bQ1olg%2f2s5ECnnuStzaQcqsAvBdg8wHucolbfVTjCY%2fr0q7LZJrCWiWGBkDkXdXQKgKcjJftghyaYD9SbdRr31zwBndLewl32B8DjJYiqyvEBEBkwjwePAQ%2bFVb7t6AwBEQ%3d');">Printable version </a></td></tr></table></span></td>
+				</tr>	
+					<td align=right>
+	    				
+    					
+    					</td></tr></table>
+    				</td>
+    			</tr>
+    			
+    			
+    </table>    
+				<table border="0" width="100%" height="30" >
+				
+				<tr>
+					
+						<td valign="top"  nowrap align="left"><table><Tr><td>
+							<span id="lblSearchbox" class="searchlabel"><b></b></span>
+							<input name="txtKeyword" type="text" maxlength="255" id="txtKeyword" class="FormField" onkeypress="if(event.keyCode == 13){__doPostBack('btniFAQSearch','');}" />
+						</td>
+						<td valign="top" nowrap align="left"  >
+							<input type="submit" name="btniFAQSearch" value="Search" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btniFAQSearch&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="btniFAQSearch" class="formfield" title="Click to search FAQs." />
+						</td>
+						<td nowrap align="left" valign="top" class = "cluster_panel" >
+							<a id="btnAdvanced_Search" class="advanced_search_link" href="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btnAdvanced_Search&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, true))">Advanced<br>Search</a>	        
+						</td>
+					
+					
+					
+				</tr></td></tr></table>
+				
+				<tr>
+					<td colspan="5" >
+						<div id="panel_search_options">
+		
+						<table width="350">
+						
+							<tr>
+								<td nowrap align="left" class = "cluster_panel">
+									<font class = "cluster_list">Search within: </font>
+									<span id="m_strSearch_Choice" class="cluster_list"><input id="m_strSearch_Choice_0" type="radio" name="m_strSearch_Choice" value="78" checked="checked" /><label for="m_strSearch_Choice_0">MDA</label><input id="m_strSearch_Choice_1" type="radio" name="m_strSearch_Choice" value="WOG" onclick="javascript:setTimeout('__doPostBack(\'m_strSearch_Choice$1\',\'\')', 0)" /><label for="m_strSearch_Choice_1">Whole of Government  </label></span>
+									
+								</td>
+								
+								<td align="left">									        
+								</td>
+								<td align="right">
+									&nbsp;<span id="lblcluster_error"></span>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									
+								</td>
+							</tr>
+						</table>
+						
+	</div>
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td colspan="5" >
+
+						
+					</td>
+				</tr>
+				
+				</table>
+				
+			</td>
+			</tr>
+			
+			<tr>
+			
+			<td valign=top  width="750px" height="50px" >
+			<span id="lblTitle"><font class="header1"><b>Top 5 Most Popular FAQs</b></font><span class=Header3><table width=95% ><tr><td align=right><img src=../skins/default_customer/images/obj_expand_faq.gif> <a class=expand_collapse href=# onclick=javascript:showalldiv();>expand all</a>&nbsp;&nbsp;&nbsp;<img src=../skins/default_customer/images/obj_collapse_faq.gif> <a class=expand_collapse href=# onclick=javascript:hidealldiv();>collapse all</a></td></tr></table></span>
+			
+			</td>
+			</tr>
+			
+			<tr>
+			<td valign=top>
+			<a name="faqtop">
+			<table id="dgFAQ" cellspacing="1" cellpadding="1" border="0" width="95%">
+		<tr>
+			<td>
+					
+					
+					<tr>
+						<td colspan="2">
+						
+						</td>
+					</tr>
+					
+					
+					<tr>
+					<td class="fcd_question" valign=top align="left" width="2%">
+						<span id="dgFAQ_ctl00_row_number"><font class="fcd_question">1.</font><a name="e062ad2b-9055-4e4b-8264-642b45cf497c"></span>
+					</td>
+					<td class="fcd_question" align="left" width="98%" valign="top">
+						<a id="dgFAQ_ctl00_btnQuestion" class="fcd_question" href="javascript:eval(callToServer('TOPIC','e062ad2b-9055-4e4b-8264-642b45cf497c','1'));toggle('div_e062ad2b-9055-4e4b-8264-642b45cf497c','e062ad2b-9055-4e4b-8264-642b45cf497c');">Is accessing pornography on the Internet illegal?</a>
+						<span id="dgFAQ_ctl00_lblnew_tag" class="fcd_question"></span>
+					</td>
+					
+					</tr>
+				
+					
+					<tr>
+					<td></td>
+					<td align="justify" width="100%" >
+					<div id=div_e062ad2b-9055-4e4b-8264-642b45cf497c class=justify style="display:none;" >
+					
+					<span class="fcd_answer" > 
+					The MDA does not monitor or track users' access to any sites on the Internet and does not interfere with what individuals access in the privacy of their homes. We are primarily concerned with the purveyors and distributors of pornography. Unless you engage in such activities, the mere act of visiting such sites is not an offence.
+					</span>
+					
+					<div align="left" id="anchor_top">
+						<br>
+						
+
+<div id="backTop" align="left"><a class="fcd_top" href="#faqtop"></a>&nbsp;<a class="fcd_top" href="#faqtop">Go back to top</a> &nbsp;
+						<br/><br/>
+					</div></div>
+
+					
+					
+					
+					</div>
+					
+					</td>
+					</tr>
+				
+					
+				</td>
+		</tr><tr>
+			<td>
+					
+					
+					<tr>
+						<td colspan="2">
+						
+						</td>
+					</tr>
+					
+					
+					<tr>
+					<td class="fcd_question" valign=top align="left" width="2%">
+						<span id="dgFAQ_ctl01_row_number"><font class="fcd_question">2.</font><a name="1d5a6a75-c938-4015-bd2e-b25bf3cab163"></span>
+					</td>
+					<td class="fcd_question" align="left" width="98%" valign="top">
+						<a id="dgFAQ_ctl01_btnQuestion" class="fcd_question" href="javascript:eval(callToServer('TOPIC','1d5a6a75-c938-4015-bd2e-b25bf3cab163','1'));toggle('div_1d5a6a75-c938-4015-bd2e-b25bf3cab163','1d5a6a75-c938-4015-bd2e-b25bf3cab163');">What types of Internet content is regulated and what is not regulated?</a>
+						<span id="dgFAQ_ctl01_lblnew_tag" class="fcd_question"></span>
+					</td>
+					
+					</tr>
+				
+					
+					<tr>
+					<td></td>
+					<td align="justify" width="100%" >
+					<div id=div_1d5a6a75-c938-4015-bd2e-b25bf3cab163 class=justify style="display:none;" >
+					
+					<span class="fcd_answer" > 
+					Content on the Internet is not pre-censored by the MDA, nor are ISPs required to monitor the Internet. ISPs are currently only required to limit public access to some high-impact illegal sites as a statement of Singapore's social values. Internet Content Providers (ICPs) are required to exercise judgement with regard to content posted on the Internet according to the definition of what constitute prohibited material in the Internet Code of Practice. The MDA is concerned primarily with pornography, violence and the incitement of racial or religious hatred. The agency's purview only covers the provision of material to the public. Private communications, such as email and Internet Relay Chat between two individuals or parties are not covered. Users can freely access any material on the Internet in the privacy of their own home. The MDA also does not regulate what companies provide to their employees.
+					</span>
+					
+					<div align="left" id="anchor_top">
+						<br>
+						
+
+<div id="backTop" align="left"><a class="fcd_top" href="#faqtop"></a>&nbsp;<a class="fcd_top" href="#faqtop">Go back to top</a> &nbsp;
+						<br/><br/>
+					</div></div>
+
+					
+					
+					
+					</div>
+					
+					</td>
+					</tr>
+				
+					
+				</td>
+		</tr><tr>
+			<td>
+					
+					
+					<tr>
+						<td colspan="2">
+						
+						</td>
+					</tr>
+					
+					
+					<tr>
+					<td class="fcd_question" valign=top align="left" width="2%">
+						<span id="dgFAQ_ctl02_row_number"><font class="fcd_question">3.</font><a name="c849bf28-3e25-4332-adb0-0206cc33f1f3"></span>
+					</td>
+					<td class="fcd_question" align="left" width="98%" valign="top">
+						<a id="dgFAQ_ctl02_btnQuestion" class="fcd_question" href="javascript:eval(callToServer('TOPIC','c849bf28-3e25-4332-adb0-0206cc33f1f3','1'));toggle('div_c849bf28-3e25-4332-adb0-0206cc33f1f3','c849bf28-3e25-4332-adb0-0206cc33f1f3');">
+		<strong>Who would be eligible for MES?</strong>
+</a>
+						<span id="dgFAQ_ctl02_lblnew_tag" class="fcd_question"></span>
+					</td>
+					
+					</tr>
+				
+					
+					<tr>
+					<td></td>
+					<td align="justify" width="100%" >
+					<div id=div_c849bf28-3e25-4332-adb0-0206cc33f1f3 class=justify style="display:none;" >
+					
+					<span class="fcd_answer" > 
+					MES is open to Singapore citizens and Singapore Permanent Residents. Applicants must have already applied to, or gained admission to an institution for a full-time media-related undergraduate or postgraduate programme at reputable international or Singapore universities. The field of study must be supported by MDA and the co-sponsoring companies. Applicants must ensure that they have met the minimum requirements indicated by the co-sponsoring companies. <br /><br />Male applicants must have completed, or be exempted from, National Service at the time of their study.<br />
+					</span>
+					
+					<div align="left" id="anchor_top">
+						<br>
+						
+
+<div id="backTop" align="left"><a class="fcd_top" href="#faqtop"></a>&nbsp;<a class="fcd_top" href="#faqtop">Go back to top</a> &nbsp;
+						<br/><br/>
+					</div></div>
+
+					
+					
+					
+					</div>
+					
+					</td>
+					</tr>
+				
+					
+				</td>
+		</tr><tr>
+			<td>
+					
+					
+					<tr>
+						<td colspan="2">
+						
+						</td>
+					</tr>
+					
+					
+					<tr>
+					<td class="fcd_question" valign=top align="left" width="2%">
+						<span id="dgFAQ_ctl03_row_number"><font class="fcd_question">4.</font><a name="062fb42c-be29-4fa8-9528-d6ceb3933e5e"></span>
+					</td>
+					<td class="fcd_question" align="left" width="98%" valign="top">
+						<a id="dgFAQ_ctl03_btnQuestion" class="fcd_question" href="javascript:eval(callToServer('TOPIC','062fb42c-be29-4fa8-9528-d6ceb3933e5e','1'));toggle('div_062fb42c-be29-4fa8-9528-d6ceb3933e5e','062fb42c-be29-4fa8-9528-d6ceb3933e5e');">
+		<strong>Which are the sponsoring companies? What are the requirements?</strong>
+</a>
+						<span id="dgFAQ_ctl03_lblnew_tag" class="fcd_question"></span>
+					</td>
+					
+					</tr>
+				
+					
+					<tr>
+					<td></td>
+					<td align="justify" width="100%" >
+					<div id=div_062fb42c-be29-4fa8-9528-d6ceb3933e5e class=justify style="display:none;" >
+					
+					<span class="fcd_answer" > 
+					Sponsoring companies are established media companies in Singapore. Please click <a href="http://www.mda.gov.sg/Schemes/Pages/ListSponsoringCompanies.aspx">here</a> for list of participating companies, the requirements and fields of study that will be supported.
+					</span>
+					
+					<div align="left" id="anchor_top">
+						<br>
+						
+
+<div id="backTop" align="left"><a class="fcd_top" href="#faqtop"></a>&nbsp;<a class="fcd_top" href="#faqtop">Go back to top</a> &nbsp;
+						<br/><br/>
+					</div></div>
+
+					
+					
+					
+					</div>
+					
+					</td>
+					</tr>
+				
+					
+				</td>
+		</tr><tr>
+			<td>
+					
+					
+					<tr>
+						<td colspan="2">
+						
+						</td>
+					</tr>
+					
+					
+					<tr>
+					<td class="fcd_question" valign=top align="left" width="2%">
+						<span id="dgFAQ_ctl04_row_number"><font class="fcd_question">5.</font><a name="869c30e9-5251-493e-a37c-e38b5a88d734"></span>
+					</td>
+					<td class="fcd_question" align="left" width="98%" valign="top">
+						<a id="dgFAQ_ctl04_btnQuestion" class="fcd_question" href="javascript:eval(callToServer('TOPIC','869c30e9-5251-493e-a37c-e38b5a88d734','1'));toggle('div_869c30e9-5251-493e-a37c-e38b5a88d734','869c30e9-5251-493e-a37c-e38b5a88d734');">
+		<strong>What is the bond duration for MES?</strong>
+</a>
+						<span id="dgFAQ_ctl04_lblnew_tag" class="fcd_question"></span>
+					</td>
+					
+					</tr>
+				
+					
+					<tr>
+					<td></td>
+					<td align="justify" width="100%" >
+					<div id=div_869c30e9-5251-493e-a37c-e38b5a88d734 class=justify style="display:none;" >
+					
+					<span class="fcd_answer" > 
+					Scholars will be bonded to their co-sponsoring company for 3, 4 or 5 years, depending on the value of their scholarship, upon completion of their studies.<br />
+					</span>
+					
+					<div align="left" id="anchor_top">
+						<br>
+						
+
+<div id="backTop" align="left"><a class="fcd_top" href="#faqtop"></a>&nbsp;<a class="fcd_top" href="#faqtop">Go back to top</a> &nbsp;
+						<br/><br/>
+					</div></div>
+
+					
+					
+					
+					</div>
+					
+					</td>
+					</tr>
+				
+					
+				</td>
+		</tr>
+	</table>
+			</td>
+			</tr>		
+			
+			<tr>
+			<td>
+			
+			</td>
+			</tr>	
+				
+			<tr>
+			<td  width="100%"  valign=bottom><br><br><br>
+				<span id="lblTitle2" class="header1"></span>
+			</td>
+			</tr>	
+				
+			<tr>
+			<td valign=top>	
+				
+			</td>
+			</tr>
+			<tr>
+			<td >
+				
+		<Br></td></tr>
+		
+		    <tr><td align="right" width="100%" nowrap valign=bottom >
+				
+		 			<div align="right"></div>
+				 
+					
+    				<BR><BR>	
+    				
+    			<!--updated 14 Dec 2007 -->	
+				
+				
+			</td>
+			
+			</tr>
+
+	<!--- End of Body -------->
+			
+	
+
+    <tr>
+        <td valign="middle" align="right" class="footerLstUpdate" style="padding-right:5px;">
+		    <span class="footerLstUpdate"><span id="lbllast_updated">Last updated on: 19 August 2013</span></span>
+        </td>
+    </tr>
+
+			</table>
+</td>
+	</tr>
+	
+
+	
+
+	</table>
+	</td>
+	</tr>
+	<!--PAGE FOOTER START-->
+	
+
+
+<tr>
+	<td align="center" valign="top" colspan="3" style="background:#ffffff;"  >
+  	<table width="960px" height="100%" cellpadding="0" cellspacing="0" border="0" >
+  				<div id="topDiv" style="background:url('../skins/default_customer/images/line_tiles.gif') left repeat-x; margin:0; clear:both;"><img src="../skins/default_customer/Images/spacer.gif" width="10" height="6" /></div>
+  				<div style="font-family:arial; font-size:10px; padding: 10px; text-align:right; background:#FFFFFF;">Copyright &copy; 2010 Media Development Authority. All Rights Reserved. <a class="footer" href="http://www.mda.gov.sg/Pages/PrivacyStatement.aspx">Privacy Statement</a> | <a class="footer" href="http://www.mda.gov.sg/Pages/TermOfUse.aspx">Terms of Use</a>| <a class="footer" href="http://www.mda.gov.sg/Pages/DataProtectionPolicy.aspx">Data Protection Policy
+</div>
+  				<tr>
+  				<td  style="FONT: 9px; TEXT-TRANSFORM: none; COLOR: #999999; TEXT-DECORATION: none; background:#FFFFFF;" align="right">
+  					Best viewed using Internet Explorer 7.0 and above, Firefox 2.0 and above, Safari 2.0 and above, with 1280x1024 screen resolution.
+  				</td>
+  			</tr>		
+  					
+  			
+		</table>
+ </td>
+</tr>
+
+	
+<!--PAGE FOOTER END-->
+</table>
+
+
+
+</div>
+
+<link type="text/css" href="../skins/default_customer/jquery-ui-1.8.1.custom.css" rel="stylesheet" />	
+<script type="text/javascript" src="../skins/default_customer/jquery.js"></script> 
+<script type="text/javascript" src="../skins/default_customer/jquery-ui.js"></script> 
+<script type="text/javascript" src="../skins/default_customer/ifaq_autocomplete.js"></script> 
+</form>
+</td></tr>
+
+
+
+
+<style>
+.footer  {color:#9933CC;  
+font-size: 8.5pt; 
+font-family: verdana;
+text-decoration:none;
+}
+a.footer  {color:#9933CC;  
+font-size: 8.5pt; 
+font-family: verdana;
+text-decoration:none;
+}
+a.footer:hover  {color:#00CCCC;  
+font-size: 8.5pt; 
+font-family: verdana;
+text-decoration:underline;
+}
+
+.Disclaimer_Links a {font-family: Arial, Helvetica, sans-serif; color: #FFFFFF; font-size: 9px; }
+
+</style>
+
+
+
+
+</table>
+
+
+</script>
+<script language="javascript" type="text/javascript">
+var timeout         = 500;
+var closetimer		= 0;
+var ddmenuitem      = 0;
+var global_mainlabel_item = 0;
+var global_page_main = '';
+var global_page_mopenid = 'x';
+
+function homenav_m_over(mainlabel_id, homepage_flag) {
+	// cancel close timer
+	mcancelclosetime();
+
+	// close old layer
+	if(ddmenuitem) {
+		ddmenuitem.style.visibility = 'hidden';
+		new_bgcol = '#FFFFFF';
+		new_fontcol = '#000000';
+		if (global_page_mopenid == global_page_main) {  // value for id: m1,m2,m3 etc
+			// new_bgcol = '#FFFFFF';//control the color of Home after mouse over it
+			new_fontcol = '#FF3399';
+		}
+		global_mainlabel_item.style.backgroundColor = new_bgcol;
+		global_mainlabel_item.style.color = new_fontcol;
+	}
+
+	mainlbl_div = document.getElementById(mainlabel_id);
+	new_bgcol = '#FF3399';
+	new_fontcol = '#FFFFFF';
+	mainlbl_div.style.backgroundColor = new_bgcol;
+	mainlbl_div.style.color = new_fontcol;
+}
+
+function homenav_m_out(mainlabel_id, homepage_flag) {
+	mainlbl_div = document.getElementById(mainlabel_id);
+	new_bgcol = '#FFFFFF';
+	new_fontcol = '#000000';
+	if (homepage_flag == '1') {  // homepage is selected - i.e. index.php
+		//new_fontcol = '#FF3399';
+	}
+	mainlbl_div.style.backgroundColor = new_bgcol;
+	mainlbl_div.style.color = new_fontcol;
+}
+
+// open hidden layer
+function mopen(id, mainlabel_id)
+{
+	// cancel close timer
+	mcancelclosetime();
+
+	// close old layer
+	if(ddmenuitem) {
+		ddmenuitem.style.visibility = 'hidden';
+		new_bgcol = '#FFFFFF';
+		new_fontcol = '#000000';
+		if (global_page_mopenid == global_page_main) {  // value for id: m1,m2,m3 etc
+			// new_bgcol = '#FFFFFF';
+			new_fontcol = '#FF3399';
+		}
+		global_mainlabel_item.style.backgroundColor = new_bgcol;
+		global_mainlabel_item.style.color = new_fontcol;
+	}
+
+	global_page_mopenid = id;
+
+	// get new layer and show it
+	ddmenuitem = document.getElementById(id);
+	ddmenuitem.style.visibility = 'visible';
+	mainlabel_item = document.getElementById(mainlabel_id);
+	global_mainlabel_item = mainlabel_item;
+	mainlabel_item.style.backgroundColor = '#FF3399';
+	mainlabel_item.style.color = '#FFF';
+}
+// close showed layer
+function mclose()
+{
+	if(ddmenuitem) {
+		ddmenuitem.style.visibility = 'hidden';
+		new_bgcol = '#FFFFFF';
+		new_fontcol = '#000000';
+		if (global_page_mopenid == global_page_main) {  // value for id: m1,m2,m3 etc
+			// new_bgcol = '#FFFFFF';
+			new_fontcol = '#FF3399';
+		}
+		global_mainlabel_item.style.backgroundColor = new_bgcol;
+		global_mainlabel_item.style.color = new_fontcol;
+	}
+}
+
+// go close timer
+function mclosetime()
+{
+	closetimer = window.setTimeout(mclose, timeout);
+}
+
+// cancel close timer
+function mcancelclosetime()
+{
+	if(closetimer)
+	{
+		window.clearTimeout(closetimer);
+		closetimer = null;
+	}
+}
+
+function gup( name )
+{
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return "";
+  else
+    return results[1];
+}
+
+
+
+// close layer when click-out
+document.onclick = mclose; 
+
+function onloadfn() {
+
+	getMe();
+
+}
+
+function getMe() {
+var imgshow = gup('id');
+var stringdisplay = "";
+if(imgshow == ""){
+	stringdisplay = '<iframe allowtransparency="true" src="home.htm" width="1021px" frameborder="0" scrolling="auto" height="528px"></iframe>';
+}
+else {
+	stringdisplay ='<img src="screenshots/' + imgshow + '.png" alt="" width="1000px" />';
+}
+
+//alert(stringdisplay);
+displayimg(stringdisplay);
+
+}
+
+
+function displayimg(mystring) {
+	document.getElementById('screenshot').innerHTML = mystring;
+}
+
+
+
+//Navigation Highlight
+function colorAboutus(){
+if(document.URL.indexOf("AboutUs")>0){
+global_page_main = 'm1';
+document.getElementById("lbl_main01").style.color="#FF0099";
+document.getElementById("lbl_main01").style.fontWeight="900";
+document.getElementById("lbl_main01").style.padding="4px 12px";
+}
+else if(document.URL.indexOf("Industry")>0){
+global_page_main = 'm2';
+document.getElementById("lbl_main02").style.color="#FF0099";
+document.getElementById("lbl_main02").style.fontWeight="900";
+document.getElementById("lbl_main02").style.padding="4px 12px";
+}
+else if(document.URL.indexOf("Public")>0){
+global_page_main = 'm3';
+document.getElementById("lbl_main03").style.color="#FF0099";
+document.getElementById("lbl_main03").style.fontWeight="900";
+document.getElementById("lbl_main03").style.padding="4px 12px";
+}
+else if(document.URL.indexOf("International")>0){
+global_page_main = 'm4';
+document.getElementById("lbl_main04").style.color="#FF0099";
+document.getElementById("lbl_main04").style.fontWeight="900";
+document.getElementById("lbl_main04").style.padding="4px 12px";
+}
+else if(document.URL.indexOf("Policies")>0){
+global_page_main = 'm5';
+document.getElementById("lbl_main05").style.color="#FF0099";
+document.getElementById("lbl_main05").style.fontWeight="900";
+document.getElementById("lbl_main05").style.padding="4px 12px";
+}
+else if(document.URL.indexOf("Licences")>0){
+global_page_main = 'm6';
+document.getElementById("lbl_main06").style.color="#FF0099";
+document.getElementById("lbl_main06").style.fontWeight="900";
+document.getElementById("lbl_main06").style.padding="4px 12px";
+}
+else if(document.URL.indexOf("Schemes")>0){
+global_page_main = 'm7';
+document.getElementById("lbl_main07").style.color="#FF0099";
+document.getElementById("lbl_main07").style.fontWeight="900";
+document.getElementById("lbl_main07").style.padding="4px 12px";
+}
+else if(document.URL.indexOf("Reports")>0){
+global_page_main = 'm8';
+document.getElementById("lbl_main08").style.color="#FF0099";
+document.getElementById("lbl_main08").style.fontWeight="900";
+document.getElementById("lbl_main08").style.padding="4px 12px";
+}
+else if(document.URL.indexOf("NewsAndEvents")>0){
+global_page_main = 'm9';
+document.getElementById("lbl_main09").style.color="#FF0099";
+document.getElementById("lbl_main09").style.fontWeight="900";
+document.getElementById("lbl_main09").style.padding="4px 12px";
+}
+else if(document.URL.indexOf("Careers")>0){
+global_page_main = 'm10';
+document.getElementById("lbl_main010").style.color="#FF0099";
+document.getElementById("lbl_main010").style.fontWeight="900";
+document.getElementById("lbl_main010").style.padding="4px 12px";
+}
+
+else
+document.getElementById("lbl_main01").setAttribute("class", "");
+}
+
+</script>
+
+</body>
+</html>

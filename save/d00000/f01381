@@ -1,0 +1,798 @@
+<DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+     "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="stylesheet" href="e0.css" type="text/css">
+  <link rel="copyright" title="Copyright and Usage Restrictions"
+	href="../00readme.html" type="text/html">
+  <link rel="home" title="AfNOG Workshop Main Page"
+	href="http://www.ws.afnog.org/" type="text/html">
+  <link rel="up" title="Track E0 Main Page"
+	href="index.html" type="text/html">
+  <!--
+  <title>AfNOG 2006 Workshop - Unix System Administration - Details</title>
+  -->
+  <title>AfNOG E0 - Detailed Course Outline</title>
+</head>
+
+<body>
+
+<div class="arrowlinks">
+  <a href="http://www.afnog.org/">AfNOG</a>
+  -&gt;
+  <a href="http://www.ws.afnog.org/">Workshops</a>
+  -&gt;
+  <a href="../index.html">2006</a>
+  -&gt;
+  <a href="index.html">Track E0 - Unix System Administration</a>
+  -&gt;
+  Detailed Course Outline
+</div>
+
+<hr>
+
+<h1 class="topcontext"><a href="../index.html">AfNOG 2006
+Workshop on Network Technology</a></h1>
+
+<h1 class="topheader"><a href="index.html">Track E0
+- Unix System Administration</a></h1>
+
+<h1 class="topheader">Detailed Course Outline</h1>
+
+<div class="sectionjumps">
+  <p>[ Jump within this page:
+    <a href="#mon-am">Monday</a>
+    |
+    <a href="#tue-am">Tuesday</a>
+    |
+    <a href="#wed-am">Wednesday</a>
+    |
+    <a href="#thu-am">Thursday</a>
+    |
+    <a href="#fri-am">Friday</a>
+    ]</p>
+</div>
+
+<hr>
+
+<h2>General Objectives</h2>
+
+After attending this track students will be able to:<br>
+<ul>
+<li> Install and upgrade the Unix operating system on standard PC hardware
+</li><li> Provide basic security for a Unix installation
+</li><li> Use Unix to provide some essential Internet services
+</li></ul>
+In addition they will be taught concepts such as:<br>
+<ul>
+<li> Basic Internet Protocols and how they work
+</li><li> Some basic Internet services and how they function, including DNS, Web, SSH and E-mail
+</li><li> Designing installations for long-term scalability of services
+</li></ul>
+<b>Resources needed</b> 
+<br>
+<ul>
+<li> Local mirror of FreeBSD 6.0 Production Release with selected
+packages not on the CD-ROM and the distfiles we need for the ports
+exercises (test all the exercises on one machine, then copy across its
+distfiles directory).</li>
+<li> Possibly a Local FreeBSD cvsup mirror. Note, we can freeze
+it and therefore be guaranteed that our exercises won't break due to
+new changes in CVS!</li>
+<li> Idealy one PC per two students.</li>
+<li> One FreeBSD CD-ROM installation set per student.</li>
+<li> Instructor PC with overhead projector.</li>
+<li> Useful handout: commands and config files for FreeBSD 6.x.</li>
+<li> Student non-root logins on the NOC server, for SSH and mail practice.</li>
+</ul>
+<b>Instructors</b><br>
+<br>
+(HA) Hervey Allen, USA/Chile<br>
+(JA) Joe Abley, Canada (Invited speaker)<br>
+(NS) Noah Sematimba, Uganda<br>
+(PO) Patrick Okui, Uganda<br>
+(PR) Phil Reganuld, Denmark<br>
+
+<p>
+</p>
+
+<h2><a name="mon-am">MONDAY</a></h2>
+<a name="mon-am"><b>Session 1: Introduction to Unix</b> (Hervey Allen)
+<br>
+Presentation: <a href="ha/intro/introduction-unix.odp">OpenDocument</a> | <a href="ha/intro/introduction-unix.sxi">OpenOffice</a> | <a href="ha/intro/introduction-unix.ppt">PowerPoint</a><br>
+Handout:
+<a href="ha/intro/introduction-unix-6up.pdf">PDF (6-up)</a> |
+<a href="ha/intro/introduction-unix-6up.ps.gz">PS .gz (6-up)</a>
+<br>
+FreeBSD command reference:
+<a href="ha/freebsd/freebsdref.sxw">OpenOffice</a> |
+<a href="ha/freebsd/freebsdref1.pdf">PDF 1-up</a> |
+<a href="ha/freebsd/freebsdref2.pdf">PDF 2-up</a> |
+<a href="ha/freebsd/freebsdref1.ps.gz">PS .gz 1-up</a> |
+<a href="ha/freebsd/freebsdref2.ps.gz">PS .gz 2-up</a>
+
+Topics:<br>
+<ul>
+<li> welcome
+</li><li> why use Unix not Windows? (and a bit about the philosophy:
+small, re-usable components which you can join together. Scripts and
+remote management rather than a GUI. Security history)
+</li><li> brief Unix history and family tree
+</li><li> overview of the key functions of the O/S
+<ul>
+<li> kernel [device drivers, filesystem, memory management, network stack, pseudo-devices]
+</li><li> shell
+</li><li> user processes
+</li><li> system processes (e.g. cron, syslogd)
+</li><li> inter-process communication
+</li><li> user/group security model
+</li><li> Compare to corresponding Windows components. Not much detail; just see how they fit together.
+</li></ul>
+</li><li> overview of the standard filesystem layout: /etc, /usr, /var, /boot, /dev
+</li><li> recap on PC architecture, esp BIOS, boot up process, disk partitioning (slicing) and MBR
+</li><li> FreeBSD's disklabel partioning
+</li><li> suggested partitioning strategies
+</li><li> choices of installation media: CD-ROM, network, big pile of floppies!
+</li></ul>
+<br>
+
+<b>Session 2: FreeBSD installation practical</b> (Noah Sematimba) 
+<br>
+<ul>
+<a href="ns/FreeBSD-install/FreeBSD-install-afnog2006.sxi">OpenOffice</a> |
+<a href="ns/FreeBSD-install/FreeBSD-install-afnog2006.pdf">PDF</a> |
+<a href="ns/FreeBSD-install/FreeBSD-install-afnog2006.ps.gz"> PS .gz</a>
+
+<li> suggest from CD-ROM, over the LAN is possible with boot floppies (but need to point at local mirror!)
+</li><li> partition, install 'X-developer', reboot
+</li><li> login as root
+<ul>
+<li> Get a prompt; note that everything you type is 'command [args..]'
+</li><li> Use 'passwd root' to change root's password
+</li><li> Note that you can run /stand/sysinstall (some things are
+useful here, e.g. change keyboard mapping, set up anon ftp, partition a
+new drive)
+</li></ul>
+</li><li> where's the documentation?
+<ul>
+<li> man pages
+</li><li> /usr/share/doc/en/{articles,books}, also on www.freebsd.org (especially the FreeBSD handbook)
+</li><li> /usr/share/examples
+</li></ul>
+</li><li> filesystem browsing
+<ul>
+<li> 'pwd', 'cd', 'ls', viewing files using 'less' ('q' to escape), using 'file' to identify type
+</li><li> check the filetree is how we described it, read some of the examples
+</li><li> less -Mi, search with slash and n
+</li></ul>
+</li></ul>
+<p>
+
+<b>Session 3: Introductory administration</b> (Patrick Okui)
+<br>
+Presentation: <a href="po/intro/intro_sysadmin.odp">OpenDocument</a><br>
+Handout:
+<a href="po/intro/intro_sysadmin.pdf">PDF</a> |
+<a href="po/intro/intro_sysadmin.ps.gz">PS .gz</a>
+<br>
+</p><ul>
+<li> Root and non-root
+<ul>
+<li> How to check who you are: 'id'
+</li><li> How to create a user: 'pw useradd xxx -m', 'passwd xxx'
+</li><li> How to delete a user: 'pw userdel xxx -r'
+</li><li> Using 'su' to become root from non-root; add user into 'wheel' group
+</li><li> Everybody create a non-root account. Always use it! Then use su when necessary
+</li></ul>
+</li><li> Simple filesystem commands
+<ul>
+<li> Look at the filesystem status: 'mount', 'df'
+</li><li> Mount the cdrom, use 'ls' to check contents, unmount it (can't eject until unmounted)
+</li></ul>
+</li><li> Simple package management commands
+<ul>
+<li> Look at package status: 'pkg_info' (and remember 'man pkg_info')
+</li><li> Add packages from CD-ROM
+<ul>
+<li> Install 'bash'
+</li><li> List the files it contains with pkg_info -L bash\; note all under /usr/local
+</li><li> Type 'bash'; why doesn't it work? 'rehash' first (C shell anomoly)
+</li></ul>
+</li></ul>
+</li><li> Editing files with vi
+<ul>
+<li> Edit /etc/rc.conf to set up networking
+</li><li> Edit /etc/resolv.conf to set up nameserver client
+</li><li> Test (e.g. ping)
+</li></ul>
+</li><li> Configure network interface in /etc/rc.conf
+</li><li> Using FTP client
+<ul>
+<li> Fetch joe and lynx-ssl packages into your home directory
+</li><li> Install them
+</li><li> Check they work (try editing a file with joe instead of vi)
+<ul>
+<li> Stick to vi if you want to practice
+</li><li> Note that some packages have dependencies which need downloading too; e.g. try installing 'gmake'
+</li></ul>
+</li></ul>
+</li><li> Note that /stand/sysinstall lets you install packages, but
+it's tedious over the network because it downloads a huge INDEX file
+every time. OK for CD-ROM though.
+</li><li> Practice installing, deleting, and querying packages
+</li></ul>
+<br>
+
+<b>Session 4: Tour of Unix basics</b> (Phil Regnauld)
+<br>
+Presentation: <a href="pr/unixtour/unixtour.sxi">OpenOffice</a><br>
+Handout:
+<a href="pr/unixtour/unixtour2.pdf">PDF (2-up)</a> |
+<br>
+Exercises:
+<a href="pr/unixtour/exercise1.odt">OpenDocument</a> |
+<a href="pr/unixtour/exercise1-2.pdf">PDF (2-up)</a> |
+
+<br>
+For each session include the commands you need to <b>see</b> the current state (e.g. ps and top, ls -l) and to <b>change</b> the current state (e.g. kill, rm). Some of this may be trimmed...<br>
+<br>
+
+<ul>
+<li>The Unix process environment (brief)
+<ul>
+<li> arguments, environment variables, already-open files (0-2)
+</li><li> that's all it gets!
+</li><li> process id
+</li><li> signals
+</li></ul>
+</li><li> The Shell
+<ul>
+<li> different shells: csh, sh, bash
+</li><li> command and arguments
+</li><li> quoting
+</li><li> argument expansion: echo , rm a??, echo ~/foo ~user/foo
+</li><li> echo $PATH
+</li><li> the shell is just a program (run 'sh' while in csh, then exit)
+</li><li> shell job control: ^C versus ^Z (and ^D)
+</li><li> environment (for a single command, and setting permanently)
+<ul>
+<li> in ~/.profile:  EDITOR=joe; export EDITOR
+</li><li> in ~/.cshrc:    setenv EDITOR joe
+</li><li>(and you can set PAGER=less as well)
+</li></ul>
+</li><li> run a command redirecting stdin/stdout/stderr to a file
+</li><li> run two commands linked by a pipe (ls | less)
+</li></ul>
+</li><li> Managing files [skipped to make time]
+<ul>
+<li> cp, mv, rm, mkdir/rmdir, rm -rf
+</li><li> hidden files
+</li><li> the vi editor
+<ul>
+<li> why you need to know at least a little; 5 or so basic editing
+commands [note: rescue CD, and when only root filesystem is mounted]
+</li><li> vi /etc/motd  (what happens if you are not root? How do you recover?)
+</li><li> things to beware of in vi: modes; cursor keys and slow network conns
+</li></ul>
+</li></ul>
+</li><li> Security model [some skipped]
+<ul>
+<li> effective uid, gid, supplementary groups
+</li><li> uid 0 = 'root'
+</li><li> /etc/passwd, /etc/group, /etc/master.passwd and .db files
+</li><li> file/device permissions
+</li><li> directory permissions
+</li><li> things which only 'root' can do (e.g. bind to ports below 1024)
+</li><li> how do users change their own passwords?
+<ul>
+<li> setuid programs, and why care is needed
+</li></ul>
+</li></ul>
+</li><li> VFS [skipped]
+<ul>
+<li> look at /etc/fstab
+</li><li> mount, df -k
+</li><li> mount and unmount /cdrom. Then mount it somewhere else on the tree.
+</li><li> fdformat, newfs_msdos -L label, and mount a floppy disk. Copy files to it.
+</li><li> show a USB memory stick working in the same way
+</li><li> FreeBSD feature: glabel module
+</li><li> fsck and the importance of unmounting/shutting down cleanly
+</li><li> symlinks and hardlinks
+</li></ul>
+</li></ul>
+
+<h2><a name="tue-am">TUESDAY</a></h2>
+
+<b>Session 1: Security introduction</b> (Hervey Allen)
+<br>
+Presentation: <a href="ha/security/security-intro.odp">OpenDocument</a><br>
+Handout:
+</a href="ha/security/security-intro.sxi">OpenOffice</a> |
+<a href="ha/security/security-intro-6up.pdf">PDF (6-up)</a> |
+<a href="ha/security/security-intro-6up.ps.gz">PS .gz (6-up)</a> |
+<a href="ha/security/security-intro.ppt">PowerPoint</a> |
+<br>
+Option exercises: [<a href="ha/security/exercises/">Dir</a>]
+
+<ul>
+<li> problems of privacy, authenticity, integrity
+</li><li> pros and cons of passwords, IP source address authentication, DNS authentication, cryptographic solutions
+</li><li> problems of sniffing, exploits
+</li><li> main points:
+<ul>
+<li> know what's running on your system (netstat, nmap/nessus)
+</li><li> turn off what's not needed, upgrade what is
+</li><li> monitor logs
+</li><li> apply host-based access controls in conjunction with passwords
+</li><li> monitor alert lists, announcement lists for the O/S and applications you are using
+</li><li> use cryptographic tools where appropriate
+</li></ul>
+</li></ul>
+
+<br>
+<b>Session 2: IP basics</b> (Patrick Okui)
+<br>
+Presentation: <a href="po/ip_basics/ip_basics.odp">OpenOffice</a><br>
+Handout:
+<a href="po/ip_basics/ip_basics.pdf">PDF</a> |
+<a href="po/ip_basics/ip_basics.ps.gz">PS .gz</a>
+<br>
+<ul>
+<li> the seven-layer model, overview of purpose of each of the layers and how it corresponds to IP
+</li><li> essential structure of IP datagram
+</li><li> IP numbering rules, localhost, broadcast
+</li><li> brief note on IP forwarding and defaultroute
+</li><li> client-server architecture
+<ul>
+<li> simple example layer 7 protocol: HTTP
+</li><li> drive it using telnet
+</li></ul>
+</li><li> how domain names/DNS fit in
+</li><li> testing: ping [-n], traceroute [-n], tcpdump [-n]
+</li></ul>
+<br>
+
+<b>Session 3: System startup and recovery</b> (Hervey Allen)
+<br>
+Presentation:
+<a href="ha/recovery/startup.sxi">OpenOffice</a>
+<br>
+Handout:
+<a href="ha/recovery/startup.pdf">PDF</a> |
+<a href="ha/recovery/startup.ps.gz">PS .gz</a>
+<br>
+Exercise:
+<a href="ha/recovery/recovery-exercise.text">Text</a> |
+<a href="ha/recovery/recovery-exercise.html">HTML</a> |
+<a href="ha/recovery/recovery-exercise.pdf">PDF</a> |
+<a href="ha/recovery/recovery-exercise.ps.gz">PS .gz</a>
+
+<br>
+<ul>
+<li> kernel bootstrap
+<ul>
+<li> how to get into single-user mode
+<ul>
+<li> mount -a, fsck -y
+</li></ul>
+</li><li> loadable modules
+</li><li> /boot/loader.conf, e.g. snd_ich_load="YES"
+<ul>
+<li> [/boot/defaults/loader.conf - look but don't touch!]
+</li></ul>
+</li><li> /boot/device.hints, e.g. hint.acpi.0.disabled="1"
+</li></ul>
+</li><li> /sbin/init: pid 1
+</li><li> /etc/ttys (/etc/inittab under Linux)
+<ul>
+<li> getty on virtual console, serial ports
+</li></ul>
+</li><li> /etc/rc, /etc/rc.conf, /etc/rc.d/ (e.g. mount filesystems).
+<ul>
+<li> /etc/defaults/rc.conf - look but don't touch!
+</li></ul>
+</li><li> system processes
+</li><li> ssh, inetd/telnet
+</li><li> note that sometimes changes have to be made in two ways: once live, and once in /etc/rc.conf so they happen on next boot too
+</li><li> Scripting
+</li></ul>
+
+<b>Session 4: Building Unix software</b> (Phil Regnauld)
+<br>
+Presentation:
+<a href="pr/compiling/compile-intro.sxi">OpenOffice</a>
+<br>
+Handout:
+<a href="pr/compiling/compile-intro.pdf">PDF</a>
+<br>
+Exercise 1:
+<a href="pr/compiling/compile-ex1.odt">OpenOffice</a> |
+<a href="pr/compiling/compile-ex1.pdf">PDF</a>
+<br>
+Exercise 2:
+<a href="pr/compiling/compile-ex2.odt">OpenOffice</a> |
+<a href="pr/compiling/compile-ex2.pdf">PDF</a>
+<br>
+Exercise 3:
+<a href="pr/compiling/compile-ex3.odt">OpenOffice</a> |
+<a href="pr/compiling/compile-ex3.pdf">PDF</a>
+
+<br>
+<ul>
+<li> what's a binary
+<ul>
+<li> look at a typical compiled program (like /bin/ls) using
+<ul>
+<li> hexdump -C
+</li><li> file
+</li><li> strings
+</li></ul>
+</li><li> this is the binary which the processor runs directly (and quickly)
+</li></ul>
+</li><li> how? compiler.
+<ul>
+<li> Example: hello.c
+<ul>
+<li> gcc -Wall -o hello hello.c
+</li><li> ./hello
+</li></ul>
+</li><li> see what "open source" means.
+</li></ul>
+</li><li> automating the build, rebuild only when necessary
+<ul>
+<li> create a simple Makefile to demonstrate
+</li><li> rebuild hello world
+</li><li> note that some applications require GNU make (gmake)
+</li></ul>
+</li><li> Back to 'ls': look in /usr/src/bin/ls; make, make install
+</li><li> example of a huge C program: the kernel itself
+<ul>
+<li> NOTES, make LINT
+</li><li> copy GENERIC to OTHER and modify it (remove unnecessary device drivers, remove INET6, choose processor)
+</li><li> config, build, install; check /boot/kernel/ and /boot/kernel.old/
+</li><li> reboot; check you can reboot with the old kernel too
+</li></ul>
+</li></ul>
+
+<br>
+<h2><a name="wed-am">WEDNESDAY</a></h2>
+
+<b>Session 1: Updating the system</b> (Patrick Okui)
+<p>
+Presentation: <a href="po/updating/updating.odp">OpenOffice</a><br>
+Handout:
+<a href="po/updating/updating.pdf">PDF</a> |
+<a href="po/updating/updating.ps.gz">PS .gz</a>
+<br>
+
+</p><ul>
+<li> security reasons for upgrading
+</li><li>talk about the different branches of FreeBSD: CURRENT, 6_STABLE, 6_0_STABLE etc.
+</li><li>ways to update
+<ul>
+<li> updating by reinstalling a new release
+</li><li> updating by using the binary upgrade feature (pros/cons)
+</li><li> updating through source
+<ul>
+<li> install cvsup-without-gui package
+</li><li> upgrade the system source to 6_1_STABLE using cvsup (copy the example supfile, modify it to point to our local cvs mirror!)
+</li></ul>
+</li></ul>
+</li><li> Do source update
+<ul>
+<li> read /usr/src/UPDATING (why?)
+</li><li> follow ALL the steps to build and install new world and kernel (because kernel changes can be tied to the userland utilities)
+</li></ul>
+</li><li> show updating individual binaries through make / make install (example of a FreeBSD security alert)
+</li></ul>
+<p>
+
+<b>Session 2: Installing and upgrading applications through ports</b> (Noah Sematimba)
+<br>
+<a href="ns/ports/using-ports.sxi">OpenOffice</a> |
+<a href="ns/ports/using-ports.pdf">PDF</a>
+</p><ul>
+<li> ports overview
+<ul>
+<li> ports are instructions (in a Makefile) to fetch the original source, apply FreeBSD-specific patches, compile and install
+</li><li> after installation it's just like a package; in fact the binary packages are built from ports
+</li><li> the ports tree is continually updated; the binary packages are not.
+</li><li> you can just upgrade from ports, or build your own packages
+</li><li> required ports are built automatically
+</li></ul>
+</li><li> configure make.conf to point to your local FreeBSD distfiles mirror
+</li><li> look at the ports Makefile, the md5 checksums, files (patches), the packing list and package description
+</li><li> use cvsup to bring the ports tree up to date (already done)
+</li><li> demonstration
+<ul>
+<li> (find a package which is out of date; Apache perhaps) using make / (make deinstall) / make install / make clean
+</li></ul>
+</li><li> other examples and practice
+</li><li> tools which assist (e.g. portupgrade)
+</li></ul>
+<br>
+
+<b>Session 3: Security Revisited: Cryptography</b> (Hervey Allen)
+<br>
+Presentation:
+<a href="ha/crypto/crypto-slides.odp">OpenOffice</a>
+<br>
+Handout:
+<a href="ha/crypto/crypto-slides-4up.pdf">PDF</a> |
+<a href="ha/crypto/crypto-slides-4up.ps.gz">PS .gz</a>
+<br>
+SSH Exercise:
+<a href="ha/crypto/ssh-exercise.html">HTML</a> |
+<a href="ha/crypto/ssh-exercise.pdf">PDF</a> |
+<a href="ha/crypto/ssh-exercise.ps.gz">PS .gz</a>
+
+<ul>
+<li> main cryptographic techniques: private key, hashing, public key
+<ul>
+<li> demonstrate md5/md5sum and discuss sha1sum
+</li></ul>
+</li><li> approaches to man-in-the-middle
+<ul>
+<li> known hosts (a magic 'fingerprint' learned from the other side)
+</li><li> [moved to start of next session] certificates
+</li></ul>
+</li><li> ssh practical
+<ul>
+<li> enable ssh, use it to log onto neighbour's machine, get prompted
+to accept the host key first time, not second. (Check the host key
+fingerprint manually on the other side)
+</li></ul>
+</li></ul>
+
+<b>Session 4: DNS an introduction</b> (Phil Regnauld)
+<p>
+Presentation:
+<a href="pr/dns/dns1-presentation.odp">OpenOffice</a> |
+<a href="pr/dns/dns1-presentation.pdf">PDF</a>
+<br>
+Exercices:
+<a href="pr/dns/dns1-exercise.odt">OpenOffice</a> |
+<a href="pr/dns/dns1-exercise.pdf">PDF</a>
+</p><p>
+</p><pre>o DNS Session-1 (Fundamentals):
+	* DNS Materials.
+	* Goal: to understand overall purpse and structure of DNS
+	   + IP addresses vs. names
+	   + DNS as a distributed, hierarchical database
+	   + Domain names and resource records:
+	     - A, PTR, MX, CNAME, TXT, SOA/NS
+	   + Domain name lookup responses
+	   + Reverse DNS
+	   + DNS as client-server model
+	     - Resolver
+	     - Cache
+	     - Authoritative server
+	   + Testing DNS (dig)
+	   + Understanding output from dig 
+	   + Practical Exercises:
+	     - Configure Unix resolver
+	     - Use dig { A, other (e.g. MX), non-existent answer, reverse lookup }
+	     - Use tcpdump to show queries being sent to cache
+</pre>
+
+<h2><a name="thu-am">THURSDAY</a></h2>
+
+<b>Session 1: PGP Introduction</b> (Joe Abley)
+<br>
+<ul>
+<li><a href="../pgp/">AfNOG 2006 PGP Materials</a></li>
+</ul>
+<p>
+<ul>
+  <li>Introduction to PGP key management using GNU PGP</li>
+  <ul>
+    <li>Creating keys</li>
+    <li>Extracting keys</li>
+    <li>Verifying keys</li>
+  </ul>
+  <li>Why PGP is useful</li>
+</ul>
+
+<b>Session 2: A simple Unix server: Apache</b> (Noah Sematimba)
+<br>
+<ul>
+<a href="ns/apache/apache-ssl-e0.odp">OpenDocument</a> |
+<a href="ns/apache/apache-ssl-e0.sxi">OpenOffice</a> |
+<a href="ns/apache/apache-ssl-e0.ppt">PowerPoint</a> |
+<a href="ns/apache/apache-ssl-e0-4up.pdf">PDF (4-up)</a> |
+<a href="ns/apache/apache-ssl-e0-4up.ps.gz">PS .gz (4-up)</a>
+</ul>
+<p>
+</p><ul>
+<li> install apache13 package from FTP  
+<ul>
+<li> /etc/rc.conf   apache_enable="YES"
+</li><li> run and test
+<ul>
+<li> /usr/local/etc/rc.d/apache start
+</li><li> use ps to show something is running
+</li><li> use lynx-ssl to browse your own server and someone else's
+</li><li> use telnet to port 80 to show what's really happening
+</li></ul>
+</li><li> look at its log files
+</li><li> use tcpdump to watch the traffic
+</li><li> remove the symlinks to data-dist and cgi-bin-dist and make your own content
+</li><li> note documentation at httpd.apache.org
+</li></ul>
+</li></ul>
+
+<b>Session 4: Applying crypto on a Unix server</b> (Noah Sematimba)
+<br>
+
+<ul>
+<li> Replace apache package with apache+mod_ssl
+</li></ul>
+<ul>
+<li> [Note: doing this requires httpd.conf to be overwritten from
+httpd.conf-dist; note also dependency on mm]
+</li><li> Create a dummy certificate [would be better if we had built our own CA]
+</li><li> test using openssl s_client and lynx-ssl
+</li></ul>
+</ul>
+<br>
+
+<b>Session 5: E-mail</b> (Noah Sematimba)
+<br>
+Internet Mail presentation:
+<a href="ns/mail/InternetMail.odp">OpenDocument</a> |
+<a href="ns/mail/InternetMail.sxi">OpenOffice</a> |
+<a href="ns/mail/InternetMail.ppt">PowerPoint</a> |
+<a href="ns/mail/InternetMail-4up.pdf">PDF (4-up)</a> |
+<a href="ns/mail/InternetMail-4up.ps.gz">PS .gz (4-up)</a>
+<br>
+<ul>
+<li> overview of MTA/MUA, SMTP, POP3/IMAP
+<ul>
+<li> test them using telnet (including forging E-mail!) and reinforce password sniffing problem
+</li></ul>
+</li><li> choosing an MTA, pros/cons of exim
+</li><li> overview of exim configuration: routers, transports, acls
+</li><li> where to find exim docs
+</li></ul>
+<br>
+
+<b>Session 6: building a basic mail server</b> (Patrick Okui)
+<br>
+Handout:
+<a href="po/exim_install/exim_install.html">HTML</a>
+<br>
+
+<ul>
+<li> look at the Makefile for exim in ports, look at the build options
+</li><li> install from ports
+</li><li> exim testing: exim -V, -bt addr, -v addr, -bp
+</li><li> replace sendmail with exim
+</li><li> allow relaying from specific netblocks; exim -bh x.x.x.x
+</li></ul>
+
+<h2><a name="fri-am">FRIDAY</a></h2>
+
+<b>Session 1: pop3, imap, secure authentication</b> (Hervey Allen)
+<p>
+Exercises for Maildir, Courier POP/IMAP, SqWebMail:
+<a href="ha/imap-pop/courier.html">HTML</a> |
+<a href="ha/imap-pop/courier.pdf">PDF</a> |
+<a href="ha/imap-pop/courier.ps.gz">PS .gz</a>
+
+<ul>
+  <li>Configure Exim for Maildirs</li>
+  <li>Install Courier authorize daemon</li>
+  <li>Install Courier IMAP/POP server</li>
+  <li>Generate ssl certs for IMAP/POP</li>
+  <li>Verify functionality on ports 110, 143, 993, 995 using telnet and openssl s_client</li>
+</ul>
+
+</p>
+<b>Secure Authentication</b>
+<p>
+Presentation: [<a href="ha/imap-pop/secure-authentication.odp">OpenDocument</a> | <a href="ha/imap-pop/secure-authentication.sxi">OpenOffice</a> | <a href="ha/imap-pop/secure-authentication-4up.pdf">PDF</a> | <a href="ha/imap-pop/secure-authentication-4up.ps.gz">PS .gz 4-up</a>]
+<ul>
+  <li>Secure Authentication</li>
+  <li>Services to consider or replace with secure authentication</li>
+  <li>Why you want to do this</li>
+  <li>Review what we are doing and why</li>
+</ul>
+
+<b>Session 2: webmail and virtual mailboxes</b> (Patrick Okui)
+<br>
+Handout: 
+<a href="ha/imap-pop/courier.html">HTML</a> |
+<a href="ha/imap-pop/courier.pdf">PDF</a> |
+<a href="ha/imap-pop/courier.ps.gz">PS .gz</a>
+
+<ul>
+<li> install sqwebmail from ports. Discuss maildir and Squirrelmail?
+</li><li> make any necessary apache config tweaks
+</li><li> run it
+</li><li> [configure authdaemon for userdb authentication and exim for userdb lookups (as time allows)]
+</li></ul>
+
+<b>Session 3: mirroring and backup</b> (Phil Regnauld)
+<br>
+Handouts: Backups: [<a href="pr/mirror-backup/backups.sxi">OpenOffice</a> | <a href="pr/mirror-backup/backups.pdf">PDF</a>] Mirroring: [<a href="pr/mirror-backup/mirror.sxi">OpenOffice</a> | <a href="pr/mirror-backup/mirror.pdf">PDF</a>]
+</p><ul>
+<li> when backups needed (and not). What to backup. Scheduling choices.
+</li><li> media choices: tape, optical, removable HD, USB/firewire HD, pipe over ssh to another machine
+</li><li> methods: dd [and problems], dump/restore, tar [cpio], rsync/unison, mkisofs/burncd
+</li><li> try backing up filesystems
+<ul>
+<li> using tar over ssh to remote machine
+</li><li> recover some files
+</li><li> using dump over ssh to remote machine
+</li></ul>
+</li><li> the FreeBSD-5.x/6.x GEOM subsystem (if time available)
+<ul>
+<li> glabel, gmirror
+</li><li> demonstrate with pair of USB drives or with two internal IDE drives
+</li></ul>
+</li></ul>
+
+<b>Session 4: scalability, monitoring and performance tuning</b> (Phil Regnauld)
+<br>
+Handout:
+<a href="pr/scalability/scalability.odp">OpenDocument</a> | <a href="pr/scalability/scalability.pdf">PDF</a>
+<br>
+
+<ul>
+<li> scalability issues; the example of the bad Linux mailserver and solutions
+<ul>
+<li> limits of CPU, disk I/O, disk space, RAM, network bandwidth, fixed size tables, poor data structures (linear searching)
+</li></ul>
+</li><li> monitoring: review the system monitoring commands covered already and add new ones
+</li><li> syslog, log rotation, configuring cron
+</li><li> tweaking kernel parameters: sysctl
+</li><li> [no time] other monitoring tools: mention snmpd? cricket? Or some scripts for checking partition sizes and mailing alerts?
+</li></ul>
+
+<b>Session 5: Summary, <i>thank you!</i>, and evaluations</b> (Hervey, Patrick, Noah, Phil)
+<p>
+
+<br>
+<p>
+<h3>DESIRABLE TOPICS NOT YET ASSIGNED</h3>
+<ul>
+<li>Configuring X11:
+<a href="ha/freebsd/x11.text">Text</a> |
+<a href="ha/freebsd/x11.html">HTML</a> |
+<a href="ha/freebsd/x11.pdf">PDF</a> |
+<a href="ha/freebsd/x11.ps.gz">PS .gz</a>
+</li>
+<li>
+<li> using 'patch' (or "what's a patch?") and 'diff'
+</li><li> moving stuff around; e.g. moving /usr/ports and symlinking it
+</li><li> ktrace/kdump
+</li><li> kldload/kldstat/kldunload
+</li></ul>
+
+<h3>OVERFLOW TOPICS, EVENING SESSIONS, QUICK DEMOS, OR NOTES ON HANDOUT</h3>
+<ul>
+</li><li> Graphical environment
+<ul>
+<li> FreeBSD 6 comes with Xorg, easier to set up than XFree86
+</li><li> follow the handbook
+</li><li> Xorg -configure; mv /root/xorg.conf.new /etc/X11/xorg.conf
+</li><li> set up monitor frequencies, preferred mode, defaultdepth
+</li><li> install kde-lite package from the CD-ROM (not ports unless you are very patient!!)
+</li><li> .xinitrc: exec startkde
+</li><li> replace Konsole with xterm -sb -sl 500 -ls
+</li><li> mozilla
+</li></ul>
+</li><li> Consider adding FAMP: FreeBSD/Apache/MySQL/PHP
+</li></ul>
+<br>
+<br>
+
+<hr noshade="noshade" size="1">
+
+<div class="bottomlinks">
+<p><a href="index.html">Return to Track E0 Main Page</a></p>
+<p><a href="../index.html">Return to AfNOG Workshop Main Page</a></p>
+</div>
+
+</body></html>

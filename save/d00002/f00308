@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>Gpg4win and the feds -- Werner's own blurbs</title><meta name="Generator" content="An unholy concoction of parenthetical guile" /><link rel="stylesheet" type="text/css" media="screen" href="http://werner.eifzilla.de/wop.css" /><link rel="alternate" type="application/rss+xml" title="Werner's own blurbs" href="/feed/atom" /></head><body><div id="dummy"><div id="preamble"><div id="header"> </div><div id="leftColumn"><div id="navigation"><a href="http://werner.eifzilla.de/index.html">Home</a> | <a href="http://werner.eifzilla.de/projects.html">Projects</a> | <a href="http://werner.eifzilla.de/faq.html">FAQ</a> | <a href="http://werner.eifzilla.de/key.html">Key</a> | <a href="http://werner.eifzilla.de/various.html">Various</a></div></div></div><div id="content"><p id="kicker">Werner's own blurbs</p><div id="outline-container-1" class="outline-1"><h2 class="storytitle"><a href="/archives/2013/07/16/gpg4win-and-the-feds">Gpg4win and the feds</a></h2><div class="post"><h3 class="meta">16 July 2013  8:29 PM (<a href="/tags/gnupg">gnupg</a> | <a href="/tags/gpg4win">gpg4win</a> | <a href="/tags/trust">trust</a>)</h3><div class="storycontent"><div><p>The current issue <a href="http://www.heise.de/ct/inhalt/2013/16/6/">16/2013</a> of the
+German <a href="http://www.heise.de/ct/">c't magazine</a> runs a bunch
+of articles on PRISM et al.  So far so expected.  On page 118 the
+article “Tarnkappen” mentions GnuPG and claims that only a self
+compiled version is trustworthy: </p><blockquote><p>Wenn man eine Verschlüsselungssoftware aussuchen kann, sollte man
+die bevorzugen, deren Quelltext offengelegt ist.  Ein Beispiel dafür
+ist GnuPG.  Es nützt aber nichts, wenn man ein fertig kompiliertes
+Paket wie Gpg4win installiert, das im Auftrag des BSI entwickelt
+wurde — einer Bundesbehörde.  Um wirklich das zu nutzen, was
+geprüft wurde, muss man die Quelltexte schon selbst kompilieren.
+Wir haben das mit TrueCrypt versucht.
+</p></blockquote><blockquote><p>[If you are able to choose encryption software, you should prefer
+ those with published source code.  An example for this is GnuPG.
+ However it is worthless if you install a ready compiled package
+ like Gpg4win, which has been developed on behalf of the <a href="http://en.wikipedia.org/wiki/Federal_Office_for_Information_Security">BSI</a> — an
+ federal office.  To really use what has been checked, it is
+ required to to compile the source code.  We tried this with
+ TrueCrypt.]
+</p></blockquote><p>
+Let me comment on this.
+</p><p>
+First, <a href="http://www.gpg4win.org">Gpg4win</a> has indeed be developed on behalf of the BSI.  Actually
+the BSI has ordered quite a lot of free software over the last decade
+and helped to offer solutions to make communication safer and to have
+replacements for proprietary PIM suites (e.g. by supporting the
+development of KDE's <a href="http://kontact.kde.org">Kontact</a>).  In fact they migrated most of their
+work places from Windows to Debian.  To help with the migration
+several projects to port existing applications from Unix to Windows
+have been conducted by external companies.  Gpg4win is one of these
+projects.  My company <a href="http://g10code.com">g10<sup>code</sup></a> joined up with <a href="http://intevation.de">Intevation</a> and <a href="http://www.kdab.com">KDAB</a>
+for this project and our bid was accepted in 2006.  The actual
+development happened openly and could be followed by anyone at the
+<a href="http://git.gnupg.org/cgi-bin/gitweb.cgi?p=gpg4win.git">Gpg4win repository</a>.  Compare that to the original SE-Linux code, which
+was secretly done at the NSA, published in 2000, and only 3 years
+later merged into upstream Linux.
+</p><p>
+One of our goals was to entirely avoid proprietary tools for
+development by cross-building the system.  This required that we put a
+lot of work into making the dozens of included software projects
+cross-buildable.  To make this verifiable the documentation clearly
+explains how to use a Debian system to build a Gpg4win installer from
+scratch.  Of course, not everything worked as expected.  In particular
+the included KDE based Kleopatra key manager had a hard time to get
+ready for cross-building and we achieved this only recently.  To keep
+the build times at bay we also use some pre-compiled packages of
+standard free software libraries but they are meanwhile in the
+minority.
+</p><p>
+The c't article may be read as if the BSI does the binary version.
+This is definitely not the case.  Almost all releases downloadable at
+gpg4win.org have been build on one of the machines which are located
+in my office.  The included KDE and Kleopatra packages have been
+pre-compiled by KDAB in Berlin or by Intevation in their offices.
+Granted, I can't vouch for the KDE code but I can't do that either for
+the Pango code, which we currently using as pre-compiled binary.  But
+can I be sure that the Debian system which I use for development has
+really been build from the published sources?  I can only assume that
+there is no backdoor in any of the software used to bootstrap the
+installer building.
+</p><p>
+Second, and to continue on the last argument: Is it actually possible
+to check the source code?  The number of source lines in Gpg4win is
+immense: More than 3 million lines of code are build and this does not
+include the pre-compiled packages, like Pango, Cairo, and the huge Qt
+and KDE libaries. How can malicious code be detected in that amount
+text?  It is too easy to slip malicious code in (for example in the
+280000 lines of shell code).
+</p><p>
+For many years during GnuPG development I checked each line of the
+diff files between the releases to have a chance to notice strange
+code.  Eventually I gave up on this because it is not anymore possible
+and, worse, the OS and the toolchain would also need to be checked if
+one wants to substantial increase the trust in the software.  It is
+just not doable anymore.  We need to trust our developers to do
+the Good Thing(tm).  Thus we develop in the public.  This gives a
+somewhat increased probability that malicious code can be kept out.
+</p><p>
+Last, I have to ask why the authors suggest to compile the software
+yourself only to use that software then on a closed source,
+non-verifiable OS, delivered by a company which has a secret spying
+partnership with the NSA?
+</p><p>
+The article goes on and describes the experienced problems compiling
+TrueCrypt for Windows.  This requires the use of Visual Studio 2008,
+another assembler, and even an extra 20 years old C compiler.  All of
+them are proprietary and would thus be able to insert all kind of
+spying code in the resulting executable.  For 64bit Windows the
+authors finally suggest to better use pre-compiled TrueCrypt drivers.
+</p><p>
+Isn't it like protecting the gate to your town with barbed wire
+and expensive locks but hiring the
+<a href="http://en.wikipedia.org/wiki/The_Daltons_%28Lucky_Luke%29">Daltons</a>
+ to guard the fence?
+</p></div></div></div><div><h3 id="comments">No responses</h3><div><h3>Leave a Reply</h3><form action="/archives/2013/07/16/gpg4win-and-the-feds" method="POST"><p><input type="text" name="author" value="" size="22" tabindex="1" /> <label for="author"><small>Name</small></label></p><p><input type="text" name="email" value="" size="22" tabindex="2" /> <label for="email"><small>Mail (will not be published)</small></label></p><p><input type="text" name="url" value="" size="22" tabindex="3" /> <label for="url"><small>Website</small></label></p><p><input type="text" name="x" value="" size="22" tabindex="3" /> <label for="x"><small>What's your favorite number?</small></label></p><p><textarea name="comment" id="comment" cols="65" rows="10" tabindex="4"></textarea></p><p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" /></p></form></div></div></div></div><div id="postamble"><div id="rightColumn"><div id="menu" class="tekuti"><ul><li><a href="/feed/atom">subscribe <img src="http://werner.eifzilla.de/feed-icon-14x14.png" style="border: 0" alt="[feed]" /></a></li><li>related<ul><li style="margin-top: 5px"><a href="/archives/2012/06/14/the-steed-self-signing-nonthority">The STEED Self-Signing Nonthority</a></li></ul></li></ul></div><div id="cpyright"><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="CC-BY-SA 3.0" style="border: 0" src="http://werner.eifzilla.de/cc-by-sa-3.0_80x15.png" /></a><br />Copyright 2012 Werner Koch. This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a></div><div id="footer" class="tekuti">Powered by <a href="http://wingolog.org/software/tekuti/">tekuti</a></div></div></div></div></body></html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html
+xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head
+profile="http://gmpg.org/xfn/11"><meta
+http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title> HowTo: Configure Wordpress To Use A Content Delivery Network (CDN)</title><link
+rel="stylesheet" href="http://s0.cyberciti.org/assets/tips/mini_layout_v11.css" type="text/css" media="screen, projection" /> <!--[if lte IE 8]><link
+rel="stylesheet" href="http://s0.cyberciti.org/assets/tips/mini_ie_v03.css" type="text/css" media="screen, projection" /><![endif]--><link
+rel="canonical" href="http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html" /><link
+rel="alternate" type="application/rss+xml" title="nixCraft RSS Feed" href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" /><link
+rel="pingback" href="http://www.cyberciti.biz/tips/xmlrpc.php" /><link
+rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.cyberciti.biz/tips/xmlrpc.php?rsd" /><link
+rel="alternate" type="application/rss+xml" title="nixCraft &raquo; HowTo: Configure WordPress To Use A Content Delivery Network (CDN) Comments Feed" href="http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html/feed" /> <script type='text/javascript' src='http://www.cyberciti.biz/tips/wp-includes/js/comment-reply.min.js?ver=3.6'></script> <link
+rel="shortcut icon" href="http://s0.cyberciti.org/static/legacy/i/favicon.ico"><meta
+name="robots" content="noarchive" /><meta
+name="description" content="Explains how to configure a CDN for Wordpress blog to speed up your blog by using a CDN to display content to users faster and more efficiently. A sample Apache, Lighttpd, Bind CNAME server configuration included. " /><!--
+	generated 180 seconds ago
+	generated in 0.374 seconds
+	served from batcache in 0.002 seconds
+	expires in 720 seconds
+-->
+</head><body
+class="custom"><div
+id="container"><div
+id="page"><ul
+class="menu"><li><a
+href="http://www.cyberciti.biz/tips/about-us" title="About us">About</a></li><li><a
+href="http://nixcraft.com/" title="Linux / UNIX Tech Support Forum">Forum</a></li><li><a
+href="http://www.cyberciti.biz/faq/" title="Linux / UNIX Mini Howtos and FAQs">Howtos &#38; FAQs</a></li><li><a
+href="http://www.cyberciti.biz/low.html?utm_source=graphicsversion&amp;utm_campaign=blog&amp;utm_medium=link" title="See site in low graphics bandwidth friendly mode">Low graphics</a></li><li><a
+href="http://bash.cyberciti.biz/" title="Linux/UNIX Shell scripts">Shell Scripts</a></li><li
+class="rss"><a
+href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" title="nixCraft RSS Feed" rel="nofollow">RSS/Feed</a></li></ul><div
+id="header"><div
+id="leaderboard"><div
+id="lbtop"><script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <ins
+class="adsbygoogle"
+style="display:inline-block;width:728px;height:90px"
+data-ad-client="ca-pub-7825705102693166"
+data-ad-slot="3400670370"></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> </div></div><div
+id="crumbslogo"><a
+href="/" title="Home page">nixcraft - insight into linux admin work</a></div></div><div
+id="content_box"><div
+id="content" class="hfeed"><div
+class="post-6644 post type-post status-publish format-standard hentry category-apache category-lighttpd category-networking tag-cdn tag-central-server tag-content-delivery-network tag-content-distribution-network tag-network-congestion tag-wordpess-amazon-s3-cdn tag-wordpress-cdn-speed tag-wordpress-akamai-cdn tag-wordpress-cdn tag-wordpress-cdn-plugin tag-wordpress-cdn-plugins tag-wordpress-content-delivery-network post_box top" id="post-6644"><div
+class="headline_area"><h1 class="entry-title">HowTo: Configure WordPress To Use A Content Delivery Network (CDN)</h1><p
+class="headline_meta">by <span
+class="author vcard"><a
+href="http://www.cyberciti.biz/tips/about-us" rel="author" class="url fn">nixCraft</a></span> on <abbr
+class="published" title="2010-04-02">April 2, 2010</abbr> &middot; <span><a
+href="http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html#comments" rel="nofollow">44 comments</a></span>&middot; <span>LAST UPDATED <abbr
+class="updated" title="2011-02-20">February 20, 2011</abbr><span><p
+class='headline_meta'> in <span><a
+rel='tag' href='http://www.cyberciti.biz/tips/category/apache'>Apache</a>, <a
+rel='tag' href='http://www.cyberciti.biz/tips/category/lighttpd'>lighttpd</a>, <a
+rel='tag' href='http://www.cyberciti.biz/tips/category/networking'>Networking</a></span></p></div><div
+class="format_text entry-content"><div
+style="float: right; margin-top: 0px; margin-left: 5px;"><a
+title="See all Apache Webserver related tips/articles" href="http://www.cyberciti.biz/tips/category/apache"><img
+src="http://files.cyberciti.biz/cbzcache/3rdparty/apachelogo.gif" border="0" alt="" /></a></div><p><span
+class="drop_cap">R</span>esearch shows that if your web pages take longer than 5 seconds to load, you lose 50% of your viewers and sales. You can speed up your wordpress blog by using a CDN to display content to users faster and more efficiently. You can distributes common files or content such as css, javascript, uploaded images, videos and much more through a CDN, which serves the content from the closest cdn edge server to the end-user. In this tutorial, I will explains how to configure WordPress, Apache/Lighttpd webserver, Bind dns server to use a CDN to distribute your common files such as css, js, user uploaded files and lighten load on your web server.<br
+/> <span
+id="more-6644"></span></p><div
+style="float: right; margin-top: 0px; margin-left: 5px;"><a
+title="See all Lighttpd related tips/articles" href="http://www.cyberciti.biz/tips/category/lighttpd"><img
+src="http://files.cyberciti.biz/cbzcache/3rdparty/light_logo.png" border="0" alt="" /></a></div><h2>What Is A CDN?</h2><p><a
+href="http://en.wikipedia.org/wiki/Content_delivery_network" target="_blank">A content delivery network</a> or content distribution network (CDN) is a system of computers containing copies of data, placed at various points in a network so as to maximize bandwidth for access to the data from clients throughout the network. A client accesses a copy of the data near to the client, as opposed to all clients accessing the same central server, so as to avoid bottleneck near that server. A cdn will increase speed and efficiency for your blog.</p><div
+style="float: right; margin-top: 0px; margin-left: 5px;"><a
+title="See all Linux/UNIX networking related tips/articles" href="http://www.cyberciti.biz/tips/category/networking"><img
+src="http://files.cyberciti.biz/cbzcache/3rdparty/networking.png" border="0" alt="" /></a></div><h2>What Are The Advantages Of Using CDN Over Central Server?</h2><ul><li><strong>Speed</strong> - All common media files distributed via CDN. For example, files.cyberciti.biz configured as CDN subdomain. Everything hosted on files.cyberciti.biz is geographically closer to the end-user. If you run dns query over files.cyberciti.biz, it will return an IP geographically closer to you.<br
+/> <code>$ host files.cyberciti.biz<br
+/> $ ping files.cyberciti.biz<br
+/> </code></li><p>This will increase delivery speed and avoids network congestion on your own server.</p><li><strong>Security</strong> - It adds additional level of security.</li><li><strong>Availability</strong> - CDNs offers 100% availability, even with large power, network or hardware outages.</li></ul><h2>Different Types Of CDNs</h2><p>A CDN can use various methods to distribute your content such as:</p><ol><li><strong>Peer to peer CDN</strong> - This is used to distribute latest episode of a soap opera (movies / TV shows) or some sort of software patch/update in short period of time to large number of users.</li><li><strong>Origin Pull CDN</strong> - This is useful to distribute small files such as javascript, css, images, text, pdf, .doc, .xls etc. This is recommended for WordPress.  All content is stored on your own server called "Origin Pull Host". This host  is then registered with the CDN.  When the first user requests the content, it is pulled to the CDN network from your host and delivered via CDN to the closest point to that end user. The content is cached on CDN with a TTL (or max age and Etags is also used). This kind of configuration requires storage on your own server and not on the CDN server. The first requesting user has an average CDN experience, while later users have very fast user delivery experience. This is recommended for file size &lt;= 10MB.</li><li><strong>PoP Pull CDN </strong> - You need to upload content to the CDN host server, where it is stored for delivery. This option is little expensive as you need to purchase the CDN storage with provider along with bandwidth. This is recommend for large files and video streaming etc. You need to upload files to the CDN server using FTP / SCP or API.</li></ol><h2>Content Delivery Service Providers</h2><p>A list of some of the larger content delivery network providers. Do your own research before purchasing CDN service from any one of the following provider:</p><ul><li><a
+href="http://aws.amazon.com/cloudfront/" target="_blank">Amazon CloudFront</a></li><li><a
+href="http://www.akamai.com/" target="_blank">Akamai</a></li><li><a
+href="http://www.cachefly.com/" target="_blank">CacheFly</a></li><li><a
+href="http://www.edgecast.com/" target="_blank">EdgeCast Networks</a></li><li><a
+href="http://www.internap.com/" target="_blank">Internap</a></li><li><a
+href="http://www.level3.com/" target="_blank">Level 3 Communications</a></li><li><a
+href="http://www.limelightnetworks.com/" target="_blank">Limelight Networks</a></li></ul><h2>Our Sample Setup</h2><ul><li><strong>Blog URL</strong> : http://nixcraft.in/ - This is hosted on your own server using Apache, Lighttpd, IIS or Nginx.</li><li><strong>Origin Pull URL</strong> : http://www-origin.nixcraft.in/ - This is hosted on your own server. You need to configure your web server, wordpress and dns server to use this. This is called as "Origin Pull Host" which is a CDN method by which content is pulled from your web server.</li><li><strong>CDN URL</strong> : http://files.nixcraft.in/ - This is a cdn url hosted by one of the above CDN provider. This url always point to an edge server via proprietor DNS hacks. files.nixcraft.in must be set as CNAME records which will point to domain names of CDN server.</li><li><strong>CDN DNS CNAME</strong> : files.nixcraft.in.example.com - example.com is one of the above CDN provider. This is must be set as CNAME for files.nixcraft.in</li></ul><h2>Step # 1: Purchase CDN Service</h2><p>The cost varies between CDN providers. Check CDN service providers website for more information. Next, you need to use service providers "control panel" to configure an "Origin Pull Host" for each domain. In other words configure files.nixcraft.in in origin pull mode. The control panel will also provide your an option to setup CDN dns CNAME. You need to use same CNAME in step # 2. Once the configuration is active and the CNAME is resolving, calls to files.nixcraft.in will be cached from www-origin.nixcraft.in.</p><h2>Step # 2: Update Your DNS Server</h2><p>Assuming that you are using BIND dns server edit your zone file and add entry as follows:</p><pre>; CDN CNAME mapping for files.nixcraft.in
+files                3660       IN CNAME files.nixcraft.in.example.com.
+; Your www-origin url (note nixcraft.in is also hosted on same server IP 123.1.2.3)
+www-origin      3600       IN A 123.1.2.3</pre><p>Reload your named:<br
+/> <code># rndc reload</code></p><p>To keep your configuration simple use same web server for origin pull domain and main domain i.e. host both www-origin.nixcraft.in and nixcraft.in on same web server. This allows you to directly upload and map files to the CDN server.</p><p>Please note that you can setup CNAME and origin host names using your ISPs DNS control panel too.</p><h2>Step # 3: Configure Origin Pull Web Server</h2><p>You need to configure www-origin.nixcraft.in as follows:</p><ul><li><strong>Origin pull DocumentRoot</strong>: /home/httpd/www-origin.nixcraft.in - All your .css, .js and uploaded files are hosted here.</li><li><strong>Server Blog DocumentRoot</strong>: /home/httpd/nixcraft.in - All your wordpress files are hosted here.</li><li><strong>MaxAge</strong>: Set cache-lifetime headers for static files for cdn network.</li><li><strong>Etag</strong>s: <a
+href="http://en.wikipedia.org/wiki/HTTP_ETag" target="_blank">An ETag</a> (entity tag) is part of HTTP, the protocol for the World Wide Web. It is a response header that may be returned by an HTTP/1.1 compliant web server and is used to determine change in content at a given URL. When a new HTTP response contains the same ETag as an older HTTP response, the client can conclude that the content is the same without further downloading.</li></ul><p>Here is a sample Lighttpd lighttpd.conf entry for the same:</p><pre class="ini"># Configure ETags
+etag.use-<span style="color: #000099;">inode </span>= <span style="color: #933;">&quot;enable&quot;</span>
+etag.use-<span style="color: #000099;">mtime </span>= <span style="color: #933;">&quot;enable&quot;</span>
+etag.use-<span style="color: #000099;">size </span>= <span style="color: #933;">&quot;enable&quot;</span>
+static-file.<span style="color: #000099;">etags </span>= <span style="color: #933;">&quot;enable&quot;</span>
+&nbsp;
+###### CDN FILES via WordPress Upload ##############
+$HTTP<span style="">&#91;</span><span style="color: #933;">&quot;host&quot;</span><span style="">&#93;</span>  == <span style="color: #933;">&quot;www-origin.nixcraft.in&quot;</span><span style="">&#123;</span>
+        server.document-<span style="color: #000099;">root </span>= <span style="color: #933;">&quot;/home/httpd/www-origin.nixcraft.in&quot;</span>
+        accesslog.<span style="color: #000099;">filename         </span>= <span style="color: #933;">&quot;/var/log/lighttpd/cdn.access.log&quot;</span>
+	#  Set max age
+        $HTTP<span style="">&#91;</span><span style="color: #933;">&quot;url&quot;</span><span style="">&#93;</span> =~ <span style="color: #933;">&quot;^/&quot;</span> <span style="">&#123;</span>
+            expire.<span style="color: #000099;">url </span>=<span style="color: #660066;"> <span style="">&#40;</span> </span><span style="color: #933;">&quot;&quot;</span> =&gt; <span style="color: #933;">&quot;access 60 days&quot;</span> <span style="">&#41;</span>
+        <span style="">&#125;</span>
+<span style="">&#125;</span></pre><p>Here is a sample Apache httpd.conf file:</p><pre class="ini">&lt;VirtualHost www-origin.nixcraft.in&gt;
+	ServerAdmin webmaster@nixcraft.in
+	DocumentRoot /home/httpd/www-origin.nixcraft.in
+	ServerName files.nixcraft.in
+	ServerAlias file.nixcraft.in
+	ErrorLog /var/logs/httpd/cdn-error_log
+	CustomLog /var/logs/httpd/cdn-access_log common
+&nbsp;
+	# Files in this directory will be cached for <span style="">1</span> week only.
+	# After <span style="">1</span> week, CDN server will check if the contents has been modified or not.
+	# If not modified, Apache will send <span style="">304</span> <span style="color: #933;">&quot;Not Modified&quot;</span> header
+	&lt;Directory <span style="color: #933;">&quot;/userimages&quot;</span>&gt;
+		Header set Cache-Control <span style="color: #933;">&quot;max-age=604800, must-revalidate&quot;</span>
+	&lt;/Directory&gt;
+&nbsp;
+	# Disable ETag as we are on cluster Apache server
+	&lt;Directory <span style="color: #933;">&quot;/pdfs&quot;</span>&gt;
+		Header unset ETag
+		FileETag None
+	&lt;/Directory&gt;
+&nbsp;
+	# Do not cache
+	&lt;Directory <span style="color: #933;">&quot;/patches&quot;</span>&gt;
+		Header Set Cache-Control <span style="color: #933;">&quot;max-age=0, no-store&quot;</span>
+	&lt;/Directory&gt;
+&lt;/VirtualHost&gt;</pre><h2>Step # 4: Configure WordPress To Upload Files To CDN Server</h2><ol><li>Visit your wordpress dashboard url (e.g., http://nixcraft.in/wp-admin/)</li><li>Click on Settings &gt; Miscellaneous Settings</li><li>Update it as follows to point out to our configuration paths and CDN domains</li></ol><div
+id="attachment_6652" class="wp-caption alignnone" style="width: 604px"><a
+rel="attachment wp-att-6652" href="http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html/wordpress-miscellaneous-settings"><img
+class="size-full wp-image-6652" title="Wordrpess CDN Settings Upload Images" src="http://files.cyberciti.biz/uploads/tips/2010/04/wordpress-miscellaneous-settings.png" alt="Fig.01: Wordrpess Miscellaneous Settings - Set CDN URLS" width="594" height="335" /></a><p
+class="wp-caption-text">Fig.01: Wordrpess Miscellaneous Settings - Set CDN URLS</p></div><p>All your uploaded files are saved on your server at /home/httpd/www-origin.nixcraft.in directory. Which is mapped to CDN via origin pull method. In this example:</p><ul><li>A user requests for http://files.nixcraft.in/uploads/2010/04/test.png</li><li>First pulled from http://www-origin.nixcraft.in/uploads/2010/04/test.png by your CDN server</li><li>It is cached at CDN server for 60 days (or as per max age rule)</li><li>Rest of all user gets image from the CDN server.</li></ul><h2>Step # 5: Configure WordPress Theme To Serve CSS / JS From The CDN Server</h2><p>First,  copy your .css, and .js files to /home/httpd/www-origin.nixcraft.in directory:</p><pre class="bash"><span style="color: #c20cb9; font-weight: bold;">mkdir</span> -p /home/httpd/www-origin.nixcraft.<span style="color: #000000; font-weight: bold;">in</span>/<span style="color: #7a0874; font-weight: bold;">&#123;</span>css,js<span style="color: #7a0874; font-weight: bold;">&#125;</span>
+<span style="color: #c20cb9; font-weight: bold;">cp</span> -av /home/httpd/nixcraft.<span style="color: #000000; font-weight: bold;">in</span>/wp-content/themes/mythemename/*.css /home/httpd/www-origin.nixcraft.<span style="color: #000000; font-weight: bold;">in</span>/css
+<span style="color: #c20cb9; font-weight: bold;">cp</span> -av /home/httpd/nixcraft.<span style="color: #000000; font-weight: bold;">in</span>/wp-content/themes/mythemename/*.js /home/httpd/www-origin.nixcraft.<span style="color: #000000; font-weight: bold;">in</span>/js</pre><p>Finally, edit your theme (header.php and footer.php) to point to CDN location for stylesheet and/or .js files by visiting "Manage Themes" option from the wordpress dashboard:</p><pre>&nbsp;
+&nbsp;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;http://files.nixcraft.in/css/style.css&quot; type=&quot;text/css&quot; media=&quot;screen, projection&quot; /&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;http://files.nixcraft.in/css/images.css&quot; type=&quot;text/css&quot; media=&quot;screen, projection&quot; /&gt;
+&nbsp;
+&nbsp;</pre><h2>Results</h2><p>The end result is pretty nice. Here are sample website load speed upgrades after using a CDN:</p><div
+id="attachment_6661" class="wp-caption alignnone" style="width: 353px"><a
+rel="attachment wp-att-6661" href="http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html/alexa"><img
+class="size-full wp-image-6661" title="Alexa Showing Website loading speed" src="http://files.cyberciti.biz/uploads/tips/2010/04/alexa.png" alt="Fig.02: Alexa Showing Website loading speed" width="343" height="97" /></a><p
+class="wp-caption-text">Fig.02: Alexa Showing Website loading speed</p></div><div
+id="attachment_6662" class="wp-caption alignnone" style="width: 333px"><a
+rel="attachment wp-att-6662" href="http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html/pingdom"><img
+class="size-full wp-image-6662" title="Pingdom Tools Showing Website loading speed" src="http://files.cyberciti.biz/uploads/tips/2010/04/pingdom.png" alt="Fig.03: Pingdom Tools Showing Website loading speed" width="323" height="435" /></a><p
+class="wp-caption-text">Fig.03: Pingdom Tools Showing Website loading speed</p></div><ul><li>See <a
+href="http://www.cyberciti.biz/tips/website-load-speed-performace-testing-tools.html">6 Tools To Find Out Website Load Speed</a></li></ul><h3>How Do I Test Images And Other Media Files Are Cached Or Not By CDN?</h3><p>Use curl to test HTTP headers (look for Etags, max-age and Expires headers):<br
+/> <code>$ curl -I http://files.nixcraft.in/css/styles.css<br
+/> $ curl -I http://files.nixcraft.in/uploades/2010/04/test.png</code><br
+/> Sample outputs:</p><pre>
+HTTP/1.1 200 OK
+Content-Type: image/png
+Accept-Ranges: bytes
+<span style='color: rgb(255, 0, 0);'>ETag: "1482142335"</span>
+Last-Modified: Fri, 02 Apr 2010 09:11:53 GMT
+Content-Length: 33143
+Server: lighttpd
+<span style='color: rgb(255, 0, 0);'>Cache-Control: max-age=2588785
+Expires: Sun, 02 May 2010 09:13:50 GMT</span>
+Date: Fri, 02 Apr 2010 10:07:25 GMT
+Connection: keep-alive
+</pre><h2>A Note About WordPress CDN Plugins</h2><p>You can automate <a
+href="http://wordpress.org/extend/plugins/search.php?q=cdn" target="_blank">last two steps with the help</a> of worpdress plugins. However, you need to configure DNS and web server max age to gain fine control.</p><h4>Recommend readings:</h4><ul><li><a
+href="http://developer.yahoo.com/performance/rules.html" target="_blank">Best practices for speeding</a> up your web site</li><li><a
+href="http://en.wikipedia.org/wiki/Content_Delivery_Network" target="_blank">Content delivery network</a> from Wikipedia, the free encyclopedia</li></ul><p> <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>  <ins
+class="adsbygoogle"
+style="display:inline-block;width:430px;height:280px"
+data-ad-client="ca-pub-7825705102693166"
+data-ad-slot="2489908663"
+data-override-format= "true"
+data-ad-region ="cbzssmjk"></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> </p><ul
+class="share"><li
+class="tweeter"><a
+href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html" data-via="nixcraft">Tweet</a></li><li
+class="googleplus"><g:plusone size="medium" href="http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html"></g:plusone></script></li><li
+class="facebook"><iframe
+src="//www.facebook.com/plugins/like.php?href=http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe></li><li
+class="stubleupon"><su:badge layout="2" location="http://www.cyberciti.biz/tips/wordpress-cdn-content-delivery-network-configuration.html"></su:badge></li><li
+class="pdfdl"><a
+href="http://www.cyberciti.biz/view/pdf/tips/6644.php"><img
+src="http://s0.cyberciti.org/images/misc/pdfdlv1.jpg" alt="Download this as pdf"></a></li></ul> <br/><br/><p
+class="my_social_follow"> If you would like to be kept up to date with our posts, you can follow us on <a
+href="https://twitter.com/nixcraft" title="Find us on twitter">Twitter</a>, <a
+href="https://facebook.com/nixcraft" title="Find us on Facebook">Facebook</a>, <a
+href="https://plus.google.com/104257421720370350735" rel="publisher" title="Find us on Google+">Google+</a>, or even by subscribing to our <a
+href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks">RSS Feed</a>.</p> <br/><div
+class='my_featured_articles_0'> Featured Articles:<ul><li><a
+href="http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html">30 Handy Bash Shell Aliases For Linux / Unix / Mac OS X</a></li><li><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/">Top 30 Nmap Command Examples For Sys/Network Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/php-security-best-practices-tutorial.html">25 PHP Security Best Practices For Sys Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/top-linux-monitoring-tools.html">20 Linux System Monitoring Tools Every SysAdmin Should Know</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-security.html">20 Linux Server Hardening Security Tips</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-iptables-examples.html">Linux: 20 Iptables Examples For New SysAdmins</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html">Top 20 OpenSSH Server Best Security Practices </a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html">Top 20 Nginx WebServer Best Security Practices</a><li><A
+href="http://www.cyberciti.biz/tips/check-unix-linux-configuration-file-for-syntax-errors.html">20 Examples: Make Sure Unix / Linux Configuration Files Are Free From Syntax Errors</a><li><a
+href="http://www.cyberciti.biz/open-source/best-terminal-applications-for-linux-unix-macosx/">15 Greatest Open Source Terminal Applications Of 2012</a> <img
+style="verticalp-align: text-top; padding-left: 1px;" src="http://s0.cyberciti.org/static/legacy/i/new_post.png" alt="" border="0"></li><li><a
+href="http://www.cyberciti.biz/tips/my-10-unix-command-line-mistakes.html">My 10 UNIX Command Line Mistakes</a></li><li><a
+href="http://www.cyberciti.biz/tips/open-source-project-management-software.html">Top 10 Open Source Web-Based Project Management Software</a></li><li><a
+href="http://www.cyberciti.biz/tips/download-email-client-for-linux-mac-osx-windows.html">Top 5 Email Client For Linux, Mac OS X, and Windows Users</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-laptop.html">The Novice Guide To Buying A Linux Laptop</a></li></ul></div></div></div><div
+id="comments"><div
+id="comments_intro" class="comments_intro"><p><span
+class="bracket">{</span> <span>44</span> comments&#8230; read them below or <a
+href="#respond" rel="nofollow">add one</a> <span
+class="bracket">}</span></p></div><dl
+id="comment_list"><dt
+class="comment even thread-even depth-1" id="comment-154700"> <span
+class="comment_num"><a
+href="#comment-154700" title="Permalink to this comment" rel="nofollow">1</a></span> <span
+class="comment_author">Kyros Koh</span> <span
+class="comment_time">April 2, 2010 at 10:59 am</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-154700"><p>Nice tutorial on the configuration! :)</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154700#respond' onclick='return addComment.moveForm("comment-body-154700", "154700", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-154707"> <span
+class="comment_num"><a
+href="#comment-154707" title="Permalink to this comment" rel="nofollow">2</a></span> <span
+class="comment_author">GatoLinux</span> <span
+class="comment_time">April 2, 2010 at 2:46 pm</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-154707"><p>It&#8217;s really useful. I tried it two years ago with Amazon and it really speeds the website. I built a smaller CDN using VPS distributed around the whole world and I got satisfactory results, too.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154707#respond' onclick='return addComment.moveForm("comment-body-154707", "154707", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1" id="comment-154708"> <span
+class="comment_num"><a
+href="#comment-154708" title="Permalink to this comment" rel="nofollow">3</a></span> <span
+class="comment_author">Willie Jackson</span> <span
+class="comment_time">April 2, 2010 at 3:16 pm</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-154708"><p>Hi Vivek-</p><p>Thanks for taking the time to write all of this. I use the W3 Total Cache plugin to integrate a CDN with my site using <a
+href="http://rackerhacker.com/2010/02/13/wordpress-w3-total-cache-maxcdn/" rel="nofollow">this method</a>, but I&#8217;ll still probably to some etag tweaking in my Apache conf files.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154708#respond' onclick='return addComment.moveForm("comment-body-154708", "154708", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-154709"> <span
+class="comment_num"><a
+href="#comment-154709" title="Permalink to this comment" rel="nofollow">4</a></span> <span
+class="comment_author">PrinceOfAndalus</span> <span
+class="comment_time">April 2, 2010 at 3:25 pm</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-154709"><p>now, i know how big website speed up their internet website,<br
+/> tq nixcraft</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154709#respond' onclick='return addComment.moveForm("comment-body-154709", "154709", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1" id="comment-154711"> <span
+class="comment_num"><a
+href="#comment-154711" title="Permalink to this comment" rel="nofollow">5</a></span> <span
+class="comment_author">James D Grey</span> <span
+class="comment_time">April 2, 2010 at 3:36 pm</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-154711"><p>I did this for a web project that a client had me do. Being a Python developer and primarily working with Django I understood how these things work in a very different context. After fighting with this for an hour I opted to go with this plugin, which happens to do all of these things:</p><p><a
+href="http://wordpress.org/extend/plugins/w3-total-cache/" rel="nofollow">http://wordpress.org/extend/plugins/w3-total-cache/</a></p><p>Far less sysadmin, far more productive. :)</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154711#respond' onclick='return addComment.moveForm("comment-body-154711", "154711", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-154712"> <span
+class="comment_num"><a
+href="#comment-154712" title="Permalink to this comment" rel="nofollow">6</a></span> <span
+class="comment_author">Swpsm</span> <span
+class="comment_time">April 2, 2010 at 4:13 pm</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-154712"><p>Thanks Vivek!</p><p>I got w3-total-cache and I don&#8217;t think so it has an option to configure DNS, max-age and Etags thingy. Though it has its own additional set of options. Nevertheless, this tutorial and plugins both are handy!</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154712#respond' onclick='return addComment.moveForm("comment-body-154712", "154712", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1" id="comment-154713"> <span
+class="comment_num"><a
+href="#comment-154713" title="Permalink to this comment" rel="nofollow">7</a></span> <span
+class="comment_author">Frederick Townes</span> <span
+class="comment_time">April 2, 2010 at 4:19 pm</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-154713"><p>For feeds, pages and posts, W3 Total Cache (WordPress users only) automatically configures cache-control, etags and expires based on your settings. More options will appear in later versions. W3 Total Cache also supports all of the CDN types discussed in this very helpful post.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154713#respond' onclick='return addComment.moveForm("comment-body-154713", "154713", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-154714"> <span
+class="comment_num"><a
+href="#comment-154714" title="Permalink to this comment" rel="nofollow">8</a></span> <span
+class="comment_author">Joe</span> <span
+class="comment_time">April 2, 2010 at 4:26 pm</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-154714"><p>Can we get a tutorial for VBulletin based board?</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154714#respond' onclick='return addComment.moveForm("comment-body-154714", "154714", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1" id="comment-154736"> <span
+class="comment_num"><a
+href="#comment-154736" title="Permalink to this comment" rel="nofollow">9</a></span> <span
+class="comment_author">Vamsi</span> <span
+class="comment_time">April 3, 2010 at 10:39 am</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-154736"><p>Hi,<br
+/> what if the CDN providers uses Anycast technology ??</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154736#respond' onclick='return addComment.moveForm("comment-body-154736", "154736", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment byuser comment-author-administrator bypostauthor odd alt thread-odd thread-alt depth-1" id="comment-154737"> <span
+class="comment_num"><a
+href="#comment-154737" title="Permalink to this comment" rel="nofollow">10</a></span> <span
+class="comment_author">Vivek Gite</span> <span
+class="comment_time">April 3, 2010 at 10:46 am</span></dt><dd
+class="comment byuser comment-author-administrator bypostauthor odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-154737"><p>Anycast does plays role to select path to the &#8220;nearest&#8221; cdn edge server. However, this is done via CNAME itself so you don&#8217;t have to worry about anything else.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154737#respond' onclick='return addComment.moveForm("comment-body-154737", "154737", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment byuser comment-author-administrator bypostauthor even thread-even depth-1" id="comment-154808"> <span
+class="comment_num"><a
+href="#comment-154808" title="Permalink to this comment" rel="nofollow">11</a></span> <span
+class="comment_author">Vivek Gite</span> <span
+class="comment_time">April 6, 2010 at 11:31 am</span></dt><dd
+class="comment byuser comment-author-administrator bypostauthor even thread-even depth-1"><div
+class="format_text" id="comment-body-154808"><p>@Joe,</p><p>The first 3 steps are same for any web app including VBulletin forum software. You need to modify VBulletin templates (styles) to point to cdn. You may also need to modify style code to change path for user uploaded files and other media.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154808#respond' onclick='return addComment.moveForm("comment-body-154808", "154808", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-154888"> <span
+class="comment_num"><a
+href="#comment-154888" title="Permalink to this comment" rel="nofollow">12</a></span> <span
+class="comment_author">ntx</span> <span
+class="comment_time">April 8, 2010 at 11:39 pm</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-154888"><p>You can also do a mixture of hosting yourself and put things to a CDN (e.g. for very popular or frequently accessed files).</p><p>Or e.g. if you allow image uploading and you want to process the files locally. You might also want to serve them directly thereafter and there is no time to upload them to a CDN first. Instead a cron-job to puts your files to amazon´s S3.</p><p><a
+href="http://redmine.lighttpd.net/projects/lighttpd/wiki/Absoluation#other-solutions" rel="nofollow">http://redmine.lighttpd.net/projects/lighttpd/wiki/Absoluation#other-solutions</a></p><p>This uses mod_magnet to check if a file is locally available and serve it, if not, redirect to your CDN, might be useful to some of you.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=154888#respond' onclick='return addComment.moveForm("comment-body-154888", "154888", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1" id="comment-155101"> <span
+class="comment_num"><a
+href="#comment-155101" title="Permalink to this comment" rel="nofollow">13</a></span> <span
+class="comment_author">Vamsi</span> <span
+class="comment_time">April 19, 2010 at 5:40 am</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-155101"><p>Hi ,<br
+/> I got syntax error message for 		&#8220;Header set Cache-Control &#8220;max-age=604800, must-revalidate&#8221;..</p><p>&#8220;apache2 :We failed to correctly shutdown apache, so we&#8217;re now killing all running apache processes. This is almost certainly suboptimal, so please make sure your system is working as you&#8217;d expect now! (warning).<br
+/> &#8230; waiting Syntax error on line 69 of /etc/apache2/sites-enabled/000-default:<br
+/> Invalid command &#8216;Header&#8217;, perhaps misspelled or defined by a module not included in the server configuration<br
+/> failed!<br
+/> &#8220;</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=155101#respond' onclick='return addComment.moveForm("comment-body-155101", "155101", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-159450"> <span
+class="comment_num"><a
+href="#comment-159450" title="Permalink to this comment" rel="nofollow">14</a></span> <span
+class="comment_author">Subhajit Dey</span> <span
+class="comment_time">September 6, 2010 at 10:13 am</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-159450"><p>it&#8217;s 2 good &#8230;.<br
+/> ;-)</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=159450#respond' onclick='return addComment.moveForm("comment-body-159450", "159450", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1" id="comment-159451"> <span
+class="comment_num"><a
+href="#comment-159451" title="Permalink to this comment" rel="nofollow">15</a></span> <span
+class="comment_author">Zeeshan</span> <span
+class="comment_time">September 6, 2010 at 10:38 am</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-159451"><p>Please write the same guide for Joomla that will be very useful</p><p>Zeeshan</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=159451#respond' onclick='return addComment.moveForm("comment-body-159451", "159451", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-159469"> <span
+class="comment_num"><a
+href="#comment-159469" title="Permalink to this comment" rel="nofollow">16</a></span> <span
+class="comment_author">takizo</span> <span
+class="comment_time">September 7, 2010 at 1:02 am</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-159469"><p>great tips bro. But what CDN server do you recommend, for the entry level?</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=159469#respond' onclick='return addComment.moveForm("comment-body-159469", "159469", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1" id="comment-160041"> <span
+class="comment_num"><a
+href="#comment-160041" title="Permalink to this comment" rel="nofollow">17</a></span> <span
+class="comment_author">Katie @ women magazine</span> <span
+class="comment_time">October 4, 2010 at 3:21 pm</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-160041"><p>I am having a small website hosted on a shared server but someone told that using CSN might do little wonders for such sites. The site is having very small traffic of 15K per month. What sort of CDN would you propose for me and why?</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=160041#respond' onclick='return addComment.moveForm("comment-body-160041", "160041", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-160115"> <span
+class="comment_num"><a
+href="#comment-160115" title="Permalink to this comment" rel="nofollow">18</a></span> <span
+class="comment_author">jaysunn</span> <span
+class="comment_time">October 9, 2010 at 3:27 pm</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-160115"><p>We used to use edgecast to backbone a very large new york city website , sites.  I recommend them to others.</p><p>@vivek,<br
+/> Well done my friend.</p><p>jaysunn</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=160115#respond' onclick='return addComment.moveForm("comment-body-160115", "160115", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1" id="comment-160196"> <span
+class="comment_num"><a
+href="#comment-160196" title="Permalink to this comment" rel="nofollow">19</a></span> <span
+class="comment_author">fre wp themes</span> <span
+class="comment_time">October 17, 2010 at 7:30 pm</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-160196"><p>Nice article, I am a big time fan of your site, keep up the nice work, and I will be a frequent visitor for a very long time.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=160196#respond' onclick='return addComment.moveForm("comment-body-160196", "160196", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-160619"> <span
+class="comment_num"><a
+href="#comment-160619" title="Permalink to this comment" rel="nofollow">20</a></span> <span
+class="comment_author">Curtis</span> <span
+class="comment_time">November 1, 2010 at 5:14 am</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-160619"><p>Excellent article as usual, thank you !</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=160619#respond' onclick='return addComment.moveForm("comment-body-160619", "160619", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1 parent" id="comment-161085"> <span
+class="comment_num"><a
+href="#comment-161085" title="Permalink to this comment" rel="nofollow">21</a></span> <span
+class="comment_author">aftab alam</span> <span
+class="comment_time">November 14, 2010 at 11:41 pm</span></dt><dd
+class="comment even thread-even depth-1 parent"><div
+class="format_text" id="comment-body-161085"><p>same thing i am looking for to test my gallery blog.<br
+/> i have a question..<br
+/> you missed a important point for already running wp sites. as like mine.,</p><p>as you said, i try on my site but changing the upload folder settings in wp admin, my existing images are not showing. bcoz of changes in upload folder, you got my point?</p><p>have you any solution for existing images that are set in our old posts?</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=161085#respond' onclick='return addComment.moveForm("comment-body-161085", "161085", "respond", "6644")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment byuser comment-author-administrator bypostauthor odd alt depth-2" id="comment-161096"> <span
+class="comment_num"><a
+href="#comment-161096" title="Permalink to this comment" rel="nofollow">22</a></span> <span
+class="comment_author">Vivek Gite</span> <span
+class="comment_time">November 15, 2010 at 8:10 am</span></dt><dd
+class="comment byuser comment-author-administrator bypostauthor odd alt depth-2"><div
+class="format_text" id="comment-body-161096"><p>I&#8217;ve not tested this but one can write direct sql quires against wp DB (for img src html tags) to replace example.com/uploads/2010/01 to point to cdn.example.com</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=161096#respond' onclick='return addComment.moveForm("comment-body-161096", "161096", "respond", "6644")'>Reply</a></p></div></dd></dl></dd><dt
+class="comment even thread-odd thread-alt depth-1 parent" id="comment-161102"> <span
+class="comment_num"><a
+href="#comment-161102" title="Permalink to this comment" rel="nofollow">23</a></span> <span
+class="comment_author">aftab alam</span> <span
+class="comment_time">November 15, 2010 at 11:28 am</span></dt><dd
+class="comment even thread-odd thread-alt depth-1 parent"><div
+class="format_text" id="comment-body-161102"><p>thanks Vivek for your reply&#8230;<br
+/> i think this is the important part of setting up CDN for existing wp blog with images stored in default wp-content folder.<br
+/> if you know or test this, pleas share with us and it will be helpful for others like me who are interested in to set cdn for their wp powered sites.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=161102#respond' onclick='return addComment.moveForm("comment-body-161102", "161102", "respond", "6644")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment byuser comment-author-administrator bypostauthor odd alt depth-2" id="comment-161116"> <span
+class="comment_num"><a
+href="#comment-161116" title="Permalink to this comment" rel="nofollow">24</a></span> <span
+class="comment_author">Vivek Gite</span> <span
+class="comment_time">November 15, 2010 at 9:08 pm</span></dt><dd
+class="comment byuser comment-author-administrator bypostauthor odd alt depth-2"><div
+class="format_text" id="comment-body-161116"><p>You can write sql query using php or any other P* language  to replace <a
+href="http://www.example.com/blog/wp-content/uploads/2010/11/demo.gif" rel="nofollow">http://www.example.com/blog/wp-content/uploads/2010/11/demo.gif</a> to <a
+href="http://cdn.example.com/wp-content/uploads/2010/11/demo.gif" rel="nofollow">http://cdn.example.com/wp-content/uploads/2010/11/demo.gif</a>. This need to be run against wp_posts table. Backup your database before playing with fire ;) and you need to use php function preg_replace() for this purpose. Another alternative is to use &#8220;W3 Total Cache&#8221; plugin which claims to do the same thing. Keep an eye on our feed and I might come with some simple solution.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=161116#respond' onclick='return addComment.moveForm("comment-body-161116", "161116", "respond", "6644")'>Reply</a></p></div></dd></dl></dd><dt
+class="comment even thread-even depth-1" id="comment-161118"> <span
+class="comment_num"><a
+href="#comment-161118" title="Permalink to this comment" rel="nofollow">25</a></span> <span
+class="comment_author">aftab alam</span> <span
+class="comment_time">November 15, 2010 at 9:49 pm</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-161118"><p>working on my site <a
+href="http://models-hq.com" rel="nofollow">http://models-hq.com</a> for this purpose&#8230;<br
+/> i need a .htaccess file for old urls that google and other search engines already indexed. 301 permanent redirection required for this purpose.</p><p>pleas suggest me to 301 redirect code for old url to new url on subdomain.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=161118#respond' onclick='return addComment.moveForm("comment-body-161118", "161118", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-161435"> <span
+class="comment_num"><a
+href="#comment-161435" title="Permalink to this comment" rel="nofollow">26</a></span> <span
+class="comment_author">nima0102</span> <span
+class="comment_time">November 21, 2010 at 7:13 am</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-161435"><p>Thanks a lot for this GOOOOOD article.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=161435#respond' onclick='return addComment.moveForm("comment-body-161435", "161435", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1" id="comment-162392"> <span
+class="comment_num"><a
+href="#comment-162392" title="Permalink to this comment" rel="nofollow">27</a></span> <span
+class="comment_author">Kevin</span> <span
+class="comment_time">December 10, 2010 at 1:25 am</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-162392"><p>Very thorough and comprehensive write-up!  But you forgot to include our CDN in your providers list :)  We integrate super quickly and easily with Wordpress thanks to Frederick&#8217;s W3 Total Cache Plugin.  Anyone still looking for a cost-effective Wordpress CDN solution I&#8217;d recommend checking out: <a
+href="http://www.maxcdn.com/wordpress-cdn/" rel="nofollow">http://www.maxcdn.com/wordpress-cdn/</a></p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=162392#respond' onclick='return addComment.moveForm("comment-body-162392", "162392", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-162877"> <span
+class="comment_num"><a
+href="#comment-162877" title="Permalink to this comment" rel="nofollow">28</a></span> <span
+class="comment_author">Jim</span> <span
+class="comment_time">December 12, 2010 at 11:04 am</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-162877"><p>Kevin. spamming is the best way to attract new clients .</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=162877#respond' onclick='return addComment.moveForm("comment-body-162877", "162877", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1 parent" id="comment-171114"> <span
+class="comment_num"><a
+href="#comment-171114" title="Permalink to this comment" rel="nofollow">29</a></span> <span
+class="comment_author">Bob</span> <span
+class="comment_time">May 3, 2011 at 12:47 pm</span></dt><dd
+class="comment even thread-even depth-1 parent"><div
+class="format_text" id="comment-body-171114"><p>Thanks &#8211; very interesting.</p><p>My bluehost site is quite slow even though I have optimized as much as I can. I was thinking of purchasing a static ip address for my site, but I now wonder whether opting to pay for cdn storage will make my site faster than a static ip address?</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=171114#respond' onclick='return addComment.moveForm("comment-body-171114", "171114", "respond", "6644")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment odd alt depth-2 parent" id="comment-171835"> <span
+class="comment_num"><a
+href="#comment-171835" title="Permalink to this comment" rel="nofollow">30</a></span> <span
+class="comment_author">Mike</span> <span
+class="comment_time">June 10, 2011 at 3:33 am</span></dt><dd
+class="comment odd alt depth-2 parent"><div
+class="format_text" id="comment-body-171835"><p>Static IP address is not going to make your website any faster.  Moving to something like a virtual server,  or something that dedicated resources to you will make it quicker.  but a dedicated IP will not make your site quicker.</p><p>CDN in this case would make your site a bit quicker.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=171835#respond' onclick='return addComment.moveForm("comment-body-171835", "171835", "respond", "6644")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment even depth-3" id="comment-191691"> <span
+class="comment_num"><a
+href="#comment-191691" title="Permalink to this comment" rel="nofollow">31</a></span> <span
+class="comment_author">Peter</span> <span
+class="comment_time">May 20, 2013 at 2:02 pm</span></dt><dd
+class="comment even depth-3"><div
+class="format_text" id="comment-body-191691"><p>Hi Mike,<br
+/> very interesting. I haven&#8217;t known jet, that static IP address is not going to make my website any faster.<br
+/> Thanks</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=191691#respond' onclick='return addComment.moveForm("comment-body-191691", "191691", "respond", "6644")'>Reply</a></p></div></dd></dl></dd></dl></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1 parent" id="comment-172243"> <span
+class="comment_num"><a
+href="#comment-172243" title="Permalink to this comment" rel="nofollow">32</a></span> <span
+class="comment_author">Fernando</span> <span
+class="comment_time">July 2, 2011 at 10:07 pm</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1 parent"><div
+class="format_text" id="comment-body-172243"><p>Nice tutorial.</p><p>Finally i can upload my files from wordpress directly to CND.</p><p>Just a question. The upload limit now is 2mb but on my php config  its seted to 64mb.<br
+/> How can i increase it?</p><p>Thank you and good job</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=172243#respond' onclick='return addComment.moveForm("comment-body-172243", "172243", "respond", "6644")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment byuser comment-author-administrator bypostauthor even depth-2" id="comment-172244"> <span
+class="comment_num"><a
+href="#comment-172244" title="Permalink to this comment" rel="nofollow">33</a></span> <span
+class="comment_author">Vivek Gite</span> <span
+class="comment_time">July 2, 2011 at 10:11 pm</span></dt><dd
+class="comment byuser comment-author-administrator bypostauthor even depth-2"><div
+class="format_text" id="comment-body-172244"><p>See <a
+href="http://www.cyberciti.biz/faq/linux-unix-apache-increase-php-upload-limit/" rel="nofollow">PHP Increase Upload File Size Limit</a></p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=172244#respond' onclick='return addComment.moveForm("comment-body-172244", "172244", "respond", "6644")'>Reply</a></p></div></dd></dl></dd><dt
+class="comment odd alt thread-even depth-1" id="comment-174027"> <span
+class="comment_num"><a
+href="#comment-174027" title="Permalink to this comment" rel="nofollow">34</a></span> <span
+class="comment_author">Rance</span> <span
+class="comment_time">September 16, 2011 at 10:36 pm</span></dt><dd
+class="comment odd alt thread-even depth-1"><div
+class="format_text" id="comment-body-174027"><p>New plugin just released called Speed Cache is available that does the same thing using Edgecast.  No fancy configuration(s) are needed, the plugin does all of the configuring and it works great! <a
+href="http://wordpress.org/extend/plugins/speedcache/" rel="nofollow">http://wordpress.org/extend/plugins/speedcache/</a></p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=174027#respond' onclick='return addComment.moveForm("comment-body-174027", "174027", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-odd thread-alt depth-1" id="comment-176383"> <span
+class="comment_num"><a
+href="#comment-176383" title="Permalink to this comment" rel="nofollow">35</a></span> <span
+class="comment_author">Erick</span> <span
+class="comment_time">December 3, 2011 at 12:07 am</span></dt><dd
+class="comment even thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-176383"><p>If I use CloudFlare, do I still need these CDN type things?</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=176383#respond' onclick='return addComment.moveForm("comment-body-176383", "176383", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-even depth-1" id="comment-177909"> <span
+class="comment_num"><a
+href="#comment-177909" title="Permalink to this comment" rel="nofollow">36</a></span> <span
+class="comment_author">John</span> <span
+class="comment_time">January 3, 2012 at 4:13 am</span></dt><dd
+class="comment odd alt thread-even depth-1"><div
+class="format_text" id="comment-body-177909"><p>nice tips, easy steps to learn.. thanks for sharing</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=177909#respond' onclick='return addComment.moveForm("comment-body-177909", "177909", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-odd thread-alt depth-1" id="comment-179034"> <span
+class="comment_num"><a
+href="#comment-179034" title="Permalink to this comment" rel="nofollow">37</a></span> <span
+class="comment_author">Martie</span> <span
+class="comment_time">February 7, 2012 at 6:36 am</span></dt><dd
+class="comment even thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-179034"><p>I think the VaultPress crew will palrbboy do this once the project exits beta.   (which is hopefully soon so I can back up 3 other blogs!)</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=179034#respond' onclick='return addComment.moveForm("comment-body-179034", "179034", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-even depth-1" id="comment-179071"> <span
+class="comment_num"><a
+href="#comment-179071" title="Permalink to this comment" rel="nofollow">38</a></span> <span
+class="comment_author">itmg</span> <span
+class="comment_time">February 8, 2012 at 5:03 pm</span></dt><dd
+class="comment odd alt thread-even depth-1"><div
+class="format_text" id="comment-body-179071"><p>Great tips, thanks for sharing. This is something I wanted to setup</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=179071#respond' onclick='return addComment.moveForm("comment-body-179071", "179071", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-odd thread-alt depth-1" id="comment-179238"> <span
+class="comment_num"><a
+href="#comment-179238" title="Permalink to this comment" rel="nofollow">39</a></span> <span
+class="comment_author">Kyle</span> <span
+class="comment_time">February 25, 2012 at 4:11 pm</span></dt><dd
+class="comment even thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-179238"><p>Thanks for sharing this configure wordpress. I will keep visiting your website.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=179238#respond' onclick='return addComment.moveForm("comment-body-179238", "179238", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-even depth-1" id="comment-180595"> <span
+class="comment_num"><a
+href="#comment-180595" title="Permalink to this comment" rel="nofollow">40</a></span> <span
+class="comment_author">Chris</span> <span
+class="comment_time">June 9, 2012 at 7:01 pm</span></dt><dd
+class="comment odd alt thread-even depth-1"><div
+class="format_text" id="comment-body-180595"><p>Great article.  Another link to consider which is popular in the wordpress community:<br
+/> <a
+href="http://www.maxcdn.com/features/integrations/wordpress-cdn-module/" rel="nofollow">http://www.maxcdn.com/features/integrations/wordpress-cdn-module/</a></p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=180595#respond' onclick='return addComment.moveForm("comment-body-180595", "180595", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-odd thread-alt depth-1" id="comment-180976"> <span
+class="comment_num"><a
+href="#comment-180976" title="Permalink to this comment" rel="nofollow">41</a></span> <span
+class="comment_author">Pothi Kalimuthu</span> <span
+class="comment_time">July 12, 2012 at 9:02 am</span></dt><dd
+class="comment even thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-180976"><p>Here is my solution&#8230; <a
+href="https://gist.github.com/3096185" rel="nofollow">https://gist.github.com/3096185</a></p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=180976#respond' onclick='return addComment.moveForm("comment-body-180976", "180976", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-even depth-1" id="comment-181685"> <span
+class="comment_num"><a
+href="#comment-181685" title="Permalink to this comment" rel="nofollow">42</a></span> <span
+class="comment_author">Cricketbook</span> <span
+class="comment_time">October 1, 2012 at 9:50 am</span></dt><dd
+class="comment odd alt thread-even depth-1"><div
+class="format_text" id="comment-body-181685"><p>Hmmm very nice tutorial thankx for sharing</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=181685#respond' onclick='return addComment.moveForm("comment-body-181685", "181685", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment even thread-odd thread-alt depth-1" id="comment-185892"> <span
+class="comment_num"><a
+href="#comment-185892" title="Permalink to this comment" rel="nofollow">43</a></span> <span
+class="comment_author">Taha</span> <span
+class="comment_time">February 19, 2013 at 12:02 pm</span></dt><dd
+class="comment even thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-185892"><p>I do not have Miscellaneous settings.</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=185892#respond' onclick='return addComment.moveForm("comment-body-185892", "185892", "respond", "6644")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-even depth-1" id="comment-191926"> <span
+class="comment_num"><a
+href="#comment-191926" title="Permalink to this comment" rel="nofollow">44</a></span> <span
+class="comment_author">Ankit</span> <span
+class="comment_time">July 7, 2013 at 4:28 pm</span></dt><dd
+class="comment odd alt thread-even depth-1"><div
+class="format_text" id="comment-body-191926"><p>1) Whats the difference btwn Push CDN and Pull CDN and when to use which.. 2) How a 301 permanent redirection of site will be affected while using CDN??</p><p
+class="reply"><a
+class='comment-reply-link' href='/tips/wordpress-cdn-content-delivery-network-configuration.html?replytocom=191926#respond' onclick='return addComment.moveForm("comment-body-191926", "191926", "respond", "6644")'>Reply</a></p></div></dd></dl><div
+id="respond"><div
+id="respond_intro"> <a
+rel="nofollow" id="cancel-comment-reply-link" href="/tips/wordpress-cdn-content-delivery-network-configuration.html#respond" style="display:none;">Cancel reply</a><p>Leave a Comment</p></div><form
+action="http://www.cyberciti.biz/tips/wp-comments-post.php" method="post" id="commentform"><p><input
+class="text_input" type="text" name="author" id="author" value="" tabindex="1" aria-required="true" /><label
+for="author">Name <span
+class="required" title="Required">*</span></label></p><p><input
+class="text_input" type="text" name="email" id="email" value="" tabindex="2" aria-required="true" /><label
+for="email">E-mail <span
+class="required" title="Required">*</span></label></p><p><input
+class="text_input" type="text" name="url" id="url" value="" tabindex="3" /><label
+for="url">Website</label></p><p
+class="comment_box"><textarea name="comment" id="comment" tabindex="4" cols="40" rows="8"></textarea></p> <span
+class="allowed"><span> <em>You can use these <acronym
+title="HyperText Markup Language">HTML</acronym> tags and attributes for your code and commands:</em> &lt;strong&gt; &lt;em&gt; &lt;ol&gt; &lt;li&gt; &lt;u&gt; &lt;ul&gt; &lt;blockquote&gt; &lt;pre&gt; &lt;a href=&quot;&quot; title=&quot;&quot;&gt; </span></span><p
+style="clear: both;" class="subscribe-to-comments"> <input
+type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" /> <label
+for="subscribe">Notify me of followup comments via e-mail.</label></p><div
+id="bsbm_form"><label
+for="bsbm_question">Security Question:</label><div
+class="question">What is 7 + 3 ?</div><div
+class="answer"> <input
+type="text" tabindex="5" name="mathvalue2" value="" /><div
+style="display:none">Please leave these two fields as-is: <input
+type="text" name="mathvalue_answer" value="$2a$07$$$$$$$$$$$$$$$$$$$$$$.MRSbTNMuiSph7nsLojWarxzQhrVt0D6" /></div></div><div
+class="notice">Solve the simple math so we know that you are a human and not a bot.</div></div><p
+class="remove_bottom_margin"> <input
+name="submit" class="form_submit" type="submit" id="submit" tabindex="5" value="Submit" /> <input
+type='hidden' name='comment_post_ID' value='6644' id='comment_post_ID' /> <input
+type='hidden' name='comment_parent' id='comment_parent' value='0' /></p><p
+style="display: none;"><input
+type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="a24fc8eecf" /></p></form></div></div><p
+class="my_tagged_as">Tagged as: <a
+href="http://www.cyberciti.biz/tips/tag/cdn" rel="tag">cdn</a>, <a
+href="http://www.cyberciti.biz/tips/tag/central-server" rel="tag">central server</a>, <a
+href="http://www.cyberciti.biz/tips/tag/content-delivery-network" rel="tag">content delivery network</a>, <a
+href="http://www.cyberciti.biz/tips/tag/content-distribution-network" rel="tag">content distribution network</a>, <a
+href="http://www.cyberciti.biz/tips/tag/network-congestion" rel="tag">network congestion</a>, <a
+href="http://www.cyberciti.biz/tips/tag/wordpess-amazon-s3-cdn" rel="tag">wordpess amazon s3 cdn</a>, <a
+href="http://www.cyberciti.biz/tips/tag/wordpress-cdn-speed" rel="tag">wordpress + CDN = Speed</a>, <a
+href="http://www.cyberciti.biz/tips/tag/wordpress-akamai-cdn" rel="tag">wordpress akamai cdn</a>, <a
+href="http://www.cyberciti.biz/tips/tag/wordpress-cdn" rel="tag">wordpress cdn</a>, <a
+href="http://www.cyberciti.biz/tips/tag/wordpress-cdn-plugin" rel="tag">wordpress cdn plugin</a>, <a
+href="http://www.cyberciti.biz/tips/tag/wordpress-cdn-plugins" rel="tag">wordpress cdn plugins</a>, <a
+href="http://www.cyberciti.biz/tips/tag/wordpress-content-delivery-network" rel="tag">wordpress content delivery network</a></p><div
+class="prev_next post_nav"><p
+class="previous">Previous post: <a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html" rel="prev">Top 20 Nginx WebServer Best Security Practices</a></p><p>Next post: <a
+href="http://www.cyberciti.biz/tips/debian-centos-redhat-hotfix-patch-linux-kernel.html" rel="next">Ksplice: Upgrade / Patch Your Linux Kernel Without Reboots</a></p></div></div><div
+id="sidebars"><div
+id="multimedia_box" class="custom_box"><div
+id="custom_box"><div
+style='color: #555555; text-align:center; line-height: 200%;'> <span
+style='font-size: 23px; font-weight:bold;'>GET FREE LINUX TIPS</span> <br/> <span
+style='font-style:italic; font-size:14px;'>Sign up for our newsletter to get tutorials</span> <br
+/></div><center><form
+action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=Nixcraft-LinuxFreebsdSolarisTipsTricks', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">&nbsp;&nbsp;&nbsp;&nbsp;<input
+type="text" class="text_input" name="email" value="you@example.com" id="name" onclick="if (this.value=='you@example.com') {this.value=''};" onblur="if (this.value=='') {this.value='you@example.com';}"/><input
+type="hidden" value="Nixcraft-LinuxFreebsdSolarisTipsTricks" name="uri"/> <input
+type="hidden" name="loc" value="en_US"/><input
+value="Sign Up" class="form_submit" type="submit"></form> </span></center></div></div><div
+id="sidebar_1" class="sidebar"><ul
+class="sidebar_list"><li
+class="widget widget_text" id="text-15"><div
+class="textwidget"><script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <ins
+class="adsbygoogle"
+style="display:inline-block;width:300px;height:250px"
+data-ad-client="ca-pub-7825705102693166"
+data-ad-slot="7895531150"></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div></li><li
+class="widget widget_text" id="text-14"><div
+class="textwidget"><div
+id="cse-search-box" style="width: 100%;">Loading</div> <script src="http://www.google.com/jsapi" type="text/javascript"></script> <script type="text/javascript">google.load('search', '1', {language : 'en', style : google.loader.themes.V2_DEFAULT});
+  google.setOnLoadCallback(function() {
+    var customSearchOptions = {};
+    var imageSearchOptions = {};
+    imageSearchOptions['layout'] = google.search.ImageSearch.LAYOUT_POPUP;
+    customSearchOptions['enableImageSearch'] = true;
+    customSearchOptions['imageSearchOptions'] = imageSearchOptions;  var customSearchControl = new google.search.CustomSearchControl(
+      '002165917076592449621:riwi1tlrb1m', customSearchOptions);
+    customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+    var options = new google.search.DrawOptions();
+    options.setAutoComplete(true);
+    options.enableSearchboxOnly("http://www.cyberciti.biz/linux-search.php");
+    customSearchControl.draw('cse-search-box', options);
+  }, true);</script></div></li><li
+class="widget widget_text" id="text-16"><div
+class="textwidget"><iframe
+src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fnixcraft&amp;width=292&amp;height=189&amp;colorscheme=light&amp;show_faces=true&amp;border_color&amp;stream=false&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:292px; height:189px;" allowTransparency="true"></iframe></div></li><li
+class="widget widget_text" id="text-17"><div
+class="textwidget"><script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <ins
+class="adsbygoogle"
+style="display:inline-block;width:300px;height:600px"
+data-ad-client="ca-pub-7825705102693166"
+data-ad-slot="3521177162"></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div></li><li
+class="widget widget_wp_related_posts" id="wp_related_posts_widget"><div
+class="wp_rp_wrap  wp_rp_modern" id="wp_rp_first"><div
+class="wp_rp_content"><h3>Related Posts</h3><ul
+class="related_post wp_rp" style="visibility: visible"><li ><a
+href="http://www.cyberciti.biz/tips/vbulletin-cdn-content-delivery-network-configuration.html" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/1/23.jpg" alt="HowTo: Configure Vbulletin To Use A Content Delivery Network (CDN)" /></a><a
+href="http://www.cyberciti.biz/tips/vbulletin-cdn-content-delivery-network-configuration.html" class="wp_rp_title">HowTo: Configure Vbulletin To Use A Content Delivery Network (CDN)</a></li><li ><a
+href="http://www.cyberciti.biz/tips/what-is-content-delivery-network-cdn.html" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/1/15.jpg" alt="What Is a Content Delivery Network (CDN)?" /></a><a
+href="http://www.cyberciti.biz/tips/what-is-content-delivery-network-cdn.html" class="wp_rp_title">What Is a Content Delivery Network (CDN)?</a></li><li ><a
+href="http://www.cyberciti.biz/tips/different-type-content-using-content-delivered-network.html" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/1/26.jpg" alt="Different Type of Content Delivered Using a CDN" /></a><a
+href="http://www.cyberciti.biz/tips/different-type-content-using-content-delivered-network.html" class="wp_rp_title">Different Type of Content Delivered Using a CDN</a></li><li ><a
+href="http://www.cyberciti.biz/tips/should-i-boot-linux-from-san.html" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/1/16.jpg" alt="Can I boot My Linux Server from iSCSI or SAN or NAS network attached storage?" /></a><a
+href="http://www.cyberciti.biz/tips/should-i-boot-linux-from-san.html" class="wp_rp_title">Can I boot My Linux Server from iSCSI or SAN or NAS network attached storage?</a></li><li ><a
+href="http://www.cyberciti.biz/tips/rhel-fedora-centos-apache2-external-php-spawn.html" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/1/15.jpg" alt="Apache2 mod_fastcgi: Connect to External PHP via UNIX Socket or TCP/IP Port" /></a><a
+href="http://www.cyberciti.biz/tips/rhel-fedora-centos-apache2-external-php-spawn.html" class="wp_rp_title">Apache2 mod_fastcgi: Connect to External PHP via UNIX Socket or TCP/IP Port</a></li><li ><a
+href="http://www.cyberciti.biz/tips/howto-create-high-performance-web-site-pages.html" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/1/6.jpg" alt="How to optimize a web page for faster and better experience " /></a><a
+href="http://www.cyberciti.biz/tips/howto-create-high-performance-web-site-pages.html" class="wp_rp_title">How to optimize a web page for faster and better experience </a></li><li ><a
+href="http://www.cyberciti.biz/tips/create-custom-url-shortener-for-wordpress-based-blog-in-a-five-minutes.html" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/1/23.jpg" alt="Create Custom URL Shortener For Wordpress Based Blog In a Five Minutes " /></a><a
+href="http://www.cyberciti.biz/tips/create-custom-url-shortener-for-wordpress-based-blog-in-a-five-minutes.html" class="wp_rp_title">Create Custom URL Shortener For Wordpress Based Blog In a Five Minutes </a></li><li ><a
+href="http://www.cyberciti.biz/tips/howto-performance-benchmarks-a-web-server.html" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/1/6.jpg" alt="Howto: Performance Benchmarks a Webserver" /></a><a
+href="http://www.cyberciti.biz/tips/howto-performance-benchmarks-a-web-server.html" class="wp_rp_title">Howto: Performance Benchmarks a Webserver</a></li><li ><a
+href="http://www.cyberciti.biz/tips/wtop-web-server-log-monitoring-tool.html" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/1/29.jpg" alt="Apache Web Server: Log Analysis and Server Status Monitoring Tool" /></a><a
+href="http://www.cyberciti.biz/tips/wtop-web-server-log-monitoring-tool.html" class="wp_rp_title">Apache Web Server: Log Analysis and Server Status Monitoring Tool</a></li><li ><a
+href="http://www.cyberciti.biz/tips/lighttpd-mod_rewrite-redirect-hotlink-image.html" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/1/5.jpg" alt="Lighttpd mod_rewrite Hotlink Protection To Display Image Message" /></a><a
+href="http://www.cyberciti.biz/tips/lighttpd-mod_rewrite-redirect-hotlink-image.html" class="wp_rp_title">Lighttpd mod_rewrite Hotlink Protection To Display Image Message</a></li></ul></div></div></li></ul></div></div></div><div
+id="footer"><div
+class="idglogo"> <img
+src="http://s0.cyberciti.org/static/legacy/i/idg-logo-new.gif" alt="" border="0" /></div><div
+class="copynotice"> &copy;2004-2013 nixCraft. All rights reserved. Cannot be reproduced without written permission. <br
+/> <a
+href="/tips/privacy">Privacy Policy</a> | <a
+href="/tips/disclaimer">Terms of Service</a> | <a
+href="/tips/contact-us" title="Email us / Contact us">Questions or Comments</a> | <a
+href="/tips/copyright" title="nixCraft copyright information">Copyright Info</a> | <a
+href="/tips/sitemaps" title="nixCraft sitemap">Sitemap</a></div>	</div>
+</div>
+</div>
+<!--[if lte IE 8]>
+<div id="ie_clear"></div>
+<![endif]-->
+<script src="http://www.cyberciti.biz/mint/?js" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-108650-1']);
+  _gaq.push(['_setDomainName', 'www.cyberciti.biz']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = '//apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script type="text/javascript">
+  (function() {
+    var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+    li.src = '//platform.stumbleupon.com/1/widgets.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+  })();
+</script>
+</body>
+</html>

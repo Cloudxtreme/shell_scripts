@@ -1,0 +1,433 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+
+<HEAD>
+    <TITLE>MAGPI GigaPoP IPv6 Addressing Plan</TITLE>
+    <meta name="author"
+          content="Shumon Huque">
+
+    <meta name="description"
+          content="MAGPI GigaPoP IPv6 Addressing Plan,
+          Shumon Huque, University of Pennsylvania, MAGPI GigaPoP">
+
+    <meta name="keywords"
+          content="Huque, Shumon, Shumon Huque, Network Engineer,
+          University of Pennsylvania, MAGPI GigaPoP, Internet2,
+	  IPv6">
+    <link rel="stylesheet" type="text/css" href="/~shuque/style/document1.css">
+</HEAD>
+
+<!-- Background white, links blue (unvisited), navy (visited), red (active) -->
+ <BODY
+  BGCOLOR="#FFFFFF"
+  TEXT="#000000"
+  LINK="#0000FF"
+  VLINK="#000080"
+  ALINK="#FF0000"
+ >
+  <H1 ALIGN="CENTER">
+   MAGPI GigaPoP IPv6 Addressing Plan
+  </H1>
+  <P>
+
+MAGPI IPv6 Address Block Allocation: 2001:0468:1800::/40
+
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="#Intro">Introduction</a>
+<li><a href="#Diagram">Network Diagram</a>
+<li><a href="#Abilene">Abilene Notes</a>
+<li><a href="#GigaPoP">GigaPoP /40 Allocation</a>
+<li><a href="#GigaPoP-Internal">GigaPoP Internal /48 Allocation</a>
+<li><a href="#Routing">Routing Design</a>
+<li><a href="#DNS">DNS Configuration</a>
+<li><a href="#Statistics">Traffic Accounting and Statistics</a>
+<li><a href="#Campus-Allocation">Campus Allocation Ideas</a>
+<li><a href="#Future">Future Work</a>
+<li><a href="#References">References</a>
+</ul>
+
+<a name="Intro">
+<h2>Introduction</h2>
+
+This document describes the allocation strategy for the MAGPI
+GigaPoP's IPv6 address space. It describes both how MAGPI makes
+customer allocations out of it's delegated /40 sized address space,
+and also how MAGPI uses it's own /48 allocation for internal
+infrastructure and subnets. Both these allocation schemes are designed
+to aid visual decodeability of the IPv6 addresses at the expense of
+utilization efficiency (translation: they waste a lot of address
+space).
+
+<p>
+
+This scheme won't be used for the the larger campus environment,
+(eg. for the University of Pennsylvania's /48 allocation) where we 
+would need to use a far more efficient allocation method (with the 
+result that it won't be easy to visually decode addresses any more).
+
+<p>
+
+MAGPI's address block is 2001:0468:1800::/40, which is allocated 
+by Abilene out of it's 2001:0468::/32 space. These allocations are
+out of the Aggregatable Global Unicast range (format prefix 001).
+
+<a name="Diagram">
+<h2>Network Diagram</h2>
+
+<img src="MAGPI-IPv6.jpg">
+<P>
+
+<a name="Abilene">
+<h2>Abilene Notes</h2>
+
+Abilene's 13-bit NLA is structured as follows:
+
+<pre>
+
+  +--------------------------+
+  |   NLA1   | R |   NLA2    |
+  +--------------------------+
+  0          5   7          12
+
+ /35        /40             /48
+
+     where
+     NLA1  (5 bits)  identifies the 6POP (the Site ID) and
+     R     (2 bits)  (Reserved)
+     NLA2  (6 bits)  is assigned by the entity controlling NLA1.
+
+</pre>
+
+MAGPI has been assigned the 6POP  SiteID 0x18, so it's address block
+is: 2001:0468:1800::/40
+<p>
+Note: Abilene has since had their allocation increased to a /32, giving them
+a 16-bit NLA, but as of of this writing they have not expanded into 
+these bits yet.
+
+<a name="GigaPoP">
+<h2>GigaPoP /40 Allocation</h2>
+
+<pre>
+2001:0468:1800::/40
+</pre>
+
+The GigaPOP will make /48 sized allocations to it's connected
+institutions. At least initially, MAGPI will follow Abilene's general 
+recommendations about allocation strategies.
+<p>
+The 8-bits (between /40 and /48) are structured as follows:
+
+<pre>
+   R:    2-bit Reserved field for future expansion.
+   NLA2: 6-bit NLA2 field, out of which subscriber allocations are made.
+
+       2     6          (#bits)
+     +---+---------+
+     | R |  NLA2   | 	(field name)
+     +--------------
+     0   2         8 	(bit boundary)
+
+    /40           /48
+
+</pre>
+
+With the 6-bit NLA2 field, we can number 2**6 = 64 customers. The NLA2
+field of 000000 is allocated to the GigaPoP itself. The individual 
+campuses are then numbered sequentially (or with some gaps to allow
+possible future expansion of a campus to two consecutive /48's). The NLA2 
+field of 111111 (0x3f) is reserved for Point-to-Point connections between 
+the GigaPoP and it's customers.
+
+<pre>
+  R  NLA2 (aka CampusId)
+  -- -------------------
+  00 xxxxxx
+
+  00 000000 = 0x00 = 2001:0468:1800::/48 = Campus 00 MAGPI Internal
+  00 000001 = 0x01 = 2001:0468:1801::/48 = Campus 01 reserved
+  00 000010 = 0x02 = 2001:0468:1802::/48 = Campus 02 University of Pennsylvania
+  00 000011 = 0x03 = 2001:0468:1803::/48 = Campus 03 reserved
+  00 000100 = 0x04 = 2001:0468:1804::/48 = Campus 04 Princeton University
+  00 000101 = 0x05 = 2001:0468:1805::/48 = Campus 05 reserved
+  00 000110 = 0x06 = 2001:0468:1806::/48 = Campus 06 Temple University
+  00 000111 = 0x07 = 2001:0468:1807::/48 = Campus 07 reserved
+  00 001000 = 0x08 = 2001:0468:1808::/48 = Campus 08 University of Delaware
+  00 001001 = 0x09 = 2001:0468:1809::/48 = Campus 09 reserved
+  00 001010 = 0x0a = 2001:0468:180a::/48 = Campus 10 unassigned
+  00 001011 = 0x0b = 2001:0468:180b::/48 = Campus 11 unassigned
+  00 001100 = 0x0c = 2001:0468:180c::/48 = Campus 12 unassigned
+  ...
+  00 111111 = 0x3f = 2001:0468:183f::/48 = Point2Point connections
+</pre>
+
+<h3>Point-to-Points (NLA2 = 0x3f):</h3>
+
+Point-to-Point connections between MAGPI and it's subscribers are defined
+by an NLA2 field of 0x3f and a SLA composed of concatenated 8-bits
+specifying the source and destination site. By convention, the source
+site is the site with lowest numbered CampusID (ie. NLA2 field), which
+is usually always MAGPI. Format:
+
+<pre>
+
+    2001:0468:183f:ssdd::/64
+
+    where ss = NLA2 of the Source Site
+    and   dd = NLA2 of the Destination Site
+</pre>
+
+So the point-to-point subnet between MAGPI and Princeton would be:
+<pre>
+	2001:0468:183f:0002::/64   (src=00=magpi, dst=02=princeton)
+</pre>
+
+A possible improvement:
+<p>
+
+It would be nice to subdivide the 6-bit NLA2 field into multiple ranges
+based on the access router location that is connecting the customers
+numbered in that NLA2 subrange. That way, we might be able to do some
+route aggregation from the gigapop access routers into the gigapop core
+network. With only 6 bits (and possibly 8 if we expand into the 2 reserved 
+bits), it is probably not worth the extra effort though. Who cares if we 
+have to carry 256 /48 routes inside MAGPI.
+<p>
+
+An entirely different allocation strategy would be to employ Marc 
+Blanchet's method of bit assignment (specifically the centermost 
+approach). This would allow us to postpone the decision of where to
+partition the address space if we weren't sure about the eventual
+size of customer allocations or the gigapop's own allocation. This 
+scheme complicates the assignment procedure and throws us out of 
+sync with the rest of the Abilene connectors, so we do not employ it.
+
+<a name="GigaPoP-Internal">
+<h2>GigaPoP Internal /48 Allocation</h2>
+
+<pre>
+2001:0468:1800::/48
+</pre>
+
+Now we describe how the GigaPoP's own /48 network is used for it's 
+internal infrastructure.
+
+<pre>
+    2001:0468:1800:xxxx:/48
+    xxxx: MAGPI's SLA field (Site Level Aggregator), 16 bits
+</pre>
+The 16-bit SLA field (xxxx in the above) which sits between /40
+and /48 is structured as follows:
+
+<pre>
+
+      2     6           8                   (#bits)
+    +---+---------+---------------+
+    | R | CoreId  |  SubnetID     |         (field name)
+    +-----------------------------+
+    0   2         8               15        (bit boundary)
+
+</pre>
+
+Each MAGPI router is assigned a coreid (ie. core router id) of 6 bits.
+With 6 bits we can number up to 64 routers.
+
+<pre>
+    CoreID           Router
+
+    0x00             Reserved
+    0x01             phl-01
+    0x02             phl-02
+    0x03             phl-03
+    0x04             phl-04
+    0x05             phl-05
+    0x06             phl-06
+    ...
+    0x3f             reserved (for now)
+
+</pre>
+
+<h3>Point-to-Point Router Links</h3>
+
+For point-to-point links between routers, we assign binary 11 to the 
+reserved bits (R) at the beginning of the SLA. CoreID is the coreid 
+of the 1st router. SubnetID is redefined as 00 + CoreID of the 2nd router.
+<p>
+Note: using the 11 prefix means that we are using 1/4 of the address
+space for the point2point links! This seems a little bit of a waste, 
+but it makes decoding the v6 addresses easier and it is not as wasteful
+as it might seem really. The gigapop is most likely going to be composed
+of numerous core/access routers and many links interconnecting them.
+There won't be too many internal subnets hanging off the routers.
+Note: /64 subnets connecting customers to the magpi access routers are 
+numbered out of the MAGPI /40 allocation.
+
+<pre>
+
+Format:
+
+      2     6           8                    (#bits)
+    +----+---------+---------------+
+    | 11 | CoreId1 | 00 CoreID2    |         (field name)
+    +------------------------------+
+    0    2         8               15        (bit boundary)
+
+</pre>
+
+So point-to-point links have a siteID of 11xxxxxxxxxxxxxx
+ie. they start with c (1100), d (1101), e (1110), f(1111) at the 13th
+hex digit.
+<p>
+
+Example: Point-to-Point link between phl-01 and phl-02 is:
+
+<pre>
+    11 + CoreID1      00 + CoreID2
+    11 + 000001       00 + 000010
+    1100,0001         0000,0010
+    0xc1              0x02
+    0xc102
+    2001:0468:1800:c102::/64
+
+</pre>
+
+If there is a 2nd point2point link between the same pair of routers,
+we could reverse the order of the coreIDs, or use additional bit
+patterns in the 2 bits before CoreID2.
+
+
+<h3>Point-to-Point Router Links (Alternate Strategies)</h3>
+
+Alternate strategy for numbering p2p links that is less wasteful,
+but much more difficult to visually decode:
+<p>
+Use CoreID = 0x3f to number p2p links.  Then we have 8 bits of the
+SubnetID field to allocate networks out of.  We can't implement the
+visually simple scheme of 6+6 concatenated bits for the 2 router
+coreids because that won't fit in 8 bits. So we maintain a table of
+links, which can have 2^8 = 256 links, interconnecting pairs of
+routers. Theoretically a full mesh of p2p links between 64 routers is
+2016 links, but this is an extremely unlikely scenario. The routers
+are more likely to by sparsely linked (physically), so a relatively
+small table is perfectly adequate.
+<p>
+We'll go with our original approach for now.
+
+<h3>Internal Subnets</h3>
+
+Internal subnets are assigned using the 8 bit SubnetID field. So each
+GigaPoP core router can have roughly 256 subnets on attached interfaces
+(excluding router-to-router point-to-point subnets). The SubnetID of 0 
+is reserved for the loopback interfaces.
+<p>
+eg. the 3rd subnet hanging off core router 5 is:
+2001:0468:1800:0503::/64
+
+<h3>Loopback Addresses</h3>
+
+Loopback addresses are subnetID of 0x00 and InterfaceID of ::0001
+<p>
+eg. Loopback of phl-03: 2001:0468:1800:0300::1/128
+<p>
+Additional loopback interfaces can be assigned by incrementing the InterfaceID.
+
+<a name="Routing">
+<h2>Routing Design</h2>
+
+In the initial phase of the deployment, the RIPng protocol has been
+configured for interior routing. RIPng is a v6-only IGP based on RIP
+version 2. It's a simple protocol and it's easy to understand and
+debug. Furthermore, since it carries v6 routes only, it has no
+interaction with the production IPv4 network. Hence it was deemed a
+safe deployment choice. RIPng has the traditional drawbacks of a
+distance-vector routing protocol, but in such a small network of routers,
+it will hardly be a problem. In the future, OSPF v3 and Integrated
+IS-IS protocols will be considered for interior routing. OSPF v3, like
+RIPng is for IPv6 only, and runs in a "ships in the night" mode with
+respect to OSPF v2 (MAGPI's current v4 IGP). IS-IS is the choice of most
+network engineers wishing to do integrated v4/v6 routing.
+
+<p>
+Multi-protocol BGP is used for inter-domain peering with Abilene. At
+the current time, MAGPI's sole IPv6 peer is Abilene, and this peering
+point is located at one border router. Hence, in the interests of
+simplicity, this border router injects a static default (::/0) into
+RIPng to other internal routers.
+<p>
+Additionally, an IPv6 Internal-BGP mesh has been configured between all
+the v6 enabled MAGPI routers to propagate external routes to them. This
+will become important as MAGPI begins to peer with other entities (eg.
+the numerous campuses) at various border routers.
+
+
+<a name="DNS">
+<h2>DNS Configuration</h2>
+
+The MAGPI DNS servers support AAAA and IPv6 (long) PTR records. There
+are plans to upgrade to BIND9 in the near future and move the
+nameservers to IPv6 capable subnets, which will allow us to support
+DNS queries over IPv6 transport.
+
+
+<a name="Statistics">
+<h2>Traffic Accounting and Statistics</h2>
+
+[coming soon]
+
+<a name="Campus-Allocation">
+<h2>Campus Allocation Ideas</h2>
+
+[deferred to a future project]
+
+<a name="Future">
+<h2>Future Work</h2>
+
+<ul>
+<li>Integrated IS-IS for both IPv4 and IPv6 interior routing
+<li>IPv6 Multicast routing
+<li>Stateful auto-configuration using DHCPv6
+<li>Testing of IPv6 Enabled Applications
+</ul>
+
+<a name="References">
+<h2>References</h2>
+
+<ul>
+<li><a href="http://www.magpi.net/">MAGPI GigaPoP Web site</a>
+<li><a href="http://ipv6.internet2.edu/">Internet2 IPv6 Working Group</a>
+<li><a href="http://ipv6.internet2.edu/Abilene_IPv6_Addressing.shtml">
+    Abilene IPv6 Addressing Plan</a>
+<li><a href="http://www.ietf.org/rfc/rfc2080.txt">
+    RFC 2080: RIPng for IPv6</a>
+<li><a href="http://www.ietf.org/rfc/rfc2283.txt">
+    RFC 2283: Multiprotocol Extensions for BGP-4</a>
+<li><a href="http://www.ietf.org/rfc/rfc2373.txt">
+    RFC 2373: IP Version 6 Addressing Architecture</a>
+<li><a href="http://www.ietf.org/rfc/rfc2374.txt">
+    RFC 2374: An IPv6 Aggregatable Global Unicast Address Format</a>
+<li><a href="http://www.ietf.org/rfc/rfc2450.txt">
+    RFC 2450: Proposed TLA and NLA Assignment Rules</a>
+<li><a href="http://www.ietf.org/rfc/rfc2462.txt">
+    RFC 2462: IPv6 Stateless Address Autoconfiguration</a>
+<li><a href="http://www.ietf.org/rfc/rfc2545.txt">
+    RFC 2545: Use of BGP-4 Multiprotocol Extensions for IPv6 Inter-Domain Routing</a>
+<li><a href="http://www.ietf.org/internet-drafts/draft-ietf-ipngwg-ipaddressassign-02.txt">
+    Blanchet I-draft: A flexible method for an IPv6 addressing plan</a>
+<li><a href="http://www.juniper.net/techpubs/software/junos/titles.html">
+    Juniper Networks: JunOS software reference manuals</a>
+</ul>
+
+
+<p>
+
+<ADDRESS>
+    <A HREF="mailto:shuque@magpi.net">
+        Shumon Huque</A>, MAGPI Network Engineering, 
+        Last Updated: 2002-12-16
+</ADDRESS>
+
+</BODY>
+</HTML>
+

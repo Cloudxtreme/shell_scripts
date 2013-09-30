@@ -1,0 +1,587 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- === OSNews is a go for launch in 3... 2... 1... ==================================================================== -->
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>AROS research on SMP > Comments</title>
+	<!-- crunchy meta tags -->
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="ROBOTS" content="INDEX, FOLLOW" />	
+	<meta name="description" content="OSNews is Exploring the Future of Computing with news on desktop, server, mobile, and specialty operating systems and new computing technology." />
+	<meta name="keywords" content="OSNews, OS News, Operating System, Linux, BeOS, Unix, Windows, Microsoft, AtheOS, Irix, AIX, Solaris, MacOS, MacOSX, Apple, OS2, QNX, Amiga, NewOS, Inferno, Plan9, NeXT, SkyOS, BSD, FreeBSD, OpenBSD, Mandrake, Caldera, Red Hat, SuSE, NetBSD, TrustedBSD, Machm Leopard, Vista, Windows 7, DragonflyBSD, OS X, OS/2, Plan 9" />
+	<meta http-equiv="copyright" content="Copyright 2013 David Adams, OSNews, Inc. All Rights Reserved " />
+	<meta name="author" content="OSNews Staff" />
+	<meta name="advertising" content="ask" /> <!-- AdBlock Plus users, please help us out --> 
+	<!-- style! we got style! -->	<link rel="stylesheet" type="text/css" href="/css/osnews.20111230.css" media="screen,projection" /><!-- site wide CSS -->
+	<style type="text/css">
+	#div64081423 { margin:10px auto 5px auto; }
+	#div32040711 { margin:10px auto; text-align:center; }
+	</style>
+	<!-- go go gadget! -->
+	<script src="/mint/?js" type="text/javascript"></script>
+	<script type="text/javascript" src="/js/jquery.min.js"></script><!-- jQuery rocks your face -->
+	<script type="text/javascript" src="http://www.osnews.com/js/corejs.20091020.js"></script><!-- compressed core javascript -->
+	<script type="text/javascript">
+	if (top !== self && document.referrer.match(/digg\.com\/\w{1,8}/)) {
+	  top.location.replace(self.location.href);
+	}
+	cp=1; 
+	$(document).ready(function() {
+		$('a[rel*=shorturl]').addClass('shorturl'); 
+		$('#tabnav a').attr('href',"#void"); 
+		$('#tabnav2 a').attr('href',"#void");
+		$('.su').css('padding-right','25px').hover(
+			function() { var j = $(this).attr('id'); $('#'+j+' .shorturl').show(); },
+			function() { var j = $(this).attr('id'); $('#'+j+' .shorturl').hide(); }
+		);
+		$('#sp1link').click(function() { 
+			$("#sbp2headlines").slideUp('1500', function() { $("#sbp1headlines").slideDown('1500'); }); 
+			$("#sp2link").removeClass('tabon').addClass('taboff');
+			$("#sp1link").removeClass('taboff').addClass('tabon');		
+		});	
+		$('#sp2link').click(function() { 
+			$("#sbp1headlines").slideUp('1500', function() { $("#sbp2headlines").slideDown('1500'); }); 
+			$("#sp1link").removeClass('tabon').addClass('taboff');
+			$("#sp2link").removeClass('taboff').addClass('tabon');		
+		});	
+ 
+		$('#sb27287').css({'background-color':'#ff9','color':'#555'}); 
+		$('#sb27287 a').css('color','#555'); 
+		
+	});
+	</script>	
+	<!-- Syndicate me, animate me -->
+	<link rel="alternate" title="OSNews.com Feed: AROS research on SMP" href="http://www.osnews.com/story/27287/AROS_research_on_SMP/feed" type="application/rss+xml" />
+
+	<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js"></script>
+	<script type="text/javascript">
+		GS_googleAddAdSenseService("ca-pub-4136420132070439");
+		GS_googleEnableAllServices();
+	</script>
+	<script type="text/javascript">
+		GA_googleAddSlot("ca-pub-4136420132070439", "OSNews_160x600");
+		GA_googleAddSlot("ca-pub-4136420132070439", "OSNews_300x250");
+		GA_googleAddSlot("ca-pub-4136420132070439", "OSNews_728x90");
+	</script>
+	<script type="text/javascript">
+		GA_googleFetchAds();
+	</script>
+ 
+</head>
+<body>
+<!-- === Header ========================================================================================================= -->
+<div id="header">
+	<h1><a href="/" name="head">OSNews</a></h1>
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<form id="login" action="/login" method="post"><fieldset>
+		<legend>
+			<span id="register"><a href="/account/forgotpassword/">Forgot Password</a> &middot; <a href="/register/">Register</a></span>
+			<span>Login to OSNews</span>
+		</legend><p><!--
+			--><label for="username">Username or Email</label><input type="text" name="u" id="username" /><!--
+			--><label for="password">Password</label><input type="password" name="pw" id="password" /><!--
+			--><input type="submit" id="login_btn" value="login" /><!--
+		--></p>
+	</fieldset></form>
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<form id="search" action="/search" method="get"><fieldset>
+		<legend><span>Search OSNews</span></legend>
+		<p><!--
+			--><input type="text" name="q" id="q" /><!-- some browsers add magic space between <input>s
+			--><input type="submit" id="submit-search" value="search" /><!-- 
+		--></p><p>
+			<a href="/search">Advanced Search</a>
+		</p>
+	</fieldset></form>
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<div id="menu"><ul id ="nav2">
+		<li><a href="/submit">Submit News</a></li>
+		<li><a href="/feeds" id="rss"><abbr title="Subscribe to our news feed">RSS</abbr></a></li>
+	</ul><ul id="nav1">
+		<li id="topnav_home"><a href="/">Home</a></li>
+		<li id="topnav_originals"><a href="/originals">Originals</a></li>
+		<!-- <li id="topnav_conversations"><a href="/conversations">Conversations</a></li> -->
+		<li id="topnav_news_archive"><a href="/archive">News Archive</a></li>
+		<!-- <li id="topnav_docs"><a href="/docs">Docs</a></li> -->
+		<li id="topnav_docs"><a href="/shopping">Shopping</a></li>
+		<li id="topnav_topics"><a href="/topics">Topics</a></li>
+		<li id="topnav_faqs"><a href="/docs/faq">FAQs</a></li>
+		<li id="topnav_contact"><a href="/contact">Contact</a></li>  <li id="topnav_advertise"><a href="/advertise">Advertise</a></li>  
+
+	</ul></div><div class="ad"><script type="text/javascript">
+if (!window.OX_ads) { OX_ads = []; }
+OX_ads.push({ "auid" : "161924" });
+</script>
+<script type="text/javascript">
+document.write('<scr'+'ipt src="http://ox-d.netline.com/w/1.0/jstag"><\/scr'+'ipt>');
+</script>
+<noscript><iframe id="4f70d3359e6ce" name="4f70d3359e6ce" src="http://ox-d.netline.com/w/1.0/afr?auid=161924&cb=INSERT_RANDOM_NUMBER_HERE" frameborder="0" scrolling="no" width="728" height="90"><a href="http://ox-d.netline.com/w/1.0/rc?cs=4f70d3359e6ce&cb=INSERT_RANDOM_NUMBER_HERE" ><img src="http://ox-d.netline.com/w/1.0/ai?auid=161924&cs=4f70d3359e6ce&cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a></iframe></noscript></div>	
+</div>
+<!-- === If blood and lust taste so sweet, then we should give them what they want ================= -->
+<div id="content">
+		<div id="main2">
+		<div class="item2"  id="newsblock27287">		
+			<div class="newstitle1">
+				<span id="star_27287">
+									</span>
+				<a href="/story/27287/AROS_research_on_SMP">AROS research on SMP</a>
+			</div>
+			
+			<div class="newssubheader1">
+			Linked by <a href="/editor/11">Thom Holwerda</a>			on Fri 23rd Aug 2013 12:02 UTC			</div>
+			
+			<div class="newscontent1">
+				<a href="/topics/12"><img src="http://www.osnews.com/images/icons/12.gif" alt="Amiga &amp;amp; AROS" class="timg" align="left" title="Amiga &amp;amp; AROS" /></a>
+			<div class="cquote"><p>'Silly-SMP' is a project to determine "What are the minimal changes needed to AROS to support 'full' SMP? Is it even possible?"
+</p><p>
+[...]
+</p><p>
+This is Research with a capital 'R'.
+</p><p>
+But that '25% of the time' _does_ show that <a href="http://amigaworld.net/modules/newbb/viewtopic.php?topic_id=38068&amp;forum=47">a full SMP system on AROS is possible</a>.</p></div>
+<p>
+This is quite a big deal for the Amiga world - and proves that, in my view, AROS has more of a future than AmigaOS will ever have: it's portable, and it's open source, so experiments like this are more likely to happen.</p></div>
+			<div class="newsfooter1">
+			
+			<a href="/share/27287/AROS_research_on_SMP" title="Email this article"><img src="/images/email2.gif" alt="E-mail" title="Email this article" /></a>
+			<a href="/print/27287/AROS_research_on_SMP" title="Print this article"><img src="/images/printer2.gif" alt="Print" title="Print this article" /></a>
+			<a href="#" onclick="alert('You must be logged in to recommend stories!');" title="Recommend this article"><img src="/images/rec.gif" alt="r" title="Recommend this article" /></a> 
+		
+			6&nbsp;&nbsp;
+			<a href="/comments/27287" class="commentcount">12 Comment(s)</a>  <span id="surl27287" class="su"><img src="/img2/shorturl.jpg" /> 
+	<a rel='shorturl' href='http://osne.ws/l1z'>http://osne.ws/l1z</a></span>		
+			</div>
+		</div>
+	
+
+	<div id="commentblock">
+	   <div id="commenttopbar">
+         <div id="changeview">
+         <form action="?" method="get"> 
+        <select name="view" onchange="javascript:this.form.submit();">
+			<option selected="selected" value="nested">Nested view</option>
+			<option value="threaded">Threaded view</option>
+			<option value="flat">Flat view</option>
+	       </select>
+        Order by: 
+		
+		
+		<select name="sort" onchange="javascript:this.form.submit();">
+			<option selected="selected" value="">Date</option>
+			<option value="score">Score</option>
+	       </select>
+
+		Score: <select name="threshold" onchange="javascript:this.form.submit();">
+			<option value="-5">-5 </option>
+			<option value="-4">-4 </option>
+			<option value="-3">-3 </option>
+			<option value="-2">-2 </option>
+			<option value="-1">-1 </option>
+			<option selected="selected" value="0">0 </option>
+			<option value="1">1 </option>
+			<option value="2">2 </option>
+			<option value="3">3 </option>
+			<option value="4">4 </option>
+			<option value="5">5 </option>
+	       </select>
+	       </form>
+	       </div>
+	   </div>
+
+		<div class="pcomment" style="font-weight:bold;">
+			<a href="/post?n=27287" style="text-decoration:none;">
+			<img src="/images/comments_add.gif" align="middle" alt="Add Comment" /></a>
+			<a href="/post?n=27287">Post a Comment</a>
+ 			
+		</div>
+<div id="div32040711">
+<script type="text/javascript">
+if (!window.OX_ads) { OX_ads = []; }
+OX_ads.push({ "auid" : "161923" });
+</script>
+<script type="text/javascript">
+document.write('<scr'+'ipt src="http://ox-d.netline.com/w/1.0/jstag"><\/scr'+'ipt>');
+</script>
+<noscript><iframe id="4f70d32125fed" name="4f70d32125fed" src="http://ox-d.netline.com/w/1.0/afr?auid=161923&cb=INSERT_RANDOM_NUMBER_HERE" frameborder="0" scrolling="no" width="300" height="250"><a href="http://ox-d.netline.com/w/1.0/rc?cs=4f70d32125fed&cb=INSERT_RANDOM_NUMBER_HERE" ><img src="http://ox-d.netline.com/w/1.0/ai?auid=161923&cs=4f70d32125fed&cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a></iframe></noscript>
+ </div>	<div class="comment" id="comment_570490" style="" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570490">
+			<a href="javascript:drop('570490','1');">
+			<img src="/images/down.gif" id="arrow_570490" alt="v" style="border:0px;display:none" /></a>
+			<a class="ctitletext" name="570490" href="/thread?570490">
+			You're thinking of a different &quot;R&quot;</a>			
+			<div class="comuser">
+				by <a href="/user/tylerdurden">tylerdurden</a> on Fri 23rd Aug 2013 18:24 UTC		
+				
+        </div>
+		</div>
+	   <div class="comops" style="display:block;" id="comops_570490">
+	       <a href="/user/tylerdurden/comments/"><img src="http://www.gravatar.com/avatar/435ec4f80fd03d632f2a68230172a6d6.jpg?s=48&d=http://www.osnews.com/avatar/18722.png" alt="tylerdurden" style="display:block;margin-top:5px;border:0px;" /></a><br />
+		Member since:<br />
+		2009-03-17<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570490">
+		<p class="comment_body">This is not "<i>R</i>esearch," it's yet another instance of "<i>R</i>ediscovering" the wheel.  <br />
+ <br />
+That being said, people working on alternative OSes just for the hell of it is a cool thing IMO.</p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570490" class="reply">Reply</a> <a href="/permalink?570490" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570490')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570490" style="color:000;">1</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>
+  <div class="comment reply" style="padding-left:30px;margin-left:30px;" id="comment_570504" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570504">
+			<a href="javascript:drop('570504','1');">
+			<img src="/images/down.gif" id="arrow_570504" alt="v" style="border:0px;display:none" /></a>
+				<a class="ctitletext" name="570504" href="/thread?570504">
+				RE: You're thinking of a different &quot;R&quot;</a>				
+			<div class="comuser">
+				by <a href="/user/ebasconp">ebasconp</a> on Fri 23rd Aug 2013 19:16 UTC	
+ in reply to "<a href="/thread?570490">You're thinking of a different &quot;R&quot;</a>"				
+        </div>		
+		</div>
+		
+	   <div class="comops" style="display:block;" id="comops_570504">
+	       <a href="/user/ebasconp/comments/"><img src="http://www.gravatar.com/avatar/323ecf45a47f71abe3aba4e6937780fa.jpg?s=48&d=http://www.osnews.com/avatar/7330.png" alt="ebasconp" style="display:block;margin-top:5px;border:0px;" /></a>
+		Member since:<br />
+		2006-05-09<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570504">
+		<p class="comment_body">Linus Torvalds started in the same way.</p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570504" class="reply">Reply</a> <a href="/permalink?570504" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570504')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570504" style="color:00f;">4</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>  <div class="comment reply" style="padding-left:30px;margin-left:60px;" id="comment_570564" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570564">
+			<a href="javascript:drop('570564','1');">
+			<img src="/images/down.gif" id="arrow_570564" alt="v" style="border:0px;display:none" /></a>
+				<a class="ctitletext" name="570564" href="/thread?570564">
+				RE[2]: You're thinking of a different &quot;R&quot;</a>				
+			<div class="comuser">
+				by <a href="/user/Carewolf">Carewolf</a> on Sat 24th Aug 2013 09:38 UTC	
+ in reply to "<a href="/thread?570504">RE: You're thinking of a different &quot;R&quot;</a>"				
+        </div>		
+		</div>
+		
+	   <div class="comops" style="display:block;" id="comops_570564">
+	       <a href="/user/Carewolf/comments/"><img src="http://www.gravatar.com/avatar/34d2d57ccb97419770e798989fa551cd.jpg?s=48&d=http://www.osnews.com/avatar/2940.png" alt="Carewolf" style="display:block;margin-top:5px;border:0px;" /></a>
+		Member since:<br />
+		2005-09-08<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570564">
+		<p class="comment_body">He didn't start with SMP, but it is still just development, or having fun as I would call it, but it is not research.</p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570564" class="reply">Reply</a> <a href="/permalink?570564" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570564')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570564" style="color:000;">2</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>  <div class="comment reply" style="padding-left:30px;margin-left:30px;" id="comment_570565" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570565">
+			<a href="javascript:drop('570565','1');">
+			<img src="/images/down.gif" id="arrow_570565" alt="v" style="border:0px;display:none" /></a>
+				<a class="ctitletext" name="570565" href="/thread?570565">
+				RE: You're thinking of a different &quot;R&quot;</a>				
+			<div class="comuser">
+				by <a href="/user/h5n1xp">h5n1xp</a> on Sat 24th Aug 2013 09:38 UTC	
+ in reply to "<a href="/thread?570490">You're thinking of a different &quot;R&quot;</a>"				
+        </div>		
+		</div>
+		
+	   <div class="comops" style="display:block;" id="comops_570565">
+	       <a href="/user/h5n1xp/comments/"><img src="http://www.gravatar.com/avatar/3618de87d7f9b57b5dd48dd8894ac40b.jpg?s=48&d=http://www.osnews.com/avatar/78976.png" alt="h5n1xp" style="display:block;margin-top:5px;border:0px;" /></a>
+		Member since:<br />
+		2013-08-24<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570565">
+		<p class="comment_body">For the AmigaOS world this is research!  <br />
+ <br />
+The AmigaOS is a strange beast, and many design decisions made in the early 80's to implement preemptive multitasking, never took into account of more than one CPU. Big locks, shared OS structures and a very fine grained strict task priority scheduler are just some of the problems that need to be solved without breaking compatibility with older software <img src="/images/emo/smile.gif" alt=";)" />  <br />
+ <br />
+Fun, fun,fun!</p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570565" class="reply">Reply</a> <a href="/permalink?570565" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570565')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570565" style="color:00f;">6</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>  <div class="comment reply" style="padding-left:30px;margin-left:60px;" id="comment_570598" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570598">
+			<a href="javascript:drop('570598','1');">
+			<img src="/images/down.gif" id="arrow_570598" alt="v" style="border:0px;display:none" /></a>
+				<a class="ctitletext" name="570598" href="/thread?570598">
+				RE[2]: You're thinking of a different &quot;R&quot;</a>				
+			<div class="comuser">
+				by <a href="/user/BlueofRainbow">BlueofRainbow</a> on Sun 25th Aug 2013 04:06 UTC	
+ in reply to "<a href="/thread?570565">RE: You're thinking of a different &quot;R&quot;</a>"				
+        </div>		
+		</div>
+		
+	   <div class="comops" style="display:block;" id="comops_570598">
+	       <a href="/user/BlueofRainbow/comments/"><img src="http://www.gravatar.com/avatar/abea8a46a7814958d45417f628261cef.jpg?s=48&d=http://www.osnews.com/avatar/18020.png" alt="BlueofRainbow" style="display:block;margin-top:5px;border:0px;" /></a>
+		Member since:<br />
+		2009-01-06<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570598">
+		<p class="comment_body">This would bring AmigaOS experience to be able to fully utilize modern multiprocessor hardware. <br />
+ <br />
+I remember a long time ago, the IT department where I worked was doing an evaluation with a side-by-side comparison of Windows 3.11WFW, OS/2 Warp 3.0, and AmigaOS.  The only reason AmigaOS was on this short list was that the VP in charge was using it at home and preferred it over the office stuff!  Anyways, the winner was somewhat predictable (Windows). <br />
+ <br />
+This is a key milestone for this project.</p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570598" class="reply">Reply</a> <a href="/permalink?570598" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570598')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570598" style="color:000;">2</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>	<div class="comment" id="comment_570491" style="" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570491">
+			<a href="javascript:drop('570491','1');">
+			<img src="/images/down.gif" id="arrow_570491" alt="v" style="border:0px;display:none" /></a>
+			<a class="ctitletext" name="570491" href="/thread?570491">
+			Nice little OS</a>			
+			<div class="comuser">
+				by <a href="/user/lucas_maximus">lucas_maximus</a> on Fri 23rd Aug 2013 18:29 UTC		
+				
+        </div>
+		</div>
+	   <div class="comops" style="display:block;" id="comops_570491">
+	       <a href="/user/lucas_maximus/comments/"><img src="http://www.gravatar.com/avatar/c925ab8999b558b8c56f511726d94f13.jpg?s=48&d=http://www.osnews.com/avatar/20113.png" alt="lucas_maximus" style="display:block;margin-top:5px;border:0px;" /></a><br />
+		Member since:<br />
+		2009-08-18<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570491">
+		<p class="comment_body">I ran this on a VM. Nice little OS, however I unfortunately don't have a practical use for it as yet.</p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570491" class="reply">Reply</a> <a href="/permalink?570491" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570491')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570491" style="color:00f;">3</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>
+  <div class="comment reply" style="padding-left:30px;margin-left:30px;" id="comment_570505" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570505">
+			<a href="javascript:drop('570505','1');">
+			<img src="/images/down.gif" id="arrow_570505" alt="v" style="border:0px;display:none" /></a>
+				<a class="ctitletext" name="570505" href="/thread?570505">
+				RE: Nice little OS</a>				
+			<div class="comuser">
+				by <a href="/user/ebasconp">ebasconp</a> on Fri 23rd Aug 2013 19:17 UTC	
+ in reply to "<a href="/thread?570491">Nice little OS</a>"				
+        </div>		
+		</div>
+		
+	   <div class="comops" style="display:block;" id="comops_570505">
+	       <a href="/user/ebasconp/comments/"><img src="http://www.gravatar.com/avatar/323ecf45a47f71abe3aba4e6937780fa.jpg?s=48&d=http://www.osnews.com/avatar/7330.png" alt="ebasconp" style="display:block;margin-top:5px;border:0px;" /></a>
+		Member since:<br />
+		2006-05-09<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570505">
+		<p class="comment_body">With Java and Qt ported to it its useness would be increased! <img src="/images/emo/smile.gif" alt=";)" /></p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570505" class="reply">Reply</a> <a href="/permalink?570505" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570505')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570505" style="color:000;">2</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>  <div class="comment reply" style="padding-left:30px;margin-left:60px;" id="comment_570567" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570567">
+			<a href="javascript:drop('570567','1');">
+			<img src="/images/down.gif" id="arrow_570567" alt="v" style="border:0px;display:none" /></a>
+				<a class="ctitletext" name="570567" href="/thread?570567">
+				RE[2]: Nice little OS</a>				
+			<div class="comuser">
+				by <a href="/user/Carewolf">Carewolf</a> on Sat 24th Aug 2013 09:39 UTC	
+ in reply to "<a href="/thread?570505">RE: Nice little OS</a>"				
+        </div>		
+		</div>
+		
+	   <div class="comops" style="display:block;" id="comops_570567">
+	       <a href="/user/Carewolf/comments/"><img src="http://www.gravatar.com/avatar/34d2d57ccb97419770e798989fa551cd.jpg?s=48&d=http://www.osnews.com/avatar/2940.png" alt="Carewolf" style="display:block;margin-top:5px;border:0px;" /></a>
+		Member since:<br />
+		2005-09-08<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570567">
+		<p class="comment_body">I think one of the former Amiga OS projects did have Qt3 ported.</p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570567" class="reply">Reply</a> <a href="/permalink?570567" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570567')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570567" style="color:00f;">3</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>  <div class="comment reply" style="padding-left:30px;margin-left:60px;" id="comment_570568" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570568">
+			<a href="javascript:drop('570568','1');">
+			<img src="/images/down.gif" id="arrow_570568" alt="v" style="border:0px;display:none" /></a>
+				<a class="ctitletext" name="570568" href="/thread?570568">
+				RE[2]: Nice little OS</a>				
+			<div class="comuser">
+				by <a href="/user/h5n1xp">h5n1xp</a> on Sat 24th Aug 2013 09:50 UTC	
+ in reply to "<a href="/thread?570505">RE: Nice little OS</a>"				
+        </div>		
+		</div>
+		
+	   <div class="comops" style="display:block;" id="comops_570568">
+	       <a href="/user/h5n1xp/comments/"><img src="http://www.gravatar.com/avatar/3618de87d7f9b57b5dd48dd8894ac40b.jpg?s=48&d=http://www.osnews.com/avatar/78976.png" alt="h5n1xp" style="display:block;margin-top:5px;border:0px;" /></a>
+		Member since:<br />
+		2013-08-24<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570568">
+		<p class="comment_body"><div class="cquote">With Java and Qt ported to it its useness would be increased! <img src="/images/emo/smile.gif" alt=";)" />  </div> <br />
+ <br />
+True in some respects, but do we need another OS just to run Java and Qt based apps?  <br />
+ <br />
+I think AROS will find it's own niche... <img src="/images/emo/smile.gif" alt=";)" /></p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570568" class="reply">Reply</a> <a href="/permalink?570568" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570568')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570568" style="color:00f;">3</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>  <div class="comment reply" style="padding-left:30px;margin-left:60px;" id="comment_570625" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570625">
+			<a href="javascript:drop('570625','1');">
+			<img src="/images/down.gif" id="arrow_570625" alt="v" style="border:0px;display:none" /></a>
+				<a class="ctitletext" name="570625" href="/thread?570625">
+				RE[2]: Nice little OS</a>				
+			<div class="comuser">
+				by <a href="/user/tidux">tidux</a> on Mon 26th Aug 2013 03:41 UTC	
+ in reply to "<a href="/thread?570505">RE: Nice little OS</a>"				
+        </div>		
+		</div>
+		
+	   <div class="comops" style="display:block;" id="comops_570625">
+	       <a href="/user/tidux/comments/"><img src="http://www.gravatar.com/avatar/c408b6b19b40dab37015765635d6758c.jpg?s=48&d=http://www.osnews.com/avatar/36545.png" alt="tidux" style="display:block;margin-top:5px;border:0px;" /></a>
+		Member since:<br />
+		2011-08-13<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570625">
+		<p class="comment_body">You mean like Haiku?</p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570625" class="reply">Reply</a> <a href="/permalink?570625" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570625')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570625" style="color:000;">2</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>	<div class="comment" id="comment_570595" style="" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570595">
+			<a href="javascript:drop('570595','1');">
+			<img src="/images/down.gif" id="arrow_570595" alt="v" style="border:0px;display:none" /></a>
+			<a class="ctitletext" name="570595" href="/thread?570595">
+			Optimal MP</a>			
+			<div class="comuser">
+				by <a href="/user/TempleOS">TempleOS</a> on Sun 25th Aug 2013 01:06 UTC		
+				
+        </div>
+		</div>
+	   <div class="comops" style="display:block;" id="comops_570595">
+	       <a href="/user/TempleOS/comments/"><img src="http://www.gravatar.com/avatar/7716c8eed0fe70fedc3c3cb1043b7e98.jpg?s=48&d=http://www.osnews.com/avatar/68973.png" alt="TempleOS" style="display:block;margin-top:5px;border:0px;" /></a><br />
+		Member since:<br />
+		2013-04-03<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570595">
+		<p class="comment_body">I do master-slave multicore.  Core Zero runs the application and it tells each other core what task to do.  It's optimal.  I want to run one application faster, not two!</p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570595" class="reply">Reply</a> <a href="/permalink?570595" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570595')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570595" style="color:000;">2</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>
+  <div class="comment reply" style="padding-left:30px;margin-left:30px;" id="comment_570602" onclick="this.style.opacity='1'">
+		<div class="comment_title" id="comment_title_570602">
+			<a href="javascript:drop('570602','1');">
+			<img src="/images/down.gif" id="arrow_570602" alt="v" style="border:0px;display:none" /></a>
+				<a class="ctitletext" name="570602" href="/thread?570602">
+				RE: Optimal MP</a>				
+			<div class="comuser">
+				by <a href="/user/Neolander">Neolander</a> on Sun 25th Aug 2013 07:39 UTC	
+ in reply to "<a href="/thread?570595">Optimal MP</a>"				
+        </div>		
+		</div>
+		
+	   <div class="comops" style="display:block;" id="comops_570602">
+	       <a href="/user/Neolander/comments/"><img src="http://www.gravatar.com/avatar/77cd95b7a09dd0b2c628da4abb54a8a8.jpg?s=48&d=http://www.osnews.com/avatar/22039.png" alt="Neolander" style="display:block;margin-top:5px;border:0px;" /></a>
+		Member since:<br />
+		2010-03-08<br />
+			   </div>
+	   <div class="comcontent" style="display:block;" id="comcontent_570602">
+		<p class="comment_body"><div class="cquote">I do master-slave multicore.  Core Zero runs the application and it tells each other core what task to do.  It's optimal.  I want to run one application faster, not two! </div> <br />
+ Pray that processor cores stop multiplying like pest over time, then. Otherwise, the master core could easily become a performance bottleneck. <br /> <br /><i>Edited 2013-08-25 07:39 UTC</i></p>
+		<div class="cdetails">
+		
+<!-- cdetails start-->			
+<a href="/post?n=27287&amp;r=570602" class="reply">Reply</a> <a href="/permalink?570602" class="permalink">Permalink</a> 		<!--	<a onclick="javascript:bookmark('570602')" class="bookmark">Bookmark</a> -->
+<!-- cdetails end -->			
+			<span class="score">  Score: <span id="score_570602" style="color:00f;">4</span></span>
+		</div>
+		<p class="admin"></p>
+		</div>
+	</div>	   
+	</div>
+
+		<div class="pcomment" style="font-weight:bold;clear:both;margin-top:25px;padding-top:25px;">
+			<a href="/post?n=27287" style="text-decoration:none;">
+			<img src="/images/comments_add.gif" align="middle" alt="Add Comment" /></a>
+			<a href="/post?n=27287">Post a Comment</a>
+		</div>
+		
+		</div>
+
+	
+</div>
+		<div id="footer">
+			<a href="/docs/privacy">OSNews Privacy Statement</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/docs/bulk">Notice to Bulk Emailers</a><br />
+			&copy; 1997-2013 OSNews Inc. All Rights Reserved. OSNews and the OSNews logo are trademarks of OSNews. <br />
+			Source Code &copy; 2007-2013, <a href="http://firsttube.com/">Adam Scheinberg</a>, except where noted<br />
+			Reader comments are owned by the poster.  We are not responsible for them in any way.<br />
+			All trademarks, icons, and logos shown or mentioned in this web site are the property of their respective owners.<br />
+			OSNews.com uses icons from the <a href="http://tango.freedesktop.org/">Tango Project</a> and <a href="http://www.famfamfam.com/lab/icons/silk/">FamFamFam</a>. <a href="http://jquery.com">jQuery</a> &copy; 2008 John Resig<br />
+			Reproduction of OSNews stories is permitted only with explicit authorization from OSNews.  
+			Reproductions must be properly credited.<br />
+			<!-- Database Queries: 3 -->
+		</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript" src="http://tag.crsspxl.com/s1.js?d=486"></script>	</body>
+</html>

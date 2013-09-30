@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Spent time - Details - Bufferbloat</title>
+<meta name="description" content="Redmine" />
+<meta name="keywords" content="issue,bug,tracker" />
+<link rel='shortcut icon' href='/favicon.ico?1285288428' />
+<link href="/stylesheets/application.css?1295801430" media="all" rel="stylesheet" type="text/css" />
+
+<script src="/javascripts/prototype.js?1295534114" type="text/javascript"></script>
+<script src="/javascripts/effects.js?1295534114" type="text/javascript"></script>
+<script src="/javascripts/dragdrop.js?1295534114" type="text/javascript"></script>
+<script src="/javascripts/controls.js?1295534114" type="text/javascript"></script>
+<script src="/javascripts/application.js?1295534114" type="text/javascript"></script>
+
+<link href="/stylesheets/jstoolbar.css?1295534114" media="screen" rel="stylesheet" type="text/css" />
+<!--[if IE]>
+    <style type="text/css">
+      * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
+      body {behavior: url(/stylesheets/csshover.htc?1295534114);}
+    </style>
+<![endif]-->
+
+<!-- page specific tags -->
+<script src="/javascripts/calendar/calendar.js?1295534114" type="text/javascript"></script><script src="/javascripts/calendar/lang/calendar-en.js?1295534114" type="text/javascript"></script><script type="text/javascript">
+//<![CDATA[
+
+//]]>
+</script><script src="/javascripts/calendar/calendar-setup.js?1295534114" type="text/javascript"></script><link href="/stylesheets/calendar.css?1295534114" media="screen" rel="stylesheet" type="text/css" />
+    <link href="http://www.bufferbloat.net/time_entries.atom" rel="alternate" title="Spent time" type="application/atom+xml" />
+</head>
+<body class="controller-timelog action-index">
+<div id="wrapper">
+<div id="wrapper2">
+<div id="top-menu">
+    <div id="account">
+        <ul><li><a href="/login" class="login">Sign in</a></li>
+<li><a href="/account/register" class="register">Register</a></li></ul>    </div>
+    
+    <ul><li><a href="/" class="home">Home</a></li>
+<li><a href="/projects" class="projects">Projects</a></li>
+<li><a href="http://www.redmine.org/guide" class="help">Help</a></li></ul></div>
+      
+<div id="header">
+    <div id="quick-search">
+        <form action="/search" method="get">
+        
+        <a href="/search" accesskey="4">Search</a>:
+        <input accesskey="f" class="small" id="q" name="q" size="20" type="text" />
+        </form>
+        
+    </div>
+    
+    <h1>Bufferbloat</h1>
+    
+    
+</div>
+
+<div class="nosidebar" id="main">
+    <div id="sidebar">        
+        
+        
+    </div>
+    
+    <div id="content">
+				
+        <div class="contextual">
+
+</div>
+
+<p class="breadcrumb"><a href="/time_entries">All Projects</a> &#187; </p>
+
+<h2>Spent time</h2>
+
+<form action="/time_entries" id="query_form" method="get" onsubmit="new Ajax.Updater('content', '/time_entries', {asynchronous:true, evalScripts:true, method:'get', parameters:Form.serialize(this)}); return false;">
+
+
+
+<fieldset id="date-range" class="collapsible">
+<legend onclick="toggleFieldset(this);">Date range</legend>
+<div>
+<p>
+<input checked="checked" id="period_type_1" name="period_type" type="radio" value="1" />
+<select id="period" name="period" onchange="this.form.onsubmit();" onfocus="$(&quot;period_type_1&quot;).checked = true;"><option value="all">all time</option>
+<option value="today">today</option>
+<option value="yesterday">yesterday</option>
+<option value="current_week">this week</option>
+<option value="last_week">last week</option>
+<option value="7_days">last 7 days</option>
+<option value="current_month">this month</option>
+<option value="last_month">last month</option>
+<option value="30_days">last 30 days</option>
+<option value="current_year">this year</option></select>
+</p>
+<p>
+<input id="period_type_2" name="period_type" type="radio" value="2" />
+<span onclick="$('period_type_2').checked = true;">
+From <input id="from" name="from" size="10" type="text" value="2011-04-19" /><img alt="Calendar" class="calendar-trigger" id="from_trigger" src="/images/calendar.png?1295534114" /><script type="text/javascript">
+//<![CDATA[
+Calendar.setup({inputField : 'from', ifFormat : '%Y-%m-%d', button : 'from_trigger' });
+//]]>
+</script> to <input id="to" name="to" size="10" type="text" value="2013-07-26" /><img alt="Calendar" class="calendar-trigger" id="to_trigger" src="/images/calendar.png?1295534114" /><script type="text/javascript">
+//<![CDATA[
+Calendar.setup({inputField : 'to', ifFormat : '%Y-%m-%d', button : 'to_trigger' });
+//]]>
+</script>
+</span>
+</p>
+</div>
+</fieldset>
+<p class="buttons">
+	<a class="icon icon-checked" href="#" onclick="new Ajax.Updater('content', '/time_entries', {asynchronous:true, evalScripts:true, method:'get', parameters:Form.serialize('query_form') + '&amp;authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">Apply</a>
+</p>
+
+<div class="tabs">
+
+<ul>
+    <li><a href="/time_entries" class="selected">Details</a></li>
+    <li><a href="/time_entries/report">Report</a></li>
+</ul>
+</div>
+
+</form>
+
+<div class="total-hours">
+<p>Total: <span class="hours hours-int">1277</span><span class="hours hours-dec">.00</span> hours</p>
+</div>
+
+
+<table class="list time-entries">
+<thead>
+<tr>
+<th title="Sort by &quot;Date&quot;"><a class="sort desc" href="/time_entries?sort=spent_on" onclick="new Ajax.Updater('content', '/time_entries?sort=spent_on', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">Date</a></th>
+<th title="Sort by &quot;Member&quot;"><a href="/time_entries?sort=user%2Cspent_on%3Adesc" onclick="new Ajax.Updater('content', '/time_entries?sort=user%2Cspent_on%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">Member</a></th>
+<th title="Sort by &quot;Activity&quot;"><a href="/time_entries?sort=activity%2Cspent_on%3Adesc" onclick="new Ajax.Updater('content', '/time_entries?sort=activity%2Cspent_on%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">Activity</a></th>
+<th title="Sort by &quot;Project&quot;"><a href="/time_entries?sort=project%2Cspent_on%3Adesc" onclick="new Ajax.Updater('content', '/time_entries?sort=project%2Cspent_on%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">Project</a></th>
+<th title="Sort by &quot;Issue&quot;"><a href="/time_entries?sort=issue%3Adesc%2Cspent_on%3Adesc" onclick="new Ajax.Updater('content', '/time_entries?sort=issue%3Adesc%2Cspent_on%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">Issue</a></th>
+<th>Comment</th>
+<th title="Sort by &quot;Hours&quot;"><a href="/time_entries?sort=hours%2Cspent_on%3Adesc" onclick="new Ajax.Updater('content', '/time_entries?sort=hours%2Cspent_on%3Adesc', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">Hours</a></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="time-entry odd">
+<td class="spent_on">07/26/2013</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/434" class="issue status-8 priority-2 closed">Bug #434</a>: circular dependency on time in DNS</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">0</span><span class="hours hours-dec">.50</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">07/26/2013</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Test</td>
+<td class="project">codel</td>
+<td class="subject">
+<a href="/issues/435" class="issue status-7 priority-2 closed">Bug #435</a>: Typo in &quot;Best Practices&quot; document?</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">0</span><span class="hours hours-dec">.40</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">06/20/2013</td>
+<td class="user">Dave Täht</td>
+<td class="activity">QA</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/318" class="issue status-2 priority-2">Bug #318</a>: VPN technology in a bufferbloated universe is d...</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">1</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">04/11/2013</td>
+<td class="user">David Taht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/413" class="issue status-7 priority-3 closed">Bug #413</a>: dhcpv6 fails to acquire a /60 correctly on a ca...</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">20</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">04/11/2013</td>
+<td class="user">David Taht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/427" class="issue status-7 priority-2 closed">Bug #427</a>: Cerowrt-named lighttpd service has PID file mis...</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">0</span><span class="hours hours-dec">.50</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">04/11/2013</td>
+<td class="user">David Taht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/411" class="issue status-7 priority-4 closed">Bug #411</a>: dnsmasq dns port open a bad idea</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">10</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">04/11/2013</td>
+<td class="user">David Taht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/416" class="issue status-7 priority-2 closed">Bug #416</a>: Fwd: [Cerowrt-users] IPv6 default prefix length...</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">0</span><span class="hours hours-dec">.50</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">04/11/2013</td>
+<td class="user">David Taht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/381" class="issue status-7 priority-2 closed">Bug #381</a>: radvd appears to be broken</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">10</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">04/11/2013</td>
+<td class="user">David Taht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/412" class="issue status-6 priority-3">Feature #412</a>: dansguardian is needed....</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">0</span><span class="hours hours-dec">.50</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">01/17/2013</td>
+<td class="user">Robert Bradley</td>
+<td class="activity">Development</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/421" class="issue status-7 priority-2 closed">Bug #421</a>: More unaligned access traps in CeroWRT 3.7.2</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">1</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">01/04/2013</td>
+<td class="user">David Taht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/418" class="issue status-5 priority-2">Bug #418</a>: TFO crashes cerowrt 3.7.1-1</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">2</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">01/04/2013</td>
+<td class="user">David Taht</td>
+<td class="activity">Design</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/418" class="issue status-5 priority-2">Bug #418</a>: TFO crashes cerowrt 3.7.1-1</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">2</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">01/04/2013</td>
+<td class="user">David Taht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/418" class="issue status-5 priority-2">Bug #418</a>: TFO crashes cerowrt 3.7.1-1</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">2</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">01/04/2013</td>
+<td class="user">David Taht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/418" class="issue status-5 priority-2">Bug #418</a>: TFO crashes cerowrt 3.7.1-1</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">2</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">12/03/2012</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/415" class="issue status-7 priority-2 closed">Feature #415</a>: Latest image with Bind as default?</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">1</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">10/26/2012</td>
+<td class="user">David Taht</td>
+<td class="activity">Development</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/400" class="issue status-7 priority-2 closed">Bug #400</a>: Fwd: [RFC PATCH] tcp: limit data skbs in qdisc ...</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">3</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">08/11/2012</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Design</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/406" class="issue status-2 priority-2">Bug #406</a>: quagga does not propagate default 6to4 route</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">2</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">08/11/2012</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Design</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/406" class="issue status-2 priority-2">Bug #406</a>: quagga does not propagate default 6to4 route</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">1</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">08/10/2012</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Design</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/406" class="issue status-2 priority-2">Bug #406</a>: quagga does not propagate default 6to4 route</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">2</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">07/12/2012</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/402" class="issue status-1 priority-4">Bug #402</a>: Tail drop behavior on fq_codel on ack-mostly st...</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">2</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">07/12/2012</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Design</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/373" class="issue status-7 priority-2 closed">Bug #373</a>: EF traffic doesn't end up in VO</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">10</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">07/12/2012</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/392" class="issue status-1 priority-3">Bug #392</a>: /tmp/log/babled.log grows and grows....</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">0</span><span class="hours hours-dec">.50</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">07/12/2012</td>
+<td class="user">Dave Täht</td>
+<td class="activity">QA</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/319" class="issue status-7 priority-2 closed">Bug #319</a>: Dave needs to get better at pushing out patches</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">20</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry even">
+<td class="spent_on">07/12/2012</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/402" class="issue status-1 priority-4">Bug #402</a>: Tail drop behavior on fq_codel on ack-mostly st...</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">4</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+<tr class="time-entry odd">
+<td class="spent_on">07/12/2012</td>
+<td class="user">Dave Täht</td>
+<td class="activity">Test</td>
+<td class="project">Cerowrt</td>
+<td class="subject">
+<a href="/issues/401" class="issue status-7 priority-4 closed">Bug #401</a>: major retries in the VI AMPDU queue on ath9k</td>
+<td class="comments"></td>
+<td class="hours"><span class="hours hours-int">12</span><span class="hours hours-dec">.00</span></td>
+<td align="center">
+</td>
+</tr>
+</tbody>
+</table>
+
+<p class="pagination">1 <a href="/time_entries?page=2" onclick="new Ajax.Updater('content', '/time_entries?page=2', {asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){window.scrollTo(0,0)}, parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">2</a> <a href="/time_entries?page=3" onclick="new Ajax.Updater('content', '/time_entries?page=3', {asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){window.scrollTo(0,0)}, parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">3</a>  ... <a href="/time_entries?page=10" onclick="new Ajax.Updater('content', '/time_entries?page=10', {asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){window.scrollTo(0,0)}, parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">10</a> <a href="/time_entries?page=2" onclick="new Ajax.Updater('content', '/time_entries?page=2', {asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){window.scrollTo(0,0)}, parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">Next &#187;</a> (1-25/247) | Per page: 25, <a href="/time_entries?per_page=50" onclick="new Ajax.Updater('content', '/time_entries?per_page=50', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">50</a>, <a href="/time_entries?per_page=100" onclick="new Ajax.Updater('content', '/time_entries?per_page=100', {asynchronous:true, evalScripts:true, method:'get', parameters:'authenticity_token=' + encodeURIComponent('sqABTuJHt+ZHGqA23CWIGwI9vmv2iVazM260NQtfdmE=')}); return false;">100</a></p>
+
+<p class="other-formats">Also available in:
+	<span><a href="/time_entries.atom" class="atom" rel="nofollow">Atom</a></span>
+	<span><a href="/time_entries.csv" class="csv" rel="nofollow">CSV</a></span>
+</p>
+
+
+
+
+
+
+        
+				<div style="clear:both;"></div>
+    </div>
+</div>
+
+<div id="ajax-indicator" style="display:none;"><span>Loading...</span></div>
+	
+<div id="footer">
+  <div class="bgl"><div class="bgr">
+    Powered by <a href="http://www.redmine.org/">Redmine</a> &copy; 2006-2011 Jean-Philippe Lang
+  </div></div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

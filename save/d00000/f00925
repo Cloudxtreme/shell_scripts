@@ -1,0 +1,838 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>GTmetrix REST API | GTmetrix</title>
+  <link href="http://static.gtmetrix.com/r112/css/style.min.css" type="text/css" rel="stylesheet" />
+
+<script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-12481061-1'],['_setDomainName','none'],['_setCustomVar',1,'User Type','Guest',2],['_trackPageview']);(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src=('https:'==document.location.protocol?'https://ssl':'http://www')+'.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);})();</script>
+</head>
+<body class="page-api">
+  <div class="header">
+    <div class="header-wrapper">
+      <div class="header-banner-links">
+        
+          <a href="#" class="login-modal-trigger" data-ga-location="top nav">Login</a>
+          | <a href="#" class="signup-modal-trigger" data-ga-location="top nav">Sign Up</a>
+        
+      </div>
+      <a class="header-logo" href="/">GTmetrix</a>
+      <ul class="header-nav clear">
+        <li><a href="/">Home</a></li>
+        <li><a href="/features.html">Features</a></li>
+        <li><a href="/recommendations.html">Recommendations</a></li>
+        <li><a href="/top1000.html">Top 1000</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li class="selected"><a href="/api/">API</a></li>
+        <li><a href="/locations.html">Locations</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li class="pro-gtmetrix"><a href="https://gtmetrix.com/pro/" class="pro-gtmetrix-button"></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="content-wrapper clear">
+
+
+
+
+<div class="layout-2colb-content text-content">
+  <h1>GTmetrix REST API</h1>
+
+  <p>
+    The GTmetrix API offers developers an easy way to utilize GTmetrix's
+    performance testing service.  Using the GTmetrix API, you can integrate
+    performance testing into your development environment or into your
+    application.
+  </p>
+  <p>
+    The GTmetrix API is based on the
+    <a href="http://code.google.com/p/web-testing-framework/wiki/TestingServiceAPI">Web Testing Framework (WTF) Testing Service API</a>
+    which is RESTful API.
+    Please <a href="/contact.html">contact us</a> if you have any questions or
+    comments about the API, or if you end up using it in a cool and interesting
+    way!
+  </p>
+
+  <h2 id="api-libraries">Libraries</h2>
+  <p>
+    We plan to write libraries/modules for various languages to make using the GTmetrix REST API easier to use.  We currently only have a PHP library available:
+  </p>
+
+  <ul class="styled-list">
+    <li><a href="/api/library/php/Services_WTF_Test.php">Services_WTF_Test PHP library</a></li>
+    <li><a href="/api/library/php/example.php">Sample PHP code</a></li>
+  </ul>
+
+  <h2 id="api-access-url">API Access URL</h2>
+  <p>
+    The base URL for the GTmetrix API is
+    <strong>https://gtmetrix.com/api/0.1/</strong>.  Please note
+    that HTTPS is required.
+  </p>
+
+  <h2 id="api-authentication">Authentication</h2>
+  <p>
+    The GTmetrix API uses
+    <a href="http://en.wikipedia.org/wiki/HTTP_authentication">HTTP Basic Access Authentication</a>
+    as its authentication mechanism.  Use your e-mail address as the username
+    and the API key as the password.
+  </p>
+  <p>
+    You can generate or view your API key at the API Key box at the top of the
+    page.
+  </p>
+
+  <h2 id="api-request-response">Request Responses</h2>
+  <p>
+    The GTmetrix API uses the HTTP status codes as defined by
+    <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">RFC 2616</a>
+    to declare whether an API request was successful or not.  The error status
+    codes that the API can return are listed in the documentation below.
+  </p>
+  <p>
+    All requests (except where noted) return an JSON-encoded string.  See the
+    documentation below for the structure of the data.
+  </p>
+  <p>
+    Errors are returned in the format:
+  </p>
+  <pre>{ "error" : "Error message goes here" }</pre>
+
+
+
+  <h2 id="api-credits">API Credits</h2>
+  <p>
+    The GTmetrix API uses a credit system to allow access to our servers for
+    analysis requests.
+  </p>
+  <ul class="styled-list">
+    <li>1 analysis request = 1 credit.</li>
+    <li>GTmetrix Basic users are given up to 20 API credits daily.</li>
+    <li>You can increase your daily API credit allowance by upgrading to <a href="/pro/">GTmetrix PRO</a>.</li>
+    <li>When you first generate an API key, you are given 100 credits (useful for testing purposes).</li>
+  </ul>
+  <p>
+    If you think your application or service will require more API credits,
+    please feel free to <a href="https://gtmetrix.com/pro/">upgrade</a> to a GTmetrix PRO account, or <a href="/contact.html">contact us</a>.
+  </p>
+
+  <h2 id="api-rest-requests">REST Requests</h2>
+
+  <h3 id="api-test-start">Start a Test</h3>
+  <div class="api-request">
+    <pre>POST /api/0.1/test</pre>
+
+    <h4>Parameters</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Required</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>url</th>
+          <td>The URL to test</td>
+          <td>string</td>
+          <td>Yes</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>location</th>
+          <td>Test location ID</td>
+          <td>string</td>
+          <td>No</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>login</th>
+          <td>HTTP access authentication type</td>
+          <td>string (basic, digest)</td>
+          <td>No</td>
+          <td>basic</td>
+        </tr>
+        <tr>
+          <th>login-user</th>
+          <td>Username for HTTP access authentication</td>
+          <td>string</td>
+          <td>No</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>login-pass</th>
+          <td>Password for HTTP access authentication</td>
+          <td>string</td>
+          <td>No</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>x-metrix-adblock</th>
+          <td>Enable AdBlock</td>
+          <td>integer (0, 1)</td>
+          <td>No</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <th>x-metrix-cookies</th>
+          <td>Cookies to send with the request</td>
+          <td>string</td>
+          <td>No</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>x-metrix-video</th>
+          <td>Enable generation of video -- <b>due to extra storage and processing requirements, a video test requires 5 api credits</b></td>
+          <td>integer (0, 1)</td>
+          <td>No</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Response attributes</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>poll_state_url</th>
+          <td>URL to use to poll test state</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>test_id</th>
+          <td>The test ID</td>
+          <td>string</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Possible errors</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>HTTP status code</th>
+          <th>Error message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>400</th>
+          <td>Request must use POST method</td>
+        </tr>
+        <tr>
+          <th>400</th>
+          <td>Invalid parameter {parameter}</td>
+        </tr>
+        <tr>
+          <th>400</th>
+          <td>Invalid HTTP Auth Username</td>
+        </tr>
+        <tr>
+          <th>400</th>
+          <td>Invalid URL</td>
+        </tr>
+        <tr>
+          <th>400</th>
+          <td>Invalid Test Server Region</td>
+        </tr>
+        <tr>
+          <th>402</th>
+          <td>Maximum number of API calls reached</td>
+        </tr>
+        <tr>
+          <th>429</th>
+          <td>Too many concurrent requests from your IP</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>cURL example</h4>
+    <h5>Request</h5>
+    <pre>curl --user user@example.com:e8ddc55d93eb0e8281b255ea236dcc4f \
+    --form url=http://example.com --form x-metrix-adblock=0 \
+    https://gtmetrix.com/api/0.1/test</pre>
+    <h5>Response</h5>
+    <pre>{
+    "test_id":"TtGJTbkv",
+    "poll_state_url":"https://gtmetrix.com/api/0.1/test/TtGJTbkv"
+}</pre>
+  </div>
+
+  <h3 id="api-test-state">Get the test state and results/resources (when test complete)</h3>
+  <div class="api-request">
+    <pre>GET /api/0.1/test/{test_id}</pre>
+
+    <p>The recommended poll interval is 1 second.</p>
+    <p>Note that the test ID is only valid for 3 days.  The GTmetrix report for the URL will be valid for 30 days.</p>
+
+    <h4>URI values</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>test_id</th>
+          <td>The test ID returned after starting the test</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Parameters</h4>
+    <p>
+      None
+    </p>
+
+    <h4>Response attributes</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>state</th>
+          <td>The current state of the test</td>
+          <td>string (queued, started, completed, error)</td>
+        </tr>
+        <tr>
+          <th>error</th>
+          <td>The error message if state == "error".  Empty string if no error.</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>results</th>
+          <td>Summary of test results.  Will be an empty object until state == "completed".</td>
+          <td>hash</td>
+        </tr>
+        <tr>
+          <th>results.report_url</th>
+          <td>The URL to the GTmetrix report</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>results.pagespeed_score</th>
+          <td>Page Speed score</td>
+          <td>integer</td>
+        </tr>
+        <tr>
+          <th>results.yslow_score</th>
+          <td>YSlow score</td>
+          <td>integer</td>
+        </tr>
+        <tr>
+          <th>results.html_bytes</th>
+          <td>The HTML size (may be compressed)</td>
+          <td>integer</td>
+        </tr>
+        <tr>
+          <th>results.html_load_time</th>
+          <td>The HTML load time (in milliseconds)</td>
+          <td>integer</td>
+        </tr>
+        <tr>
+          <th>results.page_bytes</th>
+          <td>The total page size</td>
+          <td>integer</td>
+        </tr>
+        <tr>
+          <th>results.page_load_time</th>
+          <td>The page load time (in milliseconds)</td>
+          <td>integer</td>
+        </tr>
+        <tr>
+          <th>results.page_elements</th>
+          <td>The number of page elements</td>
+          <td>integer</td>
+        </tr>
+        <tr>
+          <th>resources</th>
+          <td>URLs of downloadable resources.  Will be an empty object until state == "completed".</td>
+          <td>hash</td>
+        </tr>
+        <tr>
+          <th>resources.screenshot</th>
+          <td>URL to download the screenshot</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>resources.har</th>
+          <td>URL to download the HAR file.  Note that sensitive info (HTTP auth and cookies) has been removed and file contents have been trimmed from the HAR file.</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>resources.pagespeed</th>
+          <td>URL to download the Page Speed beacon</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>resources.pagespeed_files</th>
+          <td>URL to download the Page Speed optimized files.  The files are combined into a single <a href="http://en.wikipedia.org/wiki/Tar_(file_format)" target="_blank">TAR file</a>.</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>resources.yslow</th>
+          <td>URL to download the YSlow beacon</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>resources.report_pdf</th>
+          <td>The URL to the GTmetrix report in PDF format</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>resources.video</th>
+          <td>The URL to the optional GTmetrix video in mp4 format</td>
+          <td>string</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Possible errors</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>HTTP status code</th>
+          <th>Error message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>400</th>
+          <td>Request must use GET method</td>
+        </tr>
+        <tr>
+          <th>404</th>
+          <td>Test not found</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>cURL example</h4>
+    <h5>Request</h5>
+    <pre>curl --user user@example.com:e8ddc55d93eb0e8281b255ea236dcc4f \
+    https://gtmetrix.com/api/0.1/test/TtGJTbkv</pre>
+    <h5>Response (Started state)</h5>
+    <pre>{
+    "resources":{},
+    "error":"",
+    "results":{},
+    "state":"started"
+}</pre>
+    <h5>Response (Completed state)</h5>
+    <pre>{
+    "resources":{
+        "report_pdf":"https://gtmetrix.com/api/0.1/test/TtGJTbkv/report-pdf",
+        "pagespeed":"https://gtmetrix.com/api/0.1/test/TtGJTbkv/pagespeed",
+        "har":"https://gtmetrix.com/api/0.1/test/TtGJTbkv/har",
+        "pagespeed_files":"https://gtmetrix.com/api/0.1/test/TtGJTbkv/pagespeed-files",
+        "yslow":"https://gtmetrix.com/api/0.1/test/TtGJTbkv/yslow",
+        "screenshot":"https://gtmetrix.com/api/0.1/test/TtGJTbkv/screenshot"
+    },
+    "error":"",
+    "results":{
+        "page_load_time":"522",
+        "html_bytes":"3395",
+        "page_elements":"16",
+        "report_url":"http://gtmetrix.com/reports/gtmetrix.com/Cz0AQOjf",
+        "html_load_time":"87",
+        "page_bytes":"89229",
+        "pagespeed_score":"95",
+        "yslow_score":"98"
+    },
+    "state":"completed"
+}</pre>
+  </div>
+
+  <h3 id="api-test-resource">Get test resource</h3>
+  <div class="api-request">
+    <pre>GET /api/0.1/test/{test_id}/{resource}</pre>
+
+    <p>Note that the resources are only kept for 3 days.  They should be downloaded on job completion if you wish to save them.</p>
+
+    <h4>URI values</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>test_id</th>
+          <td>The test ID returned after starting the test</td>
+        </tr>
+        <tr>
+          <th>resource</th>
+          <td>Test resource to download: screenshot, har, pagespeed, pagespeed-files, yslow, report-pdf, video</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Parameters</h4>
+    <p>
+      None
+    </p>
+
+    <h4>Response</h4>
+    <p>
+      Varies based on resource.
+    </p>
+
+    <h4>Possible errors</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>HTTP status code</th>
+          <th>Error message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>400</th>
+          <td>Request must use GET method</td>
+        </tr>
+        <tr>
+          <th>404</th>
+          <td>Test not found</td>
+        </tr>
+        <tr>
+          <th>404</th>
+          <td>There was an error testing the page, no resources are available</td>
+        </tr>
+        <tr>
+          <th>404</th>
+          <td>Data not yet available, please wait until test has completed</td>
+        </tr>
+        <tr>
+          <th>500</th>
+          <td>Resource unavailable</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>cURL example</h4>
+    <h5>Request</h5>
+    <pre>curl --user user@example.com:e8ddc55d93eb0e8281b255ea236dcc4f \
+    https://gtmetrix.com/api/0.1/test/TtGJTbkv/har</pre>
+  </div>
+
+  
+
+  <h3 id="api-locations">Get a list of test locations</h3>
+  <div class="api-request">
+    <pre>GET /api/0.1/locations</pre>
+
+    <h4>Parameters</h4>
+    <p>
+      None
+    </p>
+
+    <h4>Response attributes</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>{i}.id</th>
+          <td>The location ID</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>{i}.name</th>
+          <td>The location name</td>
+          <td>string</td>
+        </tr>
+        <tr>
+          <th>{i}.default</th>
+          <td>Whether this is the default location</td>
+          <td>boolean</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Possible errors</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>HTTP status code</th>
+          <th>Error message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>400</th>
+          <td>Request must use GET method</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>cURL example</h4>
+    <h5>Request</h5>
+    <pre>curl --user user@example.com:e8ddc55d93eb0e8281b255ea236dcc4f \
+    https://gtmetrix.com/api/0.1/locations</pre>
+    <h5>Response</h5>
+    <pre>[
+    {
+        "name":"Vancouver, Canada",
+        "default":true,
+        "id":"1"
+    },
+    {
+        "name":"London, UK",
+        "default":false,
+        "id":"2"
+    },
+    {
+        "name":"Sydney, Australia",
+        "default":false,
+        "id":"3"
+    },
+    {
+        "name":"Dallas, USA",
+        "default":false,
+        "id":"4"
+    },
+    {
+        "name":"Mumbai, India",
+        "default":false,
+        "id":"5"
+    },
+    {
+        "name":"Sao Paulo, Brazil",
+        "default":false,
+        "id":"6"
+    }
+]</pre>
+  </div>
+
+  <h3 id="api-status">Get your account status</h3>
+  <div class="api-request">
+    <pre>GET /api/0.1/status</pre>
+
+    <h4>Parameters</h4>
+    <p>
+      None
+    </p>
+
+    <h4>Response attributes</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Attribute</th>
+          <th>Description</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>api_credits</th>
+          <td>Amount of API credits remaining</td>
+          <td>integer</td>
+        </tr>
+        <tr>
+          <th>api_refill</th>
+          <td>Unix timestamp for next API topup</td>
+          <td>integer</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Possible errors</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>HTTP status code</th>
+          <th>Error message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>400</th>
+          <td>Request must use GET method</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>cURL example</h4>
+    <h5>Request</h5>
+    <pre>curl --user user@example.com:e8ddc55d93eb0e8281b255ea236dcc4f \
+    https://gtmetrix.com/api/0.1/status</pre>
+    <h5>Response</h5>
+    <pre>{
+      "api_credits": 20,
+      "api_topup": 1377590293
+}</pre>
+  </div>
+
+  <h2 id="api-changelog">Changelog</h2>
+  <h4>March 5th, 2013</h4>
+  <ul>
+    <li>Added 429 - Too Many Requests status code if you submit jobs too fast via the API</li>
+  </ul>
+
+  <h4>January 2nd, 2013</h4>
+  <ul>
+    <li>Fixed API status documentation - it's api_refill not api_topup.</li>
+  </ul>
+
+  <h4>March 19th, 2012</h4>
+  <ul>
+    <li>Added /status method to see remaining credits.</li>
+  </ul>
+
+  <h4>February 1st, 2012</h4>
+  <ul>
+    <li>Fixed the login-pass test option (it was using login-password).</li>
+  </ul>
+
+  <h4>January 25th, 2012</h4>
+  <ul>
+    <li>Fixed documentation for results.page_load_time, as the value is in milliseconds, not seconds and is an integer, not a float.</li>
+    <li>results.html_load_time has been changed from seconds/float to milliseconds/integer to match page_load_time.</li>
+  </ul>
+
+</div>
+
+<div class="layout-2colb-sidebar">
+  <div class="box api-key-box">
+    <h2>Your API Details</h2>
+      You must be logged in to generate a key.
+      <button class="api-disabled-button login-modal-trigger" data-ga-location="api page">Generate API Key</button>
+  </div><div class="box">
+    <h2>Contents</h2>
+    <ul class="styled-list">
+      
+      <li><a href="#api-libraries">Libraries</a></li>
+      <li><a href="#api-access-url">API Access URL</a></li>
+      <li><a href="#api-authentication">Authentication</a></li>
+      <li><a href="#api-request-response">Request Responses</a></li>
+      <li><a href="#api-credits">API Credits</a></li>
+      <li>
+        <a href="#api-rest-requests">REST Requests</a>
+        <ul class="styled-list">
+          <li><a href="#api-test-start">Start test</a></li>
+          <li><a href="#api-test-state">Get test state</a></li>
+          <li><a href="#api-test-resource">Get test resource</a></li>
+          
+          <li><a href="#api-locations">Get a list of test locations</a></li>
+          <li><a href="#api-status">Get your account status</a></li>
+        </ul>
+      </li>
+      <li><a href="#api-changelog">Changelog</a></li>
+    </ul>
+  </div>
+</div>
+
+  </div>
+  <div class="footer">
+    <ul class="footer-links clear">
+      <li><a href="/contact.html">Contact</a></li>
+      <li><a href="/terms-of-service.html">Terms of Service</a></li>
+      <li class="last">&copy; 1995-2013 Gossamer Threads, Inc.</li>
+    </ul>
+  </div>
+  <script type="text/javascript" src="http://static.gtmetrix.com/r112/js/gtmetrix.min.js"></script>
+<div class="modal" id="login-modal">
+  <h2>Login <span class="secure-icon"></span></h2>
+  <form action="https://gtmetrix.com/login/" method="post" class="login">
+    <label for="login-email">E-mail</label>
+    <input type="text" name="email" id="login-email" class="input-text" />
+    <label for="login-password">Password</label>
+    <input type="password" name="password" id="login-password" class="input-password" />
+    <div class="clear">
+      <span style="float: left;">
+        <input type="checkbox" name="remember" id="remember" class="input-checkbox" /> <label for="remember" class="inline">Keep me logged in</label>
+      </span>
+      <a href="#" class="lostpw-modal-trigger">I forgot my password</a>
+    </div>
+    <div>
+      <button type="submit" value="Log in" class="login-button-big">Log in</button>
+    </div>
+    <div class="modal-footer clear">
+      <hr />
+      <span style="float: left;">Don't have an Account?</span>
+      <a href="#" class="button create-account-grey-button signup-modal-trigger" data-ga-location="modal-switch">Register</a>
+    </div>
+    <button type="button" class="modal-close">Close</button>
+  </form>
+</div>
+<div class="modal" id="signup-modal">
+  <h2>Create an Account <span class="secure-icon"></span></h2>
+
+  <form action="https://gtmetrix.com/signup/" method="post">
+    <div class="su-first_name">
+      <label for="su-first_name">First Name</label>
+      <input type="text" name="first_name" id="su-first_name" value="" class="input-text" />
+    </div>
+
+    <div class="su-last_name">
+      <label for="su-last_name">Last Name</label>
+      <input type="text" name="last_name" id="su-last_name" value="" class="input-text" />
+    </div>
+
+    <div class="hide">
+      <label for="su-nickname">Nickname (do not fill out)</label>
+      <input type="text" name="nickname" id="su-nickname" value="" disabled="disabled" class="input-text" />
+    </div>
+
+    <label for="su-email">E-mail*</label>
+    <input type="text" name="email" id="su-email" value="" class="input-text" />
+
+    <label for="su-password">Password*</label>
+    <input type="password" name="password" id="su-password" value="" class="input-password" />
+
+    <label for="su-password-confirm">Confirm Password*</label>
+    <input type="password" name="password-confirm" id="su-password-confirm" value="" class="input-password" />
+    <button type="submit" value="Create Account" class="signup-button">Create Account</button>
+    <hr />
+    <div class="modal-footer clear">
+      <span style="float: left;">Already Have an Account?</span>
+      <a href="#" class="button login-to-button login-modal-trigger" data-ga-location="modal-switch">Log in to your Account</a>
+    </div>
+    <button type="button" class="modal-close">Close</button>
+  </form>
+</div>
+<div class="modal" id="lostpw-modal">
+  <h2>Forgot your password? <span class="secure-icon"></span></h2>
+
+  <p>
+    Enter your e-mail address below and we'll send you a temporary password.
+  </p>
+
+  <form action="https://gtmetrix.com/lostpw/" method="post">
+    <label for="lp-email">E-mail</label>
+    <input type="text" name="email" id="lp-email" value="" class="input-text" />
+    <button type="submit" value="Send Password" class="lostpw-button">Send Password</button>
+    <button type="button" class="modal-close">Close</button>
+  </form>
+  <p class="lostpw-success">A temporary password has been e-mailed to you.</p>
+</div>
+
+
+
+</body>
+</html>
+
